@@ -79,21 +79,6 @@ const work = [
   },
 ];
 
-// The tools band reads straight from the collection, so the home page cannot
-// drift out of sync with /tools/.
-const tools = (await getCollection('tools', ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order)
-  .map((t) => ({
-    href: `/tools/${t.id}/`,
-    kind: t.data.kind,
-    name: t.data.title,
-    line: t.data.takeaway,
-    action: t.data.action,
-    tool: t.data.tool,
-  }));
-
-// Counted, not hardcoded, so adding a fifth tool can't leave the copy claiming four.
-const toolCount = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'][tools.length] ?? String(tools.length);
 ---
 
 <BaseLayout
@@ -225,49 +210,6 @@ const toolCount = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'][tools.len
           View all projects <Icon name="ph:arrow-right" size={15} />
         </a>
       </div>
-
-      <div class="mt-20 border-t border-paper/15 pt-14">
-        <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div class="lg:col-span-7">
-            <p class="mono-label !text-paper/65">Tools</p>
-            <Heading level={2} visual="display-md" tone="paper" class="mt-4">
-              And things you can actually use.
-            </Heading>
-          </div>
-          <div class="lg:col-span-5">
-            <Text size="sm" tone="whiteMuted" class="max-w-md">
-              {toolCount} working instruments for design-system teams. Each runs in your browser. No
-              signup, nothing saved, nothing sent anywhere.
-            </Text>
-          </div>
-        </div>
-
-        <div
-          class="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-lg bg-paper/15 sm:grid-cols-2 lg:grid-cols-4"
-          data-reveal-stagger
-        >
-          {tools.map((t) => (
-            <a href={t.href} class="group tool-tile flex flex-col p-6 md:p-7 transition-colors">
-              <ToolGlyph tool={t.tool} size="md" class="text-paper" />
-              <span class="mt-6 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-accent">{t.kind}</span>
-              <span class="mt-2.5 font-display text-lg font-medium leading-snug tracking-tight text-paper transition-colors group-hover:text-accent">
-                {t.name}
-              </span>
-              <span class="mt-2 text-sm leading-relaxed text-paper/55">{t.line}</span>
-              <span class="mt-auto flex items-center gap-2 pt-6 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-paper/70">
-                {t.action}
-                <Icon name="ph:arrow-right" size={13} class="transition-transform duration-300 ease-out group-hover:translate-x-1" />
-              </span>
-            </a>
-          ))}
-        </div>
-
-        <div class="mt-8">
-          <a href="/tools/" class="inline-flex items-center gap-2 font-sans text-[0.9rem] font-medium text-paper transition-colors hover:text-accent">
-            View all tools <Icon name="ph:arrow-right" size={15} />
-          </a>
-        </div>
-      </div>
     </Container>
   </Section>
 
@@ -328,12 +270,6 @@ const toolCount = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'][tools.len
 
 
 <style>
-  /* ── Tool tiles sit on a `bg-paper/15` grid sheet, so they must stay opaque.
-     A `hover:bg-paper/[0.03]` utility REPLACES the cell background instead of
-     layering on it, which exposes the light grid underneath and flashes the
-     cell nearly white. Mixing the tint into ink keeps the cell opaque and lands
-     on the colour the row-list hovers composite to. Same fix as `.tool-cell` on
-     the /tools/ index, inverted for the dark surface. */
   .tool-tile {
     background: var(--ink);
   }
