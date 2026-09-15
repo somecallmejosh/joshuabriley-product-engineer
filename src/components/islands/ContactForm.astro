@@ -7,10 +7,8 @@ import FormAlert from '~/components/form/FormAlert.astro';
 import SubmitButton from '~/components/form/SubmitButton.astro';
 
 const services = [
-  { value: 'product-engineer-role', label: 'Product design engineer role' },
-  { value: 'frontend-ui-role', label: 'Front-end / UI engineer role' },
-  { value: 'contract-fractional', label: 'Contract / fractional role' },
-  { value: 'recruiting', label: 'Recruiting / talent' },
+  { value: 'project', label: 'A project' },
+  { value: 'question', label: 'A question' },
   { value: 'something-else', label: 'Something else' },
 ];
 ---
@@ -53,7 +51,7 @@ const services = [
     <Select name="service" options={services} placeholder="Pick one" required />
   </Field>
 
-  <Field label="Notes" name="message" required hint="A few sentences about the role is plenty.">
+  <Field label="Notes" name="message" required hint="A few sentences is plenty.">
     <Textarea name="message" rows={5} required />
   </Field>
 
