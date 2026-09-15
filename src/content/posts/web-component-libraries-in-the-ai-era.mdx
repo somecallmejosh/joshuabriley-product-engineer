@@ -18,43 +18,41 @@ A research briefing for individual contributors, product owners, and engineering
 
 ## Summary
 
-In roughly fifteen years, web component libraries have gone from frameworks inventing their own component models, to the browser absorbing that model into platform APIs, to where things sit now: libraries being redesigned so AI coding agents can read, generate, and modify components reliably.
+In roughly fifteen years, web component libraries have gone from frameworks inventing their own component models, to the browser absorbing that model into platform APIs, to now: libraries redesigned so AI coding agents can read, generate, and modify components reliably.
 
-The move from "library you install" to "code you own" was popularized by shadcn/ui and is now reinforced by Vercel's v0, Figma's Model Context Protocol (MCP) server, and component-aware MCP servers from Chakra, Storybook, and Knapsack. That is a structural response to how language models work best with code, which is transparent, flat, locally owned, and described by machine-readable metadata. It is not a matter of taste.
+The move from "library you install" to "code you own" was popularized by shadcn/ui and reinforced by Vercel's v0, Figma's Model Context Protocol (MCP) server, and component-aware MCP servers from Chakra, Storybook, and Knapsack. It's a structural response to how language models work best with code: transparent, flat, locally owned, and described by machine-readable metadata.
 
-For enterprise teams it lands in three places at once. What you build shifts toward token-driven, agent-readable systems rather than black-box packages. How you build it shifts toward governed AI workflows with human review gates. And who does the work shifts as component engineers absorb more design-system, accessibility, and AI-orchestration responsibility. AI is unlikely to eliminate front-end roles outright. The more plausible failure is a team treating AI as a code-generation toy while a competitor treats it as a system that has to be governed.
-
-What follows is the timeline, the current state, where things are heading, the skills that matter, and where to learn them.
+For enterprise teams, this changes three things at once: what you build (token-driven, agent-readable systems instead of black-box packages), how you build it (governed AI workflows with human review gates), and who does the work (component engineers absorbing more design-system, accessibility, and AI-orchestration responsibility). AI is unlikely to eliminate front-end roles outright; the more plausible failure is a team that treats AI as a code-generation toy while a competitor treats it as a system that has to be governed.
 
 ## Part 1: How we got here, the timeline
 
 ### 1998 to 2010: Vendor experiments and the framework workaround
 
-The first attempt to extend HTML with reusable components came from Microsoft. HTML Components were created by Microsoft in 1998 with the goal of extending the DOM by creating new directives that could change the behavior of default tags. The implementation was complicated and restrictive, working only on Internet Explorer 5.5 and later, and Microsoft deprecated the feature in IE10 in 2011.
+Microsoft made the first attempt to extend HTML with reusable components: HTML Components, created in 1998, added new directives that could change how default tags behaved. The implementation was complicated, worked only on IE 5.5 and later, and was deprecated in IE10 in 2011.
 
-Because no cross-browser standard existed, frameworks filled the gap. AngularJS was born in 2009 and released on GitHub in 2010 as a way to extend the DOM with custom semantics. Facebook released React in 2013 as its own answer to building reusable widgets.
+Because no cross-browser standard existed, frameworks filled the gap. AngularJS was born in 2009 and released on GitHub in 2010 to extend the DOM with custom semantics. React followed in 2013, Facebook's own answer to reusable widgets.
 
 ### 2011 to 2013: The Web Components proposal
 
-Web Components as we know them began when low-level browser features were proposed as developer-facing APIs. In 2011 Alex Russell made a presentation at Fronteers Conference, demonstrating how the Chrome team was working to put the power of Shadow DOM into the hands of front-end web developers.
+Web Components as we know them began when low-level browser features were proposed as developer-facing APIs. In 2011, Alex Russell presented at Fronteers Conference, showing how the Chrome team was putting the power of Shadow DOM into developers' hands.
 
-In early 2013, the Google team created a Working Draft of a specification for Custom Elements. Alongside similar working drafts for Shadow DOM APIs, they were colloquially called "Custom Elements v0." Polymer was a component library based on v0 APIs that had its initial alpha release in early 2013, alongside the specifications.
+In early 2013, Google published a Working Draft for Custom Elements, alongside similar drafts for Shadow DOM, together known as "Custom Elements v0." Polymer, a component library built on the v0 APIs, had its initial alpha release the same year.
 
 ### 2014 to 2018: Standardization and v1
 
-2018 is where Web Components really found their foothold. Mozilla implemented the v1 specification APIs into their stable release of Firefox, complete with dedicated devtools. Finally, developers could use all of the web components' APIs in their app, cross-browser, and without any concern for non-Chrome performance.
+Web Components found their foothold in 2018, when Mozilla shipped the v1 APIs in a stable Firefox release with dedicated devtools, letting developers finally use the full API set across browsers without worrying about non-Chrome performance.
 
-The same period saw a major scope reduction. Browser vendors expected that ES6 modules would replace HTML imports with time, so they decided not to implement the feature. Mozilla, Webkit, and Chrome all stopped considering adding HTML imports. The surviving Web Components specification consists of Custom Elements, Shadow DOM, and HTML Templates, integrated into the WHATWG HTML and DOM standards rather than maintained as a single document.
+The same period saw a scope reduction: browser vendors expected ES6 modules to replace HTML imports, so Mozilla, WebKit, and Chrome all dropped the feature. What survives is Custom Elements, Shadow DOM, and HTML Templates, folded into the WHATWG HTML and DOM standards rather than kept as one document.
 
 ### 2019 to 2022: Lit, headless libraries, and design tokens
 
-React's unidirectional data flow influenced the Polymer team, which announced a migration toward a one-way bound LitElement. LitElement turned into a dedicated framework called "Lit," developed to replace Polymer, that hit v1 in 2019 and v2 in 2021.
+React's unidirectional data flow influenced the Polymer team, which moved toward a one-way-bound LitElement. That became Lit, a dedicated framework built to replace Polymer, which hit v1 in 2019 and v2 in 2021.
 
-The headless component pattern matured in parallel. Radix UI separated component **behavior** (focus management, keyboard navigation, accessibility) from component **appearance**, letting teams keep the hard parts and bring their own styling. The same period produced the Design Tokens Community Group (DTCG), a W3C community group whose goal is to provide standards upon which products and design tools can rely for sharing stylistic pieces of a design system at scale.
+The headless component pattern matured in parallel. Radix UI separated component **behavior** (focus management, keyboard navigation, accessibility) from component **appearance**, letting teams keep the hard parts and bring their own styling. The same period produced the Design Tokens Community Group (DTCG), a W3C group building standards for sharing design decisions across products and tools at scale.
 
 ### 2023: The shadcn inflection point
 
-shadcn/ui launched in March 2023 and disrupted the React component library landscape by offering developers complete ownership of their UI components. The model is straightforward: shadcn/ui isn't an npm package. It's a collection of beautifully designed, reusable components that you copy and paste directly into your project using a command-line interface. The components are built on Radix UI primitives for accessibility and Tailwind CSS for styling.
+shadcn/ui launched in March 2023 and disrupted the React component library landscape by giving developers complete ownership of their UI components. It isn't an npm package. It's a collection of reusable components, built on Radix UI primitives and styled with Tailwind CSS, that you copy directly into your project using a command-line tool.
 
 The point isn't aesthetics. The library is built around four principles: open code (the top layer of your component code is open for modification), composition (every component uses a common, composable interface), distribution (a flat-file schema and command-line tool make it easy to distribute components), and beautiful defaults.
 
@@ -62,81 +60,77 @@ The point isn't aesthetics. The library is built around four principles: open co
 
 Three things converged.
 
-First, the Model Context Protocol shipped. Anthropic introduced their Model Context Protocol specification in November 2024 as an open standard for integrating tool calls with different LLMs, and in early 2025 it exploded in popularity. There was a point in May 2025 where OpenAI, Anthropic, and Mistral all rolled out API-level support for MCP within eight days of each other.
+First, the Model Context Protocol shipped. Anthropic introduced the MCP spec in November 2024 as an open standard for integrating tool calls with different LLMs, and it took off in early 2025; by May, OpenAI, Anthropic, and Mistral had all rolled out API-level MCP support within eight days of each other.
 
-Second, design system vendors built MCP servers. Figma announced the beta release of its MCP server, which brings Figma directly into the developer workflow to help LLMs achieve design-informed code generation, including style and variable usage, variable code syntax, and Code Connect. Component libraries followed. Chakra UI, Storybook, and Knapsack all shipped MCP integrations that expose component metadata to coding agents.
+Second, design system vendors built MCP servers. Figma released its server in beta, bringing design-informed code generation, including style and variable usage and Code Connect, into the developer workflow. Chakra UI, Storybook, and Knapsack followed with integrations that expose component metadata to coding agents.
 
-Third, the Design Tokens specification stabilized. The Design Tokens Community Group announced the first stable version of the Design Tokens Specification (2025.10) on October 28, 2025, providing a production-ready, vendor-neutral format for sharing design decisions across tools and platforms. The specification is backed by reference implementations in leading tools including Style Dictionary, Tokens Studio, and Terrazzo. More than 10 design tools and open-source projects, including Penpot, Figma, Sketch, Framer, Knapsack, Supernova, and zeroheight, already support or are implementing the standard.
+Third, the Design Tokens specification stabilized. The DTCG announced the first stable Design Tokens Specification (2025.10) on October 28, 2025, a production-ready, vendor-neutral format backed by reference implementations in Style Dictionary, Tokens Studio, and Terrazzo. More than 10 tools and projects, including Penpot, Figma, Sketch, Framer, Knapsack, Supernova, and zeroheight, already support it or are implementing it.
 
-The combination of flat-file ownable components, machine-readable token formats, and a protocol for agents to query both is what defines the current era.
+Together, flat-file ownable components, machine-readable token formats, and a protocol for agents to query both define the current era.
 
 ## Part 2: Where component libraries are today
 
 ### The "copy-paste" model is the new default for AI-assisted work
 
-When an AI generates a shadcn/ui Button, that Button lives in your codebase as a file you can read, modify, and extend without dependency conflicts. Compare that to a traditional package. Traditional component libraries like Material UI or Chakra UI install as npm dependencies. You import components from `node_modules`, and the library controls the implementation. Want to change how a Dialog animates? You override styles or hope the library exposes the right prop.
+When an AI generates a shadcn/ui Button, that Button lives in your codebase as a file you can read, modify, and extend without dependency conflicts. Traditional libraries like Material UI or Chakra UI install as npm dependencies instead: you import from `node_modules`, and the library controls the implementation. Want to change how a Dialog animates? You override styles or hope the library exposes the right prop.
 
-The implication for AI workflows is concrete. When you ask an AI to "make this button bigger and add a loading spinner," the AI can directly edit the button component file in your project. With Material UI, the AI has to figure out which theme override, which `sx` prop, or which styled-component wrapper will achieve the result without breaking other instances. The copy-paste ownership model makes AI modifications dramatically more reliable.
+The implication for AI workflows is concrete. Ask an AI to "make this button bigger and add a loading spinner," and with shadcn it edits the component file directly. With Material UI, it has to guess which theme override, `sx` prop, or styled-component wrapper will work without breaking other instances. Ownership makes AI modifications dramatically more reliable.
 
-This isn't unanimous. Shoelace's maintainers note that ShadCN is a fundamentally different library because it has a CLI, since it's a "component generator," whereas Shoelace is a "component library." The difference is that ShadCN scaffolds components for you and isn't directly importable, while Shoelace has directly importable modules. Both models continue to exist. The shift is that the copy-paste model is now the default assumption for AI tooling.
+This isn't unanimous: Shoelace's maintainers argue theirs is a fundamentally different kind of library, a CLI-driven "component generator" that scaffolds code you own (ShadCN) versus directly importable modules (Shoelace). Both models continue to exist; the copy-paste model is simply now the default assumption for AI tooling.
 
 ### MCP servers are how design systems talk to agents
 
-The MCP server pattern has become the connective tissue between design systems and AI coding tools. The Storybook MCP server is a representative example. By exposing component metadata, stories, prop types, usage examples, and documentation in an optimized, token-efficient format, Storybook MCP enables AI agents to build UI that aligns with your team's design system instead of generating generic or inconsistent code.
+The MCP server pattern has become the connective tissue between design systems and AI coding tools. Storybook's MCP server is representative: by exposing component metadata, stories, prop types, usage examples, and documentation in a token-efficient format, it lets agents build UI that matches your design system instead of generating generic or inconsistent code. The payoff shows up in both tokens and quality: curated context costs far fewer tokens than pointing an agent at raw source code, which tends to produce unmergeable slop, wrong props, hallucinated states, render errors.
 
-The benefits are measurable in tokens and quality. Tools like the Storybook MCP server provide agents with succinct, curated context (component APIs, validated patterns, and test suites) in an optimized payload. Without this, naively pointing agents at source code burns tokens and produces unmergeable slop: wrong props, hallucinated states, and render errors.
-
-Multiple component libraries have shipped equivalent servers. The Chakra UI MCP Server is a specialized Model Context Protocol server that provides AI assistants like Claude Code, Cursor, and Copilot with access to the Chakra UI component library, design tokens, and migration guidance, exposing tools such as `list_components`, `get_component_props`, and `get_component_example`.
+Multiple libraries have shipped equivalent servers. The Chakra UI MCP Server gives AI assistants like Claude Code, Cursor, and Copilot access to the Chakra UI component library, design tokens, and migration guidance, exposing tools such as `list_components`, `get_component_props`, and `get_component_example`.
 
 ### Design tokens are now a real standard, not a vendor format
 
-Design tokens are the single source of truth for colors, typography, spacing, and other design decisions, and they have long been fragmented across proprietary formats. Teams maintaining multi-brand design systems often juggle dozens or even hundreds of token files manually, leading to drift, errors, and maintenance overhead.
+Design tokens are the single source of truth for colors, typography, spacing, and other design decisions, but they've long been fragmented across proprietary formats. Teams running multi-brand systems often juggle dozens or hundreds of token files by hand, leading to drift, errors, and maintenance overhead.
 
-The DTCG 2025.10 specification addresses this directly. The stable specification introduces critical capabilities for scaling design systems: theming and multi-brand support to manage light or dark modes, accessibility variants, and brand themes without file duplication; modern color specification with full support for Display P3, Oklch, and all CSS Color Module 4 spaces; and rich token relationships including inheritance, aliases, and component-level references.
-
-Cross-platform reach is the practical payoff. Design systems teams can now maintain one source of truth that works everywhere, from design to production code across iOS, Android, and web.
+The DTCG 2025.10 specification addresses this directly, adding capabilities built for scaling design systems: theming and multi-brand support for light or dark modes, accessibility variants, and brand themes without file duplication; modern color specification with full support for Display P3, Oklch, and all CSS Color Module 4 spaces; and rich token relationships including inheritance, aliases, and component-level references. The practical payoff is cross-platform reach: one source of truth that works everywhere, from design to production code across iOS, Android, and web.
 
 ### v0 and generative UI shifted the prototyping floor
 
-v0 uses shadcn/ui by default because it's designed with the right primitives and patterns to help models generate real, brand-aligned interfaces that are functional, accurate, and feel like a product. The architectural reason is the same one that made shadcn AI-friendly to edit: flat code that the model can predict.
+v0 uses shadcn/ui by default because its primitives and patterns help models generate real, brand-aligned interfaces that feel like a product, for the same reason shadcn is easy for AI to edit: flat code the model can predict.
 
-The enterprise caveat is real. In its current form, v0 may encounter some barriers to entry in the Enterprise Application arena. Large organisations tend to use Design Systems to optimise consistency, aesthetics and scaling in their product suite, and they will have typically developed their own component libraries over some time and with considerable cost. The workaround is to bring v0 (or any generative UI tool) into your own design system rather than swap your system out for v0's defaults, which is exactly what the shadcn registry pattern enables. Registries let you define and share branded components and blocks in a format models can use, and registries also support the Model Context Protocol, which keeps model generations grounded.
+The enterprise caveat is real. Large organizations typically have their own component libraries, built over years at considerable cost, and v0's defaults don't replace that investment. The workaround is to bring v0 (or any generative UI tool) into your own design system rather than swap it out for v0's, which is what the shadcn registry pattern enables: registries let you define and share branded components in a format models can use, and support MCP, keeping generations grounded.
 
 ### AI accessibility has hard limits, and humans are still required
 
-The single most-cited finding in accessibility tooling research is that automation has a ceiling. Automated tools catch only 30 to 40% of WCAG issues. Manual testing with screen readers and keyboard-only navigation is essential for true compliance.
+Automation has a ceiling: automated tools catch only 30 to 40% of WCAG issues, and manual testing with screen readers and keyboard-only navigation is still essential for real compliance.
 
-AI does shift what automation can catch, but unevenly. Detection rates from a 2026 industry analysis: missing alt text 95%+, color contrast 90%+, missing form labels 90%+, heading hierarchy 85%+, keyboard accessibility 70%+, and ARIA correctness 60 to 80%. The gap between "detects something is missing" and "evaluates whether what's there is correct" is the gap humans fill. AI can detect missing alt text but cannot evaluate whether alt text accurately describes images. "Blue shirt" might be present but is the shirt actually blue? Does the description capture relevant features?
+AI shifts what automation catches, but unevenly. Detection rates from a 2026 industry analysis: missing alt text 95%+, color contrast 90%+, missing form labels 90%+, heading hierarchy 85%+, keyboard accessibility 70%+, ARIA correctness 60 to 80%. The gap between detecting that something is missing and judging whether what's there is correct is the gap humans still fill: AI can flag a missing alt text but can't judge whether "blue shirt" actually describes a blue shirt, or captures what matters in the image.
 
-Researchers have measured this on AI-generated code directly. A study of ChatGPT and Microsoft Copilot output against WCAG 2.1 found multiple violations across simple components. In the case of ChatGPT for the accordion, not having a visual indication of where the user was when using a keyboard falls under WCAG 2.1 Success Criterion 2.4.7: Focus Visible (Level AA). The view password option not being keyboard accessible for both login and signup forms generated by both ChatGPT and Copilot falls under WCAG 2.1.1: Keyboard (Level A), which requires that all functionality of the content be operable through a keyboard interface.
+Researchers have measured this on AI-generated code directly. A study testing ChatGPT and Microsoft Copilot against WCAG 2.1 found violations across simple components: ChatGPT's accordion gave no visual indication of keyboard focus (Success Criterion 2.4.7, Focus Visible, Level AA), and the "view password" option in both tools' login and signup forms wasn't keyboard accessible (2.1.1 Keyboard, Level A).
 
-For enterprise teams, this is the bottom line: AI accelerates accessibility detection, but it does not produce accessible code by default and it does not replace assistive-technology testing.
+Bottom line for enterprise teams: AI accelerates accessibility detection, but doesn't produce accessible code by default and doesn't replace assistive-technology testing.
 
 ## Part 3: Where things are heading
 
 ### From component libraries to "agent-ready" design systems
 
-Industry analysts and design system platforms are converging on the same description: design systems as data products that AI agents query. The most significant technical shift in 2026 is the transition from simple generative chatbots to Agentic AI. While previous years were about AI assisting designers, 2026 is about AI agents orchestrating the design-to-code pipeline. High-performing teams are now using AI agents capable of taking multi-step actions across tools like Figma, Jira, and GitHub.
+Industry analysts and design system platforms are converging on the same description: design systems as data products that AI agents query. The biggest technical shift in 2026 is the move from generative chatbots to agentic AI: agents that orchestrate the design-to-code pipeline rather than just assist with it, taking multi-step actions across tools like Figma, Jira, and GitHub.
 
-The required posture for design system teams is to make components predictable by surfacing props, states, token bindings, and accessibility attributes in ways that an AI coding tool can discover. Adopt a consistent schema so that names, variants, and constraints mean the same thing across the library. With that in place, an AI coding tool can get available components, choose the correct variant, map tokens, and generate aligned code.
+That requires design system teams to make components predictable: surface props, states, token bindings, and accessibility attributes so an AI coding tool can discover them, and adopt a consistent schema so names, variants, and constraints mean the same thing across the library. With that in place, a coding tool can find the right component, choose the correct variant, map tokens, and generate aligned code.
 
 ### Standards over proprietary formats
 
-In 2026, we have moved past proprietary naming conventions. Future-proof systems now adopt the Design Tokens Community Group (DTCG) standards to ensure interoperability between tools. The DTCG spec is the most important piece of that story, but the broader pattern of open formats, MCP-compatible metadata, and framework-agnostic primitives applies to everything in the design system stack.
+In 2026, future-proof systems have moved past proprietary naming conventions and adopted the Design Tokens Community Group (DTCG) standard for interoperability between tools. DTCG is the most important piece of that story, but the same pattern, open formats, MCP-compatible metadata, framework-agnostic primitives, applies across the whole design system stack.
 
 ### Modular, multi-brand systems instead of monoliths
 
-Enterprise complexity is forcing a structural change. Enterprise complexity has reached a point where a "one system for all" approach is a bottleneck. Instead of a single rigid library, enterprises use a core system of primitive tokens that are intelligently overridden for different sub-brands or platforms. This modularity allows organizations to manage a global identity while giving individual product teams the autonomy they need to innovate without breaking the core system.
+Enterprise complexity has reached a point where a "one system for all" approach is a bottleneck. Instead of a single rigid library, enterprises now use a core set of primitive tokens, overridden for different sub-brands or platforms. That modularity lets organizations manage a global identity while giving product teams the autonomy to innovate without breaking the core system.
 
 ### Governance becomes a first-class concern
 
-Speed without guardrails is the failure mode. As AI moves from experimentation to deployment, governance is the difference between scaling successfully and stalling out. Enterprises where senior leadership actively shapes AI governance achieve significantly greater business value than those delegating the work to technical teams alone. True governance makes oversight everyone's role, embedding it into performance rubrics so that as AI handles more tasks, humans take on active oversight.
+Speed without guardrails is the failure mode. As AI moves from experimentation to deployment, governance is the difference between scaling and stalling out. Enterprises where senior leadership actively shapes AI governance see significantly greater business value than those that delegate it to technical teams alone. Real governance makes oversight everyone's job, built into performance rubrics, so as AI takes on more tasks, humans take on more active oversight.
 
-For frontend leaders specifically, this shows up as new review gates. In 2026, the differentiator is not whether a developer uses AI, but whether they use it responsibly and consistently with team standards. For leaders, AI literacy becomes governance. Teams that adopt AI without standards risk inconsistent architecture and higher long-term maintenance costs. Teams that adopt AI with discipline gain throughput while protecting quality.
+For frontend leaders, this shows up as new review gates: not whether a developer uses AI, but whether the team enforces standards around it. Teams that adopt AI without standards risk inconsistent architecture and higher long-term maintenance costs. Teams that adopt it with discipline gain throughput without losing quality.
 
 ### New roles emerge alongside existing ones
 
-Deloitte's 2026 enterprise AI report describes the structural change. New roles like AI operations managers, human-AI interaction specialists, and quality stewards signal a deeper shift: AI is now a structural component of how work is organized. Advanced organizations design workflows that AI can execute end-to-end, while humans focus on judgment, exception handling, and strategic oversight.
+Deloitte's 2026 enterprise AI report captures the shift: new roles like AI operations managers, human-AI interaction specialists, and quality stewards show that AI is now a structural part of how work is organized. Advanced organizations design workflows AI can execute end-to-end, while humans handle judgment, exceptions, and strategic oversight.
 
 For component library teams, the practical translation is that "design system engineer" is becoming a role that includes token governance, agent integration, and accessibility-as-code, rather than only publishing React components.
 
@@ -144,13 +138,13 @@ For component library teams, the practical translation is that "design system en
 
 ### For individual contributors
 
-The job is shifting from writing components to **shaping the system that components and agents share**. Frontend work has shifted from writing every line of code to orchestrating systems: integrating AI suggestions, validating low-code components, enforcing design systems, and ensuring security and performance at scale. Developers who master these new dynamics will lead projects. Those who don't risk being outpaced by hybrid human-AI teams.
+The job is shifting from writing components to **shaping the system that components and agents share**: integrating AI suggestions, validating low-code components, enforcing design systems, and ensuring security and performance at scale. Developers who master these dynamics will lead projects; those who don't risk being outpaced by hybrid human-AI teams.
 
 Three things to watch out for:
 
-- **Over-reliance on AI for code review.** Agents write code quickly and have gotten really good at it. They review code less well. Left to their own defaults, most coding agents produce code that passes a first read but misses subtler issues: unnecessary abstractions, duplicated logic, functions doing too much, inconsistent naming, and missing edge case handling.
+- **Over-reliance on AI for code review.** Agents write code quickly and well, but review it less well. Left to their defaults, most produce code that passes a first read but misses subtler issues: unnecessary abstractions, duplicated logic, functions doing too much, inconsistent naming, missing edge cases.
 - **AI-generated code accessibility debt.** Treat any agent output as needing the same accessibility audit you'd give a junior developer's first PR.
-- **Token-cost surprises.** Agents loading whole codebases into context burn money fast. Token costs can skyrocket when agents load entire codebases into context for every task. Storybook MCP addresses this by providing agents with exactly what they need: curated component metadata, validated patterns, and test suites in an optimized payload.
+- **Token-cost surprises.** Token costs can skyrocket when agents load entire codebases into context for every task. Storybook MCP addresses this by giving agents just what they need: curated component metadata, validated patterns, and test suites in an optimized payload.
 
 ### For product owners
 
@@ -159,7 +153,7 @@ The framing change is from "build features" to "describe outcomes against a syst
 Two things to be wary of:
 
 - **Hallucinated states and props.** Without an MCP server or equivalent context, agents invent component variants that don't exist in your system, and engineers waste time reconciling.
-- **Cost predictability with token-based AI tools.** Token-based pricing makes costs unpredictable. The shift from fixed credits to token-based billing means you do not know what a generation will cost until it runs. A simple button component might cost pennies, but a full-stack app generation could burn through your monthly credits in a few prompts.
+- **Cost predictability.** The shift from fixed credits to token-based billing means you don't know what a generation will cost until it runs. A simple button component might cost pennies; a full-stack app generation could burn through a month's credits in a few prompts.
 
 ### For engineering leaders
 
@@ -169,15 +163,15 @@ The leadership question is how to capture AI throughput without ending up with a
 2. **Adopt the DTCG token format.** It's stable, vendor-neutral, and tool-supported.
 3. **Stand up an MCP server for your component library.** Reference implementations exist for Storybook, Chakra, Knapsack, and Figma.
 4. **Make accessibility automated _and_ manual.** Automated WCAG checks in CI/CD belong on every PR. Manual screen reader and keyboard testing belongs on every release.
-5. **Define an AI governance policy.** Industry guidance is converging here. As AI evolves, enterprises must establish governance frameworks that balance automation with control. AI tools are shifting from assistive co-pilots to autonomous agents, and governance frameworks define clear boundaries for AI actions through role-based permissions and contextual controls.
+5. **Define an AI governance policy.** As AI tools shift from assistive co-pilots to autonomous agents, governance frameworks need to define clear boundaries for AI actions through role-based permissions and contextual controls.
 
 ## Part 5: Skills required to remain relevant
 
 ### Foundational (still required, sharper than ever)
 
-- **HTML, CSS, JavaScript, TypeScript.** Non-negotiable. TypeScript in particular is the lingua franca of the agent era. TypeScript has effectively become the default language of modern frontend work, particularly as the line between client and server continues to blur.
+- **HTML, CSS, JavaScript, TypeScript.** Non-negotiable. TypeScript in particular has become the default language of modern frontend work, especially as the line between client and server keeps blurring.
 - **Component composition patterns.** Compound components, headless primitives, and prop API design. The composition skills that scale a codebase are the same ones that make agent output predictable.
-- **Accessibility fundamentals.** WCAG 2.2 Level AA is the practical target for most enterprise work. WCAG 2.2 is the current standard, published October 2023, and is backwards-compatible with 2.1. It adds nine new success criteria. Targeting WCAG 2.2 AA is the safest choice for new projects.
+- **Accessibility fundamentals.** WCAG 2.2 AA is the practical target for most enterprise work. It's the current standard, published October 2023, backwards-compatible with 2.1, and adds nine new success criteria, the safest choice for new projects.
 
 ### Newly essential
 
@@ -185,7 +179,7 @@ The leadership question is how to capture AI throughput without ending up with a
 - **Headless component architecture.** Understanding the Radix, Base UI, and shadcn line of thinking, which separates behavior from styling.
 - **MCP server use and authoring.** Knowing how to point an agent at your design system and, increasingly, how to expose your own components through MCP.
 - **AI-augmented development discipline.** AI tools are now part of modern development environments. The differentiator is not whether a developer uses AI, but whether they use it responsibly and consistently with team standards.
-- **Observability for the frontend.** Frontend teams have historically lagged behind backend teams in observability maturity. In 2026, that gap closes because digital experience is a revenue and trust driver.
+- **Observability for the frontend.** Frontend teams have historically lagged behind backend teams in observability maturity, a gap that's closing in 2026 as digital experience becomes a revenue and trust driver.
 
 ### Differentiating
 
@@ -235,10 +229,10 @@ Not every commentator agrees the standards-and-agents direction is correct. Both
 - [DEV: The Past, Present, and Future of Web Components](https://dev.to/besworks/the-past-present-and-future-of-web-components-2g43) argues the platform-first view that frameworks have been a parallel ecosystem and that Web Components are the durable answer.
 - [LogRocket: What happened to web components?](https://blog.logrocket.com/what-happened-to-web-components/) is a counterweight piece on the spec gaps and complications.
 
-## Closing thought: the question worth asking your team
+## A question worth asking your team
 
-The interesting question for any frontend organization isn't "should we use AI?" Every team is using AI. The real question is this: if a coding agent opened a pull request against your design system tomorrow, would your tokens, components, documentation, and tests give it enough context to do the right thing, and enough guardrails to fail safely if it didn't?
+The interesting question for any frontend organization isn't "should we use AI?" Every team already is. The real question: if a coding agent opened a pull request against your design system tomorrow, would your tokens, components, documentation, and tests give it enough context to do the right thing, and enough guardrails to fail safely if it didn't?
 
-If the answer is yes, you have an agent-ready system. If the answer is no, you have homework, and the timeline for that homework is now measured in quarters, not years.
+If yes, you have an agent-ready system. If no, you have homework, and the timeline for it is now measured in quarters, not years.
 
 _Compiled from primary sources including the W3C Design Tokens Community Group, WICG, Figma, Vercel, Anthropic, shadcn/ui, Chakra UI, the W3C Web Accessibility Initiative, Deloitte, and peer-reviewed accessibility research from the ACM Digital Library, alongside reporting from CoderPad, LogRocket, Codrops, Snyk, and DEV Community contributors. All linked external resources were verified as live as of the publication date._

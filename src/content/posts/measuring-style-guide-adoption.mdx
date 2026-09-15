@@ -7,29 +7,29 @@ tags:
   - Design Systems
   - Contribution
   - Developer Experience
-readMinutes: 8
+readMinutes: 6
 icon: ph:robot-duotone
 figure: namespace
 gradient: from-sky/30 via-plum/30 to-coral/30
 sticker: plum
 ---
 
-A specification for measuring Rudiment UI adoption across an organization, built on the `rudi` namespace: why the namespace is the measurement foundation, what the `rudi check` CLI emits, and how to roll it out through GitHub Actions.
+A specification for measuring Rudiment UI adoption with the `rudi` namespace: why it's the measurement foundation, what `rudi check` emits, and how to roll it out through GitHub Actions.
 
 ## Why the namespace is the measurement instrument
 
-Most published adoption tooling exists to solve an identity problem: in React codebases, a component's identity lives in import statements. Imports get aliased, wrapped, re-exported, and renamed, so a scanner must trace module graphs and apply heuristics to decide whether `<Button>` is a design system button, a wrapper, or a local recreation. Teams like Mews found import-based measurement inaccurate for exactly this reason.
+In React codebases, a component's identity lives in import statements, which get aliased, wrapped, re-exported, and renamed. A scanner has to trace module graphs and guess whether `<Button>` is a design system button, wrapper, or local recreation. Mews found import-based measurement inaccurate for this reason.
 
-Custom elements dissolve that problem. The platform requires every custom element name to contain a hyphen, and registration is global. `<rudi-button>` means the same thing in every file, every template language, and every framework. There is no alias, no local rename, and no ambiguity. The `rudi` prefix turns a branding decision into a measurement contract:
+Custom elements dissolve that problem. The platform requires every custom element name to contain a hyphen, and registration is global, so `<rudi-button>` means the same thing in every file, template language, and framework: no alias, no rename, no ambiguity.
 
-- **Identity is stable at the usage site.** A scanner matches the tag name. It doesn't trace imports, resolve barrels, or guess about wrappers. This removes the largest source of false negatives in React-based adoption tooling.
-- **The namespace survives every layer.** The same `rudi-` string appears in source templates, JSX, Vue and Svelte templates, Lit template literals, server-rendered HTML, and the live DOM. You can measure at build time with static analysis and at runtime with `querySelectorAll`, and the two numbers reconcile. React import analysis only ever sees source.
-- **Recreation detection becomes a set difference.** Every hyphenated tag is a component by definition. Partition all custom element tags into `rudi-*` and everything else. The "everything else" set is your recreated-component report, with names attached. No visual analysis or wrapper heuristics required.
+- **Identity is stable at the usage site.** A scanner matches the tag name. It doesn't trace imports, resolve barrels, or guess about wrappers.
+- **The namespace survives every layer.** The same `rudi-` string appears in source templates, JSX, Vue and Svelte templates, Lit template literals, server-rendered HTML, and the live DOM. You can measure at build time with static analysis or at runtime with `querySelectorAll`, and the numbers reconcile.
+- **Recreation detection becomes a set difference.** Every hyphenated tag is a component by definition. Partition all custom element tags into `rudi-*` and everything else. The "everything else" set is your recreated-component report, with names attached.
 - **Tokens inherit the same property.** `--rudi-color-*` custom properties are collision-free and greppable. Any `var(--rudi-*)` reference is adoption. Any hardcoded color value in product CSS is measurable drift.
-- **The namespace works with zero tooling.** GitHub code search for `rudi-` across the organization gives you a rough adoption census before you build anything. The CLI below exists to make that census structured, repeatable, and trend-able.
-- **Framework-agnostic measurement matches a framework-agnostic library.** Rudiment's rewrite to web components means consumers may be in React, Vue, Astro, or plain HTML. A tag-based scanner covers all of them with one matching strategy. This is a capability React-centric tools such as react-scanner and Radius Tracker can't offer.
+- **The namespace works with zero tooling.** GitHub code search for `rudi-` across the organization gives you a rough adoption census before you build anything. The CLI below makes that structured, repeatable, and trackable.
+- **Framework-agnostic measurement matches a framework-agnostic library.** Rudiment's rewrite to web components means consumers may be in React, Vue, Astro, or plain HTML. A tag-based scanner covers all of them with one strategy. React-centric tools like react-scanner and Radius Tracker can't offer that.
 
-One honest limitation: static scanning misses tags composed at runtime from dynamic strings. In practice this is rare, and runtime DOM sampling (an optional later phase) closes the gap.
+One limitation: static scanning misses tags composed at runtime from dynamic strings. This is rare, and an optional later phase, runtime DOM sampling, closes the gap.
 
 ## The rudi check CLI
 
@@ -44,7 +44,7 @@ One honest limitation: static scanning misses tags composed at runtime from dyna
 | `.css`, and `<style>` blocks                                       | `var(--rudi-*)` references; non-token color values (hex, `rgb()`, `hsl()`, `oklch()`); `--rudi-*` overrides                                                                         |
 | `package.json` and lockfile                                        | Declared and resolved versions of `@rudi/*` packages                                                                                                                                |
 
-Counting rule: count source-level references, not rendered instances. A `rudi-button` inside a shared header counts once, no matter how many pages render the header. State this rule in every report consumer so nobody misreads the numbers.
+Counting rule: count source-level references, not rendered instances. A `rudi-button` inside a shared header counts once, no matter how many pages render it. Repeat that in every report, or the numbers get misread.
 
 ### Output schema
 
@@ -91,9 +91,9 @@ Counting rule: count source-level references, not rendered instances. A `rudi-bu
 Field notes:
 
 - `schemaVersion` lets you evolve the format without breaking the dashboard. Bump it on any breaking change.
-- `elements[*].attributes` is the web components equivalent of prop tracking. A high `class` or `style` count on one element signals that its defaults don't fit; a never-used attribute is a removal candidate for the next major version.
-- `foreign.customElements` is the recreation report. Names are included on purpose: "the checkout team built `acme-toggle`, used 3 times" starts a specific conversation, and each entry is demand data for the roadmap.
-- `elementCoverage` = rudi element references ÷ (rudi + foreign custom elements + bare interactive elements). `tokenCoverage` = token references ÷ (token references + hardcoded color values). Both are ratios between zero and one.
+- `elements[*].attributes` is the web components equivalent of prop tracking: a high `class` or `style` count signals that an element's defaults don't fit, and a never-used attribute is a removal candidate for the next major version.
+- `foreign.customElements` is the recreation report. Names are included on purpose: "the checkout team built `acme-toggle`, used 3 times" starts a specific conversation, and doubles as roadmap demand data.
+- `elementCoverage` = rudi element references ÷ (rudi + foreign custom elements + bare interactive elements). `tokenCoverage` = token references ÷ (token references + hardcoded color values).
 - Version data rides along in every report, so version-lag tracking needs no separate pipeline.
 
 ### Commands
@@ -104,17 +104,17 @@ rudi check --report out.json  # machine-readable report
 rudi check --ignore "**/legacy/**"
 ```
 
-Ship it as a report-only tool first. Don't fail builds on adoption thresholds. Measurement tooling that blocks merges gets uninstalled; enforcement, if you ever want it, belongs in a later phase after teams trust the numbers.
+Ship it as a report-only tool first. Don't fail builds on adoption thresholds. Measurement tooling that blocks merges gets uninstalled; enforcement, if you want it, belongs in a later phase after teams trust the numbers.
 
 ## GitHub Actions rollout
 
-Use a central scanner rather than asking every team to install a workflow. Teams do nothing, and data appears. Distributed per-repo workflows are a valid later phase once teams want the report in their own pull requests.
+Use a central scanner rather than asking every team to install a workflow. Distributed per-repo workflows are a later phase, once teams want the report in their own PRs.
 
 1. Publish `@rudi/check` to your registry.
 2. Create a `rudiment-metrics` repository to hold reports and the dashboard.
 3. Add a scheduled workflow (weekly is enough) that lists organization repositories through the GitHub API, shallow-clones each, runs `rudi check --report`, and commits the output to `data/<repo>/<date>.json`.
-4. Build the dashboard as a static page that reads the JSON history. Astro fits here, and the dashboard can live as a section of the Field Guide, which keeps adoption data next to the documentation that improves it.
-5. Later, offer an opt-in reusable workflow so teams can surface their own report as a pull request comment.
+4. Build the dashboard as a static page that reads the JSON history. Astro fits, and it can live in the Field Guide, next to the docs that improve it.
+5. Later, offer an opt-in reusable workflow so teams can surface their own report as a PR comment.
 
 Minimal workflow sketch:
 
@@ -141,12 +141,12 @@ jobs:
 
 ### Questions the data answers
 
-- **Version lag:** distribution of resolved `@rudi/core` versions across repositories, and how long each stays behind latest.
-- **Component health:** usage per component, attribute histograms, and override rates, ranked to drive improve-or-deprecate decisions.
+- **Version lag:** resolved `@rudi/core` versions across repositories, and how long each lags behind.
+- **Component health:** usage per component, attribute histograms, and override rates, ranked for improve-or-deprecate calls.
 - **Recreation rate:** foreign custom elements per repository, trending down (ideally) as gaps get filled.
-- **Token drift:** hardcoded color counts per repository, the earliest warning that the theme system isn't meeting a need.
+- **Token drift:** hardcoded color counts per repository, an early sign the theme system doesn't meet a need.
 - **Coverage trend:** element and token coverage per repository, week over week.
 
 ## Right-sizing
 
-This spec scales down as well as up. At current Rudiment scale, phase one is a single script plus GitHub code search, and the JSON schema is the part worth getting right early because history only accumulates from the day you start recording it. The enterprise patterns (central scanning, dashboards, deprecation codemods) layer on without rework because the namespace contract underneath them never changes.
+This spec scales down as well as up. At current Rudiment scale, phase one is a single script plus GitHub code search. The JSON schema is worth getting right early, since history only accumulates from the day you start recording it. The enterprise patterns (central scanning, dashboards, deprecation codemods) layer on without rework, since the namespace contract never changes.

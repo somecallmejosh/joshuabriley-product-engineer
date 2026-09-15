@@ -17,7 +17,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'VMSpark | Joshua Briley';
 const description =
-  "Case study: VMSpark's admin app sat on top of a sophisticated system serving many client companies at once, but looked like an unfinished prototype from 2018. As product design engineer, I audited the interface sprawl, chose a design direction, and rebuilt the shell in four shippable phases without touching the systems underneath.";
+  "Case study: VMSpark's admin app hadn't kept up with the sophisticated system it ran on. I audited the interface, chose a design direction, and rebuilt it in four safe stages without touching what powered it.";
 
 interface Finding {
   count: string;
@@ -134,11 +134,11 @@ const proof = [
 ];
 
 const docket = [
-  { href: '#inventory', icon: 'ph:clipboard-text', label: 'Inventory before invention' },
-  { href: '#directions', icon: 'ph:signpost', label: 'Three directions, one chosen' },
-  { href: '#rollout', icon: 'ph:stack', label: 'Phased rollout' },
+  { href: '#inventory', icon: 'ph:clipboard-text', label: 'Taking stock before changing anything' },
+  { href: '#directions', icon: 'ph:signpost', label: 'Choosing a direction' },
+  { href: '#rollout', icon: 'ph:stack', label: 'Rolling it out in stages' },
   { href: '#sheets', icon: 'ph:squares-four', label: 'Screens and flows' },
-  { href: '#outcome', icon: 'ph:trend-up', label: 'What shipping it changed' },
+  { href: '#outcome', icon: 'ph:trend-up', label: 'What changed after launch' },
 ];
 
 // Sheets render from src/ so Astro can process them — anything under public/ is
@@ -203,13 +203,13 @@ const restOfSystem = [
 const edges = [
   {
     icon: 'ph:app-window',
-    title: 'Pop-up dialogs the inventory did not catch',
-    body: 'The audit counted button styles, form patterns, and table conventions because those repeat across a grid you can scan by eye. Pop-up dialogs do not: each one only appears when triggered. Every pop-up dialog in the app turned out to be built completely differently from every other one, sharing no common structure and each with its own custom code. Tooltips had the same problem, split between two different tools, with nobody having fully finished switching away from the older one. Both got folded into the rebuild, but neither was in the original ~700-line inventory.',
+    title: 'Pop-up windows the inventory missed',
+    body: 'The audit counted button styles, forms, and tables because those repeat across screens you can scan by eye. Pop-up windows don’t: each one only appears when triggered. Every pop-up in the app turned out to be built a different way, with its own custom code. Tooltips had the same problem. Both got folded into the rebuild, but neither showed up in the original inventory.',
   },
   {
     icon: 'ph:robot',
-    title: 'Finding the rest of the sprawl took a tool, not just eyes',
-    body: "A manual pass through 350 page templates finds the patterns that repeat often enough to notice. It does not reliably find the ones that do not: a one-off pop-up dialog or an abandoned tooltip approach can hide in a screen that only gets opened once a month. I built a small AI-assisted tool that scans the app for what each piece of the interface is trying to do, rather than just its raw code, plus a plan matching every old pattern to the new version that should replace it, and that is what actually surfaced the dialogs and tooltips the manual audit missed. Both are shipped and running in the app now. Next audit, that tool runs first, not as something I reach for after a manual pass comes up short.",
+    title: 'Finding the rest took a tool, not just eyes',
+    body: "A manual pass through 350 page templates finds the patterns that repeat often enough to notice, but misses a one-off pop-up or an abandoned approach hiding in a screen nobody opens often. I built a small tool that scans the app for what each piece of the interface is trying to do, rather than just its code, and that's what actually found the dialogs and tooltips the manual audit missed. Next audit, that tool runs first.",
   },
 ];
 
@@ -246,20 +246,20 @@ const flows = [
 // credible); "Reflection" restates the edges section below rather than
 // inventing a new critique — see src/pages/projects/interview-notes/tldr.md.
 const tldr = {
-  situation: `VMSpark's backend pulls in thousands of job listings a day and fans them out to more than a dozen recruiting systems. As product design engineer, I owned the admin app operators lived in all day and investors judged in the first thirty seconds of a demo, without touching the pipeline underneath.`,
-  problem: `The interface hadn't kept pace with the system it sat on: eight-plus competing button styles, ten form-element treatments, and roughly 40 views bypassing the existing color-token system, so the product read like an unfinished 2018 prototype in front of an enterprise-grade pipeline.`,
+  situation: `VMSpark pulls in thousands of job listings a day and sends them out to more than a dozen hiring systems. I owned the admin app operators used every day and investors saw in every demo, without touching the systems underneath it.`,
+  problem: `The app hadn't kept up with what it did. Buttons, forms, and tables were each built a different way on nearly every screen, so it looked more like an old prototype than the enterprise product it powered.`,
   alternativeA: {
-    name: 'Command Shell',
-    body: `A dense, keyboard-first 56px icon rail with a command palette as the centerpiece. Signals "scales to power users," but asks operators to learn a pattern none of them had used before.`,
+    name: 'A dense, keyboard-first layout',
+    body: `Built for speed once you know it, but it asks operators to learn a pattern they'd never used before.`,
   },
   alternativeB: {
-    name: 'Two-Tier Platform',
-    body: `A 48px product rail plus a 260px project nav, the enterprise pattern operators had already used at a previous job. Familiar, at the cost of being less novel.`,
+    name: 'A familiar two-panel layout',
+    body: `The same kind of layout operators had already used at other companies, at the cost of feeling less original.`,
   },
-  decision: `I chose <strong class="text-ink font-semibold">the Two-Tier Platform</strong> over the more sophisticated Command Shell, because operators worked across many client accounts daily, and the lowest-risk path to both user and investor trust was a layout they had already seen before, not a new one.`,
-  implementation: `The rebuild shipped in four independently deployable phases: a shared page-header component rolled out to about 30 existing pages, the two-tier shell itself, a scoped command palette, then density and shortcut polish, with the color-token layer re-pointed at the same five brand colors the public marketing site already used.`,
-  evidence: `Zero regressions were reported against the ingest or fan-out paths after cutover. Operators stopped mentally filtering out visual noise between screens, and leadership stopped opening investor demos with caveats about the interface.`,
-  reflection: `The manual audit caught anything visible on a static screen, but every pop-up dialog in the app turned out to be built differently from every other one, and that only surfaced once I built a small AI-assisted tool to scan for intent rather than code. Next audit, that tool runs first, not as a follow-up once a manual pass comes up short.`,
+  decision: `I chose <strong class="text-ink font-semibold">the familiar layout</strong> over the more original one, since the safest way to earn trust was a pattern operators already knew.`,
+  implementation: `The rebuild shipped in four separate stages, each one safe to release on its own, ending with the app's colors matched to the same five brand colors already used on the public website.`,
+  evidence: `No pipeline problems after launch. Operators stopped noticing visual inconsistencies between screens, and leadership stopped apologizing for the app during demos.`,
+  reflection: `A manual review caught anything visible on a still screen, but every pop-up window in the app turned out to be built a different way, and that only showed up once I built a small tool to scan for it. Next time, that tool runs first.`,
 };
 ---
 
@@ -282,11 +282,16 @@ const tldr = {
           </div>
 
           <Heading level={1} visual="display-xl" tone="ink" class="hero-in hero-in-3">
-            The pipeline was enterprise-grade. The app <em class="ink-wink font-normal italic">in front of it</em> wasn't.
+            Redesigning the app on top of a system that already <em class="ink-wink font-normal italic">worked</em>.
           </Heading>
 
           <Text size="lg" tone="muted" class="hero-in hero-in-4 mt-8 max-w-xl">
-            VMSpark's backend pulls in thousands of job listings a day from client hiring platforms and automatically sends them out to more than a dozen different recruiting systems companies use to manage applications. The admin app in front of all that, the screen operators work in all day and investors judge in the first thirty seconds of a demo, still looked like an unfinished prototype from 2018. I owned the audit, the design direction, and the phased rebuild that closed that gap, without touching the systems underneath.
+            VMSpark takes in thousands of job listings a day and automatically
+            sends them to more than a dozen hiring systems that companies use.
+            The app operators worked in every day, and the one investors saw in
+            every demo, hadn't kept up with how sophisticated that system had
+            become. I reviewed the interface, chose a new direction, and
+            rebuilt it in stages, without changing anything underneath it.
           </Text>
         </div>
 
@@ -366,22 +371,11 @@ const tldr = {
       </ul>
 
       <Text size="lg" tone="muted" class="mt-10 measure">
-        VMSpark takes in thousands of job listings a day, runs them through rules
-        specific to each client account, and sends them out to whichever recruiting
-        system that customer has signed up with. The product works. The screens it
-        lived in did not look like it. Leadership was scheduling investor demos, and
-        the admin app, the screen those conversations lived inside, felt like an
-        unfinished prototype from 2018. Operators noticed it daily. Investors noticed
-        it in the first thirty seconds of a demo.
-      </Text>
-      <Text size="lg" tone="muted" class="mt-5 measure">
-        The brief I gave myself:
-        <strong class="text-ink font-semibold">make the admin app read as a modern,
-        enterprise-grade product that matches the sophistication of the systems
-        underneath</strong>, without touching those systems, the client-specific
-        rules, or anything an operator had muscle memory for. That meant owning it as
-        one job: the design-system audit, the product calls about what to build and
-        what to drop, and the engineering to ship it.
+        My goal: make the admin app look like the modern, enterprise-grade product
+        it already was underneath, without touching the systems, the client-specific
+        rules, or anything an operator already knew by muscle memory. That meant
+        owning it end to end: the audit, the decisions about what to build and what
+        to drop, and the engineering to ship it.
       </Text>
     </Container>
   </Section>
@@ -391,24 +385,22 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 01</p>
-          <Heading level={2} visual="display-md" tone="ink">Inventory before invention</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Taking stock before changing anything</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5">
             <Text size="lg" tone="muted">
               Sprawl this wide can't be fixed one screen at a time. Restyle the buttons on
-              Manual Jobs and seven other button treatments are still waiting elsewhere, with
-              no way to know you've found them all. So before changing a single style, I
-              cataloged what was there: a
-              <strong class="text-ink font-semibold">~700-line design inventory</strong>
-              covering every one of the 350 page templates (roughly 11,800 lines) across the app.
+              one screen and seven other button styles are still waiting elsewhere, with no
+              way to know you've found them all. So before changing a single style, I wrote
+              down everything I found: a full inventory covering every one of the 350 page
+              templates in the app.
             </Text>
             <Text size="lg" tone="muted">
-              More than anything, the audit worked as a map. It told me which problems were
-              cosmetic (fixable during the redesign), which were structural (needed architectural
-              decisions), and which were out of scope (pipeline-adjacent, don't touch). Most of
-              what I found was UI sprawl: the same interaction rendered a dozen different ways
-              across the app, each screen a small argument against the one before it.
+              That inventory worked as a map. It showed me which problems were easy fixes,
+              which needed a real architectural decision, and which were outside the scope
+              of the redesign entirely. Most of it was the same interaction built a dozen
+              different ways across the app.
             </Text>
           </div>
 
@@ -457,10 +449,9 @@ const tldr = {
       </div>
 
       <Text size="lg" tone="muted" class="mt-12 measure">
-        The inventory is what made a root fix possible instead of a screen-by-screen one.
-        Every finding above resolved to a single decision applied once, and because the
-        semantic token layer already existed, each of those decisions cascaded across
-        dozens of views. The remaining work was routing the views through it.
+        The inventory is what made a real fix possible instead of a screen-by-screen
+        patch. Each finding above resolved to one decision, made once, and applied
+        everywhere it was needed.
       </Text>
     </Container>
   </Section>
@@ -470,14 +461,13 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 02</p>
-          <Heading level={2} visual="display-md" tone="ink">Three directions, one chosen</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Choosing a direction</Heading>
         </div>
         <div class="case-layout__body">
           <Text size="lg" tone="muted" class="mt-8 measure">
-            Rather than design in a vacuum, I wrote up three different possible directions,
-            each with its own honest tradeoffs. Writing the options down, with their reasons
-            and risks, is what lets the choice get overturned later by evidence, not by
-            preference.
+            I wrote up three possible directions, each with its own honest tradeoffs,
+            instead of just picking one. Writing the options down made the choice easy
+            to question later, based on evidence rather than taste.
           </Text>
 
           <div class="mt-10 grid md:grid-cols-3 gap-6 items-stretch">
@@ -535,17 +525,15 @@ const tldr = {
 
           <div class="mt-10 measure space-y-5">
             <Text size="lg" tone="muted">
-              I chose B. C was prettier. A was more sophisticated. But the product's users
-              worked across many different client accounts every day, and the lowest-risk
-              path to both user and investor trust was the layout pattern those operators
-              had already used at every previous job.
+              I chose B. C looked nicer, and A was more sophisticated, but operators worked
+              across many client accounts every day, and the safest way to earn their trust
+              was a layout they'd already used at other jobs.
             </Text>
             <Text size="lg" tone="muted">
-              I also <strong class="text-ink font-semibold">dropped</strong> a feature I'd
-              originally planned to include: a global "Create" button. Most new listings in
-              this product arrive automatically from the incoming data feed; people rarely
-              create one by hand. Adding a "Create" button would have been copying a familiar
-              pattern without it actually earning a place here.
+              I also dropped a feature I'd originally planned: a global "Create" button.
+              Most listings arrive automatically from the incoming data feed, so people
+              rarely create one by hand. Adding the button would have copied a familiar
+              pattern that didn't actually fit here.
             </Text>
           </div>
 
@@ -564,16 +552,14 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 03</p>
-          <Heading level={2} visual="display-md" tone="ink">Phased rollout</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Rolling it out in stages</Heading>
         </div>
         <div class="case-layout__body">
           <Text size="lg" tone="muted" class="mt-8 measure">
-            This was a live product serving many different client companies at once, with
-            operators in it every working day. An all-at-once redesign that broke muscle
-            memory, or that needed a plan to undo it if something broke, was never on the
-            table. Each phase was instead
-            <strong class="text-ink font-semibold">shippable on its own</strong>, with the
-            previous phase's work still intact if I needed to back it out.
+            This was a live product with operators in it every working day, so an
+            all-at-once redesign that broke their muscle memory was never on the table.
+            Each phase below could ship on its own, and could be safely rolled back
+            without undoing the phase before it.
           </Text>
 
           <div class="mt-12 grid md:grid-cols-2 gap-6">
@@ -665,18 +651,12 @@ const tldr = {
     <Container width="content">
       <p class="mono-label mb-3">What it looks like now</p>
       <Heading level={2} visual="display-md" tone="ink" class="mb-6">One system, documented in the app</Heading>
-      <Text size="lg" tone="muted" class="measure mb-4">
-        Buttons collapsed down to one consistent set of styles instead of eight
-        competing ones. Text fields, dropdowns, and labels moved onto shared building
-        blocks with consistent spacing, focus outlines, and required-field markers.
-        Tables settled on one header style, one page-navigation control, one spacing
-        rule.
-      </Text>
       <Text size="lg" tone="muted" class="measure">
-        All of it lives in an admin-only style guide that ships with the app, so the
+        Buttons collapsed down to one consistent style instead of eight competing
+        ones. Forms, tables, and labels all moved onto the same shared building
+        blocks. All of it lives in a style guide that ships with the app, so the
         next person to build a screen inherits those decisions instead of
-        re-litigating them. These are whole-page captures, so each one opens to its
-        full height in place.
+        reinventing them.
       </Text>
     </Container>
 
@@ -718,16 +698,9 @@ const tldr = {
     <Container width="content">
       <p class="mono-label mb-3">Screens and flows</p>
       <Heading level={2} visual="display-md" tone="ink" class="mb-6">What actually got built</Heading>
-      <Text size="lg" tone="muted" class="measure mb-6">
-        Eleven screens and five flows, with the reasoning written onto each sheet
-        rather than left for a reader to infer. These are reconstructions, drawn
-        after the fact to document the decisions rather than the original working files.
-      </Text>
       <Text size="lg" tone="muted" class="measure">
-        Four of them went through three passes: a crude sketch to argue about the
-        shape, a lo-fi wireframe to fix it, and the real thing with the reasoning
-        annotated on top. The ladder ends in colour rather than greyscale here,
-        because arriving at <em>one</em> visual language is what this project was.
+        Eleven screens and five flows, with the reasoning written onto each one.
+        These are reconstructions, drawn afterward to document the decisions.
       </Text>
     </Container>
 
@@ -739,7 +712,7 @@ const tldr = {
         wire={art(`${keyScreens[0].slug}.svg`)}
         annotated={sheet(keyScreens[0].slug)}
         annotatedAlt={keyScreens[0].alt}
-        caption="The passes run left to right, and the ladder ends in colour rather than greyscale because arriving at one visual language is what this project was."
+        caption="The passes run left to right: a rough sketch, a wireframe, then the real screen in color, since arriving at one visual language was the whole point of this project."
       />
     </Container>
 
@@ -761,9 +734,8 @@ const tldr = {
       <div class="border-t border-line pt-10">
         <p class="mono-label mb-3">The rest of the system</p>
         <Text tone="muted" class="measure mb-10">
-          Seven more screens, ending with the component and token inventory that
-          replaced eight button styles, ten form-element styles and six table
-          conventions with one of each.
+          Seven more screens, ending with the inventory that replaced eight button
+          styles, ten form styles, and six table conventions with one of each.
         </Text>
         <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
           {restOfSystem.map((s) => (
@@ -784,9 +756,8 @@ const tldr = {
       <div class="border-t border-line pt-10">
         <p class="mono-label mb-3">User flows</p>
         <Text tone="muted" class="measure mb-10">
-          Five flows covering the paths the screens sit on. Each splits what a
-          person does from what the system does with it, because in a pipeline
-          product the gap between those two is where the design decisions live.
+          Five flows covering the paths the screens sit on, each one splitting what
+          a person does from what the system does with it.
         </Text>
         <div class="space-y-16">
           {flows.map((f, i) => (
@@ -807,28 +778,17 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 04</p>
-          <Heading level={2} visual="display-md" tone="ink">What shipping it changed</Heading>
+          <Heading level={2} visual="display-md" tone="ink">What changed after launch</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5">
             <Text size="lg" tone="muted">
-              The app now reads as the same caliber product it always was. The
-              behind-the-scenes pipeline, the client-specific rules, the connections to
-              outside recruiting systems, and the way each client's data stays separate
-              from every other client's: none of that changed. A user who logged in
-              the day the new version went live saw their data, their filters, their
-              scroll position, and their workflows intact. They just saw them inside a
-              shell that looks like it belongs in 2026.
-            </Text>
-            <Text size="lg" tone="muted">
-              That shift paid off on both sides of the business. Operators who spent every
-              working day inside the tool stopped mentally filtering out visual noise: buttons,
-              forms, tables, and labels finally behaved the same from screen to screen, which
-              made the product feel deliberate and trustworthy rather than patched together.
-              Leadership stopped apologizing for the admin app in investor demos. The audit is
-              what made both of those possible:
-              <strong class="text-ink font-semibold">nothing got fixed until every inconsistency
-              had been written down and traced to its cause.</strong>
+              None of the systems underneath changed: the pipeline, the client-specific
+              rules, the connections to outside recruiting systems. A user who logged in
+              the day the new version went live saw their data and their workflows
+              intact, just inside a shell that finally looked current. Operators stopped
+              noticing visual inconsistency between screens, and leadership stopped
+              apologizing for the app in investor demos.
             </Text>
           </div>
 
@@ -846,17 +806,12 @@ const tldr = {
             <p class="mono-label mb-3">A detail worth calling out</p>
             <Heading level={3} visual="h3" tone="ink" class="mb-4">Aligning the app with the marketing site</Heading>
             <Text tone="muted" class="measure">
-              Partway through Phase 2 I took the five official brand colors already
-              defined on the public marketing website and pointed the admin app's
-              internal color system at those same values instead of its own separate
-              set. The underlying system for handling color didn't need to be
-              restructured. I just swapped in the correct values and added three new
-              ones, and every screen that already used that color system picked up the
-              new look automatically. Two small details carried over on purpose:
-              hovering over the main button changes it from orange to steel blue
-              rather than just getting darker, and hovering over a link makes it go
-              nearly black rather than lighter, both matching how the marketing site
-              already behaved.
+              Partway through phase two, I pointed the admin app's color system at the
+              same five brand colors already used on the public website, instead of its
+              own separate set. Every screen that used that system picked up the new
+              look automatically. Two small details carried over on purpose: the main
+              button turns steel blue on hover instead of just getting darker, and a
+              link goes nearly black, matching how the website already behaved.
             </Text>
 
             <div class="mt-8">
@@ -869,13 +824,6 @@ const tldr = {
               />
             </div>
           </div>
-
-          <figure class="my-12 border-l-2 border-accent pl-6">
-            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              Operators live in this shell all day. Investors see it for thirty seconds in a
-              demo. The audit is what let me rebuild it without breaking what's underneath.
-            </blockquote>
-          </figure>
         </div>
       </div>
     </Container>
@@ -916,9 +864,9 @@ const tldr = {
     <Container width="content">
       <p class="mono-label mb-3">The edges</p>
       <Text size="lg" tone="muted" class="measure mb-10">
-        Both of these are problems that a page-by-page review, done by hand,
+        Both of these are the kind of problem a page-by-page review, done by hand,
         is likely to miss: patterns that only show up when you interact with
-        something, not on a screen you can just look at or screenshot.
+        something, not on a screen you can just look at.
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
@@ -936,14 +884,14 @@ const tldr = {
     <Container width="wide">
       <p class="mono-label !text-paper/65 mb-4">Product design engineering</p>
       <Heading level={2} visual="display-lg" tone="paper" class="max-w-3xl">
-        Four phases, no feature flags, nothing broken underneath.
+        A full rebuild, shipped in stages, with nothing broken along the way.
       </Heading>
       <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        The interface and the design system are where I bring the most value, backed by
-        enough hands-on engineering knowledge to ship the whole thing finished. That
-        combination is what let this rebuild land on a live product serving many
-        client companies at once, with no need for a plan to undo it if something
-        broke. If that's the bar you're hiring for, let's talk.
+        Design and the interface are where I add the most value, backed by enough
+        hands-on engineering to ship the whole thing finished. That combination is
+        what let this rebuild land on a live product, serving many client companies
+        at once, without ever needing a plan to undo it. If that's the bar you're
+        hiring for, let's talk.
       </Text>
       <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <Button variant="navy" size="lg" iconLeft="ph:envelope" href="/contact/" class="js-magnetic">

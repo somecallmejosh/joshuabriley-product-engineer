@@ -1,5 +1,5 @@
 ---
-title: Staff Level UI Engineering for Dummies
+title: Staff-level UI engineering
 description: 'A practical, plain-language guide to Staff and Principal UI engineering: design systems, Web Components, UI platforms, accessibility, packaging, governance, and career growth.'
 date: 2026-08-11
 category: Design Systems
@@ -16,17 +16,17 @@ sticker: sage
 
 <p class="lede"> There is a version of front-end seniority that tops out at "can build the hardest dropdown." This guide is about the other version, where the job stops being the interface and becomes the system that produces interfaces, for every team that ships one. </p>
 
-This is one career niche, not a general engineering ladder. It stays close to browser technology, component architecture, accessibility, package distribution, developer experience, and the boundary where design meets code: **Staff-level UI engineering for design systems and shared UI platforms.** A general-purpose Staff software engineer and a Staff UI platform engineer share a lot of concepts and almost none of the daily surface area.
+This is one career niche, not a general engineering ladder: browser technology, component architecture, accessibility, package distribution, developer experience, and the boundary where design meets code. Call it **Staff-level UI engineering for design systems and shared UI platforms.** A general-purpose Staff software engineer and a Staff UI platform engineer share a lot of concepts and almost none of the daily surface area.
 
-Anything that is a matter of record is footnoted to a primary or official source. Anything that is a matter of judgment is mine, and I have said it plainly rather than dressing it up as consensus. One caveat before the rest: Senior, Staff, and Principal are not standardized titles. Monzo says so explicitly, and GitLab publishes frameworks that differ from everyone else's.[^monzo-staff][^gitlab-staff][^gitlab-principal] Read every level description below as one company's answer.
+Anything here that's a matter of record is footnoted to a primary source. Anything that's judgment is mine, stated plainly. One caveat: Senior, Staff, and Principal aren't standardized titles. Monzo says so directly, and GitLab's frameworks differ from everyone else's.[^monzo-staff][^gitlab-staff][^gitlab-principal] Read every level description below as one company's answer.
 
 ## What the job actually is
 
-Published career frameworks are the most concrete way to see what changes. GitLab separates Senior, Staff, and Principal individual-contributor levels, with broader technical and organizational scope at each step.[^gitlab-matrix][^gitlab-staff][^gitlab-principal]
+Published career frameworks show what actually changes at each level. GitLab separates Senior, Staff, and Principal individual-contributor levels, with broader technical and organizational scope at each step.[^gitlab-matrix][^gitlab-staff][^gitlab-principal]
 
-Its Staff framework describes Staff engineers as technical leaders for one or more domains, emphasizing tradeoffs, architectural ownership, removing blockers, decomposing complex requirements, blending technical and product and design concerns, and creating longer-term impact.[^gitlab-staff] The Staff Frontend framework adds delivering despite unclear requirements, leading large architectural changes, improving standards and tooling, mentoring, and influencing frontend quality beyond your own tasks.[^gitlab-staff-fe] Principal scope is broader still: organizational technical leadership, cross-team architecture, tradeoffs that affect the business, unblocking multiple teams at once.[^gitlab-principal][^gitlab-principal-jd]
+Its Staff framework describes Staff engineers as technical leaders for a domain: owning tradeoffs and architecture, removing blockers, decomposing complex requirements, and blending technical, product, and design concerns for longer-term impact.[^gitlab-staff] The Staff Frontend framework adds delivering despite unclear requirements, leading large architectural changes, improving standards and tooling, mentoring, and influencing frontend quality beyond your own tasks.[^gitlab-staff-fe] Principal scope is broader still: organizational technical leadership, cross-team architecture, tradeoffs that affect the business, unblocking multiple teams at once.[^gitlab-principal][^gitlab-principal-jd]
 
-Monzo's public write-up is a useful counterweight because it is one company being specific rather than a framework being general. It describes Staff engineers as individual contributors with no direct reports, working on highly ambiguous problems, operating across squads, mentoring, and creating multiplicative impact. It also admits the thing most ladders leave out: Staff engineers often write less code, because the scope widened underneath them.[^monzo-staff]
+Monzo's public write-up is a useful counterweight: one company being specific rather than a framework being general. It describes Staff engineers as individual contributors with no direct reports, working on highly ambiguous problems across squads, mentoring, and creating multiplicative impact. It also admits what most ladders leave out: Staff engineers often write less code, because the scope widened underneath them.[^monzo-staff]
 
 Strip the frameworks down and the ladder is about who your work is for.
 
@@ -36,7 +36,7 @@ Strip the frameworks down and the ladder is about who your work is for.
 | Staff | Improve how a group of engineers solves hard problems | A domain, and the teams inside it |
 | Principal | Improve how an organization solves classes of hard problems | Architecture, standards, and strategy across teams |
 
-That is deliberately simplified, and it is still the most useful sentence I know for interviews and career planning.
+It's a simplification, but it holds up well in interviews and career planning.
 
 ### Scope is the change, not raw skill
 
@@ -157,7 +157,7 @@ Treat that whole surface the way you would treat an API you sell to customers. C
 
 The HTML Standard defines Custom Elements as a way for authors to build their own DOM elements with custom behavior. The DOM Standard defines the event dispatch, composition, retargeting, and Shadow DOM concepts those elements rely on.[^whatwg-custom-elements][^whatwg-dom] Stencil and Lit are higher-level APIs over exactly those capabilities.[^stencil-api][^lit-intro]
 
-Which is the reason to learn the layer underneath: a Staff-level Web Component engineer should be able to reason about a component after every framework name has been deleted from the conversation. Frameworks are the top row here, and the top row is the one that gets replaced.
+That's the reason to learn the layer underneath: a Staff-level Web Component engineer should be able to reason about a component after every framework name is deleted from the conversation. Frameworks are the top row, and the top row is the one that gets replaced.
 
 <div class="not-prose essay-stack">
   <div class="essay-stack__row">
@@ -218,7 +218,7 @@ connectedCallback() {
 }
 ```
 
-Every teardown needs to pair with its setup, which is the same pattern Lit's documentation recommends whenever a component listens to something it does not own, such as `window` or `document`.[^lit-events]
+Every teardown needs to pair with its setup, the same pattern Lit recommends whenever a component listens to something it doesn't own, like `window` or `document`.[^lit-events]
 
 ```js
 connectedCallback() {
@@ -262,7 +262,7 @@ userMenu.items = [
 ]
 ```
 
-Lit provides reactive properties that trigger rendering and can optionally reflect back to attributes.[^lit-properties] Stencil exposes public data through `@Prop()`, documented as attributes and properties on the element.[^stencil-properties] Both make reflection a one-word change, which is exactly why it gets overused. Reflect when reflection has a job to do: declarative HTML configuration, a CSS selector that needs the state, debugging visibility, or semantics that genuinely belong in markup. Reflecting a large object because the decorator allowed it just puts noise in the DOM.
+Lit provides reactive properties that trigger rendering and can optionally reflect back to attributes.[^lit-properties] Stencil exposes public data through `@Prop()`, documented as attributes and properties on the element.[^stencil-properties] Both make reflection a one-word change, which is why it gets overused. Reflect when it has a job: declarative HTML configuration, a CSS selector that needs the state, debugging visibility, or semantics that belong in markup. Reflecting a large object because the decorator allowed it just puts noise in the DOM.
 
 ### Shadow DOM, and the hooks you deliberately leave open
 
@@ -283,7 +283,7 @@ The component gets a small private room, and `<slot>` marks the doors where cons
 </ui-user-card>
 ```
 
-Encapsulation solves one problem and creates another: consumers still need to restyle things, and if you give them no legitimate way to do it they will find an illegitimate one. Two platform mechanisms exist for this. CSS custom properties pass values in. CSS Shadow Parts, via the `part` attribute and the `::part()` selector, expose selected internal elements for outside styling.[^css-shadow-parts]
+Encapsulation solves one problem and creates another: consumers still need to restyle things, and if you give them no legitimate way to do it, they'll find an illegitimate one. Two platform mechanisms exist. CSS custom properties pass values in. CSS Shadow Parts, via the `part` attribute and `::part()` selector, expose selected internal elements for outside styling.[^css-shadow-parts]
 
 ```css
 /* Component: declare the hook */
@@ -316,7 +316,7 @@ ui-button::part(control) {
 
 Both of these are API design decisions wearing CSS clothing. Expose too little and consumers hack around the system, usually with `!important` and a selector that breaks on your next release. Expose every internal element and you have made your private implementation public, permanently. The useful question is not "can they style this?" but "am I willing to keep this element, with this name, in this position, for the next three years?"
 
-**Server rendering deserves a mention here** because it constrains the same boundary. The HTML Standard supports declarative Shadow DOM through `shadowrootmode`, so a shadow root can be expressed in markup instead of only being constructed by client-side JavaScript.[^whatwg-declarative-shadow]
+**Server rendering touches this same boundary.** The HTML Standard supports declarative Shadow DOM through `shadowrootmode`, so a shadow root can be expressed in markup instead of only constructed by client-side JavaScript.[^whatwg-declarative-shadow]
 
 ```html
 <ui-card>
@@ -349,7 +349,7 @@ Lit treats events as the normal way elements communicate upward, in a "data down
 
 The consequence is easy to state and easy to forget. **Event names and event payloads are public API.** Renaming `value-change` to `valueChange` is not a refactor. It is a breaking change to every listener in the estate, and unlike a renamed TypeScript export, nothing will fail to compile. It will just silently stop firing.
 
-Retargeting is the other Shadow DOM behavior worth knowing by name. When an event crosses a shadow boundary, the DOM's retargeting rules change what an outside listener sees as `event.target`, so it points at the host rather than the internal node that was actually clicked.[^whatwg-dom] This protects encapsulation and surprises everybody once. You do not need to memorize the algorithm. You need to know retargeting exists, know why, and reach for `composedPath()` when an event is arriving with a target you did not expect.
+Retargeting is the other Shadow DOM behavior worth knowing by name. When an event crosses a shadow boundary, the DOM's retargeting rules change what an outside listener sees as `event.target`: it points at the host rather than the internal node actually clicked.[^whatwg-dom] This protects encapsulation and surprises everybody once. You don't need to memorize the algorithm, just know it exists and reach for `composedPath()` when an event arrives with a target you didn't expect.
 
 ### Forms, and knowing when not to build a control
 
@@ -375,7 +375,7 @@ class UiRating extends HTMLElement {
 customElements.define('ui-rating', UiRating)
 ```
 
-Before building any of it, ask whether a native control already solves the problem. Native controls arrive with years of browser, form, keyboard, mobile, and assistive-technology behavior that you would otherwise be reimplementing at your own expense, on your own timeline, with your own bugs. A custom rating widget is a reasonable thing to build. A custom checkbox usually is not.
+Before building any of it, ask whether a native control already solves the problem. Native controls arrive with years of browser, form, keyboard, mobile, and assistive-technology behavior you'd otherwise reimplement at your own expense, on your own timeline, with your own bugs. A custom rating widget is reasonable to build. A custom checkbox usually isn't.
 
 ## Lit, and what it teaches you
 
@@ -481,11 +481,9 @@ Keep adapters thin. Once a wrapper contains its own interaction model, its own s
 
 ## Migrating Stencil to Lit
 
-Stencil's compiler reads metadata from decorators like `@Prop()` and its event and lifecycle declarations, then compiles component output.[^stencil-api][^stencil-properties][^stencil-events] Lit uses standard Web Components with its own reactive-property and rendering layer.[^lit-intro][^lit-properties] So the migration is not a find-and-replace from one decorator vocabulary to another. Framing it that way is how teams end up shipping a rewrite that breaks every consumer and calls itself a refactor.
+Stencil's compiler reads metadata from decorators like `@Prop()` and its event and lifecycle declarations, then compiles component output.[^stencil-api][^stencil-properties][^stencil-events] Lit uses standard Web Components with its own reactive-property and rendering layer.[^lit-intro][^lit-properties] The migration is not a find-and-replace from one decorator vocabulary to another. Framing it that way is how teams ship a rewrite that breaks every consumer and calls itself a refactor.
 
-The objective that survives contact with reality: **replace the implementation and preserve the consumer contract, unless there is a deliberate, argued reason to change it.**
-
-Which means the first deliverable is not code. It is an inventory, per component, of everything a consumer can currently observe:
+The objective that survives contact with reality: **replace the implementation and preserve the consumer contract, unless there is a deliberate, argued reason to change it.** That means the first deliverable is not code. It's an inventory, per component, of everything a consumer can currently observe:
 
 <ul class="not-prose essay-chips">
   <li>Tag name</li>
@@ -577,13 +575,13 @@ export class UiToggle extends LitElement {
 }
 ```
 
-The code is unrecognizable. The consumer sees the same tag, the same reflected attribute, the same event name and payload, the same slot, the same keyboard behavior. That is the entire trick, and it only works because someone wrote the contract down first.
+The code is unrecognizable. The consumer sees the same tag, the same reflected attribute, the same event name and payload, the same slot, the same keyboard behavior. That's the entire trick, and it only works because someone wrote the contract down first.
 
-This example is also deliberately small. A real migration has to account for event casing conventions, generated type definitions, framework bindings, style output, hydration strategy, form behavior, test utilities, build targets, and package structure. None of those show up in a toggle.
+This example is also deliberately small. A real migration has to account for event casing conventions, generated type definitions, framework bindings, style output, hydration strategy, form behavior, test utilities, build targets, and package structure. None of that shows up in a toggle.
 
 ### An incremental sequence
 
-Unless there is a business reason for a rewrite, migrate a large shared library in slices. Each step below exists to keep consumers whole while the implementation changes underneath them.
+Unless there's a business reason for a rewrite, migrate a large shared library in slices, keeping consumers whole while the implementation changes underneath them.
 
 <div class="not-prose essay-rail essay-rail--numbered">
   <div class="essay-rail__step">
@@ -612,13 +610,13 @@ Unless there is a business reason for a rewrite, migrate a large shared library 
   </div>
 </div>
 
-The Staff-level idea buried in that sequence is that the migration has consumers, not just source files. Every decision in it is really a decision about somebody else's sprint.
+The Staff-level idea in that sequence: the migration has consumers, not just source files. Every decision in it is really a decision about somebody else's sprint.
 
 ## Contracts: TypeScript, packages, versions
 
 ### Types are how an API explains itself
 
-The TypeScript Handbook documents unions, narrowing, generics, and utility types as mechanisms for describing and constraining JavaScript APIs.[^ts-handbook][^ts-narrowing][^ts-generics][^ts-utility] In a design system these matter more than in application code, because a public component API is reused broadly by people who will never read its source.
+The TypeScript Handbook documents unions, narrowing, generics, and utility types as mechanisms for describing and constraining JavaScript APIs.[^ts-handbook][^ts-narrowing][^ts-generics][^ts-utility] These matter more in a design system than in application code, because a public component API gets reused by people who will never read its source.
 
 A union closes a set:
 
@@ -673,7 +671,7 @@ type Size = 'small' | 'medium' | 'large'
 type Size = string
 ```
 
-The first gives autocomplete, catches typos, and forbids anything you did not anticipate. The second is extensible and lets `'smal'` ship to production. There is no universal winner, and picking by personal taste is the mistake. The question is a product question: are consumers expected to extend this value space? If your system's job is strict visual consistency, close it. If teams legitimately need sizes you have not thought of, closing it just means they stop using the prop and set a class instead, and now you have neither consistency nor a signal that they needed something.
+The first gives autocomplete, catches typos, and forbids anything you didn't anticipate. The second is extensible and lets `'smal'` ship to production. There's no universal winner: the real question is whether consumers are expected to extend this value space. Close it for strict visual consistency. Leave it open if teams legitimately need sizes you haven't thought of, since otherwise they stop using the prop and reach for a class instead, and you lose both consistency and the signal that they needed something.
 
 Staff-level TypeScript is less about knowing every utility type and more about designing public APIs that communicate intent, reject invalid states where practical, and stay legible to somebody who only reads the autocomplete.
 
@@ -725,7 +723,7 @@ These choices decide duplicate runtimes, bundle size, install behavior, upgrade 
 
 Semantic Versioning defines `MAJOR.MINOR.PATCH` once a public API is declared: incompatible changes bump major, backward-compatible features bump minor, backward-compatible fixes bump patch.[^semver]
 
-What SemVer will not do is tell you what your public API is, and for a design system the answer reaches well past TypeScript signatures. A change is potentially breaking if it touches attributes, properties, events or their payloads, CSS custom properties, CSS parts, slots, keyboard behavior, accessible semantics, import paths, framework adapters, or visual output that products have built layouts around. Tightening a button's default padding by 4px ships as a patch in most teams and breaks three product layouts by Tuesday.
+What SemVer won't do is tell you what your public API is, and for a design system that reaches well past TypeScript signatures: the same surface listed earlier (attributes, events and their payloads, CSS hooks, slots, keyboard behavior, semantics, import paths, framework adapters, or visual output products built layouts around) can all be breaking. Tightening a button's default padding by 4px ships as a patch in most teams and breaks three product layouts by Tuesday.
 
 ### One package, or many
 
@@ -750,7 +748,7 @@ SemVer announces that a break happened.[^semver] It does not perform the migrati
   </div>
   <div class="essay-rail__step">
     <span class="essay-rail__name">Deprecation period with a replacement already shipped</span>
-    <p>Deprecating an API before its replacement exists just tells teams to feel bad about code they cannot change yet.</p>
+    <p>Deprecating an API before its replacement exists just tells teams to feel bad about code they can't change yet.</p>
   </div>
   <div class="essay-rail__step">
     <span class="essay-rail__name">Migration guide, and a codemod where it is practical</span>
@@ -758,15 +756,15 @@ SemVer announces that a break happened.[^semver] It does not perform the migrati
   </div>
   <div class="essay-rail__step">
     <span class="essay-rail__name">Prerelease, validated against real consumers</span>
-    <p>The point is to find the thing your inventory missed while it is still cheap to find.</p>
+    <p>The point is to find what your inventory missed while it's still cheap to find.</p>
   </div>
   <div class="essay-rail__step">
     <span class="essay-rail__name">Major release, then adoption tracking</span>
-    <p>Publishing is not landing. You do not know the change succeeded until you can see who is on it.</p>
+    <p>Publishing isn't landing. You won't know the change succeeded until you can see who's on it.</p>
   </div>
   <div class="essay-rail__step">
     <span class="essay-rail__name">Removal of the old API</span>
-    <p>Last, and only once the tracking says it is safe. A deprecated API you never remove is a permanent API with a warning on it.</p>
+    <p>Last, and only once tracking says it's safe. A deprecated API you never remove is a permanent API with a warning on it.</p>
   </div>
 </div>
 
@@ -776,17 +774,13 @@ A system used by a hundred applications needs a different policy from one used b
 
 ### WCAG and the APG do different jobs
 
-WCAG 2.2 is a W3C Recommendation containing testable success criteria for web content.[^wcag22][^wcag-overview] The WAI-ARIA Authoring Practices Guide provides patterns and examples for common widgets and interaction models.[^apg][^apg-patterns] They answer different questions. WCAG asks what outcomes accessible content must satisfy. The APG asks how a given interactive pattern might be built.
-
-Neither is a certification stamp. An APG example is a reference implementation of one pattern, not a guarantee about your product, your semantics, your browser and assistive-technology matrix, or your users.
+WCAG 2.2 is a W3C Recommendation containing testable success criteria for web content.[^wcag22][^wcag-overview] The WAI-ARIA Authoring Practices Guide provides patterns and examples for common widgets and interaction models.[^apg][^apg-patterns] WCAG asks what outcomes accessible content must satisfy. The APG asks how a given interactive pattern might be built. Neither is a certification stamp: an APG example is a reference implementation of one pattern, not a guarantee about your product, your semantics, or your users.
 
 ### Accessible behavior is part of the contract
 
-A component is not accessible because it renders `<div role="dialog">`. The interaction model is the accessibility. For a dialog that means: the trigger activates it, focus moves somewhere sensible, keyboard interaction works, background interaction is handled, and on close focus returns to where the user left it. The APG documents that keyboard and semantic behavior for dialogs and other widget patterns.[^apg-patterns]
+A component isn't accessible because it renders `<div role="dialog">`. The interaction model is the accessibility. For a dialog that means the trigger activates it, focus moves somewhere sensible, keyboard interaction works, background interaction is handled, and on close focus returns to where the user left it.[^apg-patterns] The best accessibility work in a design system makes the safe behavior the default, so using the component correctly is easier than using it incorrectly.
 
-All of which is exactly the kind of thing product teams should never have to rebuild. The best accessibility work in a design system makes the safe behavior the default, so that using the component correctly is easier than using it incorrectly.
-
-The corollary is to prefer native semantics wherever they fit. When the interaction really is a button:
+Prefer native semantics wherever they fit. When the interaction really is a button:
 
 ```html
 <!-- not this -->
@@ -796,11 +790,11 @@ The corollary is to prefer native semantics wherever they fit. When the interact
 <button type="button">Save</button>
 ```
 
-ARIA is valuable and sometimes unavoidable. Using it to reconstruct semantics HTML already provides is how a design-system team acquires behavior it now has to maintain forever, in exchange for nothing.
+ARIA is valuable and sometimes unavoidable. Using it to reconstruct semantics HTML already provides is how a design-system team acquires behavior it now has to maintain forever, for nothing in return.
 
 ### Automated testing is a guardrail, not proof
 
-Playwright's accessibility documentation says this plainly: automated tests catch some common problems, many issues require manual testing, and the recommendation is to combine automated checks with manual assessment and inclusive user testing.[^playwright-a11y] Storybook can run the same checks in component development and CI.[^storybook-a11y]
+Playwright's accessibility documentation is plain about this: automated tests catch common problems, many issues need manual testing, and the recommendation is to combine automated checks with manual assessment and inclusive user testing.[^playwright-a11y] Storybook can run the same checks in component development and CI.[^storybook-a11y]
 
 ```ts
 import { test, expect } from '@playwright/test'
@@ -815,11 +809,11 @@ test('dialog has no automatically detectable violations', async ({ page }) => {
 })
 ```
 
-A green result here tells you a specific set of rules found nothing. It does not tell you whether the keyboard flow makes sense, whether focus lands somewhere useful in your product's context, whether the label is comprehensible, whether a screen-reader user's path through the task is efficient, or whether the interaction is cognitively followable at all. Every one of those has shipped green.
+A green result tells you a specific set of rules found nothing. It doesn't tell you whether the keyboard flow makes sense, whether the label is comprehensible, or whether a screen-reader user's path through the task is efficient. Every one of those has shipped green.
 
 ### Different tests answer different questions
 
-Storybook is built for developing and documenting components in isolation; Playwright runs end-to-end across Chromium, Firefox, and WebKit through one API.[^storybook][^playwright] A shared UI system usually wants several layers, because each answers something the others cannot.
+Storybook is built for developing and documenting components in isolation; Playwright runs end-to-end across Chromium, Firefox, and WebKit through one API.[^storybook][^playwright] A shared UI system usually wants several layers, because each answers something the others can't.
 
 | Layer | The question it answers | In practice |
 | --- | --- | --- |
@@ -831,7 +825,7 @@ Storybook is built for developing and documenting components in isolation; Playw
 | Contract | Does the public API still behave as promised? | Set the property, assert the attribute and the event |
 | Visual regression | Did the appearance change without anyone deciding to? | Screenshot diff per component state |
 
-Contract tests are the highest-leverage row for a platform team, because they are what lets the implementation move while consumer behavior stays still. They are the reason the Stencil-to-Lit migration described earlier is possible at all.
+Contract tests are the highest-leverage row for a platform team: they're what lets the implementation move while consumer behavior stays still, and the reason the Stencil-to-Lit migration described earlier is possible at all.
 
 Say the documented contract is: *changing the `open` property on `<ui-dialog>` makes the dialog visible, and closing it emits `ui-close`.* The test is written against that sentence, not against Lit:
 
@@ -855,15 +849,15 @@ test('dialog public contract', async ({ page }) => {
 })
 ```
 
-Nothing in that test knows which library rendered the dialog, which is the entire point.
+Nothing in that test knows which library rendered the dialog. That's the point.
 
 ### Browser support is a product decision
 
-Playwright supports testing Chromium, Firefox, and WebKit, which covers the major engine families in automated runs.[^playwright][^playwright-best-practices]
+Playwright supports testing Chromium, Firefox, and WebKit, covering the major engine families in automated runs.[^playwright][^playwright-best-practices]
 
-Do not start compatibility planning by asking what polyfills you need. Start by asking which browsers and product environments the organization has actually promised to support, because that answer determines the polyfills, the feature detection, the progressive enhancement strategy, the fallbacks, the automated coverage, and which high-risk interactions get checked by hand.
+Don't start compatibility planning by asking what polyfills you need. Start by asking which browsers and product environments the organization has actually promised to support: that answer determines the polyfills, feature detection, fallbacks, and which high-risk interactions get checked by hand.
 
-Then write the policy down and publish it. Every product consuming the system inherits those decisions whether or not they were told, and an unstated compatibility policy is one that gets discovered during an incident.
+Then write the policy down and publish it. Every product consuming the system inherits those decisions whether or not they were told, and an unstated policy gets discovered during an incident.
 
 ## Tokens, governance, and adoption
 
@@ -888,23 +882,23 @@ The Design Tokens Community Group, a W3C Community Group, published the first st
 }
 ```
 
-Follow the applicable DTCG version rather than that simplification. The idea underneath matters more than the syntax anyway: a token is a named design decision that can travel between tools and platforms without a human retyping a hex value into a second system and introducing a third one by accident.
+Follow the applicable DTCG version rather than that simplification. What matters more than the syntax: a token is a named design decision that can travel between tools and platforms without a human retyping a hex value into a second system and introducing a third one by accident.
 
 ### Figma Code Connect is a bridge, not a source of truth
 
 Figma's Code Connect documentation describes it as a way to connect code components in a repository to their Figma counterparts in Dev Mode, with documented support for HTML and Web Components.[^figma-code-connect][^figma-code-connect-html]
 
-What it creates is a link between a Figma component, the design intent behind it, a component API, and an implementation. What it does not create is an authority. Neither side is automatically correct: sometimes the design model is stale, sometimes the code API is wrong, and sometimes the two are modelling genuinely different concepts and need an explicit translation between them.
+It creates a link between a Figma component, the design intent behind it, a component API, and an implementation. It doesn't create an authority. Neither side is automatically correct: sometimes the design model is stale, sometimes the code API is wrong, and sometimes the two model genuinely different concepts and need an explicit translation between them.
 
-Which is what makes design-code mismatch a Staff-level problem rather than a ticket. Resolving it usually requires design and engineering to agree on what the thing *is*, and no amount of renaming a prop substitutes for that conversation.
+That's what makes design-code mismatch a Staff-level problem rather than a ticket. Resolving it usually requires design and engineering to agree on what the thing *is*, and no amount of renaming a prop substitutes for that conversation.
 
 ### Governance is just "how the system decides"
 
-The word sounds bureaucratic. In practice it answers a short list of questions that will otherwise be re-litigated every quarter: who can add a component, who owns the API, what counts as breaking, how proposals get reviewed, who signs off on accessibility, how contributions are accepted, how deprecated APIs get removed, who supports product teams, and how design and code stay in step.
+The word sounds bureaucratic. In practice it answers a short list of questions that would otherwise get re-litigated every quarter: who can add a component, who owns the API, what counts as breaking, how proposals get reviewed, who signs off on accessibility, how deprecated APIs get removed, and how design and code stay in step.
 
 Good governance reduces repeated arguments. Bad governance either blocks everything or lets the system drift into inconsistency, and both failure modes look like "we have a process."
 
-A lightweight proposal flow is usually enough: problem, evidence of consumer need, proposed API, alternatives, accessibility review, design review, engineering review, prototype, decision. Not every button change needs an RFC. A change to how every button in the company reports its state probably does.
+A lightweight proposal flow is usually enough: problem, evidence of consumer need, proposed API, alternatives, accessibility and design review, engineering review, prototype, decision. Not every button change needs an RFC. A change to how every button in the company reports its state probably does.
 
 Decisions worth remembering get an Architecture Decision Record, which can be very small:
 
@@ -946,11 +940,11 @@ Negative:
 - We must validate browser behavior against our support policy.
 ```
 
-The value is not the template. It is that eighteen months later, when someone proposes replacing the internals, they can find out why the decision was made rather than re-deriving it or assuming it was arbitrary. Leave behind enough context that the next engineer can disagree with you *knowledgeably*.
+The value isn't the template. Eighteen months later, when someone proposes replacing the internals, they can find out why the decision was made instead of re-deriving it or assuming it was arbitrary. Leave enough context that the next engineer can disagree with you *knowledgeably*.
 
 ### Adoption is not solved by telling teams to comply
 
-A design system can be technically excellent and still fail. When adoption is weak, diagnose before prescribing, because "we need better documentation" is the answer teams reach for regardless of the actual problem. Nine questions, and what a "no" to each one is really telling you:
+A design system can be technically excellent and still fail. When adoption is weak, diagnose before prescribing: "we need better documentation" is the answer teams reach for regardless of the actual problem. Nine questions, and what a "no" to each one is really telling you:
 
 | Ask | What a "no" actually means |
 | --- | --- |
@@ -968,15 +962,15 @@ Exactly one of those rows is documentation.
 
 ### Developer experience is the product surface
 
-Storybook's model centres on building and documenting components in isolation, which is why it is the common tool here.[^storybook] But the documentation site is one part of a much longer surface: package installation, import paths, TypeScript autocomplete, component naming, examples, error messages, release notes, migration docs, framework adapters, local development speed, debugging, the contribution workflow, and where someone goes when they are stuck at 4pm.
+Storybook's model centres on building and documenting components in isolation, which is why it's the common tool here.[^storybook] But the documentation site is one part of a longer surface: package installation, import paths, TypeScript autocomplete, naming, examples, error messages, release notes, migration docs, framework adapters, local development speed, debugging, the contribution workflow, and where someone goes when they're stuck at 4pm.
 
 The bar for a component API is that an ordinary product engineer can use it correctly without knowing how the design-system team built it. If using it correctly requires understanding the implementation, the API is the bug.
 
 ### Measuring whether any of it worked
 
-Useful signals exist, and they are mostly unglamorous: applications on the system, package versions deployed, the lag between a release and consumer upgrade, deprecated API usage, component usage, support request volume, migration completion, accessibility defects originating in shared components, and build or bundle regressions.
+Useful signals are mostly unglamorous: applications on the system, package versions deployed, the lag between a release and consumer upgrade, deprecated API usage, component usage, support request volume, migration completion, accessibility defects originating in shared components, and build or bundle regressions.
 
-Every one of them needs context. Low adoption can mean the system is failing, or that it is deliberately scoped to one product family. Read in groups rather than individually, they answer three different questions:
+Every one needs context. Low adoption can mean the system is failing, or that it's deliberately scoped to one product family. Read in groups, they answer three different questions:
 
 | Lens | The question it answers | Signals |
 | --- | --- | --- |
@@ -992,23 +986,23 @@ Three lenses, because a team measuring only the first optimizes for shipping com
 
 ### Do not open an architecture question with a technology
 
-Someone asks how you would build a design system for fifty applications. The weak answer is "I would use Lit." Lit may well be right, but nothing has been established yet that could make it right.
+Someone asks how you'd build a design system for fifty applications. The weak answer is "I would use Lit." Lit may well be right, but nothing yet established makes it right.
 
-Start by discovering constraints. What frameworks consume the system? Is server rendering required? Which browsers are supported? What already exists, and who depends on it? How many teams, and how independent are they? How quickly can consumers upgrade, realistically, given their release process? What accessibility standard does the organization target, and is it a legal obligation? Are there native or mobile consumers of the same tokens? How are packages published? How is design represented? Is the organization optimizing for strict consistency or product flexibility? Who owns governance?
+Start by discovering constraints. What frameworks consume the system? Is server rendering required? Which browsers are supported? What already exists, and who depends on it? How many teams, and how independent are they? How quickly can consumers upgrade, given their release process? What accessibility standard does the organization target, and is it a legal obligation? Are there native or mobile consumers of the same tokens? How are packages published? Is the organization optimizing for strict consistency or product flexibility? Who owns governance?
 
-Then let the architecture follow from the answers.
+Let the architecture follow from the answers.
 
 ### A repeatable decision model
 
 Consumer, problem, constraints, options, tradeoffs, decision, rollout, measurement. In that order, every time.
 
-Worked through a real question. Should the shared system be React components or Web Components?
+Take a real question: should the shared system be React components or Web Components?
 
 <div class="not-prose essay-split">
   <div>
     <p class="essay-label">Consumer and constraints</p>
     <p>Thirty applications. Twenty React, six Angular, four framework-light. One visual language, accessibility consistency required, long product lifetimes, some server-rendering needs.</p>
-    <p>Note that none of this is a technology preference yet. It is all facts about the estate.</p>
+    <p>None of this is a technology preference yet, just facts about the estate.</p>
   </div>
   <div>
     <p class="essay-label">Options on the table</p>
@@ -1018,19 +1012,17 @@ Worked through a real question. Should the shared system be React components or 
       <li>A separate implementation per framework</li>
       <li>Shared headless logic with framework-native view layers</li>
     </ul>
-    <p>Each one moves interoperability, ergonomics, SSR strategy, required team expertise, package complexity, and maintenance cost in different directions.</p>
+    <p>Each moves interoperability, ergonomics, SSR strategy, team expertise, package complexity, and maintenance cost in different directions.</p>
   </div>
 </div>
 
-The decision comes after that, and it is defensible because everyone can see what it was weighed against. Staff-level interviewing is mostly about demonstrating you know which facts determine the answer, not about naming the interviewer's preferred technology.
+The decision comes after that, and it's defensible because everyone can see what it was weighed against. Staff-level interviewing is mostly about demonstrating which facts determine the answer, not naming the interviewer's preferred technology.
 
 ### Influence travels through artifacts
 
 GitLab's Staff and Principal frameworks emphasize architectural leadership, standards, mentorship, cross-team work, and enabling others.[^gitlab-staff][^gitlab-principal] Without direct reports, all of that has to travel through things you make: an RFC, an ADR, a prototype, a migration guide, an API specification, an accessibility contract, a reference implementation, a code review, a test harness, a release plan, documentation.
 
-The best Staff engineers I have worked with do not make themselves indispensable by holding knowledge. They make their judgment reproducible, in tools and standards and examples, so that the same decision gets made correctly in rooms they are not in.
-
-Which is also the difference between mentoring and being an answer machine. Compare:
+The best Staff engineers don't make themselves indispensable by holding knowledge. They make their judgment reproducible, in tools and standards and examples, so the same decision gets made correctly in rooms they're not in. That's also the difference between mentoring and being an answer machine. Compare:
 
 <div class="not-prose essay-split">
   <div>

@@ -3,12 +3,6 @@ import Icon from '~/components/primitives/Icon.astro';
 import Link from '~/components/primitives/Link.astro';
 import { cx } from '~/lib/cx';
 
-/**
- * Mobile navigation toggle + drawer. Vanilla JS handles aria-expanded,
- * focus management, Escape-to-close, and resize-close. Zero framework
- * footprint; ships < 1 KB of JS.
- */
-
 import type { NavLink } from '~/lib/nav';
 
 interface Props {

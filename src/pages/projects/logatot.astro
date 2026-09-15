@@ -16,7 +16,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'Logatot | Joshua Briley';
 const description =
-  "Case study: designing a voice-first operations platform for home-based child care providers, and building the front end and much of the Rails domain underneath it, from the wake word running on-device to a repair queue that teaches the parser a child's name.";
+  "Case study: designing a voice-controlled app for home-based childcare providers, so they can log a nap, a meal, or a diaper change hands-free, and the required paperwork falls out of that same record.";
 
 const meta = [
   { role: 'Role', value: 'Product Design Engineer' },
@@ -34,12 +34,12 @@ const proof = [
 ];
 
 const docket = [
-  { href: '#hands', icon: 'ph:hand-waving', label: 'Designing for a user with no free hands' },
-  { href: '#research', icon: 'ph:phone-call', label: 'Video calls before wireframes' },
-  { href: '#shapes', icon: 'ph:squares-four', label: 'Two shapes for the same day' },
-  { href: '#failure', icon: 'ph:arrow-counter-clockwise', label: 'Making failure a normal state' },
-  { href: '#pipeline', icon: 'ph:microphone', label: 'The voice pipeline, and where the model goes' },
-  { href: '#outcomes', icon: 'ph:trend-up', label: 'What it changed for providers' },
+  { href: '#hands', icon: 'ph:hand-waving', label: 'Designing for hands that are full' },
+  { href: '#research', icon: 'ph:phone-call', label: 'Talking to providers first' },
+  { href: '#shapes', icon: 'ph:squares-four', label: 'Two views of the same day' },
+  { href: '#failure', icon: 'ph:arrow-counter-clockwise', label: 'Treating mistakes as normal' },
+  { href: '#pipeline', icon: 'ph:microphone', label: 'How voice recognition works' },
+  { href: '#outcomes', icon: 'ph:trend-up', label: 'What changed for providers' },
 ];
 
 // Three separate regulatory regimes, all of which are visible in the data model.
@@ -51,24 +51,24 @@ const regimes = [
 
 // Why 8pm-from-memory is a product problem and not a habit problem.
 const problems = [
-  { icon: 'ph:brain', title: 'Recall degrades', body: 'A nap logged from memory at 8pm is an estimate. A diaper change is a guess. The records that matter most legally are the ones reconstructed with the least accuracy.' },
-  { icon: 'ph:door-open', title: 'The burden is a career problem', body: 'Providers leave this profession over the paperwork, which is why the mission statement talks about sustainability rather than efficiency. The goal was giving evenings back. A tidier form was never the point.' },
-  { icon: 'ph:clock-countdown', title: 'Failures surface too late', body: 'Finding out at month end that a Wednesday lunch was short a vegetable means the food is eaten, the money is spent, and nothing can be done.' },
+  { icon: 'ph:brain', title: 'Memory isn’t reliable', body: 'A nap logged from memory at 8pm is a guess, and so is a diaper change. The records that matter most legally are the least accurate ones.' },
+  { icon: 'ph:door-open', title: 'It wears providers down', body: 'Many providers leave this work because of the paperwork. The goal was giving them their evenings back, not just a tidier form.' },
+  { icon: 'ph:clock-countdown', title: 'Problems surface too late', body: 'Finding out at month end that a lunch was missing a vegetable is too late to do anything about it.' },
 ];
 
 // The two findings from the provider/CACFP/influencer video calls that changed
 // what shipped. Not every idea from these calls made it in this early; some
 // were logged and picked up once the more urgent fix was live.
 const research = [
-  { icon: 'ph:waveform', title: 'Accent broke the transcript before the parser ever ran', body: 'Provider accents and non-native speech patterns weren’t reflected in the transcription model’s training, so words came through wrong before parsing ever ran. That’s the origin of the phonetic alias system in the voice pipeline: matching against likely mishearings instead of trusting the raw transcript.' },
-  { icon: 'ph:receipt', title: 'CACFP admins found a reimbursement gap', body: 'The administrators who process CACFP reimbursements flagged ways the product wasn’t giving providers what they needed to substantiate a claim, which changed both the reporting business logic and the screens built on top of it.' },
+  { icon: 'ph:waveform', title: 'Accents were getting misheard', body: 'The transcription tool wasn’t trained on the range of accents providers actually speak with, so words came through wrong before the app ever tried to understand them. That’s why the app now keeps a list of likely mishearings for each child’s name, instead of trusting the raw transcript.' },
+  { icon: 'ph:receipt', title: 'Providers needed better proof for claims', body: 'The people who process food-program reimbursements pointed out gaps in what the app gave providers to back up a claim, which changed both the reporting and the screens built on top of it.' },
 ];
 
 // The four roles that share one Devise user table and one polymorphic meta association.
 const users = [
   { icon: 'ph:user-focus', name: 'The provider', role: 'Primary user, and the hardest to design for. Mobile, interrupted, often one-handed, twelve-hour day.' },
   { icon: 'ph:users', name: 'Parents', role: 'A dozen sessions a year at most. Mobile-first, passwordless by necessity, usually in a car park at 5pm.' },
-  { icon: 'ph:identification-badge', name: 'Authorized pickups', role: 'A first-class record with its own PIN and its own permitted children, because custody rules belong in an auditable model.' },
+  { icon: 'ph:identification-badge', name: 'Authorized pickups', role: 'Each has their own PIN and their own list of children they can pick up, so custody rules are tracked, not assumed.' },
   { icon: 'ph:clock-user', name: 'Employees', role: 'In multi-staff accounts, clocking shifts through the same event pipeline as everything else.' },
 ];
 
@@ -96,17 +96,17 @@ const outcomes = [
   {
     icon: 'ph:moon-stars',
     title: 'The evenings came back',
-    body: 'Documentation moved from after-the-fact and from memory to during the moment and hands-free. Providers reported saving over two hours a day on data entry.',
+    body: 'Providers reported saving over two hours a day, once logging happened hands-free during the day instead of from memory at night.',
   },
   {
     icon: 'ph:files',
     title: 'Compliance stopped being separate work',
-    body: 'Attendance records, signed releases, CACFP claims, and drill logs all generate from events captured for another reason. Month end became a review step.',
+    body: 'Attendance records, signed releases, food-program claims, and drill logs all come from events already captured. Month end became a review step.',
   },
   {
     icon: 'ph:storefront',
-    title: 'It reached the providers who needed it',
-    body: 'Shipped as a paid product and sold both direct and through child care associations, so it landed with the providers it was built for rather than staying a demo.',
+    title: 'It reached real providers',
+    body: 'Shipped as a paid product, sold directly and through childcare associations, not left as a demo.',
   },
 ];
 
@@ -125,10 +125,10 @@ const quotes = [
 
 // The edges, stated plainly. A case study that only lists wins is a brochure.
 const edges = [
-  { icon: 'ph:list-magnifying-glass', title: 'Screen-reader support on the busiest screen', body: 'The Voiceboard’s expand/collapse and column controls don’t announce their open-or-closed state to a screen reader the way the rest of the design system does. That pattern was built correctly everywhere else and didn’t make it into the hardest screen. First thing I would fix.' },
-  { icon: 'ph:device-tablet', title: 'A two-size layout in a three-size world', body: 'Nearly 800 places in the code switch the layout at one single screen-width cutoff, which leaves anything in between phone-size and desktop-size, a tablet, poorly served. That matters more here than elsewhere, because the kiosk is a tablet.' },
-  { icon: 'ph:globe-hemisphere-west', title: 'Time zones kept coming back', body: 'Five of the last six updates to the project’s code were adjustments to how it handles time zones. That back-and-forth is the honest record of a problem I kept bounded rather than one I actually closed.' },
-  { icon: 'ph:cloud-slash', title: 'No offline queue', body: 'The pieces needed for the app to work without an internet connection exist but were never fully wired up and finished. For tablets in homes with unreliable WiFi, working offline is the highest-value thing that isn’t built.' },
+  { icon: 'ph:list-magnifying-glass', title: 'Screen-reader support on the busiest screen', body: 'The Voiceboard’s expand and collapse controls don’t announce their state to a screen reader the way the rest of the app does. That pattern is built correctly everywhere else and didn’t make it into the hardest screen. First thing I would fix.' },
+  { icon: 'ph:device-tablet', title: 'A two-size layout in a three-size world', body: 'The layout switches at one single screen-width cutoff, which leaves anything in between phone-size and desktop-size, a tablet, poorly served. That matters more here, because the kiosk is a tablet.' },
+  { icon: 'ph:globe-hemisphere-west', title: 'Time zones kept coming back', body: 'Most of the recent updates to this project were fixes to how it handles time zones. That’s an honest sign of a problem I kept bounded rather than one I actually closed.' },
+  { icon: 'ph:cloud-slash', title: 'No offline mode', body: 'The pieces needed for the app to work without internet exist but were never fully finished. For tablets in homes with unreliable WiFi, that’s the highest-value thing that isn’t built.' },
 ];
 
 // The event log as the thing every write path already agrees on: voice, kiosk,
@@ -259,20 +259,20 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
 // section below rather than inventing a new critique — see
 // src/pages/projects/interview-notes/tldr.md.
 const tldr = {
-  situation: `Logatot is a voice-controlled operations platform for home-based child care providers. I led the front end on a three-developer team, owning the design system and flow design, for a provider who is caregiver, cook, and compliance officer at once, often holding a toddler through a twelve-hour day.`,
-  problem: `Three separate provider interviews, run without prompting each other, converged on the same root conflict: a job demanding constant supervision leaves no attention for the paperwork three regulatory regimes require, so it got reconstructed from memory at 8pm, and the records that mattered most legally were the least accurate.`,
+  situation: `Logatot is a voice-controlled app for people who run childcare out of their own homes. I led the front end on a three-person team, in charge of the design and the app's overall structure.`,
+  problem: `Three separate provider interviews all pointed to the same problem: a job that demands constant attention leaves no time for paperwork, so providers filled it in from memory at night, and those memory-based records were the ones inspectors and food-program auditors cared about most.`,
   alternativeA: {
-    name: 'An AI model interpreting speech live',
-    body: `More flexible with unpredictable phrasing, but slower and confidently wrong: a guessed category could write a nap that never happened into a record a parent reads and a state inspector may check.`,
+    name: 'Let an AI model guess what was said',
+    body: `More flexible with unusual phrasing, but it can guess wrong with confidence, logging a nap that never happened into a record a parent or inspector might read.`,
   },
   alternativeB: {
-    name: 'A deterministic parser, AI used ahead of time',
-    body: `Speech is checked against a fixed list of known phrasings, and names are matched against a per-child alias list an AI model precomputes when the child is added, so the live decision is a match or a queued item for a person, never a guess.`,
+    name: 'Match speech against a known list, use AI ahead of time',
+    body: `What's said is checked against a fixed list of known phrases. AI is used earlier, to guess how a child's name might sound in different accents, before anyone ever speaks it.`,
   },
-  decision: `I chose <strong class="text-ink font-semibold">rule-based matching in the moment</strong>, with the AI model working ahead of time on likely name mishearings instead of live in the parsing loop. A record a licensor might read can't afford a confidently wrong guess.`,
-  implementation: `That decision is the LoggedEvent model: a fixed status enum, a <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">needs_repair</code> scope for anything the rules couldn't match, and a background task that asks an AI model for every likely phonetic variant of a new child's name, with each manual correction in the repair queue feeding back into that same alias list.`,
-  evidence: `A provider association president reported saving over two hours a day on data entry, and compliance artifacts, attendance, CACFP claims, drill logs, now generate from events already captured for another reason, so month end became a review step instead of an evening.`,
-  reflection: `The Voiceboard's expand and collapse controls don't announce their state to a screen reader the way the rest of the design system does, a pattern I got right everywhere else and missed on the busiest screen. I'd also fix the two-size responsive breakpoint that leaves a tablet, the exact device the kiosk runs on, poorly served.`,
+  decision: `I chose <strong class="text-ink font-semibold">matching against a known list</strong> in the moment, and using AI to prepare ahead of time instead. A record someone might use to check compliance can't afford a confident guess.`,
+  implementation: `Every voice entry is logged, even the ones the system can't fully understand. Unclear entries go to a review queue where a provider taps the correct word, which teaches the system that name for good.`,
+  evidence: `One provider said she saved over two hours a day on paperwork. Attendance, meal, and safety records now come from the same entries logged during the day, so reviewing them takes minutes instead of an evening.`,
+  reflection: `The busiest screen doesn't announce its state to a screen reader the way the rest of the app does, and the layout only adjusts at one screen size, which leaves tablets, the exact device this runs on, poorly served. Both are on my list to fix.`,
 };
 ---
 
@@ -298,14 +298,15 @@ const tldr = {
           </div>
 
           <Heading level={1} visual="display-xl" class="hero-in hero-in-3">
-            The interface has to work when nobody can <em class="ink-wink font-normal italic">look at it</em>.
+            A voice app for hands that are always <em class="ink-wink font-normal italic">full</em>.
           </Heading>
 
           <Text size="lg" tone="muted" class="hero-in hero-in-4 mt-8 max-w-xl">
-            A voice-controlled operations platform for home-based child care providers,
-            built so a provider holding a toddler can log a nap, a meal, or a diaper
-            change without touching a device, and have the licensing and reimbursement
-            paperwork fall out of that record instead of costing an evening.
+            Logatot is a voice-controlled app for people who run childcare out of
+            their own homes. A provider can log a nap, a meal, or a diaper change
+            just by saying it out loud, hands-free, while still watching the kids.
+            The paperwork that used to take an evening now comes from that same
+            record.
           </Text>
         </div>
 
@@ -373,17 +374,6 @@ const tldr = {
           </li>
         ))}
       </ul>
-
-      <Text size="lg" tone="muted" class="mt-10 measure">
-        Behind the tagline &ldquo;child care&rsquo;s only voice-controlled assistant&rdquo;
-        is one person running a licensed daycare out of a private home: caregiver, cook,
-        janitor, bookkeeper, and compliance officer, caring for six to twelve children alone
-        and legally required to document everything that happens to each of them. The
-        problem worth solving was hers, not the business&rsquo;s: make that documentation
-        something she can do while holding a toddler, instead of something that costs her
-        every evening. I led the front end on a three-developer team, owning the design
-        system, the interface and flow design, and a substantial share of the Rails domain.
-      </Text>
     </Container>
   </Section>
 
@@ -392,24 +382,20 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 01</p>
-          <Heading level={2} visual="display-md" tone="ink">Designing for a user with no free hands</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Designing for hands that are full</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Most software assumes a user with free hands and spare attention. This user
-              has neither. The provider is holding a toddler, and answers to three separate
-              regulatory regimes, all of which are visible in the product&rsquo;s data
-              model.
+              A home daycare provider is one person: caregiver, cook, and record-keeper,
+              often holding a toddler through a twelve-hour day. She also has to answer to
+              three separate sets of rules, all reflected in how the app is built.
             </p>
             <p>
-              Every one of those obligations produces paperwork, and none of them happen at
-              a desk. So the paperwork happens <em>after</em>: at 8pm, from memory, on
-              paper. The whole product exists to move documentation from
-              <strong class="text-ink font-semibold">after the fact and from memory</strong>
-              to <strong class="text-ink font-semibold">during the moment and hands-free</strong>,
-              and to make the compliance artifacts fall out of that record rather than being
-              assembled separately.
+              None of those rules get followed at a desk, so the paperwork used to happen
+              after the fact, at 8pm, from memory. The whole app exists to move that
+              record-keeping into the moment, hands-free, so the required paperwork falls
+              out of it instead of being redone later.
             </p>
           </div>
 
@@ -460,14 +446,6 @@ const tldr = {
               underneath. One way to log in, three different kinds of user.
             </Text>
           </div>
-
-          <figure class="my-12 border-l-2 border-accent pl-6">
-            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              Error recovery was a first-class goal, not a polish item. In a voice product
-              recognition <em>will</em> fail, and a design that treats failure as
-              exceptional silently loses a nap the parent later asks about.
-            </blockquote>
-          </figure>
         </div>
       </div>
     </Container>
@@ -478,32 +456,23 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 02</p>
-          <Heading level={2} visual="display-md" tone="ink">Video calls before wireframes</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Talking to providers first</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Before any of the screens on this page, there were three separate
-              interviews with home-based providers: Angie (~11 years, six
-              children), Deborah (~14 years, six children, one part-time
-              assistant), and Yari (~8 years, five to six children, Spanish-speaking).
-              Alongside those ran video calls with the CACFP administrators
-              who process provider reimbursements, and with child-care
-              influencers already talking to that audience online, both
-              one-on-one and in groups, spread across the build rather than
-              front-loaded into a single discovery phase.
+              Before any screen on this page existed, I interviewed three home-based
+              providers separately: Angie, Deborah, and Yari. I also talked with the
+              administrators who process food-program reimbursements, and with
+              childcare influencers who talk to that audience online.
             </p>
             <p>
-              The strongest signal in the provider interviews was
-              convergence: Angie, Deborah, and Yari were interviewed
-              separately, and without prompting each other, independently
-              described the same root conflict, that a job demanding
-              constant supervision of children leaves no attention left over
-              for the documentation compliance also demands, and the same
-              solution shape: capture information by voice in the moment,
-              then review it rather than reconstruct it from memory at
-              night. That convergence is what the Voiceboard and the
-              review-first flow described below are built around.
+              All three providers, without hearing each other, described the same
+              problem: watching children all day leaves no attention left for the
+              paperwork it also requires. And they described the same fix: capture
+              it by voice in the moment, then review it later, instead of trying to
+              remember it at night. That's what the Voiceboard and the review queue
+              described below are built around.
             </p>
           </div>
 
@@ -532,18 +501,6 @@ const tldr = {
           </figure>
 
           <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Both findings reached past the interface: the accent problem is a
-              transcription and parsing fix as much as a design one, and the
-              reimbursement gap changed reporting business logic before it changed
-              a single screen. That is the shape research took on this project.
-              It didn&rsquo;t sit in a separate phase before design started; it
-              ran alongside the build and pushed decisions into whichever layer
-              the problem actually lived in. Not every idea from these calls
-              shipped immediately, either. Some became the two changes above;
-              others were logged and picked up once the more urgent fix was
-              live.
-            </p>
             <p class="text-base">
               Source interviews, lightly edited for length:
               <a href="/projects/interview-notes/logatot/angie/" class="hero-link">Angie</a>,
@@ -562,43 +519,29 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 03</p>
-          <Heading level={2} visual="display-md" tone="ink">Two shapes for the same day</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Two views of the same day</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              The signature screen is the Voiceboard: one row per child, one column per
-              event type, for a single day. Live attendance tiles across the top, reminder
-              rails for diaper changes and health checks, then the grid. The interaction
-              detail that took longest to get right is the least visible.
-              <strong class="text-ink font-semibold">Rows scroll horizontally in sync</strong>,
-              so a provider scanning right stays on the same time axis across all twelve
-              children. Without it, the grid is twelve unrelated timelines that happen to
-              be stacked.
+              The main screen is the Voiceboard: one row per child, one column per event
+              type, for a single day. A provider scanning twelve children needs the rows
+              to <strong class="text-ink font-semibold">scroll left and right together</strong>,
+              so they stay lined up on the same point in time. Without that, the grid is
+              twelve unrelated timelines that happen to be stacked.
             </p>
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-4">How to read the sheets</p>
+            <p class="mono-label mb-4">How these sheets were made</p>
             <div class="space-y-4 text-ink-muted leading-relaxed">
               <p>
-                Every screen went through three passes: a crude sketch to argue about the
+                Every screen went through three passes: a rough sketch to work out the
                 shape, a clean wireframe to fix it, and that same wireframe with the
-                reasoning written onto it. The third pass is the one that did the work.
-                Writing down <em>why</em> the grid scrolls in sync, or why a failed parse
-                keeps its audio, is what turned a picture of a screen into a decision
-                someone could push back on. Switch any plate to walk the three passes.
-              </p>
-              <p>
-                One caveat worth stating plainly: these sheets are retrospective. The
-                provider and CACFP calls described in the previous step happened during
-                the build and drove the decisions directly, including how a child's
-                enrollment status updates itself automatically, what happens to a
-                session when the tablet is handed back after check-in, how a failed
-                voice entry gets queued for review, and how the system learns to
-                recognize a child's name. The sheets themselves were drawn after, to
-                document that reasoning for this case study rather than to arrive at it
-                in the first place.
+                reasoning written onto it. The decisions themselves came from the
+                provider calls described above, made while the app was being built. The
+                sheets were drawn afterward, to document that reasoning for this case
+                study.
               </p>
             </div>
           </div>
@@ -657,15 +600,12 @@ const tldr = {
       <div class="case-layout-cont">
         <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
           <p>
-            Underneath both, attendance isn't stored as a separate on-or-off flag. It's
-            worked out fresh each time from the full history of check-ins and
-            check-outs. That takes more computing work, but it buys correctness: a
-            saved flag can drift out of sync the moment any of the several ways to log
-            a check, by voice, on the tablet, on the board, or through the connected
-            systems, forgets to update it. The same reasoning produced the rule that
-            enrollment status is worked out from start and end dates and never manually
-            switched, so a provider can never leave a child marked active six months
-            after they left. A wrong headcount is a licensing problem, not a display bug.
+            Underneath both views, whether a child is checked in isn't stored as a
+            simple yes-or-no flag. It's worked out fresh each time from the full
+            history of check-ins and check-outs, so it can never drift out of sync
+            with what actually happened, no matter which of the ways a check gets
+            logged, voice, tablet, or the shared board. A wrong headcount is a
+            licensing problem, so it was worth the extra work.
           </p>
         </div>
 
@@ -703,16 +643,11 @@ const tldr = {
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Check-in is the one moment the provider&rsquo;s own device leaves the
-              provider&rsquo;s hands. Kiosk mode destroys the session and keeps only the
-              account id, so a parent holding the tablet has nothing to navigate to and no
-              record to reach that is not their own. There is nowhere to go because there
-              should be nowhere to go.
-            </p>
-            <p>
-              Parents get in the same way: a passwordless magic link, because a family
-              signs in a dozen times a year and a forgotten password at 5pm in a car park
-              is a support call the provider has to take.
+              Check-in is the one moment the provider's own tablet leaves her hands.
+              Kiosk mode signs the provider out completely first, so a parent holding
+              the tablet has nowhere to go and no record to reach besides their own
+              child's. Parents sign in with a link sent to their email instead of a
+              password, since most families only use the app a dozen times a year.
             </p>
           </div>
 
@@ -750,36 +685,27 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 04</p>
-          <Heading level={2} visual="display-md" tone="ink">Making failure a normal state</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Treating mistakes as normal</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              When the system can't understand what was said, that attempt is
-              <strong class="text-ink font-semibold">not thrown away</strong>. It gets
-              saved, flagged with why it failed (no child's name could be matched, or
-              the type of action couldn't be worked out), along with the raw words
-              spoken, a translation, and the original audio recording. A badge in the
-              sidebar shows how many are waiting for review.
+              When the app can't understand what was said, it saves the attempt
+              instead of throwing it away, along with the raw words, a translation,
+              and the recording. A badge shows how many are waiting for review.
             </p>
             <p>
-              On the review screen the failed utterance renders as
-              <strong class="text-ink font-semibold">clickable word chips</strong>. Tapping
-              the word that <em>was</em> the child&rsquo;s name appends it to that
-              child&rsquo;s stored phonetic alias list, and the same mishearing then routes
-              correctly forever. Repair work compounds instead of repeating: a single
-              correction permanently improves recognition for that name, well beyond the
-              one record it fixed.
+              On the review screen, the words appear as clickable chips. Tapping the
+              one that was the child's name teaches the app that name, and the same
+              mishearing gets recognized correctly every time after. A single
+              correction keeps paying off well beyond the one record it fixed.
             </p>
             <p>
-              Two supporting decisions matter as much. Partial understanding is shown rather
-              than discarded, so the provider fills one gap instead of re-entering the
-              event, and the spoken time carries through untouched rather than being replaced
-              with the moment of correction. And spoken confirmation hedges rather than
-              errors: a failed parse says <em>&ldquo;processing unknown event for
-              unrecognized child&rdquo;</em> rather than announcing a failure. What the
-              provider hears is that something was captured and needs attention, which is
-              true, without an error sound in a room full of children.
+              The app also shows what it partly understood instead of discarding it,
+              so a provider only fills in the missing piece. And instead of announcing
+              a failure out loud in a room full of children, the spoken reply just says
+              <em>&ldquo;processing unknown event for unrecognized child&rdquo;</em>,
+              while it waits for review.
             </p>
           </div>
 
@@ -814,59 +740,38 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 05</p>
-          <Heading level={2} visual="display-md" tone="ink">The voice pipeline, and where the model goes</Heading>
+          <Heading level={2} visual="display-md" tone="ink">How voice recognition works</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              This is where design and engineering stopped being separable, and the reason
-              the role was product design engineering rather than either half. A custom
-              wake-word detector runs directly on the device, inside the browser, always
-              listening for &ldquo;log a tot,&rdquo; so
-              <strong class="text-ink font-semibold">no audio leaves the device just to
-              detect the wake word</strong>. In a product whose microphone is live in a
-              room full of other people&rsquo;s children, that is not a performance
-              detail. It is the difference between an assistant and a surveillance
-              device, and it is the answer to the first question every provider asked.
+              A wake-word detector runs directly on the device, always listening for
+              "log a tot", so no audio ever leaves the device just to hear that phrase.
+              With a live microphone in a room full of other people's children, that
+              was the first question every provider asked.
             </p>
             <p>
-              Turning speech into a saved record
-              <strong class="text-ink font-semibold">runs on a fixed set of rules, and
-              there's no AI language model anywhere in that loop</strong>. What was said gets checked against an
-              ordered list of 22 known phrasings, and child names are matched against the
-              class roster plus each child&rsquo;s list of likely mishearings, so one
-              sentence can log an event for several children at once. An AI model sitting
-              in that spot would be slower, less predictable, and worst of all
-              confidently wrong: a guessed category could write a nap that never happened
-              into a record a parent reads and a state inspector may check. The
-              rule-based system either finds a match or it doesn&rsquo;t, and anything it
-              can&rsquo;t match goes to a queue for a person to review, with the audio
-              attached. A non-match is treated as a normal, expected outcome, not a bug.
+              Turning speech into a saved record runs on a fixed set of rules, with no
+              AI guessing in that step. What's said is checked against a list of known
+              phrases, and names are matched against the class roster. An AI model
+              making that call live would be slower and could confidently guess wrong,
+              logging a nap that never happened. The rule-based system either finds a
+              match or sends it to a person to review, and a non-match is treated as
+              normal, not a bug.
             </p>
             <p>
-              The AI model gets used <em>ahead</em> of the problem instead. When a child
-              is added, an automated task asks an AI model for every likely variation,
-              pronunciation, and mishearing of that name, and saves them as a list the
-              matching system can check against. Toddler names are short, similar to each
-              other, and often not English, so recognizing them correctly is the
-              product&rsquo;s single biggest challenge. The system predicts ahead of time
-              how a name is likely to be misheard and teaches itself to accept those
-              versions too, catching the mistake before it ever happens. It is the direct
-              answer to the accent-related transcription problem the provider calls
-              surfaced. Corrections a person makes in the repair queue get added to that
-              same list, so the system keeps improving from both directions.
+              AI is used earlier instead. When a child is added, it generates a list of
+              ways that name is likely to be mispronounced or misheard, and the app
+              checks new recordings against that list. Toddler names are short and
+              similar to each other, so getting them right is the app's hardest
+              problem. Corrections a provider makes in the review queue get added to
+              that same list, so the system keeps improving.
             </p>
             <p>
-              The rest is shape and speed. Spanish speech gets translated to English
-              <em>before</em> the system tries to match it, rather than needing a whole
-              separate set of matching rules for Spanish, so one set of phrasings covers
-              both languages instead of two that could drift apart. If someone mentions
-              one child, the screen updates right away. If they mention several children
-              at once, that takes more processing and happens a moment later in the
-              background, and the audio recording uploads separately so it
-              doesn&rsquo;t slow down the immediate response. The row on screen then
-              fills in live, in the spot that was already waiting for it, once
-              processing finishes.
+              Spanish speech gets translated to English before the app tries to match
+              it, so one set of phrases covers both languages. A single child mentioned
+              updates the screen right away; several children at once take a moment
+              longer in the background, so the response never slows down.
             </p>
           </div>
 
@@ -902,15 +807,6 @@ const tldr = {
             ))}
           </ul>
         </div>
-
-        <figure class="mt-12 border-l-2 border-accent pl-6">
-          <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-            Keeping the AI model away from the moment-to-moment decisions, and using it
-            instead to prepare the list of likely names ahead of time, was a decision
-            about what kind of mistake is acceptable in a record a licensor may read.
-            That decision shows up in how the whole system is built.
-          </blockquote>
-        </figure>
       </div>
     </Container>
   </Section>
@@ -920,47 +816,26 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Alongside</p>
-          <Heading level={2} visual="display-md" tone="ink">Accessibility, running in both directions</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Built for more than one kind of user</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Voice is itself an accessibility feature: hands-free capture serves a provider
-              holding a child the same way it serves anyone who cannot comfortably use a
-              keyboard mid-task. But a voice product must not be voice-only, so every event
-              capturable by speech is capturable by hand, and the repair queue means a failed
-              recognition always has a manual path to resolution.
+              Voice helps a provider holding a child, and it helps anyone who can't
+              comfortably type mid-task. But it can't be voice-only: everything
+              capturable by speech can also be entered by hand, so a failed recognition
+              always has a manual way through. Every button shows a visible outline when
+              focused with a keyboard, status changes get read aloud to a screen reader
+              as they happen, and printed reports always come out in plain black text,
+              even if the provider's screen is set to dark mode.
             </p>
             <p>
-              On the interface side, the decisions that held up best were structural. Every
-              button in the application inherits its keyboard-focus outline from one
-              shared base style, so it gets a visible outline
-              <strong class="text-ink font-semibold">by construction rather than by
-              remembering</strong> to add one each time. A pop-up dialog returns keyboard
-              focus, when it closes, to whatever was focused before it opened. Voice
-              status is read aloud to a screen reader the instant it changes, so the same
-              information a sighted user reads from a pulsing dot reaches a
-              screen-reader user too, and that pulsing animation turns off automatically
-              for anyone who has asked their device to reduce motion. The calendar tells
-              event types apart with solid, dashed, and dotted bars rather than color,
-              which still works on a month sheet printed in black and white and taped to
-              the fridge. And printed reports always come out in plain black text on
-              white, even if the provider's screen is set to dark mode, which is exactly
-              the kind of bug that never turns up in a design review.
-            </p>
-            <p>
-              Translation goes deeper than swapping out button labels, because Yari's
-              interview said so directly: <em>&ldquo;A translated button is not enough.
-              We need the instructions, warnings, support, and official documents to be
-              clear too.&rdquo;</em> English and Spanish sit at parity, roughly 1,220
-              lines each, covering marketing copy, the app itself, dropdown options, and
-              error messages, and the system decides which language to show by
-              checking, in order, what the user has explicitly chosen, what the web
-              address specifies, what they picked last time, and finally what language
-              their browser is set to. Date formatting changes based on language, spoken
-              announcements translate for whoever is listening, and Spanish speech gets
-              translated before the voice system tries to match it. The failure path is
-              the one most products skip, and the one Yari named as the whole point.
+              Translation goes further than swapping button labels, because Yari said so
+              directly in her interview: <em>&ldquo;A translated button is not enough. We
+              need the instructions, warnings, support, and official documents to be
+              clear too.&rdquo;</em> English and Spanish are fully supported throughout
+              the app, not just the screens, and Spanish speech is translated before the
+              app tries to match it against a known phrase.
             </p>
           </div>
         </div>
@@ -973,21 +848,17 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 06</p>
-          <Heading level={2} visual="display-md" tone="ink">What it changed for providers</Heading>
+          <Heading level={2} visual="display-md" tone="ink">What changed for providers</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              The outcome that mattered is the one providers felt: the paperwork stopped
-              being a second job. Documentation moved from 8pm-from-memory to hands-free in
-              the moment, and
-              <strong class="text-ink font-semibold">the compliance artifacts stopped being
-              separate work</strong>. Attendance records, signed releases, CACFP claims, and
-              fire-drill logs all generate from events already captured for another reason,
-              so month end became a review step instead of an evening. The product did reach
-              market as a paid subscription, sold direct and through child care associations,
-              but the measure I would point at in a review is the evening a provider got
-              back.
+              The paperwork stopped being a second job. Attendance records, signed
+              releases, food-program claims, and safety logs all come from events
+              already captured during the day, so month end became a quick review
+              instead of an evening of catching up. The app shipped as a paid product,
+              sold directly and through childcare associations, but the number I'd
+              point to first is the evening a provider got back.
             </p>
           </div>
 
@@ -1072,11 +943,9 @@ const tldr = {
     <Container width="content">
       <p class="mono-label mb-3">The edges</p>
       <Text size="lg" tone="muted" class="measure mb-10">
-        The design system&rsquo;s keyboard-focus behavior really does carry through
-        everywhere; the Voiceboard&rsquo;s screen-reader support did not keep pace with
-        its complexity. The print layer is unusually well-considered; the responsive
-        layout switches at one size where a kiosk product needed three. These are the
-        four I would work on first.
+        Keyboard focus works well everywhere in the app, but the Voiceboard&rsquo;s
+        screen-reader support didn&rsquo;t keep pace with how complex that screen
+        got. These are the four I would work on first.
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
@@ -1094,16 +963,14 @@ const tldr = {
     <Container width="wide">
       <p class="mono-label !text-paper/65 mb-6">Product design engineering</p>
       <Heading level={2} visual="display-lg" tone="paper" class="max-w-3xl">
-        Some decisions don&rsquo;t survive a spec boundary.
+        Good ideas fall apart if design and engineering don&rsquo;t talk.
       </Heading>
       <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        &ldquo;Failure is expected, not exceptional&rdquo; is a screen, a queue, a status
-        field, two flags marking why something failed, and a saved audio recording.
-        &ldquo;Names are the hard part&rdquo; is a form field, an automated background
-        task, a pattern-matching rule, and a set of clickable word chips writing back
-        into that same list. Those only work when the person drawing the screen and the
-        person deciding what the recognition system returns are the same person. If
-        that&rsquo;s the bar you&rsquo;re hiring for, let&rsquo;s talk.
+        Treating failure as normal, not exceptional, only works when the same person
+        draws the review screen and decides what the recognition system does with a
+        mistake. That's the kind of problem I like to work on: the ones that need
+        design and engineering to be the same conversation. If that's the bar
+        you&rsquo;re hiring for, let&rsquo;s talk.
       </Text>
       <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <Button

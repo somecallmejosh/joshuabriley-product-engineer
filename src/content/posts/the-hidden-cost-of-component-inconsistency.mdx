@@ -1,13 +1,13 @@
 ---
 title: The hidden cost of component inconsistency
-description: Fragmented UI components create distributed costs that rarely get tracked as a single problem. Here's how to see them, and make the case for the fix.
+description: Fragmented UI components create real costs that spread across teams and never show up as one line item. Here's how to find them and make the case for fixing them.
 date: 2026-04-04
 category: Design Systems
 tags:
   - Design Systems
   - Contribution
   - Developer Experience
-readMinutes: 7
+readMinutes: 5
 icon: ph:puzzle-piece-duotone
 figure: drift
 gradient: from-lemon/30 to-coral/30
@@ -15,24 +15,23 @@ sticker: coral
 ---
 
 <p class="lede">
-  Every team I've worked with has a story that starts the same way: someone
-  needed a button, the one in the design system didn't quite fit, so they made a
-  new one. It was reasonable in the moment. It always is. Multiply that moment
-  by two years and six squads, and you have a problem nobody signed up for, and
-  nobody owns.
+  Every team I've worked with tells the same story. Someone needs a button.
+  The one in the design system doesn't quite fit, so they build a new one. It
+  makes sense at the time. It always does. Multiply that by two years and six
+  teams, and you get a problem nobody meant to create and nobody owns.
 </p>
 
-Component inconsistency is rarely catastrophic. It's a tax. A steady, distributed drag that shows up in a dozen places and belongs to none of them. Because it's never the headline on any single ticket, it's almost impossible to point at. But when you start looking for its fingerprints, they're everywhere.
+Component inconsistency rarely causes one big, visible failure. Instead it's a small cost that repeats in a dozen places, and no single place owns it. Because it never shows up as one ticket, it's hard to point to. But once you start looking, you'll find it everywhere.
 
-This is my attempt to make those fingerprints visible: to name the specific places the cost hides, and to give you something you can bring to a planning conversation instead of a hunch.
+This post names the specific places that cost hides, so you have something concrete to bring to a planning conversation instead of just a hunch.
 
 > The hardest bugs to fix are the ones that don't look like bugs. They look like the way things are.
 
 ## Where the cost actually lives
 
-The mistake most teams make is treating component drift as a design-system problem. It isn't. It's an organizational accounting problem. The cost is real; it just gets charged to five different budgets, and no single budget feels it enough to act.
+Most teams treat component drift as a design-system problem. It isn't. It's an accounting problem. The cost is real, but it's split across several budgets, and no single budget feels enough of it to act.
 
-Here's where I consistently find it hiding:
+Here's where it usually hides:
 
 <div class="mt-10 grid sm:grid-cols-2 gap-5 not-prose">
   <div class="cost-card" style="transform: rotate(-0.4deg)">
@@ -43,11 +42,11 @@ Here's where I consistently find it hiding:
       ></iconify-icon>
     </div>
     <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Review-cycle friction
+      Slower code reviews
     </h3>
     <p class="text-charcoal/75 text-sm leading-relaxed">
-      Reviewers pause to ask which version is the canonical one. It doesn't
-      block the PR. It just makes every PR a little slower, forever.
+      Reviewers pause to ask which version is the official one. It doesn't
+      block the pull request. It just makes every one a little slower, forever.
     </p>
   </div>
   <div class="cost-card" style="transform: rotate(0.3deg)">
@@ -55,11 +54,11 @@ Here's where I consistently find it hiding:
       <iconify-icon icon="ph:wheelchair-duotone" width="24"></iconify-icon>
     </div>
     <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Accessibility debt, multiplied
+      Accessibility bugs multiply
     </h3>
     <p class="text-charcoal/75 text-sm leading-relaxed">
-      A single fix stops being a single fix. You're now patching the same
-      violation in four codebases, and hoping you found all four.
+      One fix stops being one fix. You end up patching the same problem in
+      four codebases, and hoping you caught all four.
     </p>
   </div>
   <div class="cost-card" style="transform: rotate(0.4deg)">
@@ -67,11 +66,12 @@ Here's where I consistently find it hiding:
       <iconify-icon icon="ph:pencil-ruler-duotone" width="24"></iconify-icon>
     </div>
     <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Designer time drain
+      Designers answer the same questions
     </h3>
     <p class="text-charcoal/75 text-sm leading-relaxed">
-      "Is this spacing right?" "Is this the new card or the old card?" Tiny
-      questions, answered a hundred times, across standups and threads.
+      "Is this spacing right?" "Is this the new card or the old one?" Small
+      questions like these get asked, and answered, over and over in meetings
+      and chat threads.
     </p>
   </div>
   <div class="cost-card" style="transform: rotate(-0.3deg)">
@@ -79,11 +79,12 @@ Here's where I consistently find it hiding:
       <iconify-icon icon="ph:user-plus-duotone" width="24"></iconify-icon>
     </div>
     <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Onboarding that doesn't stick
+      New hires relearn everything
     </h3>
     <p class="text-charcoal/75 text-sm leading-relaxed">
-      New engineers learn one area's patterns, then discover they don't
-      transfer. So they do what anyone would: ask, or roll their own.
+      New engineers learn the patterns in one part of the codebase, then find
+      out those patterns don't apply anywhere else. So they ask around, or
+      just build their own version.
     </p>
   </div>
   <div class="cost-card sm:col-span-2" style="transform: rotate(-0.1deg)">
@@ -91,44 +92,44 @@ Here's where I consistently find it hiding:
       <iconify-icon icon="ph:trend-up-duotone" width="24"></iconify-icon>
     </div>
     <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Upgrades that only reach half the house
+      Upgrades only reach part of the product
     </h3>
     <p class="text-charcoal/75 text-sm leading-relaxed">
-      You ship a better focus state, a cleaner token, a faster render path, and
-      it only lands for the teams already using the shared version. The holdouts
-      stay frozen. Over time, the ROI case for investing in the system gets
-      harder, not easier, because its reach is quietly shrinking.
+      You ship a better focus state, a cleaner token, a faster way to render.
+      It only reaches the teams already using the shared version. The rest
+      stay on the old one. Over time it gets harder to justify investing in
+      the shared system, because fewer teams actually benefit from it.
     </p>
   </div>
 </div>
 
 ## Why leadership can't see it
 
-None of these costs are invisible. They're just _distributed_. Review friction shows up as velocity softness. Accessibility debt shows up as remediation sprints. Designer drain shows up as a vague sense that design "can't keep up." Onboarding shows up in exit interviews. Each of these has a plausible local explanation, and each local explanation points somewhere else.
+None of these costs are hidden. They're just spread out. Review friction looks like slower delivery. Accessibility debt looks like a cleanup sprint. Designer time looks like design "can't keep up." Onboarding problems show up in exit interviews. Each one has its own explanation, and none of those explanations point back to the real cause.
 
-The organizational failure mode is that no one is summing the column. The tax exists; there's just no row on any spreadsheet labeled _component inconsistency_, so nothing ever gets charged to it directly.
+Nobody adds these costs together. The cost is real, but there's no line on any spreadsheet called _component inconsistency_, so nothing ever gets charged to it directly.
 
 <p class="pullquote">
   Costs you can't name never get budgeted. Costs you can name become the next
   planning conversation.
 </p>
 
-## Making the invisible countable
+## Put a number on it
 
-The fix for an accounting problem is an accounting tool. Not a manifesto, not a rewrite. A ledger. Something that takes the fragmented thing and pins a number to it so it can sit on the same page as the features it's quietly competing with.
+The fix for an accounting problem isn't a big rewrite. It's a way to measure the problem. Something that turns this scattered cost into a number, so it can sit next to the features it's competing with for budget.
 
-I call my version of this a **Design System Scorecard**, and it's deliberately unglamorous. It does three things:
+I call mine a **Design System Scorecard**. It's simple on purpose. It does three things:
 
-- **Inventories implementations.** How many buttons actually exist across the products? How many date pickers? You will be surprised, and leadership will be surprised with you, which is exactly the point.
-- **Measures divergence.** For each component, how far has each implementation drifted from the canonical one? A rough rubric beats no rubric.
-- **Quantifies maintenance burden.** Pull the last two or three quarters of tickets touching these components. Hours spent, bugs filed, accessibility findings. Put it on one page.
+- **Counts what exists.** How many different buttons are actually in use across your products? How many date pickers? The number is usually higher than anyone expects, including leadership. That surprise is useful.
+- **Measures how far each one has drifted.** For each component, how different is each version from the official one? A rough scale is enough. You don't need precision, just a number.
+- **Adds up the maintenance cost.** Look at the last two or three quarters of tickets tied to these components: hours spent, bugs filed, accessibility issues found. Put it on one page.
 
-None of this is novel. The value isn't in the technique. It's in the act of putting a number next to something that's been a feeling for years. A feeling loses budget arguments. A number wins them.
+None of this is new or clever. The value is in writing down a number for something that's only ever been a feeling. A feeling doesn't win budget arguments. A number does.
 
 ## What to do on Monday
 
-If this is resonating and you're wondering where to start, don't start with a proposal. Start with a walk. Open the repos, open the Figma file, and count buttons. Just buttons. One afternoon.
+If you want to start, don't write a proposal first. Open the code and the Figma file, and count buttons. Just buttons. Give it one afternoon.
 
-I promise two things will happen. First, the number will be larger than you expected. Second, once you've seen it, you won't be able to un-see it, and neither will anyone you show it to. That's the moment the abstract concern becomes a concrete conversation, and concrete conversations are how design systems actually get funded.
+Two things will happen. The number will be bigger than you expected. And once you've seen it, you won't forget it, and neither will anyone you show it to. That's when this stops being an abstract concern and becomes a real conversation, and real conversations are how design systems get funded.
 
-The hidden cost of component inconsistency isn't hidden because it's small. It's hidden because nobody's named it yet. Naming it is the whole job.
+This cost isn't hidden because it's small. It's hidden because nobody has named it yet. Naming it is the whole job.
