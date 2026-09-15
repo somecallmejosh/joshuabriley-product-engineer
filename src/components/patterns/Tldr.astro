@@ -1,0 +1,118 @@
+---
+import Section from '~/components/layout/Section.astro';
+import Container from '~/components/layout/Container.astro';
+import Icon from '~/components/primitives/Icon.astro';
+import { cx } from '~/lib/cx';
+
+interface Alternative {
+  /** Short name for the approach, e.g. "Two separate apps". */
+  name: string;
+  /** One sentence: why it was credible, or its tradeoff. */
+  body: string;
+}
+
+interface Props {
+  situation: string;
+  problem: string;
+  alternativeA: Alternative;
+  alternativeB: Alternative;
+  decision: string;
+  implementation: string;
+  evidence: string;
+  reflection: string;
+  class?: string;
+}
+
+const {
+  situation,
+  problem,
+  alternativeA,
+  alternativeB,
+  decision,
+  implementation,
+  evidence,
+  reflection,
+  class: className,
+} = Astro.props;
+
+const rowClass = 'grid gap-x-6 gap-y-3 py-6 sm:grid-cols-[9.5rem_1fr] sm:items-start';
+---
+
+<Section tone="paper" padding="tight" id="tldr" class={cx('scroll-mt-24', className)} aria-label="Project summary">
+  <Container width="content">
+    <p class="mono-label mb-6">TL;DR</p>
+
+    <dl class="divide-y divide-line border-t border-line">
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:map-pin" size={16} class="shrink-0 text-ink-muted" />
+          <span class="mono-label">Situation</span>
+        </dt>
+        <dd class="text-ink-muted leading-relaxed" set:html={situation} />
+      </div>
+
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:warning-circle" size={16} class="shrink-0 text-ink-muted" />
+          <span class="mono-label">Problem</span>
+        </dt>
+        <dd class="text-ink-muted leading-relaxed" set:html={problem} />
+      </div>
+
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:signpost" size={16} class="shrink-0 text-ink-muted" />
+          <span class="mono-label">Alternatives</span>
+        </dt>
+        <dd>
+          <ul class="grid gap-5 sm:grid-cols-2">
+            <li>
+              <p class="mb-1 flex items-baseline gap-2">
+                <span class="font-medium text-ink leading-snug">{alternativeA.name}</span>
+              </p>
+              <p class="text-[0.95rem] text-ink-muted leading-relaxed" set:html={alternativeA.body} />
+            </li>
+            <li>
+              <p class="mb-1 flex items-baseline gap-2">
+                <span class="font-medium text-ink leading-snug">{alternativeB.name}</span>
+              </p>
+              <p class="text-[0.95rem] text-ink-muted leading-relaxed" set:html={alternativeB.body} />
+            </li>
+          </ul>
+        </dd>
+      </div>
+
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:seal-check" size={16} class="shrink-0 text-accent" />
+          <span class="mono-label !text-accent">Decision</span>
+        </dt>
+        <dd class="text-[1.05rem] text-ink leading-relaxed" set:html={decision} />
+      </div>
+
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:code" size={16} class="shrink-0 text-ink-muted" />
+          <span class="mono-label">Implementation</span>
+        </dt>
+        <dd class="text-ink-muted leading-relaxed" set:html={implementation} />
+      </div>
+
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:trend-up" size={16} class="shrink-0 text-ink-muted" />
+          <span class="mono-label">Evidence</span>
+        </dt>
+        <dd class="text-ink-muted leading-relaxed" set:html={evidence} />
+      </div>
+
+      <div class={rowClass}>
+        <dt class="flex items-center gap-2.5">
+          <Icon name="ph:arrow-u-up-left" size={16} class="shrink-0 text-ink-muted" />
+          <span class="mono-label">Reflection</span>
+        </dt>
+        <dd class="text-ink-muted leading-relaxed" set:html={reflection} />
+      </div>
+    </dl>
+  </Container>
+</Section>

@@ -9,3 +9,5 @@ Each project should be prefaced with a TLDR; setion that briefly outlines the fo
 - Implementation: connect the decision to code and architecture.
 - Evidence: explain what you observed after release.
 - Reflection: name what you would improve now.
+
+This should be easily scannable, and designed with intent, not just a bulleted list. Each project page should use the exact same layout/component for this feature.

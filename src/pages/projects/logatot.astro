@@ -11,6 +11,7 @@ import Metric from '~/components/patterns/Metric.astro';
 import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import FidelityBand from '~/components/patterns/FidelityBand.astro';
+import Tldr from '~/components/patterns/Tldr.astro';
 import type { ImageMetadata } from 'astro';
 
 const title = 'Logatot | Joshua Briley';
@@ -253,6 +254,26 @@ const flows = [
 const screen = (slug: string) => keyScreens.find((s) => s.slug === slug)!;
 const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slug === s)!);
 
+// The TLDR digest. "Alternatives" and "Decision" restate the AI-in-the-loop
+// call already argued in the #pipeline step; "Reflection" restates the edges
+// section below rather than inventing a new critique — see
+// src/pages/projects/interview-notes/tldr.md.
+const tldr = {
+  situation: `Logatot is a voice-controlled operations platform for home-based child care providers. I led the front end on a three-developer team, owning the design system and flow design, for a provider who is caregiver, cook, and compliance officer at once, often holding a toddler through a twelve-hour day.`,
+  problem: `Three separate provider interviews, run without prompting each other, converged on the same root conflict: a job demanding constant supervision leaves no attention for the paperwork three regulatory regimes require, so it got reconstructed from memory at 8pm, and the records that mattered most legally were the least accurate.`,
+  alternativeA: {
+    name: 'An AI model interpreting speech live',
+    body: `More flexible with unpredictable phrasing, but slower and confidently wrong: a guessed category could write a nap that never happened into a record a parent reads and a state inspector may check.`,
+  },
+  alternativeB: {
+    name: 'A deterministic parser, AI used ahead of time',
+    body: `Speech is checked against a fixed list of known phrasings, and names are matched against a per-child alias list an AI model precomputes when the child is added, so the live decision is a match or a queued item for a person, never a guess.`,
+  },
+  decision: `I chose <strong class="text-ink font-semibold">rule-based matching in the moment</strong>, with the AI model working ahead of time on likely name mishearings instead of live in the parsing loop. A record a licensor might read can't afford a confidently wrong guess.`,
+  implementation: `That decision is the LoggedEvent model: a fixed status enum, a <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">needs_repair</code> scope for anything the rules couldn't match, and a background task that asks an AI model for every likely phonetic variant of a new child's name, with each manual correction in the repair queue feeding back into that same alias list.`,
+  evidence: `A provider association president reported saving over two hours a day on data entry, and compliance artifacts, attendance, CACFP claims, drill logs, now generate from events already captured for another reason, so month end became a review step instead of an evening.`,
+  reflection: `The Voiceboard's expand and collapse controls don't announce their state to a screen reader the way the rest of the design system does, a pattern I got right everywhere else and missed on the busiest screen. I'd also fix the two-size responsive breakpoint that leaves a tablet, the exact device the kiosk runs on, poorly served.`,
+};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -302,6 +323,17 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
     </Container>
   </Section>
 
+  <Tldr
+    situation={tldr.situation}
+    problem={tldr.problem}
+    alternativeA={tldr.alternativeA}
+    alternativeB={tldr.alternativeB}
+    decision={tldr.decision}
+    implementation={tldr.implementation}
+    evidence={tldr.evidence}
+    reflection={tldr.reflection}
+  />
+
   <Section tone="paper" padding="tight" aria-label="Project receipts">
     <Container width="content">
       <p class="mono-label mb-8">Receipts</p>
@@ -327,7 +359,7 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
 
   <Section tone="paper" padding="tight">
     <Container width="content">
-      <p class="mono-label mb-5">On the docket</p>
+      <p class="mono-label mb-5">Table of contents</p>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {docket.map((item, i) => (
           <li>
