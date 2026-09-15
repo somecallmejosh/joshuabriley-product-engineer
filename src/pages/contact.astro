@@ -9,13 +9,13 @@ import Icon from '~/components/primitives/Icon.astro';
 import ContactForm from '~/components/islands/ContactForm.astro';
 
 const description =
-  "Hiring a Design systems & UI platform engineer? Send a note about the role and the team. I read and reply to everything personally.";
+  "Hiring a Design systems & UI platform engineer? Send a note about the role and the team, I read and answer everything myself.";
 
 const steps = [
-  { title: 'You send a message', body: 'Takes about two minutes. Tell me about the role and the team.' },
-  { title: 'I reply personally', body: 'Usually the same day. No templates, no autoresponders.' },
+  { title: 'You send a message', body: "Takes about two minutes. Tell me what the role is and who's building it." },
+  { title: 'I reply personally', body: 'Usually the same day, written by me, not a template.' },
   { title: 'We talk', body: "A real conversation about the work, the product you're building, and whether I'm the right fit." },
-  { title: 'A clear next step', body: "If we're a fit, we keep going. If not, I'll tell you honestly, and probably point you to someone who is." },
+  { title: 'A clear next step', body: "If we're a fit, we keep going. If we're not, I'll tell you honestly." },
 ];
 
 const featuredQuotes = [
@@ -57,7 +57,7 @@ const featuredQuotes = [
         </div>
         <div class="hero-in hero-in-4 lg:col-span-4">
           <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted lg:flex-col lg:gap-y-3">
-            {['~2 minutes', 'No spam, ever', 'Personal reply'].map((p) => (
+            {['~2 minutes', 'Straight to my inbox'].map((p) => (
               <li class="flex items-center gap-2">
                 <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
               </li>
@@ -84,7 +84,7 @@ const featuredQuotes = [
         <aside class="lg:col-span-5 lg:sticky lg:top-28">
           <p class="mono-label">What happens next</p>
           <Heading level={2} visual="h2" class="mt-4 max-w-[20ch]">
-            A simple, no-pressure path forward.
+            How this usually goes.
           </Heading>
 
           <ol class="mt-8 divide-y divide-line border-y border-line" data-reveal-stagger>
@@ -147,7 +147,7 @@ const featuredQuotes = [
             Email me, or say hi on LinkedIn.
           </Heading>
           <Text size="lg" tone="whiteMuted" class="mt-6 max-w-xl">
-            However you reach out, it comes straight to me. I read everything.
+            However you reach out, it comes straight to me.
           </Text>
         </div>
         <div class="lg:col-span-4 lg:flex lg:justify-end">

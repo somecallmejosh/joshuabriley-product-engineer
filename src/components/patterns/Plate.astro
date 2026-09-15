@@ -83,10 +83,6 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
 ---
 
 <figure class={cx('plate', className)} data-plate data-size={size}>
-  {index && (
-    <p class="plate__index">Plate <span aria-hidden="true">/</span> {index}</p>
-  )}
-
   <div class="plate__frame">
     <Image
       src={src}

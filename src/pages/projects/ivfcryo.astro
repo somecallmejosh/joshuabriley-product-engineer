@@ -15,7 +15,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'IVFCRYO | Joshua Briley';
 const description =
-  'Case study: leading the design and owning the front end of a self-service logistics platform for high-stakes fertility shipments — then partnering with engineering on the Rails domain model and the carrier, telemetry, and notification services beneath it. Stakeholder research showed the real problem was human: taking the coordination burden off an anxious patient and getting five parties provably ready before a specimen ever moves.';
+  'Case study: leading the design and owning the front end of a self-service logistics platform for high-stakes fertility shipments, then partnering with engineering on the Rails domain model and the carrier, telemetry, and notification services beneath it. Stakeholder research showed the real problem was human: taking the coordination burden off an anxious patient and getting five parties provably ready before a specimen ever moves.';
 
 // Ownership is stated plainly in the hero rail: design and front end were mine to
 // own; the backend was a partnership. The rest of the page holds that line.
@@ -48,7 +48,7 @@ const docket = [
 // interviews were unanimous: this — not the drive — is the hard part.
 const parties = [
   { icon: 'ph:user', title: 'Patient', body: 'Authorizes the transfer, provides identity and records, completes forms and payment. Should never have to project-manage two labs.' },
-  { icon: 'ph:buildings', title: 'Sending clinic', body: 'Identifies, prepares, and releases the specimens, and names a responsible lab contact — not the front desk.' },
+  { icon: 'ph:buildings', title: 'Sending clinic', body: 'Identifies, prepares, and releases the specimens, and names a responsible lab contact, not the front desk.' },
   { icon: 'ph:buildings', title: 'Receiving clinic', body: 'Confirms intake requirements, staffs qualified people, inspects, and accepts the specimens into storage.' },
   { icon: 'ph:airplane-tilt', title: 'Dedicated courier', body: 'Carries the sealed unit directly between facilities, no unrelated stops, with acknowledged chain-of-custody handoffs.' },
   { icon: 'ph:package', title: 'IVFCRYO', body: 'Provides the shipping unit and IVFCRYO-Sense monitoring, coordinates the logistics, and holds the case together.' },
@@ -58,9 +58,9 @@ const parties = [
 // handoff — "chain of custody does not end with a delivery scan at the front desk."
 const custody = [
   { icon: 'ph:package', title: 'Prepare & release', body: 'IVFCRYO ships the unit with an IVFCRYO-Sense tracker inside; the sending lab loads the specimens and a named contact releases them.' },
-  { icon: 'ph:airplane-tilt', title: 'Courier pickup', body: 'A dedicated medical courier accepts custody from the named lab contact and hand-carries the sealed unit — the handoff is acknowledged, not assumed.' },
+  { icon: 'ph:airplane-tilt', title: 'Courier pickup', body: 'A dedicated medical courier accepts custody from the named lab contact and hand-carries the sealed unit. The handoff is acknowledged, not assumed.' },
   { icon: 'ph:thermometer', title: 'Delivery & inspection', body: 'The receiving lab inspects the unit and records a calibrated temperature at specimen-storage level before taking custody.' },
-  { icon: 'ph:seal-check', title: 'Accept & close', body: 'Qualified staff accept the specimens into storage and the record closes on acknowledgment — "delivered" is not "accepted."' },
+  { icon: 'ph:seal-check', title: 'Accept & close', body: 'Qualified staff accept the specimens into storage and the record closes on acknowledgment. "Delivered" is not "accepted."' },
 ];
 
 // The readiness gate: each responsible party clears a checkpoint before a courier
@@ -138,7 +138,7 @@ const outcomes = [
   {
     icon: 'ph:calendar-check',
     title: 'Fewer transfer dates lost at the last minute',
-    body: 'Because scheduling waited on acknowledged readiness, fewer couriers rolled before a clinic had really released — and fewer patients got a cancellation against a treatment deadline.',
+    body: 'Because scheduling waited on acknowledged readiness, fewer couriers rolled before a clinic had really released, so fewer patients got a cancellation against a treatment deadline.',
   },
 ];
 
@@ -315,9 +315,9 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             temperature, and send notifications. The stakeholder research reframed the whole product around the person
             in the middle of it: a patient, often moving their only remaining embryo
             against a treatment deadline, left to project-manage two clinics and a
-            courier no one had introduced. Tracking the truck was never the hard part.
-            Taking that burden off the patient, and getting all five parties provably
-            ready before a specimen left the lab, was.
+            courier no one had introduced. Tracking the truck was never the hard part. The
+            real job was taking that burden off the patient and getting all five parties
+            provably ready before a specimen left the lab.
           </Text>
         </div>
 
@@ -365,7 +365,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
         {docket.map((item, i) => (
           <li>
             <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
               {item.icon && (
                 <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
               )}
@@ -378,7 +377,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 
       <Text size="lg" tone="muted" class="mt-10 measure">
         IVFCRYO ships cryogenically preserved embryos and reproductive tissue:
-        material that is, quite literally, irreplaceable — sometimes a patient's last
+        material that is, quite literally, irreplaceable, sometimes a patient's last
         remaining embryo. I started with stakeholder research, interviewing the owner,
         the COO, and the office manager, and it changed how I framed the whole product.
         A shipment looks like one transaction to the patient, but it is a chain of
@@ -387,7 +386,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
         by IVF, now carrying forms between two clinics and wondering whether anyone
         actually had the case. The driving takes a day; the coordination beforehand can
         take weeks. My job was to design a product that lifted that burden off the
-        patient and gave the office team a case they could finally see — and to work
+        patient and gave the office team a case they could finally see, and to work
         closely enough with engineering that the system underneath could keep every
         promise the interface made.
       </Text>
@@ -413,7 +412,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <p>
               The research made the real shape clear. As Don, the owner, put it, a
               shipment "looks like one transaction to the patient, but it is actually a
-              chain of separate responsibilities" — patient, sending clinic, receiving
+              chain of separate responsibilities": patient, sending clinic, receiving
               clinic, courier, and IVFCRYO, each with its own systems, paperwork, and
               approvals. So the first design artifact wasn't a wireframe. It was a map of
               who owed what to whom, because the interface could only be as trustworthy as
@@ -427,7 +426,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               {parties.map((node, i) => (
                 <li class="relative border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
-                    <span class="font-mono text-sm text-accent">0{i + 1}</span>
                     <Icon name={node.icon} size={20} class="text-ink-muted" />
                   </div>
                   <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{node.title}</Heading>
@@ -443,7 +441,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               {custody.map((node, i) => (
                 <li class="relative border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
-                    <span class="font-mono text-sm text-accent">0{i + 1}</span>
                     <Icon name={node.icon} size={20} class="text-ink-muted" />
                   </div>
                   <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{node.title}</Heading>
@@ -498,10 +495,10 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              I asked all three interviewees the same question: if you could fix one
-              thing first, what would it be? All three answered the same way — a shared
-              readiness workflow that both facilities confirm <em>before</em> a courier
-              is scheduled. That single, convergent answer reorganized the whole product.
+              I asked all three interviewees what they'd fix first, and all three named
+              the same thing: a shared readiness workflow that both facilities confirm
+              <em>before</em> a courier is scheduled. That convergence reorganized the
+              whole product.
             </p>
             <p>
               The worst operational pattern, Daryl told me, is "scheduling first and
@@ -521,7 +518,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <ul>
               {readinessGate.map((row, i) => (
                 <li class="flex items-center gap-4 border-b border-line py-3.5 last:border-b-0">
-                  <span class="font-mono text-xs text-ink-faint w-4 shrink-0">0{i + 1}</span>
                   <Icon name="ph:seal-check" size={18} class="shrink-0 text-accent" />
                   <span class="w-36 shrink-0 font-medium text-ink">{row.party}</span>
                   <span class="text-sm text-ink-muted leading-snug">{row.check}</span>
@@ -533,7 +529,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               <span class="font-mono text-xs text-ink">awaiting_readiness</span> to
               <span class="font-mono text-xs text-ink">ready</span>, and only then can it
               be scheduled. It was the first requirement I handed engineering, and the one
-              I most wanted the data model to enforce for me — because the failure it
+              I most wanted the data model to enforce for me, because the failure it
               prevents, a courier rolling before a clinic was really ready, is the one that
               ends in a call to a patient two days before their transfer date.
             </p>
@@ -571,11 +567,11 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <p>
               Two apps was the obvious shape: one for customers, one for the admin team,
               each simpler to build in isolation. I rejected it for the same reason the
-              product exists at all — two apps means two records of one shipment, and the
+              product exists at all: two apps means two records of one shipment, and the
               moment they drift apart, the interface reintroduces the exact ambiguity
               ("sent" isn't "received and approved") that breaks trust at every handoff in
-              the paper process. So I mapped two sitemaps off one shared home instead — the
-              shipping list — and let the information architecture fork from there, one
+              the paper process. So I mapped two sitemaps off one shared home instead, the
+              shipping list, and let the information architecture fork from there, one
               shipment record underneath both. A readiness view now sits on the customer
               side, because Sasha's hardest daily work was chasing "what are we still
               waiting for?" across email, fax, and clinic portals. Same spine, different
@@ -594,7 +590,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
                 <ul>
                   {customerFlow.map((p, i) => (
                     <li class="flex gap-4 border-b border-line py-3.5 last:border-b-0">
-                      <span class="mt-0.5 font-mono text-xs text-ink-faint">0{i + 1}</span>
                       <div>
                         <p class="font-medium text-ink leading-snug">{p.label}</p>
                         <p class="mt-0.5 text-sm text-ink-muted leading-snug">{p.note}</p>
@@ -612,7 +607,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
                 <ul>
                   {adminFlow.map((p, i) => (
                     <li class="flex gap-4 border-b border-line py-3.5 last:border-b-0">
-                      <span class="mt-0.5 font-mono text-xs text-ink-faint">0{i + 1}</span>
                       <div>
                         <p class="font-medium text-ink leading-snug">{p.label}</p>
                         <p class="mt-0.5 text-sm text-ink-muted leading-snug">{p.note}</p>
@@ -703,7 +697,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               &minus;130&deg;C at specimen-storage level, filed within 30 days. As Daryl
               said, "the claims process begins long before a claim exists." So the order
               form captures a declared value and protection tier, and receiving captures a
-              calibrated temperature and condition photos immediately — because if the
+              calibrated temperature and condition photos immediately, because if the
               record is incomplete, the event can't be reconstructed later.
             </p>
             <p>
@@ -780,7 +774,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
               A logistics product's front end can only promise what the backend can
-              deliver — so I didn't design the interface and throw it over a wall. I owned
+              deliver, so I didn't design the interface and throw it over a wall. I owned
               the front end, and I worked alongside the engineering team on the domain
               model that had to carry it.
             </p>
@@ -844,14 +838,14 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               filename="shipment.rb"
               lang="ruby"
               code={modelSnippet}
-              caption="The lifecycle model as a shared spec — scheduling gated on readiness, alerts tiered by severity. I defined the states and requirements; engineering owned the Rails implementation."
+              caption="The lifecycle model as a shared spec: scheduling gated on readiness, alerts tiered by severity. I defined the states and requirements; engineering owned the Rails implementation."
             />
           </div>
 
           <figure class="my-12 border-l-2 border-accent pl-6">
             <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              The data model isn't a place the workflow is stored. The data model is the
-              workflow, made durable — which is exactly why the design had to help shape it.
+              The data model carries the workflow. If I hadn't helped shape it, the
+              interface could make promises the system underneath couldn't keep.
             </blockquote>
           </figure>
         </div>
@@ -876,7 +870,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               notes. Clients stopped calling to ask where a shipment was because the app
               already told them, with the temperature log attached. And because scheduling
               was gated on readiness, fewer couriers rolled before a clinic had really
-              released — so fewer patients got the call no one wants to make.
+              released, so fewer patients got the call no one wants to make.
             </p>
             <p>
               The research also gave me a truer way to measure it. Don and Daryl both
@@ -1009,7 +1003,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
       </Heading>
       <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
         The best product design engineers do the research, design the product, and own
-        the front end — then sit with the engineers who own the platform and help shape
+        the front end, then sit with the engineers who own the platform and help shape
         the model that keeps every promise the interface makes. That seam is where I
         work. IVFCRYO needed someone to carry a design from a stakeholder interview all
         the way to a shipped, accessible front end, and to hold the backend to what the

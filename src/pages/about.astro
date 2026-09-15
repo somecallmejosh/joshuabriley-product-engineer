@@ -34,7 +34,7 @@ const principles = [
     glyph: 'accessibility' as const,
     title: 'Accessibility belongs inside the component',
     body:
-      "Not an audit at the end. Not a ticket for later. When the keyboard paths, focus states, and semantics ship inside the component, every team that adopts it inherits them, and nobody has to be an expert to get it right.",
+      "When the keyboard paths, focus states, and semantics ship inside the component itself, instead of getting bolted on later through an audit or a ticket, every team that adopts it inherits them, and nobody has to be an expert to get it right.",
   },
   {
     glyph: 'directness' as const,
@@ -84,7 +84,6 @@ const personal = [
     <Container width="wide">
       <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
         <span>About · Product Design Engineer</span>
-        <span class="hidden sm:inline text-ink-muted">20 yrs</span>
       </div>
 
       <div class="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-center">
@@ -185,7 +184,7 @@ const personal = [
         <div class="lg:col-span-5">
           <p class="mono-label">Always learning</p>
           <Heading level={2} visual="display-md" class="mt-4 max-w-[16ch]">
-            Twenty years in, still reading the spec drafts.
+            Still reading the spec drafts.
           </Heading>
           <div class="mt-7 space-y-4 text-ink-muted leading-relaxed max-w-md">
             <p>

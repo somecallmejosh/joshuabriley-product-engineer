@@ -16,7 +16,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'VMSpark | Joshua Briley';
 const description =
-  "Case study: VMSpark's admin app sat on top of a sophisticated system serving many client companies at once, but looked like an unfinished 2018 prototype, costing operator trust every day and investor confidence in the first minute of a demo. As product design engineer I audited the sprawl, chose a direction, and rebuilt the shell in four shippable phases, without touching the systems underneath.";
+  "Case study: VMSpark's admin app sat on top of a sophisticated system serving many client companies at once, but looked like an unfinished prototype from 2018. As product design engineer, I audited the interface sprawl, chose a design direction, and rebuilt the shell in four shippable phases without touching the systems underneath.";
 
 interface Finding {
   count: string;
@@ -323,7 +323,6 @@ const flows = [
         {docket.map((item, i) => (
           <li>
             <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
               {item.icon && (
                 <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
               )}
@@ -373,7 +372,7 @@ const flows = [
               covering every one of the 350 page templates (roughly 11,800 lines) across the app.
             </Text>
             <Text size="lg" tone="muted">
-              The audit wasn't a complaint list. It was the map that told me which problems were
+              More than anything, the audit worked as a map. It told me which problems were
               cosmetic (fixable during the redesign), which were structural (needed architectural
               decisions), and which were out of scope (pipeline-adjacent, don't touch). Most of
               what I found was UI sprawl: the same interaction rendered a dozen different ways
@@ -504,11 +503,10 @@ const flows = [
 
           <div class="mt-10 measure space-y-5">
             <Text size="lg" tone="muted">
-              I chose B. Not because it was the prettiest (C was), and not because it was the
-              most sophisticated (A was). I chose it because the product's users worked
-              across many different client accounts every day, and the lowest-risk path to
-              both user and investor trust was the layout pattern those operators had
-              already used at every previous job.
+              I chose B. C was prettier. A was more sophisticated. But the product's users
+              worked across many different client accounts every day, and the lowest-risk
+              path to both user and investor trust was the layout pattern those operators
+              had already used at every previous job.
             </Text>
             <Text size="lg" tone="muted">
               I also <strong class="text-ink font-semibold">dropped</strong> a feature I'd
@@ -521,7 +519,7 @@ const flows = [
 
           <figure class="my-12 border-l-2 border-accent pl-6">
             <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              Pattern familiarity compounds trust faster than novelty does.
+              Familiarity beat novelty here. Operators had already seen this layout, at other jobs.
             </blockquote>
           </figure>
         </div>
@@ -538,10 +536,10 @@ const flows = [
         </div>
         <div class="case-layout__body">
           <Text size="lg" tone="muted" class="mt-8 measure">
-            The constraint was the whole problem. This was a live product serving many
-            different client companies at once, with operators in it every working day, so
-            an all-at-once redesign that broke muscle memory, or that needed a plan to undo
-            it if something broke, was never on the table. Each phase was instead
+            This was a live product serving many different client companies at once, with
+            operators in it every working day. An all-at-once redesign that broke muscle
+            memory, or that needed a plan to undo it if something broke, was never on the
+            table. Each phase was instead
             <strong class="text-ink font-semibold">shippable on its own</strong>, with the
             previous phase's work still intact if I needed to back it out.
           </Text>
@@ -761,7 +759,6 @@ const flows = [
         <div class="space-y-16">
           {flows.map((f, i) => (
             <Plate
-              index={`F${i + 1}`}
               title={f.title}
               caption={f.note}
               src={sheet(f.slug)}
@@ -843,8 +840,8 @@ const flows = [
 
           <figure class="my-12 border-l-2 border-accent pl-6">
             <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              The shell is the surface operators use every day and the one investors see in a
-              demo. The audit is what let me rebuild it without breaking the product underneath.
+              Operators live in this shell all day. Investors see it for thirty seconds in a
+              demo. The audit is what let me rebuild it without breaking what's underneath.
             </blockquote>
           </figure>
         </div>

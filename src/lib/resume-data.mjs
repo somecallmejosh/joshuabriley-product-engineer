@@ -89,7 +89,7 @@ export const EXPERIENCE = [
     stack: 'React · Next.js',
     bullets: [
       'Moved consumer-facing experiences off a legacy Rails platform onto documented React and Next.js components the team could reuse.',
-      "Settled design questions with Optimizely A/B tests and the site's analytics stack instead of opinion.",
+      "Settled design questions with Optimizely A/B tests and the site's analytics stack.",
       'Protected performance, accessibility, and security by weighing every third-party script against what it cost the page.',
       'Improved accessibility and responsive behavior across products serving a large editorial audience.',
     ],
@@ -114,7 +114,7 @@ export const EXPERIENCE = [
     bullets: [
       'Sped up development while improving consistency, accessibility, SEO, and performance across digital properties with a scalable UI utility system.',
       "Raised the team's baseline by training engineers on accessible markup, performance, and durable UI practices.",
-      "Earned the Breaking Bread Award for content solutions that strengthened the brand's digital engagement.",
+      "Earned the Breaking Bread Award for strengthening the brand's digital engagement.",
     ],
   },
   {

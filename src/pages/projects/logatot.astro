@@ -51,7 +51,7 @@ const regimes = [
 // Why 8pm-from-memory is a product problem and not a habit problem.
 const problems = [
   { icon: 'ph:brain', title: 'Recall degrades', body: 'A nap logged from memory at 8pm is an estimate. A diaper change is a guess. The records that matter most legally are the ones reconstructed with the least accuracy.' },
-  { icon: 'ph:door-open', title: 'The burden is a career problem', body: 'Providers leave this profession over the paperwork, which is why the mission statement talks about sustainability rather than efficiency. The goal was giving evenings back, not a tidier form.' },
+  { icon: 'ph:door-open', title: 'The burden is a career problem', body: 'Providers leave this profession over the paperwork, which is why the mission statement talks about sustainability rather than efficiency. The goal was giving evenings back. A tidier form was never the point.' },
   { icon: 'ph:clock-countdown', title: 'Failures surface too late', body: 'Finding out at month end that a Wednesday lunch was short a vegetable means the food is eaten, the money is spent, and nothing can be done.' },
 ];
 
@@ -59,7 +59,7 @@ const problems = [
 // what shipped. Not every idea from these calls made it in this early; some
 // were logged and picked up once the more urgent fix was live.
 const research = [
-  { icon: 'ph:waveform', title: 'Accent broke the transcript, not just the parser', body: 'Provider accents and non-native speech patterns weren’t reflected in the transcription model’s training, so words came through wrong before parsing ever ran. That’s the origin of the phonetic alias system in the voice pipeline: matching against likely mishearings, not the raw transcript.' },
+  { icon: 'ph:waveform', title: 'Accent broke the transcript before the parser ever ran', body: 'Provider accents and non-native speech patterns weren’t reflected in the transcription model’s training, so words came through wrong before parsing ever ran. That’s the origin of the phonetic alias system in the voice pipeline: matching against likely mishearings instead of trusting the raw transcript.' },
   { icon: 'ph:receipt', title: 'CACFP admins found a reimbursement gap', body: 'The administrators who process CACFP reimbursements flagged ways the product wasn’t giving providers what they needed to substantiate a claim, which changed both the reporting business logic and the screens built on top of it.' },
 ];
 
@@ -126,7 +126,7 @@ const quotes = [
 const edges = [
   { icon: 'ph:list-magnifying-glass', title: 'Screen-reader support on the busiest screen', body: 'The Voiceboard’s expand/collapse and column controls don’t announce their open-or-closed state to a screen reader the way the rest of the design system does. That pattern was built correctly everywhere else and didn’t make it into the hardest screen. First thing I would fix.' },
   { icon: 'ph:device-tablet', title: 'A two-size layout in a three-size world', body: 'Nearly 800 places in the code switch the layout at one single screen-width cutoff, which leaves anything in between phone-size and desktop-size, a tablet, poorly served. That matters more here than elsewhere, because the kiosk is a tablet.' },
-  { icon: 'ph:globe-hemisphere-west', title: 'Time zones were contained, not solved', body: 'Five of the last six updates to the project’s code were adjustments to how it handles time zones. That back-and-forth is the honest record of a problem I kept bounded rather than one I actually closed.' },
+  { icon: 'ph:globe-hemisphere-west', title: 'Time zones kept coming back', body: 'Five of the last six updates to the project’s code were adjustments to how it handles time zones. That back-and-forth is the honest record of a problem I kept bounded rather than one I actually closed.' },
   { icon: 'ph:cloud-slash', title: 'No offline queue', body: 'The pieces needed for the app to work without an internet connection exist but were never fully wired up and finished. For tablets in homes with unreliable WiFi, working offline is the highest-value thing that isn’t built.' },
 ];
 
@@ -225,7 +225,7 @@ const flows = [
   {
     slug: '12-flow-onboarding',
     title: 'Provider onboarding',
-    note: 'The empty board is the real churn risk, not the signup form. Which is why CSV import sits beside "Add child" rather than in settings.',
+    note: 'The empty board is the real churn risk. That\'s why CSV import sits beside "Add child" instead of buried in settings.',
     alt: 'Flow diagram of provider onboarding, from first visit through account creation, roster population by manual entry or CSV import, and first voice capture, with the empty-board drop-off marked as the critical failure point.',
   },
   {
@@ -332,7 +332,6 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
         {docket.map((item, i) => (
           <li>
             <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
               {item.icon && (
                 <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
               )}
@@ -388,7 +387,6 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
               {regimes.map((r, i) => (
                 <li class="border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
-                    <span class="font-mono text-sm text-accent">0{i + 1}</span>
                     <Icon name={r.icon} size={20} class="text-ink-muted" />
                   </div>
                   <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{r.title}</Heading>
@@ -399,7 +397,7 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Why that is a product problem, not a habit problem</p>
+            <p class="mono-label mb-6">The product problem behind 8pm-from-memory</p>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
               {problems.map((p) => (
                 <li class="border-t border-line pt-5">
@@ -510,9 +508,9 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
               It didn&rsquo;t sit in a separate phase before design started; it
               ran alongside the build and pushed decisions into whichever layer
               the problem actually lived in. Not every idea from these calls
-              shipped immediately either &mdash; some became the two changes
-              above, others were logged and picked up once the more urgent fix
-              was live.
+              shipped immediately, either. Some became the two changes above;
+              others were logged and picked up once the more urgent fix was
+              live.
             </p>
             <p class="text-base">
               Source interviews, lightly edited for length:
@@ -606,9 +604,9 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
           <strong class="text-ink font-semibold">timeline</strong>: time down the left,
           one child at a time. The provider is scanning twelve children at once, so the
           provider gets a grid. A parent is reading about one child in order, so the
-          parent gets a chronology. Same data, opposite affordance. The portal is
-          read-mostly with exactly one write, messaging the provider, because every
-          extra write surface becomes one more thing to triage during the day.
+          parent gets a chronology. The portal is read-mostly with exactly one write,
+          messaging the provider, because every extra write surface becomes one more
+          thing to triage during the day.
         </p>
       </div>
     </Container>
@@ -640,7 +638,7 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
         </div>
 
         <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-          <p class="mono-label mb-5">Decisions that live in the system, not the screen</p>
+          <p class="mono-label mb-5">Decisions built into the system, invisible on the screen</p>
           <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
             {structural.map((item) => (
               <li class="flex items-center gap-3 text-ink">
@@ -737,9 +735,9 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
               <strong class="text-ink font-semibold">clickable word chips</strong>. Tapping
               the word that <em>was</em> the child&rsquo;s name appends it to that
               child&rsquo;s stored phonetic alias list, and the same mishearing then routes
-              correctly forever. Repair work compounds instead of repeating: a correction is
-              not a fix to one record, it is a permanent improvement to recognition for
-              that name.
+              correctly forever. Repair work compounds instead of repeating: a single
+              correction permanently improves recognition for that name, well beyond the
+              one record it fixed.
             </p>
             <p>
               Two supporting decisions matter as much. Partial understanding is shown rather
@@ -800,9 +798,9 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
               device, and it is the answer to the first question every provider asked.
             </p>
             <p>
-              Turning speech into a saved record is
-              <strong class="text-ink font-semibold">handled by a fixed set of rules, not
-              by an AI language model</strong>. What was said gets checked against an
+              Turning speech into a saved record
+              <strong class="text-ink font-semibold">runs on a fixed set of rules, and
+              there's no AI language model anywhere in that loop</strong>. What was said gets checked against an
               ordered list of 22 known phrasings, and child names are matched against the
               class roster plus each child&rsquo;s list of likely mishearings, so one
               sentence can log an event for several children at once. An AI model sitting
@@ -811,7 +809,7 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
               into a record a parent reads and a state inspector may check. The
               rule-based system either finds a match or it doesn&rsquo;t, and anything it
               can&rsquo;t match goes to a queue for a person to review, with the audio
-              attached. Not matching is treated as a normal, expected outcome, not a bug.
+              attached. A non-match is treated as a normal, expected outcome, not a bug.
             </p>
             <p>
               The AI model gets used <em>ahead</em> of the problem instead. When a child
@@ -819,9 +817,9 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
               pronunciation, and mishearing of that name, and saves them as a list the
               matching system can check against. Toddler names are short, similar to each
               other, and often not English, so recognizing them correctly is the
-              product&rsquo;s single biggest challenge. Rather than fix mistakes after
-              they happen, the system predicts ahead of time how a name is likely to be
-              misheard and teaches itself to accept those versions too. It is the direct
+              product&rsquo;s single biggest challenge. The system predicts ahead of time
+              how a name is likely to be misheard and teaches itself to accept those
+              versions too, catching the mistake before it ever happens. It is the direct
               answer to the accent-related transcription problem the provider calls
               surfaced. Corrections a person makes in the repair queue get added to that
               same list, so the system keeps improving from both directions.
