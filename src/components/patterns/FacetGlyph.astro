@@ -1,0 +1,152 @@
+---
+import { cx } from '~/lib/cx';
+
+/**
+ * FacetGlyph — the small technical diagram that stands in for a facet of "why
+ * my products feel finished" on the home page.
+ *
+ * Same contract as PrincipleGlyph and ToolGlyph: fixed 3:2 viewBox, structure
+ * drawn in `currentColor` at low opacity, and the one load-bearing element in
+ * `var(--accent)`. Surface-aware (see the accent block in site.css), so the
+ * same markup reads correctly on paper and on ink without a variant prop.
+ *
+ * Each mark draws the *claim*, not a category icon. The craft glyph contrasts
+ * a composed accent panel against a dashed placeholder, literalizing "the
+ * empty and error states most engineers leave blank." The accessible glyph is
+ * a tab-order path running through a focus ring, not a ring bolted around one
+ * box. The finish glyph is a considered empty state sitting under normal
+ * content rows, because that screen is itself the claim. The foundation glyph
+ * is three different surfaces bearing on one shared accent base.
+ *
+ * No hover motion here, matching PrincipleGlyph: these cells aren't links,
+ * and the repo rule is that non-link elements get no hover effects.
+ *
+ * Decorative by contract: every placement sits directly above the facet's
+ * title, so the glyph is aria-hidden and adds nothing for AT to read twice.
+ */
+
+type GlyphName = 'craft' | 'accessible' | 'finish' | 'foundation';
+
+interface Props {
+  name: GlyphName;
+  size?: 'md' | 'lg';
+  class?: string;
+}
+
+const { name, size = 'md', class: className } = Astro.props;
+
+// Width alone sets the footprint, so the four marks stay optically the same
+// weight next to each other even when the featured cell draws its own larger.
+const sizes: Record<NonNullable<Props['size']>, string> = {
+  md: 'w-24',
+  lg: 'w-32 md:w-36',
+};
+---
+
+<svg
+  viewBox="0 0 96 64"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  class={cx('h-auto', sizes[size], className)}
+>
+  {name === 'craft' && (
+    /* Two baseline rules for the type rhythm, a dashed placeholder for the
+       state most engineers leave undone, and the composed accent panel with
+       its own detail mark: the finished thing, sitting on the grid. */
+    <g>
+      <g stroke="currentColor" stroke-opacity="0.15" stroke-width="1">
+        <line x1="8" y1="16" x2="88" y2="16" />
+        <line x1="8" y1="48" x2="88" y2="48" />
+      </g>
+      <rect
+        x="66"
+        y="24"
+        width="14"
+        height="10"
+        rx="1.5"
+        stroke="currentColor"
+        stroke-opacity="0.32"
+        stroke-width="1.25"
+        stroke-dasharray="2 2.5"
+      />
+      <rect
+        x="12"
+        y="20"
+        width="40"
+        height="24"
+        rx="2.5"
+        fill="var(--accent)"
+        fill-opacity="0.16"
+        stroke="var(--accent)"
+        stroke-width="1.5"
+      />
+      <circle cx="32" cy="32" r="2.2" fill="var(--accent)" />
+    </g>
+  )}
+
+  {name === 'accessible' && (
+    /* A dashed tab-order path running from one control, through a focus ring
+       around the next stop, to a third: keyboard order built into the route,
+       not a ring added around a single box after the fact. */
+    <g>
+      <path
+        d="M14 48 L40 48 L40 20 L82 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-opacity="0.28"
+        stroke-width="1.25"
+        stroke-linecap="round"
+        stroke-dasharray="1 4"
+      />
+      <rect x="8" y="42" width="12" height="12" rx="2" fill="currentColor" fill-opacity="0.4" />
+      <rect x="76" y="14" width="12" height="12" rx="2" fill="currentColor" fill-opacity="0.4" />
+      <rect
+        x="32.5"
+        y="12.5"
+        width="19"
+        height="19"
+        rx="3"
+        fill="var(--accent)"
+        fill-opacity="0.16"
+        stroke="var(--accent)"
+        stroke-width="1.75"
+      />
+      <rect x="36" y="16" width="12" height="12" rx="1.5" fill="currentColor" fill-opacity="0.5" />
+    </g>
+  )}
+
+  {name === 'finish' && (
+    /* A screen frame: ordinary content rows fading in at the top, and below
+       them the considered empty state, the mark and its caption drawn in
+       accent, because that screen is the actual claim being made. */
+    <g>
+      <rect x="8" y="8" width="80" height="48" rx="3" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.25" />
+      <g stroke="currentColor" stroke-opacity="0.18" stroke-width="1.25" stroke-linecap="round">
+        <line x1="16" y1="18" x2="52" y2="18" />
+        <line x1="16" y1="25" x2="40" y2="25" />
+      </g>
+      <circle cx="48" cy="38" r="4" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="1.5" />
+      <line x1="36" y1="49" x2="60" y2="49" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" />
+    </g>
+  )}
+
+  {name === 'foundation' && (
+    /* Three surfaces of different shapes sitting on one shared base: the
+       library and accessibility floor underneath every brand, drawn as the
+       one accent element instead of a fourth screen. */
+    <g>
+      <g stroke="currentColor" stroke-opacity="0.3" stroke-width="1.25">
+        <rect x="12" y="14" width="18" height="24" rx="2" />
+        <rect x="39" y="8" width="18" height="30" rx="2" />
+        <rect x="66" y="18" width="18" height="20" rx="2" />
+      </g>
+      <g stroke="var(--accent)" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="1 3">
+        <line x1="21" y1="46" x2="21" y2="38" />
+        <line x1="48" y1="46" x2="48" y2="38" />
+        <line x1="75" y1="46" x2="75" y2="38" />
+      </g>
+      <rect x="8" y="46" width="80" height="8" rx="1.5" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="1.5" />
+    </g>
+  )}
+</svg>

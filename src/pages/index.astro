@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
@@ -8,7 +7,7 @@ import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Button from '~/components/primitives/Button.astro';
 import Link from '~/components/primitives/Link.astro';
-import ToolGlyph from '~/components/patterns/ToolGlyph.astro';
+import FacetGlyph from '~/components/patterns/FacetGlyph.astro';
 
 // ── Content (every claim is backed by the site itself or a real case study) ──
 // Same four chips as the about page, worded identically. Two pages rendering
@@ -24,22 +23,26 @@ const capabilities = [
 // is the featured cell; the rest are the front-end disciplines behind the finish.
 const facets = [
   {
+    glyph: 'craft' as const,
     title: 'The UI is where I bring the most value',
     body:
       'Design systems taught me where interfaces break: type, spacing, motion, the empty and error states most engineers leave blank. I build it myself instead of handing a spec to someone who will approximate it.',
     featured: true,
   },
   {
+    glyph: 'accessible' as const,
     title: 'Accessible by construction',
     body:
       'Keyboard paths, focus management, and screen-reader behavior built in from the start, before a QA pass finds them missing.',
   },
   {
+    glyph: 'finish' as const,
     title: 'I sweat the last 10%',
     body:
       'Empty states, recoverable forms, the screen that shows when there is nothing to show yet. Those are the parts that decide whether a product feels finished, and whether it holds up after launch.',
   },
   {
+    glyph: 'foundation' as const,
     title: 'I build the system underneath the screen',
     body:
       'When a product needs a real design system, I build that too: one library, one accessibility floor, every brand held to the same standard. It is how the UI stays consistent as the team and the surface area grow.',
@@ -152,13 +155,15 @@ const work = [
           <div class={`bg-paper p-7 md:p-9 ${c.featured ? 'lg:col-span-2 lg:row-span-3 lg:flex lg:flex-col lg:justify-center md:p-10' : ''}`}>
             {c.featured ? (
               <>
-                <span class="mono-label text-accent">Where the value is</span>
-                <Heading level={3} visual="h2" class="mt-4 max-w-[16ch] text-balance">{c.title}</Heading>
+                <FacetGlyph name={c.glyph} size="lg" class="text-ink" />
+                <span class="mono-label text-accent mt-6 block">Where the value is</span>
+                <Heading level={3} visual="h2" class="mt-3 max-w-[16ch] text-balance">{c.title}</Heading>
                 <Text tone="muted" class="mt-4 max-w-lg">{c.body}</Text>
               </>
             ) : (
               <>
-                <Heading level={3} visual="h3" >{c.title}</Heading>
+                <FacetGlyph name={c.glyph} size="md" class="text-ink" />
+                <Heading level={3} visual="h3" class="mt-6">{c.title}</Heading>
                 <Text tone="muted" size="sm" class="mt-3">{c.body}</Text>
               </>
             )}

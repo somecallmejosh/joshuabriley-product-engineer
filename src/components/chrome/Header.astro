@@ -11,9 +11,6 @@ interface Props {
 }
 
 const { class: className } = Astro.props;
-
-// Hide the header Résumé link when already on the résumé page.
-const isResumePage = Astro.url.pathname.replace(/\/$/, '') === '/resume';
 ---
 
 <header
@@ -32,12 +29,6 @@ const isResumePage = Astro.url.pathname.replace(/\/$/, '') === '/resume';
     </nav>
 
     <div class="hidden md:flex items-center gap-5 shrink-0">
-      {!isResumePage && (
-        <a
-          href="/resume/"
-          class="mono-label hidden lg:inline-block shrink-0 whitespace-nowrap transition-colors hover:text-ink hover:underline underline-offset-4"
-        >Résumé</a>
-      )}
       <a
         href="/contact/"
         class="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] bg-ink px-4 py-2 font-sans text-[0.85rem] font-medium tracking-tight text-paper transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-ink-soft hover:-translate-y-px active:scale-[0.97] active:translate-y-0"

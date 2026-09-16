@@ -1,34 +1,18 @@
-/**
- * Resume content, in one place.
- *
- * Consumed by three things that must never disagree:
- *   - src/pages/resume.astro        the public page
- *   - src/pages/resume-print.astro  the print document (dev-only render target)
- *   - scripts/generate-resume-pdf.mjs → public/resume.pdf
- *
- * Plain .mjs (not .ts) so the Node generator can import it directly, same as
- * src/lib/og-pages.mjs.
- *
- * Bullet rule: each one names what the company got, not what I worked in. The
- * tech lives in `stack` beside the dates and in TOOLKIT at the end, which is
- * where a skim-reader and a keyword screen both look for it anyway. Every
- * number here is substantiated by a case study on the site.
- */
-
 export const CONTACT = {
   name: 'Joshua K. Briley',
-  title: 'Product Design Engineer / Design Systems Engineer / Front-End UI Developer',
+  title:
+    'Product Design Engineer / Design Systems Engineer / Front-End UI Developer',
   location: 'Barkhamsted, CT',
   phone: '860.232.8250',
   email: 'josh@thebrileys.com',
   site: 'joshuabriley.com',
   linkedin: 'linkedin.com/in/joshuabriley',
   github: 'github.com/somecallmejosh',
-};
+}
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  'Product design engineer with 20+ years in production UI. I design and build the interface myself, design-grade and accessible, so nothing is lost in a handoff. Currently building the enterprise design system roughly 3,500 Travelers engineers and designers work from.';
+  'Product design engineer with 20+ years in production UI. I design and build the interface myself, design-grade and accessible, so nothing is lost in a handoff. Currently building the enterprise design system roughly 3,500 Travelers engineers and designers work from.'
 
 export const STRENGTHS = [
   {
@@ -55,7 +39,7 @@ export const STRENGTHS = [
     title: 'Product judgment',
     body: "Partner across product, design, and engineering to frame what's worth building, cut scope, validate with real users, and ship the useful path.",
   },
-];
+]
 
 export const EXPERIENCE = [
   {
@@ -128,26 +112,79 @@ export const EXPERIENCE = [
       'Deliver full-stack prototypes and production applications for clients when building is faster than specifying.',
     ],
   },
-];
+]
 
 export const SKILLS = [
   {
     group: 'Front end',
-    items: ['HTML', 'CSS', 'Sass', 'Tailwind', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Vue', 'Nuxt', 'Astro', 'Stencil Web Components', 'Storybook', 'Gatsby', 'Alpine.js', 'HTMX', 'Hotwire', 'Stimulus'],
-  },
-  {
-    group: 'Systems & testing',
-    items: ['Design systems', 'Component libraries', 'Design tokens', 'Figma Code Connect', 'Playwright', 'Jest', 'Vitest', 'Cypress', 'Lighthouse', 'Node scripts', 'Git', 'CI workflows'],
-  },
-  {
-    group: 'Data & experimentation',
-    items: ['Segment', 'Heap', 'Hotjar', 'Google Analytics', 'HubSpot', 'Optimizely', 'Core Web Vitals'],
+    items: [
+      'HTML',
+      'CSS',
+      'Sass',
+      'Tailwind',
+      'JavaScript',
+      'TypeScript',
+      'React',
+      'Next.js',
+      'Vue',
+      'Nuxt',
+      'Astro',
+      'Stencil Web Components',
+      'Storybook',
+      'Gatsby',
+      'Alpine.js',
+      'HTMX',
+      'Hotwire',
+      'Stimulus',
+    ],
   },
   {
     group: 'Design & craft',
-    items: ['Figma', 'Adobe CS', 'Accessible UI', 'WCAG 2.1 / 2.2', 'Responsive design', 'Workflow design', 'Prototyping', 'Design-to-code'],
+    items: [
+      'Figma',
+      'Adobe CS',
+      'Accessible UI',
+      'WCAG 2.1 / 2.2',
+      'Responsive design',
+      'Workflow design',
+      'Prototyping',
+      'Design-to-code',
+    ],
   },
-];
+  {
+    group: 'Data & experimentation',
+    items: [
+      'Segment',
+      'Heap',
+      'Hotjar',
+      'Google Analytics',
+      'HubSpot',
+      'Optimizely',
+      'Core Web Vitals',
+    ],
+  },
+  {
+    group: 'Back end',
+    items: ['Ruby on Rails', 'Nuxt', 'Next', 'Netlify', 'Heroku'],
+  },
+  {
+    group: 'Systems & testing',
+    items: [
+      'Design systems',
+      'Component libraries',
+      'Design tokens',
+      'Figma Code Connect',
+      'Playwright',
+      'Jest',
+      'Vitest',
+      'Cypress',
+      'Lighthouse',
+      'Node scripts',
+      'Git',
+      'CI workflows',
+    ],
+  },
+]
 
 export const EDUCATION = [
   {
@@ -155,13 +192,17 @@ export const EDUCATION = [
     org: 'Troy University',
     note: 'Built analytical and technical-writing habits through research-based projects.',
   },
-];
+]
 
 export const CONTINUING_ED = [
+  {
+    title: 'Senior UX/UI/Product Designer + AI curriculum',
+    org: 'IxDF - Interaction Design Foundation ',
+  },
   { title: 'Web Accessibility', org: 'Deque University' },
   { title: 'Personal learning projects', org: 'Ongoing' },
-];
+]
 
-export const CERT_FOCUS = 'IAAP CPACC and WAS accessibility exams';
+export const CERT_FOCUS = 'IAAP CPACC and WAS accessibility exams'
 
-export const UPDATED = 'August 2026';
+export const UPDATED = 'August 2026'
