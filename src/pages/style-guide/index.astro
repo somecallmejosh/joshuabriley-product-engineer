@@ -28,34 +28,34 @@ import SubmitButton from '~/components/form/SubmitButton.astro';
 // Hex values mirror :root in src/styles/site.css. Swatches are rendered as
 // small hairline-bordered chips, not bright scrapbook tiles.
 const tokens = [
-  { name: 'paper',       token: '--paper',       hex: '#FAFBFC', note: 'Page background (near-white cool)', fill: 'bg-paper', border: 'border-line-strong' },
-  { name: 'raised',      token: '--raised',      hex: '#FFFFFF', note: 'Cards, inputs', fill: 'bg-raised', border: 'border-line-strong' },
-  { name: 'surface-warm', token: '--surface-warm', hex: '#F7F5F0', note: 'Warm "about me" surface, personal sections only', fill: 'bg-surface-warm', border: 'border-line-strong' },
-  { name: 'ink',         token: '--ink',         hex: '#1A1B1E', note: 'Headings, body, dark sections', fill: 'bg-ink', border: 'border-ink' },
-  { name: 'ink-muted',   token: '--ink-muted',   hex: '#565760', note: 'Body min on paper (AA)', fill: 'bg-[#565760]', border: 'border-[#565760]' },
-  { name: 'ink-faint',   token: '--ink-faint',   hex: '#9A9AA1', note: 'Decorative only, never body text', fill: 'bg-[#9A9AA1]', border: 'border-[#9A9AA1]' },
-  { name: 'line',        token: '--line',        hex: '#E5E7EB', note: 'Hairline borders, dividers', fill: 'bg-line', border: 'border-line-strong' },
-  { name: 'line-strong', token: '--line-strong', hex: '#D4D7DD', note: 'Emphasised hairline', fill: 'bg-line-strong', border: 'border-line-strong' },
-  { name: 'accent',      token: '--accent',      hex: '#2E5C8A', note: 'One denim-navy accent, used sparingly', fill: 'bg-accent', border: 'border-accent' },
+  { name: 'paper',       token: '--paper',       hex: '#FAFBFC', note: 'Page background', fill: 'bg-paper', border: 'border-line-strong' },
+  { name: 'raised',      token: '--raised',      hex: '#FFFFFF', note: 'Cards and input boxes', fill: 'bg-raised', border: 'border-line-strong' },
+  { name: 'surface-warm', token: '--surface-warm', hex: '#F7F5F0', note: 'Warm background for personal sections', fill: 'bg-surface-warm', border: 'border-line-strong' },
+  { name: 'ink',         token: '--ink',         hex: '#1A1B1E', note: 'Headings, text, and dark sections', fill: 'bg-ink', border: 'border-ink' },
+  { name: 'ink-muted',   token: '--ink-muted',   hex: '#565760', note: 'Most body text', fill: 'bg-[#565760]', border: 'border-[#565760]' },
+  { name: 'ink-faint',   token: '--ink-faint',   hex: '#9A9AA1', note: 'Decoration only, never for text you read', fill: 'bg-[#9A9AA1]', border: 'border-[#9A9AA1]' },
+  { name: 'line',        token: '--line',        hex: '#E5E7EB', note: 'Thin borders and dividers', fill: 'bg-line', border: 'border-line-strong' },
+  { name: 'line-strong', token: '--line-strong', hex: '#D4D7DD', note: 'A slightly darker border', fill: 'bg-line-strong', border: 'border-line-strong' },
+  { name: 'accent',      token: '--accent',      hex: '#2E5C8A', note: 'The one accent color, used sparingly', fill: 'bg-accent', border: 'border-accent' },
 ];
 
 // ── Palette origin: the token set is sampled from one portrait, not a
 // generator. Each row maps a token back to where it lives in the photograph.
 const originMap = [
-  { token: '--paper',        fill: 'bg-paper',        border: 'border-line-strong', from: 'Cool daylight across the walls and windows' },
-  { token: '--surface-warm', fill: 'bg-surface-warm', border: 'border-line-strong', from: 'The knit throw and warm wood shelving' },
-  { token: '--ink',          fill: 'bg-ink',          border: 'border-ink',         from: 'Frame edges and the deepest shadow' },
-  { token: '--accent',       fill: 'bg-accent',       border: 'border-accent',      from: 'Denim-navy woven through the blanket' },
+  { token: '--paper',        fill: 'bg-paper',        border: 'border-line-strong', from: 'Daylight through the window' },
+  { token: '--surface-warm', fill: 'bg-surface-warm', border: 'border-line-strong', from: 'The blanket and wood shelf' },
+  { token: '--ink',          fill: 'bg-ink',           border: 'border-ink',         from: 'The picture frame and dark shadows' },
+  { token: '--accent',       fill: 'bg-accent',        border: 'border-accent',      from: 'The blue in the blanket' },
 ];
 
 // Live in-section nav for the editorial rail.
 const sections = [
-  { id: 'foundations', label: 'Foundations' },
-  { id: 'typography',  label: 'Typography' },
-  { id: 'primitives',  label: 'Primitives' },
-  { id: 'patterns',    label: 'Patterns' },
+  { id: 'foundations', label: 'Colors' },
+  { id: 'typography',  label: 'Fonts' },
+  { id: 'primitives',  label: 'Basic parts' },
+  { id: 'patterns',    label: 'Groups' },
   { id: 'forms',       label: 'Forms' },
-  { id: 'motion',      label: 'Motion & spacing' },
+  { id: 'motion',      label: 'Movement & spacing' },
 ];
 
 const apiSnippet = `// Field.astro: accessibility wired in by construction.
@@ -69,37 +69,35 @@ const describedBy =
 
 // Illustrative metric figures — replace with real numbers in production.
 const metrics = [
-  { value: '9', label: 'colour tokens drive everything' },
-  { value: '2', label: 'typefaces: Hanken + Geist Mono' },
-  { value: '100%', label: 'components keyboard-operable' },
-  { before: '6', value: '1', label: 'button implementations' },
+  { value: '9', label: 'colors used across the site' },
+  { value: '2', label: 'fonts used across the site' },
+  { value: '100%', label: 'parts work with a keyboard' },
+  { before: '6', value: '1', label: 'way to build a button' },
 ];
 ---
 
 <BaseLayout
-  title="Design system: Editorial-Technical reference | Joshua Briley"
-  description="The Editorial-Technical design system: cool paper, near-black ink, one denim-navy accent, Hanken Grotesk and Geist Mono. Colour tokens, type scale, primitives, patterns, and accessible form components."
+  title="Style guide | Joshua Briley"
+  description="A look at the colors, fonts, and parts I use to build this site."
 >
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
       <div class="flex items-center justify-between gap-4 mono-label">
-        <span>Design system / Reference</span>
-        <span class="hidden sm:inline text-ink-muted">Editorial-Technical · 2026</span>
+        <span>Style guide</span>
+        <span class="hidden sm:inline text-ink-muted">Updated 2026</span>
       </div>
 
       <div class="mt-10 max-w-3xl lg:mt-14">
         <Heading level={1} visual="display-xl">
-          The Editorial-Technical system.
+          The parts that make up this site.
         </Heading>
         <Text size="lg" tone="muted" class="mt-7">
-          Cool paper, near-black ink, and a single denim-navy accent. Hanken Grotesk for
-          headings, Geist Mono for labels. Small radii, hairline borders, heavy
-          whitespace. Every page on the site composes from the tokens and
-          components documented here.
+          This page shows the colors, fonts, and pieces, like buttons and
+          forms, that every page on this site is built from.
         </Text>
       </div>
 
-      <nav aria-label="Reference sections" class="mt-10 flex flex-wrap items-center gap-2">
+      <nav aria-label="Page sections" class="mt-10 flex flex-wrap items-center gap-2">
         {sections.map((s) => (
           <Button variant="ghost" size="sm" href={`#${s.id}`}>{s.label}</Button>
         ))}
@@ -109,14 +107,13 @@ const metrics = [
 
   <Section id="foundations" tone="paper" padding="default" class="border-b border-line">
     <Container width="wide">
-      <p class="mono-label">Foundations / 01</p>
+      <p class="mono-label">Colors / 01</p>
       <div class="mt-4 max-w-2xl">
-        <Heading level={2} visual="display-md">Colour tokens.</Heading>
+        <Heading level={2} visual="display-md">Colors.</Heading>
         <Text tone="muted" class="mt-4">
-          The full palette is nine tokens. There are no bright fills, no gradients.
-          Contrast and rhythm come from ink on paper, with the navy accent reserved
-          for one mark per view. Every value is a CSS custom property in
-          <code class="font-mono text-[0.9em] text-accent"> :root</code>.
+          I use nine colors across the whole site. There are no bright
+          colors and no gradients. Most pages are dark text on a light
+          background, with one blue accent color used sparingly.
         </Text>
       </div>
 
@@ -137,7 +134,7 @@ const metrics = [
               src="/images/about/josh-suit-portrait-640.jpg"
               sizes="(min-width: 1280px) 474px, (min-width: 768px) 40vw, 100vw"
               srcset="/images/about/josh-suit-portrait-400.jpg 400w, /images/about/josh-suit-portrait-640.jpg 640w, /images/about/josh-suit-portrait-1000.jpg 1000w"
-              alt="Joshua Briley seated in a sunlit room, the source photograph the palette was sampled from"
+              alt="Joshua Briley sitting in a sunlit room. These colors come from this photo."
               class="aspect-[4/5] w-full object-cover"
               loading="lazy"
               decoding="async"
@@ -148,14 +145,13 @@ const metrics = [
         </figure>
 
         <div class="md:col-span-3">
-          <p class="mono-label">Palette origin</p>
-          <Heading level={3} visual="h3" class="mt-4">Pulled from a photograph, not a generator.</Heading>
+          <p class="mono-label">Where the colors come from</p>
+          <Heading level={3} visual="h3" class="mt-4">The colors come from a real photo.</Heading>
           <Text tone="muted" class="mt-4">
-            Before the tokens were tokens, they were a room. The palette is sampled from
-            a single portrait of me: the cool near-white of daylight became
-            <code class="font-mono text-[0.9em] text-ink"> paper</code>, the warm knit throw
-            and wood shelving became <code class="font-mono text-[0.9em] text-ink">surface-warm</code>,
-            and the denim-navy in the blanket weave became the one accent the whole site leans on.
+            I picked these colors from a single photo of me at home. The
+            light from the window became the white background. The wood
+            shelf and blanket became the warm tan color. The blue in the
+            blanket became the one accent color used across the site.
           </Text>
 
           <dl class="mt-6 grid gap-px overflow-hidden rounded-lg border border-line bg-line">
@@ -187,14 +183,11 @@ const metrics = [
       </Grid>
 
       <div class="mt-10 rounded-lg border border-line bg-raised p-6 md:p-7">
-        <p class="mono-label">Contrast contract</p>
+        <p class="mono-label">Easy to read</p>
         <Text size="sm" tone="muted" class="mt-3 max-w-3xl">
-          WCAG AA throughout. On paper, body copy never goes lighter than
-          <code class="font-mono text-[0.9em] text-ink"> ink-muted</code>;
-          <code class="font-mono text-[0.9em] text-ink"> ink-faint</code> is decorative only
-          (rules, dividers, disabled marks). On ink surfaces, text stays at
-          <code class="font-mono text-[0.9em] text-ink"> text-paper</code> or
-          <code class="font-mono text-[0.9em] text-ink"> text-paper/70</code> and above.
+          Text stays dark enough to read clearly on every background, light
+          or dark. I follow standard accessibility guidelines so people
+          with low vision can read the site too.
         </Text>
       </div>
     </Container>
@@ -202,25 +195,23 @@ const metrics = [
 
   <Section id="typography" tone="paper" padding="default" class="border-b border-line">
     <Container width="wide">
-      <p class="mono-label">Typography / 02</p>
+      <p class="mono-label">Fonts / 02</p>
       <div class="mt-4 max-w-2xl">
-        <Heading level={2} visual="display-md">Two typefaces, one scale.</Heading>
+        <Heading level={2} visual="display-md">The fonts I use.</Heading>
         <Text tone="muted" class="mt-4">
-          Hanken Grotesk carries display and body; Geist Mono carries every label,
-          index, and eyebrow. The <code class="font-mono text-[0.9em] text-accent">Heading</code> primitive
-          splits semantic level from visual size, so the document outline never breaks
-          to satisfy a layout.
+          I use two fonts. Hanken Grotesk is for headings and paragraphs.
+          Geist Mono, a monospace font, is for small labels.
         </Text>
       </div>
 
       <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line">
         {[
-          { spec: 'Heading · display-xl', visual: 'display-xl' as const, sample: 'Display extra-large' },
-          { spec: 'Heading · display-lg', visual: 'display-lg' as const, sample: 'Display large' },
-          { spec: 'Heading · display-md', visual: 'display-md' as const, sample: 'Display medium' },
-          { spec: 'Heading · h2',         visual: 'h2' as const,         sample: 'Section heading (h2)' },
-          { spec: 'Heading · h3',         visual: 'h3' as const,         sample: 'Subsection heading (h3)' },
-          { spec: 'Heading · h4',         visual: 'h4' as const,         sample: 'Minor heading (h4)' },
+          { spec: 'Biggest',    visual: 'display-xl' as const, sample: 'The biggest heading' },
+          { spec: 'Large',      visual: 'display-lg' as const, sample: 'A large heading' },
+          { spec: 'Medium',     visual: 'display-md' as const, sample: 'A medium heading' },
+          { spec: 'Section',    visual: 'h2' as const,         sample: 'A section heading' },
+          { spec: 'Subsection', visual: 'h3' as const,         sample: 'A subsection heading' },
+          { spec: 'Small',      visual: 'h4' as const,         sample: 'A small heading' },
         ].map((row) => (
           <div class="bg-paper px-6 py-7 md:px-8">
             <p class="mono-label mb-3">{row.spec}</p>
@@ -231,35 +222,35 @@ const metrics = [
 
       <div class="mt-10 grid gap-8 md:grid-cols-2">
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Text · body sizes</p>
+          <p class="mono-label">Paragraph sizes</p>
           <div class="mt-5 space-y-4">
-            <Text size="xl">size xl: lead paragraph, comfortable and unhurried.</Text>
-            <Text size="lg" tone="muted">size lg: secondary lead, muted ink.</Text>
-            <Text size="base" tone="muted">size base: standard body copy at ink-muted.</Text>
-            <Text size="sm" tone="muted">size sm: captions and supporting notes.</Text>
-            <Text size="xs" tone="muted">size xs: fine print, still AA on paper.</Text>
+            <Text size="xl">Extra large: for intro paragraphs.</Text>
+            <Text size="lg" tone="muted">Large: for secondary text.</Text>
+            <Text size="base" tone="muted">Normal: everyday paragraph text.</Text>
+            <Text size="sm" tone="muted">Small: captions and notes.</Text>
+            <Text size="xs" tone="muted">Extra small: fine print.</Text>
           </div>
         </div>
 
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Geist Mono · labels</p>
+          <p class="mono-label">Small labels</p>
           <div class="mt-5 space-y-6">
             <div>
-              <p class="mono-label">Foundations / 01</p>
+              <p class="mono-label">Colors / 01</p>
               <Text size="sm" tone="muted" class="mt-2">
-                The <code class="font-mono text-[0.9em] text-ink">.mono-label</code> eyebrow:
-                uppercase, tracked, ink-muted. Numbered to anchor each section.
+                A small label at the top of each section. The number helps
+                you keep track of where you are.
               </Text>
             </div>
             <div>
               <p class="font-mono text-sm text-ink">const tokens = await build();</p>
               <Text size="sm" tone="muted" class="mt-2">
-                Inline mono for code, indices, and spec rails.
+                This font is also used to show code, like the line above.
               </Text>
             </div>
             <div class="flex items-center gap-3">
               <Logo />
-              <span class="mono-label">Wordmark · Style Script</span>
+              <span class="mono-label">Logo: Style Script font</span>
             </div>
           </div>
         </div>
@@ -269,18 +260,18 @@ const metrics = [
 
   <Section id="primitives" tone="paper" padding="default" class="border-b border-line">
     <Container width="wide">
-      <p class="mono-label">Primitives / 03</p>
+      <p class="mono-label">Basic parts / 03</p>
       <div class="mt-4 max-w-2xl">
-        <Heading level={2} visual="display-md">The smallest reusable pieces.</Heading>
+        <Heading level={2} visual="display-md">The basic parts.</Heading>
         <Text tone="muted" class="mt-4">
-          Each primitive enforces accessibility through its API: semantic defaults,
-          required labels, decoupled visual sizing. They render the same on every page.
+          These are the small pieces, like buttons and icons, that make up
+          every page. They look and work the same everywhere on the site.
         </Text>
       </div>
 
       <div class="mt-12 grid gap-8 lg:grid-cols-2">
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Button: variants &amp; sizes</p>
+          <p class="mono-label">Buttons</p>
           <div class="mt-5 flex flex-wrap items-center gap-3">
             <Button variant="primary" iconRight="ph:arrow-right">Primary</Button>
             <Button variant="ghost">Ghost</Button>
@@ -292,30 +283,28 @@ const metrics = [
             <Button variant="primary" size="lg" iconLeft="ph:paper-plane-tilt">Large + icon</Button>
           </div>
           <Text size="xs" tone="muted" class="mt-4">
-            <code class="font-mono text-ink">primary</code> and
-            <code class="font-mono text-ink"> navy</code> are for dark surfaces (shown below);
-            <code class="font-mono text-ink"> secondary</code> is the outlined action on ink.
+            Solid buttons are for light backgrounds. On dark backgrounds, I
+            switch to an outlined button instead.
           </Text>
         </div>
 
         <div class="rounded-lg border border-ink bg-ink p-6 md:p-8">
-          <p class="mono-label !text-paper/65">Button: on ink surfaces</p>
+          <p class="mono-label !text-paper/65">Buttons on dark backgrounds</p>
           <div class="mt-5 flex flex-wrap items-center gap-3">
             <Button variant="navy" iconRight="ph:arrow-right">Navy (inverse fill)</Button>
             <Button variant="secondary">Secondary (outlined)</Button>
           </div>
           <Text size="xs" tone="whiteMuted" class="mt-4">
-            Reserved for ink sections: paper fill or a hairline outline, never the
-            paper-surface primary.
+            These versions are only used on dark backgrounds.
           </Text>
         </div>
 
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Link: inline / arrow / nav</p>
+          <p class="mono-label">Links</p>
           <div class="mt-5 space-y-3 text-sm">
             <p class="text-ink-muted">
-              Read <Link href="/about/" variant="inline">the approach</Link>. Inline links
-              carry a quiet navy underline.
+              Read <Link href="/about/" variant="inline">the approach</Link> to
+              see a link inside a sentence.
             </p>
             <p><Link href="/projects/" variant="arrow">Selected work</Link></p>
             <p class="flex gap-5">
@@ -326,7 +315,7 @@ const metrics = [
         </div>
 
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Badge: mono label chip</p>
+          <p class="mono-label">Tags</p>
           <div class="mt-5 flex flex-wrap items-center gap-3">
             <Badge>Default</Badge>
             <Badge icon="ph:package">With icon</Badge>
@@ -335,28 +324,26 @@ const metrics = [
             <Badge size="sm">Small</Badge>
           </div>
           <Text size="xs" tone="muted" class="mt-4">
-            A hairline tile in Geist Mono with a small tick: accent on
-            <code class="font-mono text-ink"> coral</code>/<code class="font-mono text-ink">sunset</code>,
-            neutral otherwise.
+            Small tags I use to highlight or label something.
           </Text>
         </div>
 
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Logo: sm / md / lg</p>
+          <p class="mono-label">Logo</p>
           <div class="mt-6 flex flex-wrap items-baseline gap-x-10 gap-y-6">
             <Logo size="sm" />
             <Logo size="md" />
             <Logo size="lg" />
           </div>
           <Text size="xs" tone="muted" class="mt-5">
-            The name in the signature script, set as real text so it carries the
-            accessible name. The favicon is the same script's J, outlined so the
-            tab icon does not wait on a font.
+            My name in a handwritten script. It's real text, so screen
+            readers can read it aloud. The browser tab icon uses the same
+            style.
           </Text>
         </div>
 
         <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-          <p class="mono-label">Icon: Phosphor set</p>
+          <p class="mono-label">Icons</p>
           <div class="mt-6 flex flex-wrap items-center gap-6 text-ink">
             <Icon name="ph:arrow-right" size={26} />
             <Icon name="ph:check-circle" size={26} />
@@ -365,8 +352,8 @@ const metrics = [
             <Icon name="ph:package" size={26} />
           </div>
           <Text size="xs" tone="muted" class="mt-5">
-            Decorative (aria-hidden) by default. Pass <code class="font-mono text-ink">label</code>
-            to expose a meaningful icon to assistive tech.
+            Most icons are just decoration. When an icon means something on
+            its own, I add a label so screen readers can announce it.
           </Text>
         </div>
       </div>
@@ -375,62 +362,52 @@ const metrics = [
 
   <Section id="patterns" tone="paper" padding="default" class="border-b border-line">
     <Container width="wide">
-      <p class="mono-label">Patterns / 04</p>
+      <p class="mono-label">Groups / 04</p>
       <div class="mt-4 max-w-2xl">
-        <Heading level={2} visual="display-md">Compositions used across pages.</Heading>
+        <Heading level={2} visual="display-md">Bigger pieces, built from small parts.</Heading>
         <Text tone="muted" class="mt-4">
-          A small set of patterns built from the primitives above: a section header,
-          a metrics row, a code window, and an FAQ. Every page draws from this set.
+          These are bigger pieces built from the parts above: a section
+          header, a row of numbers, a code sample, and a list of questions
+          and answers.
         </Text>
       </div>
 
-      <div class="mt-12 rounded-lg border border-line bg-raised p-7 md:p-10">
-        <p class="mono-label mb-6">SectionHeader</p>
-        <SectionHeader
-          eyebrow="Pattern"
-          eyebrowIcon="ph:columns"
-          title="A centred section header."
-          lead="Eyebrow Badge, balanced display heading, and an optional muted lead: the standard opener for a content section."
-        />
-      </div>
-
       <div class="mt-8 rounded-lg border border-line bg-raised p-7 md:p-10">
-        <p class="mono-label mb-6">Metric: a row of measured outcomes</p>
+        <p class="mono-label mb-6">Numbers and results</p>
         <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
           {metrics.map((m) => (
             <Metric value={m.value} before={m.before} label={m.label} />
           ))}
         </div>
         <Text size="xs" tone="muted" class="mt-6">
-          Oversized ink figure, sans label, optional before→after. Illustrative values
-          shown. Use only real, defensible numbers in production.
+          These numbers are just examples.
         </Text>
       </div>
 
       <div class="mt-8">
-        <p class="mono-label mb-4">CodeBlock: framed code window</p>
+        <p class="mono-label mb-4">Code samples</p>
         <CodeBlock
           filename="Field.astro"
           lang="ts"
           code={apiSnippet}
-          caption="A real component API, shown (not asserted). Dependency-free chrome carries the polish."
+          caption="A real piece of code from this site."
         />
       </div>
 
       <div class="mt-10 rounded-lg border border-line bg-raised p-7 md:p-10">
-        <p class="mono-label mb-2">FAQ: native details/summary, zero JS</p>
+        <p class="mono-label mb-2">Common questions</p>
         <FAQ class="mt-4">
-          <FAQItem question="Why only one accent colour?" open>
-            Restraint reads as deliberate. A single navy mark per view keeps attention
-            where it belongs and never competes with content.
+          <FAQItem question="Why only one accent color?" open>
+            One color stands out more than many. It keeps your eyes on the
+            words instead of the design.
           </FAQItem>
-          <FAQItem question="How is accessibility handled?">
-            By construction. Primitives bake in semantic structure, required labels, and
-            AA contrast, so misuse is hard to reach for in the first place.
+          <FAQItem question="How do you make sure everyone can use the site?">
+            Every button, link, and form field is built to work well with
+            screen readers and keyboards, not just a mouse.
           </FAQItem>
-          <FAQItem question="What carries motion?">
-            Two shared easings plus scroll-reveal: transform and opacity only, and it
-            all pauses under prefers-reduced-motion.
+          <FAQItem question="What moves on the page?">
+            Sections fade in gently as you scroll. If your device is set to
+            reduce motion, this turns off.
           </FAQItem>
         </FAQ>
       </div>
@@ -441,11 +418,10 @@ const metrics = [
     <Container width="wide">
       <p class="mono-label">Forms / 05</p>
       <div class="mt-4 max-w-2xl">
-        <Heading level={2} visual="display-md">Accessibility wired in by default.</Heading>
+        <Heading level={2} visual="display-md">Forms everyone can use.</Heading>
         <Text tone="muted" class="mt-4">
-          <code class="font-mono text-[0.9em] text-accent">Field</code> auto-generates ids and
-          connects label, hint, error, aria-describedby, aria-invalid, and
-          aria-required. You cannot create a mislabeled input through this API.
+          Every field has a clear label. Hints and error messages are
+          connected to the field, so screen readers announce them too.
         </Text>
       </div>
 
@@ -482,16 +458,16 @@ const metrics = [
 
         <div class="flex flex-col gap-6">
           <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-            <p class="mono-label mb-4">ChoiceGroup: fieldset + legend</p>
-            <ChoiceGroup legend="How healthy is your design system?" name="demo-rating" required>
+            <p class="mono-label mb-4">Multiple choice</p>
+            <ChoiceGroup legend="How would you rate this page?" name="demo-rating" required>
               <Choice name="demo-rating" value="strong" label="Strong" />
-              <Choice name="demo-rating" value="ok" label="Functional" checked />
+              <Choice name="demo-rating" value="ok" label="Good" checked />
               <Choice name="demo-rating" value="weak" label="Needs work" />
             </ChoiceGroup>
           </div>
 
           <div class="rounded-lg border border-line bg-raised p-6 md:p-8">
-            <p class="mono-label mb-4">FormAlert: status &amp; alert</p>
+            <p class="mono-label mb-4">Status messages</p>
             <div class="space-y-4">
               <FormAlert variant="success" hidden={false}>
                 <p class="font-sans font-semibold text-ink">Thanks. Your message is on its way.</p>
@@ -510,53 +486,42 @@ const metrics = [
 
   <Section id="motion" tone="ink" padding="default">
     <Container width="wide">
-      <p class="mono-label !text-paper/65">Motion &amp; spacing / 06</p>
+      <p class="mono-label !text-paper/65">Movement & spacing / 06</p>
       <div class="mt-4 max-w-2xl">
-        <Heading level={2} visual="display-md" tone="paper">Quiet, deliberate motion.</Heading>
+        <Heading level={2} visual="display-md" tone="paper">Movement on the page.</Heading>
         <Text size="lg" tone="whiteMuted" class="mt-4">
-          Animation is restrained and reversible. Transform and opacity only; nothing
-          loops loudly, and everything yields to reduced-motion.
+          Animations are small and simple. Nothing spins or loops forever,
+          and the site turns them off if your device is set to reduce
+          motion.
         </Text>
       </div>
 
       <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-paper/15 bg-paper/15 md:grid-cols-3">
         <div class="bg-ink p-7">
           <p class="mono-label !text-paper/65">Scroll reveal</p>
-          <p class="mt-3 font-mono text-sm text-paper">.scroll-reveal</p>
           <Text size="sm" tone="whiteMuted" class="mt-3">
-            Blocks fade up 18px on enter over 0.9s. Disabled entirely under
-            prefers-reduced-motion.
+            Sections fade in gently as you scroll down the page.
           </Text>
         </div>
         <div class="bg-ink p-7">
-          <p class="mono-label !text-paper/65">Easing: out</p>
-          <p class="mt-3 font-mono text-sm text-paper">cubic-bezier(.22, 1, .36, 1)</p>
+          <p class="mono-label !text-paper/65">Smooth start</p>
           <Text size="sm" tone="whiteMuted" class="mt-3">
-            <code class="font-mono text-paper">--ease-out</code>: entrances, hovers, and
-            arrow nudges.
+            Used when something appears, like on hover or a button nudge.
           </Text>
         </div>
         <div class="bg-ink p-7">
-          <p class="mono-label !text-paper/65">Easing: in/out</p>
-          <p class="mt-3 font-mono text-sm text-paper">cubic-bezier(.65, 0, .35, 1)</p>
+          <p class="mono-label !text-paper/65">Smooth start and stop</p>
           <Text size="sm" tone="whiteMuted" class="mt-3">
-            <code class="font-mono text-paper">--ease-inout</code>: looping or symmetric
-            motion (e.g. the token-propagation demo).
+            Used for motion that moves back and forth.
           </Text>
         </div>
       </div>
 
       <div class="mt-8 rounded-lg border border-paper/15 p-7 md:p-8">
-        <p class="mono-label !text-paper/65">Section padding scale</p>
+        <p class="mono-label !text-paper/65">Spacing between sections</p>
         <Text size="sm" tone="whiteMuted" class="mt-3 max-w-3xl">
-          <code class="font-mono text-paper">Section</code> exposes three vertical rhythms:
-          <code class="font-mono text-paper"> tight</code> (py-14 / md:py-20),
-          <code class="font-mono text-paper"> default</code> (py-20 / md:py-28), and
-          <code class="font-mono text-paper"> loose</code> (py-24 / md:py-36).
-          <code class="font-mono text-paper"> Container</code> caps line length at
-          narrow / default / wide, and <code class="font-mono text-paper">Grid</code> handles
-          1-4 responsive columns. Heavy whitespace does the spacing work. No
-          decorative fills.
+          Pages use consistent spacing between sections. Extra whitespace,
+          not boxes or lines, keeps everything easy to scan.
         </Text>
       </div>
     </Container>

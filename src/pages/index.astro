@@ -9,9 +9,7 @@ import Button from '~/components/primitives/Button.astro';
 import Link from '~/components/primitives/Link.astro';
 import FacetGlyph from '~/components/patterns/FacetGlyph.astro';
 
-// ── Content (every claim is backed by the site itself or a real case study) ──
-// Same four chips as the about page, worded identically. Two pages rendering
-// the same strip with different items read as two different claims.
+
 const capabilities = [
   'Design-grade front-end',
   'React · TypeScript',
@@ -19,8 +17,7 @@ const capabilities = [
   'Design systems',
 ];
 
-// The differentiator band. Why these products feel finished. The lead facet (UI)
-// is the featured cell; the rest are the front-end disciplines behind the finish.
+
 const facets = [
   {
     glyph: 'craft' as const,
@@ -49,30 +46,17 @@ const facets = [
   },
 ];
 
-// One number per case study linked below, in the same order as the list, so
-// every figure here is a claim the reader can click through and check. Numbers
-// from clients without a published case study belong on the resume, not here.
 const metrics = [
   { value: '75%', label: 'fewer support calls', note: 'IVFCRYO: a readiness gate before scheduling' },
-  { value: 'Zero', label: 'pipeline regressions', note: 'VMSpark: four phases, no feature flags' },
   { value: '2+ hrs', label: 'a day of data entry removed', note: 'Logatot: hands-free capture in the moment' },
 ];
 
-// Products where I owned the interface: the three client platforms. Order
-// matches /projects/, so the two lists cannot present the same case studies
-// in different sequences.
 const work = [
   {
     href: '/projects/ivfcryo/',
     client: 'IVFCRYO',
     kind: 'Logistics platform',
     line: 'A self-service platform for cryogenic fertility shipments, where the hard part was getting five parties provably ready before a specimen moved.',
-  },
-  {
-    href: '/projects/vmspark/',
-    client: 'VMSpark',
-    kind: 'Admin platform',
-    line: 'A multi-tenant admin platform rebuilt and shipped in four phases: the operator-facing UI and workflows, delivered with zero pipeline regressions.',
   },
   {
     href: '/projects/logatot/',
@@ -137,7 +121,7 @@ const work = [
   <Section tone="paper" padding="default">
     <Container width="wide">
       <div class="max-w-3xl">
-        <Heading level={2} visual="display-md" >
+        <Heading level={2} visual="display-md" class="text-pretty">
           Why my products feel finished.
         </Heading>
         <Text size="lg" tone="muted" class="mt-5">
@@ -157,7 +141,7 @@ const work = [
               <>
                 <FacetGlyph name={c.glyph} size="lg" class="text-ink" />
                 <span class="mono-label text-accent mt-6 block">Where the value is</span>
-                <Heading level={3} visual="h2" class="mt-3 max-w-[16ch] text-balance">{c.title}</Heading>
+                <Heading level={3} visual="h2" class="mt-3 text-balance">{c.title}</Heading>
                 <Text tone="muted" class="mt-4 max-w-lg">{c.body}</Text>
               </>
             ) : (

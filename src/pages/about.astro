@@ -170,7 +170,7 @@ const personal = [
         {principles.map((p, i) => (
           <div class={`bg-paper p-7 md:p-9 ${i === 0 ? 'lg:col-span-2 lg:row-span-2 lg:flex lg:flex-col lg:justify-center md:p-10' : ''}`}>
             <PrincipleGlyph name={p.glyph} size={i === 0 ? 'lg' : 'md'} class="text-ink" />
-            <Heading level={3} visual={i === 0 ? 'h2' : 'h3'} class={i === 0 ? 'mt-7 max-w-[22ch]' : 'mt-6'}>{p.title}</Heading>
+            <Heading level={3} visual={i === 0 ? 'h2' : 'h3'} class={i === 0 ? 'mt-7' : 'mt-6'}>{p.title}</Heading>
             <Text tone="muted" class={i === 0 ? 'mt-4 max-w-lg' : 'mt-3'} size={i === 0 ? undefined : 'sm'}>{p.body}</Text>
           </div>
         ))}
@@ -183,7 +183,7 @@ const personal = [
       <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div class="lg:col-span-5">
           <p class="mono-label">Always learning</p>
-          <Heading level={2} visual="display-md" class="mt-4 max-w-[16ch]">
+          <Heading level={2} visual="display-md" class="mt-4">
             Still reading the spec drafts.
           </Heading>
           <div class="mt-7 space-y-4 text-ink-muted leading-relaxed max-w-md">
@@ -205,7 +205,6 @@ const personal = [
           <ul class="mt-5 divide-y divide-line border-y border-line" data-reveal-stagger>
             {learning.map((item, i) => (
               <li class="flex items-baseline gap-4 py-4">
-                <span class="font-mono text-[0.75rem] text-accent">{String(i + 1).padStart(2, '0')}</span>
                 <div>
                   <p class="font-display text-base font-medium tracking-tight text-ink">{item.title}</p>
                   <p class="mt-0.5 text-sm text-ink-muted">{item.note}</p>

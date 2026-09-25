@@ -72,10 +72,6 @@ const projects = [
               href={p.href}
               class="group grid grid-cols-12 items-start gap-x-4 gap-y-3 border-b border-line py-8 transition-colors hover:bg-ink/[0.02] md:gap-y-0 md:py-10"
             >
-              <span class="col-span-2 flex items-baseline gap-3 sm:col-span-1">
-                <span class="font-mono text-[0.8rem] text-accent">{p.index}</span>
-              </span>
-
               <span class="col-span-10 sm:col-span-4 md:col-span-3">
                 <span class="font-display text-xl font-medium tracking-tight text-ink md:text-2xl">{p.client}</span>
                 <span class="mt-1 block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink-muted">{p.kind}</span>
@@ -108,7 +104,7 @@ const projects = [
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div class="lg:col-span-5">
           <p class="mono-label">Why these are here</p>
-          <Heading level={2} visual="display-md" class="mt-4 max-w-[16ch]">
+          <Heading level={2} visual="display-md" class="mt-4">
             Side projects are where the finish shows.
           </Heading>
         </div>

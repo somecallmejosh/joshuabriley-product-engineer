@@ -39,19 +39,16 @@ const services = [
     </Field>
   </div>
 
-  <Field label="Email" name="email" required hint="I'll only use this to reply.">
-    <Input name="email" type="email" autocomplete="email" inputmode="email" required />
-  </Field>
+  <div class="grid sm:grid-cols-2 gap-5">
+    <Field label="Email" name="email" required hint="I'll only use this to reply.">
+      <Input name="email" type="email" autocomplete="email" inputmode="email" required />
+    </Field>
+    <Field label="Phone (optional)" name="phone">
+      <Input name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+    </Field>
+  </div>
 
-  <Field label="Phone (optional)" name="phone">
-    <Input name="phone" type="tel" autocomplete="tel" inputmode="tel" />
-  </Field>
-
-  <Field label="What's this about?" name="service" required>
-    <Select name="service" options={services} placeholder="Pick one" required />
-  </Field>
-
-  <Field label="Notes" name="message" required hint="A few sentences is plenty.">
+  <Field label="Comments" name="message" required hint="A few sentences is plenty.">
     <Textarea name="message" rows={5} required />
   </Field>
 

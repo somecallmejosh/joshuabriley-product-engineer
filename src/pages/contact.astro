@@ -47,22 +47,14 @@ const featuredQuotes = [
       <div class="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-end">
         <div class="lg:col-span-8">
           <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
-            Let's talk about <em class="ink-wink font-normal italic">the work</em>.
+            Let's talk about <em class="ink-wink font-normal italic">the web</em>.
           </Heading>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-            Got a project, a question, or an idea worth talking through? Send a note
+            Got an idea worth talking through? Just looking for someone friendly in the industry?
+            Send a note
             and tell me what's on your mind. I read everything and reply personally,
             usually the same day.
           </Text>
-        </div>
-        <div class="hero-in hero-in-4 lg:col-span-4">
-          <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted lg:flex-col lg:gap-y-3">
-            {['~2 minutes', 'Straight to my inbox'].map((p) => (
-              <li class="flex items-center gap-2">
-                <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </Container>
@@ -70,97 +62,36 @@ const featuredQuotes = [
 
   <Section tone="paper" padding="default">
     <Container width="wide">
-      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16 items-start">
-
-        <div class="lg:col-span-7">
+      <div class="grid grid-cols-2 gap-12 lg:gap-24">
+        <div>
           <Heading level={2} visual="display-md">
             Send a message.
           </Heading>
-          <div class="mt-9 rounded-lg border border-line bg-raised p-7 md:p-9">
+          <div class="mt-9">
             <ContactForm />
           </div>
         </div>
-
-        <aside class="lg:col-span-5 lg:sticky lg:top-28">
-          <p class="mono-label">What happens next</p>
-          <Heading level={2} visual="h2" class="mt-4 max-w-[20ch]">
-            How this usually goes.
-          </Heading>
-
-          <ol class="mt-8 divide-y divide-line border-y border-line" data-reveal-stagger>
-            {steps.map((step, i) => (
-              <li class="flex gap-4 py-5">
-                <span class="font-mono text-[0.75rem] text-accent">{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <p class="font-display text-base font-medium tracking-tight text-ink">{step.title}</p>
-                  <Text size="sm" tone="muted" class="mt-1">{step.body}</Text>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </aside>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" class="border-t border-line">
-    <Container width="wide">
-      <div class="max-w-3xl">
-        <Heading level={2} visual="display-md">
-          What people say about working with me.
-        </Heading>
-      </div>
-
-      <div class="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-12 lg:gap-16" data-reveal-stagger>
-        {featuredQuotes.map((q) => (
-          <figure>
-            <blockquote>
-              <p class="font-display text-xl leading-snug tracking-[-0.015em] text-ink max-w-[42ch]">
-                {q.quote}
-              </p>
-            </blockquote>
-            <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src={q.image}
-                alt={q.name}
-                class="h-12 w-12 rounded-full border border-line object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-              <div>
-                <p class="font-display text-base font-medium tracking-tight text-ink">{q.name}</p>
-                <p class="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.1em] text-ink-muted">{q.role} · {q.company}</p>
-              </div>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="ink" padding="loose">
-    <Container width="wide">
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-8">
-          <p class="mono-label !text-paper/65">Prefer to skip the form</p>
-          <Heading level={2} visual="display-lg" tone="paper" class="mt-4 max-w-[22ch] text-balance">
+        <div class="space-y-4">
+          <p class="mono-label">Prefer to skip the form</p>
+          <Heading level={3} visual="display-md" class="mt-4 max-w-[22ch] text-balance">
             Email me, or say hi on LinkedIn.
           </Heading>
-          <Text size="lg" tone="whiteMuted" class="mt-6 max-w-xl">
+          <Text size="lg">
             However you reach out, it comes straight to me.
           </Text>
-        </div>
-        <div class="lg:col-span-4 lg:flex lg:justify-end">
-          <div class="flex flex-col items-start gap-3">
-            <Button variant="navy" size="lg" href="mailto:josh@thebrileys.com" iconRight="ph:arrow-right" class="js-magnetic">
-              Email me
-            </Button>
-            <a
-              href="https://www.linkedin.com/in/joshuabriley/"
-              rel="noopener noreferrer"
-              target="_blank"
-              class="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-paper/55 transition-colors hover:text-paper"
-            >Connect on LinkedIn <Icon name="ph:arrow-up-right" size={12} /></a>
+
+          <div>
+            <Button variant="ghost" size="lg" href="mailto:josh@thebrileys.com" iconRight="ph:arrow-right" class="js-magnetic">
+                Email me
+              </Button>
+              <Button
+                variant="ghost"
+                href="https://www.linkedin.com/in/joshuabriley/"
+                rel="noopener noreferrer"
+                target="_blank"
+                size="lg"
+                 class="js-magnetic"
+              >Connect on LinkedIn <Icon name="ph:arrow-up-right" size={12} /></Button>
           </div>
         </div>
       </div>

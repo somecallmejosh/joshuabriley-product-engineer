@@ -23,16 +23,16 @@ const projects = [
       'IVFCRYO ships frozen embryos between clinics. I designed the app patients and staff use, and worked with engineers on the tracking system behind it.',
     note: '75% fewer support calls',
   },
-  {
-    index: '02',
-    href: '/projects/vmspark/',
-    client: 'VMSpark',
-    kind: 'Admin platform',
-    title: 'Rebuilding an app without changing what it does',
-    summary:
-      "VMSpark's admin app hadn't kept up with the system it ran on. I audited the interface, chose a new direction, and rebuilt it in stages.",
-    note: 'Zero pipeline regressions',
-  },
+  // {
+  //   index: '02',
+  //   href: '/projects/vmspark/',
+  //   client: 'VMSpark',
+  //   kind: 'Admin platform',
+  //   title: 'Rebuilding an app without changing what it does',
+  //   summary:
+  //     "VMSpark's admin app hadn't kept up with the system it ran on. I audited the interface, chose a new direction, and rebuilt it in stages.",
+  //   note: 'Zero pipeline regressions',
+  // },
   {
     index: '03',
     href: '/projects/logatot/',
@@ -53,24 +53,6 @@ const personalProjects = [
   { href: '/personal-projects/rudiment-ui/', name: 'Rudimet UI' }
 ];
 
-/**
- * A trailing row that can't fill its tracks leaves visible holes beside the
- * stragglers, so each one stretches to absorb the leftover columns. Two tracks
- * at `sm`, three at `lg`, and the explicit `lg:col-span-1` is what stops an
- * `sm` span from carrying up into the wider grid.
- */
-const spanFor = (i: number, total: number) => {
-  const classes: string[] = [];
-  if (total % 2 === 1 && i === total - 1) classes.push('sm:col-span-2');
-
-  const trailing = total % 3;
-  if (trailing !== 0 && i >= total - trailing) {
-    classes.push(trailing === 1 ? 'lg:col-span-3' : i === total - 2 ? 'lg:col-span-2' : 'lg:col-span-1');
-  } else {
-    classes.push('lg:col-span-1');
-  }
-  return classes.join(' ');
-};
 ---
 
 <BaseLayout title="Projects | Joshua Briley" description={description}>
@@ -94,11 +76,11 @@ const spanFor = (i: number, total: number) => {
   <Section tone="paper" padding="default">
     <Container width="wide">
       <ul
-        class="grid grid-cols-1 gap-x-10 gap-y-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-14"
+        class="grid grid-cols-1 gap-x-10 gap-y-0 md:grid-cols-2 md:gap-x-14"
         data-reveal-stagger
       >
         {projects.map((p, i) => (
-          <li class={spanFor(i, projects.length)}>
+          <li>
             <a
               href={p.href}
               class="group flex h-full flex-col pb-9 pt-6 transition-colors hover:bg-ink/[0.02]"

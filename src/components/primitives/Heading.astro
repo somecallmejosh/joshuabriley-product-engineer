@@ -40,13 +40,13 @@ const visualStyles: Record<HeadingVisual, string> = {
   'display-xl':
     'font-serif text-[2.75rem] leading-[1.02] sm:text-6xl md:text-[4.25rem] font-semibold tracking-[-0.02em] text-balance',
   'display-lg':
-    'font-serif text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.05] tracking-[-0.02em]',
+    'font-serif text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.05] tracking-[-0.02em] text-balance',
   'display-md':
-    'font-serif text-3xl sm:text-4xl md:text-[2.75rem] font-semibold leading-[1.08] tracking-[-0.018em]',
+    'font-serif text-3xl sm:text-4xl md:text-[2.75rem] font-semibold leading-[1.08] tracking-[-0.018em] text-pretty',
   h1: 'font-serif text-4xl md:text-5xl font-semibold leading-[1.08] tracking-[-0.018em]',
-  h2: 'font-serif text-2xl md:text-[2rem] font-semibold leading-tight tracking-[-0.015em]',
-  h3: 'font-heading text-lg md:text-xl font-semibold leading-snug tracking-[-0.015em]',
-  h4: 'font-heading text-base font-semibold leading-snug tracking-[-0.01em]',
+  h2: 'font-serif text-2xl md:text-[2rem] font-semibold leading-tight tracking-[-0.015em] text-pretty',
+  h3: 'font-heading text-lg md:text-xl font-semibold leading-snug tracking-[-0.015em] text-pretty',
+  h4: 'font-heading text-base font-semibold leading-snug tracking-[-0.01em] text-pretty',
   eyebrow:
     'font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em]',
 };
@@ -69,8 +69,7 @@ const tones: Record<NonNullable<Props['tone']>, string> = {
     visualStyles[resolvedVisual],
     tones[tone],
     align === 'center' && 'text-center',
-    className,
-    'text-pretty'
+    className
   )}
 >
   <slot />
