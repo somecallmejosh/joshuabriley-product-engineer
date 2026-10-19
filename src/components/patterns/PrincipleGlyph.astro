@@ -2,19 +2,20 @@
 import { cx } from '~/lib/cx';
 
 /**
- * PrincipleGlyph — the small technical diagram that stands in for a principle
- * on the about page.
+ * PrincipleGlyph — the small drawing above each principle in "How I work" on
+ * the about page.
  *
- * Same contract as ToolGlyph, and deliberately so: fixed 3:2 viewBox, structure
+ * Same contract as ToolGlyph and FacetGlyph: fixed 3:2 viewBox, structure
  * drawn in `currentColor` at low opacity, and the one load-bearing element in
- * `var(--accent)`. Both are surface-aware (see the accent block in site.css),
- * so the same markup reads correctly on paper and on ink without a variant prop.
+ * `var(--accent)`. Surface-aware (see the accent block in site.css), so the
+ * same markup reads correctly on paper and on ink without a variant prop.
  *
- * Each mark draws the *claim*, not a category icon. The system glyph is a
- * component at somebody else's call site, because the principle is that the
- * consumer writes code. The accessibility glyph puts the focus ring inside the
- * component boundary, which is the whole argument. The directness glyph is two
- * routes between the same two points.
+ * Each mark is a recognizable piece of UI, so it reads without its title:
+ * the system glyph is a component's docs panel (preview and props) beside
+ * its color tokens; the
+ * accessibility glyph is a listbox with a focused option and the arrow keys
+ * that move it; the directness glyph is a review comment pinned to one spot
+ * on a screen.
  *
  * No hover motion here, unlike ToolGlyph: these cells aren't links, and the
  * repo rule is that non-link elements get no hover effects.
@@ -27,18 +28,10 @@ type GlyphName = 'system' | 'accessibility' | 'directness';
 
 interface Props {
   name: GlyphName;
-  size?: 'md' | 'lg';
   class?: string;
 }
 
-const { name, size = 'md', class: className } = Astro.props;
-
-// Width alone sets the footprint, so the three marks stay optically the same
-// weight next to each other even when the featured cell draws its own larger.
-const sizes: Record<NonNullable<Props['size']>, string> = {
-  md: 'w-24',
-  lg: 'w-32 md:w-36',
-};
+const { name, class: className } = Astro.props;
 ---
 
 <svg
@@ -46,107 +39,74 @@ const sizes: Record<NonNullable<Props['size']>, string> = {
   fill="none"
   aria-hidden="true"
   focusable="false"
-  class={cx('h-auto', sizes[size], className)}
+  class={cx('h-auto w-24', className)}
 >
   {name === 'system' && (
-    /* A component sitting in source somebody else wrote: two faint rules for
-       the lines around it, angle brackets, and the component as the one solid
-       thing on its line. The brackets are the point — what a consuming team
-       touches is the tag, not the implementation. The rules are held well clear
-       of the centre row so the drawing reads as three lines, not a tangle. */
+    /* A component's docs panel: the button preview in accent above two prop
+       rows (a text value and a switch), with the color tokens it draws from
+       beside it. Same kit as the home page's design-system glyph. */
     <g>
-      <g stroke="currentColor" stroke-opacity="0.18" stroke-width="1" stroke-linecap="round">
-        <line x1="19" y1="12" x2="58" y2="12" />
-        <line x1="19" y1="52" x2="46" y2="52" />
+      <rect x="6" y="8" width="54" height="48" rx="3" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.25" />
+      <rect x="14" y="14" width="28" height="12" rx="2.5" fill="var(--accent)" />
+      <line x1="21" y1="20" x2="35" y2="20" stroke="var(--paper, #fff)" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="6" y1="32" x2="60" y2="32" stroke="currentColor" stroke-opacity="0.18" stroke-width="1" />
+      <g stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5" stroke-linecap="round">
+        <line x1="12" y1="40" x2="24" y2="40" />
+        <line x1="12" y1="49" x2="24" y2="49" />
       </g>
-      <g
-        stroke="currentColor"
-        stroke-opacity="0.5"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="26,25 19,32 26,39" />
-        <polyline points="70,25 77,32 70,39" />
-      </g>
-      <rect
-        x="33"
-        y="25"
-        width="30"
-        height="14"
-        rx="2"
-        fill="var(--accent)"
-        fill-opacity="0.16"
-        stroke="var(--accent)"
-        stroke-width="1.5"
-      />
+      <line x1="34" y1="40" x2="52" y2="40" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round" />
+      <rect x="38" y="45" width="15" height="8" rx="4" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.25" />
+      <circle cx="49" cy="49" r="2.5" fill="currentColor" fill-opacity="0.6" />
+      <circle cx="78" cy="18" r="6" fill="currentColor" fill-opacity="0.8" />
+      <circle cx="78" cy="32" r="6" fill="currentColor" fill-opacity="0.3" />
+      <circle cx="78" cy="46" r="6" fill="var(--accent)" />
     </g>
   )}
 
   {name === 'accessibility' && (
-    /* The component boundary, a control inside it, and the focus ring drawn
-       inside that boundary rather than bolted on around the outside. Three
-       distinct treatments so the nesting reads at 96px: the boundary is dashed
-       because it's conceptual, the control is filled, and the ring is the only
-       solid accent stroke in the drawing. */
+    /* A listbox with its focused option ringed in accent, and the up and
+       down keys that move focus through it. */
     <g>
-      <rect
-        x="8"
-        y="8"
-        width="80"
-        height="48"
-        rx="3"
-        stroke="currentColor"
-        stroke-opacity="0.32"
-        stroke-width="1.25"
-        stroke-dasharray="3 3.5"
-      />
-      <rect
-        x="38"
-        y="28"
-        width="20"
-        height="8"
-        rx="1.5"
-        fill="currentColor"
-        fill-opacity="0.45"
-      />
-      <rect
-        x="32.25"
-        y="22.25"
-        width="31.5"
-        height="19.5"
-        rx="4"
-        stroke="var(--accent)"
-        stroke-width="1.75"
-      />
+      <rect x="6" y="8" width="54" height="48" rx="3" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.25" />
+      <g stroke="currentColor" stroke-opacity="0.3" stroke-width="1.5" stroke-linecap="round">
+        <line x1="14" y1="18" x2="42" y2="18" />
+        <line x1="14" y1="46" x2="38" y2="46" />
+      </g>
+      <rect x="10" y="25" width="46" height="14" rx="2" stroke="var(--accent)" stroke-width="1.75" />
+      <line x1="16" y1="32" x2="46" y2="32" stroke="currentColor" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round" />
+      <g stroke="currentColor" stroke-opacity="0.4" stroke-width="1.25">
+        <rect x="70" y="14" width="16" height="16" rx="2.5" />
+        <rect x="70" y="34" width="16" height="16" rx="2.5" />
+      </g>
+      <g stroke="currentColor" stroke-opacity="0.7" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M74.5 24 L78 20 L81.5 24" />
+        <path d="M74.5 40 L78 44 L81.5 40" />
+      </g>
     </g>
   )}
 
   {name === 'directness' && (
-    /* Two routes between the same two points. The long way round is the hedged
-       answer; the straight one is the shortest honest path. The detour arcs
-       clear of the accent line instead of weaving across it, so at this size
-       the two routes stay legible as two routes. */
+    /* A screen with a review pin on one specific spot and the comment it
+       opens, both in accent. */
     <g>
+      <rect x="4" y="8" width="60" height="48" rx="3" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.25" />
+      <g stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5" stroke-linecap="round">
+        <line x1="12" y1="18" x2="40" y2="18" />
+        <line x1="12" y1="26" x2="52" y2="26" />
+        <line x1="12" y1="34" x2="34" y2="34" />
+        <line x1="12" y1="46" x2="44" y2="46" />
+      </g>
+      <circle cx="38" cy="34" r="4" fill="var(--accent)" />
       <path
-        d="M12 46 C 18 17, 34 11, 50 15 C 66 19, 72 33, 84 46"
-        stroke="currentColor"
-        stroke-opacity="0.25"
-        stroke-width="1.25"
-        stroke-linecap="round"
-      />
-      <line
-        x1="12"
-        y1="46"
-        x2="84"
-        y2="46"
+        d="M62 14 H90 a2 2 0 0 1 2 2 V34 a2 2 0 0 1 -2 2 H68 L62 42 V36 a2 2 0 0 1 -2 -2 V16 a2 2 0 0 1 2 -2 Z"
+        fill="var(--paper, #fff)"
         stroke="var(--accent)"
-        stroke-width="1.75"
-        stroke-linecap="round"
+        stroke-width="1.5"
+        stroke-linejoin="round"
       />
-      <g fill="currentColor" fill-opacity="0.5">
-        <circle cx="12" cy="46" r="3" />
-        <circle cx="84" cy="46" r="3" />
+      <g stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round">
+        <line x1="66" y1="21" x2="86" y2="21" />
+        <line x1="66" y1="28" x2="78" y2="28" />
       </g>
     </g>
   )}

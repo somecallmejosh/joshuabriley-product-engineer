@@ -33,7 +33,6 @@ const proof = [
   { label: 'Design · owned', items: ['Stakeholder research & synthesis', 'Five-party workflow modeling', 'Information architecture', 'Customer, staff, and public tracking views', 'Readiness check before scheduling'] },
   { label: 'Front end · owned', items: ['Accessible component system', 'Progressive enhancement', 'Forms that help people fix mistakes', 'Status shown with text and icons, not color alone'] },
   { label: 'Backend · partnered', items: ['Shaped the Rails domain model', 'Specced lifecycle + readiness states', 'Defined integration boundaries', 'Set telemetry + alert requirements'] },
-  { label: 'Outcomes', items: ['Patients no longer chase two clinics for updates', '75% fewer support calls', '55% fewer shipping errors', 'Fewer transfer dates lost to delay'] },
 ];
 
 const docket = [
@@ -270,7 +269,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 // section below rather than inventing a new critique — see
 // src/pages/projects/interview-notes/tldr.md.
 const tldr = {
-  situation: `IVFCRYO ships frozen embryos and other fertility material between clinics. I designed the app patients and staff use, and worked with engineers on the tracking system behind it.`,
   problem: `Interviews with the owner, the COO, and the office manager showed the hard part wasn't the drive. It was getting five people, the patient, two clinics, a courier, and IVFCRYO, all confirmed and ready before a shipment could start.`,
   alternativeA: {
     name: 'Two separate apps',
@@ -338,7 +336,6 @@ const tldr = {
   </Section>
 
   <Tldr
-    situation={tldr.situation}
     problem={tldr.problem}
     alternativeA={tldr.alternativeA}
     alternativeB={tldr.alternativeB}
@@ -348,10 +345,10 @@ const tldr = {
     reflection={tldr.reflection}
   />
 
-  <Section tone="paper" padding="tight" aria-label="Scope and results">
+  <Section tone="paper" padding="tight" aria-label="Scope">
     <Container width="content">
-      <p class="mono-label mb-8">Scope and results</p>
-      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <p class="mono-label mb-8">Scope</p>
+      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {proof.map((group) => (
           <div class="border-t border-line pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
@@ -394,7 +391,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 01</p>
           <Heading level={2} visual="display-md" tone="ink">Five people, one shipment</Heading>
         </div>
         <div class="case-layout__body">
@@ -471,7 +467,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={plate('05-shipment-detail').index}
         title={plate('05-shipment-detail').title}
         caption={plate('05-shipment-detail').note}
         src={annotated('05-shipment-detail')}
@@ -484,7 +479,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 02</p>
           <Heading level={2} visual="display-md" tone="ink">Checking everyone is ready</Heading>
         </div>
         <div class="case-layout__body">
@@ -543,7 +537,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 03</p>
           <Heading level={2} visual="display-md" tone="ink">One app, two views</Heading>
         </div>
         <div class="case-layout__body">
@@ -609,7 +602,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={plate('03-shipments-index').index}
         title={plate('03-shipments-index').title}
         caption={plate('03-shipments-index').note}
         src={annotated('03-shipments-index')}
@@ -619,7 +611,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index="11"
         title={flow('11-flow-authentication').title}
         caption={flow('11-flow-authentication').note}
         src={annotated('11-flow-authentication')}
@@ -641,7 +632,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={plate('06-public-tracking').index}
         title={plate('06-public-tracking').title}
         caption={plate('06-public-tracking').note}
         src={annotated('06-public-tracking')}
@@ -654,7 +644,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 04</p>
           <Heading level={2} visual="display-md" tone="ink">Designing for mistakes</Heading>
         </div>
         <div class="case-layout__body">
@@ -702,7 +691,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={plate('04-new-shipment').index}
         title={plate('04-new-shipment').title}
         caption={plate('04-new-shipment').note}
         src={annotated('04-new-shipment')}
@@ -712,7 +700,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index="12"
         title={flow('12-flow-create-shipment').title}
         caption={flow('12-flow-create-shipment').note}
         src={annotated('12-flow-create-shipment')}
@@ -726,7 +713,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 05</p>
           <Heading level={2} visual="display-md" tone="ink">Working with engineering</Heading>
         </div>
         <div class="case-layout__body">
@@ -795,7 +781,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 06</p>
           <Heading level={2} visual="display-md" tone="ink">What changed after launch</Heading>
         </div>
         <div class="case-layout__body">
@@ -935,7 +920,7 @@ const tldr = {
           href="/contact/"
           class="js-magnetic"
         >
-          Contact me
+          Get in touch
         </Button>
         <a
           href="/resume/"

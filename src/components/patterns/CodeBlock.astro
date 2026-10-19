@@ -39,10 +39,10 @@ interface Props {
 const { code, filename, lang, caption, copy = true, class: className } = Astro.props;
 const body = code.replace(/^\n+|\n+$/g, '');
 
-// Non-selectable line-number gutter. Rendered as one pre-formatted string so it
-// aligns row-for-row with the code and never lands in a copy/selection.
-const lineCount = body.split('\n').length;
-const gutter = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
+// One row per source line, so long lines wrap inside their row and the
+// non-selectable line number stays beside the line it belongs to. Wrapping
+// instead of a horizontal scroller keeps every line readable at any width.
+const lines = body.split('\n');
 
 // Header label: filename wins; otherwise fall back to the language name.
 const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
@@ -62,11 +62,12 @@ const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
     </div>
 
     <pre
-      tabindex="0"
       role="region"
       aria-label={filename ? `Code: ${filename}` : 'Code sample'}
-      class="flex overflow-x-auto font-mono text-[0.8rem] leading-relaxed focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:text-sm"
-    ><span aria-hidden="true" class="sticky left-0 z-10 shrink-0 select-none whitespace-pre border-r border-white/10 bg-ink py-4 pl-4 pr-4 text-right text-white/50 md:py-5 md:pl-5">{gutter}</span><code class="whitespace-pre py-4 pl-4 pr-4 text-[#E7E5F7] md:py-5 md:pr-5">{body}</code></pre>
+      class="py-4 font-mono text-[0.8rem] leading-relaxed md:py-5 md:text-sm"
+    ><code class="block text-[#E7E5F7]">{lines.map((line, i) => (
+      <span class="flex"><span aria-hidden="true" class="w-[2.5rem] shrink-0 select-none border-r border-white/10 pr-3 text-right text-white/50 md:w-[3rem]">{i + 1}</span><span class="min-w-0 flex-1 whitespace-pre-wrap break-words pl-4 pr-4 md:pr-5">{line || ' '}</span></span>
+    ))}</code></pre>
   </div>
   {caption && (
     <figcaption class="mt-3 font-body text-sm text-ink-muted">{caption}</figcaption>

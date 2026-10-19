@@ -56,7 +56,7 @@ export const EXPERIENCE = [
   },
   {
     period: '2023 - 2024',
-    company: 'LogATot, Inc.',
+    company: 'Logatot, Inc.',
     role: 'Senior UX/UI Developer',
     stack: 'Rails · ViewComponents',
     bullets: [
@@ -197,7 +197,6 @@ export const CONTINUING_ED = [
     org: 'Interaction Design Foundation (IxDF)',
   },
   { title: 'Web Accessibility', org: 'Deque University' },
-  { title: 'Personal learning projects', org: 'Ongoing' },
 ]
 
 export const CERT_FOCUS = 'IAAP CPACC and WAS accessibility exams'

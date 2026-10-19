@@ -11,15 +11,6 @@ import PrincipleGlyph from '~/components/patterns/PrincipleGlyph.astro';
 const description =
   'Design systems and UI platform engineer working where front-end engineering and UX meet. 20 years in production UI, most recently building accessible component libraries in Vue, React, and Web Components.';
 
-// Same chips as the home page, worded identically. Two pages rendering the
-// same strip with different items read as two different claims.
-const capabilities = [
-  'Interface design',
-  'Front-end development',
-  'Accessibility',
-  'Design systems',
-];
-
 // Each principle carries its own drawing instead of an index number. The glyph
 // does the work the `01 / 02 / 03` was doing (marking where a cell starts) and
 // says something besides "this is the first one".
@@ -45,10 +36,10 @@ const principles = [
 ];
 
 const learning = [
-  { title: 'WAI-ARIA Authoring Practices', note: 'Patterns for building menus, tabs, dialogs, and other widgets that work with assistive technology.' },
-  { title: 'Design Tokens Community Group', note: 'A shared format for design tokens, so colors, spacing, and type can move between tools and platforms.' },
-  { title: 'CSS Working Group', note: 'Proposals for new CSS features, such as container queries, anchor positioning, and cascade layers.' },
-  { title: 'Rudiment UI', note: 'My open-source React component library, where I test ideas in public before using them in production.' },
+  { title: 'WAI-ARIA Authoring Practices', href: 'https://www.w3.org/WAI/ARIA/apg/', note: 'Patterns for building menus, tabs, dialogs, and other widgets that work with assistive technology.' },
+  { title: 'Design Tokens Community Group', href: 'https://www.designtokens.org/', note: 'A shared format for design tokens, so colors, spacing, and type can move between tools and platforms.' },
+  { title: 'CSS Working Group', href: 'https://github.com/w3c/csswg-drafts', note: 'Proposals for new CSS features, such as container queries, anchor positioning, and cascade layers.' },
+  { title: 'Rudiment UI', href: '/personal-projects/rudiment-ui/', note: 'My open-source React component library, where I test ideas in public before using them in production.' },
 ];
 
 // Real facts, not a bio-page mood board. Ordered as a rough life arc: where I'm
@@ -82,11 +73,7 @@ const personal = [
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
-      <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
-        <span>About · Design systems &amp; UI platform engineer</span>
-      </div>
-
-      <div class="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-center">
+      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16 lg:items-center">
         <div class="lg:col-span-7">
           <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
             I've worked in front-end engineering and UX for <em class="ink-wink font-normal italic">twenty years.</em>
@@ -97,28 +84,19 @@ const personal = [
             to ship on all three.
           </Text>
           <Text tone="muted" class="hero-in hero-in-3 mt-5 max-w-xl">
-            In every library, I focus on accessibility and on <em class="text-ink not-italic font-medium">component
-            APIs that work as well for the engineers using the system as they do for the people
-            using the product</em>. My current work uses Stencil-based Web Components, Storybook,
+            In every library, I focus on accessibility and on component APIs that work as well for
+            the engineers using the system as they do for the people using the product. My current work uses Stencil-based Web Components, Storybook,
             automated testing, and Figma integration.
           </Text>
 
           <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
             <Button variant="primary" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">
-              Contact me
+              Get in touch
             </Button>
             <Button variant="ghost" size="lg" href="/projects/">
               View projects
             </Button>
           </div>
-
-          <ul class="hero-in hero-in-4 mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
-            {capabilities.map((p) => (
-              <li class="flex items-center gap-2">
-                <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div class="hero-in hero-in-5 lg:col-span-5">
@@ -165,11 +143,11 @@ const personal = [
         class="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-3"
         data-reveal-stagger
       >
-        {principles.map((p, i) => (
-          <div class={`bg-paper p-7 md:p-9 ${i === 0 ? 'lg:col-span-2 lg:row-span-2 lg:flex lg:flex-col lg:justify-center md:p-10' : ''}`}>
-            <PrincipleGlyph name={p.glyph} size={i === 0 ? 'lg' : 'md'} class="text-ink" />
-            <Heading level={3} visual={i === 0 ? 'h2' : 'h3'} class={i === 0 ? 'mt-7' : 'mt-6'}>{p.title}</Heading>
-            <Text tone="muted" class={i === 0 ? 'mt-4 max-w-lg' : 'mt-3'} size={i === 0 ? undefined : 'sm'}>{p.body}</Text>
+        {principles.map((p) => (
+          <div class="bg-paper p-7 md:p-9">
+            <PrincipleGlyph name={p.glyph} class="text-ink" />
+            <Heading level={3} visual="h3" class="mt-6">{p.title}</Heading>
+            <Text tone="muted" size="sm" class="mt-3">{p.body}</Text>
           </div>
         ))}
       </div>
@@ -192,14 +170,29 @@ const personal = [
 
         <div class="lg:col-span-7">
           <ul class="divide-y divide-line border-y border-line" data-reveal-stagger>
-            {learning.map((item) => (
-              <li class="flex items-baseline gap-4 py-4">
-                <div>
-                  <p class="font-display text-base font-medium tracking-tight text-ink">{item.title}</p>
-                  <p class="mt-0.5 text-sm text-ink-muted">{item.note}</p>
-                </div>
-              </li>
-            ))}
+            {learning.map((item) => {
+              const external = item.href.startsWith('http');
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    class="group flex items-center justify-between gap-6 py-4"
+                    {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+                  >
+                    <span>
+                      <span class="block font-display text-base font-medium tracking-tight text-ink group-hover:text-accent">{item.title}</span>
+                      <span class="mt-0.5 block text-sm text-ink-muted">{item.note}</span>
+                    </span>
+                    <Icon
+                      name={external ? 'ph:arrow-up-right' : 'ph:arrow-right'}
+                      size={18}
+                      label={external ? 'opens in a new tab' : undefined}
+                      class="shrink-0 text-ink-muted transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-ink"
+                    />
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

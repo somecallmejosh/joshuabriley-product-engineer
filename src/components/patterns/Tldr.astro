@@ -12,7 +12,8 @@ interface Alternative {
 }
 
 interface Props {
-  situation: string;
+  /** Optional: omit when the hero already says it. */
+  situation?: string;
   problem: string;
   alternativeA: Alternative;
   alternativeB: Alternative;
@@ -43,13 +44,15 @@ const rowClass = 'grid gap-x-6 gap-y-3 py-6 sm:grid-cols-[9.5rem_1fr] sm:items-s
     <p class="mono-label mb-6">TL;DR</p>
 
     <dl class="divide-y divide-line border-t border-line">
-      <div class={rowClass}>
-        <dt class="flex items-center gap-2.5">
-          <Icon name="ph:map-pin" size={16} class="shrink-0 text-ink-muted" />
-          <span class="mono-label">Situation</span>
-        </dt>
-        <dd class="text-ink-muted leading-relaxed" set:html={situation} />
-      </div>
+      {situation && (
+        <div class={rowClass}>
+          <dt class="flex items-center gap-2.5">
+            <Icon name="ph:map-pin" size={16} class="shrink-0 text-ink-muted" />
+            <span class="mono-label">Situation</span>
+          </dt>
+          <dd class="text-ink-muted leading-relaxed" set:html={situation} />
+        </div>
+      )}
 
       <div class={rowClass}>
         <dt class="flex items-center gap-2.5">

@@ -241,7 +241,6 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
 // section below rather than inventing a new critique — see
 // src/pages/projects/interview-notes/tldr.md.
 const tldr = {
-  situation: `Logatot is a voice-controlled app for people who run childcare out of their own homes. I led the front end on a three-person team, in charge of the design and the app's overall structure.`,
   problem: `Three separate provider interviews all pointed to the same problem: a job that demands constant attention leaves no time for paperwork, so providers filled it in from memory at night, and those memory-based records were the ones inspectors and food-program auditors cared about most.`,
   alternativeA: {
     name: 'Let an AI model guess what was said',
@@ -307,7 +306,6 @@ const tldr = {
   </Section>
 
   <Tldr
-    situation={tldr.situation}
     problem={tldr.problem}
     alternativeA={tldr.alternativeA}
     alternativeB={tldr.alternativeB}
@@ -363,7 +361,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 01</p>
           <Heading level={2} visual="display-md" tone="ink">Who the app is for</Heading>
         </div>
         <div class="case-layout__body">
@@ -436,7 +433,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 02</p>
           <Heading level={2} visual="display-md" tone="ink">Talking to providers first</Heading>
         </div>
         <div class="case-layout__body">
@@ -499,7 +495,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 03</p>
           <Heading level={2} visual="display-md" tone="ink">Provider and parent views</Heading>
         </div>
         <div class="case-layout__body">
@@ -545,7 +540,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={screen('01-voiceboard').index}
         title={screen('01-voiceboard').title}
         caption={screen('01-voiceboard').note}
         src={sheet('01-voiceboard')}
@@ -569,7 +563,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={screen('06-parent-portal').index}
         title={screen('06-parent-portal').title}
         caption={screen('06-parent-portal').note}
         src={sheet('06-parent-portal')}
@@ -637,7 +630,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={screen('05-checkin-kiosk').index}
         title={screen('05-checkin-kiosk').title}
         caption={screen('05-checkin-kiosk').note}
         src={sheet('05-checkin-kiosk')}
@@ -649,7 +641,6 @@ const tldr = {
       <div class="space-y-16">
         {flowSet('13-flow-checkin', '14-flow-parent-access').map((flow) => (
           <Plate
-            index={flow.slug.slice(0, 2)}
             title={flow.title}
             caption={flow.note}
             src={sheet(flow.slug)}
@@ -664,7 +655,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 04</p>
           <Heading level={2} visual="display-md" tone="ink">Fixing misheard entries</Heading>
         </div>
         <div class="case-layout__body">
@@ -694,7 +684,6 @@ const tldr = {
 
     <Container width="wide" class="mt-16">
       <Plate
-        index={screen('04-logged-events').index}
         title={screen('04-logged-events').title}
         caption={screen('04-logged-events').note}
         src={sheet('04-logged-events')}
@@ -718,7 +707,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 05</p>
           <Heading level={2} visual="display-md" tone="ink">How voice recognition works</Heading>
         </div>
         <div class="case-layout__body">
@@ -761,7 +749,6 @@ const tldr = {
     <Container width="wide" class="mt-16">
       {flowSet('11-flow-voice-logging').map((flow) => (
         <Plate
-          index={flow.slug.slice(0, 2)}
           title={flow.title}
           caption={flow.note}
           src={sheet(flow.slug)}
@@ -825,7 +812,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 06</p>
           <Heading level={2} visual="display-md" tone="ink">What changed for providers</Heading>
         </div>
         <div class="case-layout__body">
@@ -851,7 +837,6 @@ const tldr = {
       <div class="space-y-16">
         {flowSet('12-flow-onboarding', '15-flow-food-program').map((flow) => (
           <Plate
-            index={flow.slug.slice(0, 2)}
             title={flow.title}
             caption={flow.note}
             src={sheet(flow.slug)}
@@ -944,7 +929,7 @@ const tldr = {
           href="/contact/"
           class="js-magnetic"
         >
-          Contact me
+          Get in touch
         </Button>
         <a
           href="/resume/"

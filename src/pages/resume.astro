@@ -28,12 +28,7 @@ const description =
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
-      <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
-        <span>Résumé</span>
-        <span class="text-ink-muted">Updated {updated}</span>
-      </div>
-
-      <div class="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-end">
+      <div class="grid gap-10 lg:grid-cols-12 lg:gap-16 lg:items-end">
         <div class="lg:col-span-8">
           <Heading level={1} visual="display-xl" class="hero-in hero-in-2">
             Joshua Briley
@@ -46,12 +41,13 @@ const description =
         <div class="hero-in hero-in-4 lg:col-span-4 lg:flex lg:flex-col lg:items-end">
           <div class="flex flex-wrap items-center gap-3 lg:justify-end">
             <Button variant="primary" size="lg" href="/resume.pdf" target="_blank" rel="noopener" iconRight="ph:download-simple" class="js-magnetic">
-              Download résumé (PDF)
+              Download PDF
             </Button>
             <Button variant="ghost" size="lg" href="/contact/">
-              Contact me
+              Get in touch
             </Button>
           </div>
+          <p class="mt-4 text-sm text-ink-muted">Updated {updated}</p>
         </div>
       </div>
     </Container>
@@ -130,11 +126,7 @@ const description =
             {skills.map((s) => (
               <div class="grid grid-cols-12 items-baseline gap-4 border-t border-paper/10 pt-5">
                 <p class="col-span-12 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-accent sm:col-span-4">{s.group}</p>
-                <ul class="col-span-12 flex flex-wrap gap-2 sm:col-span-8">
-                  {s.items.map((item) => (
-                    <li class="rounded-[5px] border border-paper/15 px-2.5 py-1 text-[0.8rem] text-paper/80">{item}</li>
-                  ))}
-                </ul>
+                <p class="col-span-12 text-sm leading-relaxed text-paper/80 sm:col-span-8">{s.items.join(', ')}</p>
               </div>
             ))}
           </div>

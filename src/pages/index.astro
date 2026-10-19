@@ -8,24 +8,10 @@ import Icon from '~/components/primitives/Icon.astro';
 import Button from '~/components/primitives/Button.astro';
 import Link from '~/components/primitives/Link.astro';
 import FacetGlyph from '~/components/patterns/FacetGlyph.astro';
-
-
-const capabilities = [
-  'Interface design',
-  'Front-end development',
-  'Accessibility',
-  'Design systems',
-];
+import ProjectGlyph from '~/components/patterns/ProjectGlyph.astro';
 
 
 const facets = [
-  {
-    glyph: 'craft' as const,
-    title: 'I design the interface and write the code',
-    body:
-      'Type, spacing, and motion ship the way they were designed, because the same person made the design decisions and wrote the production code. Nothing gets approximated from a spec in a handoff.',
-    featured: true,
-  },
   {
     glyph: 'accessible' as const,
     title: 'Accessibility from the start',
@@ -46,22 +32,19 @@ const facets = [
   },
 ];
 
-const metrics = [
-  { value: '75%', label: 'fewer support calls', note: 'IVFCRYO: a readiness gate before scheduling' },
-  { value: '2+ hrs', label: 'less data entry per day', note: 'Logatot: hands-free voice logging' },
-];
-
 const work = [
   {
     href: '/projects/ivfcryo/',
     client: 'IVFCRYO',
-    kind: 'Logistics platform',
+    glyph: 'ivfcryo' as const,
+    metric: { value: '75%', label: 'fewer support calls' },
     line: 'A self-service platform for shipping cryogenic fertility specimens. It confirms that all five parties are ready before a shipment is scheduled.',
   },
   {
     href: '/projects/logatot/',
     client: 'Logatot',
-    kind: 'Voice platform',
+    glyph: 'logatot' as const,
+    metric: { value: '2+ hrs', label: 'less data entry per day' },
     line: 'A voice-controlled operations platform for home-based child care providers, who can log the day hands-free while they care for children.',
   },
 ];
@@ -102,19 +85,6 @@ const work = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight" class="!py-9 border-b border-line">
-    <Container width="wide">
-      <h2 class="sr-only">Skills</h2>
-      <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
-        {capabilities.map((c) => (
-          <li class="flex items-center gap-2">
-            <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{c}
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </Section>
-
   <Section tone="paper" padding="default">
     <Container width="wide">
       <div class="max-w-3xl">
@@ -133,20 +103,10 @@ const work = [
         data-reveal-stagger
       >
         {facets.map((c) => (
-          <div class={`bg-paper p-7 md:p-9 ${c.featured ? 'lg:col-span-2 lg:row-span-3 lg:flex lg:flex-col lg:justify-center md:p-10' : ''}`}>
-            {c.featured ? (
-              <>
-                <FacetGlyph name={c.glyph} size="lg" class="text-ink" />
-                <Heading level={3} visual="h2" class="mt-6 text-balance">{c.title}</Heading>
-                <Text tone="muted" class="mt-4 max-w-lg">{c.body}</Text>
-              </>
-            ) : (
-              <>
-                <FacetGlyph name={c.glyph} size="md" class="text-ink" />
-                <Heading level={3} visual="h3" class="mt-6">{c.title}</Heading>
-                <Text tone="muted" size="sm" class="mt-3">{c.body}</Text>
-              </>
-            )}
+          <div class="bg-paper p-7 md:p-9">
+            <FacetGlyph name={c.glyph} class="text-ink" />
+            <Heading level={3} visual="h3" class="mt-6">{c.title}</Heading>
+            <Text tone="muted" size="sm" class="mt-3">{c.body}</Text>
           </div>
         ))}
       </div>
@@ -155,36 +115,24 @@ const work = [
 
   <Section tone="ink" padding="default">
     <Container width="wide">
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-6">
-          <Heading level={2} visual="display-md" tone="paper">Selected projects</Heading>
-          <Text class="mt-4 max-w-md !text-paper/65">
-            Products where I designed and built the interface.
-          </Text>
-        </div>
-        <div class="lg:col-span-6 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6">
-          {metrics.map((m) => (
-            <div class="flex flex-col">
-              <p class="font-display text-4xl md:text-5xl font-semibold leading-none tracking-[-0.03em] text-paper">{m.value}</p>
-              <p class="mt-2 font-sans text-sm font-medium tracking-tight text-paper/70">{m.label}</p>
-              <p class="mt-1.5 font-mono text-[0.62rem] uppercase tracking-[0.1em] leading-relaxed text-paper/60">{m.note}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Heading level={2} visual="display-md" tone="paper">Selected projects</Heading>
 
       <ul class="mt-14 border-t border-paper/10" data-reveal-stagger>
         {work.map((w) => (
           <li>
-            <a href={w.href} class="group grid grid-cols-12 items-center gap-4 border-b border-paper/10 py-5 transition-colors hover:bg-paper/[0.03]">
-              <span class="col-span-12 flex items-center gap-3 sm:col-span-4">
-                <span class="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-accent">{w.kind}</span>
+            <a href={w.href} class="group grid grid-cols-12 items-center gap-4 border-b border-paper/10 py-7 transition-colors hover:bg-paper/[0.03]">
+              <span class="col-span-4 md:col-span-2">
+                <ProjectGlyph name={w.glyph} class="text-paper" />
               </span>
-              <span class="col-span-10 sm:col-span-7">
+              <span class="col-span-8 md:col-span-3">
+                <span class="block font-display text-4xl md:text-5xl font-semibold leading-none tracking-[-0.03em] text-paper">{w.metric.value}</span>
+                <span class="mt-2 block font-sans text-sm font-medium tracking-tight text-paper/70">{w.metric.label}</span>
+              </span>
+              <span class="col-span-10 md:col-span-6">
                 <span class="font-display text-lg font-medium tracking-tight text-paper">{w.client}</span>
                 <span class="mt-0.5 block text-sm text-paper/55">{w.line}</span>
               </span>
-              <span class="col-span-2 flex justify-end sm:col-span-1">
+              <span class="col-span-2 flex justify-end md:col-span-1">
                 <Icon name="ph:arrow-right" size={18} class="text-paper/50 transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-paper" />
               </span>
             </a>
