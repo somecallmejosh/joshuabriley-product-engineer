@@ -12,7 +12,7 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  'Product design engineer with 20+ years in production UI. I design and build the interface myself, design-grade and accessible, so nothing is lost in a handoff. Currently building the enterprise design system roughly 3,500 Travelers engineers and designers work from.'
+  'Design systems and UI platform engineer with 20+ years in production UI. I design accessible interfaces and build them myself, so nothing is lost in a handoff. I currently build the Travelers design system used by roughly 3,500 engineers and designers.'
 
 export const STRENGTHS = [
   {
@@ -50,7 +50,7 @@ export const EXPERIENCE = [
     bullets: [
       'Gave roughly 3,500 engineers and designers across the organization one accessible component set to build against, cutting duplicate UI work.',
       'Cut more than 10 hours of setup per component story by automating Storybook story generation, returning that time to feature work.',
-      'Closed the design-to-code gap by automating Figma Code Connect mapping, so design and engineering stop hand-translating the same components.',
+      'Automated Figma Code Connect mapping, so designers and engineers no longer translate the same components by hand.',
       'Raised adoption by documenting accessibility expectations, implementation guidance, and cross-framework usage, so consuming teams ship correct patterns without asking.',
     ],
   },
@@ -62,7 +62,7 @@ export const EXPERIENCE = [
     bullets: [
       'Gave providers back more than two hours a day by moving documentation from evening paperwork to hands-free capture during the day.',
       'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events already captured.',
-      'Reworked the flows and forms where Hotjar, Google Analytics, and HubSpot showed people getting stuck, instead of where opinion said to look.',
+      'Reworked the flows and forms where Hotjar, Google Analytics, and HubSpot data showed people getting stuck.',
       'Shipped to market as a paid product sold direct and through child care associations, with English and Spanish at full parity.',
     ],
   },
@@ -86,7 +86,7 @@ export const EXPERIENCE = [
     bullets: [
       'Standardized front-end work across internal, agent, and customer portals with one shared UI library, so teams stopped rebuilding the same patterns.',
       'Made underwriting, administration, customer service, and agent workflows usable at scale through data-heavy tables, filters, forms, and dashboards.',
-      'Pointed the roadmap at the screens that mattered by instrumenting the portals with Segment and Heap and reading real underwriter and agent behavior.',
+      'Focused the roadmap on the screens underwriters and agents used most, based on Segment and Heap data from the portals.',
     ],
   },
   {
@@ -161,7 +161,7 @@ export const SKILLS = [
     ],
   },
   {
-    group: 'Back end',
+    group: 'Back end & hosting',
     items: ['Heroku', 'Netlify', 'Next', 'Nuxt', 'Ruby on Rails'],
   },
   {
@@ -194,7 +194,7 @@ export const EDUCATION = [
 export const CONTINUING_ED = [
   {
     title: 'Senior UX/UI/Product Designer + AI curriculum',
-    org: 'IxDF - Interaction Design Foundation ',
+    org: 'Interaction Design Foundation (IxDF)',
   },
   { title: 'Web Accessibility', org: 'Deque University' },
   { title: 'Personal learning projects', org: 'Ongoing' },
@@ -202,4 +202,4 @@ export const CONTINUING_ED = [
 
 export const CERT_FOCUS = 'IAAP CPACC and WAS accessibility exams'
 
-export const UPDATED = 'August 2026'
+export const UPDATED = 'October 2026'

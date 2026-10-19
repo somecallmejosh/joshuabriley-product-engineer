@@ -7,63 +7,49 @@ import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Button from '~/components/primitives/Button.astro';
 
-const description =
-  "Kind words from clients and colleagues I've had the pleasure of working with over 20 years of full-stack product design engineering, accessibility, and design-systems work.";
-
 const all = await getCollection('testimonials');
 const sorted = all.sort((a, b) => a.data.order - b.data.order);
+
+const description = `Testimonials from ${sorted.length} clients and colleagues, at companies including Apple, HubSpot, and Berkshire Hathaway Specialty Insurance, about working with Joshua Briley.`;
 ---
 
-<BaseLayout title="Testimonials | Joshua Briley | Product Design Engineer" description={description}>
+<BaseLayout title="Testimonials | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
-      <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
-        <span>Testimonials · {sorted.length} voices</span>
-      </div>
+      <div class="max-w-4xl">
+        <Heading level={1} visual="display-xl" class="hero-in hero-in-2">
+          Testimonials
+        </Heading>
+        <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
+          What {sorted.length} clients and colleagues say about working with me, from teams at
+          Apple, HubSpot, Berkshire Hathaway Specialty Insurance, America's Test Kitchen, and
+          other companies.
+        </Text>
 
-      <div class="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-end">
-        <div class="lg:col-span-8">
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[16ch]">
-            <em class="ink-wink font-normal italic">Kind words</em> from people I've worked with.
-          </Heading>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-            These come from clients and colleagues I've had the pleasure of working with. Their
-            words reflect what I care about most: collaboration, accessibility, and work that
-            holds up over time.
-          </Text>
-
-          <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
-            <Button variant="primary" size="lg" href="#wall" iconRight="ph:arrow-down" class="js-magnetic">
-              Read the wall
-            </Button>
-            <Button variant="ghost" size="lg" href="https://www.linkedin.com/in/joshuabriley/">
-              Connect on LinkedIn
-            </Button>
-          </div>
-        </div>
-        <div class="hero-in hero-in-4 lg:col-span-4">
-          <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted lg:flex-col lg:gap-y-3">
-            {[`${sorted.length} voices`, '20 years', 'Apple · HubSpot · BHSI'].map((p) => (
-              <li class="flex items-center gap-2">
-                <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
-              </li>
-            ))}
-          </ul>
+        <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
+          <Button variant="primary" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">
+            Contact me
+          </Button>
+          <Button
+            variant="ghost"
+            size="lg"
+            href="https://www.linkedin.com/in/joshuabriley/"
+            rel="noopener noreferrer"
+            target="_blank"
+            iconRight="ph:arrow-up-right"
+          >
+            Connect on LinkedIn
+          </Button>
         </div>
       </div>
     </Container>
   </Section>
 
-  <Section id="wall" tone="paper" padding="default">
+  <Section tone="paper" padding="default">
     <Container width="wide">
-      <div class="max-w-3xl">
-        <Heading level={2} visual="display-md">
-          Notes from collaborators.
-        </Heading>
-      </div>
-
-      <div class="mt-12 columns-1 [column-gap:2.5rem] sm:columns-2 lg:mt-14 lg:columns-3 lg:[column-gap:3rem]" data-reveal-stagger>
+      <h2 class="sr-only">All testimonials</h2>
+      <div class="columns-1 [column-gap:2.5rem] sm:columns-2 lg:columns-3 lg:[column-gap:3rem]" data-reveal-stagger>
         {sorted.map((t) => (
           <figure class="mb-12 break-inside-avoid lg:mb-14">
             <blockquote>

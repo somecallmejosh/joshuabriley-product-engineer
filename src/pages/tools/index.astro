@@ -18,33 +18,21 @@ const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
 const [featured, ...rest] = tools;
 
 const description =
-  'Four working tools for design-system teams: score your system, price the cost of drift, watch a design token propagate, and read an audit the way it gets delivered. No signup, nothing saved.';
+  'Four free tools for design system teams: a self-assessment scorecard, a calculator for the cost of inconsistent components, a design token playground, and a sample audit report. No signup, and nothing is saved.';
 ---
 
 <BaseLayout title="Tools | Joshua Briley" description={description}>
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
-      <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
-        <span>Tools</span>
-        <span class="hidden sm:inline text-ink-muted">{tools.length} of them, all free</span>
-      </div>
-
-      <div class="mt-10 max-w-4xl lg:mt-14">
+      <div class="max-w-4xl">
         <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[19ch]">
-          Small instruments for <em class="ink-wink font-normal italic">design-system</em> problems.
+          Free <em class="ink-wink font-normal italic">design system</em> tools
         </Heading>
         <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-          Each one answers a question teams keep asking me, and each one runs entirely in your
-          browser. Nothing to install, nothing to sign up for, nothing sent anywhere.
+          Each tool answers a question teams often ask me about their design systems. They run
+          entirely in your browser, so there is nothing to install, no signup, and no data sent
+          anywhere.
         </Text>
-
-        <ul class="hero-in hero-in-4 mt-9 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
-          {['No signup', 'Nothing saved', 'Built by hand'].map((p) => (
-            <li class="flex items-center gap-2">
-              <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
-            </li>
-          ))}
-        </ul>
       </div>
     </Container>
   </Section>
@@ -115,9 +103,8 @@ const description =
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div class="lg:col-span-5">
-          <p class="mono-label !text-paper/65">Why these are here</p>
-          <Heading level={2} visual="display-md" tone="paper" class="mt-4 max-w-[16ch] text-balance">
-            Every one of these is also a work sample.
+          <Heading level={2} visual="display-md" tone="paper" class="max-w-[16ch] text-balance">
+            How the tools are built
           </Heading>
         </div>
         <div class="lg:col-span-7">
@@ -127,15 +114,15 @@ const description =
               <span class="text-accent">accessible controls, live state, no frameworks under the hood, the same tokens as the rest of this site.</span>
             </p>
             <p>
-              The scorecard uses real radio groups, so tab through it and the keyboard path is
-              genuinely there. The results radar is hand-drawn SVG rather than a charting library.
-              The calculator shows every assumption behind its total instead of hiding the math.
-              That is the point: a tool that argues for careful interface work should survive being
-              inspected as one.
+              The scorecard uses real radio groups, so you can complete it with a keyboard. The
+              results radar is hand-drawn SVG rather than a charting library, and the calculator
+              shows every assumption behind its total. Each tool is meant to hold up to the same
+              scrutiny as the interface work it recommends.
             </p>
             <p>
-              If you would rather read than click, the same thinking runs through the
-              <a href="/blog/" class="text-paper/90 underline decoration-paper/30 underline-offset-2 transition-colors hover:text-paper hover:decoration-paper">writing</a>.
+              The
+              <a href="/blog/" class="text-paper/90 underline decoration-paper/30 underline-offset-2 transition-colors hover:text-paper hover:decoration-paper">blog</a>
+              covers the same topics in more depth.
             </p>
           </div>
         </div>

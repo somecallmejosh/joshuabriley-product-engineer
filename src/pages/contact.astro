@@ -5,93 +5,63 @@ import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Button from '~/components/primitives/Button.astro';
-import Icon from '~/components/primitives/Icon.astro';
 import ContactForm from '~/components/islands/ContactForm.astro';
 
 const description =
-  'Have a project, a question, or an idea worth talking through? Send a note, I read and answer everything myself.';
-
-const steps = [
-  { title: 'You send a message', body: "Takes about two minutes. Tell me what you're working on and what you need." },
-  { title: 'I reply personally', body: 'Usually the same day, written by me, not a template.' },
-  { title: 'We talk', body: "A real conversation about the work, the product you're building, and whether I'm the right fit." },
-  { title: 'A clear next step', body: "If we're a fit, we keep going. If we're not, I'll tell you honestly." },
-];
-
-const featuredQuotes = [
-  {
-    quote: "Josh's ability to foresee challenges and simplify implementation was invaluable. He creates seamless designs ensuring performance and accessibility.",
-    name: 'Rebecca Cachia, PMP',
-    role: 'Web Product & Project Manager',
-    company: 'Publicis Sapient',
-    image: '/images/testimonials/rebecca-cachia.jpeg',
-  },
-  {
-    quote: 'Josh delivered assignments as planned, and his work quality allowed him bandwidth for additional responsibilities.',
-    name: 'Gabriel Bressi',
-    role: 'QA Lead',
-    company: 'Kopius, Inc.',
-    image: '/images/testimonials/gabriel-bressi.jpeg',
-  },
-];
+  'Contact Joshua Briley about a project or a question. Send a message through the form, by email, or on LinkedIn. Every message gets a personal reply within one business day.';
 ---
 
-<BaseLayout title="Contact | Joshua Briley | Product Design Engineer" description={description}>
+<BaseLayout title="Contact | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
-      <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
-        <span>Contact</span>
-      </div>
-
-      <div class="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-end">
-        <div class="lg:col-span-8">
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
-            Let's talk about <em class="ink-wink font-normal italic">the web</em>.
-          </Heading>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-            Got an idea worth talking through? Just looking for someone friendly in the industry?
-            Send a note
-            and tell me what's on your mind. I read everything and reply personally,
-            usually the same day.
-          </Text>
-        </div>
-      </div>
+      <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
+        Get in <em class="ink-wink font-normal italic">touch</em>
+      </Heading>
+      <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
+        Whether you have a project, a question, or want to connect with someone in the industry,
+        send me a message. I read every message myself and reply within one business day,
+        usually sooner.
+      </Text>
     </Container>
   </Section>
 
   <Section tone="paper" padding="default">
     <Container width="wide">
-      <div class="grid grid-cols-2 gap-12 lg:gap-24">
-        <div>
+      <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-24">
+        <div class="lg:col-span-7">
           <Heading level={2} visual="display-md">
-            Send a message.
+            Send a message
           </Heading>
           <div class="mt-9">
             <ContactForm />
           </div>
         </div>
-        <div class="space-y-4">
-          <p class="mono-label">Prefer to skip the form</p>
-          <Heading level={3} visual="display-md" class="mt-4 max-w-[22ch] text-balance">
-            Email me, or say hi on LinkedIn.
+
+        <div class="lg:col-span-5 lg:border-l lg:border-line lg:pl-12">
+          <Heading level={2} visual="h2">
+            Email or LinkedIn
           </Heading>
-          <Text size="lg">
-            However you reach out, it comes straight to me.
+          <Text tone="muted" class="mt-4 max-w-sm">
+            You can also email me at
+            <a href="mailto:josh@thebrileys.com" class="text-ink underline underline-offset-4 hover:text-accent">josh@thebrileys.com</a>
+            or connect with me on LinkedIn.
           </Text>
 
-          <div>
-            <Button variant="ghost" size="lg" href="mailto:josh@thebrileys.com" iconRight="ph:arrow-right" class="js-magnetic">
-                Email me
-              </Button>
-              <Button
-                variant="ghost"
-                href="https://www.linkedin.com/in/joshuabriley/"
-                rel="noopener noreferrer"
-                target="_blank"
-                size="lg"
-                 class="js-magnetic"
-              >Connect on LinkedIn <Icon name="ph:arrow-up-right" size={12} /></Button>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <Button variant="ghost" size="lg" href="mailto:josh@thebrileys.com" iconRight="ph:envelope-simple">
+              Send an email
+            </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              href="https://www.linkedin.com/in/joshuabriley/"
+              rel="noopener noreferrer"
+              target="_blank"
+              iconRight="ph:arrow-up-right"
+            >
+              Connect on LinkedIn
+            </Button>
           </div>
         </div>
       </div>

@@ -30,10 +30,10 @@ const meta = [
 // Receipts split by ownership on purpose — two "owned" columns, one "partnered"
 // column, one outcomes column — so the boundary reads at a glance.
 const proof = [
-  { label: 'Design · owned', items: ['Stakeholder research & synthesis', 'Five-party workflow modeling', 'Information architecture', 'Two-sided + public flows', 'Readiness as a formal state'] },
-  { label: 'Front end · owned', items: ['Accessible component system', 'Progressive enhancement', 'Forms as a recovery system', 'Text/icon/shape, never color alone', 'Reusable accessible base'] },
+  { label: 'Design · owned', items: ['Stakeholder research & synthesis', 'Five-party workflow modeling', 'Information architecture', 'Customer, staff, and public tracking views', 'Readiness check before scheduling'] },
+  { label: 'Front end · owned', items: ['Accessible component system', 'Progressive enhancement', 'Forms that help people fix mistakes', 'Status shown with text and icons, not color alone'] },
   { label: 'Backend · partnered', items: ['Shaped the Rails domain model', 'Specced lifecycle + readiness states', 'Defined integration boundaries', 'Set telemetry + alert requirements'] },
-  { label: 'Outcomes', items: ['Patients stopped chasing two clinics', '75% fewer support calls', '55% fewer shipping errors', 'Fewer transfer dates lost to delay'] },
+  { label: 'Outcomes', items: ['Patients no longer chase two clinics for updates', '75% fewer support calls', '55% fewer shipping errors', 'Fewer transfer dates lost to delay'] },
 ];
 
 const docket = [
@@ -48,7 +48,7 @@ const docket = [
 // The five independent organizations a single shipment has to line up. The
 // interviews were unanimous: this — not the drive — is the hard part.
 const parties = [
-  { icon: 'ph:user', title: 'Patient', body: 'Authorizes the transfer, provides identity and records, completes forms and payment. Should never have to project-manage two labs.' },
+  { icon: 'ph:user', title: 'Patient', body: 'Authorizes the transfer, provides identity and records, completes forms and payment. The app keeps them from having to coordinate two labs themselves.' },
   { icon: 'ph:buildings', title: 'Sending clinic', body: 'Identifies, prepares, and releases the specimens, and names a responsible lab contact, not the front desk.' },
   { icon: 'ph:buildings', title: 'Receiving clinic', body: 'Confirms intake requirements, staffs qualified people, inspects, and accepts the specimens into storage.' },
   { icon: 'ph:airplane-tilt', title: 'Dedicated courier', body: 'Carries the sealed unit directly between facilities, no unrelated stops, with acknowledged chain-of-custody handoffs.' },
@@ -59,9 +59,9 @@ const parties = [
 // handoff — "chain of custody does not end with a delivery scan at the front desk."
 const custody = [
   { icon: 'ph:package', title: 'Prepare & release', body: 'IVFCRYO ships the unit with an IVFCRYO-Sense tracker inside; the sending lab loads the specimens and a named contact releases them.' },
-  { icon: 'ph:airplane-tilt', title: 'Courier pickup', body: 'A dedicated medical courier accepts custody from the named lab contact and hand-carries the sealed unit. The handoff is acknowledged, not assumed.' },
+  { icon: 'ph:airplane-tilt', title: 'Courier pickup', body: 'A dedicated medical courier accepts custody from the named lab contact and hand-carries the sealed unit. Both sides confirm the handoff.' },
   { icon: 'ph:thermometer', title: 'Delivery & inspection', body: 'The receiving lab inspects the unit and records a calibrated temperature at specimen-storage level before taking custody.' },
-  { icon: 'ph:seal-check', title: 'Accept & close', body: 'Qualified staff accept the specimens into storage and the record closes on acknowledgment. "Delivered" is not "accepted."' },
+  { icon: 'ph:seal-check', title: 'Accept & close', body: 'Qualified staff accept the specimens into storage and the record closes on acknowledgment. A delivery scan alone does not close it.' },
 ];
 
 // The readiness gate: each responsible party clears a checkpoint before a courier
@@ -125,24 +125,6 @@ const integrations = [
   { icon: 'ph:lock-key', name: 'Devise + 2FA', role: 'Auth for medical logistics' },
 ];
 
-const outcomes = [
-  {
-    icon: 'ph:phone-x',
-    title: 'Patients stopped calling in the dark',
-    body: 'The app answers the questions people used to call in with real fear behind them. Support calls fell by three quarters.',
-  },
-  {
-    icon: 'ph:seal-check',
-    title: 'Fewer preventable mistakes',
-    body: 'The readiness check and better forms catch errors before they reach the specimens. Shipping errors fell by more than half.',
-  },
-  {
-    icon: 'ph:calendar-check',
-    title: 'Fewer last-minute cancellations',
-    body: 'Fewer couriers get sent before a clinic has truly released the specimens, so fewer patients lose a transfer date.',
-  },
-];
-
 // The four-lens measurement frame Don and Daryl both described — the design's
 // definition of success, not just a headline number.
 const metricLenses = [
@@ -158,12 +140,12 @@ const metricLenses = [
 const edges = [
   {
     icon: 'ph:speaker-high',
-    title: 'One update speed, whether you wanted it or not',
+    title: 'Screen reader updates are too frequent',
     body: 'The tracker checks in every sixty seconds with temperature, location, humidity, and more. That is fine to look at quietly on screen. For someone using a screen reader, each update gets read aloud, and the next one starts before the last one finishes. There is a setting to slow it down, but a person has to find it first, and the fast pace is still the default. If I revisit this, I would change the default instead of just adding a setting.',
   },
   {
     icon: 'ph:tag',
-    title: 'Same label, different carrier',
+    title: 'Carriers announced with the same label',
     body: 'Once a shipment used more than one carrier, both got announced with identical wording. A sighted user can tell them apart by where they sit on screen. Someone using a screen reader cannot tell which carrier currently has the shipment. That only surfaced because a screen reader user tested the multi-carrier path. First thing I would fix: name each carrier explicitly in that wording.',
   },
 ];
@@ -227,21 +209,21 @@ const plates = [
     slug: '03-shipments-index',
     index: '03',
     title: 'Shipments index',
-    note: 'The primary workspace. Readiness state is the top-level filter, not a column.',
+    note: 'The main workspace for staff, filtered first by readiness state.',
     alt: 'Annotated wireframe of the shipments index: a filter bar, status tabs, and a list of shipment cards, with six numbered callouts explaining why status lives in the URL and why cards replaced table rows.',
   },
   {
     slug: '04-new-shipment',
     index: '04',
     title: 'New shipment',
-    note: 'A forty-control form made survivable: numbered sections, live cost, declared value, and no dead ends.',
+    note: 'A form with about forty fields, split into numbered sections, with a live price, declared value, and a way forward from every error.',
     alt: 'Annotated wireframe of the new-shipment form, broken into seven numbered sections from service selection to insurance, with a live price quote pinned beside it and six callouts covering quote recalculation, contact reuse, and notification defaults.',
   },
   {
     slug: '05-shipment-detail',
     index: '05',
     title: 'Shipment detail',
-    note: 'One page that answers the only two questions anyone has: where is it, and is it still cold.',
+    note: 'Shows where the shipment is and whether it is still at the right temperature.',
     alt: 'Annotated wireframe of the shipment detail page: a live position map above sensor readings for temperature, humidity, and battery, then two parallel tracking timelines, with callouts explaining why telemetry outranks logistics and why the two legs stay unmerged.',
   },
   {
@@ -267,13 +249,13 @@ const flows = [
   {
     slug: '11-flow-authentication',
     title: 'Authentication and account recovery',
-    note: 'A security gate that must not become a support ticket. Every dead end has a way out.',
+    note: 'Every failed step, such as a wrong verification code, offers a way to recover without calling support.',
     alt: 'Flow diagram of authentication and account recovery. A visitor branches on whether they have an account, through sign-in, admin activation, a user-chosen email or SMS verification channel, and six-digit code entry. A failed code offers resend, backup code, or password reset, and a final admin check routes to either the admin or client view. Five numbered design notes sit alongside, and password recovery runs as a separate track underneath.',
   },
   {
     slug: '12-flow-create-shipment',
     title: 'Creating a shipment',
-    note: 'The highest-consequence path in the product. Nine sections, one submit, no way to make an impossible booking.',
+    note: 'The highest-risk path in the product: nine sections and one submit, with validation that blocks bookings that cannot be fulfilled.',
     alt: 'Flow diagram of the shipment creation path. Service selection resolves a live price quote or a contact-for-quote branch, then runs through date, package, pickup and delivery contacts, notification preferences, insurance, and agreement. Failed validation returns to the offending field with form state preserved, and a successful submit forks into a confirmation email and the admin fulfillment queue. Six numbered design notes sit alongside.',
   },
 ];
@@ -366,9 +348,9 @@ const tldr = {
     reflection={tldr.reflection}
   />
 
-  <Section tone="paper" padding="tight" aria-label="Project receipts">
+  <Section tone="paper" padding="tight" aria-label="Scope and results">
     <Container width="content">
-      <p class="mono-label mb-8">Receipts</p>
+      <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
           <div class="border-t border-line pt-4">
@@ -391,7 +373,7 @@ const tldr = {
 
   <Section tone="paper" padding="tight">
     <Container width="content">
-      <p class="mono-label mb-5">Table of contents</p>
+      <p class="mono-label mb-5">Contents</p>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {docket.map((item, i) => (
           <li>
@@ -428,13 +410,13 @@ const tldr = {
               Don, the owner, put it simply: a shipment "looks like one transaction to
               the patient, but it is actually a chain of separate responsibilities",
               the patient, two clinics, a courier, and IVFCRYO, each with its own
-              paperwork and approvals. So the first thing I built wasn't a screen. It
-              was a map of who owed what to whom.
+              paperwork and approvals. So I started by mapping what each party had to
+              do and who they handed the shipment to next.
             </p>
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Five independent parties, one shipment</p>
+            <p class="mono-label mb-6">The five parties</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
               {parties.map((node, i) => (
                 <li class="relative border-t border-line pt-5">
@@ -449,7 +431,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">The physical chain of custody, with acknowledgment</p>
+            <p class="mono-label mb-6">Chain of custody</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {custody.map((node, i) => (
                 <li class="relative border-t border-line pt-5">
@@ -476,14 +458,14 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-16">
-      <p class="mono-label mb-6">How a screen got built</p>
+      <p class="mono-label mb-6">From sketch to annotated wireframe</p>
       <FidelityBand
         title={plate('05-shipment-detail').title}
         sketch={art('05-shipment-detail-sketch.svg')}
         wire={art('05-shipment-detail.svg')}
         annotated={annotated('05-shipment-detail')}
         annotatedAlt={plate('05-shipment-detail').alt}
-        caption="A crude sketch to settle what the page is for, a clean wireframe to settle where things go, then the same wireframe with the decisions written onto it. That third pass did the work: writing down why status lives in the URL, or why a half-filled form is never abandoned, is what turned a picture of a screen into a decision anyone on the project could check."
+        caption="Each screen went through three passes: a rough sketch to decide what the page is for, a clean wireframe to decide where things go, and the same wireframe annotated with the reason for each decision. The annotations, such as why status lives in the URL or why a half-filled form is never discarded, gave everyone on the project a record they could check the build against."
       />
     </Container>
 
@@ -516,16 +498,16 @@ const tldr = {
               The worst pattern, Daryl told me, is "scheduling first and hoping the
               remaining requirements are completed before pickup." It happens because
               someone is trying to protect a patient's transfer date, and it sometimes
-              ends in a last-minute cancellation instead. So I built readiness as
-              <strong class="text-ink font-semibold">something the system checks, not
-              just an impression someone has</strong>: a requested date, a provisional
-              plan, and a confirmed shipment stay three separate things, instead of all
-              looking the same the way they did on paper.
+              ends in a last-minute cancellation instead. So I made readiness
+              <strong class="text-ink font-semibold">a status the system checks</strong>.
+              A requested date, a provisional plan, and a confirmed shipment stay three
+              separate states, instead of all looking the same the way they did on
+              paper.
             </p>
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-6">Every party clears its checkpoint before the case can be scheduled</p>
+            <p class="mono-label mb-6">Readiness checks before scheduling</p>
             <ul>
               {readinessGate.map((row, i) => (
                 <li class="flex items-center gap-4 border-b border-line py-3.5 last:border-b-0">
@@ -583,7 +565,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Two roles, one shared home</p>
+            <p class="mono-label mb-6">Customer and staff screens</p>
             <div class="grid gap-x-10 gap-y-10 md:grid-cols-2">
               <div>
                 <div class="mb-5 flex items-center gap-3 border-b border-line-strong pb-3">
@@ -695,7 +677,7 @@ const tldr = {
             <p>
               A legally blind customer tested the app with a screen reader from early on,
               and kept testing after launch, which is how the labeling issue in
-              <a href="#edges" class="hero-link">the edges below</a> got found. Status
+              <a href="#edges" class="hero-link">the limitations below</a> got found. Status
               and errors always show as text and icons, never color alone, and important
               updates get read aloud automatically instead of only appearing silently on
               screen.
@@ -703,7 +685,7 @@ const tldr = {
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Built-in, not bolted-on</p>
+            <p class="mono-label mb-5">Error prevention and accessibility</p>
             <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {recovery.map((item) => (
                 <li class="flex items-center gap-3 text-ink">
@@ -750,9 +732,9 @@ const tldr = {
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              An app can only promise what the system behind it can actually deliver, so
-              I didn't just design the screens and hand them off. I worked alongside the
-              engineering team on the parts that had to carry those promises.
+              The app relies on the backend to enforce its rules, such as blocking a
+              shipment from being scheduled before everyone is ready. So I worked with the
+              engineering team on the parts of the system the design depended on.
             </p>
             <p>
               I turned the interview findings into the shipment stages and the readiness
@@ -764,7 +746,7 @@ const tldr = {
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-6">The integration boundaries we drew together</p>
+            <p class="mono-label mb-6">Integrations</p>
             <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
               {integrations.map((svc) => (
                 <li class="flex gap-3.5">
@@ -779,7 +761,7 @@ const tldr = {
           </div>
 
           <div class="mt-10">
-            <p class="mono-label mb-6">A design requirement I handed engineering: tiered alerts</p>
+            <p class="mono-label mb-6">Alert levels</p>
             <ul class="space-y-3">
               {alertTiers.map((t) => (
                 <li class={`flex items-start gap-4 rounded-md border border-line py-4 pl-5 pr-5 border-l-2 ${t.tone === 'crit' ? 'border-l-[#C13A22]' : t.tone === 'warn' ? 'border-l-[#C7811E]' : 'border-l-[#3C7A4E]'}`}>
@@ -790,9 +772,9 @@ const tldr = {
             </ul>
             <p class="mt-5 measure text-sm text-ink-muted leading-relaxed">
               Daryl's warning drove this: "if one device frequently generates false or
-              unhelpful notifications, employees will eventually stop trusting it." One
-              alert level for everything trains people to ignore it. Four levels, each
-              with someone assigned to respond, don't.
+              unhelpful notifications, employees will eventually stop trusting it." With a
+              single alert level, people learn to ignore alerts. Four levels, each with an
+              assigned responder, keep minor readings from looking like emergencies.
             </p>
           </div>
 
@@ -833,7 +815,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">The measurement frame the research described</p>
+            <p class="mono-label mb-6">How success is measured</p>
             <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {metricLenses.map((m) => (
                 <div class="border-t border-line pt-4">
@@ -851,15 +833,6 @@ const tldr = {
             </div>
           </div>
 
-          <div class="mt-12 grid gap-6 md:grid-cols-3">
-            {outcomes.map((o) => (
-              <div class="border-t border-line pt-5">
-                <Icon name={o.icon} size={26} class="mb-3 text-ink-muted" />
-                <Heading level={3} visual="h3" tone="ink" class="mb-1">{o.title}</Heading>
-                <Text size="sm" tone="muted">{o.body}</Text>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </Container>
@@ -868,10 +841,10 @@ const tldr = {
   <Section tone="paper" padding="default" class="border-t border-line" data-rest-of-system>
     <Container width="wide">
       <div>
-        <p class="mono-label mb-3">The rest of the system</p>
+        <Heading level={2} visual="h2" tone="ink" class="mb-3">Other screens</Heading>
         <Text tone="muted" class="measure mb-10">
-          Six more screens went through the same three passes. These are the
-          annotated pass, whole.
+          Annotated wireframes for six more screens, made with the same three-pass
+          process.
         </Text>
         <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
           {restOfSystem.map((s) => (
@@ -893,7 +866,7 @@ const tldr = {
     <Container width="content">
       <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
         <figcaption class="md:col-span-4">
-          <p class="mono-label mb-6">What Don said</p>
+          <p class="mono-label mb-6">Testimonial</p>
           <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
             <img
               src="/images/testimonials/don-fish.png"
@@ -925,7 +898,7 @@ const tldr = {
 
   <Section tone="paper" padding="default" id="edges" class="scroll-mt-24 border-t border-line">
     <Container width="content">
-      <p class="mono-label mb-3">The edges</p>
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
       <Text size="lg" tone="muted" class="measure mb-10">
         Both of these come from the same root cause: live data streaming in from
         more than one source, with no shared rule for timing or wording set early
@@ -945,17 +918,14 @@ const tldr = {
 
   <Section tone="ink" padding="loose">
     <Container width="wide">
-      <p class="mono-label !text-paper/65 mb-6">Product design engineering</p>
       <Heading level={2} visual="display-lg" tone="paper" class="max-w-3xl">
-        Design the interface, and understand what powers it.
+        Work with me
       </Heading>
       <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        I like to do the research, design the product, build the front end, and then
-        work with engineers on the system that has to keep every promise the design
-        makes. IVFCRYO needed someone who could carry a project from a conversation
-        with the owner to a finished, accessible app, and who understood the backend
-        well enough to hold it to what the design needed. If that's what you're
-        looking for, let's talk.
+        On IVFCRYO, I ran the research, designed the product, built the accessible front
+        end, and worked with engineers on the backend it depends on. If your team needs
+        someone to take a product from interviews to a finished interface, send me a
+        message.
       </Text>
       <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <Button
@@ -965,19 +935,19 @@ const tldr = {
           href="/contact/"
           class="js-magnetic"
         >
-          Get in touch
+          Contact me
         </Button>
         <a
           href="/resume/"
           class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper"
         >
           <Icon name="ph:file-text" size={18} />
-          Résumé
+          View résumé
         </a>
       </div>
 
       <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/projects/vmspark/" class="!text-paper hover:!text-accent">Next: VMSpark</Link>
+        <Link variant="arrow" href="/projects/logatot/" class="!text-paper hover:!text-accent">Next case study: Logatot</Link>
         <Link variant="arrow" href="/projects/" class="!text-paper hover:!text-accent">Back to all projects</Link>
       </div>
     </Container>

@@ -8,7 +8,7 @@ import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
 
 const description =
-  'Personal projects by Joshua Briley: an open-source accessible React component library and a playable arcade game that teaches the W3C design-tokens spec, built in a real sandbox with an assertion engine that grades your code. Built without a client, finished to the same standard as the client work.';
+  'Personal projects by Joshua Briley: Rudiment UI, an open-source library of accessible React components, and Token Adventure, a browser game that teaches the W3C Design Tokens Format.';
 
 // Rudiment UI moved back here from /projects/: it has no client and no user
 // research to report, so it doesn't fit the case-study bar the /projects/
@@ -21,20 +21,18 @@ const projects = [
     href: '/personal-projects/rudiment-ui/',
     client: 'Rudiment UI',
     kind: 'Component library',
-    title: 'Accessible component primitives, built in public',
+    title: 'Accessible React components and a guide to building them',
     summary:
-      'An open-source React component library and companion guide covering architectural decisions, a three-tier token system, intrinsic layout primitives, accessible components with React Aria, Storybook docs, testing, and npm distribution.',
-    note: '3-tier token system',
+      'An open-source React component library with a companion guide. The guide covers architecture decisions, a three-tier token system, layout primitives, accessible components built with React Aria, Storybook docs, testing, and publishing to npm.',
   },
   {
     index: '02',
     href: '/personal-projects/token-galaga/',
     client: 'Token Adventure',
-    kind: 'Arcade game · Teaching tool',
-    title: 'A playable coding arcade that teaches design tokens',
+    kind: 'Browser game',
+    title: 'A game that teaches the W3C Design Tokens Format',
     summary:
-      'Twenty sectors of the W3C Design Tokens Format (2025.10), where you write real tokens in a CodeMirror editor, run them in a sandboxed iframe, and clear the wave when a serializable assertion engine grades your code against the spec. A hard spec turned into something you actually want to finish.',
-    note: 'Real sandbox + assertion engine',
+      'Twenty levels that cover the Design Tokens Format (2025.10). You write tokens in a CodeMirror editor, the game runs them in a sandboxed iframe, and you clear each level when your code passes checks against the spec.',
   },
 ];
 ---
@@ -48,16 +46,13 @@ const projects = [
         <span class="text-ink">Personal projects</span>
       </nav>
 
-      <p class="hero-in hero-in-1 mono-label">Personal work · Built for myself</p>
-
-      <div class="mt-10 max-w-4xl lg:mt-14">
+      <div class="max-w-4xl">
         <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[20ch]">
-          What I build when <em class="ink-wink font-normal italic">no one's asking</em>.
+          Personal <em class="ink-wink font-normal italic">projects</em>
         </Heading>
         <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-          Without a client or a deadline, the only bar left is whether I actually want to use the
-          thing, which turns out to be a higher bar than most briefs set. These get the same finish
-          I bring to the work I ship for teams.
+          Projects I build on my own time to try out ideas in design systems and design tokens.
+          For client work, see the <a href="/projects/" class="hero-link">case studies</a>.
         </Text>
       </div>
     </Container>
@@ -80,9 +75,6 @@ const projects = [
               <span class="col-span-12 sm:col-span-7 md:col-span-7">
                 <span class="font-display text-base font-medium tracking-tight text-ink">{p.title}</span>
                 <span class="mt-1.5 block text-sm leading-relaxed text-ink-muted">{p.summary}</span>
-                <span class="mt-3 inline-flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-ink-muted">
-                  <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p.note}
-                </span>
               </span>
 
               <span class="col-span-12 flex justify-end sm:col-span-12 md:col-span-1 md:justify-end">
@@ -99,54 +91,25 @@ const projects = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
-    <Container width="wide">
-      <div class="grid gap-10 lg:grid-cols-12 lg:gap-16">
-        <div class="lg:col-span-5">
-          <p class="mono-label">Why these are here</p>
-          <Heading level={2} visual="display-md" class="mt-4">
-            Side projects are where the finish shows.
-          </Heading>
-        </div>
-        <div class="lg:col-span-7">
-          <div class="space-y-4 text-ink-muted leading-relaxed">
-            <p class="text-[1.15rem] leading-snug text-ink">
-              When nobody is asking for it,
-              <span class="text-accent">nobody is around to talk you out of sweating the last ten percent.</span>
-            </p>
-            <p>
-              The empty states, the focus order nobody will notice until it is wrong, the assertion
-              engine that has to grade a spec honestly instead of generously. That last ten percent
-              is the work most people skip, and it is exactly the part I bring to the products I
-              ship for teams. Want the client case studies instead? They live on the
-              <a href="/projects/" class="hero-link">projects page</a>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
   <Section tone="ink" padding="loose">
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-8">
-          <p class="mono-label !text-paper/65">Open to roles</p>
-          <Heading level={2} visual="display-lg" tone="paper" class="mt-4 max-w-[20ch] text-balance">
-            The same instinct, on the clock.
+          <Heading level={2} visual="display-lg" tone="paper" class="max-w-[20ch] text-balance">
+            I'm open to new roles
           </Heading>
           <Text size="lg" tone="whiteMuted" class="mt-6 max-w-xl">
-            What I do for fun is what I do for teams: own the whole thing, wire the live services,
-            and ship it finished. If that's the engineer you need, send a note.
+            If your team needs someone to design and build accessible interfaces or a design
+            system, send me a message or read my résumé.
           </Text>
         </div>
         <div class="lg:col-span-4 lg:flex lg:justify-end">
           <div class="flex flex-col items-start gap-3">
-            <Button variant="navy" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">Get in touch</Button>
+            <Button variant="navy" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">Contact me</Button>
             <a
               href="/resume/"
               class="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-paper/55 transition-colors hover:text-paper"
-            >Résumé <Icon name="ph:file-text" size={12} /></a>
+            >View résumé <Icon name="ph:file-text" size={12} /></a>
           </div>
         </div>
       </div>

@@ -16,16 +16,16 @@ sticker: plum
 
 A specification for measuring Rudiment UI adoption with the `rudi` namespace: why it's the measurement foundation, what `rudi check` emits, and how to roll it out through GitHub Actions.
 
-## Why the namespace is the measurement instrument
+## Why measure by namespace
 
 In React codebases, a component's identity lives in import statements, which get aliased, wrapped, re-exported, and renamed. A scanner has to trace module graphs and guess whether `<Button>` is a design system button, wrapper, or local recreation. Mews found import-based measurement inaccurate for this reason.
 
-Custom elements dissolve that problem. The platform requires every custom element name to contain a hyphen, and registration is global, so `<rudi-button>` means the same thing in every file, template language, and framework: no alias, no rename, no ambiguity.
+Custom elements avoid that problem. The platform requires every custom element name to contain a hyphen, and registration is global, so `<rudi-button>` means the same thing in every file, template language, and framework, with no aliasing or renaming.
 
-- **Identity is stable at the usage site.** A scanner matches the tag name. It doesn't trace imports, resolve barrels, or guess about wrappers.
+- **Identity is stable at the usage site.** A scanner matches the tag name without tracing imports, resolving barrels, or guessing about wrappers.
 - **The namespace survives every layer.** The same `rudi-` string appears in source templates, JSX, Vue and Svelte templates, Lit template literals, server-rendered HTML, and the live DOM. You can measure at build time with static analysis or at runtime with `querySelectorAll`, and the numbers reconcile.
 - **Recreation detection becomes a set difference.** Every hyphenated tag is a component by definition. Partition all custom element tags into `rudi-*` and everything else. The "everything else" set is your recreated-component report, with names attached.
-- **Tokens inherit the same property.** `--rudi-color-*` custom properties are collision-free and greppable. Any `var(--rudi-*)` reference is adoption. Any hardcoded color value in product CSS is measurable drift.
+- **Tokens inherit the same property.** `--rudi-color-*` custom properties are collision-free and greppable. Every `var(--rudi-*)` reference counts as adoption, and every hardcoded color value in product CSS counts as drift.
 - **The namespace works with zero tooling.** GitHub code search for `rudi-` across the organization gives you a rough adoption census before you build anything. The CLI below makes that structured, repeatable, and trackable.
 - **Framework-agnostic measurement matches a framework-agnostic library.** Rudiment's rewrite to web components means consumers may be in React, Vue, Astro, or plain HTML. A tag-based scanner covers all of them with one strategy. React-centric tools like react-scanner and Radius Tracker can't offer that.
 
@@ -44,7 +44,7 @@ One limitation: static scanning misses tags composed at runtime from dynamic str
 | `.css`, and `<style>` blocks                                       | `var(--rudi-*)` references; non-token color values (hex, `rgb()`, `hsl()`, `oklch()`); `--rudi-*` overrides                                                                         |
 | `package.json` and lockfile                                        | Declared and resolved versions of `@rudi/*` packages                                                                                                                                |
 
-Counting rule: count source-level references, not rendered instances. A `rudi-button` inside a shared header counts once, no matter how many pages render it. Repeat that in every report, or the numbers get misread.
+Counting rule: count source-level references, not rendered instances. A `rudi-button` inside a shared header counts once, no matter how many pages render it. State this rule in every report so the numbers aren't misread.
 
 ### Output schema
 
@@ -147,6 +147,6 @@ jobs:
 - **Token drift:** hardcoded color counts per repository, an early sign the theme system doesn't meet a need.
 - **Coverage trend:** element and token coverage per repository, week over week.
 
-## Right-sizing
+## Scaling the approach
 
 This spec scales down as well as up. At current Rudiment scale, phase one is a single script plus GitHub code search. The JSON schema is worth getting right early, since history only accumulates from the day you start recording it. The enterprise patterns (central scanning, dashboards, deprecation codemods) layer on without rework, since the namespace contract never changes.

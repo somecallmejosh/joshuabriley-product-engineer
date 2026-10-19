@@ -16,7 +16,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'Logatot | Joshua Briley';
 const description =
-  "Case study: designing a voice-controlled app for home-based childcare providers, so they can log a nap, a meal, or a diaper change hands-free, and the required paperwork falls out of that same record.";
+  "Case study: designing a voice-controlled app for home-based childcare providers, so they can log a nap, a meal, or a diaper change hands-free, and the required paperwork is generated from those same records.";
 
 const meta = [
   { role: 'Role', value: 'Product Design Engineer' },
@@ -34,10 +34,10 @@ const proof = [
 ];
 
 const docket = [
-  { href: '#hands', icon: 'ph:hand-waving', label: 'Designing for hands that are full' },
+  { href: '#hands', icon: 'ph:hand-waving', label: 'Who the app is for' },
   { href: '#research', icon: 'ph:phone-call', label: 'Talking to providers first' },
-  { href: '#shapes', icon: 'ph:squares-four', label: 'Two views of the same day' },
-  { href: '#failure', icon: 'ph:arrow-counter-clockwise', label: 'Treating mistakes as normal' },
+  { href: '#shapes', icon: 'ph:squares-four', label: 'Provider and parent views' },
+  { href: '#failure', icon: 'ph:arrow-counter-clockwise', label: 'Fixing misheard entries' },
   { href: '#pipeline', icon: 'ph:microphone', label: 'How voice recognition works' },
   { href: '#outcomes', icon: 'ph:trend-up', label: 'What changed for providers' },
 ];
@@ -52,7 +52,7 @@ const regimes = [
 // Why 8pm-from-memory is a product problem and not a habit problem.
 const problems = [
   { icon: 'ph:brain', title: 'Memory isn’t reliable', body: 'A nap logged from memory at 8pm is a guess, and so is a diaper change. The records that matter most legally are the least accurate ones.' },
-  { icon: 'ph:door-open', title: 'It wears providers down', body: 'Many providers leave this work because of the paperwork. The goal was giving them their evenings back, not just a tidier form.' },
+  { icon: 'ph:door-open', title: 'It wears providers down', body: 'Many providers leave this work because of the paperwork. The goal was to give them their evenings back.' },
   { icon: 'ph:clock-countdown', title: 'Problems surface too late', body: 'Finding out at month end that a lunch was missing a vegetable is too late to do anything about it.' },
 ];
 
@@ -66,18 +66,18 @@ const research = [
 
 // The four roles that share one Devise user table and one polymorphic meta association.
 const users = [
-  { icon: 'ph:user-focus', name: 'The provider', role: 'Primary user, and the hardest to design for. Mobile, interrupted, often one-handed, twelve-hour day.' },
-  { icon: 'ph:users', name: 'Parents', role: 'A dozen sessions a year at most. Mobile-first, passwordless by necessity, usually in a car park at 5pm.' },
-  { icon: 'ph:identification-badge', name: 'Authorized pickups', role: 'Each has their own PIN and their own list of children they can pick up, so custody rules are tracked, not assumed.' },
-  { icon: 'ph:clock-user', name: 'Employees', role: 'In multi-staff accounts, clocking shifts through the same event pipeline as everything else.' },
+  { icon: 'ph:user-focus', name: 'The provider', role: 'The primary user and the hardest to design for: on a phone, often one-handed, and interrupted all through a twelve-hour day.' },
+  { icon: 'ph:users', name: 'Parents', role: 'Use the app about a dozen times a year, usually on a phone at pickup time, so they sign in with an email link instead of a password.' },
+  { icon: 'ph:identification-badge', name: 'Authorized pickups', role: 'Each has their own PIN and their own list of children they can pick up, so the app enforces custody rules.' },
+  { icon: 'ph:clock-user', name: 'Employees', role: 'In accounts with staff, employees clock in and out through the same event log as everything else.' },
 ];
 
 // The design decisions that only hold because they were built once, in the system.
 const structural = [
   { icon: 'ph:arrows-left-right', label: 'Rows scroll horizontally in sync' },
-  { icon: 'ph:function', label: 'Attendance derived, never stored' },
+  { icon: 'ph:function', label: 'Attendance calculated from check-in history' },
   { icon: 'ph:calendar-check', label: 'Enrolment status derived from dates' },
-  { icon: 'ph:trash-simple', label: 'Soft delete: removal is a display decision' },
+  { icon: 'ph:trash-simple', label: 'Deleted records are hidden and kept' },
   { icon: 'ph:columns', label: 'Column visibility per device, persistent' },
   { icon: 'ph:placeholder', label: 'Empty rows pre-rendered for live updates' },
 ];
@@ -90,24 +90,6 @@ const integrations = [
   { icon: 'ph:broadcast', name: 'Pusher', role: 'Per-account channels for live board updates' },
   { icon: 'ph:queue', name: 'Sidekiq', role: '29 jobs, 4 scheduled reminder workers' },
   { icon: 'ph:credit-card', name: 'Stripe + union API', role: 'Direct billing and association membership' },
-];
-
-const outcomes = [
-  {
-    icon: 'ph:moon-stars',
-    title: 'The evenings came back',
-    body: 'Providers reported saving over two hours a day, once logging happened hands-free during the day instead of from memory at night.',
-  },
-  {
-    icon: 'ph:files',
-    title: 'Compliance stopped being separate work',
-    body: 'Attendance records, signed releases, food-program claims, and drill logs all come from events already captured. Month end became a review step.',
-  },
-  {
-    icon: 'ph:storefront',
-    title: 'It reached real providers',
-    body: 'Shipped as a paid product, sold directly and through childcare associations, not left as a demo.',
-  },
 ];
 
 const quotes = [
@@ -126,8 +108,8 @@ const quotes = [
 // The edges, stated plainly. A case study that only lists wins is a brochure.
 const edges = [
   { icon: 'ph:list-magnifying-glass', title: 'Screen-reader support on the busiest screen', body: 'The Voiceboard’s expand and collapse controls don’t announce their state to a screen reader the way the rest of the app does. That pattern is built correctly everywhere else and didn’t make it into the hardest screen. First thing I would fix.' },
-  { icon: 'ph:device-tablet', title: 'A two-size layout in a three-size world', body: 'The layout switches at one single screen-width cutoff, which leaves anything in between phone-size and desktop-size, a tablet, poorly served. That matters more here, because the kiosk is a tablet.' },
-  { icon: 'ph:globe-hemisphere-west', title: 'Time zones kept coming back', body: 'Most of the recent updates to this project were fixes to how it handles time zones. That’s an honest sign of a problem I kept bounded rather than one I actually closed.' },
+  { icon: 'ph:device-tablet', title: 'No tablet layout', body: 'The layout switches at one single screen-width cutoff, which leaves anything in between phone-size and desktop-size, a tablet, poorly served. That matters more here, because the kiosk is a tablet.' },
+  { icon: 'ph:globe-hemisphere-west', title: 'Recurring time zone bugs', body: 'Most of the recent updates to this project were fixes to how it handles time zones. I contained the problem but never fully solved it.' },
   { icon: 'ph:cloud-slash', title: 'No offline mode', body: 'The pieces needed for the app to work without internet exist but were never fully finished. For tablets in homes with unreliable WiFi, that’s the highest-value thing that isn’t built.' },
 ];
 
@@ -180,28 +162,28 @@ const keyScreens = [
     slug: '01-voiceboard',
     index: '01',
     title: 'Voiceboard',
-    note: 'One row per child, one column per event type, one day. A grid, because the provider is scanning twelve children at once.',
+    note: 'One row per child and one column per event type for a single day, laid out as a grid so a provider can scan twelve children at once.',
     alt: 'Annotated wireframe of the Voiceboard: live attendance tiles across the top, reminder rails for diaper changes and health checks, then a child-by-event-type grid, with callouts explaining synchronised horizontal row scrolling, per-device column visibility, and pre-rendered empty rows.',
   },
   {
     slug: '04-logged-events',
     index: '04',
     title: 'Logged events: review and repair',
-    note: 'Where the product’s honesty lives. A failed parse renders as clickable word chips that write back into the name vocabulary.',
+    note: 'Failed voice entries, shown as tappable word chips. Picking the right word adds it to that child’s list of name variants.',
     alt: 'Annotated wireframe of the logged-events review screen: a queue of failed voice captures, each showing the raw utterance as selectable word chips, the partially understood fields, and the retained audio, with callouts explaining the two diagnostic flags and how a correction improves recognition permanently.',
   },
   {
     slug: '05-checkin-kiosk',
     index: '05',
     title: 'Check-in kiosk',
-    note: 'Handing over the tablet signs the provider out entirely. There is nowhere to go because there should be nowhere to go.',
+    note: 'Handing over the tablet signs the provider out, so a parent can only reach their own child’s check-in.',
     alt: 'Annotated wireframe of the parent-facing check-in kiosk: a 96-pixel PIN field with no submit button, a filtered child list, and an inline signature canvas, on a dark full-bleed card with no navigation, with callouts on session teardown and per-PIN child filtering.',
   },
   {
     slug: '06-parent-portal',
     index: '06',
     title: 'Parent portal',
-    note: 'The same events as the Voiceboard, as a timeline. Same data, opposite affordance, and exactly one write surface.',
+    note: 'The same events as the Voiceboard, shown as a timeline for one child. Messaging the provider is the only action parents can take.',
     alt: 'Annotated wireframe of the parent portal in desktop and mobile widths: a chronological day timeline for one child with photos and milestones weighted heavier than counts, and a single message-the-provider action, with callouts on why the portal is read-mostly.',
   },
 ];
@@ -220,13 +202,13 @@ const flows = [
   {
     slug: '11-flow-voice-logging',
     title: 'Voice event logging',
-    note: 'Utterance to structured event, including the failure and repair path. The branch that fails is drawn at the same weight as the one that works.',
+    note: 'From spoken words to a saved event, including the path for entries that fail, drawn in the same detail as the path that succeeds.',
     alt: 'Flow diagram of voice event logging. An on-device wake word opens transcription, which runs through a ladder of phrase matchers and roster name matching, forking into a single-child inline write, a multi-child background job, or a failed parse that lands in the repair queue with its audio attached.',
   },
   {
     slug: '12-flow-onboarding',
     title: 'Provider onboarding',
-    note: 'The empty board is the real churn risk. That\'s why CSV import sits beside "Add child" instead of buried in settings.',
+    note: 'New providers are most likely to give up while the board is still empty, so CSV import sits next to "Add child" instead of in settings.',
     alt: 'Flow diagram of provider onboarding, from first visit through account creation, roster population by manual entry or CSV import, and first voice capture, with the empty-board drop-off marked as the critical failure point.',
   },
   {
@@ -238,13 +220,13 @@ const flows = [
   {
     slug: '14-flow-parent-access',
     title: 'Parent access',
-    note: 'Passwordless entry and the daily loop. The email is the product; the portal is the destination.',
+    note: 'Parents sign in with an email link, and a daily summary email brings them back to the portal.',
     alt: 'Flow diagram of parent access: a passwordless magic-link request that returns an identical screen for known and unknown addresses, a fifteen-minute single-use token, role resolution at the shared sign-in, and the automatic end-of-day summary email that drives the daily loop.',
   },
   {
     slug: '15-flow-food-program',
     title: 'Food program',
-    note: 'Plan a compliant menu, serve it, claim it. Validation moves to plan time, where a mistake is still an edit.',
+    note: 'Plan a menu, serve it, and claim it. Menus are checked against food-program rules while they are planned, when a mistake is still easy to fix.',
     alt: 'Flow diagram of the CACFP food program: building a menu validated per meal against the age-group component matrix, duplicating a week, generating a shopping list, serving meals through the shared event pipeline, and reconciling the month-end claim from records that already exist.',
   },
 ];
@@ -298,7 +280,7 @@ const tldr = {
           </div>
 
           <Heading level={1} visual="display-xl" class="hero-in hero-in-3">
-            A voice app for hands that are always <em class="ink-wink font-normal italic">full</em>.
+            Hands-free <em class="ink-wink font-normal italic">logging</em> for home child care.
           </Heading>
 
           <Text size="lg" tone="muted" class="hero-in hero-in-4 mt-8 max-w-xl">
@@ -335,9 +317,9 @@ const tldr = {
     reflection={tldr.reflection}
   />
 
-  <Section tone="paper" padding="tight" aria-label="Project receipts">
+  <Section tone="paper" padding="tight" aria-label="Scope and results">
     <Container width="content">
-      <p class="mono-label mb-8">Receipts</p>
+      <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
           <div class="border-t border-line pt-4">
@@ -360,7 +342,7 @@ const tldr = {
 
   <Section tone="paper" padding="tight">
     <Container width="content">
-      <p class="mono-label mb-5">Table of contents</p>
+      <p class="mono-label mb-5">Contents</p>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {docket.map((item, i) => (
           <li>
@@ -382,7 +364,7 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 01</p>
-          <Heading level={2} visual="display-md" tone="ink">Designing for hands that are full</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Who the app is for</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
@@ -394,13 +376,13 @@ const tldr = {
             <p>
               None of those rules get followed at a desk, so the paperwork used to happen
               after the fact, at 8pm, from memory. The whole app exists to move that
-              record-keeping into the moment, hands-free, so the required paperwork falls
-              out of it instead of being redone later.
+              record-keeping into the moment, hands-free, so the required records come
+              from those entries instead of being written up later.
             </p>
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Three regimes, all of them in the schema</p>
+            <p class="mono-label mb-6">Three sets of rules</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
               {regimes.map((r, i) => (
                 <li class="border-t border-line pt-5">
@@ -415,7 +397,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">The product problem behind 8pm-from-memory</p>
+            <p class="mono-label mb-6">Problems with logging from memory</p>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
               {problems.map((p) => (
                 <li class="border-t border-line pt-5">
@@ -428,7 +410,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Four roles, one authentication surface</p>
+            <p class="mono-label mb-6">Four types of users</p>
             <ul class="grid gap-x-10 gap-y-1 md:grid-cols-2">
               {users.map((u) => (
                 <li class="flex gap-3.5 border-b border-line py-4">
@@ -441,9 +423,8 @@ const tldr = {
               ))}
             </ul>
             <Text size="sm" tone="muted" class="mt-5 measure">
-              All four sign in through the same account system, with each person's
-              specific role, employee, caregiver, or authorized pickup, attached
-              underneath. One way to log in, three different kinds of user.
+              All four sign in through the same account system, which attaches each
+              person's role, such as employee or authorized pickup, to their account.
             </Text>
           </div>
         </div>
@@ -477,7 +458,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Two calls, two shipped changes</p>
+            <p class="mono-label mb-6">Changes from the research calls</p>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {research.map((r) => (
                 <li class="border-t border-line pt-5">
@@ -519,7 +500,7 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 03</p>
-          <Heading level={2} visual="display-md" tone="ink">Two views of the same day</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Provider and parent views</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
@@ -527,8 +508,8 @@ const tldr = {
               The main screen is the Voiceboard: one row per child, one column per event
               type, for a single day. A provider scanning twelve children needs the rows
               to <strong class="text-ink font-semibold">scroll left and right together</strong>,
-              so they stay lined up on the same point in time. Without that, the grid is
-              twelve unrelated timelines that happen to be stacked.
+              so they stay lined up on the same point in time. Otherwise each row scrolls
+              on its own and the times stop lining up.
             </p>
           </div>
 
@@ -551,14 +532,14 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-16">
-      <p class="mono-label mb-6">How a screen got built</p>
+      <p class="mono-label mb-6">From sketch to annotated wireframe</p>
       <FidelityBand
         title={screen('01-voiceboard').title}
         sketch={art('01-voiceboard-sketch.svg')}
         wire={art('01-voiceboard.svg')}
         annotated={sheet('01-voiceboard')}
         annotatedAlt={screen('01-voiceboard').alt}
-        caption="A crude sketch to settle what the page is for, a clean wireframe to settle where things go, then the same wireframe with the decisions written onto it. The third pass is the one that did the work: it records why a row scrolls horizontally in sync, and why empty rows are pre-rendered rather than drawn on demand."
+        caption="The Voiceboard as a sketch, a clean wireframe, and an annotated wireframe. The annotations record why rows scroll horizontally in sync and why empty rows are pre-rendered so live updates have somewhere to land."
       />
     </Container>
 
@@ -579,9 +560,9 @@ const tldr = {
           <strong class="text-ink font-semibold">timeline</strong>: time down the left,
           one child at a time. The provider is scanning twelve children at once, so the
           provider gets a grid. A parent is reading about one child in order, so the
-          parent gets a chronology. The portal is read-mostly with exactly one write,
-          messaging the provider, because every extra write surface becomes one more
-          thing to triage during the day.
+          parent gets a chronology. The only thing a parent can send from the portal is
+          a message to the provider, because every extra way to submit something would
+          be one more thing for the provider to handle during the day.
         </p>
       </div>
     </Container>
@@ -610,7 +591,7 @@ const tldr = {
         </div>
 
         <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-          <p class="mono-label mb-5">Decisions built into the system, invisible on the screen</p>
+          <p class="mono-label mb-5">System-level decisions</p>
           <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
             {structural.map((item) => (
               <li class="flex items-center gap-3 text-ink">
@@ -637,7 +618,6 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Alongside</p>
           <Heading level={2} visual="display-md" tone="ink">Handing the tablet to a parent</Heading>
         </div>
         <div class="case-layout__body">
@@ -685,7 +665,7 @@ const tldr = {
       <div class="case-layout">
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 04</p>
-          <Heading level={2} visual="display-md" tone="ink">Treating mistakes as normal</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Fixing misheard entries</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
@@ -697,8 +677,7 @@ const tldr = {
             <p>
               On the review screen, the words appear as clickable chips. Tapping the
               one that was the child's name teaches the app that name, and the same
-              mishearing gets recognized correctly every time after. A single
-              correction keeps paying off well beyond the one record it fixed.
+              mishearing gets recognized correctly every time after.
             </p>
             <p>
               The app also shows what it partly understood instead of discarding it,
@@ -730,7 +709,7 @@ const tldr = {
           selecting a word below that sounds like the name. If there&rsquo;s no match,
           no worries, just ignore this step!
         </blockquote>
-        <figcaption class="mono-label mt-5">The repair screen, verbatim</figcaption>
+        <figcaption class="mono-label mt-5">Text from the repair screen</figcaption>
       </figure>
     </Container>
   </Section>
@@ -756,8 +735,8 @@ const tldr = {
               phrases, and names are matched against the class roster. An AI model
               making that call live would be slower and could confidently guess wrong,
               logging a nap that never happened. The rule-based system either finds a
-              match or sends it to a person to review, and a non-match is treated as
-              normal, not a bug.
+              match or sends it to a person to review, and a non-match is an expected
+              outcome.
             </p>
             <p>
               AI is used earlier instead. When a child is added, it generates a list of
@@ -794,7 +773,7 @@ const tldr = {
     <Container width="content" class="mt-16">
       <div class="case-layout-cont">
         <div class="rounded-lg border border-line p-6 md:p-8">
-          <p class="mono-label mb-6">The services that made it real</p>
+          <p class="mono-label mb-6">Services</p>
           <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {integrations.map((svc) => (
               <li class="flex gap-3.5">
@@ -815,8 +794,7 @@ const tldr = {
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Alongside</p>
-          <Heading level={2} visual="display-md" tone="ink">Built for more than one kind of user</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Accessibility and Spanish support</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
@@ -833,9 +811,9 @@ const tldr = {
               Translation goes further than swapping button labels, because Yari said so
               directly in her interview: <em>&ldquo;A translated button is not enough. We
               need the instructions, warnings, support, and official documents to be
-              clear too.&rdquo;</em> English and Spanish are fully supported throughout
-              the app, not just the screens, and Spanish speech is translated before the
-              app tries to match it against a known phrase.
+              clear too.&rdquo;</em> English and Spanish are fully supported, including
+              instructions, warnings, and official documents, and Spanish speech is
+              translated before the app tries to match it against a known phrase.
             </p>
           </div>
         </div>
@@ -853,29 +831,18 @@ const tldr = {
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              The paperwork stopped being a second job. Attendance records, signed
-              releases, food-program claims, and safety logs all come from events
-              already captured during the day, so month end became a quick review
-              instead of an evening of catching up. The app shipped as a paid product,
-              sold directly and through childcare associations, but the number I'd
-              point to first is the evening a provider got back.
+              Attendance records, signed releases, food-program claims, and safety logs
+              now come from events captured during the day, so month end is a quick
+              review instead of an evening of catching up. The app shipped as a paid
+              product, sold directly and through child care associations.
             </p>
           </div>
 
           <div class="mt-12 grid grid-cols-2 gap-8 border-y border-line py-8">
-            <Metric value="2+ hrs" label="a day of data entry removed" caption="reported by a provider association president" />
+            <Metric value="2+ hrs" label="less data entry per day" caption="reported by a provider association president" />
             <Metric value="~1,100" label="of the project's 1,939 commits" caption="lead front-end on a three-developer team" />
           </div>
 
-          <div class="mt-12 grid gap-6 md:grid-cols-3">
-            {outcomes.map((o) => (
-              <div class="border-t border-line pt-5">
-                <Icon name={o.icon} size={26} class="mb-3 text-ink-muted" />
-                <Heading level={3} visual="h3" tone="ink" class="mb-1">{o.title}</Heading>
-                <Text size="sm" tone="muted">{o.body}</Text>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </Container>
@@ -897,12 +864,11 @@ const tldr = {
 
   <Section tone="paper" padding="default" class="border-t border-line">
     <Container width="wide">
-      <p class="mono-label mb-3">The rest of the system</p>
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Other screens</Heading>
       <Text size="lg" tone="muted" class="measure mb-10">
-        Six more sheets round out the product without repeating the device: the roster
-        and its two independent axes, the tabbed child record, plan-time CACFP
-        validation, drills as their own task type, print-first reports, and the
-        manual-entry tier that shipped with its own home screen.
+        Annotated wireframes for six more screens: the children roster, the child
+        record, the CACFP menu planner, the calendar and fire drills, printable reports,
+        and the dashboard for providers who enter events by hand.
       </Text>
       <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
         {restOfSystem.map((s) => (
@@ -921,7 +887,7 @@ const tldr = {
 
   <Section tone="paper" padding="default" class="border-t border-line">
     <Container width="content">
-      <p class="mono-label mb-10">What providers said</p>
+      <p class="mono-label mb-10">Testimonials</p>
       <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
         {quotes.map((q) => (
           <figure>
@@ -939,9 +905,9 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24 border-t border-line">
     <Container width="content">
-      <p class="mono-label mb-3">The edges</p>
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
       <Text size="lg" tone="muted" class="measure mb-10">
         Keyboard focus works well everywhere in the app, but the Voiceboard&rsquo;s
         screen-reader support didn&rsquo;t keep pace with how complex that screen
@@ -961,16 +927,14 @@ const tldr = {
 
   <Section tone="ink" padding="loose">
     <Container width="wide">
-      <p class="mono-label !text-paper/65 mb-6">Product design engineering</p>
       <Heading level={2} visual="display-lg" tone="paper" class="max-w-3xl">
-        Good ideas fall apart if design and engineering don&rsquo;t talk.
+        Work with me
       </Heading>
       <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        Treating failure as normal, not exceptional, only works when the same person
-        draws the review screen and decides what the recognition system does with a
-        mistake. That's the kind of problem I like to work on: the ones that need
-        design and engineering to be the same conversation. If that's the bar
-        you&rsquo;re hiring for, let&rsquo;s talk.
+        On Logatot, I designed the review screen and also decided how the voice system
+        handles entries it can't understand, so the two worked as one feature. If your
+        team needs someone who can design an interface and build the system behind it,
+        send me a message.
       </Text>
       <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <Button
@@ -980,19 +944,19 @@ const tldr = {
           href="/contact/"
           class="js-magnetic"
         >
-          Get in touch
+          Contact me
         </Button>
         <a
           href="/resume/"
           class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper"
         >
           <Icon name="ph:file-text" size={18} />
-          Résumé
+          View résumé
         </a>
       </div>
 
       <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/projects/ivfcryo/" class="!text-paper hover:!text-accent">Next: IVFCRYO</Link>
+        <Link variant="arrow" href="/projects/ivfcryo/" class="!text-paper hover:!text-accent">Next case study: IVFCRYO</Link>
         <Link variant="arrow" href="/projects/" class="!text-paper hover:!text-accent">Back to all projects</Link>
       </div>
     </Container>

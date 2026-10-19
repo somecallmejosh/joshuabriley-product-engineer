@@ -11,9 +11,9 @@ import FacetGlyph from '~/components/patterns/FacetGlyph.astro';
 
 
 const capabilities = [
-  'Design-grade front-end',
-  'React · TypeScript',
-  'Accessibility built in',
+  'Interface design',
+  'Front-end development',
+  'Accessibility',
   'Design systems',
 ];
 
@@ -21,34 +21,34 @@ const capabilities = [
 const facets = [
   {
     glyph: 'craft' as const,
-    title: 'The UI is where I bring the most value',
+    title: 'I design the interface and write the code',
     body:
-      'Design systems taught me where interfaces break: type, spacing, motion, the empty and error states most engineers leave blank. I build it myself instead of handing a spec to someone who will approximate it.',
+      'Type, spacing, and motion ship the way they were designed, because the same person made the design decisions and wrote the production code. Nothing gets approximated from a spec in a handoff.',
     featured: true,
   },
   {
     glyph: 'accessible' as const,
-    title: 'Accessible by construction',
+    title: 'Accessibility from the start',
     body:
-      'Keyboard paths, focus management, and screen-reader behavior built in from the start, before a QA pass finds them missing.',
+      'Keyboard navigation, focus management, and screen-reader behavior are part of the first build, not fixes after a QA pass finds them missing.',
   },
   {
     glyph: 'finish' as const,
-    title: 'I sweat the last 10%',
+    title: 'Empty, error, and first-run states',
     body:
-      'Empty states, recoverable forms, the screen that shows when there is nothing to show yet. Those are the parts that decide whether a product feels finished, and whether it holds up after launch.',
+      'I design and build the screens most teams leave blank: empty lists, form errors people can recover from, and the first visit before there is any data. These details decide whether a product feels finished.',
   },
   {
     glyph: 'foundation' as const,
-    title: 'I build the system underneath the screen',
+    title: 'Design systems',
     body:
-      'When a product needs a real design system, I build that too: one library, one accessibility floor, every brand held to the same standard. It is how the UI stays consistent as the team and the surface area grow.',
+      'When a product needs a design system, I build it: one component library and one accessibility standard shared across every brand, so the UI stays consistent as the team and the product grow.',
   },
 ];
 
 const metrics = [
   { value: '75%', label: 'fewer support calls', note: 'IVFCRYO: a readiness gate before scheduling' },
-  { value: '2+ hrs', label: 'a day of data entry removed', note: 'Logatot: hands-free capture in the moment' },
+  { value: '2+ hrs', label: 'less data entry per day', note: 'Logatot: hands-free voice logging' },
 ];
 
 const work = [
@@ -56,13 +56,13 @@ const work = [
     href: '/projects/ivfcryo/',
     client: 'IVFCRYO',
     kind: 'Logistics platform',
-    line: 'A self-service platform for cryogenic fertility shipments, where the hard part was getting five parties provably ready before a specimen moved.',
+    line: 'A self-service platform for shipping cryogenic fertility specimens. It confirms that all five parties are ready before a shipment is scheduled.',
   },
   {
     href: '/projects/logatot/',
     client: 'Logatot',
     kind: 'Voice platform',
-    line: 'A voice-controlled operations platform for home-based child care, built for a user whose hands are already full.',
+    line: 'A voice-controlled operations platform for home-based child care providers, who can log the day hands-free while they care for children.',
   },
 ];
 
@@ -75,28 +75,26 @@ const work = [
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
       <p class="hero-in hero-in-1 mono-label">
-        <span class="sr-only">My role is </span>Product Design Engineer
-        <span class="text-ink-faint"> · </span>
-        <span class="sr-only">I focus on </span>Design &amp; front-end
+        Design systems &amp; UI platform engineer
       </p>
 
       <div class="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16">
         <div class="lg:col-span-8">
           <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[19ch]">
-            Where <em class="ink-wink font-normal italic">design meets code&hellip;</em> that's where I add value.
+            I design interfaces and <em class="ink-wink font-normal italic">build them in code.</em>
           </Heading>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-            Design systems & UI platform engineer, 20 years in production UI, from insurance
-            platforms to fantasy-sports games with a million-plus players. I design interfaces,
-            build them, and ship code to production.
+            I've spent 20 years building production UI, from insurance platforms to fantasy sports
+            games with more than a million players. I design the
+            interface, build it, and ship it to production myself.
           </Text>
 
           <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
             <Button variant="primary" size="lg" href="/projects/" iconRight="ph:arrow-right" class="js-magnetic">
-              See the work
+              View projects
             </Button>
             <Button variant="ghost" size="lg" href="/about/">
-              Read how I work
+              About me
             </Button>
           </div>
         </div>
@@ -106,15 +104,14 @@ const work = [
 
   <Section tone="paper" padding="tight" class="!py-9 border-b border-line">
     <Container width="wide">
-      <div class="">
-        <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
-          {capabilities.map((c) => (
-            <li class="flex items-center gap-2">
-              <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{c}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h2 class="sr-only">Skills</h2>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
+        {capabilities.map((c) => (
+          <li class="flex items-center gap-2">
+            <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{c}
+          </li>
+        ))}
+      </ul>
     </Container>
   </Section>
 
@@ -122,12 +119,12 @@ const work = [
     <Container width="wide">
       <div class="max-w-3xl">
         <Heading level={2} visual="display-md" class="text-pretty">
-          Why my products feel finished.
+          What I bring to a product team
         </Heading>
         <Text size="lg" tone="muted" class="mt-5">
-          Design and accessibility are usually the first things cut when a deadline closes in, or
-          treated as someone else's job. I build them in. That's why what I ship works across real
-          devices and assistive technology, and why it holds up after launch.
+          Design quality and accessibility are often cut when a deadline gets close, or left to
+          someone else. I build both into the work from the start, so what I ship works on real
+          devices and with assistive technology, and keeps working after launch.
         </Text>
       </div>
 
@@ -140,8 +137,7 @@ const work = [
             {c.featured ? (
               <>
                 <FacetGlyph name={c.glyph} size="lg" class="text-ink" />
-                <span class="mono-label text-accent mt-6 block">Where the value is</span>
-                <Heading level={3} visual="h2" class="mt-3 text-balance">{c.title}</Heading>
+                <Heading level={3} visual="h2" class="mt-6 text-balance">{c.title}</Heading>
                 <Text tone="muted" class="mt-4 max-w-lg">{c.body}</Text>
               </>
             ) : (
@@ -161,10 +157,12 @@ const work = [
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-6">
-          <p class="mono-label !text-paper/65">Selected work</p>
-          <Heading level={2} visual="display-md" tone="paper" class="mt-4">Products where I owned the interface.</Heading>
+          <Heading level={2} visual="display-md" tone="paper">Selected projects</Heading>
+          <Text class="mt-4 max-w-md !text-paper/65">
+            Products where I designed and built the interface.
+          </Text>
         </div>
-        <div class="lg:col-span-6 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6">
+        <div class="lg:col-span-6 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6">
           {metrics.map((m) => (
             <div class="flex flex-col">
               <p class="font-display text-4xl md:text-5xl font-semibold leading-none tracking-[-0.03em] text-paper">{m.value}</p>
@@ -222,7 +220,7 @@ const work = [
                 src="/images/about/josh-suit-portrait-640.jpg"
                 sizes="(min-width: 1280px) 373px, (min-width: 768px) 30vw, 100vw"
                 srcset="/images/about/josh-suit-portrait-400.jpg 400w, /images/about/josh-suit-portrait-640.jpg 640w, /images/about/josh-suit-portrait-1000.jpg 1000w"
-                alt="Joshua Briley, product design engineer"
+                alt="Joshua Briley, design systems and UI platform engineer"
                 class="aspect-[4/5] w-full object-cover"
                 loading="lazy"
                 decoding="async"
@@ -234,21 +232,20 @@ const work = [
         </div>
         <div class="md:col-span-8">
           <Heading level={2} visual="display-md" class="max-w-[18ch]">
-            Designer by origin. Engineer by practice.
+            From designer to front-end engineer
           </Heading>
           <div class="mt-6 space-y-4 text-ink-muted leading-relaxed max-w-2xl">
             <p>
-              I started in design and moved into engineering because I wanted to build the things I
-              created, not hand them off. Twenty years later, the front end is where I do my best work:
-              accessible UI with the design judgment that usually takes hiring a separate designer
-              to get.
+              I started as a designer and moved into engineering so I could build what I designed
+              instead of handing it off. Twenty years later, I do my best work on the front end, where I
+              make the design decisions and write the accessible code that ships them.
             </p>
             <p>
-              Away from the screen, I play bass and gig semi-regularly.
+              Outside of work, I play bass and gig semi-regularly.
             </p>
           </div>
           <div class="mt-7">
-            <Link href="/about/" variant="arrow">Read more about how I work</Link>
+            <Link href="/about/" variant="arrow">More about my background and process</Link>
           </div>
         </div>
       </div>
@@ -256,12 +253,3 @@ const work = [
   </Section>
 </BaseLayout>
 
-
-<style>
-  .tool-tile {
-    background: var(--ink);
-  }
-  .tool-tile:hover {
-    background: color-mix(in srgb, var(--paper) 4%, var(--ink));
-  }
-</style>

@@ -11,14 +11,14 @@ import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
 import SiteShot from '~/components/patterns/SiteShot.astro';
 
 const description =
-  'Case study: building Rudiment UI, an open-source React component library and 13-chapter guide that explains the why behind every architectural decision.';
+  'Case study: building Rudiment UI, an open-source React component library and 13-chapter guide that explains the reasoning behind each architectural decision.';
 
 const menu = [
-  { href: '#problem', icon: 'ph:warning-circle', label: 'Why most libraries quietly fall apart' },
+  { href: '#problem', icon: 'ph:warning-circle', label: 'Why component libraries break down' },
   { href: '#tokens', icon: 'ph:stack', label: 'A three-tier token system' },
-  { href: '#accessibility', icon: 'ph:heart', label: 'Accessibility as a contract' },
-  { href: '#chapters', icon: 'ph:book-open', label: 'The thirteen chapters' },
-  { href: '#explore', icon: 'ph:cube', label: 'See it served: guide & Storybook' },
+  { href: '#accessibility', icon: 'ph:heart', label: 'Accessibility with React Aria' },
+  { href: '#chapters', icon: 'ph:book-open', label: 'Guide chapters' },
+  { href: '#explore', icon: 'ph:cube', label: 'Guide and Storybook' },
 ];
 
 /**
@@ -31,7 +31,7 @@ const liveStories = [
     id: 'examples-project-management-board--board',
     title: 'Project board',
     blurb:
-      'A Kanban board of draggable issue cards across four sprint columns, with WIP-limit warnings. Drag works by keyboard, not just pointer.',
+      'A Kanban board of draggable issue cards across four sprint columns, with WIP-limit warnings. Cards can be dragged with a keyboard as well as a mouse.',
     poster: '/images/projects/rudiment-ui/rudiment-board.webp',
     posterAlt:
       'Rudiment UI project board story: a Kanban board with To Do, In Progress, In Review, and Done columns of issue cards showing priority and story points',
@@ -40,7 +40,7 @@ const liveStories = [
     id: 'examples-project-management-dashboard--dashboard',
     title: 'Sprint dashboard',
     blurb:
-      'The analytics surface: stat tiles, a burndown line chart, a work-by-status donut, and team workload meters.',
+      'An analytics page with stat tiles, a burndown line chart, a work-by-status donut, and team workload meters.',
     poster: '/images/projects/rudiment-ui/rudiment-dashboard.webp',
     posterAlt:
       'Rudiment UI sprint dashboard story: committed, completed, remaining, and velocity stat tiles above a sprint burndown chart, a work-by-status donut, and team workload meters',
@@ -60,19 +60,19 @@ const tokenTiers = [
   {
     icon: 'ph:paint-bucket',
     title: 'Global tokens · raw palette',
-    desc: 'Unopinionated primitives. No meaning, just values.',
+    desc: 'Raw values with no meaning attached.',
     code: 'color.blue.500 = #3B82F6',
   },
   {
     icon: 'ph:tag',
     title: 'Semantic tokens · assigned meaning',
-    desc: 'Aliases that encode intent. A rebrand touches this layer, not every component.',
+    desc: 'Names that describe intent, such as brand or danger. A rebrand only changes this layer.',
     code: 'color.brand.primary → color.blue.500',
   },
   {
     icon: 'ph:puzzle-piece',
     title: 'Component tokens · scoped values',
-    desc: 'Narrow enough to tune one component without side effects elsewhere.',
+    desc: 'Values for a single component, so it can be adjusted without affecting others.',
     code: 'button.background.default → color.brand.primary',
   },
 ];
@@ -81,7 +81,7 @@ const a11yList = [
   { icon: 'ph:keyboard', text: 'Full keyboard operability via React Aria' },
   { icon: 'ph:target', text: 'Focus traps & restoration in overlays' },
   { icon: 'ph:megaphone', text: 'ARIA semantics on every component' },
-  { icon: 'ph:magnifying-glass', text: 'vitest-axe guards every test run' },
+  { icon: 'ph:magnifying-glass', text: 'vitest-axe checks in every test run' },
   { icon: 'ph:squares-four', text: 'Eight intrinsic layout primitives' },
   { icon: 'ph:eye', text: 'Contrast verified against token values' },
 ];
@@ -112,10 +112,10 @@ const storybookChecks = [
 ];
 
 const proof = [
-  { label: 'Skills proven', items: ['CRUD Development', 'Accessible component APIs', 'Frontend architecture', 'UI/UX Design', 'Style Guide Documentation', 'Theming'] },
+  { label: 'Skills', items: ['CRUD development', 'Accessible component APIs', 'Front-end architecture', 'UI/UX design', 'Style guide documentation', 'Theming'] },
   { label: 'Stack', items: ['React', 'React Aria', 'Storybook', 'Design tokens', 'Tailwind CSS 4'] },
   { label: 'Quality', items: ['Keyboard operability', 'Focus management', 'ARIA semantics', 'Token contrast checks'] },
-  { label: 'Outcomes', items: ['13 shipped chapters', '3 full example surfaces built from the library', 'Two live deployed sites: guide + Storybook'] },
+  { label: 'Outcomes', items: ['13 shipped chapters', '3 example pages built from the library', 'Two live deployed sites: guide + Storybook'] },
 ];
 ---
 
@@ -138,7 +138,7 @@ const proof = [
           </div>
 
           <Heading level={1} visual="display-xl" tone="ink" class="leading-[1.04]">
-            A component library,<br />built to be <em class="ink-wink font-normal italic">understood</em>.
+            Accessible React components and a <em class="ink-wink font-normal italic">guide</em> to building them.
           </Heading>
 
           <p class="mt-8 max-w-xl">
@@ -189,14 +189,13 @@ const proof = [
 
   <Section tone="paper" padding="default" aria-label="Live Storybook examples">
     <Container width="wide">
-      <p class="mono-label">Live stories / Storybook</p>
-      <Heading level={2} visual="h2" class="mt-4 max-w-[24ch]">
-        The whole library, composed into real product surfaces.
+      <Heading level={2} visual="h2" class="max-w-[24ch]">
+        Example pages built with the library
       </Heading>
       <Text tone="muted" class="mt-4 max-w-2xl">
-        Three complete surfaces (a sprint board, an analytics dashboard, and a storefront)
-        assembled entirely from Rudiment primitives. These are the real Storybook stories:
-        load one and click around.
+        A sprint board, an analytics dashboard, and a storefront, built entirely from
+        Rudiment components. These are live Storybook stories, so you can load one and
+        use it.
       </Text>
 
       <div class="mt-12 space-y-16">
@@ -224,13 +223,13 @@ const proof = [
 
   <Section tone="paper" padding="default" aria-label="Field guide">
     <Container width="wide">
-      <p class="mono-label">Live site / Field Guide</p>
-      <Heading level={2} visual="h2" class="mt-4 max-w-[24ch]">
-        And a field guide that explains every decision behind it.
+      <Heading level={2} visual="h2" class="max-w-[24ch]">
+        The guide
       </Heading>
       <Text tone="muted" class="mt-4 max-w-2xl">
-        Thirteen chapters, from an empty directory to a published, token-driven, accessible
-        library, each choice shown next to the alternatives it ruled out.
+        Thirteen chapters that go from an empty directory to a published, accessible
+        library built on design tokens. Each chapter explains its decisions and the
+        alternatives that were ruled out.
       </Text>
       <div class="mt-9">
         <SiteShot
@@ -244,9 +243,9 @@ const proof = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight" aria-label="Project receipts">
+  <Section tone="paper" padding="tight" aria-label="Scope and results">
     <Container width="content">
-      <p class="mono-label mb-8">Receipts</p>
+      <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
           <div class="border-t border-line pt-4">
@@ -269,7 +268,7 @@ const proof = [
 
   <Section tone="paper" padding="tight">
     <Container width="content">
-      <p class="mono-label mb-5">On the docket</p>
+      <p class="mono-label mb-5">Contents</p>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {menu.map((item, i) => (
           <li>
@@ -286,13 +285,12 @@ const proof = [
       </ul>
 
       <Text size="lg" tone="muted" class="mt-10 measure">
-        Rudiment UI is a personal reference project, not a client
-        deliverable, and that's the point. It exists because most of the
-        component libraries I've been brought in to fix share the same root
-        cause: architectural decisions that nobody wrote down, made in the
-        wrong order, and now cost a quarter to untangle. Rudiment UI is the
-        library I wish every team had started with, built deliberately,
-        chapter by chapter, with the reasoning left in.
+        Rudiment UI is a personal reference project. Most of the component
+        libraries I've been brought in to fix had the same root cause:
+        architectural decisions that nobody wrote down, made in the wrong order,
+        and now taking a quarter's work to untangle. Rudiment UI is the library I
+        wish those teams had started with, built chapter by chapter with the
+        reasoning documented.
       </Text>
     </Container>
   </Section>
@@ -303,56 +301,32 @@ const proof = [
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 01</p>
           <Heading level={2} visual="display-md" tone="ink">
-            Why most libraries quietly fall apart
+            Why component libraries break down
           </Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
             <p>
-              Component libraries rarely fail loudly. They accumulate a thousand
-              small compromises until the thing that once felt like a system
-              feels like a
-              <strong class="text-ink font-semibold">patchwork</strong>. A missing semantic
+              Component libraries usually degrade through many small compromises
+              until they stop working as a system. A missing semantic
               token layer turns a rebrand into hundreds of manual renames. An
               undecided styling strategy turns a refactor into a full rewrite.
               Accessibility bolted on after launch always costs more than
               accessibility designed in from day one.
             </p>
             <p>
-              Most of these mistakes aren't expensive because they were hard to
-              avoid. They're expensive because they were
+              These mistakes are usually expensive because they were
               <strong class="text-ink font-semibold">made implicitly</strong>: in a stand-up,
-              in a PR comment, in a hurried corner of someone's sprint. Rudiment
-              UI starts from the opposite assumption: the structural decisions
-              come first, with no code, and every choice gets written down
-              alongside its consequences.
+              a PR comment, or a rushed sprint. Rudiment UI makes the structural
+              decisions first, before writing code, and documents each choice with
+              its consequences.
             </p>
             <p>
-              That's what the guide is. Chapter 1 contains no code at all. It's
-              the conversation a team should have had
-              <em>before</em> picking a CSS strategy.
+              Chapter 1 of the guide contains no code. It covers the decisions a team
+              should make <em>before</em> choosing a CSS strategy.
             </p>
           </div>
 
-          <div class="mt-10 grid gap-6 md:grid-cols-2">
-            <div class="border-t border-line pt-5">
-              <p class="mono-label mb-3">The usual story</p>
-              <Heading level={3} visual="h3" tone="ink">Drift, then debt</Heading>
-              <p class="mt-2 text-ink-muted leading-relaxed">
-                Tokens get added per-component. Styles leak into overrides.
-                Documentation falls behind. The system stops being a system.
-              </p>
-            </div>
-            <div class="border-t border-line pt-5">
-              <p class="mono-label mb-3">Rudiment's bet</p>
-              <Heading level={3} visual="h3" tone="ink">Sequence on purpose</Heading>
-              <p class="mt-2 text-ink-muted leading-relaxed">
-                Token architecture shapes components. Components shape tests.
-                Tests shape what the docs have to explain. Get the order right
-                and the rest stops fighting you.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </Container>
@@ -373,8 +347,8 @@ const proof = [
               Most token systems collapse because they try to do two jobs in one
               layer: hold raw values <em>and</em> express design intent.
               Rudiment separates those jobs across three tiers, each referencing
-              the one beneath it. A brand change touches one file. A component
-              tweak doesn't cascade into the rest of the library.
+              the one beneath it, so a rebrand changes one file and a change to one
+              component doesn't affect the rest of the library.
             </p>
           </div>
 
@@ -393,18 +367,10 @@ const proof = [
             ))}
           </div>
 
-          <figure class="my-12 border-l-2 border-accent pl-6">
-            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              Building a component library is as much an exercise in sequencing
-              decisions as it is in writing components.
-            </blockquote>
-          </figure>
-
-          <p class="measure text-ink-muted leading-relaxed text-lg">
+          <p class="mt-10 measure text-ink-muted leading-relaxed text-lg">
             Token files use the Design Tokens Community Group format, flow
             through Style Dictionary v4, and land in Tailwind CSS 4 via
-            <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 py-0.5 rounded-[4px]">@theme inline</code>. Updating a single value propagates through every dependent
-            component: no hunt-and-replace, no orphans.
+            <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 py-0.5 rounded-[4px]">@theme inline</code>, so changing one value updates every component that uses it.
           </p>
         </div>
       </div>
@@ -417,19 +383,19 @@ const proof = [
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 03</p>
           <Heading level={2} visual="display-md" tone="ink">
-            Accessibility as a contract, not a checklist
+            Accessibility with React Aria
           </Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
             <p>
-              A single interactive component can carry an enormous accessibility
-              surface. A modal alone needs focus trapping, scroll locking,
+              Interactive components need a lot of accessibility behavior. A modal
+              alone needs focus trapping, scroll locking,
               escape-key handling, focus restoration, and
               <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 py-0.5 rounded-[4px]">aria-modal</code>
-              management. Rudiment doesn't rebuild that for every component. It
-              leans on React Aria, maintained by Adobe's design system team, to
-              carry the behavior layer.
+              management. Instead of rebuilding that for each component, Rudiment
+              uses React Aria, maintained by Adobe's design system team, for the
+              behavior layer.
             </p>
             <p>
               React Aria owns keyboard navigation, focus management, ARIA
@@ -449,7 +415,7 @@ const proof = [
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Built-in, not bolted-on</p>
+            <p class="mono-label mb-5">Accessibility features</p>
             <ul class="grid gap-x-8 gap-y-3 text-ink-muted sm:grid-cols-2">
               {a11yList.map((item) => (
                 <li class="flex items-center gap-3">
@@ -470,17 +436,16 @@ const proof = [
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 04</p>
           <Heading level={2} visual="display-md" tone="ink">
-            Thirteen chapters, in order
+            Guide chapters
           </Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
             <p>
-              The guide is sequenced deliberately. You can't make sensible
-              component decisions until the token layer is settled. You can't
-              write useful tests until the component API is stable. You can't
-              publish confidently until the build workflow guarantees every tier
-              stays in sync. Each chapter earns the next one.
+              The chapters follow the order the decisions need to be made. The token
+              layer has to be settled before component decisions, the component API
+              has to be stable before tests are useful, and the build workflow has to
+              keep every tier in sync before the library is published.
             </p>
           </div>
 
@@ -516,12 +481,12 @@ const proof = [
           </ul>
 
           <Heading level={3} visual="h3" tone="ink" class="mt-16 mb-6">
-            What reading the guide leaves you with
+            What the guide provides
           </Heading>
           <div class="grid gap-6 md:grid-cols-3">
             <div class="border-t border-line pt-5">
               <Icon name="ph:compass" size={28} class="mb-3 text-ink-muted" />
-              <Heading level={4} visual="h4" tone="ink">Judgment, not a template</Heading>
+              <Heading level={4} visual="h4" tone="ink">Explained decisions</Heading>
               <p class="mt-1 text-sm text-ink-muted leading-relaxed">
                 Every decision is explained alongside the alternatives it closes
                 off, so you can extend the system instead of copying it.
@@ -537,21 +502,15 @@ const proof = [
             </div>
             <div class="border-t border-line pt-5">
               <Icon name="ph:shield-check" size={28} class="mb-3 text-ink-muted" />
-              <Heading level={4} visual="h4" tone="ink">Debt you don't pay later</Heading>
+              <Heading level={4} visual="h4" tone="ink">Common mistakes, explained early</Heading>
               <p class="mt-1 text-sm text-ink-muted leading-relaxed">
-                The expensive mistakes (shallow tokens, retrofitted a11y,
-                drifting docs) get made visible before they compound.
+                Common expensive mistakes, such as shallow tokens, accessibility
+                added late, and outdated docs, are explained before they become
+                costly to fix.
               </p>
             </div>
           </div>
 
-          <figure class="my-12 border-l-2 border-accent pl-6">
-            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              A repository without explanation gives you a working system.
-              Explaining the trade-offs at each step gives you the judgment to
-              extend it.
-            </blockquote>
-          </figure>
         </div>
       </div>
     </Container>
@@ -563,18 +522,16 @@ const proof = [
         <div class="case-layout__head">
           <p class="mono-label mb-3">Step 05</p>
           <Heading level={2} visual="display-md" tone="ink">
-            See it served: both halves, live
+            Guide and Storybook
           </Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
             <p>
-              Rudiment ships as two deployed sites, and you can open both right
-              now. The guide walks through the
-              architectural decisions and trade-offs, chapter by chapter. The
-              Storybook is the working
-              library those decisions produced: every primitive, every
-              component, every variant, in your browser.
+              Rudiment is deployed as two sites. The guide explains the
+              architectural decisions and trade-offs chapter by chapter, and the
+              Storybook shows the library those decisions produced, with every
+              primitive, component, and variant.
             </p>
           </div>
 
@@ -604,7 +561,7 @@ const proof = [
                 ))}
                 <li class="flex items-start gap-2">
                   <Icon name="ph:check" size={16} class="mt-0.5 flex-shrink-0 text-accent" />
-                  The <em>why</em> behind each decision, not just the <em>what</em>
+                  The reasoning behind each decision
                 </li>
               </ul>
 
@@ -657,32 +614,31 @@ const proof = [
 
   <Section tone="ink" padding="loose">
     <Container width="wide">
-      <p class="mono-label !text-paper/65 mb-6">Product design engineering</p>
       <Heading level={2} visual="display-lg" tone="paper">
-        A foundation that holds, built in public.
+        Work with me
       </Heading>
       <p class="mt-5 max-w-2xl">
         <Text size="lg" tone="whiteMuted">
-          Rudiment UI is where I sharpen the engineering I bring to the products I ship:
-          accessible-by-construction primitives, a three-tier token system, and docs treated as
-          part of the artifact. The same care I bring to the whole product, end to end.
+          Rudiment UI is where I try out the approaches I use on team projects: accessible
+          primitives, a three-tier token system, and documentation that explains each
+          decision. If your team needs a design system built this way, send me a message.
         </Text>
       </p>
       <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <Button variant="navy" size="lg" iconLeft="ph:envelope" href="/contact/">
-          Get in touch
+          Contact me
         </Button>
         <a
           href="/resume/"
           class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper"
         >
           <Icon name="ph:file-text" size={18} />
-          Résumé
+          View résumé
         </a>
       </div>
 
       <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/personal-projects/token-galaga/" class="!text-paper hover:!text-paper/70">Companion: Token Adventure</Link>
+        <Link variant="arrow" href="/personal-projects/token-galaga/" class="!text-paper hover:!text-paper/70">Next project: Token Adventure</Link>
         <Link variant="arrow" href="/personal-projects/" class="!text-paper hover:!text-paper/70">Back to personal projects</Link>
       </div>
     </Container>

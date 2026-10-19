@@ -9,14 +9,14 @@ import Icon from '~/components/primitives/Icon.astro';
 import PrincipleGlyph from '~/components/patterns/PrincipleGlyph.astro';
 
 const description =
-  'Product design engineer working at the intersection of front-end engineering and UX. 20 years in production UI, most recently building accessible component libraries in Vue, React, and Web Components.';
+  'Design systems and UI platform engineer working where front-end engineering and UX meet. 20 years in production UI, most recently building accessible component libraries in Vue, React, and Web Components.';
 
-// Same four chips as the home page, worded identically. Two pages rendering the
+// Same chips as the home page, worded identically. Two pages rendering the
 // same strip with different items read as two different claims.
 const capabilities = [
-  'Design-grade front-end',
-  'React · TypeScript',
-  'Accessibility built in',
+  'Interface design',
+  'Front-end development',
+  'Accessibility',
   'Design systems',
 ];
 
@@ -26,29 +26,29 @@ const capabilities = [
 const principles = [
   {
     glyph: 'system' as const,
-    title: 'A design system is a product, and its users write code',
+    title: 'Design systems are products for engineers',
     body:
-      "If the API fights the team consuming it, they will copy the markup, tweak it, and move on, and the system quietly stops being one. So the props, the defaults, and the docs get the same care as the type and the spacing.",
+      "If a component's API is hard to use, teams copy the markup, change it, and move on, and the system stops being shared. I give props, defaults, and documentation the same care as type and spacing.",
   },
   {
     glyph: 'accessibility' as const,
-    title: 'Accessibility belongs inside the component',
+    title: 'Accessibility built into components',
     body:
-      "When the keyboard paths, focus states, and semantics ship inside the component itself, instead of getting bolted on later through an audit or a ticket, every team that adopts it inherits them, and nobody has to be an expert to get it right.",
+      "Keyboard support, focus states, and semantic markup ship inside each component instead of being added after an audit or a ticket. Every team that adopts the component gets them without needing to be accessibility experts.",
   },
   {
     glyph: 'directness' as const,
-    title: 'Directness over diplomacy',
+    title: 'Clear, honest feedback',
     body:
-      "If a product is in trouble, I'll tell you exactly where and why. Kindly, but without hedging. Then we'll map the shortest honest path forward. You're hiring me for the truth, not the comfort.",
+      "If a product has problems, I'll tell you where they are and why, kindly and without hedging. Then we'll work out the most direct way to fix them.",
   },
 ];
 
 const learning = [
-  { title: 'WAI-ARIA & APG', note: 'Authoring practices for patterns that truly work for assistive tech.' },
-  { title: 'Design Tokens CG', note: 'The emerging standard for portable, multi-platform design decisions.' },
-  { title: 'CSS Working Group', note: 'Container queries, anchor positioning, cascade layers (the good stuff).' },
-  { title: 'Rudiment UI', note: 'My open-source React component library, built with the reasoning left in.' },
+  { title: 'WAI-ARIA Authoring Practices', note: 'Patterns for building menus, tabs, dialogs, and other widgets that work with assistive technology.' },
+  { title: 'Design Tokens Community Group', note: 'A shared format for design tokens, so colors, spacing, and type can move between tools and platforms.' },
+  { title: 'CSS Working Group', note: 'Proposals for new CSS features, such as container queries, anchor positioning, and cascade layers.' },
+  { title: 'Rudiment UI', note: 'My open-source React component library, where I test ideas in public before using them in production.' },
 ];
 
 // Real facts, not a bio-page mood board. Ordered as a rough life arc: where I'm
@@ -57,59 +57,58 @@ const learning = [
 const personal = [
   {
     icon: 'ph:cooking-pot',
-    title: 'Louisiana runs deep',
-    body: "I grew up in Louisiana on Cajun food and Cajun music. Nothing beats my grandmother's chicken and sausage gumbo, her crawfish étouffée, or my step dad's boiled crawfish. Nothing!",
+    title: 'Louisiana roots',
+    body: "I grew up in Louisiana on Cajun food and Cajun music. My favorites are still my grandmother's chicken and sausage gumbo and crawfish étouffée, and my stepdad's boiled crawfish.",
   },
   {
     icon: 'ph:shield-star',
-    title: 'My wife and I both served',
-    body: "We're Army veterans who met at our first duty station, overseas. We were stationed in Hohenfels, Germany, lived in the nearby village of Seubersdorf, and had our first child there. Ein bier, bitte!",
+    title: 'Army veterans',
+    body: "My wife and I met at our first duty station in Hohenfels, Germany. We lived in the nearby village of Seubersdorf and had our first child there.",
   },
   {
     icon: 'ph:music-notes-simple',
-    title: 'Bass, drums, thirty-plus years',
-    body: 'In my younger days I toured the southeast college circuit, playing in fraternity houses and college clubs. I also spent a lot of time playing gigs on Bourbon Street and Frenchman Street in New Orleans. These days I keep it local.',
+    title: 'Bass and drums',
+    body: "I've played for more than thirty years. When I was younger, I toured college clubs and fraternity houses across the Southeast and played gigs on Bourbon Street and Frenchmen Street in New Orleans. These days I play locally.",
   },
   {
     icon: 'ph:map-trifold',
-    title: 'We travel as a family, a lot',
-    body: 'Every chance we get, with our kids: Canada, the Bahamas, Italy, Iceland, Ireland, France, Austria, and Germany so far. Iceland is still our favorite. We also enjoy stateside travel and like staying off the beaten path.',
+    title: 'Family travel',
+    body: "We travel with our kids whenever we can. So far we've visited Canada, the Bahamas, Italy, Iceland, Ireland, France, Austria, and Germany, and Iceland is still our favorite. In the U.S., we look for places off the beaten path.",
   },
 ];
 ---
 
-<BaseLayout title="About | Joshua Briley | Product Design Engineer" description={description}>
+<BaseLayout title="About | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
       <div class="hero-in hero-in-1 flex items-center justify-between gap-4 mono-label">
-        <span>About · Product Design Engineer</span>
+        <span>About · Design systems &amp; UI platform engineer</span>
       </div>
 
       <div class="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-16 lg:items-center">
         <div class="lg:col-span-7">
           <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
-            <em class="ink-wink font-normal italic">Twenty years</em> between front end engineering & UX.
+            I've worked in front-end engineering and UX for <em class="ink-wink font-normal italic">twenty years.</em>
           </Heading>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-xl">
-            I've spent most of my career at the intersection of front-end engineering and UX, with
-            design systems becoming an increasingly large part of that work. I've built and
-            supported component libraries in Vue, React, and Web Components, for teams that had to
-            ship on all three.
+            Design systems have become a larger part of that work over time. I've built and
+            supported component libraries in Vue, React, and Web Components for teams that needed
+            to ship on all three.
           </Text>
           <Text tone="muted" class="hero-in hero-in-3 mt-5 max-w-xl">
-            The constant across all of them is accessibility, and <em class="text-ink not-italic font-medium">component
-            APIs that work as well for the engineers consuming the system as they do for the people
-            using the product</em>. Right now that means Stencil-based Web Components, Storybook,
+            In every library, I focus on accessibility and on <em class="text-ink not-italic font-medium">component
+            APIs that work as well for the engineers using the system as they do for the people
+            using the product</em>. My current work uses Stencil-based Web Components, Storybook,
             automated testing, and Figma integration.
           </Text>
 
           <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
             <Button variant="primary" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">
-              Get in touch
+              Contact me
             </Button>
             <Button variant="ghost" size="lg" href="/projects/">
-              See the work
+              View projects
             </Button>
           </div>
 
@@ -139,7 +138,7 @@ const personal = [
                 src="/images/about/josh-suit-portrait-640.jpg"
                 sizes="(min-width: 1280px) 476px, (min-width: 1024px) 40vw, 100vw"
                 srcset="/images/about/josh-suit-portrait-400.jpg 400w, /images/about/josh-suit-portrait-640.jpg 640w, /images/about/josh-suit-portrait-1000.jpg 1000w"
-                alt="Joshua Briley, product design engineer"
+                alt="Joshua Briley, design systems and UI platform engineer"
                 class="aspect-[4/5] w-full object-cover"
                 loading="eager"
                 fetchpriority="high"
@@ -157,9 +156,8 @@ const personal = [
   <Section tone="paper" padding="default">
     <Container width="wide">
       <div class="max-w-3xl">
-        <p class="mono-label">How I work</p>
-        <Heading level={2} visual="display-md" class="mt-4">
-          Three things I hold on to.
+        <Heading level={2} visual="display-md">
+          How I work
         </Heading>
       </div>
 
@@ -182,28 +180,19 @@ const personal = [
     <Container width="wide">
       <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div class="lg:col-span-5">
-          <p class="mono-label">Always learning</p>
-          <Heading level={2} visual="display-md" class="mt-4">
-            Still reading the spec drafts.
+          <Heading level={2} visual="display-md">
+            Standards and open source
           </Heading>
-          <div class="mt-7 space-y-4 text-ink-muted leading-relaxed max-w-md">
-            <p>
-              I stay close to the sources: WAI-ARIA working drafts, the Design Tokens Community
-              Group, CSS Working Group proposals. The platform moves. The best systems move
-              with it.
-            </p>
-            <p>
-              I also maintain <span class="text-ink font-medium">Rudiment UI</span>, an
-              open-source React component library where I sharpen ideas in public before they land
-              in production systems.
-            </p>
-          </div>
+          <Text tone="muted" class="mt-6 max-w-md">
+            I follow the groups that set accessibility, design token, and CSS standards, so the
+            systems I build keep up with what browsers support. I also maintain an open-source
+            component library.
+          </Text>
         </div>
 
         <div class="lg:col-span-7">
-          <p class="mono-label">What I follow</p>
-          <ul class="mt-5 divide-y divide-line border-y border-line" data-reveal-stagger>
-            {learning.map((item, i) => (
+          <ul class="divide-y divide-line border-y border-line" data-reveal-stagger>
+            {learning.map((item) => (
               <li class="flex items-baseline gap-4 py-4">
                 <div>
                   <p class="font-display text-base font-medium tracking-tight text-ink">{item.title}</p>
@@ -221,12 +210,8 @@ const personal = [
     <Container width="wide">
       <div class="max-w-3xl">
         <Heading level={2} visual="display-md">
-          A few things that aren't on the résumé.
+          Outside of work
         </Heading>
-        <Text tone="muted" class="mt-4 max-w-xl">
-          The professional stuff is the rest of this page. Here's the short version of
-          everything else.
-        </Text>
       </div>
 
       <div

@@ -18,10 +18,10 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer · Design & Front-End', headline: 'My best work lives at the interface, down to the last detail', wink: 'interface' },
-  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'Designer by origin. Engineer by practice', wink: 'practice' },
+  { slug: 'home', path: '/', eyebrow: 'Design Systems & UI Platform Engineer', headline: 'My best work lives at the interface, down to the last detail', wink: 'interface' },
+  { slug: 'about', path: '/about/', eyebrow: 'About · Design Systems & UI Platform Engineer', headline: 'Designer by origin. Engineer by practice', wink: 'practice' },
   { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: "Let's talk about the interface you're building", wink: 'interface' },
-  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: 'Twenty years building the parts of the product people actually touch', wink: 'touch' },
+  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Design Systems & UI Platform Engineer', headline: 'Twenty years building the parts of the product people actually touch', wink: 'touch' },
   { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Case studies in front-end that sweats the details', wink: 'details' },
   { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build to keep the craft sharp', wink: 'craft' },
   { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship' },

@@ -26,7 +26,7 @@ const services = [
     <p class="mt-1 text-charcoal/75">I’ll reply within one business day, usually sooner.</p>
   </FormAlert>
   <FormAlert variant="error" id="form-alert-error">
-    <p class="font-heading font-semibold text-navy">We couldn’t send your message.</p>
+    <p class="font-heading font-semibold text-navy">Your message didn’t send.</p>
     <p class="mt-1 text-charcoal/75"><span id="form-alert-error-reason"></span></p>
   </FormAlert>
 
@@ -48,7 +48,7 @@ const services = [
     </Field>
   </div>
 
-  <Field label="Comments" name="message" required hint="A few sentences is plenty.">
+  <Field label="Message" name="message" required hint="A few sentences is plenty.">
     <Textarea name="message" rows={5} required />
   </Field>
 
