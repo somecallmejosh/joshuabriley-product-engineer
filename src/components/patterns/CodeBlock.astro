@@ -48,7 +48,7 @@ const lines = body.split('\n');
 const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
 ---
 
-<figure class={cx('not-prose', className)}>
+<figure class={cx('code-artifact not-prose', className)}>
   <div class="overflow-hidden rounded-2xl border border-ink/10 border-l-2 border-l-accent bg-ink shadow-[0_18px_40px_-22px_rgba(45,43,85,0.6)]">
     <div class="flex items-center gap-2.5 border-b border-white/10 px-4 py-2.5">
       <Icon name="ph:code" size={14} class="shrink-0 text-accent" />

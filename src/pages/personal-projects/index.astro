@@ -1,118 +1,31 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
-import Icon from '~/components/primitives/Icon.astro';
-
-const description =
-  'Personal projects by Joshua Briley: Rudiment UI, an open-source library of accessible React components, and Token Adventure, a browser game that teaches the W3C Design Tokens Format.';
-
-// Rudiment UI moved back here from /projects/: it has no client and no user
-// research to report, so it doesn't fit the case-study bar the /projects/
-// pages are held to. West Baton Rouge Presbyterian is unlisted rather than
-// deleted: the case study is still live at its own URL, it just no longer
-// appears in this index.
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
+import { projectPages } from '~/lib/project-pages';
 const projects = [
-  {
-    index: '01',
-    href: '/personal-projects/rudiment-ui/',
-    client: 'Rudiment UI',
-    kind: 'Component library',
-    title: 'Accessible React components and a guide to building them',
-    summary:
-      'An open-source React component library with a companion guide. The guide covers architecture decisions, a three-tier token system, layout primitives, accessible components built with React Aria, Storybook docs, testing, and publishing to npm.',
-  },
-  {
-    index: '02',
-    href: '/personal-projects/token-galaga/',
-    client: 'Token Adventure',
-    kind: 'Browser game',
-    title: 'A game that teaches the W3C Design Tokens Format',
-    summary:
-      'Twenty levels that cover the Design Tokens Format (2025.10). You write tokens in a CodeMirror editor, the game runs them in a sandboxed iframe, and you clear each level when your code passes checks against the spec.',
-  },
+  { ...projectPages.rudiment, href: '/personal-projects/rudiment-ui/' },
+  { ...projectPages.tokens, href: '/personal-projects/token-galaga/' },
 ];
 ---
-
-<BaseLayout title="Personal projects | Joshua Briley" description={description}>
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
+<BaseLayout title="Personal projects | Joshua Briley" description="Working reference projects in component architecture and design tokens: Rudiment UI and Token Adventure.">
+  <section class="page-opener">
     <Container width="wide">
-      <nav class="mb-12 flex items-center gap-2 text-sm text-ink-muted" aria-label="Breadcrumb">
-        <a href="/projects/" class="transition-colors hover:text-accent">Projects</a>
-        <Icon name="ph:caret-right" size={12} />
-        <span class="text-ink">Personal projects</span>
-      </nav>
-
-      <div class="max-w-4xl">
-        <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[20ch]">
-          Personal <em class="ink-wink font-normal italic">projects</em>
-        </Heading>
-        <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-          Projects I build on my own time to try out ideas in design systems and design tokens.
-          For client work, see the <a href="/projects/" class="hero-link">case studies</a>.
-        </Text>
+      <p class="role-line hero-in hero-in-1">Personal projects</p>
+      <h1 class="page-type hero-in hero-in-2">Ideas you can<br /><em>put to work.</em></h1>
+      <p class="page-lede hero-in hero-in-3">Reference implementations and experiments in components and design tokens. Read the decisions, try the interfaces, and see how they work.</p>
+    </Container>
+  </section>
+  <section class="editorial-section work-section" aria-label="Personal project details">
+    <Container width="wide">
+      <div class="work-list">
+        {projects.map(project => <article class="work-entry" data-reveal>
+          <a href={project.href} class="work-image work-image--rudiment" aria-label={`Explore ${project.name}`}><img src={project.image} alt={project.alt} width="1600" height="1000" loading="lazy" decoding="async" /><span class="work-image-arrow" aria-hidden="true">↗</span></a>
+          <div class="work-copy"><p class="work-kind">{project.kind}</p><h2 class="project-index-name"><a href={project.href}>{project.name}</a></h2><p class="work-title">{project.headline} {project.emphasis}</p><p class="work-summary">{project.intro}</p><a class="editorial-link mt-5" href={project.href}>Explore the project <span aria-hidden="true">↗</span></a></div>
+        </article>)}
       </div>
     </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
-    <Container width="wide">
-      <ul class="border-t border-line" data-reveal-stagger>
-        {projects.map((p) => (
-          <li>
-            <a
-              href={p.href}
-              class="group grid grid-cols-12 items-start gap-x-4 gap-y-3 border-b border-line py-8 transition-colors hover:bg-ink/[0.02] md:gap-y-0 md:py-10"
-            >
-              <span class="col-span-10 sm:col-span-4 md:col-span-3">
-                <span class="font-display text-xl font-medium tracking-tight text-ink md:text-2xl">{p.client}</span>
-                <span class="mt-1 block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-ink-muted">{p.kind}</span>
-              </span>
-
-              <span class="col-span-12 sm:col-span-7 md:col-span-7">
-                <span class="font-display text-base font-medium tracking-tight text-ink">{p.title}</span>
-                <span class="mt-1.5 block text-sm leading-relaxed text-ink-muted">{p.summary}</span>
-              </span>
-
-              <span class="col-span-12 flex justify-end sm:col-span-12 md:col-span-1 md:justify-end">
-                <Icon
-                  name="ph:arrow-right"
-                  size={18}
-                  class="text-ink-faint transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:text-accent"
-                />
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </Section>
-
-  <Section tone="ink" padding="loose">
-    <Container width="wide">
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-8">
-          <Heading level={2} visual="display-lg" tone="paper" class="max-w-[20ch] text-balance">
-            I'm open to new roles
-          </Heading>
-          <Text size="lg" tone="whiteMuted" class="mt-6 max-w-xl">
-            If your team needs someone to design and build accessible interfaces or a design
-            system, send me a message or read my résumé.
-          </Text>
-        </div>
-        <div class="lg:col-span-4 lg:flex lg:justify-end">
-          <div class="flex flex-col items-start gap-3">
-            <Button variant="navy" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">Contact me</Button>
-            <a
-              href="/resume/"
-              class="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-paper/55 transition-colors hover:text-paper"
-            >View résumé <Icon name="ph:file-text" size={12} /></a>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
+  </section>
+  <ContactInvitation />
 </BaseLayout>
+<style>.project-index-name { margin-top: .75rem; font-size: clamp(2.2rem, 3.5vw, 3.3rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; } .project-index-name a:hover { color: var(--accent); }</style>

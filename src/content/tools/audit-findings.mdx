@@ -1,39 +1,35 @@
 ---
 title: Sample audit findings
-description: "A working sample of the audit report. Inspect a sample screen, then read the findings ranked by severity, each paired with a specific fix."
+description: "Inspect two example interfaces and reveal their inconsistencies. Read each finding with its severity and a suggested fix."
 date: 2026-06-26
 tool: Diagnostic
 kind: Inspector
 order: 4
-takeaway: Inspect a real specimen and read the findings the way an audit ranks them.
-action: Inspect a specimen
+takeaway: Example findings that connect an interface issue to its severity and a concrete fix.
+action: Inspect the examples
 props:
-  - Two specimens
-  - Ranked by severity
-  - A fix attached to each
-instructions: "The exhibits all shipped to production somewhere. They look fine at a glance, which is exactly the problem. Pick a screen, toggle the issues on, and the inconsistencies surface: the small drift that quietly costs a team sprint velocity, ranked the way a real audit pass would rank it."
+  - Two example interfaces
+  - Issues you can toggle
+  - Prioritized fixes
+instructions: "Choose an example interface, then toggle the issue annotations. Compare what you see with the findings and their suggested fixes."
 tags:
   - Design Systems
   - Audits
   - Accessibility
 ---
 
-<p class="lede">
-  Every audit ends in a report. Not a vibe, not a list of complaints: every
-  finding ranked by severity, each one paired with a specific, actionable fix.
-  Describing that deliverable in the abstract never lands, so this page is the
-  thing itself. Run the inspection on a specimen, then read the findings the way
-  you would read the real report.
-</p>
+## Turn an observation into a task
 
-The point of an audit is not to tell you your system is messy. You already suspect that. The point is to make the mess legible: to separate the issue that breaks accessibility from the issue that is merely untidy, and to attach a concrete remediation to each so the work is obvious once you sit down to do it.
+A useful finding tells a team where an issue appears, why it matters, and what to change. These examples demonstrate that structure using interface inconsistencies and accessibility concerns you can inspect alongside the report.
 
-Notice that the findings sort themselves. High severity is the stuff that breaks accessibility or erodes trust. Medium is drift that compounds over time. Low is polish and consistency. Reading the report is less about counting problems and more about knowing which three to fix first.
+The screens are demonstration specimens. They illustrate the format and reasoning of a review; they are not findings about your product.
 
-## What a pass produces
+## Prioritize by impact
 
-A review walks the library across all five dimensions and comes back as one document: every finding ranked by severity, each with a specific remediation attached. The input can be a Storybook URL, a Figma file, or a repository, whatever already exists. Nothing needs to be prepared first, and the format does not matter, because the point is to read the system as it actually is rather than as it was meant to look.
+An issue that prevents someone from completing a task deserves attention before a small visual inconsistency. Read the proposed severity alongside the affected behavior, then consider the context: how often the pattern appears, who encounters it, and whether a workaround exists.
 
-## The checklist I build against
+A fix may belong in a shared component, a token, documentation, or the product itself. Identify that owner before putting the finding into a backlog. A report is useful when the next person can act on it.
 
-Those five dimensions are not a framework I hand to other people. They are the standard my own work is held to: every system I ship gets read against the same list before it goes out, which is why the findings here are worded the way they are. If you want to run a quick self-assessment first, the [design-system scorecard](/tools/scorecard/) walks the same dimensions in about ten minutes.
+## Establish your own starting point
+
+The [design system scorecard](/tools/scorecard/) offers a broader self-assessment across components, accessibility, tokens, documentation, and handoff. Use it to identify questions worth investigating, then verify those questions in the interfaces your team maintains.

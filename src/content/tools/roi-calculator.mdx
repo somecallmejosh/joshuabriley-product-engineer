@@ -1,60 +1,37 @@
 ---
 title: Inconsistency cost calculator
-description: "Inconsistent components cost a few hours here and a rebuilt component there, which is easy to overlook. This calculator adds those costs up across a team and a year into one annual figure."
+description: "Estimate the annual hours and cost of UI rework using your team size, product surfaces, hourly cost, and level of inconsistency. Adjust the inputs to compare scenarios."
 date: 2026-06-24
 tool: RoiCalculator
 kind: Calculator
 order: 2
-takeaway: Price the drift your team already lives with, in hours and dollars.
-action: Run your numbers
+takeaway: An estimate of UI rework costs, with the assumptions available to inspect.
+action: Estimate your rework
 props:
   - Five inputs
-  - Nothing saved
-  - Every assumption shown
-instructions: "Give it five inputs about your team and the rework you live with, and it shows what a structured system is modelled to reclaim, in hours and dollars, every year."
+  - Assumptions shown
+  - Shareable settings
+instructions: "Set the five inputs to reflect your team. The estimate updates as you go. Open the calculation details to inspect the model, or copy a link to share your settings."
 tags:
   - Design Systems
   - Cost
   - Stakeholders
 ---
 
-<p class="lede">
-  Drift never lands on a single invoice, so it stays invisible. A few hours here,
-  a rebuilt component there, a spacing one-off nobody flags. None of it is big
-  enough to argue about on its own. Add it up across a team and a year, though,
-  and it is a salary. The trick to getting a stakeholder to care is putting that
-  scattered cost in one place, as one figure.
-</p>
+## Start with rework you can identify
 
-That is the whole problem with inconsistency: it never arrives as a line item. It hides inside the work, so it reads like the normal cost of building software rather than a tax you chose to keep paying. The way to make it real is to set your own numbers and watch them land on a single total.
+Think about time spent rebuilding a shared pattern, reconciling differences between products, or fixing the same component behavior in several places. Use recent examples to estimate the weekly effort, then adjust the inputs to see how sensitive the result is to your assumptions.
 
-Nothing in there is a guess pulled from the air. Each number in the results panel traces back to an input you set. The point is not the precision of the total. It is watching the small, ignorable scraps of drift compound into a figure large enough that someone with a budget pays attention.
+If you do not know a number, compare a lower and an upper estimate. A range you can explain is more useful in a planning discussion than a precise-looking total built on guesses.
 
-## When the number starts to matter
+## What the estimate means
 
-A total is only useful next to a threshold. The estimate scales with two things that tend to grow together: how many people touch the UI, and how many surfaces they have to keep in sync. That is why the curve bends upward instead of climbing steadily.
+The calculator models annual rework and the share a more structured system might recover. Its working-year and recovery assumptions are shown with the calculation. They are model choices, not measured results from your organization.
 
-The cleanest way to read your own figure is to ignore the dollars for a moment and look at the recovered hours. Divide them by forty. That is roughly how many weeks of one person's time you would get back in a year, and it is the only number you can honestly compare against what building and maintaining a system would cost you. Here is the same formula run at a few common team shapes:
+The estimate does not include the cost of building, migrating to, or maintaining a design system. Compare those costs with the potential recovered hours before using the figure to support an investment. More products or a larger team alone do not establish that a new system will pay for itself.
 
-| Team shape | Recovered per year |
-| ---------- | ------------------ |
-| Two people, one surface, an hour a week each | About half a week |
-| Six people, two surfaces | About nine weeks |
-| Twelve people, four surfaces | About twenty-five weeks |
-| Forty people, eight surfaces | Roughly three person-years |
+## Bring examples to the conversation
 
-At the top of that table, the honest answer is to do nothing. Two people keep a UI consistent by talking to each other, and a couple of thousand dollars of drift a year is cheaper than the overhead of formalising anything. You would spend more building the system than the system gives back.
+Use the total alongside actual work: a duplicated form, a difficult upgrade, or repeated accessibility fixes. Those examples help a team decide whether the answer is a shared component, better documentation, clearer ownership, or a smaller local change.
 
-Somewhere around six to ten people working across more than one surface, talking stops scaling. Nobody can hold every decision in their head anymore, the same button gets built a third time because rebuilding it is faster than finding it, and the recovered figure crosses into the range where a system pays for itself inside a year. Past that it compounds, because every new surface adds reconciliation work on top of an already larger base. That is the real reason enterprise teams end up with design systems and small studios do not: not sophistication, just arithmetic.
-
-## Defensible beats dramatic
-
-A number you cannot explain is a number a stakeholder ignores. The moment someone asks "where does that come from" and the answer is a shrug, the whole case evaporates, no matter how big the figure looked. So every assumption behind the estimate is shown: the working weeks, the conservative share of rework a system actually reclaims, the way each extra surface nudges that share up. Nothing is hidden in a black box.
-
-The premise underneath all of it (that drift and rework quietly drain real money, and that structure wins a good chunk of it back) is well-trodden ground. You do not have to take my word for it, and you do not need me to invent statistics to make it sound urgent. The pattern is established. What the calculator does is take that established direction and price it against your team instead of someone else's.
-
-## Put a real number behind it
-
-The estimate is the rough shape, not the verdict. It is meant to start the conversation, not end it. A design system audit replaces the estimate with specifics: which patterns are actually drifting, what each one costs you, and the order to fix them in so the cheapest wins come first.
-
-If you want a faster read before that, the [design-system scorecard](/tools/scorecard/) covers where your system stands today. Either way, you walk in with a number you can defend rather than a feeling you cannot.
+The [design system scorecard](/tools/scorecard/) can help identify which part of the system deserves a closer look.

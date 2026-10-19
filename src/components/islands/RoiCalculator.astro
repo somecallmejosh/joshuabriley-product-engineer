@@ -1,7 +1,11 @@
 ---
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import {
+  WEEKS_PER_YEAR,
+  RECLAIM_BY_LEVEL,
+  SURFACE_DRAG,
+  SURFACE_DRAG_CAP,
+  RECOVERY_CAP,
   DEFAULTS,
   BOUNDS,
   INCONSISTENCY_LEVELS,
@@ -29,13 +33,11 @@ const initial = computeRoi(DEFAULTS);
   <div class="rc-grid">
     <div class="rc-controls">
       <div class="mb-5">
-        <span class="mono-label">Your numbers</span>
         <h3 id="rc-title" class="font-display text-2xl md:text-3xl font-bold text-ink leading-tight text-pretty mt-2">
-          What inconsistency costs you.
+          Your team.
         </h3>
         <p class="text-sm text-ink-muted mt-2 leading-relaxed">
-          Five inputs about your team and the drift you live with. The panel on the
-          right updates as you go. No email, nothing saved.
+          Use recent examples of UI rework to estimate your team’s weekly effort.
         </p>
       </div>
 
@@ -133,41 +135,23 @@ const initial = computeRoi(DEFAULTS);
       </div>
 
       <div class="mt-2 flex flex-wrap items-center gap-3">
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          iconLeft="ph:link-duotone"
-          id="rc-copy"
-          class="!bg-white !border-line hover:!bg-white hover:!border-accent/40"
-        >
-          <span data-rc-copy-label>Copy shareable link</span>
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          iconLeft="ph:arrow-counter-clockwise-duotone"
-          id="rc-reset"
-          class="!bg-white !border-line hover:!bg-white hover:!border-accent/40"
-        >
-          Reset
-        </Button>
+        <button type="button" id="rc-copy" class="tool-control-button"><Icon name="ph:link" size={17} /><span data-rc-copy-label>Copy shareable link</span></button>
+        <button type="button" id="rc-reset" class="tool-control-button"><Icon name="ph:arrow-counter-clockwise" size={17} />Reset</button>
       </div>
     </div>
 
     <div class="rc-result">
       <div class="rc-result-frame">
         <div class="rc-result-rule">
-          <span>your annual UI debt</span>
+          <span>annual rework estimate</span>
           <span class="rc-result-live"><i aria-hidden="true"></i>live</span>
         </div>
 
-        <p class="rc-headline-label pb-4">Recoverable per year</p>
+        <p class="rc-headline-label pb-4">Potential recovery per year</p>
         <p class="rc-headline" data-rc-headline aria-live="polite">{formatCurrency(initial.debtCostPerYear)}</p>
         <p class="rc-headline-sub">
           <span data-rc-hours>{initial.hoursSavedPerYear.toLocaleString('en-US')}</span> engineer/designer
-          hours/year, reclaimed by structure.
+          hours/year of modelled recovery.
         </p>
 
         <div class="rc-bars">
@@ -200,10 +184,18 @@ const initial = computeRoi(DEFAULTS);
       </div>
 
       <p class="rc-foot-note" aria-live="polite" data-rc-callout>
-        Most teams are surprised it&rsquo;s a salary, not a rounding error.
+        An estimate based on your inputs. Review the assumptions before using it to plan work.
       </p>
     </div>
   </div>
+  <details class="rc-assumptions">
+    <summary>Calculation details and assumptions</summary>
+    <div>
+      <p>Annual rework cost = people × weekly rework hours per person × {WEEKS_PER_YEAR} working weeks × hourly cost.</p>
+      <p>The model starts with a recovery rate of {RECLAIM_BY_LEVEL.low * 100}% for mostly consistent UI, {RECLAIM_BY_LEVEL.medium * 100}% for noticeable drift, or {RECLAIM_BY_LEVEL.high * 100}% for inconsistent UI. Each additional product surface increases that rate by {SURFACE_DRAG * 100}% of the base rate, up to a {SURFACE_DRAG_CAP * 100}% increase. The overall recovery rate is capped at {RECOVERY_CAP * 100}%.</p>
+      <p>Recovered hours are rounded to whole hours, then multiplied by hourly cost. Displayed costs are rounded to whole dollars. These assumptions illustrate a scenario; they are not measured savings. Building, migrating, and maintaining the system would add costs.</p>
+    </div>
+  </details>
 </section>
 
 <script>
@@ -309,11 +301,8 @@ const initial = computeRoi(DEFAULTS);
     }
 
     function calloutFor(annual: number): string {
-      if (annual <= 0) return 'No rework cost? Either you have rare discipline, or the estimate is too low.';
-      if (annual >= 500_000) return 'That is a senior hire or two, spent every year on avoidable rework.';
-      if (annual >= 150_000) return 'Most teams are surprised it&rsquo;s a salary, not a rounding error.';
-      if (annual >= 40_000) return 'Smaller, but it compounds, and it never shows up on one invoice.';
-      return 'Modest today. It rarely stays that way as surfaces multiply.';
+      if (annual <= 0) return 'These inputs produce no recoverable rework cost. Try another scenario to compare.';
+      return 'Compare this estimate with the cost of building, migrating, and maintaining your system.';
     }
 
     function render() {
@@ -615,6 +604,10 @@ const initial = computeRoi(DEFAULTS);
     100% { filter: brightness(1); }
   }
 
+  .rc-assumptions { margin-top: 2rem; border-top: 1px solid var(--line-strong); padding-top: 1rem; }
+  .rc-assumptions summary { cursor: pointer; font-weight: 600; font-size: .95rem; padding: .5rem 0; }
+  .rc-assumptions > div { max-width: 72ch; padding-top: .75rem; color: var(--ink-muted); font-size: .9rem; line-height: 1.65; }
+  .rc-assumptions p + p { margin-top: 1rem; }
   .rc-reclaim {
     margin-top: 1.4rem;
     padding: 0.85rem 1rem;

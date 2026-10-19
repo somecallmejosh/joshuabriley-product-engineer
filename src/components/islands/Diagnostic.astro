@@ -1,6 +1,4 @@
 ---
-import Icon from '~/components/primitives/Icon.astro';
-import Button from '~/components/primitives/Button.astro';
 
 /**
  * Live diagnostic. Visitors pick a demo screen whose mock is intentionally
@@ -20,15 +18,7 @@ const demos = [
 ---
 
 <section class="dx" data-dx-root data-active="pricing" aria-labelledby="dx-title">
-  <header class="dx-head">
-    <span class="mono-label">Take a look</span>
-    <h3 id="dx-title" class="font-display text-2xl md:text-3xl font-bold text-ink leading-tight mt-2">
-      Sample audit findings
-    </h3>
-    <p class="text-sm text-ink-muted mt-2 leading-relaxed max-w-prose">
-      Pick a screen and turn on &ldquo;show issues.&rdquo; The dashed boxes mark the inconsistencies a quick audit would flag, the kind that slow a team down over time.
-    </p>
-  </header>
+  <h3 id="dx-title" class="sr-only">Interface examples and findings</h3>
 
   <div class="dx-controls">
     <div class="dx-tabs" role="tablist" aria-label="Demo screens">
@@ -114,22 +104,28 @@ const demos = [
           <li>
             <span class="dx-issues-num">01</span>
             <div>
+              <p class="dx-severity">Low priority</p>
               <p class="dx-issues-title">Mismatched radius</p>
               <p class="dx-issues-body">Card 3 uses <code>4px</code>; the others use <code>16px</code>. One token, three values.</p>
+              <p class="dx-fix"><strong>Fix:</strong> Use the same card-radius token for all three plans.</p>
             </div>
           </li>
           <li>
             <span class="dx-issues-num">02</span>
             <div>
+              <p class="dx-severity">Medium priority</p>
               <p class="dx-issues-title">Drifted brand color</p>
               <p class="dx-issues-body">Badge orange is <code>#F08A5D</code>, a one-off, not the system&rsquo;s <code>#E8573D</code>.</p>
+              <p class="dx-fix"><strong>Fix:</strong> Replace the one-off badge color with the shared brand token.</p>
             </div>
           </li>
           <li>
             <span class="dx-issues-num">03</span>
             <div>
+              <p class="dx-severity">Low priority</p>
               <p class="dx-issues-title">Off-grid spacing</p>
               <p class="dx-issues-body">Bullet uses <code>18px</code> margin. The system uses an 8px grid (<code>16</code> or <code>24</code>).</p>
+              <p class="dx-fix"><strong>Fix:</strong> Use a spacing token from the shared scale, such as 16px or 24px.</p>
             </div>
           </li>
         </ol>
@@ -182,22 +178,28 @@ const demos = [
           <li>
             <span class="dx-issues-num">01</span>
             <div>
+              <p class="dx-severity">Low priority</p>
               <p class="dx-issues-title">Off-scale type size</p>
               <p class="dx-issues-body">Headline is <code>38px</code>. The scale jumps <code>32 / 36 / 48</code>.</p>
+              <p class="dx-fix"><strong>Fix:</strong> Choose a heading size from the type scale and reference its token.</p>
             </div>
           </li>
           <li>
             <span class="dx-issues-num">02</span>
             <div>
+              <p class="dx-severity">Low priority</p>
               <p class="dx-issues-title">Mismatched button radius</p>
               <p class="dx-issues-body">CTA uses <code>6px</code>. The button token is <code>14px</code>.</p>
+              <p class="dx-fix"><strong>Fix:</strong> Use the button-radius token instead of a local 6px value.</p>
             </div>
           </li>
           <li>
             <span class="dx-issues-num">03</span>
             <div>
+              <p class="dx-severity">High priority</p>
               <p class="dx-issues-title">Contrast fails AA</p>
               <p class="dx-issues-body">Help text contrast is <code>3.2:1</code>. AA needs <code>4.5:1</code>.</p>
+              <p class="dx-fix"><strong>Fix:</strong> Use a darker text token and verify at least 4.5:1 contrast for this small text.</p>
             </div>
           </li>
         </ol>
@@ -206,7 +208,7 @@ const demos = [
   </div>
 
   <p class="dx-foot-note">
-    This is the kind of review I run on a system before deciding what to fix first.
+    Annotations point to the example issues. Each finding includes a priority and a suggested fix.
     <a href="/contact/" class="dx-foot-link">Get in touch &rarr;</a>
   </p>
 </section>

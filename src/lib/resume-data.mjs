@@ -1,7 +1,7 @@
 export const CONTACT = {
   name: 'Joshua K. Briley',
   title:
-    'Product Design Engineer / Design Systems Engineer / Front-End UI Developer',
+    'Design Systems & UI Engineer',
   location: 'Barkhamsted, CT',
   phone: '860.232.8250',
   email: 'josh@thebrileys.com',
@@ -12,7 +12,7 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  'Design systems and UI platform engineer with 20+ years in production UI. I design accessible interfaces and build them myself, so nothing is lost in a handoff. I currently build the Travelers design system used by roughly 3,500 engineers and designers.'
+  'Design systems and UI engineer with 20+ years in production interfaces. I build accessible components, document their use, and work with designers and engineers on complex product workflows. I currently work on the Travelers design system used by roughly 3,500 engineers and designers.'
 
 export const STRENGTHS = [
   {
@@ -60,7 +60,7 @@ export const EXPERIENCE = [
     role: 'Senior UX/UI Developer',
     stack: 'Rails · ViewComponents',
     bullets: [
-      'Gave providers back more than two hours a day by moving documentation from evening paperwork to hands-free capture during the day.',
+      'Moved documentation from evening paperwork to hands-free capture during the day; one provider reported saving more than two hours daily.',
       'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events already captured.',
       'Reworked the flows and forms where Hotjar, Google Analytics, and HubSpot data showed people getting stuck.',
       'Shipped to market as a paid product sold direct and through child care associations, with English and Spanish at full parity.',

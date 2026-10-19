@@ -1,5 +1,6 @@
 ---
 import '~/styles/global.css';
+import '~/styles/redesign.css';
 import Font from 'astro/components/Font.astro';
 import SkipLink from '~/components/chrome/SkipLink.astro';
 import Header from '~/components/chrome/Header.astro';
@@ -24,6 +25,7 @@ interface Props {
   pathname?: string;
   /** Disable rendering header/footer (e.g. for the inventory showcase landing). */
   bare?: boolean;
+  mainClass?: string;
   /** Absolute or root-relative path to the social share image. */
   image?: string;
   /** Open Graph type. Defaults to 'website' (or 'article' if `article` is provided). */
@@ -43,9 +45,10 @@ const TWITTER_HANDLE = '@joshuabriley';
 
 const {
   title,
-  description = 'Joshua Briley: Design systems & UI platform engineer. Design-grade, accessible UI, finished to the last detail.',
+  description = 'Joshua Briley: Design systems & UI platform engineer. Accessible components and product interfaces built for the teams using them.',
   pathname = Astro.url.pathname,
   bare = false,
+  mainClass,
   image: imageProp,
   ogType,
   article,
@@ -71,8 +74,8 @@ const personSchema = {
   url: SITE_URL + '/',
   // JPEG on purpose: crawlers are unreliable about AVIF/WebP.
   image: new URL('/images/about/josh-suit-social-1200.jpg', SITE_URL + '/').toString(),
-  jobTitle: 'Design Systems & UI Platform Engineer',
-  description: 'Design systems & UI platform engineer with 20 years in production UI. He designs the interface and builds it himself, accessible from the start and finished to the last detail.',
+  jobTitle: 'Design Systems & UI Engineer',
+  description: 'Design systems and UI engineer with 20+ years in production interfaces. Accessible components, shared UI systems, and cross-functional product work.',
   sameAs: [
     'https://github.com/somecallmejosh',
     'https://www.linkedin.com/in/joshuabriley/',
@@ -84,7 +87,7 @@ const websiteSchema = {
   '@id': `${SITE_URL}/#website`,
   url: SITE_URL + '/',
   name: SITE_NAME,
-  description: 'Design systems & UI platform engineering by Joshua Briley: accessible UI, finished to the last detail.',
+  description: 'Design systems and UI engineering by Joshua Briley: accessible components and product interfaces.',
   publisher: { '@id': `${SITE_URL}/#person` },
   inLanguage: 'en-US',
 };
@@ -179,7 +182,7 @@ const jsonLdGraph = {
     <meta name="twitter:image" content={absoluteImage} />
     <meta name="twitter:image:alt" content={`${title}: ${SITE_NAME}`} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLdGraph)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLdGraph)} />
 
     <Font cssVariable="--font-hanken" preload />
     <Font cssVariable="--font-fraunces" preload />
@@ -194,9 +197,10 @@ const jsonLdGraph = {
     <slot name="head" />
   </head>
   <body class="text-navy font-body antialiased">
+    <div class="reading-progress" aria-hidden="true"></div>
     <SkipLink />
     {!bare && <Header />}
-    <main id="main">
+    <main id="main" class={mainClass}>
       <slot />
     </main>
     {!bare && <Footer />}
@@ -205,23 +209,6 @@ const jsonLdGraph = {
     <Lightbox />
     <script>
       import '~/scripts/scroll-reveal';
-      import '~/scripts/whimsy';
-    </script>
-
-    <script is:inline>
-      (() => {
-        const head = 'color:#1b1a17;font:600 22px/1.2 Georgia,serif';
-        const body = 'color:#5c5b55;font:400 13px/1.6 ui-monospace,monospace';
-        const clay = 'color:#2e5c8a;font:500 13px/1.6 ui-monospace,monospace';
-        console.log('%cJoshua Briley%c\n\n👋 Hi there! Welcome to my playground.', head, body);
-        console.log(
-          '%cBuilt with Astro: no UI kit, no template. Type, tokens and motion are all deliberate.\n' +
-          '%cPsst: ↑ ↑ ↓ ↓ ← → ← → B A turns on Inspector Mode.\n' +
-          '%c(And yes, the period after my name is breathing. On purpose.)\n' +
-          '%cLike what you see under the hood? Let’s talk → /contact',
-          body, clay, body, body,
-        );
-      })();
     </script>
   </body>
 </html>

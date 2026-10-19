@@ -1,12 +1,13 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import Link from '~/components/primitives/Link.astro';
 import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
 
 const description =
@@ -26,63 +27,14 @@ const docket = [
 ];
 ---
 
-<BaseLayout title="West Baton Rouge Presbyterian | Joshua Briley" description={description}>
+<ProjectLayout title="West Baton Rouge Presbyterian | Joshua Briley" description={description}>
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
-    <Container width="wide">
-      <nav class="mb-12 flex items-center gap-2 text-sm text-ink-muted" aria-label="Breadcrumb">
-        <a href="/personal-projects/" class="transition-colors hover:text-accent">Personal projects</a>
-        <Icon name="ph:caret-right" size={12} />
-        <span class="text-ink">West Baton Rouge Presbyterian</span>
-      </nav>
+  <ProjectHero project="church" />
+  <CaseReview links={docket} />
 
-      <div class="hero-grid">
-        <div class="hero-main">
-          <div class="mb-7 flex items-center gap-3">
-            <span class="hero-wordmark font-display text-ink">WBR<span class="text-accent">.church</span></span>
-            <span class="h-4 w-px bg-line-strong" aria-hidden="true"></span>
-            <p class="mono-label">Case study</p>
-          </div>
-
-          <Heading level={1} visual="display-xl" tone="ink" class="leading-[1.04]">
-            A full CMS, built end to end, in one <em class="ink-wink font-normal italic">weekend</em>.
-          </Heading>
-
-          <Text size="lg" tone="muted" class="mt-8 max-w-xl">
-            A custom Rails CMS for West Baton Rouge Presbyterian: content models
-            for events, galleries, and pages, a Cloudinary media pipeline, staff
-            authentication, and an accessible public site, owned from the data
-            layer to the last rendered page. Proof of range and speed.
-          </Text>
-        </div>
-
-        <aside class="hero-rail" aria-label="Project details">
-          <dl>
-            <div>
-              <dt>Role</dt>
-              <dd>Product Design Engineer</dd>
-            </div>
-            <div>
-              <dt>Domain</dt>
-              <dd>Church CMS</dd>
-            </div>
-            <div>
-              <dt>Stack</dt>
-              <dd>Rails &middot; Cloudinary</dd>
-            </div>
-            <div>
-              <dt>Focus</dt>
-              <dd>Full-stack, in a weekend</dd>
-            </div>
-          </dl>
-        </aside>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="tight" aria-label="Project receipts">
+  <Section tone="paper" padding="tight" aria-label="Project receipts" class="project-scope">
     <Container width="content">
-      <p class="mono-label mb-8">Receipts</p>
+      <p class="mono-label mb-8">Scope and contribution</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
           <div class="border-t border-line pt-4">
@@ -103,23 +55,9 @@ const docket = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight">
+  <Section tone="paper" padding="tight" class="project-context">
     <Container width="content">
-      <p class="mono-label mb-5">On the docket</p>
-      <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-        {docket.map((item, i) => (
-          <li>
-            <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
-              {item.icon && (
-                <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
-              )}
-              <span class="font-medium">{item.label}</span>
-              <Icon name="ph:arrow-right" size={15} class="shrink-0 transition-transform group-hover:translate-x-1" />
-            </a>
-          </li>
-        ))}
-      </ul>
+
 
       <Text size="lg" tone="muted" class="mt-10 measure">
         West Baton Rouge Presbyterian needed a site its own staff could run
@@ -136,7 +74,6 @@ const docket = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 01</p>
           <Heading level={2} visual="display-md" tone="ink">One weekend, one owner</Heading>
         </div>
         <div class="case-layout__body">
@@ -187,7 +124,6 @@ const docket = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 02</p>
           <Heading level={2} visual="display-md" tone="ink">From data models to a media pipeline</Heading>
         </div>
         <div class="case-layout__body">
@@ -248,7 +184,6 @@ const docket = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 03</p>
           <Heading level={2} visual="display-md" tone="ink">An accessible site the staff can run</Heading>
         </div>
         <div class="case-layout__body">
@@ -271,7 +206,7 @@ const docket = [
             </p>
           </div>
 
-          <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <div class="mt-12 grid gap-6 sm:grid-cols-2">
             <div class="border-t border-line pt-5">
               <Icon name="ph:globe" size={28} class="mb-3 text-ink-muted" />
               <Heading level={3} visual="h3" class="mb-1">Accessible by build</Heading>
@@ -326,26 +261,6 @@ const docket = [
     </Container>
   </Section>
 
-  <Section tone="ink" padding="loose">
-    <Container width="wide">
-      <p class="mono-label !text-paper/65 mb-6">Product design engineering</p>
-      <Heading level={2} visual="display-lg" tone="paper">
-        I build complete products, end to end.
-      </Heading>
-      <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        A full CMS in a weekend is the same skill at a different scale: own the whole thing, ship it finished, leave it accessible. If that's the work, let's talk.
-      </Text>
-      <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <Button variant="navy" size="lg" iconLeft="ph:envelope" href="/contact/">Get in touch</Button>
-        <a href="/resume/" class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper">
-          <Icon name="ph:file-text" size={18} />
-          Résumé
-        </a>
-      </div>
-      <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/projects/" class="!text-paper hover:!text-paper/70">Back to all projects</Link>
-      </div>
-    </Container>
-  </Section>
+  <ProjectNext project="church" />
 
-</BaseLayout>
+</ProjectLayout>

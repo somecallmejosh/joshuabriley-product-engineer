@@ -4,7 +4,7 @@ import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 
 // Shared with /resume-print/ and therefore with public/resume.pdf, so the page
 // and the download cannot drift. Edit the content in src/lib/resume-data.mjs,
@@ -22,6 +22,14 @@ import {
 const description =
   'Design systems and UI platform engineer with 20+ years in production UI. Design-grade, accessible interfaces, design systems, and data-rich tools for insurance platforms and consumer products.';
 
+const workLinks: Record<string, { href: string; label: string }[]> = {
+  'Logatot, Inc.': [{ href: '/projects/logatot/', label: 'Read the Logatot case study' }],
+  Independent: [
+    { href: '/projects/ivfcryo/', label: 'IVFCRYO case study' },
+    { href: '/projects/vmspark/', label: 'VMSpark case study' },
+  ],
+};
+
 ---
 
 <BaseLayout title="Resume | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
@@ -30,59 +38,61 @@ const description =
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-16 lg:items-end">
         <div class="lg:col-span-8">
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-2">
-            Joshua Briley
-          </Heading>
+          <p class="role-line hero-in hero-in-1">Résumé · Joshua Briley</p>
+          <h1 class="page-type hero-in hero-in-2">Twenty-plus years.<br />Still minding<br /><em>the details.</em></h1>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
             {summary}
           </Text>
         </div>
 
         <div class="hero-in hero-in-4 lg:col-span-4 lg:flex lg:flex-col lg:items-end">
-          <div class="flex flex-wrap items-center gap-3 lg:justify-end">
-            <Button variant="primary" size="lg" href="/resume.pdf" target="_blank" rel="noopener" iconRight="ph:download-simple" class="js-magnetic">
-              Download PDF
-            </Button>
-            <Button variant="ghost" size="lg" href="/contact/">
-              Get in touch
-            </Button>
+          <div class="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-end">
+            <a class="action-link" href="/resume.pdf" target="_blank" rel="noopener">
+              Download PDF <span aria-hidden="true">↓</span>
+            </a>
+            <a class="editorial-link" href="/contact/">
+              Get in touch <span aria-hidden="true">↗</span>
+            </a>
           </div>
           <p class="mt-4 text-sm text-ink-muted">Updated {updated}</p>
         </div>
       </div>
+      <nav class="evidence-nav" aria-label="Experience and work samples">
+        <a href="#experience">Employment history <span aria-hidden="true">↓</span></a>
+        <a href="/personal-projects/rudiment-ui/">Public component work <span aria-hidden="true">↗</span></a>
+        <a href="/projects/">Product case studies <span aria-hidden="true">↗</span></a>
+      </nav>
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default">
+  <Section id="experience" tone="paper" padding="default" class="resume-experience">
     <Container width="wide">
-      <div class="max-w-3xl">
-        <Heading level={2} visual="display-md">
-          Experience
-        </Heading>
+      <div class="section-heading">
+        <h2 class="section-type">Experience</h2>
+        <p>Design systems and product UI across insurance, consumer products, and independent client work.</p>
       </div>
 
-      <ul class="mt-14 border-t border-line" data-reveal-stagger>
+      <ul class="experience-list" role="list" data-reveal-stagger>
         {experience.map((job) => (
-          <li>
-            <div class="grid grid-cols-12 gap-x-4 gap-y-3 border-b border-line py-8 md:gap-x-8 md:py-9">
-              <div class="col-span-12 md:col-span-3">
-                <span class="block font-mono text-[0.7rem] uppercase tracking-[0.12em] text-accent">{job.period}</span>
-                <span class="mt-2 block font-mono text-[0.65rem] uppercase tracking-[0.1em] text-ink-muted">{job.stack}</span>
-              </div>
-              <div class="col-span-12 md:col-span-9">
-                <h3 class="font-display text-lg font-semibold tracking-tight text-ink">
-                  {job.role}
-                  <span class="font-normal text-ink-muted"> · {job.company}</span>
-                </h3>
-                <ul class="mt-4 space-y-2.5 max-w-2xl">
-                  {job.bullets.map((b) => (
-                    <li class="flex gap-3 text-sm leading-relaxed text-ink-muted">
-                      <span class="mt-2 h-1 w-1 shrink-0 rounded-[1px] bg-accent" aria-hidden="true"></span>
-                      <span>{b}</span>
-                    </li>
+          <li class="experience-entry">
+            <div class="experience-context">
+              <p class="experience-period">{job.period.replace(' - ', ' – ')}</p>
+              <h3 class="experience-company">{job.company}</h3>
+              <p class="experience-role">{job.role}</p>
+              <p class="experience-stack"><span class="sr-only">Tools and context: </span>{job.stack}</p>
+            </div>
+            <div class="experience-contribution">
+              <p class="experience-lead">{job.bullets[0]}</p>
+              <ul class="experience-details" role="list">
+                {job.bullets.slice(1).map((bullet) => <li>{bullet}</li>)}
+              </ul>
+              {workLinks[job.company] && (
+                <div class="experience-links">
+                  {workLinks[job.company].map((link) => (
+                    <a class="editorial-link" href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>
                   ))}
-                </ul>
-              </div>
+                </div>
+              )}
             </div>
           </li>
         ))}
@@ -135,4 +145,83 @@ const description =
       </div>
     </Container>
   </Section>
+  <ContactInvitation />
 </BaseLayout>
+
+<style>
+  .experience-list { border-top: 1px solid var(--line-strong); }
+  .experience-entry {
+    display: grid;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .experience-context, .experience-contribution { min-width: 0; }
+  .experience-period {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: .75rem;
+    line-height: 1.5;
+    color: var(--accent);
+  }
+  .experience-company {
+    margin-top: 1rem;
+    max-width: 18ch;
+    font-size: clamp(2.1rem, 3.5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -.05em;
+    text-wrap: balance;
+  }
+  .experience-role {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -.015em;
+  }
+  .experience-stack {
+    margin-top: .65rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+  .experience-lead {
+    max-width: 45ch;
+    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+  .experience-details {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    max-width: 59ch;
+  }
+  .experience-details li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink-muted);
+  }
+  .experience-details li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .72em;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+  }
+  .experience-links { display: flex; flex-wrap: wrap; gap: .25rem 2rem; margin-top: 1.5rem; }
+  @media (min-width: 1024px) {
+    .experience-entry {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 6rem;
+      padding: 3.5rem 0;
+    }
+    .experience-contribution { padding-top: 2rem; }
+  }
+</style>

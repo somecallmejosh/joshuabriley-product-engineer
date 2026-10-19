@@ -18,11 +18,11 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Design Systems & UI Platform Engineer', headline: 'My best work lives at the interface, down to the last detail', wink: 'interface' },
-  { slug: 'about', path: '/about/', eyebrow: 'About · Design Systems & UI Platform Engineer', headline: 'Designer by origin. Engineer by practice', wink: 'practice' },
-  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: "Let's talk about the interface you're building", wink: 'interface' },
-  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Design Systems & UI Platform Engineer', headline: 'Twenty years building the parts of the product people actually touch', wink: 'touch' },
-  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Case studies in front-end that sweats the details', wink: 'details' },
+  { slug: 'home', path: '/', eyebrow: 'Design Systems & UI Engineer', headline: 'Design systems people can build on', wink: 'build on' },
+  { slug: 'about', path: '/about/', eyebrow: 'About · Design Systems & UI Engineer', headline: 'An engineer with an eye for the details', wink: 'the details' },
+  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Tell me what your team is building', wink: 'building' },
+  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Design Systems & UI Engineer', headline: 'Twenty-plus years. Still minding the details', wink: 'the details' },
+  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'From shared components to shipped products', wink: 'products' },
   { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build to keep the craft sharp', wink: 'craft' },
   { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship' },
   { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Notes on design systems and front-end', wink: 'front-end' },

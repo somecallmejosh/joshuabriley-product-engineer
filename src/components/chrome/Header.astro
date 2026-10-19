@@ -15,7 +15,7 @@ const { class: className } = Astro.props;
 
 <header
   class={cx(
-    'sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-line',
+    'site-header sticky top-0 z-40 border-b border-line',
     className,
   )}
 >
@@ -31,8 +31,8 @@ const { class: className } = Astro.props;
     <div class="hidden md:flex items-center gap-5 shrink-0">
       <a
         href="/contact/"
-        class="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] bg-ink px-4 py-2 font-sans text-[0.85rem] font-medium tracking-tight text-paper transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-ink-soft hover:-translate-y-px active:scale-[0.97] active:translate-y-0"
-      >Get in touch</a>
+        class="header-contact inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] bg-ink px-4 py-2 font-sans text-[0.85rem] font-medium tracking-tight text-paper transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-ink-soft hover:-translate-y-px active:scale-[0.97] active:translate-y-0"
+      >Let’s talk <span aria-hidden="true">↗</span></a>
     </div>
 
     <MobileNav links={PRIMARY_NAV} />

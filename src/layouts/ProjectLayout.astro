@@ -1,0 +1,6 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '~/styles/projects.css';
+interface Props { title: string; description: string; }
+---
+<BaseLayout {...Astro.props} mainClass="project-page"><slot /></BaseLayout>

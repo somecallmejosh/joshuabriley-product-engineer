@@ -1,0 +1,11 @@
+---
+import Container from '~/components/layout/Container.astro';
+interface Props { links: { href: string; label: string }[]; }
+const { links } = Astro.props;
+---
+<nav class="case-review" aria-label="Review this project">
+  <Container width="wide">
+    <p>Jump to the details</p>
+    {links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true">↓</span></a>)}
+  </Container>
+</nav>

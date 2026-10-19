@@ -1,5 +1,4 @@
 ---
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
 
 /**
@@ -39,12 +38,11 @@ const densities = [
   <div class="tp-grid">
     <div class="tp-controls">
       <div class="mb-5">
-        <span class="mono-label">Drag the knobs</span>
         <h3 id="tp-title" class="font-display text-2xl md:text-3xl font-bold text-ink leading-tight mt-2">
-          A design token, made visible.
+          Token controls.
         </h3>
         <p class="text-sm text-ink-muted mt-2 leading-relaxed">
-          One source of truth, many components in sync. Move a slider and the card on the right reacts. That&rsquo;s a design system in miniature.
+          Adjust the shared values and compare how the sample components respond.
         </p>
       </div>
 
@@ -124,20 +122,8 @@ const densities = [
         </div>
       </div>
 
-      <div class="mt-2 flex items-center gap-3">
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          iconLeft="ph:arrow-counter-clockwise-duotone"
-          id="tp-reset"
-          class="!bg-white !border-charcoal/15 hover:!bg-white hover:!border-coral/40"
-        >
-          Reset tokens
-        </Button>
-        <p class="text-xs text-charcoal/70 font-body italic">
-          No JavaScript per component. Just CSS variables.
-        </p>
+      <div class="mt-2 flex flex-wrap items-center gap-3">
+        <button type="button" id="tp-reset" class="tool-control-button"><Icon name="ph:arrow-counter-clockwise" size={17} />Reset tokens</button>
       </div>
     </div>
 
@@ -152,46 +138,31 @@ const densities = [
           <header class="tp-card-head">
             <span class="tp-badge">
               <Icon name="ph:sparkle-duotone" size={14} />
-              <span>New release</span>
+              <span>Component preview</span>
             </span>
-            <span class="tp-meta">v2.4 · today</span>
+            <span class="tp-meta">Shared values</span>
           </header>
-          <h4 class="tp-card-title">Button &amp; Card components updated</h4>
+          <h4 class="tp-card-title">Your components, in sync.</h4>
           <p class="tp-card-body">
-            Radius and spacing tokens now drive both. Change one number, two components agree.
+            The card and its controls share color, spacing, and radius values. Try a tighter layout or a different palette.
           </p>
           <div class="tp-card-tags">
-            <span class="tp-tag">tokens</span>
-            <span class="tp-tag">a11y</span>
-            <span class="tp-tag">v2</span>
+            <span class="tp-tag">color</span>
+            <span class="tp-tag">spacing</span>
+            <span class="tp-tag">radius</span>
           </div>
           <div class="tp-card-actions">
-            <button type="button" class="tp-btn tp-btn--primary">
-              <span>View changelog</span>
+            <button type="button" class="tp-btn tp-btn--primary" disabled>
+              <span>Primary action</span>
               <iconify-icon icon="ph:arrow-right-bold" aria-hidden="true"></iconify-icon>
             </button>
-            <button type="button" class="tp-btn tp-btn--ghost">Dismiss</button>
+            <button type="button" class="tp-btn tp-btn--ghost" disabled>Secondary</button>
           </div>
         </article>
-
-        <div class="tp-stats">
-          <div class="tp-stat">
-            <span class="tp-stat-num">1</span>
-            <span class="tp-stat-label">token</span>
-          </div>
-          <div class="tp-stat">
-            <span class="tp-stat-num">7</span>
-            <span class="tp-stat-label">elements</span>
-          </div>
-          <div class="tp-stat">
-            <span class="tp-stat-num">0</span>
-            <span class="tp-stat-label">overrides</span>
-          </div>
-        </div>
       </div>
 
       <p class="tp-foot-note" aria-live="polite" data-tp-callout>
-        Try setting radius to <strong>0</strong> for a brutalist feel, or <strong>28+</strong> for friendly &amp; rounded.
+        Change the controls to compare shape, spacing, and color.
       </p>
     </div>
   </div>
@@ -299,11 +270,11 @@ const densities = [
     function updateCallout() {
       const r = parseInt(getComputedStyle(root!).getPropertyValue('--tp-radius'), 10);
       const s = parseFloat(getComputedStyle(root!).getPropertyValue('--tp-spacing'));
-      let msg = 'Try setting radius to <strong>0</strong> for a brutalist feel, or <strong>28+</strong> for friendly &amp; rounded.';
-      if (r <= 2)        msg = 'Brutalist energy. Sharp, technical, unmistakable.';
-      else if (r >= 26)  msg = 'All friendliness, all softness. Pillowy.';
-      else if (s >= 1.4) msg = 'Roomy spacing. Reads calmer; takes more vertical real estate.';
-      else if (s <= 0.8) msg = 'Compressed. Dense interfaces: power-user dashboards live here.';
+      let msg = 'Change the controls to compare shape, spacing, and color.';
+      if (r <= 2)        msg = 'The card and buttons now have square corners.';
+      else if (r >= 26)  msg = 'The card and buttons now have more rounded corners.';
+      else if (s >= 1.4) msg = 'More spacing gives the content extra room and increases its height.';
+      else if (s <= 0.8) msg = 'Less spacing fits more content into the same area. Check that it remains easy to read.';
       setCallout(msg);
     }
 
@@ -335,40 +306,6 @@ const densities = [
     fillTrack(radiusInput);
     fillTrack(spacingInput);
 
-    // Count the "shared token" stats up the first time they scroll into view.
-    const statNums = Array.from(root.querySelectorAll<HTMLElement>('.tp-stat-num'));
-    function countUpStats() {
-      statNums.forEach((el) => {
-        const to = parseInt(el.textContent || '0', 10);
-        if (to === 0) return;
-        const dur = 720;
-        const start = performance.now();
-        const step = (now: number) => {
-          const t = Math.min(1, (now - start) / dur);
-          el.textContent = String(Math.round(to * (1 - Math.pow(1 - t, 3))));
-          if (t < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      });
-    }
-    if (!reduceMotion && 'IntersectionObserver' in window) {
-      const statsEl = root.querySelector('.tp-stats');
-      if (statsEl) {
-        const io = new IntersectionObserver(
-          (entries, obs) => {
-            entries.forEach((en) => {
-              if (en.isIntersecting) {
-                countUpStats();
-                obs.disconnect();
-              }
-            });
-          },
-          { threshold: 0.4 },
-        );
-        io.observe(statsEl);
-      }
-    }
-
     primed = true;
   }
 </script>
@@ -391,6 +328,7 @@ const densities = [
 
   .tp-grid {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
   }
   @media (min-width: 880px) {
@@ -636,36 +574,6 @@ const densities = [
   }
   .tp-btn--ghost:hover { background: rgba(0, 0, 0, 0.03); }
 
-  .tp-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--tp-gap);
-    margin-top: var(--tp-pad);
-  }
-  .tp-stat {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--tp-radius);
-    padding: calc(var(--tp-pad) * 0.6);
-    text-align: center;
-  }
-  .tp-stat-num {
-    display: block;
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-weight: 600;
-    font-size: clamp(2.1rem, 5vw, 2.7rem);
-    letter-spacing: -0.02em;
-    color: var(--tp-primary);
-    line-height: 0.95;
-  }
-  .tp-stat-label {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-muted);
-  }
-
   .tp-foot-note {
     margin-top: 1rem;
     font-family: var(--font-hanken), system-ui, sans-serif;
@@ -676,6 +584,13 @@ const densities = [
     transition: opacity 0.14s var(--ease-out);
   }
   .tp-foot-note.is-swapping { opacity: 0; }
+
+  @media (max-width: 479px) {
+    .tp-preview-frame { padding: .75rem; }
+    .tp-card { padding: min(var(--tp-pad), 1.5rem); }
+    .tp-card-head { flex-wrap: wrap; gap: .5rem; }
+    .tp-btn { max-width: 100%; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .tp-card,

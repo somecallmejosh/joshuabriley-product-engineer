@@ -1,224 +1,73 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
-import Icon from '~/components/primitives/Icon.astro';
-import PrincipleGlyph from '~/components/patterns/PrincipleGlyph.astro';
-
-const description =
-  'Design systems and UI platform engineer working where front-end engineering and UX meet. 20 years in production UI, most recently building accessible component libraries in Vue, React, and Web Components.';
-
-// Each principle carries its own drawing instead of an index number. The glyph
-// does the work the `01 / 02 / 03` was doing (marking where a cell starts) and
-// says something besides "this is the first one".
+import Portrait from '~/components/patterns/Portrait.astro';
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 const principles = [
-  {
-    glyph: 'system' as const,
-    title: 'Design systems are products for engineers',
-    body:
-      "If a component's API is hard to use, teams copy the markup, change it, and move on, and the system stops being shared. I give props, defaults, and documentation the same care as type and spacing.",
-  },
-  {
-    glyph: 'accessibility' as const,
-    title: 'Accessibility built into components',
-    body:
-      "Keyboard support, focus states, and semantic markup ship inside each component instead of being added after an audit or a ticket. Every team that adopts the component gets them without needing to be accessibility experts.",
-  },
-  {
-    glyph: 'directness' as const,
-    title: 'Clear, honest feedback',
-    body:
-      "If a product has problems, I'll tell you where they are and why, kindly and without hedging. Then we'll work out the most direct way to fix them.",
-  },
+  { title: 'Make the system useful to its users.', body: 'Engineers are users, too. I give component APIs, defaults, and documentation the same care as type and spacing. When teams can understand and use a component, they have fewer reasons to build their own version.' },
+  { title: 'Build accessibility into the behavior.', body: 'Semantic markup, keyboard support, focus management, and recoverable errors belong in the component. I test those behaviors and take findings seriously, including the gaps documented in my own case studies.' },
+  { title: 'Work through the awkward states.', body: 'Empty lists, failed requests, long labels, and first-run screens are part of the experience. I use working interfaces to resolve those details with design and engineering before they become late surprises.' },
 ];
-
-const learning = [
-  { title: 'WAI-ARIA Authoring Practices', href: 'https://www.w3.org/WAI/ARIA/apg/', note: 'Patterns for building menus, tabs, dialogs, and other widgets that work with assistive technology.' },
-  { title: 'Design Tokens Community Group', href: 'https://www.designtokens.org/', note: 'A shared format for design tokens, so colors, spacing, and type can move between tools and platforms.' },
-  { title: 'CSS Working Group', href: 'https://github.com/w3c/csswg-drafts', note: 'Proposals for new CSS features, such as container queries, anchor positioning, and cascade layers.' },
-  { title: 'Rudiment UI', href: '/personal-projects/rudiment-ui/', note: 'My open-source React component library, where I test ideas in public before using them in production.' },
-];
-
-// Real facts, not a bio-page mood board. Ordered as a rough life arc: where I'm
-// from, what the Army had us do with that, what I still do with a bass or a
-// drum kit, and what our family spends its time and money on now.
 const personal = [
-  {
-    icon: 'ph:cooking-pot',
-    title: 'Louisiana roots',
-    body: "I grew up in Louisiana on Cajun food and Cajun music. My favorites are still my grandmother's chicken and sausage gumbo and crawfish étouffée, and my stepdad's boiled crawfish.",
-  },
-  {
-    icon: 'ph:shield-star',
-    title: 'Army veterans',
-    body: "My wife and I met at our first duty station in Hohenfels, Germany. We lived in the nearby village of Seubersdorf and had our first child there.",
-  },
-  {
-    icon: 'ph:music-notes-simple',
-    title: 'Bass and drums',
-    body: "I've played for more than thirty years. When I was younger, I toured college clubs and fraternity houses across the Southeast and played gigs on Bourbon Street and Frenchmen Street in New Orleans. These days I play locally.",
-  },
-  {
-    icon: 'ph:map-trifold',
-    title: 'Family travel',
-    body: "We travel with our kids whenever we can. So far we've visited Canada, the Bahamas, Italy, Iceland, Ireland, France, Austria, and Germany, and Iceland is still our favorite. In the U.S., we look for places off the beaten path.",
-  },
+  { title: 'Louisiana roots', body: "I grew up on Cajun food and music. My grandmother’s chicken and sausage gumbo remains the standard. There has been no successful migration." },
+  { title: 'An Army beginning', body: 'My wife and I met at our first duty station in Hohenfels, Germany. We lived in the nearby village of Seubersdorf and had our first child there.' },
+  { title: 'Bass and drums', body: 'I’ve played for more than thirty years, from college clubs across the Southeast to Bourbon Street and Frenchmen Street in New Orleans. These days I play locally.' },
+  { title: 'A family that travels', body: 'We travel with our kids whenever we can. Iceland is still our favorite, and closer to home we look for places off the beaten path.' },
 ];
 ---
-
-<BaseLayout title="About | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
-
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
+<BaseLayout title="About | Joshua Briley" description="Meet Joshua Briley, a design systems and UI engineer with 20+ years in production interfaces, accessible component systems, and cross-functional product work.">
+  <section class="page-opener">
     <Container width="wide">
-      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16 lg:items-center">
-        <div class="lg:col-span-7">
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
-            I've worked in front-end engineering and UX for <em class="ink-wink font-normal italic">twenty years.</em>
-          </Heading>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-xl">
-            Design systems have become a larger part of that work over time. I've built and
-            supported component libraries in Vue, React, and Web Components for teams that needed
-            to ship on all three.
-          </Text>
-          <Text tone="muted" class="hero-in hero-in-3 mt-5 max-w-xl">
-            In every library, I focus on accessibility and on component APIs that work as well for
-            the engineers using the system as they do for the people using the product. My current work uses Stencil-based Web Components, Storybook,
-            automated testing, and Figma integration.
-          </Text>
-
-          <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
-            <Button variant="primary" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">
-              Get in touch
-            </Button>
-            <Button variant="ghost" size="lg" href="/projects/">
-              View projects
-            </Button>
+      <p class="role-line hero-in hero-in-1">About Joshua Briley</p>
+      <div class="about-intro">
+        <div>
+          <h1 class="page-type hero-in hero-in-2">An engineer with<br />an eye for<br /><em>the details.</em></h1>
+          <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
+          <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <figure class="about-portrait hero-in hero-in-5"><Portrait eager /><figcaption>Connecticut now. Louisiana always.</figcaption></figure>
+      </div>
+    </Container>
+  </section>
+  <section class="editorial-section">
+    <Container width="wide">
+      <div class="approach-layout">
+        <h2 class="section-type">A career in<br /><em>production UI.</em></h2>
+        <div class="prose-lede">
+          <p>At Travelers, I work on the design system used by roughly 3,500 engineers and designers. My current work includes Stencil Web Components, Storybook automation, accessibility guidance, and Figma Code Connect.</p>
+          <p>Before that, I built shared UI for insurance portals at Berkshire Hathaway Specialty Insurance and worked on reusable React and Next.js components at America’s Test Kitchen. At Logatot, I led front-end work on a three-person development team.</p>
+          <p>Across those roles, the useful work has often been connecting disciplines: making design intent concrete, giving engineers usable patterns, and staying involved when real data makes things complicated.</p>
+          <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </Container>
+  </section>
+  <section class="editorial-section">
+    <Container width="wide">
+      <div class="section-heading"><h2 class="section-type">How I <em>work.</em></h2></div>
+      <div data-reveal-stagger>{principles.map((principle) => <article class="principle-row"><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
+    </Container>
+  </section>
+  <section class="editorial-section work-section">
+    <Container width="wide">
+      <div class="approach-layout">
+        <div><h2 class="section-type">Let’s look at<br /><em>the work.</em></h2><p class="section-intro">Different projects show different skills. Here’s where to start if you’re evaluating a role.</p></div>
+        <div>
+          <div class="resource-list">
+            <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true">↗</span></a>
+            <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true">↗</span></a>
+            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, repair flows, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true">↗</span></a>
           </div>
-        </div>
-
-        <div class="hero-in hero-in-5 lg:col-span-5">
-          <figure class="overflow-hidden rounded-lg border border-line">
-            <picture>
-              <source
-                type="image/avif"
-                sizes="(min-width: 1280px) 476px, (min-width: 1024px) 40vw, 100vw"
-                srcset="/images/about/josh-suit-portrait-400.avif 400w, /images/about/josh-suit-portrait-640.avif 640w, /images/about/josh-suit-portrait-1000.avif 1000w"
-              />
-              <source
-                type="image/webp"
-                sizes="(min-width: 1280px) 476px, (min-width: 1024px) 40vw, 100vw"
-                srcset="/images/about/josh-suit-portrait-400.webp 400w, /images/about/josh-suit-portrait-640.webp 640w, /images/about/josh-suit-portrait-1000.webp 1000w"
-              />
-              <img
-                src="/images/about/josh-suit-portrait-640.jpg"
-                sizes="(min-width: 1280px) 476px, (min-width: 1024px) 40vw, 100vw"
-                srcset="/images/about/josh-suit-portrait-400.jpg 400w, /images/about/josh-suit-portrait-640.jpg 640w, /images/about/josh-suit-portrait-1000.jpg 1000w"
-                alt="Joshua Briley, design systems and UI platform engineer"
-                class="aspect-[4/5] w-full object-cover"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width="1000"
-                height="1250"
-              />
-            </picture>
-          </figure>
+          <p class="experience-note"><strong>Frameworks and fit.</strong> My deepest current systems work is in Stencil Web Components. Rudiment UI shows my React component work; for a React-heavy role, I’d also want us to assess application architecture and state management directly.</p>
         </div>
       </div>
     </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
+  </section>
+  <section class="editorial-section">
     <Container width="wide">
-      <div class="max-w-3xl">
-        <Heading level={2} visual="display-md">
-          How I work
-        </Heading>
-      </div>
-
-      <div
-        class="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-3"
-        data-reveal-stagger
-      >
-        {principles.map((p) => (
-          <div class="bg-paper p-7 md:p-9">
-            <PrincipleGlyph name={p.glyph} class="text-ink" />
-            <Heading level={3} visual="h3" class="mt-6">{p.title}</Heading>
-            <Text tone="muted" size="sm" class="mt-3">{p.body}</Text>
-          </div>
-        ))}
-      </div>
+      <div class="section-heading"><h2 class="section-type">Away from<br /><em>the keyboard.</em></h2><p>Family, music, travel, and strong opinions about gumbo.</p></div>
+      <div class="personal-grid" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
     </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" class="border-t border-line">
-    <Container width="wide">
-      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <div class="lg:col-span-5">
-          <Heading level={2} visual="display-md">
-            Standards and open source
-          </Heading>
-          <Text tone="muted" class="mt-6 max-w-md">
-            I follow the groups that set accessibility, design token, and CSS standards, so the
-            systems I build keep up with what browsers support. I also maintain an open-source
-            component library.
-          </Text>
-        </div>
-
-        <div class="lg:col-span-7">
-          <ul class="divide-y divide-line border-y border-line" data-reveal-stagger>
-            {learning.map((item) => {
-              const external = item.href.startsWith('http');
-              return (
-                <li>
-                  <a
-                    href={item.href}
-                    class="group flex items-center justify-between gap-6 py-4"
-                    {...(external ? { target: '_blank', rel: 'noopener' } : {})}
-                  >
-                    <span>
-                      <span class="block font-display text-base font-medium tracking-tight text-ink group-hover:text-accent">{item.title}</span>
-                      <span class="mt-0.5 block text-sm text-ink-muted">{item.note}</span>
-                    </span>
-                    <Icon
-                      name={external ? 'ph:arrow-up-right' : 'ph:arrow-right'}
-                      size={18}
-                      label={external ? 'opens in a new tab' : undefined}
-                      class="shrink-0 text-ink-muted transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-ink"
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" class="border-t border-line">
-    <Container width="wide">
-      <div class="max-w-3xl">
-        <Heading level={2} visual="display-md">
-          Outside of work
-        </Heading>
-      </div>
-
-      <div
-        class="mt-14 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 md:gap-y-12"
-        data-reveal-stagger
-      >
-        {personal.map((p) => (
-          <div>
-            <Icon name={p.icon} size={28} class="text-accent" />
-            <Heading level={3} visual="h3" class="mt-5">{p.title}</Heading>
-            <Text tone="muted" size="sm" class="mt-3 max-w-sm">{p.body}</Text>
-          </div>
-        ))}
-      </div>
-    </Container>
-  </Section>
+  </section>
+  <ContactInvitation />
 </BaseLayout>

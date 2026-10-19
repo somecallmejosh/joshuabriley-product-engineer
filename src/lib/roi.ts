@@ -38,14 +38,14 @@ interface RoiResult {
 // Conservative, documented assumptions. Surfaced verbatim on the page.
 
 /** Working weeks per year (52 minus ~6 for holiday/PTO/ramp). */
-const WEEKS_PER_YEAR = 46;
+export const WEEKS_PER_YEAR = 46;
 
 /**
  * Fraction of current UI-rework time a structured system is modelled to reclaim,
  * by how inconsistent things are today. More drift today → more to recover.
  * Deliberately well under 100%: a system removes avoidable rework, not all of it.
  */
-const RECLAIM_BY_LEVEL: Record<InconsistencyLevel, number> = {
+export const RECLAIM_BY_LEVEL: Record<InconsistencyLevel, number> = {
   low: 0.2,
   medium: 0.4,
   high: 0.6,
@@ -55,8 +55,10 @@ const RECLAIM_BY_LEVEL: Record<InconsistencyLevel, number> = {
  * Per-surface drag: each additional product/surface multiplies reconciliation
  * cost slightly (keeping N systems in sync). Capped so it never runs away.
  */
-const SURFACE_DRAG = 0.05;
-const SURFACE_DRAG_CAP = 0.5;
+export const SURFACE_DRAG = 0.05;
+export const SURFACE_DRAG_CAP = 0.5;
+
+export const RECOVERY_CAP = 0.85;
 
 export const INCONSISTENCY_LEVELS: { id: InconsistencyLevel; label: string; hint: string }[] = [
   { id: 'low', label: 'Mostly consistent', hint: 'Occasional drift, shared components exist' },
@@ -102,7 +104,7 @@ export function computeRoi(raw: RoiInputs): RoiResult {
 
   const surfaceDrag = Math.min(SURFACE_DRAG_CAP, (inputs.surfaces - 1) * SURFACE_DRAG);
   const reclaim = RECLAIM_BY_LEVEL[inputs.inconsistency] * (1 + surfaceDrag);
-  const velocityReclaimPct = Math.min(0.85, reclaim);
+  const velocityReclaimPct = Math.min(RECOVERY_CAP, reclaim);
 
   const annualReworkHours = inputs.reworkHours * inputs.team * WEEKS_PER_YEAR;
   const withoutSystem = annualReworkHours * inputs.rate;

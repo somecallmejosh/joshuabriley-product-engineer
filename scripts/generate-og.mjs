@@ -56,7 +56,11 @@ mkdirSync(TMP_DIR, { recursive: true });
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 2 });
 
-const JOBS = [...OG_PAGES, ...blogEntries()];
+// Optional slugs let a copy change refresh only the affected cards.
+const requestedSlugs = new Set(process.argv.slice(2));
+const JOBS = [...OG_PAGES, ...blogEntries()].filter((entry) =>
+  requestedSlugs.size === 0 || requestedSlugs.has(entry.slug),
+);
 
 let ok = 0;
 for (const entry of JOBS) {

@@ -1,11 +1,9 @@
 ---
+import '~/styles/tools.css';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
-import CTABanner from '~/components/patterns/CTABanner.astro';
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 
 const description =
   'Your personalized design system scorecard results with recommendations based on the five dimensions of a healthy design system.';
@@ -14,6 +12,7 @@ const description =
 <BaseLayout
   title="Your Scorecard Results | Joshua Briley | Design Systems & UI Platform Engineer"
   description={description}
+  mainClass="tool-page tool-report"
 >
   <Fragment slot="head">
     <meta name="robots" content="noindex, nofollow" />
@@ -35,32 +34,15 @@ const description =
     <meta name="twitter:image" content="/images/social/og-image-2026.png" />
   </Fragment>
 
-  <Section tone="paper" padding="tight" class="pt-12 md:pt-16">
+  <section class="page-opener">
     <Container width="wide">
-      <div class="flex items-center justify-between gap-4 mono-label">
-        <span>Tools / Self-assessment</span>
-        <span class="hidden sm:inline text-ink-muted">Results</span>
-      </div>
+      <p class="role-line"><a href="/tools/">Tools</a><span aria-hidden="true">/</span>Self-assessment results</p>
 
-      <div class="mt-10 max-w-3xl lg:mt-12">
-        <Heading level={1} visual="display-xl" class="max-w-[18ch]">
-          Your <em class="ink-wink font-normal italic">report card</em> is in.
-        </Heading>
-        <Text size="lg" tone="muted" class="mt-7 max-w-xl">
-          Here is how your design system scored across all five dimensions, plus a personalized
-          recommendation for where to start.
-        </Text>
-
-        <ul class="mt-9 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
-          {['Saved in the URL', 'No account', 'Retake anytime'].map((p) => (
-            <li class="flex items-center gap-2">
-              <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h1 class="page-type">Your scorecard<br /><em>results.</em></h1>
+      <p class="page-lede">Review your scores across five subjects and suggested priorities based on your answers. Use this snapshot to guide a closer look at your system.</p>
+      <p class="mt-5 text-sm text-ink-muted max-w-xl">Your answers are included in this page’s URL. Anyone with the link can read the results. Save it to revisit this snapshot or compare it with a later assessment.</p>
     </Container>
-  </Section>
+  </section>
 
   <Section tone="ink" padding="default" class="verdict-section">
     <Container width="wide">
@@ -71,8 +53,7 @@ const description =
   <Section tone="paper" padding="default">
     <Container width="wide">
       <div class="max-w-2xl">
-        <p class="mono-label">Performance overview</p>
-        <Heading level={2} visual="display-md" class="mt-4">How you scored, by dimension.</Heading>
+        <h2 class="section-type">Your scores,<br /><em>by subject.</em></h2>
       </div>
 
       <div class="mt-12 grid items-center gap-10 lg:mt-14 lg:grid-cols-2 lg:gap-16">
@@ -86,22 +67,12 @@ const description =
 
   <Section tone="paper" padding="default" class="border-t border-line">
     <Container width="wide">
+      <h2 class="section-type report-priorities-title">Suggested<br /><em>priorities.</em></h2>
       <div id="recommendationContainer"></div>
     </Container>
   </Section>
 
-  <CTABanner
-    eyebrow="The results are the URL"
-    title="The whole report is in the address bar."
-    lead="No database, no account, no cookie: a few characters carry the entire result. It is the same philosophy as the rest of this site: state where it belongs, structure doing the work. Want to compare notes on your score, or talk about how this was built?"
-  >
-    <Button variant="navy" size="lg" iconLeft="ph:envelope-duotone" href="/contact/" class="js-magnetic">
-      Get in touch
-    </Button>
-    <Button variant="secondary" size="lg" iconLeft="ph:linkedin-logo-duotone" href="https://www.linkedin.com/in/joshuabriley/">
-      Connect on LinkedIn
-    </Button>
-  </CTABanner>
+  <ContactInvitation />
 </BaseLayout>
 
 <style is:global>
@@ -263,7 +234,7 @@ const description =
     font-size: 0.9rem;
   }
 
-  /* ── "Where to focus" heading inside the ink card ── */
+  /* ── "What to review" heading inside the ink card ── */
   .focus-heading {
     display: block;
     margin-bottom: 1rem;
@@ -399,29 +370,11 @@ const description =
   };
 
   const SECTION_BENEFITS: Record<string, string> = {
-    'Component consistency':
-      'When patterns live in one shared library, every fix propagates automatically. Your team stops rebuilding the same button a dozen different ways and designers trust that what they spec is what ships.',
-    'Accessibility':
-      'Accessible defaults widen your addressable market, shield you from legal exposure, and surface usability bugs that hurt every user, not just those relying on assistive tech. Baking it in early costs a fraction of retrofitting it later.',
-    'Token architecture':
-      'Tokens turn rebrands, theming, and dark mode into a config change instead of a codebase-wide sweep. Design decisions become cheap to revisit, which means the system can evolve without stalling the roadmap.',
-    'Documentation':
-      'Clear docs replace Slack threads and tribal knowledge. New hires ramp in days instead of weeks, designers stop guessing at what components already exist, and the system scales past the handful of people who built it.',
-    'Handoff process':
-      'A shared vocabulary between design and code means less rework, fewer one-off rebuilds, and faster shipping. Fix the ritual once and the sprint tax (the questions, the Figma-to-PR translation, the surprise at review) largely goes away.',
-  };
-
-  const SECTION_CONSEQUENCES: Record<string, string> = {
-    'Component consistency':
-      'Leave it alone and every team keeps shipping slight variations of the same component. A minor button tweak turns into a week of hunting down one-offs, and the same bugs keep resurfacing because the fix only landed in half the places it needed to.',
-    'Accessibility':
-      'Ignore it and you are one complaint or procurement review away from an expensive retrofit, while quietly locking out the roughly 1-in-4 users who rely on assistive tech, larger text, or reduced motion. The usability bugs it hides hurt every user, not just the ones you are overlooking.',
-    'Token architecture':
-      'Without tokens, every rebrand, theme, or dark-mode ask becomes a multi-sprint search-and-replace. Small visual changes balloon into cross-team projects, and the first time a rebrand or white-label gets proposed, the estimate quietly kills the idea.',
-    'Documentation':
-      'Skip this and institutional knowledge stays trapped in Slack DMs and 1:1s. Onboarding stretches from days into weeks, designers rebuild components that already exist, and the handful of people who know how the system works become bottlenecks the whole team routes through.',
-    'Handoff process':
-      'Left unaddressed, handoff friction becomes a hidden tax on every sprint: duplicate Figma-to-code translation, surprise PR reviews, and components rebuilt because no one knew they existed. Nothing breaks outright. Everything just ships slower than it should, and the team stops noticing the drag.',
+    'Component consistency': 'Compare a shared pattern across two products. Check its API, behavior, and upgrade path with the engineers who use it.',
+    'Accessibility': 'Test a complete workflow with keyboard input, then review labels, focus management, contrast, and screen reader feedback.',
+    'Token architecture': 'Trace a design decision from its source value to a component. Check that semantic names and theme mappings stay consistent.',
+    'Documentation': 'Ask an engineer to use an unfamiliar component from the documentation. Note missing examples, state descriptions, or API guidance.',
+    'Handoff process': 'Follow a recent component change from design through release. Check ownership, shared vocabulary, and how consumers learn about updates.',
   };
 
   const STATUS_LABEL: Record<SectionStatus, string> = {
@@ -506,68 +459,12 @@ const description =
         status: sectionStatus(s, ratings) as SectionStatus,
       }));
 
-    if (recType === 'workflow') {
-      const s5 = SECTIONS.find((s) => s.id === 's5')!;
-      const s5Score = sectionScore(s5, ratings);
-
-      const strongNonHandoff = strong.filter((s) => s.title !== 'Handoff process');
-      let why: string;
-      if (strongNonHandoff.length === 0) {
-        why = `Your handoff process (${s5Score}/12) is costing your team time every sprint. Design and development are not fully aligned. That leads to rework, inconsistent UI, and repeated conversations. This is a workflow issue, not a tooling issue.`;
-      } else if (strongNonHandoff.length === 1) {
-        why = `Your ${strongNonHandoff[0].title.toLowerCase()} is a solid foundation. But your handoff process (${s5Score}/12) is costing your team time every sprint. Design and development are not fully aligned. That leads to rework, inconsistent UI, and repeated conversations. This is a workflow issue, not a tooling issue.`;
-      } else {
-        const titles = strongNonHandoff.map((s) => s.title.toLowerCase());
-        const last = titles.pop();
-        why = `Your ${titles.join(', ')} and ${last} are solid foundations. But your handoff process (${s5Score}/12) is costing your team time every sprint. Design and development are not fully aligned. That leads to rework, inconsistent UI, and repeated conversations. This is a workflow issue, not a tooling issue.`;
-      }
-
-      const secondarySections = SECTIONS.filter((s) => {
-        if (s.id === 's5') return false;
-        const st = sectionStatus(s, ratings);
-        return st === 'needs-attention' || st === 'critical';
-      });
-
-      return {
-        type: 'workflow',
-        label: 'Design-to-Code Workflow',
-        tagline: 'Reduce handoff friction and rework. Fix the process once so your team stops losing time to it every sprint.',
-        why,
-        strongSections: strong,
-        weakSections: weak,
-        secondaryRecommendation: secondarySections.length > 0
-          ? {
-              label: 'Design System Audit',
-              sectionNames: secondarySections.map((s) => s.title),
-            }
-          : undefined,
-      };
-    }
-
-    // Audit recommendation
-    const score = getTotalScore(ratings);
-    const status = getTotalStatus(score);
-    const criticals = getCriticalSections(ratings);
-    let why: string;
-    if (status === 'investment') {
-      why = 'With critical gaps across multiple dimensions, the Audit gives you a prioritized roadmap before you invest in rebuilding.';
-    } else if (criticals.length > 0) {
-      const names = criticals.map((s) => s.title.toLowerCase());
-      const last = names.pop();
-      const joined = names.length > 0 ? `${names.join(', ')} and ${last}` : last;
-      why = `Your ${joined} ${criticals.length === 1 ? 'has' : 'have'} a critical gap that needs expert analysis before it compounds into a larger problem.`;
-    } else {
-      const weakNames = weak.map((s) => s.title.toLowerCase());
-      const last = weakNames.pop();
-      const joined = weakNames.length > 0 ? `${weakNames.join(', ')} and ${last}` : last;
-      why = `Your ${joined} ${weak.length === 1 ? 'shows' : 'show'} structural gaps that need expert analysis before you invest in fixing them.`;
-    }
-
+    const workflow = recType === 'workflow';
     return {
-      type: 'audit',
-      label: 'Design System Audit',
-      tagline: "Before you build anything new, you need to understand what’s actually broken.",
-      why,
+      type: recType,
+      label: workflow ? 'Review the handoff process' : 'Verify the gaps in context',
+      tagline: workflow ? 'Follow one recent change from design to release.' : 'Start with a real component and the people using it.',
+      why: 'These suggestions follow your self-assessment answers. Check them against working interfaces, documentation, and recent changes before choosing the scope of a fix.',
       strongSections: strong,
       weakSections: weak,
     };
@@ -597,15 +494,11 @@ const description =
     const recommendation = buildRecommendation(ratings);
     const chartSections = getChartSections(ratings);
 
-    // ─── Canonical button language (mirrors Button.astro so the JS-rendered
-    //     actions match every other button on the site exactly). ──────────────
+    // Action styles for the dynamically rendered report.
     const BTN_BASE =
-      'group/btn inline-flex items-center justify-center gap-2 rounded-[5px] font-sans font-medium tracking-tight transition-[background-color,border-color,color,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-px active:scale-[0.97] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+      'report-action inline-flex items-center justify-center gap-3 font-sans font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
     const BTN_LG = 'px-6 py-3 text-[0.95rem]';
-    const BTN_MD = 'px-5 py-2.5 text-[0.9rem]';
     // Light surfaces (score panel):
-    const BTN_PRIMARY = 'bg-ink text-paper hover:bg-ink-soft';
-    const BTN_GHOST = 'bg-transparent text-ink border border-line-strong hover:border-ink/40 hover:bg-ink/[0.03]';
     // Ink surfaces (recommendation reveal-card):
     const BTN_NAVY = 'bg-paper text-ink hover:bg-white';
     const BTN_SECONDARY = 'bg-transparent text-paper border border-paper/25 hover:bg-paper/10';
@@ -678,19 +571,19 @@ const description =
       const statusClass = ({ healthy: 'strong', functional: 'attention', investment: 'critical' } as const)[status];
 
       const startHere = status !== 'healthy'
-        ? `<strong class="text-paper font-semibold">Start here.</strong> Your lowest-scoring area is your highest-impact fix: in your case, <strong class="text-accent font-semibold">${weakest.title}</strong>. That&rsquo;s where you&rsquo;ll see the fastest improvement.`
-        : `<strong class="text-paper font-semibold">Excellent work.</strong> Your system is performing well across every dimension. The job now is keeping it that way.`;
+        ? `<strong class="text-paper font-semibold">Start here.</strong> Your lowest-scoring subject is <strong class="text-accent font-semibold">${weakest.title}</strong>. Review an example in your system to understand the gap and its impact.`
+        : `<strong class="text-paper font-semibold">Excellent work.</strong> Your answers indicate strengths across the five subjects. Verify those strengths in working interfaces and continue reviewing changes.`;
 
       container.innerHTML = `
         <div class="verdict-grid">
           <div class="verdict-glyph">
-            <p class="mono-label !text-paper/60">Final grade</p>
+            <p class="mono-label text-paper/80">Final grade</p>
             <div class="verdict-grade mt-3" data-status="${status}" aria-hidden="true"><span class="g">${grade}</span></div>
             <span class="sr-only">Grade ${grade}. Total score ${score} out of ${TOTAL_MAX}.</span>
           </div>
 
           <div class="verdict-details">
-            <p class="mono-label !text-paper/60">Total score</p>
+            <p class="mono-label text-paper/80">Total score</p>
             <p class="verdict-score mt-2"><span data-countup>${score}</span><span class="slash">/${TOTAL_MAX}</span></p>
             <div class="mt-4"><span class="status-pill ${statusClass}">${TOTAL_STATUS_LABEL[status]}</span></div>
 
@@ -750,8 +643,8 @@ const description =
 
         html += `
           <div class="bd-row" style="--d:${(i * 0.08).toFixed(2)}s">
-            <div class="flex items-center justify-between mb-1.5">
-              <span class="font-display text-sm font-semibold tracking-tight text-ink">${s.title}</span>
+            <div class="bd-head flex items-center justify-between mb-1.5">
+              <span class="bd-title font-display text-sm font-semibold tracking-tight text-ink">${s.title}</span>
               <div class="flex items-center gap-3">
                 <span class="font-mono text-xs tabular-nums text-ink-muted">
                   <span class="sr-only">Score: </span>
@@ -778,14 +671,12 @@ const description =
 
       if (recommendation.type === 'healthy') {
         html += `
-          <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/65 mb-3">The verdict</p>
+          <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/80 mb-3">The verdict</p>
           <h3 class="font-serif text-3xl md:text-4xl font-semibold tracking-[-0.018em] mb-4 leading-tight">
-            A system doing its job.
+            Keep checking what works.
           </h3>
           <p class="text-paper/75 leading-relaxed max-w-2xl mb-8">
-            Your system is doing its job: accessibility is architecture, tokens are trusted, and documentation travels with the work.
-            The next wins are small polishes: maybe formalizing deprecation paths or tightening the handoff ceremony.
-            Mostly: don&rsquo;t let this slip.
+            Your answers suggest a strong foundation. Check those answers against real workflows, documentation, and recent releases. Keep reviewing the system as teams and products change.
           </p>
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="/contact/" class="${BTN_BASE} ${BTN_LG} ${BTN_NAVY}">
@@ -798,7 +689,7 @@ const description =
         const rec = recommendation;
         html += `
           <div class="mb-4">
-            <p class="mono-label !text-paper/65 mb-3">Where I'd focus first</p>
+            <p class="mono-label text-paper/80 mb-3">Where I'd focus first</p>
             <h3 class="font-serif text-2xl md:text-3xl font-semibold tracking-[-0.018em] leading-tight">
               ${rec.label}
             </h3>
@@ -810,7 +701,7 @@ const description =
         if (rec.strongSections && rec.strongSections.length > 0) {
           html += `
             <div class="mb-6">
-              <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/65 font-medium mb-3">
+              <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/80 font-medium mb-3">
                 What&rsquo;s working
               </p>
               <div class="rec-section-list">
@@ -820,7 +711,7 @@ const description =
               <div class="rec-section-item text-paper/90">
                 <iconify-icon icon="ph:check-duotone" width="18" class="text-paper" style="flex-shrink:0"></iconify-icon>
                 <span>${s.title}</span>
-                <span class="ml-auto text-paper/55 font-mono text-xs tabular-nums">${s.score}/${s.max}</span>
+                <span class="ml-auto text-paper/80 font-mono text-xs tabular-nums">${s.score}/${s.max}</span>
               </div>
             `;
           }
@@ -831,13 +722,12 @@ const description =
           html += `
             <div class="mb-7">
               <p class="focus-heading">
-                <span>Where to focus</span>
+                <span>What to review</span>
               </p>
               <div class="focus-list">
           `;
           rec.weakSections.forEach((s, idx) => {
             const benefit = SECTION_BENEFITS[s.title] || '';
-            const consequence = SECTION_CONSEQUENCES[s.title] || '';
             html += `
               <div class="focus-item">
                 <div class="focus-item-head">
@@ -849,7 +739,7 @@ const description =
                   </span>
                 </div>
                 ${benefit ? `<p class="focus-item-benefit">${benefit}</p>` : ''}
-                ${consequence ? `<p class="focus-item-consequence"><span class="focus-item-consequence-label">If ignored</span> ${consequence}</p>` : ''}
+
               </div>
             `;
           });
@@ -869,7 +759,7 @@ const description =
           const sec = rec.secondaryRecommendation;
           html += `
             <div class="secondary-rec">
-              <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/60 font-medium mb-2">You may also benefit from</p>
+              <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/80 font-medium mb-2">You may also benefit from</p>
               <p class="font-display text-lg font-semibold tracking-tight mb-1">${sec.label}</p>
               <p class="text-paper/70 text-sm">
                 Your ${sec.sectionNames.map((n) => n.toLowerCase()).join(', ')} ${sec.sectionNames.length === 1 ? 'could' : 'could all'} use attention beyond the handoff fixes.

@@ -1,25 +1,19 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import Link from '~/components/primitives/Link.astro';
 import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
 import SiteShot from '~/components/patterns/SiteShot.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
 
 const description =
   'Case study: building Rudiment UI, an open-source React component library and 13-chapter guide that explains the reasoning behind each architectural decision.';
 
-const menu = [
-  { href: '#problem', icon: 'ph:warning-circle', label: 'Why component libraries break down' },
-  { href: '#tokens', icon: 'ph:stack', label: 'A three-tier token system' },
-  { href: '#accessibility', icon: 'ph:heart', label: 'Accessibility with React Aria' },
-  { href: '#chapters', icon: 'ph:book-open', label: 'Guide chapters' },
-  { href: '#explore', icon: 'ph:cube', label: 'Guide and Storybook' },
-];
 
 /**
  * The live Storybook stories, in order. `id` drives both URLs: the embed loads the
@@ -119,75 +113,18 @@ const proof = [
 ];
 ---
 
-<BaseLayout title="Rudiment UI | Joshua Briley" description={description}>
+<ProjectLayout title="Rudiment UI | Joshua Briley" description={description}>
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
-    <Container width="wide">
-      <nav class="mb-12 flex items-center gap-2 text-sm text-ink-muted" aria-label="Breadcrumb">
-        <a href="/personal-projects/" class="transition-colors hover:text-accent">Personal projects</a>
-        <Icon name="ph:caret-right" size={12} />
-        <span class="text-ink">Rudiment UI</span>
-      </nav>
+  <ProjectHero project="rudiment" />
 
-      <div class="hero-grid">
-        <div class="hero-main">
-          <div class="mb-7 flex items-center gap-3">
-            <span class="hero-wordmark font-display text-ink">rudiment<span class="text-accent">.ui</span></span>
-            <span class="h-4 w-px bg-line-strong" aria-hidden="true"></span>
-            <p class="mono-label">Case study</p>
-          </div>
+  <CaseReview links={[
+    { href: '#examples', label: 'Working examples' },
+    { href: '#tokens', label: 'Token architecture' },
+    { href: '#accessibility', label: 'Behavior and tests' },
+    { href: '#explore', label: 'Guide and Storybook' },
+  ]} />
 
-          <Heading level={1} visual="display-xl" tone="ink" class="leading-[1.04]">
-            Accessible React components and a <em class="ink-wink font-normal italic">guide</em> to building them.
-          </Heading>
-
-          <p class="mt-8 max-w-xl">
-            <Text as="span" size="lg" tone="muted">
-              An open-source React component library paired with a
-              <a href="https://rudiment-guide.netlify.app/" target="_blank" rel="noopener" class="hero-link">13-chapter guide</a>
-              that explains <em>why</em> each architectural decision is made, and what happens later if you make a different one.
-            </Text>
-          </p>
-
-          <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
-            <a href="https://rudiment-guide.netlify.app/" target="_blank" rel="noopener" class="hero-cta hero-cta--primary">
-              <Icon name="ph:book-open" size={18} />
-              Read the guide
-              <Icon name="ph:arrow-up-right" size={13} class="hero-cta-arrow" />
-            </a>
-            <a href="https://rudiment-ui.netlify.app/" target="_blank" rel="noopener" class="hero-cta">
-              <Icon name="ph:squares-four" size={18} />
-              Browse the Storybook
-              <Icon name="ph:arrow-up-right" size={13} class="hero-cta-arrow" />
-            </a>
-          </div>
-        </div>
-
-        <aside class="hero-rail" aria-label="Project details">
-          <dl>
-            <div>
-              <dt>Role</dt>
-              <dd>Author &middot; Engineer</dd>
-            </div>
-            <div>
-              <dt>Format</dt>
-              <dd>Library + Guide</dd>
-            </div>
-            <div>
-              <dt>Stack</dt>
-              <dd>React 19, TS, Vite</dd>
-            </div>
-            <div>
-              <dt>Focus</dt>
-              <dd>Tokens &middot; A11y</dd>
-            </div>
-          </dl>
-        </aside>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" aria-label="Live Storybook examples">
+  <Section id="examples" tone="paper" padding="default" aria-label="Live Storybook examples">
     <Container width="wide">
       <Heading level={2} visual="h2" class="max-w-[24ch]">
         Example pages built with the library
@@ -199,10 +136,9 @@ const proof = [
       </Text>
 
       <div class="mt-12 space-y-16">
-        {liveStories.map((story, i) => (
+        {liveStories.map((story) => (
           <div>
             <div class="mb-6 flex items-baseline gap-3 border-t border-line pt-4">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
               <div>
                 <p class="font-medium text-ink">{story.title}</p>
                 <Text tone="muted" size="sm" class="mt-1 max-w-xl">{story.blurb}</Text>
@@ -243,7 +179,7 @@ const proof = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight" aria-label="Scope and results">
+  <Section tone="paper" padding="tight" aria-label="Scope and results" class="project-scope">
     <Container width="content">
       <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -266,26 +202,12 @@ const proof = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight">
+  <Section tone="paper" padding="tight" class="project-context">
     <Container width="content">
-      <p class="mono-label mb-5">Contents</p>
-      <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-        {menu.map((item, i) => (
-          <li>
-            <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
-              {item.icon && (
-                <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
-              )}
-              <span class="font-medium">{item.label}</span>
-              <Icon name="ph:arrow-right" size={15} class="shrink-0 transition-transform group-hover:translate-x-1" />
-            </a>
-          </li>
-        ))}
-      </ul>
+
 
       <Text size="lg" tone="muted" class="mt-10 measure">
-        Rudiment UI is a personal reference project. Most of the component
+        Rudiment UI is a personal reference project, showing component architecture and documentation rather than enterprise adoption or production application scale. Most of the component
         libraries I've been brought in to fix had the same root cause:
         architectural decisions that nobody wrote down, made in the wrong order,
         and now taking a quarter's work to untangle. Rudiment UI is the library I
@@ -299,7 +221,6 @@ const proof = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 01</p>
           <Heading level={2} visual="display-md" tone="ink">
             Why component libraries break down
           </Heading>
@@ -336,7 +257,6 @@ const proof = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 02</p>
           <Heading level={2} visual="display-md" tone="ink">
             A three-tier token system
           </Heading>
@@ -381,7 +301,6 @@ const proof = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 03</p>
           <Heading level={2} visual="display-md" tone="ink">
             Accessibility with React Aria
           </Heading>
@@ -434,7 +353,6 @@ const proof = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 04</p>
           <Heading level={2} visual="display-md" tone="ink">
             Guide chapters
           </Heading>
@@ -520,7 +438,6 @@ const proof = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 05</p>
           <Heading level={2} visual="display-md" tone="ink">
             Guide and Storybook
           </Heading>
@@ -612,36 +529,6 @@ const proof = [
     </Container>
   </Section>
 
-  <Section tone="ink" padding="loose">
-    <Container width="wide">
-      <Heading level={2} visual="display-lg" tone="paper">
-        Work with me
-      </Heading>
-      <p class="mt-5 max-w-2xl">
-        <Text size="lg" tone="whiteMuted">
-          Rudiment UI is where I try out the approaches I use on team projects: accessible
-          primitives, a three-tier token system, and documentation that explains each
-          decision. If your team needs a design system built this way, send me a message.
-        </Text>
-      </p>
-      <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <Button variant="navy" size="lg" iconLeft="ph:envelope" href="/contact/">
-          Contact me
-        </Button>
-        <a
-          href="/resume/"
-          class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper"
-        >
-          <Icon name="ph:file-text" size={18} />
-          View résumé
-        </a>
-      </div>
+  <ProjectNext project="rudiment" />
 
-      <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/personal-projects/token-galaga/" class="!text-paper hover:!text-paper/70">Next project: Token Adventure</Link>
-        <Link variant="arrow" href="/personal-projects/" class="!text-paper hover:!text-paper/70">Back to personal projects</Link>
-      </div>
-    </Container>
-  </Section>
-
-</BaseLayout>
+</ProjectLayout>

@@ -46,8 +46,6 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
 
 <BaseLayout title="OG render" bare={true} noindex={true}>
   <div class="og-card" style={`--og-headline-size:${size}px`}>
-    <div class="og-grid" aria-hidden="true"></div>
-    <span class="og-watermark" aria-hidden="true">&amp;</span>
 
     <header class="og-top">
       <div class="og-brand">
@@ -64,8 +62,8 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
     <footer class="og-bottom">
       <span class="og-url">joshuabriley.com</span>
       <ul class="og-tags">
-        <li><span class="og-tick" aria-hidden="true"></span>Front-end</li>
-        <li><span class="og-tick" aria-hidden="true"></span>TypeScript</li>
+        <li><span class="og-tick" aria-hidden="true"></span>Design systems</li>
+        <li><span class="og-tick" aria-hidden="true"></span>UI engineering</li>
         <li><span class="og-tick" aria-hidden="true"></span>Accessibility</li>
       </ul>
     </footer>
@@ -90,31 +88,6 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
       justify-content: space-between;
       box-sizing: border-box;
       font-family: var(--font-hanken), system-ui, sans-serif;
-    }
-
-    .og-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(to right, rgba(26, 27, 30, 0.045) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26, 27, 30, 0.045) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-
-    .og-watermark {
-      position: absolute;
-      right: -40px;
-      bottom: -180px;
-      font-family: var(--font-fraunces), Georgia, serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: 620px;
-      line-height: 0.8;
-      color: transparent;
-      -webkit-text-stroke: 2px rgba(26, 27, 30, 0.07);
-      pointer-events: none;
-      user-select: none;
     }
 
     .og-top,
@@ -169,8 +142,8 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
     .og-headline {
       position: relative;
       z-index: 1;
-      font-family: var(--font-fraunces), Georgia, serif;
-      font-weight: 500;
+      font-family: var(--font-hanken), system-ui, sans-serif;
+      font-weight: 800;
       font-size: var(--og-headline-size, 76px);
       line-height: 1.08;
       letter-spacing: -0.02em;
@@ -180,8 +153,9 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
       text-wrap: balance;
     }
     .og-headline em {
+      font-family: var(--font-fraunces), Georgia, serif;
       font-style: italic;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--og-accent);
     }
 

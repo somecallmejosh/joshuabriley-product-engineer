@@ -6,9 +6,8 @@ export interface NavLink {
 }
 
 export const PRIMARY_NAV: NavLink[] = [
-  { href: '/', label: 'Home' },
+  { href: '/projects/', label: 'Work' },
   { href: '/about/', label: 'About' },
-  { href: '/projects/', label: 'Projects' },
   { href: '/resume/', label: 'Résumé' },
   { href: '/contact/', label: 'Contact' },
 ]
@@ -18,7 +17,7 @@ export const FOOTER_NAV: { heading: string; links: NavLink[] }[] = [
     heading: 'Site',
     links: [
       { href: '/about/', label: 'About' },
-      { href: '/projects/', label: 'Projects' },
+      { href: '/projects/', label: 'Work' },
       { href: '/resume/', label: 'Résumé' },
       { href: '/contact/', label: 'Contact' },
     ],

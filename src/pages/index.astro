@@ -1,203 +1,69 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Icon from '~/components/primitives/Icon.astro';
-import Button from '~/components/primitives/Button.astro';
-import Link from '~/components/primitives/Link.astro';
-import FacetGlyph from '~/components/patterns/FacetGlyph.astro';
-import ProjectGlyph from '~/components/patterns/ProjectGlyph.astro';
-
-
-const facets = [
-  {
-    glyph: 'accessible' as const,
-    title: 'Accessibility from the start',
-    body:
-      'Keyboard navigation, focus management, and screen-reader behavior are part of the first build, not fixes after a QA pass finds them missing.',
-  },
-  {
-    glyph: 'finish' as const,
-    title: 'Empty, error, and first-run states',
-    body:
-      'I design and build the screens most teams leave blank: empty lists, form errors people can recover from, and the first visit before there is any data. These details decide whether a product feels finished.',
-  },
-  {
-    glyph: 'foundation' as const,
-    title: 'Design systems',
-    body:
-      'When a product needs a design system, I build it: one component library and one accessibility standard shared across every brand, so the UI stays consistent as the team and the product grow.',
-  },
+import Portrait from '~/components/patterns/Portrait.astro';
+import WorkList from '~/components/patterns/WorkList.astro';
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
+const needs = [
+  { title: 'Components teams can depend on', body: 'Clear APIs, accessible defaults, and documentation that helps engineers use the system. My current work at Travelers brings those pieces together across Stencil Web Components, Storybook, and Figma.', href: '/resume/', link: 'See my systems experience' },
+  { title: 'Design decisions that survive the handoff', body: 'I work through the loading states, form errors, and recovery paths with designers and engineers. The case studies show the alternatives, what I owned, and what I would improve.', href: '/projects/ivfcryo/', link: 'Follow a design decision' },
+  { title: 'Implementation you can inspect', body: 'Rudiment UI puts my approach to tokens, component behavior, and documentation in public. The guide explains the tradeoffs; the Storybook lets you try the result.', href: '/personal-projects/rudiment-ui/', link: 'Explore Rudiment UI' },
 ];
-
-const work = [
-  {
-    href: '/projects/ivfcryo/',
-    client: 'IVFCRYO',
-    glyph: 'ivfcryo' as const,
-    metric: { value: '75%', label: 'fewer support calls' },
-    line: 'A self-service platform for shipping cryogenic fertility specimens. It confirms that all five parties are ready before a shipment is scheduled.',
-  },
-  {
-    href: '/projects/logatot/',
-    client: 'Logatot',
-    glyph: 'logatot' as const,
-    metric: { value: '2+ hrs', label: 'less data entry per day' },
-    line: 'A voice-controlled operations platform for home-based child care providers, who can log the day hands-free while they care for children.',
-  },
-];
-
 ---
-
-<BaseLayout
-  title="Joshua Briley | Design systems & UI platform engineer"
-  description="Design systems & UI platform engineer with 20 years in production UI, from insurance platforms to fantasy-sports games with a million-plus players. I design interfaces, build them, and ship code to production."
->
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
+<BaseLayout title="Joshua Briley | Design systems & UI engineering" description="I build accessible component systems and product interfaces. Explore 20+ years of UI engineering, current design systems work at Travelers, and case studies with clear ownership.">
+  <section class="home-hero">
     <Container width="wide">
-      <p class="hero-in hero-in-1 mono-label">
-        Design systems &amp; UI platform engineer
-      </p>
-
-      <div class="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16">
-        <div class="lg:col-span-8">
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[19ch]">
-            I design interfaces and <em class="ink-wink font-normal italic">build them in code.</em>
-          </Heading>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-            I've spent 20 years building production UI, from insurance platforms to fantasy sports
-            games with more than a million players. I design the
-            interface, build it, and ship it to production myself.
-          </Text>
-
-          <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
-            <Button variant="primary" size="lg" href="/projects/" iconRight="ph:arrow-right" class="js-magnetic">
-              View projects
-            </Button>
-            <Button variant="ghost" size="lg" href="/about/">
-              About me
-            </Button>
+      <p class="role-line hero-in hero-in-1">Joshua Briley <span aria-hidden="true">/</span> Design systems &amp; UI engineer</p>
+      <div class="home-hero-grid">
+        <div class="home-hero-copy">
+          <h1 class="hero-type hero-in hero-in-2">Design systems<br />people can<br /><em>build on.</em></h1>
+          <p class="hero-lede hero-in hero-in-3">I build accessible components and product interfaces, with the care that makes them easier to use, ship, and maintain.</p>
+          <div class="hero-actions hero-in hero-in-4">
+            <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true">↘</span></a>
+            <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true">↗</span></a>
           </div>
+        </div>
+        <figure class="hero-portrait hero-in hero-in-5">
+          <Portrait eager />
+          <figcaption><span>Joshua Briley</span><span>Based in Connecticut</span></figcaption>
+        </figure>
+      </div>
+      <div class="current-work">
+        <p><span class="status-mark" aria-hidden="true"></span>Currently at <strong>Travelers</strong></p>
+        <p>Building the design system used by roughly <strong>3,500 engineers and designers.</strong></p>
+        <a href="/about/" class="editorial-link">More about me <span aria-hidden="true">↗</span></a>
+      </div>
+    </Container>
+  </section>
+  <section id="selected-work" class="editorial-section work-section">
+    <Container width="wide">
+      <div class="section-heading">
+        <h2 class="section-type">Selected <em>work.</em></h2>
+        <p>Shared foundations and the products built on them. Here’s what I contributed and why it mattered.</p>
+      </div>
+      <WorkList compact />
+      <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true">↗</span></a>
+    </Container>
+  </section>
+  <section class="editorial-section approach-section">
+    <Container width="wide">
+      <div class="approach-layout">
+        <div>
+          <h2 class="section-type">Good UI takes<br /><em>teamwork.</em></h2>
+          <p class="section-intro">Twenty-plus years in production UI have taught me to care about the people on both sides of a component.</p>
+          <p class="quiet-aside">The button is usually the easy part.</p>
+        </div>
+        <div class="approach-list" data-reveal-stagger>
+          {needs.map((need) => (
+            <article>
+              <h3>{need.title}</h3>
+              <p>{need.body}</p>
+              <a href={need.href} class="editorial-link">{need.link} <span aria-hidden="true">↗</span></a>
+            </article>
+          ))}
         </div>
       </div>
     </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
-    <Container width="wide">
-      <div class="max-w-3xl">
-        <Heading level={2} visual="display-md" class="text-pretty">
-          What I bring to a product team
-        </Heading>
-        <Text size="lg" tone="muted" class="mt-5">
-          Design quality and accessibility are often cut when a deadline gets close, or left to
-          someone else. I build both into the work from the start, so what I ship works on real
-          devices and with assistive technology, and keeps working after launch.
-        </Text>
-      </div>
-
-      <div
-        class="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-3"
-        data-reveal-stagger
-      >
-        {facets.map((c) => (
-          <div class="bg-paper p-7 md:p-9">
-            <FacetGlyph name={c.glyph} class="text-ink" />
-            <Heading level={3} visual="h3" class="mt-6">{c.title}</Heading>
-            <Text tone="muted" size="sm" class="mt-3">{c.body}</Text>
-          </div>
-        ))}
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="ink" padding="default">
-    <Container width="wide">
-      <Heading level={2} visual="display-md" tone="paper">Selected projects</Heading>
-
-      <ul class="mt-14 border-t border-paper/10" data-reveal-stagger>
-        {work.map((w) => (
-          <li>
-            <a href={w.href} class="group grid grid-cols-12 items-center gap-4 border-b border-paper/10 py-7 transition-colors hover:bg-paper/[0.03]">
-              <span class="col-span-4 md:col-span-2">
-                <ProjectGlyph name={w.glyph} class="text-paper" />
-              </span>
-              <span class="col-span-8 md:col-span-3">
-                <span class="block font-display text-4xl md:text-5xl font-semibold leading-none tracking-[-0.03em] text-paper">{w.metric.value}</span>
-                <span class="mt-2 block font-sans text-sm font-medium tracking-tight text-paper/70">{w.metric.label}</span>
-              </span>
-              <span class="col-span-10 md:col-span-6">
-                <span class="font-display text-lg font-medium tracking-tight text-paper">{w.client}</span>
-                <span class="mt-0.5 block text-sm text-paper/55">{w.line}</span>
-              </span>
-              <span class="col-span-2 flex justify-end md:col-span-1">
-                <Icon name="ph:arrow-right" size={18} class="text-paper/50 transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-paper" />
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <div class="mt-8">
-        <a href="/projects/" class="inline-flex items-center gap-2 font-sans text-[0.9rem] font-medium text-paper transition-colors hover:text-accent">
-          View all projects <Icon name="ph:arrow-right" size={15} />
-        </a>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
-    <Container width="wide">
-      <div class="grid items-start gap-10 md:items-center md:grid-cols-12 md:gap-14">
-        <div class="md:col-span-4">
-          <div class="overflow-hidden rounded-lg border border-line">
-            <picture>
-              <source
-                type="image/avif"
-                sizes="(min-width: 1280px) 373px, (min-width: 768px) 30vw, 100vw"
-                srcset="/images/about/josh-suit-portrait-400.avif 400w, /images/about/josh-suit-portrait-640.avif 640w, /images/about/josh-suit-portrait-1000.avif 1000w"
-              />
-              <source
-                type="image/webp"
-                sizes="(min-width: 1280px) 373px, (min-width: 768px) 30vw, 100vw"
-                srcset="/images/about/josh-suit-portrait-400.webp 400w, /images/about/josh-suit-portrait-640.webp 640w, /images/about/josh-suit-portrait-1000.webp 1000w"
-              />
-              <img
-                src="/images/about/josh-suit-portrait-640.jpg"
-                sizes="(min-width: 1280px) 373px, (min-width: 768px) 30vw, 100vw"
-                srcset="/images/about/josh-suit-portrait-400.jpg 400w, /images/about/josh-suit-portrait-640.jpg 640w, /images/about/josh-suit-portrait-1000.jpg 1000w"
-                alt="Joshua Briley, design systems and UI platform engineer"
-                class="aspect-[4/5] w-full object-cover"
-                loading="lazy"
-                decoding="async"
-                width="1000"
-                height="1250"
-              />
-            </picture>
-          </div>
-        </div>
-        <div class="md:col-span-8">
-          <Heading level={2} visual="display-md" class="max-w-[18ch]">
-            From designer to front-end engineer
-          </Heading>
-          <div class="mt-6 space-y-4 text-ink-muted leading-relaxed max-w-2xl">
-            <p>
-              I started as a designer and moved into engineering so I could build what I designed
-              instead of handing it off. Twenty years later, I do my best work on the front end, where I
-              make the design decisions and write the accessible code that ships them.
-            </p>
-            <p>
-              Outside of work, I play bass and gig semi-regularly.
-            </p>
-          </div>
-          <div class="mt-7">
-            <Link href="/about/" variant="arrow">More about my background and process</Link>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
+  </section>
+  <ContactInvitation />
 </BaseLayout>
-

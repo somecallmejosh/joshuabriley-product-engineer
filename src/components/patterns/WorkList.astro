@@ -1,0 +1,27 @@
+---
+import { selectedWork } from '~/lib/selected-work';
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+---
+<div class:list={['work-list', { 'work-list--compact': compact }]}>
+  {selectedWork.map((work) => (
+    <article class="work-entry" data-reveal>
+      <a href={work.href} class:list={['work-image', work.imageClass]} aria-label={`View ${work.name}`}>
+        <img src={work.image} alt={work.alt} width="1400" height="900" loading="lazy" decoding="async" />
+        <span class="work-image-arrow" aria-hidden="true">↗</span>
+      </a>
+      <div class="work-copy">
+        <p class="work-kind">{work.kind}</p>
+        <h3><a href={work.href}>{work.name}<span aria-hidden="true"> ↗</span></a></h3>
+        <p class="work-title">{work.title}</p>
+        <p class="work-summary">{work.summary}</p>
+        <dl class="work-facts">
+          <div><dt>My role</dt><dd>{work.ownership}</dd></div>
+          {!compact && <div><dt>Look for</dt><dd>{work.evidence}</dd></div>}
+        </dl>
+        <p class="work-result"><strong>{work.result}</strong><span>{work.resultNote}</span></p>
+        <a class="editorial-link" href={work.href}>{work.action} <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+  ))}
+</div>

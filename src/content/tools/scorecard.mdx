@@ -1,38 +1,37 @@
 ---
 title: Design system scorecard
-description: "A self-assessment of 32 questions across five subjects. It takes about ten minutes and shows where your design system is strong and where it is causing problems for your team."
+description: "Assess your shared UI across component consistency, accessibility, tokens, documentation, and handoff. Get a breakdown of strengths, gaps, and suggested priorities."
 date: 2026-06-28
 tool: ScorecardEngine
 kind: Self-assessment
 order: 1
-takeaway: Score your system across the five subjects a healthy one is graded on.
+takeaway: A structured snapshot of your system, with suggested priorities based on your answers.
 action: Take the assessment
 props:
-  - Ten minutes
-  - No signup
-  - Results live in the URL
-instructions: "For each prompt, pick No, Partial, or Yes. Nobody is grading you, so answer honestly: a flattering score helps no one. Subject grades appear live and the running total tracks as you go. Finish every row and a full report appears with where you stand and where to start."
+  - About ten minutes
+  - 32 questions
+  - Shareable results
+instructions: "Choose No, Partial, or Yes for each prompt. Subject scores update as you go. Answer all 32 questions to see your report and suggested priorities."
 tags:
   - Design Systems
   - Audits
   - Self-assessment
 ---
 
-<p class="lede">
-  Most teams know their design system has problems. What they usually lack is a
-  way to say where, and how bad, without turning it into a six-week audit first.
-  This is that shortcut: a structured self-assessment across the five subjects a
-  healthy system is actually graded on, scored as you go.
-</p>
+## Use the results to start a review
 
-It covers the same five dimensions I use when I review a real system: component consistency, accessibility, token architecture, documentation, and the handoff process. Answer thirty-two short prompts and a written report tells you what to tackle first, and what to leave alone.
+The scorecard helps turn a broad concern about your design system into a more specific conversation. Complete it with someone who maintains the library and someone who uses it. Where your answers differ, look at a real component, a recent release, or a support request together.
 
-## What the score is really measuring
+The five subjects cover how components behave, how design decisions reach code, and how people find and maintain the system. A strong total can still hide a problem in one subject, so read the breakdown before choosing what to tackle.
 
-The five subjects are not arbitrary. Component consistency is what users feel and what reviewers argue about. Accessibility is the floor the whole thing stands on. Token architecture decides whether a change lands once or thirty times. Documentation determines whether anyone but you can use the system. And the handoff process is what keeps all of the above from quietly rotting the month after launch.
+## Check the evidence behind an answer
 
-A low grade in one subject is not a crisis. A low grade you did not know about is. The point of a snapshot is to turn a vague unease into a specific, rankable list you can bring to a planning conversation.
+This is a self-assessment. It does not inspect your repository, test accessibility, or measure adoption. The recommendations follow your answers, so treat them as prompts to investigate rather than proof of system quality.
 
-## This scorecard is also a work sample
+Choose a specific gap and verify it in a product that uses the system. For example, if keyboard behavior is uncertain, test a complete workflow rather than an isolated component. If documentation scores poorly, watch an engineer try to use an unfamiliar component.
 
-It is built the way I build production work: accessible radio groups, live scoring, no frameworks under the hood, the same tokens as the rest of this site. Tab through it; the keyboard path is real. If the snapshot surfaces something worth fixing properly, a full [design system audit](/tools/audit-findings/) replaces the self-assessment with specifics, ranked by severity and paired with the order to fix them in.
+## Share a snapshot
+
+Your completed report is encoded in its URL. Save the link to revisit it, or share it with a teammate. Anyone with that link can read the results; no account is needed.
+
+For an example of how an observed issue becomes a prioritized task, explore the [sample audit findings](/tools/audit-findings/).

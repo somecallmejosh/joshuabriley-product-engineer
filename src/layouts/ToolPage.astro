@@ -1,25 +1,15 @@
 ---
+import '~/styles/tools.css';
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import CTABanner from '~/components/patterns/CTABanner.astro';
-import ToolGlyph from '~/components/patterns/ToolGlyph.astro';
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
+import ToolIllustration from '~/components/patterns/ToolIllustration.astro';
 
 import ScorecardEngine from '~/components/islands/ScorecardEngine.astro';
 import RoiCalculator from '~/components/islands/RoiCalculator.astro';
 import TokenPlayground from '~/components/islands/TokenPlayground.astro';
 import Diagnostic from '~/components/islands/Diagnostic.astro';
-
-/**
- * Shell for a /tools/ page. The island is the payload and leads; the essay
- * follows underneath at reading measure. Structure mirrors
- * /tools/scorecard/results.astro (paper hero → work → paper body → close) so
- * the two scorecard surfaces read as one product.
- */
 
 interface RelatedTool {
   href: string;
@@ -58,6 +48,18 @@ const {
 const ISLANDS = { ScorecardEngine, RoiCalculator, TokenPlayground, Diagnostic };
 const Island = ISLANDS[tool];
 
+const titleWords = title.split(' ');
+const titleEnd = titleWords.pop();
+const startLabels = { ScorecardEngine: 'Start the assessment', RoiCalculator: 'Use the calculator', TokenPlayground: 'Try the playground', Diagnostic: 'Inspect the examples' };
+
+const workspaceHeadings = {
+  ScorecardEngine: ['Assess your', 'shared UI.'],
+  RoiCalculator: ['Put a number', 'on rework.'],
+  TokenPlayground: ['Explore shared', 'decisions.'],
+  Diagnostic: ['Inspect the UI.', 'Plan a fix.'],
+};
+const [workspaceLead, workspaceEmphasis] = workspaceHeadings[tool];
+
 const shareUrl = new URL(pathname, Astro.site ?? 'https://joshuabriley.com').toString();
 const xShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}`;
 const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
@@ -67,138 +69,110 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   title={`${title} · Joshua Briley`}
   description={description}
   pathname={pathname}
+  mainClass="tool-page"
   article={{ publishedTime: date, section: 'Tools', author: 'Joshua Briley' }}
 >
-  <Section tone="paper" padding="tight" class="pt-12 md:pt-16">
+  <section class="page-opener tool-opener">
     <Container width="wide">
-      <div class="flex items-center justify-between gap-4 mono-label">
-        <span><a href="/tools/" class="transition-colors hover:text-accent">Tools</a> / {kind}</span>
-        <span class="hidden sm:inline text-ink-muted">Free to use</span>
-      </div>
-
-      <div class="mt-10 grid gap-8 lg:mt-12 lg:grid-cols-12 lg:items-center lg:gap-12">
-        <div class="lg:col-span-8">
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
-            {title}
-          </Heading>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-xl">
-            {description}
-          </Text>
-
-          {toolProps.length > 0 && (
-            <ul class="hero-in hero-in-4 mt-9 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">
-              {toolProps.map((p) => (
-                <li class="flex items-center gap-2">
-                  <span class="h-1 w-1 rounded-[1px] bg-accent" aria-hidden="true"></span>{p}
-                </li>
-              ))}
-            </ul>
-          )}
+      <p class="role-line hero-in hero-in-1"><a href="/tools/">Tools</a><span aria-hidden="true">/</span>{kind}</p>
+      <div class="tool-hero-layout">
+        <div class="tool-hero-copy">
+          <h1 class="page-type hero-in hero-in-2">{titleWords.join(' ')} <em>{titleEnd}.</em></h1>
+          <p class="page-lede hero-in hero-in-3">{description}</p>
+          <div class="hero-actions hero-in hero-in-4">
+            <a class="action-link" href="#tool">{startLabels[tool]} <span aria-hidden="true">↓</span></a>
+            <a class="editorial-link" href="/tools/">All tools <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
-
-        <div class="hero-in hero-in-3 order-first lg:order-none lg:col-span-4 lg:flex lg:justify-end">
-          <ToolGlyph tool={tool} size="2xl" class="text-ink" />
-        </div>
+        <div class="tool-hero-illustration hero-in hero-in-3"><ToolIllustration tool={tool} /></div>
       </div>
+      {toolProps.length > 0 && <ul class="tool-facts">{toolProps.map((fact) => <li>{fact}</li>)}</ul>}
     </Container>
-  </Section>
+  </section>
 
-  <Section tone="paper" padding="default" class="!pt-10 md:!pt-12">
+  <section id="tool" class="tool-workspace" aria-labelledby="tool-workspace-title">
     <Container width="wide">
+      <div class="tool-workspace-heading" data-reveal>
+        <h2 id="tool-workspace-title" class="section-type">{workspaceLead}<br /><em>{workspaceEmphasis}</em></h2>
+        <p class="tool-instructions">{instructions}</p>
+      </div>
       <div class="tool-stage">
-        <p class="tool-instructions max-w-2xl text-ink-muted leading-relaxed">
-          {instructions}
-        </p>
-
-        <div class="mt-8">
-          <Island />
-        </div>
+        <Island />
       </div>
     </Container>
-  </Section>
+  </section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <section class="editorial-section">
     <Container width="wide">
-      <div class="mx-auto max-w-2xl">
-        <article class="prose-whimsy">
-          <slot />
-        </article>
-
-        <div class="mt-12 flex items-center gap-4 border-t border-line pt-6">
-          <span class="mono-label">Share</span>
-          <div class="flex items-center gap-2">
-            <a href={xShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X">
-              <Icon name="ph:x-logo" size={17} />
-            </a>
-            <a href={liShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn">
-              <Icon name="ph:linkedin-logo" size={17} />
-            </a>
-            <button type="button" class="share-btn" data-copy-link aria-label="Copy link">
-              <Icon name="ph:link" size={17} />
-            </button>
+      <div class="tool-reading">
+        <h2 class="section-type">Using<br /><em>this tool.</em></h2>
+        <div>
+          <article class="prose-whimsy"><slot /></article>
+          <div class="tool-share">
+            <span>Share this tool</span>
+            <a href={xShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X"><Icon name="ph:x-logo" size={17} /></a>
+            <a href={liShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn"><Icon name="ph:linkedin-logo" size={17} /></a>
+            <button type="button" class="share-btn" data-copy-link aria-label="Copy link"><Icon name="ph:link" size={17} /></button>
           </div>
         </div>
       </div>
     </Container>
-  </Section>
+  </section>
 
   {related.length > 0 && (
-    <Section tone="ink" padding="default">
+    <section class="editorial-section related-tools" aria-labelledby="related-title">
       <Container width="wide">
-        <p class="mono-label !text-paper/65">The rest of the set</p>
-        <Heading level={2} visual="display-md" tone="paper" class="mt-4 max-w-[20ch] text-balance">
-          Other things you can run right now.
-        </Heading>
-
-        <ul class="mt-12 border-t border-paper/10" data-reveal-stagger>
-          {related.map((r) => (
+        <h2 id="related-title" class="section-type">Another question<br /><em>to explore?</em></h2>
+        <ul class="related-list" data-reveal-stagger>
+          {related.map((item) => (
             <li>
-              <a href={r.href} class="group grid grid-cols-12 items-center gap-4 border-b border-paper/10 py-5 transition-colors hover:bg-paper/[0.03]">
-                <span class="col-span-12 flex items-center gap-4 sm:col-span-3">
-                  <ToolGlyph tool={r.tool} size="sm" class="shrink-0 text-paper" />
-                  <span class="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-accent">{r.kind}</span>
-                </span>
-                <span class="col-span-10 sm:col-span-8">
-                  <span class="font-display text-lg font-medium tracking-tight text-paper">{r.title}</span>
-                  <span class="mt-0.5 block text-sm text-paper/55">{r.takeaway}</span>
-                </span>
-                <span class="col-span-2 flex justify-end sm:col-span-1">
-                  <Icon name="ph:arrow-right" size={18} class="text-paper/50 transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-paper" />
-                </span>
+              <a class="related-tool-link" href={item.href} aria-labelledby={`related-${item.tool}`}>
+                <ToolIllustration tool={item.tool} />
+                <h3 id={`related-${item.tool}`}>{item.title}</h3>
+                <p>{item.takeaway}</p>
+                <span class="related-tool-action" aria-hidden="true">Explore tool <span>↗</span></span>
               </a>
             </li>
           ))}
         </ul>
       </Container>
-    </Section>
+    </section>
   )}
-
-  <CTABanner
-    title="Built the way I build production work."
-    lead="Accessible controls, live state, no framework underneath, and the same tokens as the rest of this site. It should hold up to being inspected as production work. The case studies show the same standard at full product scale."
-  >
-    <Button variant="navy" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">
-      Get in touch
-    </Button>
-    <Button variant="secondary" size="lg" href="/projects/">
-      See the work
-    </Button>
-  </CTABanner>
+  <ContactInvitation />
 </BaseLayout>
 
 <style>
-  /* ── Matches the 72rem the island had as a `.post-tool` block inside an
-     interactive post (BlogPost.astro), so the tools read exactly as they did
-     before the move. The original needed `94vw` to break out of a narrow prose
-     column; this one already sits in a wide container, so it caps against the
-     container instead. Viewport units here would overhang the container's own
-     padding by a sub-pixel on small screens. */
-  .tool-stage {
-    width: min(72rem, 100%);
-    margin-inline: auto;
-  }
-
-  .tool-instructions {
-    font-size: 1.05rem;
-  }
+  .tool-opener .role-line a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .tool-hero-layout { display: grid; gap: 2.5rem; align-items: center; margin-top: 2rem; }
+  .tool-opener .page-type { max-width: 19ch; margin-top: 0; font-size: clamp(2.6rem, 5.7vw, 5.5rem); }
+  .tool-hero-illustration { min-width: 0; max-width: 40rem; }
+  .tool-workspace-heading { display: grid; gap: 1.5rem; align-items: end; margin-bottom: 3rem; }
+  .tool-workspace-heading .section-type { font-size: clamp(2.5rem, 4.4vw, 4rem); }
+  .tool-facts { display: flex; flex-wrap: wrap; gap: .7rem 2rem; border-top: 1px solid var(--line-strong); padding-top: 1.4rem; margin-top: 2.5rem; color: var(--ink-muted); font-size: .85rem; }
+  .tool-workspace { padding: 5rem 0; background: var(--portfolio-tint); }
+  .tool-stage { width: 100%; }
+  .tool-instructions { max-width: 49ch; margin-bottom: 0; color: var(--ink-muted); font-size: 1.08rem; line-height: 1.65; }
+  .tool-reading { display: grid; gap: 2.5rem; }
+  .tool-reading > div { min-width: 0; max-width: 46rem; }
+  .tool-reading :global(.prose-whimsy > h2:first-child) { margin-top: 0; }
+  .tool-reading :global(.prose-whimsy h2) { font-family: var(--font-hanken), sans-serif; font-size: 1.65rem; font-weight: 700; letter-spacing: -.035em; }
+  .tool-share { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .tool-share > span { margin-right: .5rem; color: var(--ink-muted); font-size: .85rem; }
+  .related-tools { background: var(--portfolio-tint); }
+  .related-list { display: grid; gap: 2.5rem; margin-top: 3rem; }
+  .related-list li { min-width: 0; }
+  .related-tool-link { display: flex; flex-direction: column; height: 100%; padding: 1rem; border: 1px solid transparent; border-top-color: var(--line-strong); transition: background .2s, border-color .2s; }
+  .related-tool-link:hover, .related-tool-link:focus-visible { background: var(--paper); border-color: #8da4b8; }
+  .related-tool-link:focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 5px; }
+  .related-tool-link:hover h3, .related-tool-link:focus-visible h3 { color: var(--portfolio-blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+  .related-tool-action { display: flex; align-items: center; gap: 1rem; margin-top: auto; padding-top: 1.5rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
+  .related-tool-action > span { display: inline-block; transition: transform .2s; }
+  .related-tool-link:hover .related-tool-action > span, .related-tool-link:focus-visible .related-tool-action > span { transform: translate(2px, -2px); }
+  .related-list h3 { margin-top: 1rem; max-width: 20ch; font-size: 1.7rem; font-weight: 700; letter-spacing: -.035em; line-height: 1.15; }
+  .related-list p { margin-top: 1rem; color: var(--ink-muted); font-size: .95rem; line-height: 1.65; max-width: 38ch; }
+  @media (min-width: 768px) { .related-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1280px) { .related-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .tool-hero-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; } .tool-workspace-heading { grid-template-columns: 1.15fr 1fr; gap: 4rem; } .tool-reading { grid-template-columns: minmax(0, .8fr) minmax(0, 1.7fr); gap: 6rem; } }
+  @media (prefers-reduced-motion: reduce) { .related-tool-link, .related-tool-action > span { transition: none; transform: none !important; } }
+  @media (max-width: 639px) { .tool-workspace { padding: 3rem 0; } }
 </style>

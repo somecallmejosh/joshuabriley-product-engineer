@@ -1,83 +1,69 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
+import Recommendation from '~/components/patterns/Recommendation.astro';
+import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 
-const all = await getCollection('testimonials');
-const sorted = all.sort((a, b) => a.data.order - b.data.order);
-
-const description = `Testimonials from ${sorted.length} clients and colleagues, at companies including Apple, HubSpot, and Berkshire Hathaway Specialty Insurance, about working with Joshua Briley.`;
+const sorted = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
+const featured = sorted.find(entry => entry.data.featured) ?? sorted[0];
+const themes = [
+  { id: 'design', title: 'Design & accessibility', orders: [1, 8, 15, 16, 17] },
+  { id: 'delivery', title: 'Ownership & delivery', orders: [2, 3, 4, 5, 7, 9, 13] },
+  { id: 'collaboration', title: 'Collaboration', orders: [] as number[] },
+];
+// Editorial grouping leaves every recommendation intact and displayed once.
+const groups = themes.map(theme => ({
+  ...theme,
+  entries: sorted.filter(entry => entry.id !== featured?.id &&
+    (themes.find(group => group.orders.includes(entry.data.order))?.id ?? 'collaboration') === theme.id),
+})).filter(group => group.entries.length > 0);
+const description = `Recommendations from ${sorted.length} clients and colleagues on Joshua Briley’s design systems work, accessibility, delivery, and collaboration.`;
 ---
-
-<BaseLayout title="Testimonials | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
-
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
+<BaseLayout title="Testimonials | Joshua Briley" description={description}>
+  <section class="page-opener">
     <Container width="wide">
-      <div class="max-w-4xl">
-        <Heading level={1} visual="display-xl" class="hero-in hero-in-2">
-          Testimonials
-        </Heading>
-        <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-          What {sorted.length} clients and colleagues say about working with me, from teams at
-          Apple, HubSpot, Berkshire Hathaway Specialty Insurance, America's Test Kitchen, and
-          other companies.
-        </Text>
+      <p class="role-line hero-in hero-in-1">Testimonials</p>
+      <h1 class="page-type hero-in hero-in-2">What it’s like<br />to <em>work with me.</em></h1>
+      <p class="page-lede hero-in hero-in-3">Recommendations from {sorted.length} clients and colleagues on design quality, reliable delivery, and working across teams.</p>
+      <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse recommendations">
+        {groups.map(group => <a href={`#${group.id}`}>{group.title} <span aria-hidden="true">↓</span></a>)}
+        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile <span aria-hidden="true">↗</span></a>
+      </nav>
+    </Container>
+  </section>
 
-        <div class="hero-in hero-in-4 mt-9 flex flex-wrap items-center gap-3">
-          <Button variant="primary" size="lg" href="/contact/" iconRight="ph:arrow-right" class="js-magnetic">
-            Contact me
-          </Button>
-          <Button
-            variant="ghost"
-            size="lg"
-            href="https://www.linkedin.com/in/joshuabriley/"
-            rel="noopener noreferrer"
-            target="_blank"
-            iconRight="ph:arrow-up-right"
-          >
-            Connect on LinkedIn
-          </Button>
+  {featured && <section class="testimonials-feature" data-surface="dark" aria-label="Featured recommendation">
+    <Container width="wide"><Recommendation testimonial={featured} featured /></Container>
+  </section>}
+
+  {groups.map(group => <section id={group.id} class="testimonial-section" aria-labelledby={`${group.id}-title`}>
+    <Container width="wide">
+      <div class="testimonial-theme">
+        <h2 id={`${group.id}-title`}>{group.title}</h2>
+        <div class="testimonial-collection" data-reveal-stagger>
+          {group.entries.map(entry => <Recommendation testimonial={entry} />)}
         </div>
       </div>
     </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
-    <Container width="wide">
-      <h2 class="sr-only">All testimonials</h2>
-      <div class="columns-1 [column-gap:2.5rem] sm:columns-2 lg:columns-3 lg:[column-gap:3rem]" data-reveal-stagger>
-        {sorted.map((t) => (
-          <figure class="mb-12 break-inside-avoid lg:mb-14">
-            <blockquote>
-              <p class="font-display text-lg leading-snug tracking-[-0.01em] text-ink">
-                {t.data.quote}
-              </p>
-            </blockquote>
-            <figcaption class="mt-5 flex items-center gap-3">
-              {t.data.image ? (
-                <img
-                  src={t.data.image}
-                  alt=""
-                  loading="lazy"
-                  class="h-9 w-9 rounded-full border border-line object-cover"
-                />
-              ) : (
-                <span class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-raised font-mono text-[0.7rem] font-medium text-ink-muted" aria-hidden="true">
-                  {t.data.initials}
-                </span>
-              )}
-              <div class="">
-                <p class="font-display text-sm font-medium tracking-tight text-ink">{t.data.name}</p>
-                <p class="mt-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-ink-muted">{t.data.role} · {t.data.company}</p>
-              </div>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </Container>
-  </Section>
+  </section>)}
+  <ContactInvitation />
 </BaseLayout>
+<style>
+  .testimonials-feature { background: #233d56; padding: 5rem 0; }
+  .testimonial-section { padding: 5rem 0; border-bottom: 1px solid var(--line); scroll-margin-top: 1.5rem; }
+  .testimonial-theme { display: grid; gap: 2rem; }
+  .testimonial-theme > h2 { font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; text-wrap: balance; max-width: 15ch; }
+  .testimonial-collection { display: grid; gap: 3rem 2.5rem; min-width: 0; }
+  @media (min-width: 640px) {
+    .testimonial-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1024px) {
+    .testimonial-theme { grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr); gap: 5rem; align-items: start; }
+    .testimonial-theme > h2 { position: sticky; top: 7rem; }
+  }
+  @media (max-width: 639px) {
+    .testimonials-feature, .testimonial-section { padding-block: 3.5rem; }
+    .testimonial-collection { gap: 2.5rem; }
+  }
+</style>

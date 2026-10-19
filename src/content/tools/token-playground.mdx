@@ -1,41 +1,35 @@
 ---
 title: Design token playground
-description: "Design tokens keep design decisions in one place, with semantic names that point to primitive values. Change one decision and watch it update every component at once."
+description: "Change spacing, corner radius, color, and density, then watch the sample components update together. Explore how shared design decisions reach an interface."
 date: 2026-06-28
 tool: TokenPlayground
 kind: Playground
 order: 3
-takeaway: Move one primitive and watch it propagate through every component.
-action: Move a token
+takeaway: A live demonstration of shared design values updating several components together.
+action: Try the playground
 props:
-  - Under a minute
-  - Nothing to install
-  - The system this site runs on
-instructions: "This is the same three-tier token system this site runs on. Move a primitive, change the density, pick a different accent, and watch the decision propagate through the components in real time."
+  - Live component preview
+  - Color and density controls
+  - Reset anytime
+instructions: "Adjust the sliders and select a palette or density. The component preview updates immediately. Reset the controls to return to the starting values."
 tags:
   - Design Systems
   - Tokens
   - Theming
 ---
 
-<p class="lede">
-  "Use tokens" is the advice everyone gives and almost nobody makes concrete. A
-  token is not a variable with a fancy name. It is a layer of indirection: a
-  decision you make once, in one place, that every component downstream agrees to
-  inherit. The value of that layer is invisible right up until the moment you
-  change something and watch it land everywhere at once.
-</p>
+## Make a shared decision visible
 
-Nothing in those components was updated by hand. Each one reads a semantic token, the semantic token references a primitive, and the primitive is the only value you actually changed. One edit, one source of truth, every consumer in sync.
+Change the spacing and watch how the preview responds. The components read shared CSS custom properties, so a single adjustment changes several parts of the interface together.
 
-## Intent in the middle, value at the edge
+This is useful when explaining tokens to a teammate: you can see both the benefit of a shared value and the consequences of changing it. A tighter density may help one screen while making another harder to read.
 
-The reason this works is the middle tier. A primitive is a raw fact (`coral-500` is a specific orange). A component should never reach for that fact directly. It asks for an *intent* instead: "accent," "surface," "danger." The semantic token sits in between and decides which primitive that intent currently resolves to.
+## Separate values from intent
 
-That indirection is what makes theming and dark mode cheap rather than catastrophic. You do not rewrite every component to support a second theme; you repoint the semantic layer at a different set of primitives, and the components come along for free, because they were only ever asking for intent.
+A primitive token names a value, such as a particular shade of blue. A semantic token describes its purpose, such as an action background. Components can reference that purpose while a theme determines which value it uses.
 
-It is also why naming matters more than people expect. A token called `blue-600` describes a value and locks you to it. A token called `accent` describes a decision and lets the value move underneath it. Names that describe intent are load-bearing. Names that describe value are decoration.
+That separation can make theming easier to maintain. It still requires testing: changing a shared color can affect contrast, and changing spacing can affect content fit or target size. Shared values help distribute a decision; they do not guarantee that every result is usable.
 
-## Is yours load-bearing or decorative?
+## Explore the implementation in context
 
-Token architecture is one of the five things I look at when I audit a design system. If you want a quick read on where yours stands, the [design-system scorecard](/tools/scorecard/) has a handful of questions on exactly this. Ten minutes, and you will know whether your tokens are doing real work or just sitting there looking organized.
+This playground is a small, local demonstration. For a larger personal reference project with component APIs, documentation, and live examples, explore [Rudiment UI](/personal-projects/rudiment-ui/).

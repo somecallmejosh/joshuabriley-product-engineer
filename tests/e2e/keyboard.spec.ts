@@ -10,10 +10,15 @@ const PAGES = [
   '/',
   '/about/',
   '/projects/',
+  '/projects/ivfcryo/',
+  '/projects/logatot/',
   '/projects/vmspark/',
+  '/personal-projects/rudiment-ui/',
+  '/personal-projects/token-galaga/',
+  '/personal-projects/west-baton-rouge-presbyterian/',
   '/personal-projects/',
   '/blog/',
-  '/blog/what-a-design-token-actually-does/',
+  '/blog/native-lit-or-stencil/',
   '/testimonials/',
   '/resume/',
   '/contact/',
@@ -35,7 +40,7 @@ for (const path of PAGES) {
       await page.emulateMedia({ reducedMotion: 'reduce' });
       // Assert the route exists. Scanning a 404 passes cleanly, which is how
       // three deleted pages sat in this list for months looking green.
-      const response = await page.goto(path);
+      const response = await page.goto(path, { waitUntil: 'networkidle' });
       expect(response?.status(), `${path} did not return 200`).toBe(200);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -62,4 +67,59 @@ test('mobile menu opens, traps focus on first item, closes on Escape', async ({ 
   await page.keyboard.press('Escape');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await expect(toggle).toBeFocused();
+});
+
+test('IVFCRYO readiness checks fit a narrow phone viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/projects/ivfcryo/#readiness');
+  await expect(page.locator('#readiness')).toBeVisible();
+  const width = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    content: document.documentElement.scrollWidth,
+  }));
+  expect(width.content).toBeLessThanOrEqual(width.viewport);
+});
+
+for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/projects/vmspark/']) {
+  test(`project summary expands with the keyboard: ${path}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(path, { waitUntil: 'networkidle' });
+    const summary = page.locator('.summary-more > summary');
+    await summary.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('.summary-more')).toHaveAttribute('open', '');
+    await expect(page.getByRole('heading', { name: 'What I would improve', exact: true })).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('.summary-more')).not.toHaveAttribute('open', '');
+  });
+}
+
+test('project artifact viewer returns focus after keyboard dismissal', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/projects/ivfcryo/', { waitUntil: 'networkidle' });
+  const trigger = page.locator('.plate__zoom').first();
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog', { name: 'Artifact viewer' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog', { name: 'Artifact viewer' })).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+
+test('token playground fits a narrow phone at maximum spacing', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 850 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/tools/token-playground/', { waitUntil: 'networkidle' });
+  await page.locator('#tp-spacing').evaluate((input: HTMLInputElement) => {
+    input.value = input.max;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await page.locator('[data-tp-chip="density"][data-value="comfortable"]').click();
+  const width = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    content: document.documentElement.scrollWidth,
+  }));
+  expect(width.content).toBeLessThanOrEqual(width.viewport);
 });

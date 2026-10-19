@@ -1,12 +1,13 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import Link from '~/components/primitives/Link.astro';
 import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
 
 const title = 'Token Adventure | Joshua Briley';
@@ -152,76 +153,12 @@ const feel = [
 ];
 ---
 
-<BaseLayout title={title} description={description}>
+<ProjectLayout title={title} description={description}>
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
-    <Container width="wide">
-      <nav class="mb-12 flex items-center gap-2 text-sm text-ink-muted" aria-label="Breadcrumb">
-        <a href="/personal-projects/" class="transition-colors hover:text-accent">Personal projects</a>
-        <Icon name="ph:caret-right" size={12} />
-        <span class="text-ink">Token Adventure</span>
-      </nav>
+  <ProjectHero project="tokens" />
+  <CaseReview links={docket} />
 
-      <div class="hero-grid">
-        <div class="hero-main">
-          <div class="mb-7 flex items-center gap-3">
-            <span class="hero-wordmark font-display text-ink">token<span class="text-accent">★</span>adventure</span>
-            <span class="h-4 w-px bg-line-strong" aria-hidden="true"></span>
-            <p class="mono-label">Case study</p>
-          </div>
-
-          <Heading level={1} visual="display-xl" tone="ink" class="leading-[1.04]">
-            A browser <em class="ink-wink font-normal italic">game</em> that teaches the W3C Design Tokens Format.
-          </Heading>
-
-          <p class="mt-8 max-w-xl">
-            <Text as="span" size="lg" tone="muted">
-              Each of the twenty levels, called sectors, covers one part of the
-              <a href="https://www.designtokens.org/tr/drafts/format/" target="_blank" rel="noopener" class="hero-link">W3C Design Tokens Format</a>.
-              You write tokens in a code editor, the game runs them in a sandbox, and you clear the
-              sector when your code passes checks against the stable 2025.10 spec.
-            </Text>
-          </p>
-
-          <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
-            <a href="https://token-galaga.netlify.app/" target="_blank" rel="noopener" class="hero-cta hero-cta--primary">
-              <Icon name="ph:play-fill" size={18} />
-              Play the game
-              <Icon name="ph:arrow-up-right" size={13} class="hero-cta-arrow" />
-            </a>
-            <a href="/personal-projects/rudiment-ui/" class="hero-cta">
-              <Icon name="ph:book-open" size={18} />
-              See Rudiment UI
-              <Icon name="ph:arrow-right" size={13} class="hero-cta-arrow" />
-            </a>
-          </div>
-        </div>
-
-        <aside class="hero-rail" aria-label="Project details">
-          <dl>
-            <div>
-              <dt>Role</dt>
-              <dd>Designer &middot; Engineer</dd>
-            </div>
-            <div>
-              <dt>Format</dt>
-              <dd>Arcade &middot; 20 sectors</dd>
-            </div>
-            <div>
-              <dt>Stack</dt>
-              <dd>Astro &middot; React &middot; CodeMirror</dd>
-            </div>
-            <div>
-              <dt>Teaches</dt>
-              <dd>W3C tokens (2025.10)</dd>
-            </div>
-          </dl>
-        </aside>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" aria-label="The game, live">
+  <Section id="game" tone="paper" padding="default" aria-label="The game, live">
     <Container width="wide">
       <Heading level={2} visual="h2" class="max-w-[24ch]">
         Live game
@@ -244,7 +181,7 @@ const feel = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight" aria-label="Scope and results">
+  <Section tone="paper" padding="tight" aria-label="Scope and results" class="project-scope">
     <Container width="content">
       <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -267,23 +204,9 @@ const feel = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight">
+  <Section tone="paper" padding="tight" class="project-context">
     <Container width="content">
-      <p class="mono-label mb-5">Contents</p>
-      <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-        {docket.map((item, i) => (
-          <li>
-            <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              <span class="font-mono text-sm text-accent">0{i + 1}</span>
-              {item.icon && (
-                <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
-              )}
-              <span class="font-medium">{item.label}</span>
-              <Icon name="ph:arrow-right" size={15} class="shrink-0 transition-transform group-hover:translate-x-1" />
-            </a>
-          </li>
-        ))}
-      </ul>
+
 
       <Text size="lg" tone="muted" class="mt-10 measure">
         I came up with the idea while playing Galaga Wars on my phone. Watching the ship rank up wave
@@ -302,7 +225,6 @@ const feel = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 01</p>
           <Heading level={2} visual="display-md" tone="ink">Why a game</Heading>
         </div>
         <div class="case-layout__body">
@@ -333,7 +255,6 @@ const feel = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 02</p>
           <Heading level={2} visual="display-md" tone="ink">How it works</Heading>
         </div>
         <div class="case-layout__body">
@@ -381,7 +302,6 @@ const feel = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 03</p>
           <Heading level={2} visual="display-md" tone="ink">The assertion engine</Heading>
         </div>
         <div class="case-layout__body">
@@ -445,7 +365,6 @@ const feel = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 04</p>
           <Heading level={2} visual="display-md" tone="ink">Curriculum</Heading>
         </div>
         <div class="case-layout__body">
@@ -465,7 +384,7 @@ const feel = [
                 <div class="mb-4 flex items-center gap-3">
                   <span class="h-2.5 w-2.5 rounded-[2px]" style={`background:${arc.color}`} aria-hidden="true"></span>
                   <span class="font-mono text-[0.7rem] uppercase tracking-[0.16em]" style={`color:${arc.color}`}>{arc.label}</span>
-                  <span class="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink-faint">{arc.rank}</span>
+                  <span class="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink-muted">{arc.rank}</span>
                 </div>
                 <p class="mb-4 max-w-2xl text-sm text-ink-muted leading-relaxed">{arc.blurb}</p>
                 <ul class="rounded-lg border border-line">
@@ -492,7 +411,6 @@ const feel = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 05</p>
           <Heading level={2} visual="display-md" tone="ink">Accessibility</Heading>
         </div>
         <div class="case-layout__body">
@@ -535,7 +453,6 @@ const feel = [
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <p class="mono-label mb-3">Step 06</p>
           <Heading level={2} visual="display-md" tone="ink">Visual design and motion</Heading>
         </div>
         <div class="case-layout__body">
@@ -549,7 +466,7 @@ const feel = [
             </p>
           </div>
 
-          <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <div class="mt-10 grid gap-6 sm:grid-cols-2">
             {feel.map((f) => (
               <div class="border-t border-line pt-5">
                 <Icon name={f.icon} size={28} class="mb-3 text-ink-muted" />
@@ -589,28 +506,6 @@ const feel = [
     </Container>
   </Section>
 
-  <Section tone="ink" padding="loose">
-    <Container width="wide">
-      <Heading level={2} visual="display-lg" tone="paper">
-        Work with me
-      </Heading>
-      <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        Token Adventure turns a dry but important W3C spec into a game people can finish. If your team
-        needs someone to make complex tools or documentation easy to use, and to hold them to a real
-        accessibility standard, send me a message.
-      </Text>
-      <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <Button variant="navy" size="lg" iconLeft="ph:envelope" href="/contact/">Contact me</Button>
-        <a href="/resume/" class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper">
-          <Icon name="ph:file-text" size={18} />
-          View résumé
-        </a>
-      </div>
-      <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/personal-projects/rudiment-ui/" class="!text-paper hover:!text-paper/70">Next project: Rudiment UI</Link>
-        <Link variant="arrow" href="/personal-projects/" class="!text-paper hover:!text-paper/70">Back to personal projects</Link>
-      </div>
-    </Container>
-  </Section>
+  <ProjectNext project="tokens" />
 
-</BaseLayout>
+</ProjectLayout>

@@ -3,10 +3,8 @@ import Icon from '~/components/primitives/Icon.astro';
 import { cx } from '~/lib/cx';
 
 /**
- * Submit button with built-in loading state. Toggle the loading state by
- * setting `data-loading="true"` on the button (or using the helper
- * exported from `~/lib/form-state`); the styles handle the rest. Sets
- * aria-busy when loading so AT announce the wait.
+ * Uses the shared primary action style. The submission handler controls
+ * disabled and aria-busy; the visible label and icons follow the busy state.
  */
 
 interface Props {
@@ -24,17 +22,13 @@ const {
   label,
   loadingLabel = 'Sending…',
   iconLeft,
-  iconRight = 'ph:arrow-right',
+  iconRight = 'ph:arrow-up-right',
   size = 'lg',
   class: className,
   id,
   form,
 } = Astro.props;
 
-const sizes: Record<NonNullable<Props['size']>, string> = {
-  md: 'px-6 py-3 text-[0.9rem] gap-2',
-  lg: 'px-7 py-3.5 text-[0.95rem] gap-2',
-};
 ---
 
 <button
@@ -42,25 +36,31 @@ const sizes: Record<NonNullable<Props['size']>, string> = {
   id={id}
   form={form}
   data-submit
+  data-size={size}
   class={cx(
-    'group inline-flex items-center justify-center rounded-[5px] bg-ink text-paper font-sans font-medium tracking-tight transition-colors hover:bg-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:cursor-not-allowed aria-busy:cursor-wait',
-    sizes[size],
+    'action-link submit-button group self-start disabled:opacity-50 disabled:cursor-not-allowed aria-busy:cursor-wait',
     className,
   )}
 >
   {iconLeft && (
-    <span data-submit-icon class="group-aria-busy:hidden">
+    <span data-submit-icon aria-hidden="true" class="group-aria-busy:hidden">
       <Icon name={iconLeft} size={20} />
     </span>
   )}
-  <span data-submit-label>{label}</span>
-  <span data-submit-spinner class="hidden group-aria-busy:inline-flex">
+  <span data-submit-label class="group-aria-busy:hidden">{label}</span>
+  <span data-submit-spinner aria-hidden="true" class="hidden group-aria-busy:inline-flex">
     <Icon name="ph:circle-notch" size={20} class="animate-spin" />
   </span>
   <span data-submit-loading-label class="hidden group-aria-busy:inline">{loadingLabel}</span>
   {iconRight && !iconLeft && (
-    <span data-submit-icon class="group-aria-busy:hidden">
+    <span data-submit-icon aria-hidden="true" class="group-aria-busy:hidden">
       <Icon name={iconRight} size={20} />
     </span>
   )}
 </button>
+
+<style>
+  .submit-button[data-size='md'] { min-height: 44px; padding: .5rem 1rem; font-size: .9rem; gap: 1rem; }
+  .submit-button:disabled { background: var(--portfolio-blue); }
+  .submit-button:disabled > span[aria-hidden='true'] { transform: none; }
+</style>

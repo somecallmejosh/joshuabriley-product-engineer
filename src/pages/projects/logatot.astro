@@ -1,30 +1,24 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
-import Link from '~/components/primitives/Link.astro';
-import Button from '~/components/primitives/Button.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import FidelityBand from '~/components/patterns/FidelityBand.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
 import type { ImageMetadata } from 'astro';
 
 const title = 'Logatot | Joshua Briley';
 const description =
   "Case study: designing a voice-controlled app for home-based childcare providers, so they can log a nap, a meal, or a diaper change hands-free, and the required paperwork is generated from those same records.";
 
-const meta = [
-  { role: 'Role', value: 'Product Design Engineer' },
-  { role: 'Domain', value: 'Home-based child care' },
-  { role: 'Scope', value: 'Design system + platform' },
-  { role: 'Build', value: 'Rails 7.1 · Postgres' },
-  { role: 'Dates', value: 'Sept 2023 - June 2025' },
-];
 
 const proof = [
   { label: 'Product design', items: ['Voice-first interaction design', 'Two-sided information architecture', 'Failure and repair flows', 'Print-first compliance documents', 'Fifteen annotated design sheets'] },
@@ -33,14 +27,6 @@ const proof = [
   { label: 'Contribution', items: ['Lead front-end on a 3-dev team', '~1,100 of 1,939 commits', 'English + Spanish at parity', 'Shipped as a paid product', 'Sold direct and via associations'] },
 ];
 
-const docket = [
-  { href: '#hands', icon: 'ph:hand-waving', label: 'Who the app is for' },
-  { href: '#research', icon: 'ph:phone-call', label: 'Talking to providers first' },
-  { href: '#shapes', icon: 'ph:squares-four', label: 'Provider and parent views' },
-  { href: '#failure', icon: 'ph:arrow-counter-clockwise', label: 'Fixing misheard entries' },
-  { href: '#pipeline', icon: 'ph:microphone', label: 'How voice recognition works' },
-  { href: '#outcomes', icon: 'ph:trend-up', label: 'What changed for providers' },
-];
 
 // Three separate regulatory regimes, all of which are visible in the data model.
 const regimes = [
@@ -257,53 +243,11 @@ const tldr = {
 };
 ---
 
-<BaseLayout title={title} description={description}>
+<ProjectLayout title={title} description={description}>
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
-    <Container width="wide">
-      <nav
-        class="hero-in hero-in-1 mb-12 flex items-center gap-2 text-sm text-ink-muted"
-        aria-label="Breadcrumb"
-      >
-        <a href="/projects/" class="transition-colors hover:text-accent">Projects</a>
-        <Icon name="ph:caret-right" size={12} />
-        <span class="text-ink">Logatot</span>
-      </nav>
+  <ProjectHero project="logatot" />
 
-      <div class="hero-grid">
-        <div class="hero-main">
-          <div class="hero-in hero-in-2 mb-7 flex items-center gap-3">
-            <img src="/images/logos/logatot.svg" alt="Logatot logo" class="h-12 w-auto -translate-y-2" />
-            <span class="h-4 w-px bg-line-strong" aria-hidden="true"></span>
-            <p class="mono-label">Case study</p>
-          </div>
-
-          <Heading level={1} visual="display-xl" class="hero-in hero-in-3">
-            Hands-free <em class="ink-wink font-normal italic">logging</em> for home child care.
-          </Heading>
-
-          <Text size="lg" tone="muted" class="hero-in hero-in-4 mt-8 max-w-xl">
-            Logatot is a voice-controlled app for people who run childcare out of
-            their own homes. A provider can log a nap, a meal, or a diaper change
-            just by saying it out loud, hands-free, while still watching the kids.
-            The paperwork that used to take an evening now comes from that same
-            record.
-          </Text>
-        </div>
-
-        <aside class="hero-in hero-in-5 hero-rail" aria-label="Project details">
-          <dl>
-            {meta.map((m) => (
-              <div>
-                <dt>{m.role}</dt>
-                <dd set:html={m.value.replace(/·/g, '&middot;')}></dd>
-              </div>
-            ))}
-          </dl>
-        </aside>
-      </div>
-    </Container>
-  </Section>
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#research', label: 'Research' }, { href: '#failure', label: 'Interaction design' }, { href: '#pipeline', label: 'Implementation' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -315,7 +259,7 @@ const tldr = {
     reflection={tldr.reflection}
   />
 
-  <Section tone="paper" padding="tight" aria-label="Scope and results">
+  <Section tone="paper" padding="tight" aria-label="Scope and results" class="project-scope">
     <Container width="content">
       <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -338,24 +282,6 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight">
-    <Container width="content">
-      <p class="mono-label mb-5">Contents</p>
-      <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-        {docket.map((item, i) => (
-          <li>
-            <a href={item.href} class="group inline-flex items-center gap-3 text-ink transition-colors hover:text-accent">
-              {item.icon && (
-                <Icon name={item.icon} size={16} class="shrink-0 text-ink-muted transition-colors group-hover:text-accent" />
-              )}
-              <span class="font-medium">{item.label}</span>
-              <Icon name="ph:arrow-right" size={15} class="shrink-0 transition-transform group-hover:translate-x-1" />
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </Section>
 
   <Section tone="paper" padding="default" id="hands" class="scroll-mt-24 border-t border-line">
     <Container width="content">
@@ -380,7 +306,7 @@ const tldr = {
 
           <div class="mt-12">
             <p class="mono-label mb-6">Three sets of rules</p>
-            <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
+            <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {regimes.map((r, i) => (
                 <li class="border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
@@ -395,7 +321,7 @@ const tldr = {
 
           <div class="mt-12">
             <p class="mono-label mb-6">Problems with logging from memory</p>
-            <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
+            <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {problems.map((p) => (
                 <li class="border-t border-line pt-5">
                   <Icon name={p.icon} size={24} class="mb-3 text-ink-muted" />
@@ -910,40 +836,5 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="ink" padding="loose">
-    <Container width="wide">
-      <Heading level={2} visual="display-lg" tone="paper" class="max-w-3xl">
-        Work with me
-      </Heading>
-      <Text size="lg" tone="whiteMuted" class="mt-5 max-w-2xl">
-        On Logatot, I designed the review screen and also decided how the voice system
-        handles entries it can't understand, so the two worked as one feature. If your
-        team needs someone who can design an interface and build the system behind it,
-        send me a message.
-      </Text>
-      <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <Button
-          variant="navy"
-          size="lg"
-          iconLeft="ph:envelope"
-          href="/contact/"
-          class="js-magnetic"
-        >
-          Get in touch
-        </Button>
-        <a
-          href="/resume/"
-          class="inline-flex items-center gap-2 font-sans text-sm font-medium text-paper/70 transition-colors hover:text-paper"
-        >
-          <Icon name="ph:file-text" size={18} />
-          View résumé
-        </a>
-      </div>
-
-      <div class="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-paper/15 pt-8">
-        <Link variant="arrow" href="/projects/ivfcryo/" class="!text-paper hover:!text-accent">Next case study: IVFCRYO</Link>
-        <Link variant="arrow" href="/projects/" class="!text-paper hover:!text-accent">Back to all projects</Link>
-      </div>
-    </Container>
-  </Section>
-</BaseLayout>
+  <ProjectNext project="logatot" />
+</ProjectLayout>

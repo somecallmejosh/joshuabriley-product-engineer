@@ -1,5 +1,5 @@
 ---
-import Button from '~/components/primitives/Button.astro';
+import Icon from '~/components/primitives/Icon.astro';
 import { SECTIONS, TOTAL_ITEMS, TOTAL_MAX } from '~/lib/scorecard';
 
 /**
@@ -10,11 +10,11 @@ import { SECTIONS, TOTAL_ITEMS, TOTAL_MAX } from '~/lib/scorecard';
  */
 
 const headlines: Record<string, { description: string }> = {
-  s1: { description: 'Are the pieces of your UI actually the same pieces, or are there six buttons wearing the same trench coat?' },
-  s2: { description: 'Not a feature, not a checklist. The subject that tells you whether your system is architecture or wallpaper.' },
-  s3: { description: 'The quiet plumbing underneath everything. Good tokens make redesigns a rename, not a rewrite.' },
-  s4: { description: 'The delivery, not the afterthought. If it isn’t documented, it doesn’t really exist for the next engineer.' },
-  s5: { description: 'The seam between design and code. When it’s working, nobody talks about it. When it isn’t, nobody talks about anything else.' },
+  s1: { description: 'Check whether shared patterns have consistent APIs, behavior, and migration paths.' },
+  s2: { description: 'Review keyboard access, labels, focus, contrast, and feedback in the interfaces people use.' },
+  s3: { description: 'Check how shared design decisions are named, maintained, and applied to components.' },
+  s4: { description: 'Review the examples and guidance an engineer needs to use the system independently.' },
+  s5: { description: 'Look at how design and engineering keep shared patterns aligned through changes and releases.' },
 };
 
 const labels = [
@@ -71,11 +71,11 @@ const labels = [
         <div class="q-list">
           {section.items.map((item, i) => (
             <div class="q-row">
-              <p class="q-text">
+              <p class="q-text" id={`question-${item.id}`}>
                 <span class="q-num">{String(i + 1).padStart(2, '0')}.</span>
                 {item.label}
               </p>
-              <div class="choice-group" role="radiogroup" aria-label={`Question ${i + 1}`}>
+              <div class="choice-group" role="radiogroup" aria-labelledby={`question-${item.id}`}>
                 {labels.map(({ v, label }) => (
                   <label class="choice" data-v={v}>
                     <input
@@ -97,72 +97,40 @@ const labels = [
 </form>
 
 <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-  <Button
-    type="button"
-    id="resetBtn"
-    variant="ghost"
-    size="sm"
-    iconLeft="ph:eraser-duotone"
-  >
-    Reset the card
-  </Button>
+  <button type="button" id="resetBtn" class="tool-control-button"><Icon name="ph:arrow-counter-clockwise" size={17} />Reset assessment</button>
   <p class="mono-label">Your final report is below</p>
 </div>
 
 <div class="mt-14">
   <div class="reveal-card">
     <div class="relative z-10">
-      <p class="mono-label !text-paper/65 mb-2">Teacher's report</p>
+      <p class="mono-label text-paper/80 mb-2">Your assessment</p>
       <h3 class="font-serif text-3xl md:text-4xl font-semibold tracking-[-0.018em] mb-4 leading-tight">
         <span data-result-headline>Keep going. Answer every question to unlock your report.</span>
       </h3>
       <div class="flex flex-wrap items-end gap-x-10 gap-y-5 mb-7">
         <div>
-          <p class="mono-label !text-paper/60 mb-1">Overall grade</p>
+          <p class="mono-label text-paper/80 mb-1">Overall grade</p>
           <p class="sc-final-grade font-serif font-semibold leading-[0.74] tracking-[-0.04em] text-paper" data-final-grade>-</p>
         </div>
         <div class="pb-1">
-          <p class="mono-label !text-paper/60 mb-1">Final score</p>
+          <p class="mono-label text-paper/80 mb-1">Final score</p>
           <p class="font-serif text-4xl md:text-5xl font-medium leading-none text-paper">
             <span data-final-score>0</span><span class="text-paper/60">/{TOTAL_MAX}</span>
           </p>
         </div>
       </div>
       <p data-result-body class="text-paper/80 leading-relaxed max-w-2xl font-sans">
-        Pick a choice for every question and a personalized writeup will appear here with the two things I'd prioritize first.
+        Complete every question to see your subject scores and suggested priorities.
       </p>
       <div data-result-actions class="mt-8 flex flex-col sm:flex-row gap-3" hidden>
-        <Button
-          id="results-link"
-          variant="navy"
-          size="md"
-          iconLeft="ph:chart-bar-duotone"
-          href="/tools/scorecard/results/"
-        >
-          See your detailed results
-        </Button>
-        <Button
-          variant="secondary"
-          size="md"
-          iconLeft="ph:envelope-duotone"
-          href="/contact/"
-        >
-          Talk through your results
-        </Button>
+        <a id="results-link" class="action-link action-link--inverse" href="/tools/scorecard/results/">See detailed results <span aria-hidden="true">↗</span></a>
+        <a class="tool-control-button tool-control-button--light" href="/contact/">Talk through your results</a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="score-float" aria-hidden="true">
-  <div class="score-bubble" data-float-score>0</div>
-  <div class="leading-tight">
-    <p class="mono-label">So far</p>
-    <p class="font-mono text-[0.7rem] text-paper/55 tracking-wide">
-      <span data-float-answered>0</span> of {TOTAL_ITEMS} answered
-    </p>
-  </div>
-</div>
 
 <script>
   import { letterGrade, TOTAL_ITEMS, TOTAL_MAX, VALID_PARAM_RE, SECTIONS } from '~/lib/scorecard';
@@ -172,8 +140,6 @@ const labels = [
     const totalScoreEl = document.querySelector<HTMLElement>('[data-total-score]')!;
     const answeredEl = document.querySelector<HTMLElement>('[data-answered]')!;
     const meterEl = document.querySelector<HTMLElement>('[data-meter]')!;
-    const floatScoreEl = document.querySelector<HTMLElement>('[data-float-score]')!;
-    const floatAnsweredEl = document.querySelector<HTMLElement>('[data-float-answered]')!;
     const finalScoreEl = document.querySelector<HTMLElement>('[data-final-score]')!;
     const finalGradeEl = document.querySelector<HTMLElement>('[data-final-grade]')!;
     const resultHeadline = document.querySelector<HTMLElement>('[data-result-headline]')!;
@@ -183,15 +149,6 @@ const labels = [
 
     const subjectCards = Array.from(document.querySelectorAll<HTMLElement>('.subject-card'));
     const revealCard = document.querySelector<HTMLElement>('.reveal-card');
-
-    // The floating score chip must stay fixed to the VIEWPORT. An ancestor
-    // (.scroll-reveal) keeps `will-change: transform`, which makes it a
-    // containing block for `position: fixed` — pinning the chip to that
-    // element instead of the viewport. Portal the chip to <body> to escape it.
-    const scoreFloat = document.querySelector<HTMLElement>('.score-float');
-    if (scoreFloat && scoreFloat.parentElement !== document.body) {
-      document.body.appendChild(scoreFloat);
-    }
 
     const reduceMotion =
       typeof matchMedia === 'function' &&
@@ -256,12 +213,9 @@ const labels = [
 
       countTo(totalScoreEl, total);
       answeredEl.textContent = String(answered);
-      countTo(floatScoreEl, total);
-      floatAnsweredEl.textContent = String(answered);
       const nextWidth = `${(answered / TOTAL_ITEMS) * 100}%`;
       if (meterEl.style.width !== nextWidth) {
         meterEl.style.width = nextWidth;
-        bump(floatScoreEl, 'score-pop', 380);
         bump(meterEl, 'meter-bump', 600);
       }
 
@@ -317,21 +271,22 @@ const labels = [
         let headline: string;
         let body: string;
         if (pct >= 85) {
-          headline = 'Gold stars all around.';
-          body = 'Your system is doing its job. Your detailed results add a radar chart and a recommendation tuned to the answers you gave.';
+          headline = 'Your answers suggest a strong foundation.';
+          body = 'Review the subject breakdown and check those strengths against working interfaces and recent changes.';
         } else if (pct >= 70) {
-          headline = 'Solid fundamentals, a few soft spots.';
-          body = 'The bones are good. Your detailed results show exactly where to focus first.';
+          headline = 'A few subjects need a closer look.';
+          body = 'The detailed results show your scores and suggest practical checks for the lower-scoring subjects.';
         } else if (pct >= 55) {
-          headline = 'A system in the making, not quite trusted yet.';
-          body = 'The components exist but the system around them needs work. Your detailed results add a radar chart and a prioritized recommendation.';
+          headline = 'There are gaps worth investigating.';
+          body = 'Use the subject breakdown to choose a component, workflow, or document to review with your team.';
         } else if (pct >= 40) {
-          headline = 'Quietly burning your team out.';
-          body = 'Every new feature costs more than the last one. Your detailed results name a specific place to start.';
+          headline = 'Several subjects need attention.';
+          body = 'Review the lower-scoring subjects and verify the issues in a real workflow before planning a fix.';
         } else {
-          headline = "You’re building on sand, and that’s okay to name.";
-          body = "A low score isn’t a failing grade, it’s a starting map. Your detailed results lay out exactly what to tackle first.";
+          headline = 'Start with a focused review.';
+          body = 'Your answers suggest gaps across the system. The detailed results can help you choose a manageable starting point.';
         }
+
         resultHeadline.textContent = headline;
         resultBody.textContent = body;
 
@@ -370,7 +325,7 @@ const labels = [
       form.reset();
       form.querySelectorAll('.choice.is-on').forEach((el) => el.classList.remove('is-on'));
       updateScore();
-      document.getElementById('scorecard')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('tool')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
     });
 
     // Pre-fill from URL ?r=...
@@ -487,50 +442,6 @@ const labels = [
     100% { transform: translateY(-1px) scale(1); }
   }
 
-  /* Compact ink chip — clearly floats above the editorial page without a white
-     card or a heavy radius. Soft, hue-tinted shadow, not pure black. */
-  .score-float {
-    position: fixed;
-    right: 1.25rem;
-    bottom: 1.25rem;
-    z-index: 45;
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 8px;
-    border: 1px solid var(--ink);
-    padding: 0.7rem 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-family: var(--font-hanken), system-ui, sans-serif;
-    box-shadow: 0 10px 30px -12px rgba(26, 27, 30, 0.35);
-  }
-  .score-float::before {
-    content: none;
-  }
-  .score-float .mono-label {
-    color: rgba(246, 247, 249, 0.6);
-  }
-  .score-bubble {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-hanken), system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 1.05rem;
-    background: var(--paper);
-    color: var(--ink);
-  }
-  .score-bubble.score-pop { animation: sc-bubble-pop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  @keyframes sc-bubble-pop {
-    0% { transform: scale(1); }
-    45% { transform: scale(1.17); }
-    100% { transform: scale(1); }
-  }
-
   /* Quick brightness lift on the progress meter each time it advances. */
   [data-meter].meter-bump { animation: sc-meter-bump 0.6s ease-out; }
   @keyframes sc-meter-bump {
@@ -585,7 +496,6 @@ const labels = [
     .choice,
     .subject-card { transition: none; }
     .choice.choice-pop,
-    .score-bubble.score-pop,
     [data-meter].meter-bump,
     .subject-card.subject-complete,
     .reveal-card.just-unlocked::after,

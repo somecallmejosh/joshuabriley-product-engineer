@@ -1,70 +1,28 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
 import ContactForm from '~/components/islands/ContactForm.astro';
-
-const description =
-  'Contact Joshua Briley about a project or a question. Send a message through the form, by email, or on LinkedIn. Every message gets a personal reply within one business day.';
 ---
-
-<BaseLayout title="Contact | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
-
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
+<BaseLayout title="Contact | Joshua Briley" description="Talk to Joshua Briley about a design systems or UI engineering role, a project, or a shared interface challenge. Send a message or email directly.">
+  <section class="page-opener">
     <Container width="wide">
-      <Heading level={1} visual="display-xl" class="hero-in hero-in-2 max-w-[18ch]">
-        Get in <em class="ink-wink font-normal italic">touch</em>
-      </Heading>
-      <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-        Whether you have a project, a question, or want to connect with someone in the industry,
-        send me a message. I read every message myself and reply within one business day,
-        usually sooner.
-      </Text>
+      <p class="role-line hero-in hero-in-1">Contact</p>
+      <h1 class="page-type hero-in hero-in-2">Tell me what<br />your team is <em>building.</em></h1>
+      <p class="page-lede hero-in hero-in-3">Hiring for design systems or UI engineering? Share the role and the problems you need help solving. I’m happy to talk through where my experience fits.</p>
     </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
+  </section>
+  <section class="editorial-section">
     <Container width="wide">
-      <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-24">
-        <div class="lg:col-span-7">
-          <Heading level={2} visual="display-md">
-            Send a message
-          </Heading>
-          <div class="mt-9">
-            <ContactForm />
-          </div>
+      <div class="approach-layout contact-layout">
+        <div>
+          <h2 class="section-type">Let’s <em>talk.</em></h2>
+          <p class="section-intro">A role description, a project, or a question is a good place to start. I read every message myself.</p>
+          <a class="editorial-link mt-6" href="mailto:josh@thebrileys.com">josh@thebrileys.com <span aria-hidden="true">↗</span></a>
+          <p class="mt-6 text-sm text-ink-muted">Based in Barkhamsted, Connecticut.</p>
+          <div class="mt-8"><a class="editorial-link" href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true">↗</span></a></div>
         </div>
-
-        <div class="lg:col-span-5 lg:border-l lg:border-line lg:pl-12">
-          <Heading level={2} visual="h2">
-            Email or LinkedIn
-          </Heading>
-          <Text tone="muted" class="mt-4 max-w-sm">
-            You can also email me at
-            <a href="mailto:josh@thebrileys.com" class="text-ink underline underline-offset-4 hover:text-accent">josh@thebrileys.com</a>
-            or connect with me on LinkedIn.
-          </Text>
-
-          <div class="mt-7 flex flex-wrap gap-3">
-            <Button variant="ghost" size="lg" href="mailto:josh@thebrileys.com" iconRight="ph:envelope-simple">
-              Send an email
-            </Button>
-            <Button
-              variant="ghost"
-              size="lg"
-              href="https://www.linkedin.com/in/joshuabriley/"
-              rel="noopener noreferrer"
-              target="_blank"
-              iconRight="ph:arrow-up-right"
-            >
-              Connect on LinkedIn
-            </Button>
-          </div>
-        </div>
+        <div><h2 class="mb-8 text-2xl font-semibold tracking-tight">Send a message</h2><ContactForm /></div>
       </div>
     </Container>
-  </Section>
+  </section>
 </BaseLayout>

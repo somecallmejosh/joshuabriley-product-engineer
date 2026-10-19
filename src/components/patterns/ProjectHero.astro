@@ -1,0 +1,30 @@
+---
+import Container from '~/components/layout/Container.astro';
+import { projectPages, type ProjectKey, type ProjectPage } from '~/lib/project-pages';
+interface Props { project: ProjectKey; }
+const data: ProjectPage = projectPages[Astro.props.project];
+---
+<section class="project-opening">
+  <Container width="wide">
+    <a href="/projects/" class="project-back hero-in hero-in-1"><span aria-hidden="true">↖</span> All work</a>
+    <div class="project-identity hero-in hero-in-1"><p>{data.name}</p><span>{data.kind}</span></div>
+    <h1 class="project-title hero-in hero-in-2">{data.headline} <em>{data.emphasis}</em></h1>
+    <div class="project-introduction hero-in hero-in-3">
+      <p>{data.intro}</p>
+      {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label} <span aria-hidden="true">↗</span></a>)}</div>}
+    </div>
+    <dl class="project-facts hero-in hero-in-4">{data.facts.map(fact => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
+  </Container>
+</section>
+<section class="project-showcase" aria-label={`${data.name} preview and outcomes`}>
+  <Container width="wide">
+    {data.figures.length > 0 && <dl class="project-figures">{data.figures.map(figure => <div><dt>{figure.value}</dt><dd>{figure.label}{figure.note && <span>{figure.note}</span>}</dd></div>)}</dl>}
+    <figure class="project-cover">
+      <div class:list={['project-cover-stage', { 'project-cover-stage--dark': data.dark, 'project-cover-stage--pair': data.secondaryImage }]}>
+        <img src={data.image} alt={data.alt} width="1600" height="1000" loading="eager" decoding="async" fetchpriority="high" />
+        {data.secondaryImage && <img src={data.secondaryImage} alt={data.secondaryAlt} width="1600" height="1000" loading="eager" decoding="async" />}
+      </div>
+      <figcaption>{data.imageNote}</figcaption>
+    </figure>
+  </Container>
+</section>
