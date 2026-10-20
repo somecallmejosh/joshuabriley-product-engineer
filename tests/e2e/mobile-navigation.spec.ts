@@ -19,7 +19,7 @@ test('mobile navigation is a named modal with usable destinations and contained 
   const close = dialog.getByRole('button', { name: 'Close', exact: true });
   await expect(close).toBeFocused();
   await expect(dialog.getByRole('link', { name: 'About', exact: true })).toHaveAttribute('aria-current', 'page');
-  for (const name of ['Writing', 'Tools', 'Recommendations', 'Personal projects', 'Talk shop']) {
+  for (const name of ['Writing', 'Tools', 'Recommendations', 'Personal projects', 'Contact me']) {
     await expect(dialog.getByRole('link', { name, exact: true })).toBeVisible();
   }
   await expect(page.locator('html')).toHaveClass(/nav-open/);
@@ -29,7 +29,7 @@ test('mobile navigation is a named modal with usable destinations and contained 
   expect(await dialog.evaluate(el => el.contains(document.activeElement))).toBe(true);
   await close.focus();
   await page.keyboard.press('Shift+Tab');
-  await expect(dialog.getByRole('link', { name: 'Talk shop', exact: true })).toBeFocused();
+  await expect(dialog.getByRole('link', { name: 'Contact me', exact: true })).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(close).toBeFocused();
   const violations = (await new AxeBuilder({ page }).include('#mobile-menu').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()).violations;
@@ -50,7 +50,7 @@ test('outside clicks and the close button dismiss the menu; inside clicks do not
   const bounds = await toggle.boundingBox();
   await page.mouse.click(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
   expect(await page.evaluate(() => window.scrollY)).toBe(initialScroll);
-  await dialog.getByRole('heading', { name: 'Explore' }).click();
+  await dialog.getByRole('heading', { name: 'Explore', exact: true }).click();
   await expect(dialog).toBeVisible();
   await page.mouse.click(3, 3);
   await expect(dialog).not.toBeVisible();
@@ -96,7 +96,7 @@ test('menu remains operable on narrow and short screens, with reduced motion', a
     expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeInViewport();
-    const contact = dialog.getByRole('link', { name: 'Talk shop', exact: true });
+    const contact = dialog.getByRole('link', { name: 'Contact me', exact: true });
     await dialog.getByRole('button', { name: 'Close', exact: true }).focus();
     await contact.focus();
     await expect(contact).toBeInViewport();

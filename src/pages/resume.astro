@@ -8,6 +8,7 @@ import Text from '~/components/primitives/Text.astro';
 // and the download cannot drift. Edit the content in src/lib/resume-data.mjs,
 // then re-run `npm run resume:pdf`.
 import {
+  CONTACT,
   SUMMARY as summary,
   EXPERIENCE as experience,
   SKILLS as skills,
@@ -61,20 +62,25 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 
 ---
 
-<BaseLayout title="Resume | Joshua Briley | Design Systems & UI Platform Engineer" description={description}>
+<BaseLayout title="Resume | Joshua Briley | Design Systems & UI Platform Engineer" description={description} mainClass="resume-page">
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-16 lg:items-end">
         <div class="lg:col-span-8">
-          <p class="role-line hero-in hero-in-1">Résumé · Joshua Briley</p>
-          <h1 class="page-type hero-in hero-in-2">Twenty-plus years.<br />Still minding<br /><em>the details.</em></h1>
+          <div class="print-only">
+            <h1>{CONTACT.name}</h1>
+            <p><strong>{CONTACT.title}</strong></p>
+            <p>{CONTACT.location} · <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phone}</p>
+          </div>
+          <p class="role-line hero-in hero-in-1" data-print-screen>Résumé · Joshua Briley</p>
+          <h1 class="page-type hero-in hero-in-2" data-print-screen>Twenty-plus years.<br />Still minding<br /><em>the details.</em></h1>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
             {summary}
           </Text>
         </div>
 
-        <div class="hero-in hero-in-4 lg:col-span-4 lg:flex lg:flex-col lg:items-end">
+        <div class="hero-in hero-in-4 lg:col-span-4 lg:flex lg:flex-col lg:items-end" data-print-screen>
           <div class="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-end">
             <a class="action-link" href="/resume.pdf" target="_blank" rel="noopener">
               Download PDF <span aria-hidden="true" data-link-arrow="down">↓</span>
@@ -174,7 +180,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
           <h3>Continuing education</h3>
           <ul class="education-courses" role="list">
             {continuingEd.map((course) => (
-              <li><h4>{course.title}</h4><p>{course.org}</p></li>
+              <li><h4>{course.title}</h4><p><a class="editorial-link" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p></li>
             ))}
           </ul>
         </div>
@@ -184,16 +190,16 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 </BaseLayout>
 
 <style>
-  .experience-list { border-top: 1px solid var(--line-strong); }
   .experience-entry {
     position: relative;
     display: grid;
     gap: 2rem;
     padding: 2.5rem 0 2.5rem 1.75rem;
-    border-bottom: 1px solid var(--line-strong);
   }
   .experience-entry::before { content: ''; position: absolute; left: 3px; top: 0; bottom: 0; width: 1px; background: #b7c6d2; }
   .experience-entry::after { content: ''; position: absolute; top: 2.85rem; left: 0; width: 7px; height: 7px; border: 1px solid var(--portfolio-blue); background: var(--paper); border-radius: 50%; }
+  .experience-entry:first-child { padding-top: 0; }
+  .experience-entry:first-child::before, .experience-entry:first-child::after { top: .35rem; }
   .experience-entry:first-child::after { background: var(--portfolio-blue); }
   .experience-entry:last-child::before { bottom: auto; height: 2.85rem; }
   .experience-context, .experience-contribution { min-width: 0; }

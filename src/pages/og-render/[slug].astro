@@ -24,6 +24,9 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { eyebrow, headline, wink } = entry;
+const disciplines = entry.path === '/'
+  ? ['Product design', 'Front-end engineering', 'Accessibility']
+  : ['Design systems', 'UI engineering', 'Accessibility'];
 
 // Split the headline around the wink word (last, case-insensitive occurrence),
 // so the card sets just that word in navy italic without markup in the data.
@@ -62,9 +65,7 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
     <footer class="og-bottom">
       <span class="og-url">joshuabriley.com</span>
       <ul class="og-tags">
-        <li><span class="og-tick" aria-hidden="true"></span>Design systems</li>
-        <li><span class="og-tick" aria-hidden="true"></span>UI engineering</li>
-        <li><span class="og-tick" aria-hidden="true"></span>Accessibility</li>
+        {disciplines.map(discipline => <li><span class="og-tick" aria-hidden="true"></span>{discipline}</li>)}
       </ul>
     </footer>
   </div>

@@ -1,0 +1,259 @@
+/* Paper is a separate reading surface. Internal PDF/OG renderers opt out. */
+.print-only { display: none; }
+
+/* Default sheet margins also cover print engines that ignore named pages. */
+@page {
+  margin: 30mm 24mm;
+}
+
+@page site {
+  size: auto;
+  margin: 30mm 24mm;
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-family: var(--font-hanken);
+    font-size: 8pt;
+    color: var(--ink-muted);
+  }
+}
+
+@media print {
+  html:has(body[data-print-layout='site']) { font-size: 10.5pt; background: var(--raised); }
+  body[data-print-layout='site'] {
+    page: site;
+    /* One shared measure for copy, headings, references and the masthead. */
+    inline-size: min(70ch, calc(100% - 8mm));
+    margin-block: 0;
+    margin-inline: auto;
+    padding: 0;
+    background: var(--raised) !important;
+    color: var(--ink) !important;
+    font-size: 10.5pt;
+    line-height: 1.6;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body[data-print-layout='site'] *,
+  body[data-print-layout='site'] *::before,
+  body[data-print-layout='site'] *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+  body[data-print-layout='site'] #main,
+  body[data-print-layout='site'] #main * {
+    color: var(--ink) !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border-color: var(--line-strong) !important;
+    overflow: visible !important;
+    max-height: none !important;
+    min-height: 0 !important;
+  }
+  body[data-print-layout='site'] #main * { position: static !important; float: none !important; }
+  /* Remove screen-specific text measures, including Tailwind max-w utilities. */
+  body[data-print-layout='site'] #main :where(section, article, header, footer, aside,
+    div, figure, figcaption, details, summary, h1, h2, h3, h4, h5, h6, p, pre,
+    blockquote, ul, ol, li, dl, dt, dd) {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+  body[data-print-layout='site'] #main :where(a, span, strong, em, label, output) { max-width: none !important; }
+  body[data-print-layout='site'] #main :where(div, section, article, ul, ol, dl) { grid-template-columns: minmax(0, 1fr) !important; }
+  body[data-print-layout='site'] #main :where(section, article, header, footer, aside,
+    figure, figcaption, details, summary, div, ul, ol, li, h1, h2, h3, h4, dl, dt, dd, p, a) {
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+  }
+  body[data-print-layout='site'] #main hr { display: none !important; }
+
+  body[data-print-layout='site'] :is(.scroll-reveal, .hero-in, [data-reveal], [data-reveal-stagger] > *) { opacity: 1 !important; }
+  body[data-print-layout='site'] :is(.site-header, .site-footer, .reading-progress, .skip-link,
+    #inspector-toast, #vs-chip, astro-dev-toolbar, dialog, iframe, .sr-only,
+    [data-print-screen],
+    .hero-actions, .evidence-nav, .case-review, .project-back, .project-actions,
+    .article-opener > div > a, .article-rail, .article-share, .article-pager, .tool-share,
+    .related-tools, .project-next, .work-more, .work-image-arrow,
+    .live-embed-cta, .live-embed-tag, .live-embed-corner, .scroll-shot-fade,
+    .sg-markup, .sg-motion-sample, [data-guide-replay], [role='tablist'],
+    .dx-controls, .tp-preview-live, .tool-hero-illustration,
+    button:not(.tp-btn, .dx-price-cta, .dx-hero-cta), input[type='range'],
+    input[type='hidden'], [data-link-arrow], .status-mark, .recommendation-quote-mark) {
+    display: none !important;
+  }
+  body[data-print-layout='site'] .print-only { display: block !important; }
+  body[data-print-layout='site'] .print-masthead {
+    display: flex !important;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 3mm;
+    margin-bottom: 10mm;
+    border-bottom: 0;
+    font-size: 8.5pt;
+    color: var(--ink-muted);
+  }
+  body[data-print-layout='site'] .print-colophon {
+    margin-top: 12mm;
+    padding-top: 3mm;
+    border-top: 0;
+    font-size: 8pt;
+    overflow-wrap: anywhere;
+    color: var(--ink-muted);
+  }
+  body[data-print-layout='site']:has(#main.resume-page) .print-colophon { display: none !important; }
+  body[data-print-layout='site'] #main { display: block !important; width: auto !important; }
+  body[data-print-layout='site'] #main :is(.max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-3xl) {
+    width: 100% !important; max-width: none !important; padding-inline: 0 !important;
+  }
+  body[data-print-layout='site'] #main > :is(section, header, div),
+  body[data-print-layout='site'] #main .editorial-section {
+    padding-block: 0 !important; margin-block: 0 10mm !important;
+  }
+  body[data-print-layout='site'] #main :is(.grid, .home-hero-grid, .work-list, .work-entry,
+    .approach-layout, .about-intro, .principle-row, .personal-grid, .section-heading,
+    .article-grid, .article-overview-grid, .case-layout, .project-summary-grid,
+    .project-facts, .project-figures, .project-cover-stage,
+    .writing-group, .latest-layout, .testimonial-theme, .testimonial-collection,
+    .recommendation--featured, .tool-hero-layout, .tool-workspace-heading, .tool-reading,
+    .related-list, .experience-entry, .skill-entry, .education-layout,
+    .rc-grid, .tp-grid, .dx-panel, .verdict-grid, .sg-two-up, .sg-guidance-grid) {
+    display: block !important;
+  }
+  body[data-print-layout='site'] #main .project-scope dl { display: block !important; }
+  body[data-print-layout='site'] #main :is(.article-column, .measure, .case-layout__body,
+    .case-layout-cont, .tool-reading > div, .latest-copy h2) { max-width: none !important; width: auto !important; }
+  body[data-print-layout='site'] #main :is(.home-hero-grid, .about-intro, .current-work,
+    .project-identity, .project-introduction, .project-facts, .project-figures,
+    .project-summary-grid, .article-overview-grid, .latest-layout, .scorecard-layout,
+    .tool-entry, .tool-workspace-heading, .tool-reading, .education-layout, .principle-row) {
+    padding: 0 !important; margin-block: 5mm !important; gap: 5mm !important;
+  }
+  body[data-print-layout='site'] #main .work-entry { break-inside: avoid; }
+  body[data-print-layout='site'] #main .work-facts > div { display: block !important; }
+  body[data-print-layout='site'] #main .project-cover-stage--pair {
+    display: grid !important; grid-template-columns: 1fr 1.3fr !important; gap: 4mm !important;
+  }
+  body[data-print-layout='site'] #main .project-cover-stage img { max-height: 85mm !important; }
+  body[data-print-layout='site'] #main .project-figures dt { font-size: 20pt !important; }
+  body[data-print-layout='site'] #main :is(.mt-8, .mt-9, .mt-10, .mt-12, .mt-14, .mt-16) { margin-top: 5mm !important; }
+  body[data-print-layout='site'] #main :is(.mb-8, .mb-10, .mb-12, .mb-14, .mb-16) { margin-bottom: 5mm !important; }
+  body[data-print-layout='site'] #main :is(.space-y-10, .space-y-12, .space-y-16) > :not([hidden]) ~ :not([hidden]) { margin-top: 6mm !important; }
+  body[data-print-layout='site'] #main .section-heading > p { max-width: none !important; }
+  body[data-print-layout='site'] #main :is(h1, .hero-type, .page-type, .project-title) {
+    font-size: 30pt !important; line-height: 1.08 !important; letter-spacing: -.035em !important;
+    max-width: none !important; margin: 4mm 0 6mm !important;
+  }
+  body[data-print-layout='site'] #main :is(h1, h2) br { display: none; }
+  body[data-print-layout='site'] #main .print-heading-space { display: inline !important; }
+  body[data-print-layout='site'] #main h2 {
+    font-size: 19pt !important; line-height: 1.15 !important; letter-spacing: -.025em !important;
+    max-width: none !important; margin: 12mm 0 4mm !important; padding-top: 0 !important;
+  }
+  body[data-print-layout='site'] #main h3 { font-size: 13pt !important; line-height: 1.25 !important; margin-block: 7mm 3mm !important; }
+  body[data-print-layout='site'] #main h4 { font-size: 11pt !important; margin-block: 8mm 3mm !important; }
+  body[data-print-layout='site'] #main :is(h1, h2, h3, h4, summary, dt) { break-after: avoid; }
+  body[data-print-layout='site'] #main :is(p, li, dd, blockquote) { orphans: 3; widows: 3; }
+  body[data-print-layout='site'] #main blockquote { font-size: 12pt !important; line-height: 1.4 !important; }
+  body[data-print-layout='site'] #main :is(p, li, dd) { font-size: 10.5pt !important; line-height: 1.6 !important; }
+  body[data-print-layout='site'] #main p { margin-block: 3mm !important; }
+  body[data-print-layout='site'] #main :is(.page-lede, .hero-lede, .project-introduction > p, .lede) { font-size: 12pt !important; max-width: none !important; }
+  body[data-print-layout='site'] #main :is(.role-line, .post-meta, figcaption, .mono-label, .experience-period) { font-size: 8.5pt !important; }
+  body[data-print-layout='site'] #main :is(.section-heading, .case-layout__head, .writing-topic, .tool-workspace-heading) { margin-bottom: 5mm !important; break-after: avoid; }
+  body[data-print-layout='site'] #main :is(.work-entry, .principle-row, .skill-entry, .education-degree, .post-link, .related-tool-link, .recommendation, .sg-specimen) { margin-block: 6mm !important; padding-block: 4mm !important; }
+  body[data-print-layout='site'] #main :is(.experience-entry, .skill-entry, .education-degree, .recommendation, .q-row, .reading-resources > li) { break-inside: avoid; }
+  body[data-print-layout='site'] #main :is(.experience-company, .experience-role, .experience-lead) { margin-top: 1mm !important; }
+  body[data-print-layout='site'] #main :is(.experience-company, .experience-lead, .experience-details) { max-width: none !important; }
+  body[data-print-layout='site'] #main .experience-entry::before,
+  body[data-print-layout='site'] #main .experience-entry::after,
+  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait)::before,
+  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait)::after { display: none !important; }
+  body[data-print-layout='site'] #main .experience-list { padding-left: 0 !important; border: 0 !important; }
+  body[data-print-layout='site'] #main .experience-entry { padding: 4mm 0 !important; margin: 5mm 0 !important; }
+  body[data-print-layout='site'] #main :is(.experience-details, .experience-links, .skill-tools) { margin-top: 3mm !important; gap: 3mm !important; }
+  body[data-print-layout='site'] #main a { text-decoration: underline !important; text-decoration-color: var(--line-strong) !important; text-underline-offset: 2pt !important; min-height: 0 !important; overflow-wrap: anywhere; }
+  body[data-print-layout='site'] #main :is(.editorial-link, .action-link) { padding: 0 !important; gap: 1mm !important; font-size: 10pt !important; }
+  body[data-print-layout='site'] #main :is(.reading-resource-name, .reading-resource-label) { min-height: 0 !important; font-size: 11pt !important; }
+  body[data-print-layout='site'] #main .reading-resources { margin-block: 3mm 6mm !important; grid-template-columns: minmax(0, 1fr) !important; }
+  body[data-print-layout='site'] #main .reading-resources > li { padding-block: 3.5mm !important; }
+  body[data-print-layout='site'] #main img { max-width: 100% !important; height: auto !important; object-fit: contain !important; }
+  body[data-print-layout='site'] #main svg { max-width: 100% !important; max-height: 65mm !important; }
+  body[data-print-layout='site'] #main :is(figure, .project-cover) { break-inside: avoid; margin-block: 7mm !important; }
+  body[data-print-layout='site'] #main figure img { max-height: 185mm !important; width: auto !important; margin-inline: auto; }
+  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait) { max-width: 36mm !important; margin: 4mm 0 !important; }
+  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait) img { max-height: 48mm !important; }
+  body[data-print-layout='site'] #main :is(.work-image, .project-cover-stage, .plate__frame, .fband__frame, .scroll-shot-mount, .site-shot-mount, .live-embed-frame) { padding: 0 !important; aspect-ratio: auto !important; height: auto !important; }
+  body[data-print-layout='site'] #main .work-image img { max-height: 50mm !important; width: auto !important; margin-inline: auto; }
+  body[data-print-layout='site'] #main :is(.scroll-shot-stage, .live-embed-stage, .live-embed-viewport, .site-shot-stage) { height: auto !important; aspect-ratio: auto !important; }
+  body[data-print-layout='site'] #main .live-embed-poster { display: block !important; opacity: 1 !important; visibility: visible !important; }
+  body[data-print-layout='site'] #main .fband__grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 3mm !important; }
+  body[data-print-layout='site'] #main :is(.fband__frame img, .site-shot-stage img) { width: 100% !important; }
+  body[data-print-layout='site'] #main .article-table { border: 0 !important; margin-block: 4mm !important; }
+  body[data-print-layout='site'] #main table { display: table !important; width: 100% !important; min-width: 0 !important; table-layout: fixed; font-size: 9pt !important; }
+  body[data-print-layout='site'] #main thead { display: table-header-group !important; }
+  body[data-print-layout='site'] #main tbody { display: table-row-group !important; }
+  body[data-print-layout='site'] #main tr { display: table-row !important; break-inside: avoid; }
+  body[data-print-layout='site'] #main :is(th, td) { display: table-cell !important; padding: 2mm !important; font-size: 9pt !important; overflow-wrap: anywhere; }
+  body[data-print-layout='site'] #main :is(pre, code) { white-space: pre-wrap !important; overflow-wrap: anywhere !important; font-size: 8pt !important; }
+  body[data-print-layout='site'] #main pre { border: .5pt solid var(--line-strong); padding: 3mm !important; break-inside: auto; }
+  body[data-print-layout='site'] #main :is(pre span, code span) { color: var(--ink) !important; }
+  body[data-print-layout='site'] #main .code-artifact { break-inside: auto; }
+  body[data-print-layout='site'] #main .code-line-number { display: none !important; }
+  body[data-print-layout='site'] #main .code-line-content { padding-inline: 0 !important; }
+  body[data-print-layout='site'] #main details::details-content { content-visibility: visible !important; }
+  body[data-print-layout='site'] #main details > summary { font-size: 10pt !important; padding: 2mm 0 !important; }
+  body[data-print-layout='site'] #main details > summary > span:last-child { display: none !important; }
+  body[data-print-layout='site'] #main .summary-expanded { padding: 0 !important; }
+  body[data-print-layout='site'] #main :is(.recommendation figcaption img, .recommendation-initials, .article-author img) { width: 10mm !important; height: 10mm !important; }
+  body[data-print-layout='site'] #main img[src*='/testimonials/'] { width: 10mm !important; height: 10mm !important; object-fit: cover !important; margin: 0 !important; }
+  body[data-print-layout='site'] #main .recommendation blockquote p { font-size: 12pt !important; }
+  body[data-print-layout='site'] #main .recommendation figcaption { margin-top: 2mm !important; gap: 3mm !important; }
+  body[data-print-layout='site'] #main .article-author { break-inside: avoid; padding-top: 4mm !important; }
+  body[data-print-layout='site'] #main .article-author h2 { font-size: 11pt !important; margin: 0 !important; }
+  body[data-print-layout='site'] #main .article-author p { font-size: 9pt !important; }
+  body[data-print-layout='site'] #main .dx-panel[hidden] { display: block !important; }
+  body[data-print-layout='site'] #main .dx-issues { opacity: 1 !important; }
+  body[data-print-layout='site'] #main :is(.rc-controls, .rc-result, .tp-controls, .tp-preview, .subject-card) { padding: 3mm 0 !important; margin-block: 3mm !important; }
+  body[data-print-layout='site'] #main :is(.q-row, .rc-field, .tp-field) { break-inside: avoid; padding-block: 2mm !important; }
+  body[data-print-layout='site'] #main :is(.rc-track-fill, .meter-fill, .mini-bar-fill, .verdict-meter i) { background: var(--ink-muted) !important; print-color-adjust: exact; }
+  body[data-print-layout='site'] #main :is(.choice:has(input:checked), .tp-chip:has(input:checked), .rc-chip:has(input:checked)) { outline: 1pt solid var(--ink); font-weight: 700; }
+  body[data-print-layout='site'] #main :is(.verdict-grade, .sc-final-grade) { font-size: 36pt !important; line-height: 1 !important; }
+  body[data-print-layout='site'] #main :is(.verdict-grade .g, .radar-data, .mini-bar-fill, .bd-row, .dx-issues li, .rc-foot-note) { opacity: 1 !important; }
+  body[data-print-layout='site'] #main :is(.verdict-meter i, .mini-bar-fill) { width: var(--w, 0%) !important; }
+  body[data-print-layout='site'] #main a.tool-control-button { display: none !important; }
+  body[data-print-layout='site'] #main .contact-layout > div:has(form) { display: none !important; }
+  body[data-print-layout='site'] #main a[href='/resume.pdf'] { display: none !important; }
+  body[data-print-layout='site'] #main.resume-page :is(p, li, dd) { font-size: 9.2pt !important; line-height: 1.5 !important; max-width: none !important; }
+  body[data-print-layout='site'] #main.resume-page p { margin-block: 2mm !important; }
+  body[data-print-layout='site'] #main.resume-page > section { margin-bottom: 8mm !important; }
+  body[data-print-layout='site'] #main.resume-page h1 { font-weight: 750; }
+  body[data-print-layout='site'] #main.resume-page h2 { font-size: 16pt !important; margin-block: 7mm 3mm !important; }
+  body[data-print-layout='site'] #main.resume-page :is(h3, h4) { font-size: 11pt !important; margin-block: 2.5mm !important; max-width: none !important; }
+  body[data-print-layout='site'] #main.resume-page :is(.experience-entry, .skill-entry, .education-degree, .education-courses li) { padding-block: 3mm !important; margin-block: 4mm !important; }
+  body[data-print-layout='site'] #main.resume-page .experience-details { gap: 2mm !important; }
+  body[data-print-layout='site'] #main.resume-page .skill-entry { margin-block: 0 !important; padding-block: 3mm !important; }
+  body[data-print-layout='site'] #main.resume-page .skill-context a { margin-block: 1mm !important; }
+  body[data-print-layout='site'] #main.resume-page .skill-tools { display: block !important; }
+  body[data-print-layout='site'] #main.resume-page .skill-tools li { display: inline; }
+  body[data-print-layout='site'] #main.resume-page .skill-tools li:not(:last-child)::after { content: ', '; }
+  body[data-print-layout='site'] #main.resume-page :is(.education-learning, .education-preparation) { padding-top: 2mm !important; }
+  body[data-print-layout='site'] #main.resume-page .education-courses { display: block !important; margin-top: 1mm !important; }
+  body[data-print-layout='site'] #main.resume-page .education-courses a { display: inline !important; }
+  body[data-print-layout='site'] #main.resume-page .education-courses a::after { content: ' (' attr(href) ')'; font-size: 8pt; }
+  body[data-print-layout='site'] #main :is(.rc-field, .tp-field) { margin-block: 1.5mm !important; padding-block: 3mm !important; }
+  body[data-print-layout='site'] #main :is(.tool-facts, .rc-root, .tp-root) { margin-block: 3mm !important; }
+  body[data-print-layout='site'] #main :is(.rc-hint, .tool-facts li) { font-size: 9pt !important; }
+  body[data-print-layout='site'] #main :is(.tool-instructions, .rc-controls p, .tp-controls p) { max-width: none !important; }
+  body[data-print-layout='site'] #main .rc-result { break-inside: avoid; }
+  body[data-print-layout='site'] #main .rc-headline { font-size: 22pt !important; line-height: 1.15 !important; }
+  body[data-print-layout='site'] #main .print-link-marker { display: inline !important; margin-left: 1pt; font-size: 7pt !important; vertical-align: super; text-decoration: none; }
+  body[data-print-layout='site'] .print-notes { break-before: auto; margin-top: 10mm; }
+  body[data-print-layout='site'] .print-notes:empty { display: none !important; }
+  body[data-print-layout='site'] .print-notes h2 { font-size: 14pt; margin-bottom: 3mm; break-after: avoid; }
+  body[data-print-layout='site'] .print-notes ol { padding-left: 5mm; list-style: decimal; }
+  body[data-print-layout='site'] .print-notes li { font-size: 8pt; line-height: 1.4; margin-bottom: 2mm; overflow-wrap: anywhere; break-inside: avoid; }
+}

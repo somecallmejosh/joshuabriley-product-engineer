@@ -19,7 +19,35 @@
   transform: translate(var(--link-arrow-x), var(--link-arrow-y));
 }
 
+/* Article previews respond through their typography; the frame is for focus. */
+.article-preview-link h3 {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .15em;
+  transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .article-preview-link:hover h3 {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+}
+
+a.article-preview-link:focus-visible {
+  border-color: var(--accent);
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.article-preview-link:focus-visible h3 {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .article-preview-link h3 { transition: none; }
   :is(a, button) [data-link-arrow] {
     transition: none !important;
     transform: none !important;

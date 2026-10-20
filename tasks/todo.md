@@ -1,3 +1,26 @@
+# Design-system schema + drift guard (2026-10-20)
+
+Goal: a machine-readable spec of the Editorial-Technical system that LLMs read
+before UI work, plus a blocking audit so off-system values can't creep in.
+Decisions (Josh): blocking check; baseline existing drift, fix later.
+
+## Plan
+- [x] `design-system/tokens.json`: DTCG-format tokens (color, fontFamily, cubicBezier) mapped to CSS var + Tailwind key; legacy aliases deprecated with `replaceWith`
+- [x] `design-system/rules.json`: rule catalogue (id, why, fix), component prop policy, path allowlists, documented exceptions, non-automatable guidelines
+- [x] `scripts/lib/design-rules.mjs`: pure rule engine
+- [x] `scripts/audit-design-system.mjs`: scan src/ (excl. src/content), token sync (site.css + tailwind ↔ tokens.json, both directions), baseline compare; `--init-baseline` once, `--update-baseline` ratchets down only
+- [x] `design-system/baseline.json`: today's violations per file/rule/value
+- [x] Unit tests `tests/components/design-rules.test.ts`
+- [x] `npm run audit:design`; pre-commit hook runs it when src/, tailwind config, or design-system/ is staged
+- [x] `design-system/README.md` + CLAUDE.md pointer
+- [x] Verify: tests, audit passes clean, injected violation fails, hook blocks, `npm run check`
+
+## Review
+- 391 existing violations baselined across 41 files (222 off-palette, 118 arbitrary, 35 hardcoded token, 8 default palette, 7 legacy class, 1 font-family). Zero legacy/forbidden prop values in use.
+- Verified: 17 unit tests; audit passes clean; probe file with 5 violations fails with line + fix; pre-commit hook exits 1 on it; re-running --init-baseline refused; `astro check` 0 errors.
+- Exceptions proposed (need Josh's OK): TokenPlayground demo palette, wireframe-kit + wires-and-flows/_src artwork, syntax-highlighting.css.
+- Not done: Netlify build doesn't run the audit (only pre-commit); Tailwind default palette still compiles (could drop via theme.colors once backlog clears).
+
 # Site-wide content audit (2026-07-27)
 
 Full-project scan for factual inconsistencies and LLM writing patterns.

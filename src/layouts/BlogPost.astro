@@ -26,8 +26,8 @@ const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month:
 const shareUrl = new URL(pathname, Astro.site ?? 'https://joshuabriley.com').toString();
 const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
 const neighbours = [
-  prevPost && { ...prevPost, direction: 'Older article' },
-  nextPost && { ...nextPost, direction: 'Newer article' },
+  prevPost && { ...prevPost, direction: 'Older' as const },
+  nextPost && { ...nextPost, direction: 'Newer' as const },
 ].filter((post) => !!post);
 ---
 
@@ -35,7 +35,7 @@ const neighbours = [
   <header class="page-opener article-opener">
     <Container width="wide">
       <a class="editorial-link hero-in hero-in-1" href="/blog/"><span aria-hidden="true" data-link-arrow="left">←</span> All writing</a>
-      <p class="role-line article-meta hero-in hero-in-2"><span>{context?.format ?? category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
+      <p class="role-line article-meta hero-in hero-in-2"><span>{category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
       <h1 class="page-type article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
       <p class="page-lede hero-in hero-in-4">{description}</p>
       <div class="hero-actions hero-in hero-in-4">
@@ -82,27 +82,35 @@ const neighbours = [
             <p class="article-copy-status" role="status" data-article-copy-status></p>
           </div>
           <aside class="article-author" aria-labelledby="author-title">
-            <img src="/images/about/josh-suit-avatar-192.webp" srcset="/images/about/josh-suit-avatar-96.webp 96w, /images/about/josh-suit-avatar-192.webp 192w, /images/about/josh-suit-avatar-288.webp 288w" sizes="96px" alt="Joshua Briley" width="96" height="96" loading="lazy" decoding="async" />
-            <div>
-              <p>Written by</p>
-              <h2 id="author-title">Joshua Briley</h2>
-              <p>Design systems &amp; UI platform engineer. Twenty-plus years building accessible components and product interfaces, with a focus on the teams using them.</p>
-              <a class="editorial-link" href="/about/">More about my work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <div class="article-author-identity">
+              <img src="/images/about/josh-suit-avatar-96.webp" srcset="/images/about/josh-suit-avatar-96.webp 96w, /images/about/josh-suit-avatar-192.webp 192w" sizes="48px" alt="" width="48" height="48" loading="lazy" decoding="async" />
+              <div>
+                <p class="article-author-label">Written by</p>
+                <h2 id="author-title">Joshua Briley</h2>
+              </div>
             </div>
+            <p class="article-author-bio">Product design engineer with twenty-plus years building accessible interfaces and shared UI foundations.</p>
+            <a class="editorial-link article-author-link" href="/about/">More about my work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </aside>
+          {neighbours.length > 0 && (
+            <nav class="article-pager" aria-label="More writing">
+              {neighbours.map((post) => (
+                <a class:list={['article-pager-link', post.direction === 'Newer' && 'article-pager-link--newer']} href={`/blog/${post.id}/`} rel={post.direction === 'Older' ? 'prev' : 'next'}>
+                  <span class="article-pager-label">
+                    {post.direction === 'Older' && <span aria-hidden="true" data-link-arrow="left">←</span>}
+                    {post.direction} article
+                    {post.direction === 'Newer' && <span aria-hidden="true" data-link-arrow="right">→</span>}
+                  </span>
+                  <span class="article-pager-title">{post.title}</span>
+                </a>
+              ))}
+            </nav>
+          )}
         </div>
       </div>
     </Container>
   </div>
 
-  {neighbours.length > 0 && (
-    <nav class="article-more editorial-section" aria-labelledby="more-writing-title">
-      <Container width="wide">
-        <div class="section-heading"><h2 class="section-type" id="more-writing-title">Keep <em>reading.</em></h2><a class="editorial-link" href="/blog/">All writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        <ul class="article-neighbours">{neighbours.map((post) => <li><a href={`/blog/${post.id}/`} aria-labelledby={`neighbour-${post.id}`}><p>{post.direction}</p><h3 id={`neighbour-${post.id}`}>{post.title}</h3><span class="article-read-link" aria-hidden="true">Read article <span data-link-arrow="up-right">↗</span></span></a></li>)}</ul>
-      </Container>
-    </nav>
-  )}
 </BaseLayout>
 
 <script>

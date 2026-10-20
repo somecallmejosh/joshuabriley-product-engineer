@@ -1,0 +1,155 @@
+{
+  "$description": "Usage rules for the Editorial-Technical system. `rules` are enforced by `npm run audit:design` (scripts/audit-design-system.mjs). `guidelines` cannot be checked mechanically; follow them anyway. Tokens live in tokens.json. Changing this file changes the design system: do it only on Josh's request, never to make a failing audit pass.",
+
+  "scan": {
+    "roots": ["src"],
+    "extensions": [".astro", ".css", ".ts", ".mjs", ".js"],
+    "ignore": ["src/content/**"]
+  },
+
+  "tokenSources": ["src/styles/site.css"],
+
+  "rules": {
+    "hardcoded-token-color": {
+      "why": "A literal copy of a token value doesn't change when the token does, and a literal accent won't follow the surface onto ink.",
+      "fix": "Use the token: a Tailwind class (text-ink, bg-paper, border-line, text-accent) or the custom property (var(--ink), rgb(var(--accent-rgb) / .2)). SVG presentation attributes can't take var(); use a class (fill-ink) or currentColor."
+    },
+    "off-palette-color": {
+      "why": "Colors outside tokens.json are how second navies and warm near-blacks crept in.",
+      "fix": "Pick the nearest token. If the design really needs a new color, that is a design-system change: ask Josh, then add it to tokens.json, site.css and tailwind.config.mjs together."
+    },
+    "default-palette-class": {
+      "why": "Tailwind's default palette (blue-500, gray-200, white, black) is still compiled because the config uses theme.extend, so these classes work but sit outside the system.",
+      "fix": "Use system colors: white → paper or raised, black → ink, gray-* → ink-muted / line, blue-* → accent."
+    },
+    "legacy-color-class": {
+      "why": "Pre-rebrand names (navy, plum, coral, cream, sage, sky, charcoal, sunset, lemon) are aliases kept so old markup renders. New uses spread the confusion.",
+      "fix": "Use the token named by replaceWith in tokens.json (navy/plum/charcoal → ink, coral → accent, cream → paper, sage/sky → ink-muted)."
+    },
+    "arbitrary-value": {
+      "why": "One-off Tailwind values (text-[0.6875rem], tracking-[-0.055em], rounded-[4px]) bypass the type scale and spacing that the primitives encode.",
+      "fix": "Use the Heading / Text primitives or a standard Tailwind step (rounded-[4px] is just `rounded`). Arbitrary values belong only in the primitives listed in allowArbitraryValuesIn."
+    },
+    "font-family": {
+      "why": "Font stacks are tokens. A literal family name skips the Astro font loader and its fallbacks.",
+      "fix": "Use a font utility (font-sans, font-serif, font-mono) or var(--font-hanken) / var(--font-fraunces) / var(--font-geist-mono), or `inherit`."
+    },
+    "restricted-font": {
+      "why": "The script face is the wordmark only (see restrictedTo in tokens.json).",
+      "fix": "Use the Logo component; set any other text in font-sans or font-serif."
+    },
+    "legacy-prop-value": {
+      "why": "Component props still accept pre-rebrand tone names for back-compat. They all map to the same few colors, which makes the intent unreadable.",
+      "fix": "Use the canonical value given in the message."
+    },
+    "forbidden-prop-value": {
+      "why": "The prop value is valid TypeScript but a confirmed design decision rules it out.",
+      "fix": "See the reason in the message."
+    },
+    "token-sync": {
+      "why": "site.css and tailwind.config.mjs both implement tokens.json. If they disagree, the same token renders two ways depending on whether CSS or a utility class is used.",
+      "fix": "Change all three in one commit. Every Tailwind color/font key must map to a token, and every token's cssVar / tailwind value must match. Never baselined."
+    }
+  },
+
+  "allowArbitraryValuesIn": ["src/components/primitives/**"],
+
+  "components": {
+    "Section": {
+      "path": "src/components/layout/Section.astro",
+      "purpose": "Full-width page band. Sets the surface; the accent follows it automatically.",
+      "props": {
+        "tone": {
+          "canonical": ["paper", "ink", "raised"],
+          "deprecated": { "cream": "paper", "white": "raised", "navy": "ink", "plum": "ink", "charcoal": "ink" },
+          "forbidden": { "surface-warm": "surface-warm is for small inline callouts only. Full-section tan washes were retired on 2026-08-25." }
+        },
+        "padding": { "canonical": ["tight", "default", "loose"] }
+      }
+    },
+    "Heading": {
+      "path": "src/components/primitives/Heading.astro",
+      "purpose": "Every heading. `level` sets the semantic tag and `visual` sets the size, so the visual hierarchy never breaks the document outline.",
+      "props": {
+        "visual": { "canonical": ["display-xl", "display-lg", "display-md", "h1", "h2", "h3", "h4", "eyebrow"] },
+        "tone": {
+          "canonical": ["ink", "paper", "accent", "muted"],
+          "deprecated": { "navy": "ink", "plum": "ink", "white": "paper", "coral": "accent" }
+        }
+      }
+    },
+    "Text": {
+      "path": "src/components/primitives/Text.astro",
+      "purpose": "Body copy on the type scale.",
+      "props": {
+        "size": { "canonical": ["xs", "sm", "base", "lg", "xl"] },
+        "tone": {
+          "canonical": ["ink", "muted", "paper", "whiteMuted", "accent", "faint"],
+          "deprecated": { "navy": "ink", "white": "paper", "coral": "accent" }
+        }
+      }
+    }
+  },
+
+  "exceptions": [
+    {
+      "path": "src/components/islands/TokenPlayground.astro",
+      "rules": ["off-palette-color", "hardcoded-token-color"],
+      "reason": "The demo palette is content: visitors swap accent hues to watch a token propagate."
+    },
+    {
+      "path": "src/assets/wireframe-kit/**",
+      "rules": ["off-palette-color", "hardcoded-token-color", "font-family"],
+      "reason": "Build-time generator for hand-drawn wireframe SVGs. Its colors and type are artwork, not interface."
+    },
+    {
+      "path": "src/assets/projects/**/wires-and-flows/_src/**",
+      "rules": ["off-palette-color", "hardcoded-token-color", "font-family"],
+      "reason": "Source sheets for case-study wireframe artwork, which depict client products in their own palette."
+    },
+    {
+      "path": "src/styles/syntax-highlighting.css",
+      "rules": ["off-palette-color", "hardcoded-token-color"],
+      "reason": "Overrides specific colors emitted by the Shiki code theme, so it has to match those literals."
+    }
+  ],
+
+  "guidelines": [
+    {
+      "id": "one-accent",
+      "rule": "There is exactly one accent hue. Don't add a second highlight color, gradient, or 'candy' palette for variety; hierarchy comes from type weight, size and the serif italic."
+    },
+    {
+      "id": "no-default-cards",
+      "rule": "Don't reach for bg-raised white cards with shadows to group content. Case studies use hairline columns and panels (border-line) on paper; the small Berxi-style testimonial is the model."
+    },
+    {
+      "id": "surface-warm-callout-only",
+      "rule": "surface-warm appears only on small inline callouts, never as a Section tone or full-width wash."
+    },
+    {
+      "id": "tools-stay-on-brand",
+      "rule": "Interactive islands must look like the site, not third-party widgets: navy accent plus in-key editorial hues, the site's type and controls."
+    },
+    {
+      "id": "case-study-plates",
+      "rule": "Case-study artwork goes in a sibling <Container width=\"wide\">, never inside .case-layout (the sticky rail paints over it). No nested scroll regions anywhere."
+    },
+    {
+      "id": "no-client-logo-strip",
+      "rule": "The homepage carries no 'Shipped at' client-logo or client-name band. Don't propose one."
+    },
+    {
+      "id": "faint-is-decoration",
+      "rule": "ink-faint (text-ink-faint, Text tone=\"faint\") is for glyphs and separators only, never words a reader has to read."
+    },
+    {
+      "id": "global-classes",
+      "rule": "site.css owns global classes (.rule, .measure, .mono-label, …). Don't redefine them in a scoped <style>; scoped styles also don't reach DOM created at runtime, so pre-render and toggle instead."
+    },
+    {
+      "id": "style-guide-is-the-reference",
+      "rule": "/style-guide/ renders the system. A new pattern isn't part of the system until it appears there and in src/lib/component-catalogue.ts."
+    }
+  ]
+}

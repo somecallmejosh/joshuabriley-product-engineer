@@ -14,6 +14,8 @@ Run `npm run test:e2e` after building. Playwright uses a running server on port 
 
 - `keyboard.spec.ts` checks existing routes for WCAG 2.1 AA violations, skip-link behavior, and selected navigation and tool interactions at desktop and phone sizes.
 - `mobile-navigation.spec.ts` checks modal naming, keyboard focus containment, background isolation, outside-click and Escape dismissal, focus restoration, destination links, desktop resizing, short screens, reduced motion, and menu contrast.
+- `code-blocks.spec.ts` checks shared project/article syntax colors, readable comments, source fidelity, clipboard output, line numbers, safe markup rendering, narrow-screen wrapping, and code-block accessibility.
+- `print.spec.ts` checks print-only link references, disclosure and lazy-image restoration, current assessment answers, paper-width tables, heading spacing, and isolation of the dedicated résumé renderer.
 - `articles.spec.ts` checks contents navigation, scrolling tables, reading-position tracking, and clipboard feedback.
 - `style-guide.spec.ts` checks local form validation and busy feedback, expandable examples and component groups, code copying, artifact-viewer focus restoration, and reduced-motion behavior.
 

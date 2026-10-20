@@ -160,6 +160,7 @@ const labels = [
 
     /** Roll a number toward its new value (easeOutCubic). */
     function countTo(el: HTMLElement, to: number) {
+      el.dataset.printValue = String(to);
       const from = parseInt(el.dataset.n ?? el.textContent ?? '0', 10) || 0;
       el.dataset.n = String(to);
       const prev = numRaf.get(el);
@@ -171,6 +172,10 @@ const labels = [
       const dur = 420;
       const start = performance.now();
       const step = (now: number) => {
+        if (document.body.dataset.printing || window.matchMedia('print').matches) {
+          el.textContent = String(to);
+          return;
+        }
         const t = Math.min(1, (now - start) / dur);
         el.textContent = String(Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3))));
         if (t < 1) numRaf.set(el, requestAnimationFrame(step));

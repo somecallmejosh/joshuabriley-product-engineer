@@ -1,5 +1,6 @@
 #!/bin/sh
-# Regenerate per-page OG cards when their inputs change, then stage the results.
+# 1. Block design-system drift (design-system/README.md) when UI code is staged.
+# 2. Regenerate per-page OG cards when their inputs change, then stage the results.
 #
 # Runs ONLY when OG-affecting files are staged (the manifest, the render route,
 # or a blog post), so ordinary commits pay nothing. When it does run it boots a
@@ -10,8 +11,14 @@
 # Bypass a single commit with `git commit --no-verify`.
 set -e
 
-# 1. Skip fast unless an OG input is staged.
 STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Design-system audit: fast (no server), runs when anything it reads is staged.
+if printf '%s\n' "$STAGED" | grep -qE '^(src/|design-system/|tailwind\.config\.mjs|scripts/(lib/design-rules|audit-design-system)\.mjs)'; then
+  node scripts/audit-design-system.mjs
+fi
+
+# 1. Skip fast unless an OG input is staged.
 if ! printf '%s\n' "$STAGED" | grep -qE '^(src/lib/og-pages\.mjs|src/pages/og-render/|src/content/posts/)'; then
   exit 0
 fi

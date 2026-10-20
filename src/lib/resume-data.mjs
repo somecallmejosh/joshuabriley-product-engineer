@@ -1,7 +1,6 @@
 export const CONTACT = {
   name: 'Joshua K. Briley',
-  title:
-    'Design Systems & UI Engineer',
+  title: 'Design Systems & UI Engineer',
   location: 'Barkhamsted, CT',
   phone: '860.232.8250',
   email: 'josh@thebrileys.com',
@@ -101,7 +100,7 @@ export const EXPERIENCE = [
     ],
   },
   {
-    period: '2010 - Present',
+    period: '2010 - 2025',
     company: 'Independent',
     role: 'Freelance UI Designer/Developer',
     stack: 'Contract',
@@ -195,8 +194,13 @@ export const CONTINUING_ED = [
   {
     title: 'Senior UX/UI/Product Designer + AI curriculum',
     org: 'Interaction Design Foundation (IxDF)',
+    href: 'https://ixdf.org',
   },
-  { title: 'Web Accessibility', org: 'Deque University' },
+  {
+    title: 'Web Accessibility',
+    org: 'Deque University',
+    href: 'https://dequeuniversity.com/',
+  },
 ]
 
 export const CERT_FOCUS = 'IAAP CPACC and WAS accessibility exams'

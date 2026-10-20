@@ -1,6 +1,7 @@
 ---
 import '~/styles/global.css';
 import '~/styles/redesign.css';
+import '~/styles/print.css';
 import Font from 'astro/components/Font.astro';
 import SkipLink from '~/components/chrome/SkipLink.astro';
 import Header from '~/components/chrome/Header.astro';
@@ -45,7 +46,7 @@ const TWITTER_HANDLE = '@joshuabriley';
 
 const {
   title,
-  description = 'Joshua Briley: Design systems & UI platform engineer. Accessible components and product interfaces built for the teams using them.',
+  description = 'Joshua Briley: Product design engineer connecting interaction design, prototyping, and accessible front-end implementation.',
   pathname = Astro.url.pathname,
   bare = false,
   mainClass,
@@ -74,8 +75,8 @@ const personSchema = {
   url: SITE_URL + '/',
   // JPEG on purpose: crawlers are unreliable about AVIF/WebP.
   image: new URL('/images/about/josh-suit-social-1200.jpg', SITE_URL + '/').toString(),
-  jobTitle: 'Design Systems & UI Engineer',
-  description: 'Design systems and UI engineer with 20+ years in production interfaces. Accessible components, shared UI systems, and cross-functional product work.',
+  jobTitle: 'Product Design Engineer',
+  description: 'Product design engineer with 20+ years in production UI, connecting interaction design, prototyping, and accessible front-end implementation.',
   sameAs: [
     'https://github.com/somecallmejosh',
     'https://www.linkedin.com/in/joshuabriley/',
@@ -87,7 +88,7 @@ const websiteSchema = {
   '@id': `${SITE_URL}/#website`,
   url: SITE_URL + '/',
   name: SITE_NAME,
-  description: 'Design systems and UI engineering by Joshua Briley: accessible components and product interfaces.',
+  description: 'Product design and front-end engineering by Joshua Briley: accessible interfaces for complex workflows.',
   publisher: { '@id': `${SITE_URL}/#person` },
   inLanguage: 'en-US',
 };
@@ -196,19 +197,22 @@ const jsonLdGraph = {
 
     <slot name="head" />
   </head>
-  <body class="text-navy font-body antialiased">
+  <body class="text-navy font-body antialiased" data-print-layout={bare ? 'document' : 'site'}>
     <div class="reading-progress" aria-hidden="true"></div>
     <SkipLink />
     {!bare && <Header />}
+    {!bare && <div class="print-only print-masthead" aria-hidden="true"><span>Joshua Briley · Product design engineer</span><span>{new URL(SITE_URL).host}</span></div>}
     <main id="main" class={mainClass}>
       <slot />
     </main>
+    {!bare && <><section class="print-only print-notes" data-print-references aria-label="Link references"></section><p class="print-only print-colophon" data-print-source>Source: {canonical}</p></>}
     {!bare && <Footer />}
     <InspectorMode />
     <ViewSource />
     <Lightbox />
     <script>
       import '~/scripts/scroll-reveal';
+      import '~/scripts/print';
     </script>
   </body>
 </html>

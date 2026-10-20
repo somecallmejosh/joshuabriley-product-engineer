@@ -1,26 +1,11 @@
 ---
+import { Code } from 'astro:components';
+import type { ComponentProps } from 'astro/types';
 import { cx } from '~/lib/cx';
 import Icon from '~/components/primitives/Icon.astro';
 import CopyButton from '~/components/islands/CopyButton.astro';
 
-/**
- * Technical-proof register — an annotated code artifact.
- *
- * The warm scrapbook components prove taste; this proves engineering. Use it to
- * show a real component API, a type signature, or a config so visitors *see*
- * React/TypeScript depth instead of reading the words "React, Next.js".
- *
- * Deliberately NOT a fake macOS terminal (the traffic-light-dots cliché). It's
- * framed like the rest of the site's technical register: an editorial mono
- * header, the brand accent spine down the left edge (same motif as the case-study
- * pull-quotes), and a real line-number gutter that ties into the numeric
- * spec/"Receipts" language. Dependency-free: no syntax highlighter.
- *
- * Surface: the panel is `bg-ink`, the canonical dark surface — which carries the
- * surface-aware token overrides in site.css, so text-selection lands as a solid
- * sky-denim highlight (#1a1b1e on #6BA6D8 = 6.6:1, WCAG AA) instead of the
- * near-invisible light-paper tint the raw `bg-navy` utility used to inherit.
- */
+/** Syntax-highlighted code artifact with source-faithful copy and line numbers. */
 
 interface Props {
   /** The code. Passed as a prop (not a slot) so it can be copied verbatim. */
@@ -28,7 +13,7 @@ interface Props {
   /** Filename shown in the header, e.g. "Modal.tsx". */
   filename?: string;
   /** Language label, e.g. "tsx", "ts", "bash". */
-  lang?: string;
+  lang?: ComponentProps<typeof Code>['lang'];
   /** Caption rendered under the artifact in muted text. */
   caption?: string;
   /** Show the copy-to-clipboard button (default true). */
@@ -39,10 +24,17 @@ interface Props {
 const { code, filename, lang, caption, copy = true, class: className } = Astro.props;
 const body = code.replace(/^\n+|\n+$/g, '');
 
-// One row per source line, so long lines wrap inside their row and the
-// non-selectable line number stays beside the line it belongs to. Wrapping
-// instead of a horizontal scroller keeps every line readable at any width.
-const lines = body.split('\n');
+// Highlight the whole snippet so multiline strings and comments retain context.
+// Wrap each highlighted line without changing its tokens or copyable source.
+const transformers: NonNullable<ComponentProps<typeof Code>['transformers']> = [{
+  line(node, line) {
+    const tokens = node.children;
+    node.children = [
+      { type: 'element', tagName: 'span', properties: { className: ['code-line-number'], 'aria-hidden': 'true' }, children: [{ type: 'text', value: String(line) }] },
+      { type: 'element', tagName: 'span', properties: { className: ['code-line-content'] }, children: tokens },
+    ];
+  },
+}];
 
 // Header label: filename wins; otherwise fall back to the language name.
 const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
@@ -61,15 +53,33 @@ const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
       </span>
     </div>
 
-    <pre
+    <Code
+      code={body}
+      lang={lang}
+      theme="github-dark"
+      wrap={true}
+      transformers={transformers}
       role="region"
       aria-label={filename ? `Code: ${filename}` : 'Code sample'}
-      class="py-4 font-mono text-[0.8rem] leading-relaxed md:py-5 md:text-sm"
-    ><code class="block text-[#E7E5F7]">{lines.map((line, i) => (
-      <span class="flex"><span aria-hidden="true" class="w-[2.5rem] shrink-0 select-none border-r border-white/10 pr-3 text-right text-white/50 md:w-[3rem]">{i + 1}</span><span class="min-w-0 flex-1 whitespace-pre-wrap break-words pl-4 pr-4 md:pr-5">{line || ' '}</span></span>
-    ))}</code></pre>
+      tabindex="0"
+      class="project-code"
+    />
   </div>
   {caption && (
     <figcaption class="mt-3 font-body text-sm text-ink-muted">{caption}</figcaption>
   )}
 </figure>
+
+<style>
+  .code-artifact :global(.project-code) { margin: 0; padding: 1rem 0; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .8rem; line-height: 1.7; }
+  .code-artifact :global(.project-code code) { display: block; white-space: normal; }
+  .code-artifact :global(.project-code .line) { display: flex; }
+  .code-artifact :global(.code-line-number) { width: 2.5rem; flex-shrink: 0; user-select: none; border-right: 1px solid rgb(255 255 255 / .1); padding-right: .75rem; color: #a3b2bf; text-align: right; }
+  .code-artifact :global(.code-line-content) { min-width: 0; flex: 1; padding-inline: 1rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .code-artifact :global(.project-code:focus-visible) { outline: 3px solid #a3c1dd; outline-offset: -3px; }
+  @media (min-width: 768px) {
+    .code-artifact :global(.project-code) { padding-block: 1.25rem; font-size: .875rem; }
+    .code-artifact :global(.code-line-number) { width: 3rem; }
+    .code-artifact :global(.code-line-content) { padding-right: 1.25rem; }
+  }
+</style>

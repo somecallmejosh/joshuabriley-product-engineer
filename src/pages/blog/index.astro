@@ -8,16 +8,17 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id),
 );
 const [lead, ...rest] = posts;
+// Index sections follow each post's frontmatter `category`, so a post's label and its section always agree.
 const topics = [
-  { id: 'shared-ui', title: 'Shared', emphasis: 'UI.', label: 'Shared UI', description: 'Architecture, adoption, and the effort behind a dependable component system.', slugs: ['native-lit-or-stencil', 'measuring-style-guide-adoption', 'the-hidden-cost-of-component-inconsistency'] },
-  { id: 'ai-and-engineering', title: 'AI &', emphasis: 'engineering.', label: 'AI & engineering', description: 'Research and perspectives on changing tools, responsibilities, and ownership.', slugs: ['future-proofing-front-end-dev-roles', 'web-component-libraries-in-the-ai-era'] },
-  { id: 'learning', title: 'Learning &', emphasis: 'practice.', label: 'Learning & practice', description: 'Resources for developing the skills behind the work.', slugs: ['where-to-learn-modern-front-end'] },
+  { id: 'design-systems', category: 'Design Systems', title: 'Design', emphasis: 'systems.', description: 'Architecture, adoption, and the effort behind a dependable component system.' },
+  { id: 'ai-and-engineering', category: 'AI & Engineering', title: 'AI &', emphasis: 'engineering.', description: 'Research and perspectives on changing tools, responsibilities, and ownership.' },
+  { id: 'ui-engineering', category: 'UI Engineering', title: 'UI', emphasis: 'engineering.', description: 'Interface craft beyond the component library, and the skills behind it.' },
 ];
-const assigned = new Set(topics.flatMap((topic) => topic.slugs));
-// Unassigned future posts remain visible without requiring an index edit.
+const known = new Set(topics.map((topic) => topic.category));
+// Posts with an unlisted category remain visible without requiring an index edit.
 const groups = [
-  ...topics.map((topic) => ({ ...topic, posts: rest.filter((post) => topic.slugs.includes(post.id)) })),
-  { id: 'more-writing', title: 'More', emphasis: 'writing.', label: 'More writing', description: 'Further notes on interfaces and the teams building them.', posts: rest.filter((post) => !assigned.has(post.id)) },
+  ...topics.map((topic) => ({ ...topic, label: topic.category, posts: rest.filter((post) => post.data.category === topic.category) })),
+  { id: 'more-writing', title: 'More', emphasis: 'writing.', label: 'More writing', description: 'Further notes on interfaces and the teams building them.', posts: rest.filter((post) => !known.has(post.data.category)) },
 ].filter((group) => group.posts.length > 0);
 const guideSections = lead?.id === 'staff-level-ui-engineering-for-dummies' ? [
   { title: 'From components to a UI platform', anchor: 'from-component-library-to-ui-platform' },
@@ -74,8 +75,8 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
           <ul class="writing-list" data-reveal-stagger>
             {group.posts.map((post) => (
               <li>
-                <a class="post-link" href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`}>
-                  <p class="post-meta"><span>{writing[post.id]?.format ?? post.data.category}</span><time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time><span>{post.data.readMinutes} min read</span></p>
+                <a class="post-link article-preview-link" href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`}>
+                  <p class="post-meta"><span>{post.data.category}</span><time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time><span>{post.data.readMinutes} min read</span></p>
                   <h3 id={`title-${post.id}`}>{post.data.title}</h3>
                   <p class="post-description">{post.data.description}</p>
                   <span class="post-action" aria-hidden="true">Read article <span data-link-arrow="up-right">↗</span></span>
@@ -125,13 +126,10 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   .writing-topic .section-type { font-size: clamp(2.6rem, 4.3vw, 4rem); }
   .writing-topic > p { max-width: 29ch; margin-top: 1.5rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
   .writing-list li + li { margin-top: 1.5rem; }
-  .post-link { display: block; border: 1px solid transparent; border-top-color: var(--line-strong); padding: 1.5rem 1rem 1.75rem; transition: background .2s, border-color .2s; }
+  .post-link { display: block; border: 1px solid transparent; border-top-color: var(--line-strong); padding: 1.5rem 1rem 1.75rem; }
   .post-link h3 { max-width: 26ch; font-size: clamp(1.95rem, 3vw, 2.8rem); font-weight: 750; line-height: 1.12; letter-spacing: -.04em; margin-top: 1rem; text-wrap: balance; }
   .post-description { margin-top: 1rem; max-width: 57ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
   .post-action { display: inline-flex; align-items: center; gap: 1.2rem; min-height: 44px; margin-top: .85rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
-  .post-link:hover, .post-link:focus-visible { background: var(--portfolio-tint); border-color: #8da4b8; }
-  .post-link:hover h3, .post-link:focus-visible h3 { color: var(--portfolio-blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
-  .post-link:focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 4px; }
   .writing-tools { background: var(--portfolio-tint); }
   .writing-tools .approach-layout { align-items: center; }
   .writing-tools p { max-width: 46ch; font-size: 1.1rem; line-height: 1.65; color: var(--ink-muted); margin-bottom: 1.6rem; }
@@ -145,5 +143,4 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
     .post-link { padding-inline: .5rem; }
     .writing-list li + li { margin-top: 1rem; }
   }
-  @media (prefers-reduced-motion: reduce) { .post-link { transition: none; } }
 </style>

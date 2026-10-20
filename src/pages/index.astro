@@ -3,20 +3,23 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
+import { selectedWork } from '~/lib/selected-work';
 const needs = [
-  { title: 'Components teams can depend on', body: 'Clear APIs, accessible defaults, and documentation that helps engineers use the system. My current work brings those pieces together across Stencil Web Components, Storybook, and Figma.', href: '/resume/', link: 'See my systems experience' },
-  { title: 'Design decisions that survive the handoff', body: 'I work through the loading states, form errors, and recovery paths with designers and engineers. The case studies show the alternatives, what I owned, and what I would improve.', href: '/projects/ivfcryo/', link: 'Follow a design decision' },
-  { title: 'Implementation you can inspect', body: 'Rudiment UI puts my approach to tokens, component behavior, and documentation in public. The guide explains the tradeoffs; the Storybook lets you try the result.', href: '/personal-projects/rudiment-ui/', link: 'Explore Rudiment UI' },
+  { title: 'Design decisions you can follow', body: 'I map workflows, prototype interactions, and work through loading, error, and recovery states with designers and engineers. The case studies show the decisions I owned and why.', href: '/projects/ivfcryo/', link: 'Follow a design decision' },
+  { title: 'Front-end engineering that carries the design through', body: 'I build the interfaces as well as design them, including the state changes and accessible behavior that static mockups leave open. Logatot shows my work on voice input, repair flows, and shared UI.', href: '/projects/logatot/', link: 'Explore the implementation' },
+  { title: 'Shared foundations for a consistent product', body: 'Reusable components and clear interaction patterns help complex interfaces hold together. My current design systems work and public component library show how I support that foundation.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component work' },
 ];
+const workOrder = ['/projects/ivfcryo/', '/projects/logatot/', '/personal-projects/rudiment-ui/'];
+const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href === href));
 ---
-<BaseLayout title="Joshua Briley | Design systems & UI engineering" description="I build accessible component systems and product interfaces. Explore 20+ years of UI engineering, enterprise design systems experience, and case studies with clear ownership.">
+<BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years in production UI. Explore interaction design, accessible front-end implementation, and product case studies with clear ownership.">
   <section class="home-hero">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Design systems &amp; UI engineer</p>
+      <p class="role-line hero-in hero-in-1">Product design engineer</p>
       <div class="home-hero-grid">
         <div class="home-hero-copy">
-          <h1 class="hero-type hero-in hero-in-2">Design systems<br />people can<br /><em>build on.</em></h1>
-          <p class="hero-lede hero-in hero-in-3">I build accessible components and product interfaces, with the care that makes them easier to use, ship, and maintain.</p>
+          <h1 class="hero-type hero-in hero-in-2">I design and<br />build product<br /><em>interfaces.</em></h1>
+          <p class="hero-lede hero-in hero-in-3">I connect product design and front-end engineering, from workflows and prototypes to accessible interfaces in production.</p>
           <div class="hero-actions hero-in hero-in-4">
             <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
             <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -38,9 +41,9 @@ const needs = [
     <Container width="wide">
       <div class="section-heading">
         <h2 class="section-type">Selected <em>work.</em></h2>
-        <p>Shared foundations and the products built on them. Here’s what I contributed and why it mattered.</p>
+        <p>See how I designed and built interfaces for complex workflows, with clear ownership and outcomes.</p>
       </div>
-      <WorkList compact />
+      <WorkList compact items={homeWork} />
       <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </Container>
   </section>
@@ -48,8 +51,8 @@ const needs = [
     <Container width="wide">
       <div class="approach-layout">
         <div>
-          <h2 class="section-type">Good UI takes<br /><em>teamwork.</em></h2>
-          <p class="section-intro">Twenty-plus years in production UI have taught me to care about the people on both sides of a component.</p>
+          <h2 class="section-type">From design<br />to <em>production.</em></h2>
+          <p class="section-intro">My work spans product workflows, interaction design, and front-end implementation. The case studies make my role and contributions explicit.</p>
           <p class="quiet-aside">The button is usually the easy part.</p>
         </div>
         <div class="approach-list" data-reveal-stagger>

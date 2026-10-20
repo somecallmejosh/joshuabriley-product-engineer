@@ -155,7 +155,7 @@ const description =
   }
   #breakdownPanel.is-in .mini-bar-fill { width: var(--w, 0%); }
 
-  /* ═══ RADAR draw-in (scales up from centre) ════════════════════════════ */
+  /* ═══ RADAR draw-in (scales up from center) ════════════════════════════ */
   #radarChartContainer .radar-data {
     opacity: 0;
     transform: scale(0.55);
@@ -785,8 +785,13 @@ const description =
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function animateCount(el: Element, target: number, dur: number) {
+      el.setAttribute('data-print-value', String(target));
       const start = performance.now();
       function tick(now: number) {
+        if (document.body.dataset.printing || window.matchMedia('print').matches) {
+          el.textContent = String(target);
+          return;
+        }
         const t = Math.min(1, (now - start) / dur);
         const eased = 1 - Math.pow(1 - t, 3);
         el.textContent = String(Math.round(target * eased));

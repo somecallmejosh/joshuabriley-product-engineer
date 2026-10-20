@@ -23,8 +23,8 @@ export default defineConfig({
     '/scorecard': '/tools/scorecard',
     '/scorecard/results': '/tools/scorecard/results',
     // Clempo + Bass Face moved into the personal-projects section.
-    '/projects/clempo': '/personal-projects/clempo',
-    '/projects/bass-face': '/personal-projects/bass-face',
+    // '/projects/clempo': '/personal-projects/clempo',
+    // '/projects/bass-face': '/personal-projects/bass-face',
     // Rudiment UI moved back: it has no client and no user research to
     // report, so it doesn't fit the case-study bar the other /projects/
     // pages are held to.

@@ -19,20 +19,16 @@ const { class: className } = Astro.props;
     className,
   )}
 >
-  <Container as="div" width="wide" class="flex items-center justify-between gap-6 py-3.5 relative">
+  <Container as="div" width="wide" class="flex items-center justify-between gap-6 relative">
     <Logo href="/" size="md" class="shrink-0" />
 
-    <nav class="desktop-nav hidden md:flex items-center gap-7 shrink-0" aria-label="Primary">
-      {PRIMARY_NAV.filter((l) => l.href !== '/contact/').map((link) => (
-        <Link href={link.href} variant="nav" class="whitespace-nowrap">{link.label}</Link>
-      ))}
-    </nav>
-
-    <div class="hidden md:flex items-center gap-5 shrink-0">
-      <a
-        href="/contact/"
-        class="header-contact inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] bg-ink px-4 py-2 font-sans text-[0.85rem] font-medium tracking-tight text-paper transition-[background-color,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-ink-soft hover:-translate-y-px active:scale-[0.97] active:translate-y-0"
-      >Let’s talk <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    <div class="hidden md:flex items-center gap-8 shrink-0">
+      <nav class="desktop-nav flex items-center gap-7" aria-label="Primary">
+        {PRIMARY_NAV.filter((l) => l.href !== '/contact/').map((link) => (
+          <Link href={link.href} variant="nav" class="whitespace-nowrap">{link.label}</Link>
+        ))}
+      </nav>
+      <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </div>
 
     <MobileNav links={PRIMARY_NAV} />

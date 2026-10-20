@@ -144,7 +144,7 @@ export const componentCatalogue = [
     "name": "CodeBlock",
     "path": "src/components/patterns/CodeBlock.astro",
     "group": "patterns",
-    "note": "A captioned code artifact with line numbers and a copy action.",
+    "note": "A captioned code artifact with article-matched syntax highlighting, line numbers, and a copy action.",
     "href": "/projects/ivfcryo/"
   },
   {
@@ -279,6 +279,13 @@ export const componentCatalogue = [
     "group": "primitives",
     "note": "Body, caption, and supporting text used by case studies and supporting pages.",
     "href": "/privacy/"
+  },
+  {
+    "name": "ResourceList",
+    "path": "src/components/writing/ResourceList.astro",
+    "group": "writing",
+    "note": "Scannable article resources with clear links, optional descriptions, and responsive columns.",
+    "href": "/blog/where-to-learn-modern-front-end/"
   },
   {
     "name": "ArticleTable",

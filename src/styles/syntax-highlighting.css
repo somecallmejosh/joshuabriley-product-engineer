@@ -1,0 +1,3 @@
+/* GitHub Dark's default comment color falls below AA on the code surface.
+   Keep the same readable comment treatment in articles and code artifacts. */
+.astro-code span[style*="color:#6A737D" i] { color: #a3b2bf !important; }

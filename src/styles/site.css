@@ -182,32 +182,25 @@ html {
   border: 0;
 }
 
-/* ── Primary nav — quiet, precise. A thin accent rule grows under the active /
-   hovered link; no dots, no bounce. ─────────────────────────────────────── */
+/* ── Primary nav — same underline language as .editorial-link and the footer:
+   ink on hover/current, a 1px underline that fades in. ─────────────────────── */
 header .desktop-nav a {
-  position: relative;
-  padding: 2px 0;
-  transition: color 0.25s var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: color 0.2s, text-decoration-color 0.2s;
 }
-header .desktop-nav a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -6px;
-  height: 1.5px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.4s var(--ease-out);
+header .desktop-nav a:hover {
+  color: var(--ink);
+  text-decoration-color: var(--line-strong);
 }
-header .desktop-nav a:hover,
 header .desktop-nav a[aria-current='page'] {
   color: var(--ink);
-}
-header .desktop-nav a:hover::after,
-header .desktop-nav a[aria-current='page']::after {
-  transform: scaleX(1);
+  text-decoration-color: var(--accent);
 }
 
 /* ─── Shared scorecard styles ─────────────────────────────────────────────── */

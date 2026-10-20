@@ -1,48 +1,303 @@
 ---
-title: "Where to learn modern front-end"
-description: "A reading list of courses, books, publications, and documentation for developing skills in interfaces, accessibility, TypeScript, and AI-assisted work."
+title: 'Where to learn modern front-end'
+description: 'A reading list of courses, books, publications, and documentation for developing skills in interfaces, accessibility, TypeScript, and AI-assisted work.'
 date: 2026-05-06
-category: Design Systems
+category: UI Engineering
 tags:
   - Developer Experience
   - Contribution
 readMinutes: 4
 ---
 
-<p class="lede">Choose a skill you need for the work in front of you. Then choose a resource that helps you practice it.</p>
+import ResourceList from '~/components/writing/ResourceList.astro';
 
-This companion to [How AI is changing front-end work](/blog/future-proofing-front-end-dev-roles/) groups courses, books, publications, and documentation around interface craft, accessibility, architecture, and verification.
+<p class="lede">Pick a resource for the skill you want to practice. Apply what you learn to your current work, then come back when you need the next step.</p>
 
-The list isn't meant to be finished front to back. Pick the two or three entries that match whatever you're weakest at right now.
+A companion to [How AI is changing front-end work](/blog/future-proofing-front-end-dev-roles/).
 
 ## Courses
 
-[Frontend Masters](https://frontendmasters.com/) offers courses across front-end topics, including a dedicated [Coding with AI Learning Path](https://frontendmasters.com/learn/ai/). [Epic React](https://www.epicreact.dev/) and [Epic Web](https://www.epicweb.dev/) (Kent C. Dodds) go deep on application architecture and testing. [Total TypeScript](https://www.totaltypescript.com/) (Matt Pocock) focuses on TypeScript, including the types used to describe and constrain application APIs.
+Look for a structured course when you want guided practice in a specific skill.
 
-For CSS, React, and visual design: [CSS for JS Developers](https://css-for-js.dev/) and [The Joy of React](https://www.joyofreact.com/) (Josh Comeau), [web.dev/learn](https://web.dev/learn/), [MDN Learn Web Development](https://developer.mozilla.org/en-US/docs/Learn_web_development), [Refactoring UI](https://www.refactoringui.com/), and [Build UI](https://buildui.com/).
+<ResourceList items={[
+  {
+    "name": "Master.dev",
+    "href": "https://master.dev/",
+    "description": "A broad course library for front-end development and beyond. Previously Frontend Masters."
+  }
+]} />
 
-For focused study in accessibility and design systems: [Practical Accessibility](https://practical-accessibility.today/) (Sara Soueidan) and [AI and Design Systems](https://aianddesign.systems/) (Brad Frost). [DeepLearning.AI short courses](https://www.deeplearning.ai/courses/) cover the model side if you're building AI features rather than just using AI tools.
+### Web fundamentals & interface craft
+
+<ResourceList items={[
+  {
+    "name": "CSS for JS Developers",
+    "href": "https://css-for-js.dev/",
+    "description": "Josh Comeau · CSS fundamentals and layout for JavaScript developers."
+  },
+  {
+    "name": "web.dev/learn",
+    "href": "https://web.dev/learn/",
+    "description": "Guides to core web development skills."
+  },
+  {
+    "name": "MDN Learn Web Development",
+    "href": "https://developer.mozilla.org/en-US/docs/Learn_web_development",
+    "description": "A learning path through web development fundamentals."
+  },
+  {
+    "name": "Build UI",
+    "href": "https://buildui.com/",
+    "description": "Hands-on interface development with React, styling, and animation."
+  }
+]} />
+
+### React, TypeScript & application architecture
+
+<ResourceList items={[
+  {
+    "name": "The Joy of React",
+    "href": "https://www.joyofreact.com/",
+    "description": "Josh Comeau · React fundamentals, state, and component APIs."
+  },
+  {
+    "name": "Epic React",
+    "href": "https://www.epicreact.dev/",
+    "description": "Kent C. Dodds · React application development."
+  },
+  {
+    "name": "Epic Web",
+    "href": "https://www.epicweb.dev/",
+    "description": "Application architecture, testing, and full-stack web development."
+  },
+  {
+    "name": "Total TypeScript",
+    "href": "https://www.totaltypescript.com/",
+    "description": "Matt Pocock · TypeScript and the types behind application APIs."
+  }
+]} />
+
+### Accessibility & design systems
+
+<ResourceList items={[
+  {
+    "name": "Practical Accessibility",
+    "href": "https://practical-accessibility.today/",
+    "description": "Sara Soueidan · Accessibility for web designers and developers."
+  },
+  {
+    "name": "AI and Design Systems",
+    "href": "https://aianddesign.systems/",
+    "description": "Brad Frost and collaborators · AI in design-system workflows."
+  }
+]} />
+
+### AI-assisted development
+
+<ResourceList items={[
+  {
+    "name": "Coding with AI Learning Path",
+    "href": "https://frontendmasters.com/learn/ai/",
+    "description": "A focused path through AI-assisted development from Master.dev."
+  },
+  {
+    "name": "DeepLearning.AI short courses",
+    "href": "https://www.deeplearning.ai/courses/",
+    "description": "For studying the model side when building AI features."
+  }
+]} />
 
 ## Books
 
-[Refactoring UI](https://www.refactoringui.com/), [Inclusive Components](https://book.inclusive-components.design/) (Heydon Pickering), [Atomic Design](https://atomicdesign.bradfrost.com/) (Brad Frost, free online), [Eloquent JavaScript](https://eloquentjavascript.net/) (free online), and Addy Osmani's [Beyond Vibe Coding](https://beyond.addy.ie/).
+Choose a book when you want a deeper explanation you can revisit alongside your work.
+
+<ResourceList items={[
+  {
+    "name": "Refactoring UI",
+    "href": "https://www.refactoringui.com/",
+    "description": "Visual design techniques for improving interfaces."
+  },
+  {
+    "name": "Inclusive Components",
+    "href": "https://book.inclusive-components.design/",
+    "description": "Heydon Pickering · Accessible interface patterns."
+  },
+  {
+    "name": "Atomic Design",
+    "href": "https://atomicdesign.bradfrost.com/",
+    "description": "Brad Frost · A methodology for interface design systems. Available online."
+  },
+  {
+    "name": "Eloquent JavaScript",
+    "href": "https://eloquentjavascript.net/",
+    "description": "JavaScript and programming fundamentals. Available online."
+  },
+  {
+    "name": "Beyond Vibe Coding",
+    "href": "https://beyond.addy.ie/",
+    "description": "Addy Osmani · AI-assisted development."
+  }
+]} />
 
 ## Newsletters and blogs
 
-Publications: [Smashing Magazine](https://www.smashingmagazine.com/), [JavaScript Weekly](https://javascriptweekly.com/), [Frontend Focus](https://frontendfoc.us/), [Bytes](https://bytes.dev/), [web.dev](https://web.dev/), [Chrome for Developers](https://developer.chrome.com/blog/), [The Pragmatic Engineer](https://newsletter.pragmaticengineer.com/), and [Simon Willison's Weblog](https://simonwillison.net/).
+Pick one or two regular reads that match your interests.
 
-People to follow directly: Addy Osmani, Josh Comeau, Una Kravets, Adam Argyle, Stephanie Eckles, Brad Frost, Adrian Roselli, and Sara Soueidan.
+<ResourceList columns={2} items={[
+  {
+    "name": "Smashing Magazine",
+    "href": "https://www.smashingmagazine.com/"
+  },
+  {
+    "name": "JavaScript Weekly",
+    "href": "https://javascriptweekly.com/"
+  },
+  {
+    "name": "Frontend Focus",
+    "href": "https://frontendfoc.us/"
+  },
+  {
+    "name": "Bytes",
+    "href": "https://bytes.dev/"
+  },
+  {
+    "name": "web.dev",
+    "href": "https://web.dev/"
+  },
+  {
+    "name": "Chrome for Developers",
+    "href": "https://developer.chrome.com/blog/"
+  },
+  {
+    "name": "The Pragmatic Engineer",
+    "href": "https://newsletter.pragmaticengineer.com/"
+  },
+  {
+    "name": "Simon Willison’s Weblog",
+    "href": "https://simonwillison.net/"
+  }
+]} />
+
+### People to follow
+
+<ul class="not-prose grid grid-cols-1 gap-x-8 gap-y-2 p-0 text-base text-ink sm:grid-cols-2" role="list">
+  <li>Addy Osmani</li>
+  <li>Josh Comeau</li>
+  <li>Una Kravets</li>
+  <li>Adam Argyle</li>
+  <li>Stephanie Eckles</li>
+  <li>Brad Frost</li>
+  <li>Adrian Roselli</li>
+  <li>Sara Soueidan</li>
+</ul>
 
 ## Podcasts
 
-[Syntax](https://syntax.fm/), [ShopTalk Show](https://shoptalkshow.com/), [Front End Happy Hour](https://www.frontendhappyhour.com/), [devtools.fm](https://www.devtools.fm/), and [Latent Space](https://www.latent.space/) for the AI-engineering side.
+For conversations about front-end work and the people doing it.
+
+<ResourceList columns={2} items={[
+  {
+    "name": "Syntax",
+    "href": "https://syntax.fm/"
+  },
+  {
+    "name": "ShopTalk Show",
+    "href": "https://shoptalkshow.com/"
+  },
+  {
+    "name": "Front End Happy Hour",
+    "href": "https://www.frontendhappyhour.com/"
+  },
+  {
+    "name": "devtools.fm",
+    "href": "https://www.devtools.fm/"
+  },
+  {
+    "name": "Latent Space",
+    "href": "https://www.latent.space/",
+    "description": "For the AI-engineering side."
+  }
+]} />
 
 ## AI-specific resources
 
-Primary documentation ages better than commentary here, so start with the source: [Anthropic Build with Claude](https://www.anthropic.com/learn/build-with-claude), the [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook), the [Prompt Engineering Interactive Tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial), and the [OpenAI Cookbook](https://cookbook.openai.com/).
+Start with primary documentation when learning a tool or building an AI feature.
 
-For building features: [Vercel AI SDK docs](https://ai-sdk.dev/docs/introduction) and [LangChain.js docs](https://js.langchain.com/). For the protocol layer and agent tooling: [Model Context Protocol docs](https://modelcontextprotocol.io/), [Claude Code overview](https://code.claude.com/docs/en/overview), GitHub Copilot's enterprise documentation, and the OpenAI Codex docs and evals guides.
+### Cookbooks & tutorials
+
+<ResourceList columns={2} items={[
+  {
+    "name": "Anthropic Build with Claude",
+    "href": "https://www.anthropic.com/learn/build-with-claude"
+  },
+  {
+    "name": "Anthropic Cookbook",
+    "href": "https://github.com/anthropics/anthropic-cookbook"
+  },
+  {
+    "name": "Prompt Engineering Interactive Tutorial",
+    "href": "https://github.com/anthropics/prompt-eng-interactive-tutorial"
+  },
+  {
+    "name": "OpenAI Cookbook",
+    "href": "https://cookbook.openai.com/"
+  }
+]} />
+
+### Building AI features
+
+<ResourceList columns={2} items={[
+  {
+    "name": "Vercel AI SDK docs",
+    "href": "https://ai-sdk.dev/docs/introduction"
+  },
+  {
+    "name": "LangChain.js docs",
+    "href": "https://js.langchain.com/"
+  }
+]} />
+
+### Protocols & agent tooling
+
+<ResourceList columns={2} items={[
+  {
+    "name": "Model Context Protocol docs",
+    "href": "https://modelcontextprotocol.io/"
+  },
+  {
+    "name": "Claude Code overview",
+    "href": "https://code.claude.com/docs/en/overview"
+  },
+  {
+    "name": "GitHub Copilot enterprise documentation"
+  },
+  {
+    "name": "OpenAI Codex documentation and evaluation guides"
+  }
+]} />
 
 ## Annual industry reports
 
-These are worth reading once a year, because they show long-term trends rather than short-term news: the Stack Overflow Annual Developer Survey, GitHub's Octoverse, JetBrains' State of the Developer Ecosystem, Microsoft's Work Trend Index, [DORA research](https://dora.dev/), and the World Economic Forum's Future of Jobs report.
+Return to these for a periodic view of industry trends.
+
+<ResourceList columns={2} items={[
+  {
+    "name": "Stack Overflow Annual Developer Survey"
+  },
+  {
+    "name": "GitHub Octoverse"
+  },
+  {
+    "name": "JetBrains State of the Developer Ecosystem"
+  },
+  {
+    "name": "Microsoft Work Trend Index"
+  },
+  {
+    "name": "DORA research",
+    "href": "https://dora.dev/"
+  },
+  {
+    "name": "World Economic Forum Future of Jobs report"
+  }
+]} />

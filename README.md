@@ -43,6 +43,7 @@ npm run dev          # start the dev server at http://localhost:4321
 | `npm test`                 | Vitest unit tests for pure helpers in `src/lib/`.                 |
 | `npm run test:e2e`         | Playwright e2e + axe-core accessibility scan.                     |
 | `npm run og:generate`      | Regenerate per-page OG cards (needs a dev server on `:4321`).     |
+| `npm run audit:design`     | Fail on design-system drift against `design-system/` (see its README). |
 | `npm run audit:contrast`   | WCAG contrast audit of design-system token pairs.                |
 | `npm run audit:style-guide`| Live WCAG audit of the rendered `/style-guide/` page.            |
 

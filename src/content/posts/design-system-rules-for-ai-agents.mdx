@@ -1,0 +1,154 @@
+---
+title: "Keeping AI agents inside the design system"
+description: "How this site turns its design tokens and usage rules into files an AI coding agent can read, and a check that blocks changes that drift from them."
+date: 2026-10-20
+category: AI & Engineering
+tags:
+  - Design Systems
+  - Developer Experience
+  - Architecture
+readMinutes: 8
+---
+
+<p class="lede">AI coding agents are quick to add a color, a font size, or a spacing value that looks close enough. A style guide page won't stop that. What works is a set of rules the agent can read and a check that fails the commit when new code breaks them.</p>
+
+I build this site with an AI coding agent. It follows instructions well, but only the ones it can see, and when nothing says otherwise it uses whatever value is quickest. The result was the kind of drift a design system is supposed to prevent. This article covers what the drift looked like, the files that now describe the system, and the check that keeps new code inside it.
+
+## What the drift looked like
+
+The site has one accent color, a denim navy, and a small set of neutrals. An audit of the source found this:
+
+- About 30 different hex values written directly into components and pages.
+- A second navy, `#244c71`, used 17 times next to the real accent, `#2E5C8A`. The two are close enough to pass a quick look and different enough to show up side by side.
+- A warm near-black, `rgb(27, 26, 23)`, used where the system's cooler ink, `#1A1B1E`, belongs.
+- 145 one-off Tailwind values such as `text-[0.85rem]` and `tracking-[0.12em]`, many of them on pages rather than in the components that define the type scale.
+- Every token defined twice, once as a CSS custom property and once in the Tailwind config, with nothing to keep them in sync.
+
+Taken one at a time, each value looks reasonable. Together they mean the same color is defined in several places, and some of those places are wrong. The fix has two parts: describe the system in a form an agent reads before it writes code, and run a check that fails when new code leaves it.
+
+## Tokens an agent can read
+
+The tokens live in `design-system/tokens.json`, written in the [W3C Design Tokens](https://www.designtokens.org/) format (DTCG). The format is a published standard, so AI models already understand its structure, and tools like Style Dictionary and Tokens Studio can read the same file.
+
+Each token records its value, a description of when to use it, and the code that implements it:
+
+```json
+"accent": {
+  "$type": "color",
+  "$value": "#2E5C8A",
+  "$description": "The single accent: deep denim navy on light surfaces (6.7:1). It follows the surface: site.css swaps --accent-rgb to accent-on-ink inside .bg-ink / [data-surface='dark']. Always reference it as `accent` / var(--accent), never as a literal, or it won't follow the surface.",
+  "$extensions": {
+    "site": { "cssVar": "--accent-rgb", "tailwind": ["colors.accent.DEFAULT"] }
+  }
+}
+```
+
+The `$extensions` block carries the details specific to this site:
+
+- `cssVar` and `tailwind` name the custom property and Tailwind key that must match the token.
+- `deprecated` and `replaceWith` mark old color names that still render but shouldn't appear in new code. The older `navy`, `plum`, and `charcoal` names all point to `ink`.
+- `restrictedTo` limits a token to specific files. The script typeface is only allowed in the logo.
+
+The descriptions matter as much as the values. "Decoration only: separator dots, arrow glyphs" tells an agent that the faint gray can't be used for readable text, which a hex value alone can't say.
+
+## Rules with a reason and a fix
+
+The second file, `design-system/rules.json`, lists every enforced rule. Each rule has a `why` and a `fix`, so the error message an agent sees also explains how to resolve it.
+
+| Rule | What it catches |
+| --- | --- |
+| `hardcoded-token-color` | A literal copy of a token value, such as `#fafbfc` instead of `bg-paper` |
+| `off-palette-color` | Any color that isn't in `tokens.json` |
+| `default-palette-class` | Tailwind defaults like `bg-blue-500` or `text-white`, which still compile because the config extends the default theme |
+| `legacy-color-class` | Old color names such as `text-navy` |
+| `arbitrary-value` | One-off values like `text-[0.85rem]` outside the primitive components |
+| `font-family` | Font names written out instead of a font token |
+| `restricted-font` | The script typeface outside the logo |
+| `legacy-prop-value` / `forbidden-prop-value` | Component props set to retired or disallowed values |
+| `token-sync` | The CSS variables or Tailwind config disagreeing with `tokens.json` |
+
+The literal-copy rule is easy to underestimate. A hardcoded `#2E5C8A` is the correct accent today, but it won't change if the accent changes, and it won't switch to the lighter accent on a dark section the way the token does.
+
+The file also sets a policy for component props. TypeScript already rejects values a component doesn't accept. The rules file covers values the component still accepts but the design no longer uses. This excerpt is the policy for the `Section` component's `tone` prop:
+
+```json
+"tone": {
+  "canonical": ["paper", "ink", "raised"],
+  "deprecated": { "cream": "paper", "white": "raised", "navy": "ink", "plum": "ink", "charcoal": "ink" },
+  "forbidden": { "surface-warm": "surface-warm is for small inline callouts only. Full-section tan washes were retired on 2026-08-25." }
+}
+```
+
+Some rules can't be checked by a script, such as "don't group content in white cards with shadows" or "interactive tools should look like the site, not a third-party widget." These go in a `guidelines` list in the same file, so the agent reads them alongside the enforced rules.
+
+## The check
+
+`npm run audit:design` scans the source files, applies each rule, and prints every violation with its file, line, and fix. When I add a test component that breaks five rules, the output looks like this:
+
+```
+src/components/DriftProbe.astro
+  :1     forbidden-prop-value   Section tone="surface-warm"  surface-warm is for small inline callouts only. Full-section tan washes were retired on 2026-08-25.
+  :2     legacy-prop-value      Heading tone="navy"  use tone="ink"
+  :3     arbitrary-value        tracking-[0.2em]  one-off value; use a primitive or a standard Tailwind step
+  :3     default-palette-class  text-blue-500  Tailwind default palette; use a system color
+  :3     hardcoded-token-color  #2e5c8a  matches token "accent"; use the accent utility or var(--accent)
+```
+
+It also checks that the token file, the CSS variables, and the Tailwind config agree, in both directions. Changing `--ink` in the stylesheet without changing the token fails. So does adding a Tailwind color that has no token, which closes the most common way a new color enters a project.
+
+A few details keep the results trustworthy:
+
+- **Comments are skipped.** A comment explaining why `#C13A22` was retired doesn't count as using it.
+- **Exceptions are written down.** The token playground lets visitors swap accent colors, so its palette is content, not interface. It's listed as an exception with a reason, and the check ignores only the rules named there.
+- **Article content is out of scope.** Posts like this one quote off-system values on purpose.
+
+## Blocking without a cleanup sprint
+
+The first full run found 391 violations across 41 files. Fixing all of them before turning the check on would have been a large, risky change, because several fixes alter how pages look. Replacing the second navy with the real accent, for example, needs to be checked visually on every page that uses it.
+
+Instead, the existing violations are recorded in `design-system/baseline.json`, counted per file, rule, and value:
+
+```json
+"src/components/chrome/Footer.astro": {
+  "arbitrary-value min-h-[44px]": 1,
+  "off-palette-color #a3c1dd": 1
+}
+```
+
+The check fails only when a count goes up. Counting by value instead of line number means moving code around a file doesn't trigger a failure, while adding one more copy of a known problem does.
+
+The baseline is built to only get smaller:
+
+- `--init-baseline` runs once and refuses to run again, so it can't be used to absorb new violations.
+- `--update-baseline` lowers counts after fixes and never raises or adds one.
+- When fixes land, the check reports how many baselined violations are gone and how to lock in the lower count.
+
+The backlog can then be paid down in small passes, each one reviewed on its own.
+
+## Where agents encounter it
+
+A rules file only helps if the agent reads it, and a check only helps if it runs. Both happen without anyone having to remember:
+
+- The project's `CLAUDE.md`, which the agent loads at the start of every session, tells it to read the token and rules files before any interface work and to run the check before finishing.
+- A git pre-commit hook runs the check whenever source files, the design-system files, or the Tailwind config are staged, and blocks the commit if it fails.
+- The failure message ends with an instruction: fix the code, and don't edit the baseline, rules, or tokens to make the check pass unless that design change was requested.
+
+That last instruction addresses a real risk. An agent told to make a failing check pass will sometimes change the check. Writing down that the baseline and exceptions are design decisions, and making the baseline tooling refuse to grow, keeps the shortcut out of reach.
+
+## Limits
+
+- **The check matches patterns; it doesn't parse code.** It reads class names, colors, and props with regular expressions. That's fast and covers how this codebase is written, but an unusual syntax can slip past it.
+- **It can't judge layout.** It catches values, not decisions. A page built entirely from approved tokens can still be cluttered or confusing, which is why the guidelines are there.
+- **The pre-commit hook can be bypassed.** `git commit --no-verify` skips it, and the production build doesn't run the check yet.
+- **Tailwind's default palette still compiles.** The check flags those classes, but removing the default palette from the Tailwind config would make them stop working entirely. That's a sensible step once the backlog is cleared.
+
+## Applying this to your project
+
+You don't need the whole setup to get most of the benefit. In order of value:
+
+1. Write your tokens in one DTCG file, with a description on each that says when to use it.
+2. Add a check that compares your CSS variables and Tailwind config to that file. This prevents the most common kind of drift: a new value added in one place.
+3. Flag literal colors and arbitrary values, and record the existing ones as a baseline that can only shrink.
+4. Point your agent's instruction file at the token and rules files, and run the check in a pre-commit hook.
+
+To see the system these files describe, visit the [style guide](/style-guide/).

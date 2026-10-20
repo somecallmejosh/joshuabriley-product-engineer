@@ -18,7 +18,7 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Design Systems & UI Engineer', headline: 'Design systems people can build on', wink: 'build on' },
+  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'I design and build product interfaces', wink: 'interfaces' },
   { slug: 'about', path: '/about/', eyebrow: 'About · Design Systems & UI Engineer', headline: 'An engineer with an eye for the details', wink: 'the details' },
   { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop' },
   { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Design Systems & UI Engineer', headline: 'Twenty-plus years. Still minding the details', wink: 'the details' },

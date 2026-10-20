@@ -245,6 +245,7 @@ const initial = computeRoi(DEFAULTS);
 
     /** Tween an element's number from its previous value to the next (easeOutCubic). */
     function animateNumber(el: HTMLElement, to: number, format: (v: number) => string) {
+      el.dataset.printValue = format(to);
       const prev = el.dataset.rcNum;
       const from = prev === undefined ? to : parseFloat(prev);
       el.dataset.rcNum = String(to);
@@ -257,6 +258,10 @@ const initial = computeRoi(DEFAULTS);
       const duration = 650;
       const start = performance.now();
       const step = (now: number) => {
+        if (document.body.dataset.printing || window.matchMedia('print').matches) {
+          el.textContent = format(to);
+          return;
+        }
         const t = Math.min(1, (now - start) / duration);
         const eased = 1 - Math.pow(1 - t, 3);
         el.textContent = format(from + (to - from) * eased);
@@ -266,6 +271,10 @@ const initial = computeRoi(DEFAULTS);
     }
 
     let calloutHtml = '';
+    window.addEventListener('beforeprint', () => {
+      if (calloutHtml) els.callout.innerHTML = calloutHtml;
+      els.callout.classList.remove('is-swapping');
+    });
     /** Swap the handwritten callout with a quick cross-fade. */
     function setCallout(html: string) {
       if (html === calloutHtml) return;

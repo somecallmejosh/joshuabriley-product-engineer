@@ -1,0 +1,275 @@
+{
+  "src/components/chrome/Footer.astro": {
+    "arbitrary-value min-h-[44px]": 1,
+    "hardcoded-token-color rgb(250,251,252)": 1,
+    "off-palette-color #a3c1dd": 1,
+    "off-palette-color #bfc8d1": 1
+  },
+  "src/components/chrome/Header.astro": {
+    "arbitrary-value ease-[cubic-bezier(0.32,0.72,0,1)]": 1,
+    "arbitrary-value rounded-[5px]": 1,
+    "arbitrary-value scale-[0.97]": 1,
+    "arbitrary-value text-[0.85rem]": 1,
+    "arbitrary-value transition-[background-color,transform]": 1
+  },
+  "src/components/chrome/MobileNav.astro": {
+    "hardcoded-token-color rgb(26,27,30)": 1
+  },
+  "src/components/chrome/SkipLink.astro": {
+    "default-palette-class text-white": 1,
+    "legacy-color-class bg-plum": 1
+  },
+  "src/components/islands/ContactForm.astro": {
+    "legacy-color-class text-charcoal/75": 2,
+    "legacy-color-class text-navy": 2
+  },
+  "src/components/islands/Diagnostic.astro": {
+    "off-palette-color #9a4a1e": 1,
+    "off-palette-color #e8573d": 1,
+    "off-palette-color #f08a5d": 1,
+    "off-palette-color rgb(246,247,249)": 1
+  },
+  "src/components/islands/InspectorMode.astro": {
+    "off-palette-color rgb(246,247,249)": 3,
+    "off-palette-color rgb(27,26,23)": 2
+  },
+  "src/components/islands/ScorecardEngine.astro": {
+    "arbitrary-value leading-[0.74]": 1,
+    "arbitrary-value leading-[0.85]": 1,
+    "arbitrary-value text-[1.75rem]": 1,
+    "arbitrary-value tracking-[-0.018em]": 2,
+    "arbitrary-value tracking-[-0.03em]": 1,
+    "arbitrary-value tracking-[-0.04em]": 1,
+    "default-palette-class bg-white": 2,
+    "off-palette-color rgb(0,0,0)": 1,
+    "off-palette-color rgb(246,247,249)": 1
+  },
+  "src/components/islands/ViewSource.astro": {
+    "off-palette-color rgb(246,247,249)": 5,
+    "off-palette-color rgb(27,26,23)": 1
+  },
+  "src/components/patterns/CodeBlock.astro": {
+    "arbitrary-value shadow-[0_18px_40px_-22px_rgba(45,43,85,0.6)]": 1,
+    "arbitrary-value text-[0.62rem]": 1,
+    "arbitrary-value tracking-[0.14em]": 1,
+    "default-palette-class border-white/10": 1,
+    "default-palette-class text-white/55": 1,
+    "default-palette-class text-white/85": 1,
+    "hardcoded-token-color rgb(255,255,255)": 1,
+    "off-palette-color #a3b2bf": 1,
+    "off-palette-color #a3c1dd": 1,
+    "off-palette-color rgb(45,43,85)": 1
+  },
+  "src/components/patterns/FidelityBand.astro": {
+    "hardcoded-token-color #ffffff": 1
+  },
+  "src/components/patterns/Lightbox.astro": {
+    "hardcoded-token-color #fff": 2,
+    "hardcoded-token-color #ffffff": 1,
+    "hardcoded-token-color rgb(255,255,255)": 8,
+    "off-palette-color rgb(0,0,0)": 1,
+    "off-palette-color rgb(18,17,15)": 1
+  },
+  "src/components/patterns/LiveEmbed.astro": {
+    "off-palette-color rgb(27,26,23)": 9
+  },
+  "src/components/patterns/Metric.astro": {
+    "arbitrary-value text-[0.62rem]": 1,
+    "arbitrary-value tracking-[-0.03em]": 1,
+    "arbitrary-value tracking-[0.1em]": 1
+  },
+  "src/components/patterns/Plate.astro": {
+    "hardcoded-token-color #ffffff": 1
+  },
+  "src/components/patterns/Recommendation.astro": {
+    "off-palette-color #a3c1dd": 1,
+    "off-palette-color #d0dce7": 1
+  },
+  "src/components/patterns/ScrollShot.astro": {
+    "off-palette-color rgb(27,26,23)": 2
+  },
+  "src/components/patterns/SiteShot.astro": {
+    "off-palette-color rgb(27,26,23)": 4
+  },
+  "src/components/patterns/ToolIllustration.astro": {
+    "hardcoded-token-color #fafbfc": 8,
+    "off-palette-color #1e2b36": 1,
+    "off-palette-color #244c71": 17,
+    "off-palette-color #2c6a62": 2,
+    "off-palette-color #5e4472": 1,
+    "off-palette-color #7894aa": 5,
+    "off-palette-color #9aafc1": 8,
+    "off-palette-color #9eaebb": 1,
+    "off-palette-color #9fbbd2": 1,
+    "off-palette-color #b9ccdc": 1,
+    "off-palette-color #c6d5e1": 1,
+    "off-palette-color #c6d8e8": 3,
+    "off-palette-color #d3dfe8": 3,
+    "off-palette-color #dce7ef": 1,
+    "off-palette-color #e5edf3": 1
+  },
+  "src/layouts/BaseLayout.astro": {
+    "hardcoded-token-color #1a1b1e": 1,
+    "legacy-color-class text-navy": 1
+  },
+  "src/layouts/ToolPage.astro": {
+    "off-palette-color #8da4b8": 1
+  },
+  "src/pages/404.astro": {
+    "arbitrary-value max-w-[18ch]": 1,
+    "arbitrary-value text-[0.7rem]": 1,
+    "arbitrary-value tracking-[0.12em]": 1,
+    "arbitrary-value underline-offset-[3px]": 1,
+    "off-palette-color rgb(27,26,23)": 1
+  },
+  "src/pages/blog/index.astro": {
+    "off-palette-color #6c89a3": 3,
+    "off-palette-color #8da4b8": 1,
+    "off-palette-color #c6d8e8": 4,
+    "off-palette-color #e0e8ef": 2
+  },
+  "src/pages/og-render/[slug].astro": {
+    "hardcoded-token-color #1a1b1e": 1,
+    "hardcoded-token-color #2e5c8a": 1,
+    "hardcoded-token-color #565760": 1,
+    "hardcoded-token-color #e5e7eb": 1,
+    "hardcoded-token-color #fafbfc": 1
+  },
+  "src/pages/personal-projects/rudiment-ui.astro": {
+    "arbitrary-value max-w-[24ch]": 2,
+    "arbitrary-value rounded-[4px]": 3,
+    "arbitrary-value text-[0.75rem]": 4,
+    "arbitrary-value text-[0.82rem]": 3,
+    "off-palette-color #3b82f6": 1
+  },
+  "src/pages/personal-projects/token-galaga.astro": {
+    "arbitrary-value max-w-[24ch]": 1,
+    "arbitrary-value rounded-[2px]": 1,
+    "arbitrary-value rounded-[4px]": 11,
+    "arbitrary-value text-[0.75rem]": 2,
+    "arbitrary-value text-[0.78rem]": 2,
+    "arbitrary-value text-[0.7rem]": 2,
+    "arbitrary-value text-[0.82rem]": 11,
+    "arbitrary-value tracking-[0.16em]": 2,
+    "off-palette-color #0e7490": 1,
+    "off-palette-color #a21caf": 1,
+    "off-palette-color #b45309": 1
+  },
+  "src/pages/personal-projects/west-baton-rouge-presbyterian.astro": {
+    "arbitrary-value max-w-[24ch]": 1
+  },
+  "src/pages/projects/ivfcryo.astro": {
+    "arbitrary-value border-l-[#3C7A4E]": 1,
+    "arbitrary-value border-l-[#C13A22]": 1,
+    "arbitrary-value border-l-[#C7811E]": 1,
+    "arbitrary-value grid-cols-[18px_9rem_minmax(0,1fr)]": 1,
+    "arbitrary-value grid-cols-[18px_minmax(0,1fr)]": 1,
+    "arbitrary-value max-w-[46ch]": 1,
+    "off-palette-color #3c7a4e": 1,
+    "off-palette-color #c13a22": 1,
+    "off-palette-color #c7811e": 1
+  },
+  "src/pages/projects/logatot.astro": {
+    "arbitrary-value text-[0.7rem]": 1,
+    "arbitrary-value tracking-[0.1em]": 1
+  },
+  "src/pages/projects/vmspark.astro": {
+    "arbitrary-value max-w-[46ch]": 1,
+    "arbitrary-value rounded-[4px]": 14,
+    "arbitrary-value text-[0.75rem]": 3,
+    "arbitrary-value text-[0.82rem]": 2,
+    "arbitrary-value text-[0.85em]": 12
+  },
+  "src/pages/resume-print/[...path].astro": {
+    "hardcoded-token-color #fff": 1,
+    "off-palette-color #1b1a17": 5,
+    "off-palette-color #33302b": 4,
+    "off-palette-color #5b574f": 6,
+    "off-palette-color #8a847a": 1,
+    "off-palette-color #a09a90": 1,
+    "off-palette-color #a8412a": 2,
+    "off-palette-color #b3ada2": 1
+  },
+  "src/pages/resume.astro": {
+    "off-palette-color #b7c6d2": 3
+  },
+  "src/pages/testimonials.astro": {
+    "off-palette-color #233d56": 1
+  },
+  "src/pages/tools/index.astro": {
+    "off-palette-color #c6d8e8": 3,
+    "off-palette-color #e0e8ef": 2
+  },
+  "src/pages/tools/scorecard/results.astro": {
+    "arbitrary-value text-[0.6875rem]": 3,
+    "arbitrary-value text-[0.95rem]": 2,
+    "arbitrary-value tracking-[-0.018em]": 2,
+    "arbitrary-value tracking-[0.16em]": 3,
+    "default-palette-class bg-white": 1,
+    "font-family 'Hanken Grotesk',sans-serif": 1,
+    "hardcoded-token-color #2e5c8a": 1,
+    "hardcoded-token-color #ffffff": 1,
+    "off-palette-color #1b1a17": 4,
+    "off-palette-color rgb(246,247,249)": 12,
+    "off-palette-color rgb(27,26,23)": 2
+  },
+  "src/styles/articles.css": {
+    "off-palette-color #60809d": 1,
+    "off-palette-color #a3c1dd": 1,
+    "off-palette-color #c0ceda": 1,
+    "off-palette-color #c6d8e8": 1
+  },
+  "src/styles/projects.css": {
+    "hardcoded-token-color rgb(250,251,252)": 1,
+    "off-palette-color #233d56": 1,
+    "off-palette-color #454a51": 1,
+    "off-palette-color #a3c1dd": 1,
+    "off-palette-color #b7bfc7": 2,
+    "off-palette-color #dce5ed": 1,
+    "off-palette-color #e6edf3": 1,
+    "off-palette-color #f0f3f6": 1,
+    "off-palette-color rgb(23,44,65)": 1,
+    "off-palette-color rgb(26,47,67)": 1
+  },
+  "src/styles/redesign.css": {
+    "hardcoded-token-color rgb(250,251,252)": 1,
+    "off-palette-color #183a59": 1,
+    "off-palette-color #233d56": 1,
+    "off-palette-color #244c71": 1,
+    "off-palette-color #787f88": 1,
+    "off-palette-color #aebfce": 1,
+    "off-palette-color #d2dce3": 1,
+    "off-palette-color #dce6eb": 1,
+    "off-palette-color #dde5ee": 1,
+    "off-palette-color #e3e7e9": 1,
+    "off-palette-color #edf1f4": 1,
+    "off-palette-color #f0f3f6": 1,
+    "off-palette-color rgb(16,31,47)": 1
+  },
+  "src/styles/site.css": {
+    "default-palette-class bg-white": 1,
+    "legacy-color-class bg-cream": 1,
+    "off-palette-color #2d2b55": 1,
+    "off-palette-color #2e2e30": 1,
+    "off-palette-color rgb(27,26,23)": 3,
+    "off-palette-color rgb(45,43,85)": 5
+  },
+  "src/styles/style-guide.css": {
+    "off-palette-color #b7c6d2": 4,
+    "off-palette-color #c8cbd0": 1,
+    "off-palette-color #c8d3dc": 1,
+    "off-palette-color #d0dce7": 1
+  },
+  "src/styles/tools.css": {
+    "off-palette-color #183a59": 1,
+    "off-palette-color #547795": 2,
+    "off-palette-color #6c89a3": 2,
+    "off-palette-color #9bb4c9": 1,
+    "off-palette-color #a8b9c7": 3,
+    "off-palette-color #afc2d1": 4,
+    "off-palette-color #c6d8e8": 5,
+    "off-palette-color #dbe7f0": 5,
+    "off-palette-color #dce6ef": 2,
+    "off-palette-color #e0e8ef": 1
+  }
+}
