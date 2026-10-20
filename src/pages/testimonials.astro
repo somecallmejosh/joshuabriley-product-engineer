@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Recommendation from '~/components/patterns/Recommendation.astro';
-import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 
 const sorted = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
 const featured = sorted.find(entry => entry.data.featured) ?? sorted[0];
@@ -27,8 +26,8 @@ const description = `Recommendations from ${sorted.length} clients and colleague
       <h1 class="page-type hero-in hero-in-2">What it’s like<br />to <em>work with me.</em></h1>
       <p class="page-lede hero-in hero-in-3">Recommendations from {sorted.length} clients and colleagues on design quality, reliable delivery, and working across teams.</p>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse recommendations">
-        {groups.map(group => <a href={`#${group.id}`}>{group.title} <span aria-hidden="true">↓</span></a>)}
-        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile <span aria-hidden="true">↗</span></a>
+        {groups.map(group => <a href={`#${group.id}`}>{group.title} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
+        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </nav>
     </Container>
   </section>
@@ -47,7 +46,6 @@ const description = `Recommendations from ${sorted.length} clients and colleague
       </div>
     </Container>
   </section>)}
-  <ContactInvitation />
 </BaseLayout>
 <style>
   .testimonials-feature { background: #233d56; padding: 5rem 0; }

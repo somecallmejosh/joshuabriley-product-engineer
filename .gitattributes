@@ -1,0 +1,2 @@
+# Generated PDFs are binary artifacts, regardless of their object layout.
+*.pdf binary

@@ -7,7 +7,7 @@ const { next } = projectPages[Astro.props.project];
 <section class="project-next bg-ink">
   <Container width="wide">
     <p class="project-next-label">Next project</p>
-    <a class="project-next-link" href={next.href}><span><h2>{next.name}</h2><p>{next.description}</p></span><span class="project-next-arrow" aria-hidden="true">↗</span></a>
-    <nav aria-label="Continue exploring" class="project-next-nav"><a href="/projects/">All work <span aria-hidden="true">↖</span></a><a href="/contact/">Talk about your team <span aria-hidden="true">↗</span></a><a href="/resume/">View résumé <span aria-hidden="true">↗</span></a></nav>
+    <a class="project-next-link" href={next.href}><span><h2>{next.name}</h2><p>{next.description}</p></span><span class="project-next-arrow" aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    <nav aria-label="Continue exploring" class="project-next-nav"><a href="/projects/">All work <span aria-hidden="true" data-link-arrow="up-left">↖</span></a><a href="/contact/">Talk about your team <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></nav>
   </Container>
 </section>

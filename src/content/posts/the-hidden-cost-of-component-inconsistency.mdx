@@ -8,22 +8,11 @@ tags:
   - Contribution
   - Developer Experience
 readMinutes: 5
-icon: ph:puzzle-piece-duotone
-figure: drift
-gradient: from-lemon/30 to-coral/30
-sticker: coral
 ---
 
-<p class="lede">
-  Every team I've worked with tells the same story. Someone needs a button,
-  the one in the design system doesn't quite fit, so they build a new one. That
-  makes sense at the time. Repeat it across six teams for two years, and you get
-  a problem nobody meant to create and nobody owns.
-</p>
+<p class="lede">One extra button can become one more review, one more accessibility fix, and one more upgrade to coordinate. Across products, the repeated work becomes harder to see—and harder to plan for.</p>
 
-Component inconsistency rarely causes one big, visible failure. Instead it's a small cost that repeats in a dozen places, and no single place owns it. Because it never shows up as one ticket, it's hard to point to. But once you start looking, you'll find it everywhere.
-
-This post names the specific places that cost hides, so you have something concrete to bring to a planning conversation instead of just a hunch.
+A local variation may solve a real need. The question is whether the team understands the maintenance that comes with it. This article identifies where that effort shows up and how to bring concrete evidence to a planning conversation.
 
 ## Where the costs show up
 
@@ -31,102 +20,38 @@ Most teams treat component drift as a design-system problem, but it behaves more
 
 Here's where it usually hides:
 
-<div class="mt-10 grid sm:grid-cols-2 gap-5 not-prose">
-  <div class="cost-card" style="transform: rotate(-0.4deg)">
-    <div class="icon-wrap">
-      <iconify-icon
-        icon="ph:git-pull-request-duotone"
-        width="24"
-      ></iconify-icon>
-    </div>
-    <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Slower code reviews
-    </h3>
-    <p class="text-charcoal/75 text-sm leading-relaxed">
-      Reviewers pause to ask which version is the official one. It doesn't
-      block the pull request, but it makes every review a little slower.
-    </p>
-  </div>
-  <div class="cost-card" style="transform: rotate(0.3deg)">
-    <div class="icon-wrap">
-      <iconify-icon icon="ph:wheelchair-duotone" width="24"></iconify-icon>
-    </div>
-    <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Accessibility bugs multiply
-    </h3>
-    <p class="text-charcoal/75 text-sm leading-relaxed">
-      Each fix has to be repeated in every copy of the component. You end up
-      patching the same problem in four codebases and hoping you caught all four.
-    </p>
-  </div>
-  <div class="cost-card" style="transform: rotate(0.4deg)">
-    <div class="icon-wrap">
-      <iconify-icon icon="ph:pencil-ruler-duotone" width="24"></iconify-icon>
-    </div>
-    <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Designers answer the same questions
-    </h3>
-    <p class="text-charcoal/75 text-sm leading-relaxed">
-      "Is this spacing right?" "Is this the new card or the old one?" Small
-      questions like these get asked, and answered, over and over in meetings
-      and chat threads.
-    </p>
-  </div>
-  <div class="cost-card" style="transform: rotate(-0.3deg)">
-    <div class="icon-wrap">
-      <iconify-icon icon="ph:user-plus-duotone" width="24"></iconify-icon>
-    </div>
-    <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      New hires relearn everything
-    </h3>
-    <p class="text-charcoal/75 text-sm leading-relaxed">
-      New engineers learn the patterns in one part of the codebase, then find
-      out those patterns don't apply anywhere else. So they ask around, or
-      just build their own version.
-    </p>
-  </div>
-  <div class="cost-card sm:col-span-2" style="transform: rotate(-0.1deg)">
-    <div class="icon-wrap">
-      <iconify-icon icon="ph:trend-up-duotone" width="24"></iconify-icon>
-    </div>
-    <h3 class="font-display text-xl font-semibold text-navy leading-tight mb-2">
-      Upgrades only reach part of the product
-    </h3>
-    <p class="text-charcoal/75 text-sm leading-relaxed">
-      You ship a better focus state, a cleaner token, or a faster way to render,
-      but it only reaches teams already using the shared version, while the rest
-      stay on the old one. Over time it gets harder to justify investing in
-      the shared system, because fewer teams actually benefit from it.
-    </p>
-  </div>
+<div class="cost-list not-prose">
+<section class="cost-card"><h3>Slower code reviews</h3><p>Reviewers pause to ask which version is the official one. It doesn't block the pull request, but it makes every review a little slower.</p></section>
+<section class="cost-card"><h3>Accessibility bugs multiply</h3><p>Each fix has to be repeated in every copy of the component. You end up patching the same problem in four codebases and hoping you caught all four.</p></section>
+<section class="cost-card"><h3>Designers answer the same questions</h3><p>"Is this spacing right?" "Is this the new card or the old one?" Small questions like these get asked, and answered, over and over in meetings and chat threads.</p></section>
+<section class="cost-card"><h3>New hires relearn everything</h3><p>New engineers learn the patterns in one part of the codebase, then find out those patterns don't apply anywhere else. So they ask around, or just build their own version.</p></section>
+<section class="cost-card"><h3>Upgrades only reach part of the product</h3><p>You ship a better focus state, a cleaner token, or a faster way to render, but it only reaches teams already using the shared version, while the rest stay on the old one. Over time it gets harder to justify investing in the shared system, because fewer teams actually benefit from it.</p></section>
 </div>
 
 ## Why leadership can't see it
 
-These costs aren't hidden so much as spread out. Review friction looks like slower delivery. Accessibility debt looks like a cleanup sprint. Designer time looks like design "can't keep up." Onboarding problems show up in exit interviews. Each one has its own explanation, and none of those explanations point back to the real cause.
+These costs aren't hidden so much as spread out. Review friction looks like slower delivery. Accessibility debt looks like a cleanup sprint. Designer time looks like design "can't keep up." New hires spend time checking which patterns they can reuse. Each one has its own explanation, and none of those explanations point back to the real cause.
 
-Nobody adds these costs together. The cost is real, but there's no line on any spreadsheet called _component inconsistency_, so nothing ever gets charged to it directly.
+These costs are easy to track separately. The cost is real, but there's no line on any spreadsheet called _component inconsistency_, so nothing ever gets charged to it directly.
 
 <p class="pullquote">
-  A cost only gets budgeted once someone names it and measures it.
+  Repeated UI work is easier to discuss when you can show where it happens.
 </p>
 
 ## Measuring the cost
 
 The first step is measurement rather than a big rewrite: a way to turn this scattered cost into a number that can sit next to the features competing for the same budget.
 
-I call mine a **Design System Scorecard**. It's simple on purpose. It does three things:
+Start with one pattern across a small set of products:
 
-- **Counts what exists.** How many different buttons are actually in use across your products? How many date pickers? The number is usually higher than anyone expects, including leadership. That surprise is useful.
-- **Measures how far each one has drifted.** For each component, how different is each version from the official one? A rough scale is enough. You don't need precision, just a number.
-- **Adds up the maintenance cost.** Look at the last two or three quarters of tickets tied to these components: hours spent, bugs filed, accessibility issues found. Put it on one page.
+- **Inventory the versions in use.** Find the shared component, local copies, and intentional exceptions. Record who owns each one and why it exists.
+- **Compare behavior as well as appearance.** Check keyboard interaction, errors, loading, and responsive states. A matching screenshot can hide different maintenance needs.
+- **Connect the differences to real work.** Review recent tickets and pull requests. Record repeated fixes, review questions, and upgrade effort. Use ranges when time records are incomplete.
 
-None of this is new. The value comes from putting a number on something that has only been a feeling, because a number is much easier to defend in a budget discussion.
+The [Design System Scorecard](/tools/scorecard/) is a self-assessment for discussing system health. The [UI rework calculator](/tools/roi-calculator/) models an estimate from your inputs. Neither scans your codebase or replaces a component inventory; use them to organize a conversation around the evidence you collect.
 
 ## How to start
 
-If you want to start, don't write a proposal first. Open the code and the Figma file, and count buttons. Count only buttons, and give it one afternoon.
+Choose one frequently used component and inspect it in code, design files, and a few live product states. Ask its maintainers which differences are intentional and which create repeated work.
 
-The number will probably be bigger than you expected, and once you've seen it, you and anyone you show it to will remember it. That's when an abstract concern becomes a real conversation, which is how design systems get funded.
-
-This cost stays hidden until someone measures it, and measuring it is the first step to fixing it.
+Bring those examples to the next planning conversation. Propose a focused change with an owner, a migration path, and a way to check whether the repeated work decreases. A useful baseline does more for that decision than a count of buttons on its own.

@@ -19,7 +19,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "images:portrait": "node scripts/generate-portrait.mjs"
+    "images:portrait": "node scripts/generate-portrait.mjs",
+    "audit:components": "node scripts/audit-component-usage.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.0.0",

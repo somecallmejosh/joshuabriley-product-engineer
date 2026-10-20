@@ -9,6 +9,9 @@ import { cx } from '~/lib/cx';
 
 interface Props {
   label: string;
+  /** Also used for the server-rendered disabled and busy examples. */
+  disabled?: boolean;
+  busy?: boolean;
   loadingLabel?: string;
   iconLeft?: string;
   iconRight?: string;
@@ -20,6 +23,8 @@ interface Props {
 
 const {
   label,
+  disabled = false,
+  busy = false,
   loadingLabel = 'Sending…',
   iconLeft,
   iconRight = 'ph:arrow-up-right',
@@ -33,6 +38,8 @@ const {
 
 <button
   type="submit"
+  disabled={disabled || busy}
+  aria-busy={busy ? 'true' : undefined}
   id={id}
   form={form}
   data-submit
@@ -62,5 +69,4 @@ const {
 <style>
   .submit-button[data-size='md'] { min-height: 44px; padding: .5rem 1rem; font-size: .9rem; gap: 1rem; }
   .submit-button:disabled { background: var(--portfolio-blue); }
-  .submit-button:disabled > span[aria-hidden='true'] { transform: none; }
 </style>

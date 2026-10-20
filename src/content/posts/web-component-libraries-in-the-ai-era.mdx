@@ -8,13 +8,11 @@ tags:
   - Contribution
   - Developer Experience
 readMinutes: 23
-icon: ph:robot-duotone
-figure: ownership
-gradient: from-sunset/30 via-lemon/30 to-coral/30
-sticker: sky
 ---
 
-A research briefing for individual contributors, product owners, and engineering leaders working at enterprise scale.
+<p class="lede">Component libraries define what teams can reuse and what they have to maintain. AI-assisted development adds another question: how clearly can a tool understand those decisions?</p>
+
+This briefing traces changes in component distribution, ownership, and tooling, then considers the implications for enterprise teams. Its forward-looking sections are interpretations of those trends.
 
 ## Summary
 
@@ -231,8 +229,8 @@ Not every commentator agrees the standards-and-agents direction is correct. Both
 
 ## A question for your team
 
-Every frontend team already uses AI, so the more useful question is this: if a coding agent opened a pull request against your design system tomorrow, would your tokens, components, documentation, and tests give it enough context to do the right thing, and enough guardrails to fail safely if it didn't?
+If your team uses coding agents, inspect one of their pull requests against the system. Did the agent choose an existing component, follow its API, and preserve keyboard and responsive behavior? Which decisions still needed a person to explain or verify?
 
-If the answer is yes, your system is agent-ready. If not, plan that work over the next few quarters rather than the next few years.
+Use that review to identify a specific improvement to the documentation, examples, or tests. Repeat the exercise across a few tasks before treating a successful example as evidence of reliable system-wide behavior.
 
-_Compiled from primary sources including the W3C Design Tokens Community Group, WICG, Figma, Vercel, Anthropic, shadcn/ui, Chakra UI, the W3C Web Accessibility Initiative, Deloitte, and peer-reviewed accessibility research from the ACM Digital Library, alongside reporting from CoderPad, LogRocket, Codrops, Snyk, and DEV Community contributors. All linked external resources were verified as live as of the publication date._
+_Compiled from primary sources including the W3C Design Tokens Community Group, WICG, Figma, Vercel, Anthropic, shadcn/ui, Chakra UI, the W3C Web Accessibility Initiative, Deloitte, and peer-reviewed accessibility research from the ACM Digital Library, alongside reporting from CoderPad, LogRocket, Codrops, Snyk, and DEV Community contributors._

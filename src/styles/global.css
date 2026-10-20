@@ -1,4 +1,5 @@
 @import './site.css';
+@import './link-motion.css';
 
 @tailwind base;
 @tailwind components;

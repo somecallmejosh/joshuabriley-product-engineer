@@ -14,22 +14,20 @@ export const PRIMARY_NAV: NavLink[] = [
 
 export const FOOTER_NAV: { heading: string; links: NavLink[] }[] = [
   {
-    heading: 'Site',
+    heading: 'Explore',
     links: [
-      { href: '/about/', label: 'About' },
       { href: '/projects/', label: 'Work' },
-      { href: '/resume/', label: 'Résumé' },
-      { href: '/contact/', label: 'Contact' },
+      { href: '/blog/', label: 'Writing' },
+      { href: '/tools/', label: 'Tools' },
     ],
   },
   {
-    heading: 'More',
+    heading: 'About & experience',
     links: [
-      { href: '/personal-projects/', label: 'Personal Projects' },
-      { href: '/testimonials/', label: 'Testimonials' },
-      { href: '/blog/', label: 'Blog' },
-      { href: '/tools/', label: 'Tools' },
-      { href: '/style-guide/', label: 'Style Guide' },
+      { href: '/about/', label: 'About' },
+      { href: '/resume/', label: 'Résumé' },
+      { href: '/testimonials/', label: 'Recommendations' },
+      { href: '/personal-projects/', label: 'Personal projects' },
     ],
   },
 ]

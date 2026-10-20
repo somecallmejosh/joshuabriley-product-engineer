@@ -1,0 +1,290 @@
+/** Components reached by public pages, excluding style-guide-only examples. */
+export const componentCatalogue = [
+  {
+    "name": "Footer",
+    "path": "src/components/chrome/Footer.astro",
+    "group": "chrome",
+    "note": "Site navigation, contact information, and supporting links.",
+    "href": "/"
+  },
+  {
+    "name": "Header",
+    "path": "src/components/chrome/Header.astro",
+    "group": "chrome",
+    "note": "The shared wordmark, primary navigation, and contact link.",
+    "href": "/"
+  },
+  {
+    "name": "MobileNav",
+    "path": "src/components/chrome/MobileNav.astro",
+    "group": "chrome",
+    "note": "The mobile navigation dialog with Escape dismissal and focus handling.",
+    "href": "/"
+  },
+  {
+    "name": "SkipLink",
+    "path": "src/components/chrome/SkipLink.astro",
+    "group": "chrome",
+    "note": "The first keyboard stop, taking readers directly to main content.",
+    "href": "/"
+  },
+  {
+    "name": "Field",
+    "path": "src/components/form/Field.astro",
+    "group": "form",
+    "note": "A visible label with optional hint, required marker, and error text.",
+    "href": "/contact/"
+  },
+  {
+    "name": "FormAlert",
+    "path": "src/components/form/FormAlert.astro",
+    "group": "form",
+    "note": "Polite success status or assertive error feedback.",
+    "href": "/contact/"
+  },
+  {
+    "name": "Input",
+    "path": "src/components/form/Input.astro",
+    "group": "form",
+    "note": "Text, email, and phone inputs used by the contact form.",
+    "href": "/contact/"
+  },
+  {
+    "name": "SubmitButton",
+    "path": "src/components/form/SubmitButton.astro",
+    "group": "form",
+    "note": "Primary action with ready, busy, and disabled states.",
+    "href": "/contact/"
+  },
+  {
+    "name": "Textarea",
+    "path": "src/components/form/Textarea.astro",
+    "group": "form",
+    "note": "Multiline input with explicit label and description references.",
+    "href": "/contact/"
+  },
+  {
+    "name": "ContactForm",
+    "path": "src/components/islands/ContactForm.astro",
+    "group": "islands",
+    "note": "Client-side validation, submission, and status handling for contact messages.",
+    "href": "/contact/"
+  },
+  {
+    "name": "CopyButton",
+    "path": "src/components/islands/CopyButton.astro",
+    "group": "islands",
+    "note": "A clipboard action with visible and announced feedback.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Diagnostic",
+    "path": "src/components/islands/Diagnostic.astro",
+    "group": "islands",
+    "note": "An interactive sample audit with review findings and proposed fixes.",
+    "href": "/tools/audit-findings/"
+  },
+  {
+    "name": "InspectorMode",
+    "path": "src/components/islands/InspectorMode.astro",
+    "group": "islands",
+    "note": "A keyboard-activated layout overlay for inspecting the site.",
+    "href": "/"
+  },
+  {
+    "name": "RoiCalculator",
+    "path": "src/components/islands/RoiCalculator.astro",
+    "group": "islands",
+    "note": "A rework estimate that recalculates from the reader’s inputs.",
+    "href": "/tools/roi-calculator/"
+  },
+  {
+    "name": "ScorecardEngine",
+    "path": "src/components/islands/ScorecardEngine.astro",
+    "group": "islands",
+    "note": "A design-system self-assessment with local progress and report output.",
+    "href": "/tools/scorecard/"
+  },
+  {
+    "name": "TokenPlayground",
+    "path": "src/components/islands/TokenPlayground.astro",
+    "group": "islands",
+    "note": "Live controls showing how shared tokens change several UI elements.",
+    "href": "/tools/token-playground/"
+  },
+  {
+    "name": "ViewSource",
+    "path": "src/components/islands/ViewSource.astro",
+    "group": "islands",
+    "note": "An optional Alt/Option-hover overlay for elements carrying source metadata.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Container",
+    "path": "src/components/layout/Container.astro",
+    "group": "layout",
+    "note": "Content widths with a shared 24px horizontal gutter.",
+    "href": "/"
+  },
+  {
+    "name": "Section",
+    "path": "src/components/layout/Section.astro",
+    "group": "layout",
+    "note": "Surface and spacing wrapper used by case studies and supporting pages.",
+    "href": "/privacy/"
+  },
+  {
+    "name": "CaseReview",
+    "path": "src/components/patterns/CaseReview.astro",
+    "group": "patterns",
+    "note": "Case-study shortcuts to the summary, interface, and outcomes.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "CodeBlock",
+    "path": "src/components/patterns/CodeBlock.astro",
+    "group": "patterns",
+    "note": "A captioned code artifact with line numbers and a copy action.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "FidelityBand",
+    "path": "src/components/patterns/FidelityBand.astro",
+    "group": "patterns",
+    "note": "A case-study comparison of design fidelity and implementation.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Lightbox",
+    "path": "src/components/patterns/Lightbox.astro",
+    "group": "patterns",
+    "note": "The shared artifact viewer, with zoom and keyboard dismissal.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "LiveEmbed",
+    "path": "src/components/patterns/LiveEmbed.astro",
+    "group": "patterns",
+    "note": "An optional, explicitly loaded live website preview.",
+    "href": "/personal-projects/rudiment-ui/"
+  },
+  {
+    "name": "Metric",
+    "path": "src/components/patterns/Metric.astro",
+    "group": "patterns",
+    "note": "A measured result with a label and supporting context.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Plate",
+    "path": "src/components/patterns/Plate.astro",
+    "group": "patterns",
+    "note": "A full design sheet with a caption and keyboard-accessible zoom.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Portrait",
+    "path": "src/components/patterns/Portrait.astro",
+    "group": "patterns",
+    "note": "The responsive photograph used on the home and about pages.",
+    "href": "/about/"
+  },
+  {
+    "name": "ProjectHero",
+    "path": "src/components/patterns/ProjectHero.astro",
+    "group": "patterns",
+    "note": "A project title, ownership details, evidence, and interface preview.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "ProjectNext",
+    "path": "src/components/patterns/ProjectNext.astro",
+    "group": "patterns",
+    "note": "A large link to the next project, using the shared project data.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Recommendation",
+    "path": "src/components/patterns/Recommendation.astro",
+    "group": "patterns",
+    "note": "A quotation attributed to a named colleague; regular and featured layouts.",
+    "href": "/testimonials/"
+  },
+  {
+    "name": "ScrollShot",
+    "path": "src/components/patterns/ScrollShot.astro",
+    "group": "patterns",
+    "note": "A scrollable long-page screenshot with an inspection control.",
+    "href": "/projects/vmspark/"
+  },
+  {
+    "name": "SiteShot",
+    "path": "src/components/patterns/SiteShot.astro",
+    "group": "patterns",
+    "note": "A website screenshot with a caption and optional image viewer.",
+    "href": "/personal-projects/rudiment-ui/"
+  },
+  {
+    "name": "Tldr",
+    "path": "src/components/patterns/Tldr.astro",
+    "group": "patterns",
+    "note": "A project summary with expandable decisions, evidence, and reflection.",
+    "href": "/projects/ivfcryo/#tldr"
+  },
+  {
+    "name": "ToolIllustration",
+    "path": "src/components/patterns/ToolIllustration.astro",
+    "group": "patterns",
+    "note": "An explanatory SVG for each of the four tools.",
+    "href": "/tools/"
+  },
+  {
+    "name": "WorkList",
+    "path": "src/components/patterns/WorkList.astro",
+    "group": "patterns",
+    "note": "Selected case studies with interface images, roles, and results.",
+    "href": "/projects/"
+  },
+  {
+    "name": "Heading",
+    "path": "src/components/primitives/Heading.astro",
+    "group": "primitives",
+    "note": "Heading semantics and visual size controlled independently.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "Icon",
+    "path": "src/components/primitives/Icon.astro",
+    "group": "primitives",
+    "note": "Iconify icons with decorative or explicitly labelled semantics.",
+    "href": "/contact/"
+  },
+  {
+    "name": "Link",
+    "path": "src/components/primitives/Link.astro",
+    "group": "primitives",
+    "note": "Navigation, inline, and arrow links used by the site chrome and legal pages.",
+    "href": "/privacy/"
+  },
+  {
+    "name": "Logo",
+    "path": "src/components/primitives/Logo.astro",
+    "group": "primitives",
+    "note": "The Style Script wordmark used in the header and footer.",
+    "href": "/"
+  },
+  {
+    "name": "Text",
+    "path": "src/components/primitives/Text.astro",
+    "group": "primitives",
+    "note": "Body, caption, and supporting text used by case studies and supporting pages.",
+    "href": "/privacy/"
+  },
+  {
+    "name": "ArticleTable",
+    "path": "src/components/writing/ArticleTable.astro",
+    "group": "writing",
+    "note": "A labelled, keyboard-scrollable table region that preserves column headings.",
+    "href": "/blog/native-lit-or-stencil/"
+  }
+] as const;

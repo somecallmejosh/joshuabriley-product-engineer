@@ -136,27 +136,6 @@ html {
   }
 }
 
-/* A navy underline that draws in from the left when you hover an italic "wink"
-   word in a headline — discoverable delight, not a permanent rule. Triggers on
-   the word itself or on the headline it sits inside. */
-.ink-wink {
-  background-image: linear-gradient(var(--accent), var(--accent));
-  background-repeat: no-repeat;
-  background-position: 0 90%;
-  background-size: 0% 2px;
-  transition: background-size 0.45s var(--ease-out);
-}
-.ink-wink:hover,
-:hover > .ink-wink {
-  background-size: 100% 2px;
-}
-
-/* Magnetic elements get their motion from scripts/whimsy.ts (inline transform).
-   This just removes the tap-highlight flash so the squish reads clean on touch. */
-.js-magnetic {
-  -webkit-tap-highlight-color: transparent;
-}
-
 /* ── Surface-aware accent ────────────────────────────────────────────────────
    The denim navy is legible on light paper but goes muddy on dark ink. These
    rules brighten the accent to a sky-denim that clears AA on ink (6.6:1) for any
@@ -635,17 +614,7 @@ header .mobile-menu a[aria-current='page'] {
   transform: none !important;
   box-shadow: none !important;
 }
-.icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--paper);
-  background: var(--ink) !important;
-  margin-bottom: 0.9rem;
-}
+
 
 /* Blog markdown tables — clean editorial data table (hairline rules, mono head). */
 .prose-whimsy table {
@@ -1123,128 +1092,6 @@ header .mobile-menu a[aria-current='page'] {
 .prose-whimsy :where(a[data-footnote-backref]) {
   text-decoration: none;
   padding-left: 0.35em;
-}
-
-/* =====================================================================
-   Editorial case-study hero — shared by every /projects/* opener.
-   An asymmetric feature opener (no floating card): left-set headline,
-   an oversized chapter-style numeral watermark, and the project meta
-   reframed as a ruled colophon rail.
-   ===================================================================== */
-.hero-grid {
-  display: grid;
-  gap: 2.75rem;
-}
-@media (min-width: 1024px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1fr) 14rem;
-    gap: 4rem;
-    align-items: start;
-  }
-}
-
-/* Hero main column — kept above the oversized chapter-numeral watermark. */
-.hero-main {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-wordmark {
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  font-size: 1.4rem;
-  line-height: 1;
-}
-.hero-logo-img {
-  height: 26px;
-  width: auto;
-  display: block;
-}
-
-/* Oversized chapter-style numeral as a quiet watermark. */
-.hero-index {
-  position: absolute;
-  top: -0.75rem;
-  right: -0.5rem;
-  z-index: 0;
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 0.8;
-  font-size: clamp(9rem, 20vw, 17rem);
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(26, 27, 30, 0.1);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Project meta as a ruled colophon / spec sheet. */
-.hero-rail {
-  position: relative;
-}
-.hero-rail dl {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem 1.5rem;
-}
-.hero-rail dt {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--ink-muted);
-  margin-bottom: 0.35rem;
-}
-.hero-rail dd {
-  font-family: var(--font-hanken), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  line-height: 1.25;
-}
-@media (min-width: 1024px) {
-  .hero-rail {
-    padding-left: 2rem;
-    padding-top: 0.5rem;
-    border-left: 1px solid var(--line);
-  }
-  .hero-rail dl {
-    grid-template-columns: 1fr;
-    gap: 1.1rem;
-  }
-  .hero-rail dl > div {
-    padding-bottom: 1.1rem;
-    border-bottom: 1px solid rgba(45, 43, 85, 0.08);
-  }
-  .hero-rail dl > div:last-child {
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-}
-
-/* CTAs demoted from filled pills to quiet arrow links. */
-.hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-hanken), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--ink);
-  transition: color 0.2s ease;
-}
-.hero-cta--primary {
-  color: var(--accent);
-}
-.hero-cta:hover {
-  color: var(--accent);
-}
-.hero-cta-arrow {
-  transition: transform 0.2s ease;
-}
-.hero-cta:hover .hero-cta-arrow {
-  transform: translate(2px, -2px);
 }
 
 /* Calm editorial link for the hero lede — not the spellcheck-style wavy underline. */

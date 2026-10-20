@@ -1,12 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
-import { FIGURES } from './lib/figures';
-
-const testimonialVariant = z.enum(['polaroid', 'sticky', 'index', 'plum']);
-const avatarTone = z.enum(['coral', 'plum', 'sage', 'sky', 'navy']);
-const tilt = z.enum(['rot-1', 'rot-2', 'rot-3', 'rot-4', 'rot-5']);
-const tape = z.enum(['left', 'right', 'center', 'left-coral', 'right-coral']).optional();
-const pin = z.enum(['coral', 'plum', 'sage']).optional();
+import { glob } from 'astro/loaders';
 
 const testimonials = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/testimonials' }),
@@ -17,16 +10,9 @@ const testimonials = defineCollection({
     company: z.string(),
     quote: z.string(),
     initials: z.string(),
-    avatarTone: avatarTone,
-    variant: testimonialVariant,
-    tilt: tilt,
-    pin: pin,
-    tape: tape,
-    /** For polaroid variant: gradient applied to the avatar slab. */
-    slabGradient: z.string().optional(),
-    /** Path to the person's photo (used for the avatar / polaroid slab). */
+    /** Optional photograph shown with the attribution. */
     image: z.string().optional(),
-    /** Use white text and a quote glyph (plum variant featured cards). */
+    /** Use the larger featured recommendation layout. */
     featured: z.boolean().optional(),
   }),
 });
@@ -39,28 +25,13 @@ const posts = defineCollection({
     date: z.coerce.date(),
     /** Plain-text category shown above the post title (e.g. "Design Systems"). */
     category: z.string(),
-    /** Optional sticker badges shown on the index card hero (max ~3). */
+    /** Editorial topic metadata. */
     tags: z.array(z.string()).default([]),
     /** Read time in minutes (computed by hand for now). */
     readMinutes: z.number(),
-    /** Iconify name for the gradient hero block on the index card. */
-    icon: z.string(),
-    /** Hand-authored article figure — keys one drawing in PostFigure.astro.
-     *  Optional because the figures are bespoke per essay and cannot be reused:
-     *  a new post must not fail the build for not having one drawn yet. Every
-     *  placement is guarded, so a post without a figure renders unchanged. */
-    figure: z.enum(FIGURES).optional(),
-    /** Tailwind classes for the index card's gradient block (e.g. "from-lemon via-coral/40 to-sky/30"). */
-    gradient: z.string(),
-    /** Tone applied to the corner sticker on the index card. */
-    sticker: z.enum(['coral', 'plum', 'sage', 'sky', 'sunset', 'lemon']),
-    /** Show this post in the featured "notebook" slot on the index. */
-    featured: z.boolean().default(false),
     /** Hide from listings — useful for drafts. */
     draft: z.boolean().default(false),
-    /** Interactive post (embeds a tool widget): drops the TOC rail and lets
-     *  `.post-tool` blocks break out wider than the reading column. */
-    interactive: z.boolean().default(false),
+
   }),
 });
 
@@ -85,7 +56,7 @@ const tools = defineCollection({
     props: z.array(z.string()).default([]),
     /** How to drive the tool. Renders directly above it, so it never says "below". */
     instructions: z.string(),
-    /* No `icon` field: the tool's illustration is the <ToolGlyph> keyed to
+    /* No `icon` field: the tool's illustration is the <ToolIllustration> keyed to
        `tool` above, so the home band, the index and the tool page all draw the
        same mark from one place rather than from a per-file icon name. */
     tags: z.array(z.string()).default([]),

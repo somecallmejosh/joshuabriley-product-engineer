@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 import ToolIllustration from '~/components/patterns/ToolIllustration.astro';
 import { TOTAL_ITEMS } from '~/lib/scorecard';
 
@@ -27,7 +26,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
         <p class="tools-note">No signup or installation. Tool inputs stay in your browser; shared scorecard results and calculator settings are included in their links.</p>
       </div>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Choose a tool">
-        {tools.map((tool) => <a href={`/tools/${tool.id}/`}>{tool.data.kind} <span aria-hidden="true">↗</span></a>)}
+        {tools.map((tool) => <a href={`/tools/${tool.id}/`}>{tool.data.kind} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}
       </nav>
     </Container>
   </section>
@@ -40,7 +39,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
             <p class="feature-context">Not sure where to start?</p>
             <h2 id="scorecard-title" class="section-type">Design system<br /><em>scorecard.</em></h2>
             <p>Take a structured look at your shared UI. Answer {TOTAL_ITEMS} prompts and get a breakdown of strengths, gaps, and suggested priorities for your team.</p>
-            <a class="action-link" href="/tools/scorecard/">Take the assessment <span aria-hidden="true">↗</span></a>
+            <a class="action-link" href="/tools/scorecard/">Take the assessment <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             <p class="assessment-note">About ten minutes. Based on your answers; a starting point for review.</p>
           </div>
           <div class="scorecard-illustration"><ToolIllustration tool="ScorecardEngine" /></div>
@@ -64,7 +63,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
               <h3><a href={`/tools/${tool.id}/`}>{tool.data.title}</a></h3>
               <p>{tool.data.description}</p>
               <p class="tool-outcome">{uses[tool.id]?.outcome ?? tool.data.takeaway}</p>
-              <a class="editorial-link" href={`/tools/${tool.id}/`}>{tool.data.action} <span aria-hidden="true">↗</span></a>
+              <a class="editorial-link" href={`/tools/${tool.id}/`}>{tool.data.action} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             </div>
           </article>
         ))}
@@ -80,14 +79,13 @@ const uses: Record<string, { question: string; outcome: string }> = {
           <p class="section-intro">These tools make parts of my approach tangible. The work shows the context: what I owned, the tradeoffs, and the result.</p>
         </div>
         <div class="resource-list">
-          <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system</strong><span>Rudiment UI: a personal reference project with tokens, component APIs, and live Storybook examples.</span></span><span aria-hidden="true">↗</span></a>
-          <a href="/projects/ivfcryo/"><span><strong>Follow an interface decision</strong><span>IVFCRYO: design alternatives, form behavior, and recovery paths in a product workflow.</span></span><span aria-hidden="true">↗</span></a>
-          <a href="/resume/#experience"><span><strong>Review my systems experience</strong><span>Current design systems work at Travelers and twenty-plus years of production UI.</span></span><span aria-hidden="true">↗</span></a>
+          <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system</strong><span>Rudiment UI: a personal reference project with tokens, component APIs, and live Storybook examples.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/projects/ivfcryo/"><span><strong>Follow an interface decision</strong><span>IVFCRYO: design alternatives, form behavior, and recovery paths in a product workflow.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/resume/#experience"><span><strong>Review my systems experience</strong><span>Enterprise design systems experience and twenty-plus years of production UI.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
       </div>
     </Container>
   </section>
-  <ContactInvitation />
 </BaseLayout>
 
 <style>

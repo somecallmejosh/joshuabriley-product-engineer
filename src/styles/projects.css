@@ -95,8 +95,7 @@
 .project-next-link { display: flex; justify-content: space-between; align-items: center; gap: 2rem; padding-bottom: 3rem; }
 .project-next-link h2 { font-size: clamp(2.6rem, 6vw, 5.5rem); font-weight: 800; line-height: 1.04; letter-spacing: -.055em; }
 .project-next-link p { margin-top: 1.25rem; font-size: 1.05rem; line-height: 1.6; color: #b7bfc7; max-width: 51ch; }
-.project-next-arrow { color: #a3c1dd; font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 400; transition: transform .3s var(--ease-out); }
-.project-next-link:hover .project-next-arrow { transform: translate(5px, -5px); }
+.project-next-arrow { color: #a3c1dd; font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 400; }
 .project-next-nav { display: flex; flex-wrap: wrap; gap: .5rem 2.5rem; border-top: 1px solid #454a51; padding-top: 1.5rem; }
 .project-next-nav a { min-height: 44px; display: inline-flex; align-items: center; gap: 1rem; font-size: .9rem; }
 .project-next-nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
@@ -138,8 +137,7 @@
   .project-figures dt { font-size: 2.6rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .project-next-arrow, .summary-more > summary > span { transition: none; }
-  .project-next-link:hover .project-next-arrow { transform: none; }
+  .summary-more > summary > span { transition: none; }
 }
 
 /* Give standalone gallery and limitations headings the same chapter hierarchy. */

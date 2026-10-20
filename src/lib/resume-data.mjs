@@ -12,7 +12,7 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  'Design systems and UI engineer with 20+ years in production interfaces. I build accessible components, document their use, and work with designers and engineers on complex product workflows. I currently work on the Travelers design system used by roughly 3,500 engineers and designers.'
+  'Design systems and UI engineer with 20+ years in production interfaces. I build accessible components, document their use, and work with designers and engineers on complex product workflows. My current work supports a design system used by roughly 3,500 engineers and designers.'
 
 export const STRENGTHS = [
   {

@@ -8,17 +8,13 @@ tags:
   - Architecture
   - Developer Experience
 readMinutes: 22
-icon: ph:signpost-duotone
-figure: shared-floor
-gradient: from-lemon/30 via-sage/20 to-coral/30
-sticker: sage
 ---
 
-Every organization that adopts web components faces the same three-way choice: write against the browser APIs directly, adopt Lit, or adopt Stencil. Most teams decide on bundle size and syntax preference, among the least important factors available.
+<p class="lede">Choosing how to author a web component is also choosing what your team will maintain. Browser APIs, Lit, and Stencil put different parts of that responsibility in your hands.</p>
 
 All three produce real custom elements that consumers use as plain HTML. What differs is how much surrounding machinery the tool provides, how much you build yourself, and how much generated surface area you take on. The expensive parts show up months later: package topology, version collisions in the global custom-element registry, framework-specific typing, form participation, server rendering, asset paths, security review, and release governance across a dozen application teams.
 
-This comparison is written for a library with many consuming applications, mixed framework versions, an internal registry, real accessibility requirements, and a support horizon measured in years. It is not a benchmark: measure performance with your own component catalog and consumer applications, because nobody else's numbers describe your page.
+This comparison focuses on libraries serving many applications, mixed framework versions, an internal registry, and a support horizon measured in years. The recommendations reflect those constraints. Measure performance with your own component catalog and consumer applications before making a decision.
 
 ## Summary
 

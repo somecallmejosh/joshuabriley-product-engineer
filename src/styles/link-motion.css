@@ -1,0 +1,27 @@
+/* One motion treatment for arrow links, card links, and matching button actions. */
+:is(a, button) [data-link-arrow] {
+  --link-arrow-x: 3px;
+  --link-arrow-y: -3px;
+  display: inline-block;
+  flex-shrink: 0;
+  transform: translate(0, 0);
+  transition: transform 200ms var(--ease-out);
+}
+
+:is(a, button) [data-link-arrow='down-right'] { --link-arrow-y: 3px; }
+:is(a, button) [data-link-arrow='up-left'] { --link-arrow-x: -3px; }
+:is(a, button) [data-link-arrow='right'] { --link-arrow-y: 0px; }
+:is(a, button) [data-link-arrow='up'] { --link-arrow-x: 0px; }
+:is(a, button) [data-link-arrow='down'] { --link-arrow-x: 0px; --link-arrow-y: 3px; }
+:is(a, button) [data-link-arrow='left'] { --link-arrow-x: -3px; --link-arrow-y: 0px; }
+
+:is(a, button):is(:hover, :focus-visible):not(:disabled):not([aria-busy='true']) [data-link-arrow] {
+  transform: translate(var(--link-arrow-x), var(--link-arrow-y));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(a, button) [data-link-arrow] {
+    transition: none !important;
+    transform: none !important;
+  }
+}

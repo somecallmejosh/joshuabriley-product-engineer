@@ -22,10 +22,20 @@ interface Props {
 
 const { name, size = 24, label, class: className } = Astro.props;
 const decorative = !label;
+const arrowDirections: Record<string, string> = {
+  'ph:arrow-up-right': 'up-right',
+  'ph:arrow-down-right': 'down-right',
+  'ph:arrow-up-left': 'up-left',
+  'ph:arrow-right': 'right',
+  'ph:arrow-up': 'up',
+  'ph:arrow-down': 'down',
+  'ph:arrow-left': 'left',
+};
 ---
 
 <iconify-icon
   icon={name}
+  data-link-arrow={arrowDirections[name]}
   width={size}
   height={size}
   class={cx('inline-block align-middle leading-none', className)}

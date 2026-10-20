@@ -1,414 +1,152 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Button from '~/components/primitives/Button.astro';
-import Icon from '~/components/primitives/Icon.astro';
-import Link from '~/components/primitives/Link.astro';
-import PostFigure from '~/components/patterns/PostFigure.astro';
-import type { FigureName } from '~/lib/figures';
-
-interface TocHeading {
-  depth: number;
-  slug: string;
-  text: string;
-}
-
-interface PostLink {
-  id: string;
-  title: string;
-}
+import { writing } from '~/lib/writing';
+import '~/styles/articles.css';
 
 interface Props {
+  slug: string;
   title: string;
   description: string;
   category: string;
-  categoryIcon?: string;
   date: Date;
   readMinutes: number;
-  pathname?: string;
-  headings?: TocHeading[];
-  prevPost?: PostLink | null;
-  nextPost?: PostLink | null;
-  /** Interactive post: single column, no TOC rail, tool widgets break out wide. */
-  wide?: boolean;
-  /** Keys the essay's opening figure. Omitted for posts without one drawn. */
-  figure?: FigureName;
+  pathname: string;
+  headings?: { depth: number; slug: string; text: string }[];
+  prevPost?: { id: string; title: string } | null;
+  nextPost?: { id: string; title: string } | null;
 }
-
-const {
-  title,
-  description,
-  category,
-  categoryIcon = 'ph:notebook',
-  date,
-  readMinutes,
-  pathname,
-  headings = [],
-  prevPost = null,
-  nextPost = null,
-  wide = false,
-  figure,
-} = Astro.props;
-
-// timeZone: 'UTC' — frontmatter dates are bare `YYYY-MM-DD` and coerce to UTC
-// midnight, so formatting in the build machine's zone shifted them a day early.
-// Keep this in step with the same format call on /blog/.
-const formattedDate = date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
-const isoDate = date.toISOString().slice(0, 10);
-
-// In-page table of contents — top-level sections only.
-// remark-gfm emits a visually-hidden <h2 id="footnote-label">Footnotes</h2> above
-// the reference list it generates. It is a real heading in the AST and invisible
-// on the page, so without this filter the rail ends on a link to nothing.
+const { slug, title, description, category, date, readMinutes, pathname, headings = [], prevPost, nextPost } = Astro.props;
+const context = writing[slug];
 const toc = headings.filter((h) => h.depth === 2 && h.slug !== 'footnote-label');
-
-// Share targets.
-const shareUrl = new URL(pathname ?? '/', Astro.site ?? 'https://joshuabriley.com').toString();
-const xShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}`;
+const hasToc = toc.length >= 2;
+const words = title.split(' ');
+const emphasis = words.pop();
+const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const shareUrl = new URL(pathname, Astro.site ?? 'https://joshuabriley.com').toString();
 const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+const neighbours = [
+  prevPost && { ...prevPost, direction: 'Older article' },
+  nextPost && { ...nextPost, direction: 'Newer article' },
+].filter((post) => !!post);
 ---
 
-<BaseLayout
-  title={`${title} · Joshua Briley`}
-  description={description}
-  pathname={pathname}
-  article={{
-    publishedTime: date,
-    section: category,
-    author: 'Joshua Briley',
-  }}
->
-  <div class="reading-progress" aria-hidden="true">
-    <span class="reading-progress-bar" data-progress-bar></span>
-  </div>
-
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
+<BaseLayout title={`${title} · Joshua Briley`} description={description} pathname={pathname} mainClass="article-page" article={{ publishedTime: date, section: category, author: 'Joshua Briley' }}>
+  <header class="page-opener article-opener">
     <Container width="wide">
-      <div class="max-w-3xl">
-        <Link href="/blog/" variant="arrow" iconRight="ph:arrow-left" class="hero-in hero-in-1 flex-row-reverse">
-          Back to blog
-        </Link>
-
-        <div class="hero-in hero-in-2 mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.65rem] uppercase tracking-[0.12em]">
-          <span class="text-accent">{category}</span>
-          <span class="text-ink-faint" aria-hidden="true">·</span>
-          <time datetime={isoDate} class="text-ink-muted">{formattedDate}</time>
-          <span class="text-ink-faint" aria-hidden="true">·</span>
-          <span class="inline-flex items-center gap-1.5 text-ink-muted">
-            <Icon name="ph:clock" size={13} />{readMinutes} min read
-          </span>
-        </div>
-
-        <Heading level={1} visual="display-lg" balance class="hero-in hero-in-3 mt-6">
-          {title}
-        </Heading>
-
-        <Text size="lg" tone="muted" class="hero-in hero-in-4 mt-6">
-          {description}
-        </Text>
+      <a class="editorial-link hero-in hero-in-1" href="/blog/"><span aria-hidden="true" data-link-arrow="left">←</span> All writing</a>
+      <p class="role-line article-meta hero-in hero-in-2"><span>{context?.format ?? category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
+      <h1 class="page-type article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
+      <p class="page-lede hero-in hero-in-4">{description}</p>
+      <div class="hero-actions hero-in hero-in-4">
+        <a class="action-link" href="#article-body">Read article <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+        {hasToc && <a class="editorial-link" href="#article-contents">Browse sections <span aria-hidden="true" data-link-arrow="down">↓</span></a>}
       </div>
     </Container>
-  </Section>
+  </header>
 
-  <Section tone="paper" padding="default">
+  {context && (
+    <section class="article-overview" aria-labelledby="overview-title">
+      <Container width="wide">
+        <div class="article-overview-grid" data-reveal>
+          <h2 id="overview-title">What this<br /><em>covers.</em></h2>
+          <ul>{context.covers.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <div class="article-reading">
     <Container width="wide">
-      <div class={wide ? 'mx-auto max-w-2xl' : 'lg:grid lg:grid-cols-[1fr_minmax(0,42rem)_1fr] lg:gap-x-10 xl:gap-x-14'}>
-        {!wide && (
-        <aside class="hidden lg:block lg:justify-self-end lg:w-56" aria-label="Article tools">
-          <div class="sticky top-28">
-            {toc.length >= 2 && (
-              <nav class="mb-9" aria-label="On this page">
-                <p class="mono-label mb-4">On this page</p>
-                <ol class="toc-list">
-                  {toc.map((h) => (
-                    <li>
-                      <a href={`#${h.slug}`} class="toc-link" data-toc-link={h.slug}>{h.text}</a>
-                    </li>
-                  ))}
-                </ol>
+      <div class:list={['article-grid', !hasToc && 'article-grid--wide']}>
+        {hasToc && (
+          <aside class="article-rail" id="article-contents" aria-label="Article contents" tabindex="-1">
+            <div class="article-rail-sticky">
+              <nav class="article-desktop-toc" aria-label="On this page">
+                <h2>On this page</h2>
+                <ol>{toc.map((h) => <li><a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a></li>)}</ol>
               </nav>
-            )}
-
-            <p class="mono-label mb-4">Share</p>
-            <div class="flex items-center gap-2">
-              <a href={xShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X">
-                <Icon name="ph:x-logo" size={17} />
-              </a>
-              <a href={liShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn">
-                <Icon name="ph:linkedin-logo" size={17} />
-              </a>
-              <button type="button" class="share-btn" data-copy-link aria-label="Copy link">
-                <Icon name="ph:link" size={17} />
-              </button>
-            </div>
-          </div>
-        </aside>
-        )}
-
-        <div class={wide ? '' : 'max-w-2xl mx-auto lg:max-w-none lg:mx-0'}>
-          <article class:list={['prose-whimsy', wide && 'prose-interactive']}>
-            <slot />
-          </article>
-
-          {wide && (
-            <div class="mt-12 flex items-center gap-4 border-t border-line pt-6">
-              <span class="mono-label">Share</span>
-              <div class="flex items-center gap-2">
-                <a href={xShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X">
-                  <Icon name="ph:x-logo" size={17} />
-                </a>
-                <a href={liShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn">
-                  <Icon name="ph:linkedin-logo" size={17} />
-                </a>
-                <button type="button" class="share-btn" data-copy-link aria-label="Copy link">
-                  <Icon name="ph:link" size={17} />
-                </button>
-              </div>
-            </div>
-          )}
-
-          <aside class="mt-16 rounded-lg bg-paper" aria-label="About the author">
-            <div class="flex flex-col gap-6 sm:flex-row sm:gap-7">
-              <a href="/about/" class="group shrink-0" aria-label="More about Joshua Briley">
-                <picture>
-                  <source
-                    type="image/avif"
-                    sizes="(min-width: 640px) 96px, 72px"
-                    srcset="/images/about/josh-suit-avatar-96.avif 96w, /images/about/josh-suit-avatar-192.avif 192w, /images/about/josh-suit-avatar-288.avif 288w"
-                  />
-                  <source
-                    type="image/webp"
-                    sizes="(min-width: 640px) 96px, 72px"
-                    srcset="/images/about/josh-suit-avatar-96.webp 96w, /images/about/josh-suit-avatar-192.webp 192w, /images/about/josh-suit-avatar-288.webp 288w"
-                  />
-                  <img
-                    src="/images/about/josh-suit-avatar-192.jpg"
-                    sizes="(min-width: 640px) 96px, 72px"
-                    srcset="/images/about/josh-suit-avatar-96.jpg 96w, /images/about/josh-suit-avatar-192.jpg 192w, /images/about/josh-suit-avatar-288.jpg 288w"
-                    alt="Joshua Briley"
-                    class="h-[4.5rem] w-[4.5rem] rounded-lg border border-line object-cover transition duration-300 ease-out group-hover:-translate-y-0.5 group-hover:border-line-strong sm:h-24 sm:w-24"
-                    loading="lazy"
-                    decoding="async"
-                    width="96"
-                    height="96"
-                  />
-                </picture>
-              </a>
-
-              <div class="min-w-0">
-                <p class="mono-label">Written by</p>
-                <div class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <Heading level={2} visual="h4">Joshua Briley</Heading>
-                  <span class="text-sm text-ink-muted">Design systems &amp; UI platform engineer</span>
-                </div>
-                <Text tone="muted" class="mt-3 max-w-xl text-sm">
-                  Twenty years in production UI. The interface is where I bring the most value (design-grade, accessible front-end), backed by capable full-stack development in Rails and TypeScript.
-                </Text>
-                <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-                  <Button variant="primary" size="sm" iconRight="ph:arrow-right" href="/contact/">
-                    Get in touch
-                  </Button>
-                  <Link href="/about/" variant="arrow" iconRight="ph:arrow-right">
-                    More about me
-                  </Link>
-                </div>
-              </div>
+              <details class="article-mobile-toc">
+                <summary>On this page <span aria-hidden="true">+</span></summary>
+                <nav aria-label="Article sections"><ol>{toc.map((h) => <li><a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a></li>)}</ol></nav>
+              </details>
+              <a class="article-back-top editorial-link" href="#main">Back to top <span aria-hidden="true" data-link-arrow="up">↑</span></a>
             </div>
           </aside>
-
-          {(prevPost || nextPost) && (
-            <nav class="mt-16 grid gap-8 border-t border-line pt-10 sm:grid-cols-2" aria-label="More essays">
-              {prevPost ? (
-                <a href={`/blog/${prevPost.id}/`} class="group flex flex-col gap-2.5">
-                  <span class="mono-label inline-flex items-center gap-1.5 transition-colors group-hover:text-accent">
-                    <Icon name="ph:arrow-left" size={13} class="transition-transform duration-300 ease-out group-hover:-translate-x-1" />
-                    Previous
-                  </span>
-                  <Heading level={3} visual="h3" class="transition-colors group-hover:text-accent text-balance">
-                    {prevPost.title}
-                  </Heading>
-                </a>
-              ) : (
-                <div aria-hidden="true"></div>
-              )}
-
-              {nextPost && (
-                <a href={`/blog/${nextPost.id}/`} class="group flex flex-col gap-2.5 sm:items-end sm:text-right">
-                  <span class="mono-label inline-flex items-center gap-1.5 transition-colors group-hover:text-accent">
-                    Next
-                    <Icon name="ph:arrow-right" size={13} class="transition-transform duration-300 ease-out group-hover:translate-x-1" />
-                  </span>
-                  <Heading level={3} visual="h3" class="transition-colors group-hover:text-accent text-balance">
-                    {nextPost.title}
-                  </Heading>
-                </a>
-              )}
-            </nav>
-          )}
+        )}
+        <div class="article-column">
+          <article id="article-body" aria-label={title} tabindex="-1" class="prose-whimsy article-prose"><slot /></article>
+          <div class="article-share" aria-label="Share this article" role="group">
+            <p>Useful to your team?</p>
+            <div><button type="button" class="editorial-link" data-article-copy>Copy article link <span aria-hidden="true" data-link-arrow="up-right">↗</span></button><a class="editorial-link" href={liShare} target="_blank" rel="noopener noreferrer">Share on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+            <p class="article-copy-status" role="status" data-article-copy-status></p>
+          </div>
+          <aside class="article-author" aria-labelledby="author-title">
+            <img src="/images/about/josh-suit-avatar-192.webp" srcset="/images/about/josh-suit-avatar-96.webp 96w, /images/about/josh-suit-avatar-192.webp 192w, /images/about/josh-suit-avatar-288.webp 288w" sizes="96px" alt="Joshua Briley" width="96" height="96" loading="lazy" decoding="async" />
+            <div>
+              <p>Written by</p>
+              <h2 id="author-title">Joshua Briley</h2>
+              <p>Design systems &amp; UI platform engineer. Twenty-plus years building accessible components and product interfaces, with a focus on the teams using them.</p>
+              <a class="editorial-link" href="/about/">More about my work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            </div>
+          </aside>
         </div>
-
-        {!wide && <div class="hidden lg:block" aria-hidden="true"></div>}
       </div>
     </Container>
-  </Section>
+  </div>
+
+  {neighbours.length > 0 && (
+    <nav class="article-more editorial-section" aria-labelledby="more-writing-title">
+      <Container width="wide">
+        <div class="section-heading"><h2 class="section-type" id="more-writing-title">Keep <em>reading.</em></h2><a class="editorial-link" href="/blog/">All writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+        <ul class="article-neighbours">{neighbours.map((post) => <li><a href={`/blog/${post.id}/`} aria-labelledby={`neighbour-${post.id}`}><p>{post.direction}</p><h3 id={`neighbour-${post.id}`}>{post.title}</h3><span class="article-read-link" aria-hidden="true">Read article <span data-link-arrow="up-right">↗</span></span></a></li>)}</ul>
+      </Container>
+    </nav>
+  )}
 </BaseLayout>
 
-<style is:global>
-  /* ── Reading chrome (progress + margin rail) ──────────────────────────── */
-  .reading-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    z-index: 50;
-    background: var(--line);
-    pointer-events: none;
-  }
-  .reading-progress-bar {
-    display: block;
-    height: 100%;
-    width: 100%;
-    transform: scaleX(0);
-    transform-origin: left center;
-    background: var(--accent);
-    will-change: transform;
-  }
-  .toc-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .toc-link {
-    display: block;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: var(--ink-muted);
-    padding: 0.4rem 0 0.4rem 0.85rem;
-    border-left: 1.5px solid var(--line);
-    transition:
-      color 0.3s var(--ease-out),
-      border-color 0.3s var(--ease-out);
-  }
-  .toc-link:hover {
-    color: var(--accent);
-  }
-  .toc-link.is-active {
-    color: var(--ink);
-    border-left-color: var(--accent);
-    font-weight: 500;
-  }
-  .share-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 6px;
-    background: var(--raised);
-    border: 1px solid var(--line);
-    color: var(--ink-muted);
-    cursor: pointer;
-    transition:
-      color 0.2s ease,
-      border-color 0.2s ease;
-  }
-  .share-btn:hover {
-    color: var(--accent);
-    border-color: var(--line-strong);
-  }
-  .share-btn.is-copied {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  /* Anchor offset so deep-linked headings clear the sticky header. */
-  .prose-whimsy :is(h2, h3)[id] {
-    scroll-margin-top: 6rem;
-  }
-
-  /* ── Interactive posts: embedded tool widgets break out of the reading
-     column. Prose stays at its comfortable measure; a `.post-tool` block
-     widens to a centered band (capped to the wide container) so the tools
-     are not cramped. Symmetric breakout keys off the parent column width,
-     so it collapses to full-width on small screens with no overflow. */
-  .prose-interactive .post-tool {
-    width: min(72rem, 94vw);
-    margin-inline: calc(50% - min(72rem, 94vw) / 2);
-  }
-</style>
-
 <script>
-  // Reading progress — transform-only, passive scroll, rAF-throttled.
-  const bar = document.querySelector<HTMLElement>('[data-progress-bar]');
-  if (bar) {
-    let max = 0;
-    const measure = () => {
-      max = document.documentElement.scrollHeight - window.innerHeight;
-    };
-    const update = () => {
-      const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-      bar.style.transform = `scaleX(${p})`;
-    };
-    measure();
-    update();
-    let ticking = false;
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
-      },
-      { passive: true },
-    );
-    window.addEventListener('resize', () => { measure(); update(); }, { passive: true });
-  }
-
-  // Table-of-contents scroll-spy.
-  const tocLinks = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
-  if (tocLinks.length) {
-    const byId = new Map([...tocLinks].map((l) => [l.dataset.tocLink, l]));
-    const spy = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          tocLinks.forEach((l) => l.classList.remove('is-active'));
-          byId.get((entry.target as HTMLElement).id)?.classList.add('is-active');
-        });
-      },
-      { rootMargin: '-15% 0px -75% 0px', threshold: 0 },
-    );
-    document.querySelectorAll('.prose-whimsy h2[id]').forEach((h) => spy.observe(h));
-  }
-
-  // Copy-link button.
-  const copyBtn = document.querySelector<HTMLButtonElement>('[data-copy-link]');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        copyBtn.classList.add('is-copied');
-        copyBtn.setAttribute('aria-label', 'Link copied');
-        window.setTimeout(() => {
-          copyBtn.classList.remove('is-copied');
-          copyBtn.setAttribute('aria-label', 'Copy link');
-        }, 1600);
-      } catch {
-        /* clipboard unavailable — no-op */
-      }
+  const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
+  const setActive = (id: string) => {
+    tocLinks.forEach((link) => {
+      if (link.dataset.tocLink === id) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
     });
+  };
+  const sections = [...document.querySelectorAll<HTMLElement>('.article-prose h2[id]:not(#footnote-label)')];
+  const updateActive = () => {
+    let active = '';
+    const readingLine = window.innerHeight * .3;
+    sections.forEach((heading) => {
+      if (heading.getBoundingClientRect().top <= readingLine) active = heading.id;
+    });
+    setActive(active);
+  };
+  if (tocLinks.length) {
+    let scheduled = false;
+    const scheduleUpdate = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => { updateActive(); scheduled = false; });
+    };
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+    updateActive();
   }
+  const copy = document.querySelector<HTMLButtonElement>('[data-article-copy]');
+  const status = document.querySelector<HTMLElement>('[data-article-copy-status]');
+  copy?.addEventListener('click', async () => {
+    if (!status) return;
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      status.textContent = 'Article link copied.';
+    } catch {
+      status.textContent = 'Couldn’t copy the link. You can copy it from your browser’s address bar.';
+    }
+  });
+  // Make long code examples keyboard-scrollable without changing the source.
+  document.querySelectorAll<HTMLElement>('.article-prose pre').forEach((block) => {
+    block.tabIndex = 0;
+    block.setAttribute('aria-label', 'Code example');
+  });
 </script>

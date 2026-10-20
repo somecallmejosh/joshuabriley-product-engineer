@@ -1,0 +1,10 @@
+---
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+interface Props { title: string; note: string; href?: string; linkLabel?: string; code?: string; filename?: string; dark?: boolean; }
+const { title, note, href, linkLabel = 'See it in use', code, filename = 'Example.astro', dark = false } = Astro.props;
+---
+<section class="sg-specimen">
+  <header class="sg-specimen-header"><div><h3>{title}</h3><p>{note}</p></div>{href && <a class="editorial-link" href={href}>{linkLabel} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}</header>
+  <div class:list={['sg-stage', { 'sg-stage--dark bg-ink': dark }]}><slot /></div>
+  {code && <details class="sg-markup"><summary>View markup <span aria-hidden="true">+</span></summary><div class="project-page"><CodeBlock code={code} filename={filename} lang="astro" /></div></details>}
+</section>

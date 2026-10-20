@@ -5,7 +5,7 @@ const { testimonial, featured = false } = Astro.props;
 const { quote, name, role, company, image, initials } = testimonial.data;
 ---
 <figure class:list={['recommendation', { 'recommendation--featured': featured }]}>
-  <blockquote><p>{quote}</p></blockquote>
+  <blockquote>{featured && <span class="recommendation-quote-mark" aria-hidden="true">“</span>}<p>{quote}</p></blockquote>
   <figcaption>
     {image ? <img src={image} alt="" width="80" height="80" loading="lazy" decoding="async" /> : <span class="recommendation-initials" aria-hidden="true">{initials}</span>}
     <div class="recommendation-person"><p class="recommendation-name">{name}</p><p class="recommendation-role">{role}</p><p class="recommendation-company">{company}</p></div>
@@ -22,6 +22,7 @@ const { quote, name, role, company, image, initials } = testimonial.data;
   .recommendation-role, .recommendation-company { font-size: .83rem; line-height: 1.5; color: var(--ink-muted); }
   .recommendation-role { margin-top: .35rem; }
   .recommendation--featured { display: grid; gap: 2rem; border: 0; padding-top: 0; }
+  .recommendation-quote-mark { display: block; color: #a3c1dd; font-family: var(--font-fraunces), Georgia, serif; font-size: 4rem; line-height: .7; height: 2rem; margin-bottom: 1rem; }
   .recommendation--featured blockquote p { font-size: clamp(1.8rem, 3.4vw, 3.15rem); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; color: var(--paper); }
   .recommendation--featured figcaption { margin-top: 0; align-items: center; }
   .recommendation--featured figcaption img, .recommendation--featured .recommendation-initials { width: 72px; height: 72px; }

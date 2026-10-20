@@ -1,71 +1,106 @@
 ---
 import Container from '~/components/layout/Container.astro';
-import Icon from '~/components/primitives/Icon.astro';
 import Logo from '~/components/primitives/Logo.astro';
 import { FOOTER_NAV } from '~/lib/nav';
 import { cx } from '~/lib/cx';
 
-interface Props {
-  class?: string;
-}
-
+interface Props { class?: string; }
 const { class: className } = Astro.props;
 const year = new Date().getFullYear();
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<footer class={cx('bg-ink text-paper/60 border-t border-paper/10', className)}>
-  <Container width="wide" class="py-16 md:py-20">
-    <div class="grid gap-12 lg:grid-cols-12">
-      <div class="lg:col-span-6">
-        <Logo tone="inverse" size="lg" />
-        <p class="footer-description mt-6 text-sm leading-relaxed text-paper/70">
-          Design systems &amp; UI engineering. Accessible components, considered interactions, and documentation that helps teams ship.
-        </p>
+<footer class={cx('site-footer bg-ink', className)}>
+  <Container width="wide">
+    <div class="footer-main">
+      <div class="footer-identity">
+        <Logo href="/" size="lg" tone="inverse" class="min-h-[44px] py-1.5" />
+        <p class="footer-description">Design systems &amp; UI engineering. Accessible components and product interfaces, built for the teams using them.</p>
+        <p class="footer-location">Connecticut, USA</p>
       </div>
 
-      <div class="lg:col-span-6 grid grid-cols-2 gap-8 sm:gap-12">
-        {FOOTER_NAV.map((col) => (
-          <nav aria-label={col.heading}>
-            <h2 class="mono-label !text-paper/60">{col.heading}</h2>
-            <ul class="mt-4 flex flex-col gap-2.5">
-              {col.links.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    class="text-[0.95rem] text-paper/70 transition-colors hover:text-paper hover:underline underline-offset-4"
-                  >{link.label}</a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))}
-      </div>
+      {FOOTER_NAV.map((group, index) => (
+        <nav class:list={['footer-nav', { 'footer-nav--lead': index === 0 }]} aria-label={`Footer: ${group.heading}`}>
+          <h2>{group.heading}</h2>
+          <ul>{group.links.map((link) => (
+            <li><a href={link.href} aria-current={pathname === link.href.replace(/\/$/, '') ? 'page' : undefined}>
+              <span>{link.label}</span>{index === 0 && <span class="footer-nav-arrow" aria-hidden="true" data-link-arrow="up-right">↗</span>}
+            </a></li>
+          ))}</ul>
+        </nav>
+      ))}
     </div>
 
-    <div class="mt-16 flex flex-col gap-4 border-t border-paper/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-      <div class="flex flex-col gap-x-5 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-paper/55 sm:flex-row sm:items-center">
-        <span class="inline-flex items-center min-h-[24px]">© {year} Joshua Briley</span>
-        <a href="/privacy/" class="inline-flex items-center min-h-[24px] transition-colors hover:text-paper/70 hover:underline underline-offset-4">Privacy</a>
-        <a href="/terms/" class="inline-flex items-center min-h-[24px] transition-colors hover:text-paper/70 hover:underline underline-offset-4">Terms</a>
+    <div class="footer-connections">
+      <p>Find me elsewhere</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
       </div>
-      <div class="flex items-center gap-5 font-mono text-[0.7rem] uppercase tracking-[0.12em]">
-        <a
-          href="https://www.linkedin.com/in/joshuabriley/"
-          rel="noopener noreferrer"
-          target="_blank"
-          class="inline-flex items-center gap-1.5 text-paper/55 transition-colors hover:text-paper hover:underline underline-offset-4"
-        >LinkedIn <Icon name="ph:arrow-up-right" size={12} /></a>
-        <a
-          href="https://github.com/somecallmejosh"
-          rel="noopener noreferrer"
-          target="_blank"
-          class="inline-flex items-center gap-1.5 text-paper/55 transition-colors hover:text-paper hover:underline underline-offset-4"
-        >GitHub <Icon name="ph:arrow-up-right" size={12} /></a>
-      </div>
+      <a class="footer-top" href="#main">Back to top <span aria-hidden="true" data-link-arrow="up">↑</span></a>
     </div>
 
-    <p class="mt-8 font-mono text-[0.66rem] leading-relaxed tracking-[0.1em] text-paper/50">
-      Designed and built by Joshua Briley in Astro. Yes, I care this much about the spacing.
-    </p>
+    <div class="footer-bottom">
+      <p>© {year} Joshua Briley</p>
+      <nav aria-label="Footer: Site information"><a href="/style-guide/">Style guide</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+    </div>
   </Container>
 </footer>
+
+<style>
+  .site-footer {
+    --footer-muted: #bfc8d1;
+    --footer-accent: #a3c1dd;
+    --footer-line: rgb(250 251 252 / .2);
+    color: var(--paper);
+    border-top: 4px solid var(--portfolio-blue);
+    padding-top: 4.5rem;
+  }
+  .site-footer :global(.brand-dot) { color: var(--footer-accent); }
+  .footer-main { display: grid; gap: 3rem; padding-bottom: 3.5rem; }
+  .footer-main > * { min-width: 0; }
+  .footer-description { max-width: 30ch; color: var(--footer-muted); font-size: 1rem; line-height: 1.65; margin-top: 1.5rem; }
+  .footer-contact { margin-top: 1rem; }
+  .footer-location { color: var(--footer-muted); font-size: .83rem; margin-top: 1.25rem; }
+  .footer-nav h2 { font-size: .85rem; font-weight: 500; color: var(--footer-muted); }
+  .footer-nav ul { list-style: none; margin: 1rem 0 0; padding: 0; }
+  .footer-nav li { margin: 0; }
+  .footer-nav a { display: flex; align-items: center; min-height: 44px; padding-block: .4rem; font-size: 1rem; line-height: 1.4; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .footer-nav a:hover, .footer-nav a[aria-current='page'] { color: var(--footer-accent); text-decoration-color: currentColor; }
+  .footer-nav--lead ul { margin-top: .6rem; }
+  .footer-nav--lead a { justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--footer-line); padding: .7rem 0; font-size: clamp(2.25rem, 3.8vw, 3.4rem); line-height: 1.05; font-weight: 800; letter-spacing: -.05em; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+  .footer-nav-arrow { color: var(--footer-accent); font-size: .55em; font-weight: 400; }
+  .footer-connections { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 2rem; border-top: 1px solid var(--footer-line); padding: 1.1rem 0; }
+  .footer-connections > p { font-size: .85rem; color: var(--footer-muted); }
+  .footer-socials { display: flex; flex-wrap: wrap; gap: .5rem 1.8rem; }
+  .footer-connections a { display: inline-flex; align-items: center; gap: .9rem; min-height: 44px; font-size: .9rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--footer-line); text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .footer-connections a:hover { color: var(--footer-accent); text-decoration-color: currentColor; }
+  .footer-connections .footer-top { margin-left: auto; }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 2rem; border-top: 1px solid var(--footer-line); padding: 1rem 0; color: var(--footer-muted); font-size: .8rem; }
+  .footer-bottom nav { display: flex; flex-wrap: wrap; gap: .25rem 1.5rem; }
+  .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; }
+  .footer-bottom a:hover { color: var(--footer-accent); text-decoration-color: currentColor; }
+  .site-footer a:focus-visible { outline: 3px solid var(--footer-accent); outline-offset: 5px; }
+  @media (min-width: 640px) {
+    .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 4rem; }
+    .footer-identity { grid-column: 1 / -1; }
+    .footer-description { max-width: 44ch; }
+  }
+  @media (min-width: 1024px) {
+    .footer-main { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.25fr) minmax(0, .9fr); gap: 5rem; }
+    .footer-identity { grid-column: auto; }
+    .footer-description { max-width: 30ch; }
+  }
+  @media (max-width: 639px) {
+    .site-footer { padding-top: 3rem; }
+    .footer-main { gap: 2.5rem; padding-bottom: 2.5rem; }
+    .footer-connections { gap: .35rem 1.5rem; }
+    .footer-connections > p { flex-basis: 100%; }
+    .footer-connections .footer-top { margin-left: 0; }
+    .footer-bottom { align-items: start; }
+    .footer-bottom p { flex-basis: 100%; padding-top: .5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer a { transition: none; }
+  }
+</style>

@@ -3,14 +3,13 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
-import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 const needs = [
-  { title: 'Components teams can depend on', body: 'Clear APIs, accessible defaults, and documentation that helps engineers use the system. My current work at Travelers brings those pieces together across Stencil Web Components, Storybook, and Figma.', href: '/resume/', link: 'See my systems experience' },
+  { title: 'Components teams can depend on', body: 'Clear APIs, accessible defaults, and documentation that helps engineers use the system. My current work brings those pieces together across Stencil Web Components, Storybook, and Figma.', href: '/resume/', link: 'See my systems experience' },
   { title: 'Design decisions that survive the handoff', body: 'I work through the loading states, form errors, and recovery paths with designers and engineers. The case studies show the alternatives, what I owned, and what I would improve.', href: '/projects/ivfcryo/', link: 'Follow a design decision' },
   { title: 'Implementation you can inspect', body: 'Rudiment UI puts my approach to tokens, component behavior, and documentation in public. The guide explains the tradeoffs; the Storybook lets you try the result.', href: '/personal-projects/rudiment-ui/', link: 'Explore Rudiment UI' },
 ];
 ---
-<BaseLayout title="Joshua Briley | Design systems & UI engineering" description="I build accessible component systems and product interfaces. Explore 20+ years of UI engineering, current design systems work at Travelers, and case studies with clear ownership.">
+<BaseLayout title="Joshua Briley | Design systems & UI engineering" description="I build accessible component systems and product interfaces. Explore 20+ years of UI engineering, enterprise design systems experience, and case studies with clear ownership.">
   <section class="home-hero">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">Joshua Briley <span aria-hidden="true">/</span> Design systems &amp; UI engineer</p>
@@ -19,8 +18,8 @@ const needs = [
           <h1 class="hero-type hero-in hero-in-2">Design systems<br />people can<br /><em>build on.</em></h1>
           <p class="hero-lede hero-in hero-in-3">I build accessible components and product interfaces, with the care that makes them easier to use, ship, and maintain.</p>
           <div class="hero-actions hero-in hero-in-4">
-            <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true">↘</span></a>
-            <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true">↗</span></a>
+            <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
+            <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
         </div>
         <figure class="hero-portrait hero-in hero-in-5">
@@ -29,9 +28,9 @@ const needs = [
         </figure>
       </div>
       <div class="current-work">
-        <p><span class="status-mark" aria-hidden="true"></span>Currently at <strong>Travelers</strong></p>
+        <p><span class="status-mark" aria-hidden="true"></span>Current focus: <strong>design systems</strong></p>
         <p>Building the design system used by roughly <strong>3,500 engineers and designers.</strong></p>
-        <a href="/about/" class="editorial-link">More about me <span aria-hidden="true">↗</span></a>
+        <a href="/about/" class="editorial-link">More about me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </div>
     </Container>
   </section>
@@ -42,7 +41,7 @@ const needs = [
         <p>Shared foundations and the products built on them. Here’s what I contributed and why it mattered.</p>
       </div>
       <WorkList compact />
-      <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true">↗</span></a>
+      <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </Container>
   </section>
   <section class="editorial-section approach-section">
@@ -58,12 +57,11 @@ const needs = [
             <article>
               <h3>{need.title}</h3>
               <p>{need.body}</p>
-              <a href={need.href} class="editorial-link">{need.link} <span aria-hidden="true">↗</span></a>
+              <a href={need.href} class="editorial-link">{need.link} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             </article>
           ))}
         </div>
       </div>
     </Container>
   </section>
-  <ContactInvitation />
 </BaseLayout>

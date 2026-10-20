@@ -44,7 +44,7 @@ const isActive =
       (linkPath !== '/' && pathname.startsWith(linkPath + '/'))));
 
 // Inline links read as ink with an accent underline. The arrow variant stays
-// quiet — ink label, accent on hover, icon nudges right (motion in the slot).
+// quiet — ink label, accent on hover, arrow motion comes from the shared link-motion styles.
 const variants: Record<Variant, string> = {
   inline:
     'text-ink underline decoration-line-strong decoration-1 underline-offset-[3px] transition-colors hover:decoration-accent hover:text-accent',
@@ -74,7 +74,6 @@ const finalIconRight = variant === 'arrow' ? (iconRight ?? 'ph:arrow-right') : i
     <Icon
       name={finalIconRight}
       size={15}
-      class={variant === 'arrow' ? 'transition-transform duration-300 ease-out group-hover/lnk:translate-x-1' : undefined}
     />
   )}
 </a>

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '~/layouts/BlogPost.astro';
+import ArticleTable from '~/components/writing/ArticleTable.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -16,7 +17,7 @@ const { Content, headings } = await render(post);
 // Chronological neighbours for the footer pager. Newest-first ordering, so the
 // older post (previous) sits one index later and the newer post (next) one earlier.
 const orderedPosts = (await getCollection('posts', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id));
 const currentIndex = orderedPosts.findIndex((p) => p.id === post.id);
 // `orderedPosts[i]` is undefined at both ends of the range, so the parameter is
 // widened past the element type rather than relying on an implicit any.
@@ -27,18 +28,16 @@ const nextPost = toLink(orderedPosts[currentIndex - 1]);
 ---
 
 <BlogPost
+  slug={post.id}
   title={post.data.title}
   description={post.data.description}
   category={post.data.category}
-  categoryIcon={post.data.icon}
   date={post.data.date}
   readMinutes={post.data.readMinutes}
   pathname={`/blog/${post.id}/`}
   headings={headings}
   prevPost={prevPost}
   nextPost={nextPost}
-  wide={post.data.interactive}
-  figure={post.data.figure}
 >
-  <Content />
+  <Content components={{ table: ArticleTable }} />
 </BlogPost>

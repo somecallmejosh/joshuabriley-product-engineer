@@ -3,7 +3,6 @@ import '~/styles/tools.css';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 import ToolIllustration from '~/components/patterns/ToolIllustration.astro';
 
 import ScorecardEngine from '~/components/islands/ScorecardEngine.astro';
@@ -80,8 +79,8 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
           <h1 class="page-type hero-in hero-in-2">{titleWords.join(' ')} <em>{titleEnd}.</em></h1>
           <p class="page-lede hero-in hero-in-3">{description}</p>
           <div class="hero-actions hero-in hero-in-4">
-            <a class="action-link" href="#tool">{startLabels[tool]} <span aria-hidden="true">↓</span></a>
-            <a class="editorial-link" href="/tools/">All tools <span aria-hidden="true">↗</span></a>
+            <a class="action-link" href="#tool">{startLabels[tool]} <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+            <a class="editorial-link" href="/tools/">All tools <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
         </div>
         <div class="tool-hero-illustration hero-in hero-in-3"><ToolIllustration tool={tool} /></div>
@@ -130,7 +129,7 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
                 <ToolIllustration tool={item.tool} />
                 <h3 id={`related-${item.tool}`}>{item.title}</h3>
                 <p>{item.takeaway}</p>
-                <span class="related-tool-action" aria-hidden="true">Explore tool <span>↗</span></span>
+                <span class="related-tool-action" aria-hidden="true">Explore tool <span data-link-arrow="up-right">↗</span></span>
               </a>
             </li>
           ))}
@@ -138,7 +137,6 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
       </Container>
     </section>
   )}
-  <ContactInvitation />
 </BaseLayout>
 
 <style>
@@ -166,13 +164,11 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   .related-tool-link:focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 5px; }
   .related-tool-link:hover h3, .related-tool-link:focus-visible h3 { color: var(--portfolio-blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
   .related-tool-action { display: flex; align-items: center; gap: 1rem; margin-top: auto; padding-top: 1.5rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
-  .related-tool-action > span { display: inline-block; transition: transform .2s; }
-  .related-tool-link:hover .related-tool-action > span, .related-tool-link:focus-visible .related-tool-action > span { transform: translate(2px, -2px); }
   .related-list h3 { margin-top: 1rem; max-width: 20ch; font-size: 1.7rem; font-weight: 700; letter-spacing: -.035em; line-height: 1.15; }
   .related-list p { margin-top: 1rem; color: var(--ink-muted); font-size: .95rem; line-height: 1.65; max-width: 38ch; }
   @media (min-width: 768px) { .related-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1280px) { .related-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .tool-hero-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; } .tool-workspace-heading { grid-template-columns: 1.15fr 1fr; gap: 4rem; } .tool-reading { grid-template-columns: minmax(0, .8fr) minmax(0, 1.7fr); gap: 6rem; } }
-  @media (prefers-reduced-motion: reduce) { .related-tool-link, .related-tool-action > span { transition: none; transform: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .related-tool-link { transition: none; } }
   @media (max-width: 639px) { .tool-workspace { padding: 3rem 0; } }
 </style>

@@ -2,7 +2,6 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
-import ContactInvitation from '~/components/patterns/ContactInvitation.astro';
 const principles = [
   { title: 'Make the system useful to its users.', body: 'Engineers are users, too. I give component APIs, defaults, and documentation the same care as type and spacing. When teams can understand and use a component, they have fewer reasons to build their own version.' },
   { title: 'Build accessibility into the behavior.', body: 'Semantic markup, keyboard support, focus management, and recoverable errors belong in the component. I test those behaviors and take findings seriously, including the gaps documented in my own case studies.' },
@@ -23,7 +22,7 @@ const personal = [
         <div>
           <h1 class="page-type hero-in hero-in-2">An engineer with<br />an eye for<br /><em>the details.</em></h1>
           <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
-          <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true">↗</span></a></div>
+          <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
         </div>
         <figure class="about-portrait hero-in hero-in-5"><Portrait eager /><figcaption>Connecticut now. Louisiana always.</figcaption></figure>
       </div>
@@ -34,10 +33,10 @@ const personal = [
       <div class="approach-layout">
         <h2 class="section-type">A career in<br /><em>production UI.</em></h2>
         <div class="prose-lede">
-          <p>At Travelers, I work on the design system used by roughly 3,500 engineers and designers. My current work includes Stencil Web Components, Storybook automation, accessibility guidance, and Figma Code Connect.</p>
+          <p>I work on an enterprise design system used by roughly 3,500 engineers and designers. My current work includes Stencil Web Components, Storybook automation, accessibility guidance, and Figma Code Connect.</p>
           <p>Before that, I built shared UI for insurance portals at Berkshire Hathaway Specialty Insurance and worked on reusable React and Next.js components at America’s Test Kitchen. At Logatot, I led front-end work on a three-person development team.</p>
           <p>Across those roles, the useful work has often been connecting disciplines: making design intent concrete, giving engineers usable patterns, and staying involved when real data makes things complicated.</p>
-          <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true">↗</span></a>
+          <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
       </div>
     </Container>
@@ -54,9 +53,9 @@ const personal = [
         <div><h2 class="section-type">Let’s look at<br /><em>the work.</em></h2><p class="section-intro">Different projects show different skills. Here’s where to start if you’re evaluating a role.</p></div>
         <div>
           <div class="resource-list">
-            <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true">↗</span></a>
-            <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true">↗</span></a>
-            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, repair flows, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true">↗</span></a>
+            <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, repair flows, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
           <p class="experience-note"><strong>Frameworks and fit.</strong> My deepest current systems work is in Stencil Web Components. Rudiment UI shows my React component work; for a React-heavy role, I’d also want us to assess application architecture and state management directly.</p>
         </div>
@@ -69,5 +68,4 @@ const personal = [
       <div class="personal-grid" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
     </Container>
   </section>
-  <ContactInvitation />
 </BaseLayout>
