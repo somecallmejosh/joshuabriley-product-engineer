@@ -18,7 +18,7 @@ export const componentCatalogue = [
     "name": "MobileNav",
     "path": "src/components/chrome/MobileNav.astro",
     "group": "chrome",
-    "note": "The mobile navigation dialog with Escape dismissal and focus handling.",
+    "note": "The mobile navigation modal with outside-click and Escape dismissal, focus containment, and scroll locking.",
     "href": "/"
   },
   {

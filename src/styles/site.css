@@ -184,12 +184,12 @@ html {
 
 /* ── Primary nav — quiet, precise. A thin accent rule grows under the active /
    hovered link; no dots, no bounce. ─────────────────────────────────────── */
-header nav a {
+header .desktop-nav a {
   position: relative;
   padding: 2px 0;
   transition: color 0.25s var(--ease-out);
 }
-header nav a::after {
+header .desktop-nav a::after {
   content: '';
   position: absolute;
   left: 0;
@@ -201,29 +201,13 @@ header nav a::after {
   transform-origin: left center;
   transition: transform 0.4s var(--ease-out);
 }
-header nav a:hover,
-header nav a[aria-current='page'] {
+header .desktop-nav a:hover,
+header .desktop-nav a[aria-current='page'] {
   color: var(--ink);
 }
-header nav a:hover::after,
-header nav a[aria-current='page']::after {
+header .desktop-nav a:hover::after,
+header .desktop-nav a[aria-current='page']::after {
   transform: scaleX(1);
-}
-
-header .mobile-menu a {
-  position: relative;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
-  transition: color 0.25s var(--ease-out);
-}
-header .mobile-menu a:hover,
-header .mobile-menu a[aria-current='page'] {
-  color: var(--accent);
-}
-
-.nav-open .mobile-menu {
-  display: flex;
 }
 
 /* ─── Shared scorecard styles ─────────────────────────────────────────────── */

@@ -1,68 +1,153 @@
 ---
 import Icon from '~/components/primitives/Icon.astro';
-import Link from '~/components/primitives/Link.astro';
+import { FOOTER_NAV, type NavLink } from '~/lib/nav';
 import { cx } from '~/lib/cx';
 
-import type { NavLink } from '~/lib/nav';
-
-interface Props {
-  links: NavLink[];
-  class?: string;
-}
-
-const { links, class: className } = Astro.props as Props;
+interface Props { links: NavLink[]; class?: string; }
+const { links, class: className } = Astro.props;
+const primaryLinks = links.filter(link => link.href !== '/contact/');
+const primaryPaths = new Set(links.map(link => link.href));
+const supportingLinks = FOOTER_NAV.flatMap(group => group.links).filter(link => !primaryPaths.has(link.href));
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => {
+  const path = href.replace(/\/$/, '') || '/';
+  return pathname === path || (path !== '/' && pathname.startsWith(`${path}/`));
+};
 ---
 
 <button
   id="mobile-menu-toggle"
   type="button"
-  class={cx('md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-navy hover:bg-charcoal/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral', className)}
-  aria-label="Toggle navigation menu"
+  class={cx('mobile-menu-toggle', className)}
+  aria-haspopup="dialog"
   aria-expanded="false"
   aria-controls="mobile-menu"
 >
-  <Icon name="ph:list-bold" size={24} />
+  Menu <Icon name="ph:list-bold" size={22} />
 </button>
 
-<nav
-  id="mobile-menu"
-  class="mobile-menu hidden flex-col gap-4 absolute top-full left-0 right-0 bg-cream/95 backdrop-blur-md border-b border-charcoal/10 px-6 py-6 md:hidden"
-  aria-label="Mobile navigation"
->
-  {links.map((link) => (
-    <Link href={link.href} variant="nav" class="block py-1">{link.label}</Link>
-  ))}
-</nav>
+<dialog id="mobile-menu" class="mobile-menu" aria-modal="true" aria-labelledby="mobile-menu-title">
+  <div class="mobile-menu-panel">
+    <div class="mobile-menu-heading">
+      <h2 id="mobile-menu-title">Explore</h2>
+      <button class="mobile-menu-close" type="button" autofocus>Close <Icon name="ph:x" size={22} /></button>
+    </div>
+    <div class="mobile-menu-content">
+      <nav aria-label="Mobile primary">
+        <ul class="mobile-primary" role="list">
+          {primaryLinks.map(link => <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}<span aria-hidden="true" data-link-arrow="up-right">↗</span></a></li>)}
+        </ul>
+      </nav>
+      <nav aria-label="More to explore">
+        <ul class="mobile-supporting" role="list">
+          {supportingLinks.map(link => <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a></li>)}
+        </ul>
+      </nav>
+      <a class="action-link mobile-contact" href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>Talk shop <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .mobile-menu-toggle, .mobile-menu-close { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 44px; padding: .5rem .25rem; color: var(--ink); font-size: .95rem; font-weight: 600; }
+  .mobile-menu-toggle { border-bottom: 1px solid var(--ink); }
+  .mobile-menu-toggle:hover, .mobile-menu-close:hover { color: var(--portfolio-blue); }
+  .mobile-menu { width: calc(100% - 2rem); max-width: 36rem; max-height: calc(100dvh - 2rem); margin: 1rem auto auto; padding: 0; border: 1px solid var(--line-strong); border-top: 4px solid var(--portfolio-blue); background: var(--paper); color: var(--ink); overflow: hidden; }
+  .mobile-menu::backdrop { background: rgb(26 27 30 / .48); }
+  .mobile-menu-panel { display: flex; flex-direction: column; max-height: calc(100dvh - 2rem - 5px); }
+  .mobile-menu-heading { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; gap: 1rem; padding: 1rem 1.5rem .75rem; }
+  .mobile-menu-heading h2 { font-size: .9rem; font-weight: 500; color: var(--ink-muted); }
+  .mobile-menu-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 1.5rem 1.5rem; }
+  .mobile-primary, .mobile-supporting { margin: 0; padding: 0; list-style: none; }
+  .mobile-primary a { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 64px; padding: .75rem 0; border-bottom: 1px solid var(--line-strong); font-size: clamp(2.5rem, 9vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; }
+  .mobile-primary a > span { color: var(--portfolio-blue); font-size: .5em; font-weight: 400; }
+  .mobile-supporting { display: grid; grid-template-columns: minmax(0, 1fr); gap: .25rem 1.25rem; padding-block: 1.25rem; }
+  .mobile-supporting a { display: flex; align-items: center; min-height: 44px; font-size: .95rem; line-height: 1.4; }
+  .mobile-menu nav a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color 200ms, text-decoration-color 200ms; }
+  .mobile-menu nav a:hover, .mobile-menu nav a[aria-current='page'] { color: var(--portfolio-blue); text-decoration-color: currentColor; }
+  .mobile-contact { width: 100%; }
+  .mobile-contact[aria-current='page'] { text-decoration: underline; text-underline-offset: 5px; }
+  .mobile-menu-toggle:focus-visible, .mobile-menu :is(a, button):focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 4px; }
+  :global(html.nav-open), :global(html.nav-open body) { overflow: hidden; }
+  @media (min-width: 360px) { .mobile-supporting { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 768px) { .mobile-menu-toggle { display: none; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu[open] { animation: mobile-menu-enter 180ms var(--ease-out); }
+  }
+  @keyframes mobile-menu-enter { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 
 <script>
   const toggle = document.getElementById('mobile-menu-toggle');
   const menu = document.getElementById('mobile-menu');
-  if (toggle && menu) {
-    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const isOpen = () => document.body.classList.contains('nav-open');
-    const open = () => {
-      document.body.classList.add('nav-open');
-      toggle.setAttribute('aria-expanded', 'true');
-      const first = menu.querySelector<HTMLElement>(focusableSelector);
-      first?.focus();
+  if (toggle instanceof HTMLButtonElement && menu instanceof HTMLDialogElement) {
+    const closeButton = menu.querySelector<HTMLButtonElement>('.mobile-menu-close');
+    const desktop = window.matchMedia('(min-width: 768px)');
+    let restoreFocus = true;
+    let pointerStartedOutside = false;
+    let pagePosition = { left: 0, top: 0 };
+    const restorePagePosition = () => window.scrollTo({ ...pagePosition, behavior: 'instant' });
+    const outside = (event: MouseEvent) => {
+      const rect = menu.getBoundingClientRect();
+      return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
     };
-    const close = (restoreFocus = true) => {
-      document.body.classList.remove('nav-open');
+    const close = (restore = true) => {
+      if (!menu.open) return;
+      restoreFocus = restore;
+      menu.close();
       toggle.setAttribute('aria-expanded', 'false');
-      if (restoreFocus) toggle.focus();
+      document.documentElement.classList.remove('nav-open');
+      restorePagePosition();
     };
-    toggle.addEventListener('click', () => (isOpen() ? close() : open()));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isOpen()) {
-        e.preventDefault();
-        close();
+    toggle.addEventListener('click', () => {
+      if (menu.open) { close(); return; }
+      if (desktop.matches) return;
+      restoreFocus = true;
+      pointerStartedOutside = false;
+      pagePosition = { left: window.scrollX, top: window.scrollY };
+      document.documentElement.classList.add('nav-open');
+      menu.showModal();
+      restorePagePosition();
+      toggle.setAttribute('aria-expanded', 'true');
+    });
+    closeButton?.addEventListener('click', () => close());
+    menu.addEventListener('pointerdown', event => { pointerStartedOutside = outside(event); });
+    menu.addEventListener('click', event => {
+      if (pointerStartedOutside && outside(event)) { close(); return; }
+      if ((event.target as Element).closest('a[href]')) close(false);
+    });
+    menu.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const targets = Array.from(menu.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)'));
+      const first = targets[0];
+      const last = targets[targets.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
       }
     });
-    menu.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('a')) close(false);
-    });
     window.addEventListener('resize', () => {
-      if (window.matchMedia('(min-width: 768px)').matches && isOpen()) close(false);
+      if (!menu.open) return;
+      requestAnimationFrame(() => {
+        const active = document.activeElement;
+        if (menu.open && active instanceof HTMLElement && menu.contains(active)) active.scrollIntoView({ block: 'nearest' });
+      });
+    });
+    menu.addEventListener('close', () => {
+      if (menu.open) return;
+      toggle.setAttribute('aria-expanded', 'false');
+      document.documentElement.classList.remove('nav-open');
+      if (restoreFocus && !desktop.matches) toggle.focus({ preventScroll: true });
+      restorePagePosition();
+    });
+    desktop.addEventListener('change', () => {
+      if (desktop.matches && menu.open) {
+        close(false);
+        document.querySelector<HTMLAnchorElement>('.desktop-nav a[aria-current="page"], .desktop-nav a')?.focus({ preventScroll: true });
+      }
     });
   }
 </script>

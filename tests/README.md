@@ -13,6 +13,7 @@ Run `npm run check` and `npm run build` for Astro and production validation. Sto
 Run `npm run test:e2e` after building. Playwright uses a running server on port 4321 when available, or starts the production preview. `npx playwright install` installs browsers if they are missing.
 
 - `keyboard.spec.ts` checks existing routes for WCAG 2.1 AA violations, skip-link behavior, and selected navigation and tool interactions at desktop and phone sizes.
+- `mobile-navigation.spec.ts` checks modal naming, keyboard focus containment, background isolation, outside-click and Escape dismissal, focus restoration, destination links, desktop resizing, short screens, reduced motion, and menu contrast.
 - `articles.spec.ts` checks contents navigation, scrolling tables, reading-position tracking, and clipboard feedback.
 - `style-guide.spec.ts` checks local form validation and busy feedback, expandable examples and component groups, code copying, artifact-viewer focus restoration, and reduced-motion behavior.
 

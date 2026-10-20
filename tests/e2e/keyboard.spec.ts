@@ -64,7 +64,7 @@ for (const path of PAGES) {
   });
 }
 
-test('mobile menu opens, traps focus on first item, closes on Escape', async ({ page }) => {
+test('mobile menu opens and restores focus after Escape', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 800 });
   await page.goto('/');
   const toggle = page.locator('#mobile-menu-toggle');
