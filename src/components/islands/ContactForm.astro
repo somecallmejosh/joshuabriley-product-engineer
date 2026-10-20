@@ -18,7 +18,7 @@ import SubmitButton from '~/components/form/SubmitButton.astro';
 >
   <FormAlert variant="success" id="form-alert-success">
     <p class="font-heading font-semibold text-navy">Thanks. Your message is on its way.</p>
-    <p class="mt-1 text-charcoal/75">I’ll reply within one business day, usually sooner.</p>
+    <p class="mt-1 text-charcoal/75">I’ll get back to you by email.</p>
   </FormAlert>
   <FormAlert variant="error" id="form-alert-error">
     <p class="font-heading font-semibold text-navy">Your message didn’t send.</p>
@@ -43,7 +43,7 @@ import SubmitButton from '~/components/form/SubmitButton.astro';
     </Field>
   </div>
 
-  <Field label="Message" name="message" required hint="A few sentences is plenty.">
+  <Field label="Message" name="message" required hint="What’s on your mind? For a meetup or event, include the date and location.">
     <Textarea name="message" rows={5} required />
   </Field>
 
