@@ -76,22 +76,21 @@ export const projectPages = {
   },
   rudiment: {
     name: 'Rudiment UI', kind: 'Personal project · Component architecture',
-    headline: 'A component library with', emphasis: 'the reasoning included.',
-    intro: 'Accessible React components, a three-tier token system, and a companion guide explaining the architectural choices. A public reference project you can read, run, and explore in Storybook.',
+    headline: 'React components,', emphasis: 'working together.',
+    intro: 'A token-driven React component library with accessible interaction patterns and live Storybook documentation. Explore individual components and variants, then try the project board, sprint dashboard, and storefront built from them.',
     facts: [
-      { label: 'My role', value: 'Author and engineer' },
+      { label: 'My role', value: 'Designer and engineer' },
       { label: 'Built with', value: 'React, TypeScript, React Aria' },
-      { label: 'Scope', value: 'Personal reference library and guide' },
+      { label: 'Scope', value: 'Component library and Storybook implementation' },
     ],
     figures: [
-      { value: '13', label: 'chapters of architectural decisions' },
-      { value: '3', label: 'working example pages' },
+      { value: '3', label: 'token tiers' },
+      { value: '3', label: 'featured Storybook examples' },
     ],
     image: '/images/projects/rudiment-ui/rudiment-board.webp',
     alt: 'A Rudiment UI project board with draggable issue cards across four sprint columns',
     imageNote: 'Storybook example · A project board built with the library', dark: true,
     actions: [
-      { href: 'https://rudiment-guide.netlify.app/', label: 'Read the guide' },
       { href: 'https://rudiment-ui.netlify.app/', label: 'Explore Storybook' },
     ],
     next: { name: 'Token Adventure', href: '/personal-projects/token-galaga/', description: 'A coding game for learning the design token format through practice.' },

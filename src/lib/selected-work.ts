@@ -3,12 +3,12 @@ export const selectedWork = [
   {
     name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/',
     kind: 'Personal project · React component library',
-    title: 'A component library with its decisions documented.',
-    summary: 'Accessible React components, a three-tier token system, and a companion guide. Explore the architecture, try the Storybook examples, and inspect the implementation.',
-    ownership: 'Author and engineer', evidence: 'Tokens, APIs, accessibility, documentation',
+    title: 'React components, working together.',
+    summary: 'Accessible React components and a three-tier token system, documented in Storybook. Inspect component APIs and variants, then try the project board, dashboard, and storefront built from the library.',
+    ownership: 'Designer and engineer', evidence: 'Tokens, APIs, accessibility, Storybook documentation',
     image: '/images/projects/rudiment-ui/rudiment-board.webp',
     alt: 'Rudiment UI project board showing tasks organized into four sprint columns',
-    imageClass: 'work-image--rudiment', result: '13 chapters', resultNote: 'explaining the architecture', action: 'Explore the library',
+    imageClass: 'work-image--rudiment', result: '3 examples', resultNote: 'featured from Storybook', action: 'Explore the library',
   },
   {
     name: 'IVFCRYO', href: '/projects/ivfcryo/', kind: 'Client work · Fertility logistics',

@@ -8,11 +8,10 @@ import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
-import SiteShot from '~/components/patterns/SiteShot.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
 
 const description =
-  'Case study: building Rudiment UI, an open-source React component library and 13-chapter guide that explains the reasoning behind each architectural decision.';
+  'Building Rudiment UI: a token-driven React component library with accessible interaction patterns, live Storybook documentation, and composed interface examples.';
 
 
 /**
@@ -80,25 +79,6 @@ const a11yList = [
   { icon: 'ph:eye', text: 'Contrast verified against token values' },
 ];
 
-const chapters = [
-  { num: '01', title: 'Architectural decisions (no code)' },
-  { num: '02', title: 'Token system design' },
-  { num: '03', title: 'Styling strategy' },
-  { num: '04', title: 'Accessibility primitives' },
-  { num: '05', title: 'Layout primitives' },
-  { num: '06', title: 'Component patterns' },
-  { num: '07', title: 'Design tokens in DTCG format' },
-  { num: '08', title: 'Style Dictionary configuration' },
-  { num: '09', title: 'React Aria integration' },
-  { num: '11', title: 'Testing accessibility contracts' },
-  { num: '12', title: 'Build & packaging workflow' },
-];
-
-const guideChecks = [
-  'Architecture, tokens, primitives, components, tests, publishing',
-  'Companion GitHub repo with a complete working implementation',
-];
-
 const storybookChecks = [
   'Live components built on React Aria & Tailwind CSS 4',
   'Token-driven theming visible across every story',
@@ -106,10 +86,10 @@ const storybookChecks = [
 ];
 
 const proof = [
-  { label: 'Skills', items: ['CRUD development', 'Accessible component APIs', 'Front-end architecture', 'UI/UX design', 'Style guide documentation', 'Theming'] },
+  { label: 'Skills', items: ['Accessible component APIs', 'Front-end architecture', 'UI/UX design', 'Storybook documentation', 'Theming'] },
   { label: 'Stack', items: ['React', 'React Aria', 'Storybook', 'Design tokens', 'Tailwind CSS 4'] },
   { label: 'Quality', items: ['Keyboard operability', 'Focus management', 'ARIA semantics', 'Token contrast checks'] },
-  { label: 'Outcomes', items: ['13 shipped chapters', '3 example pages built from the library', 'Two live deployed sites: guide + Storybook'] },
+  { label: 'Implementation', items: ['Three-tier token architecture', '3 featured pages composed from the library', 'Live component documentation in Storybook'] },
 ];
 ---
 
@@ -121,7 +101,7 @@ const proof = [
     { href: '#examples', label: 'Working examples' },
     { href: '#tokens', label: 'Token architecture' },
     { href: '#accessibility', label: 'Behavior and tests' },
-    { href: '#explore', label: 'Guide and Storybook' },
+    { href: '#explore', label: 'Explore Storybook' },
   ]} />
 
   <Section id="examples" tone="paper" padding="default" aria-label="Live Storybook examples">
@@ -157,28 +137,6 @@ const proof = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" aria-label="Field guide">
-    <Container width="wide">
-      <Heading level={2} visual="h2" class="max-w-[24ch]">
-        The guide
-      </Heading>
-      <Text tone="muted" class="mt-4 max-w-2xl">
-        Thirteen chapters that go from an empty directory to a published, accessible
-        library built on design tokens. Each chapter explains its decisions and the
-        alternatives that were ruled out.
-      </Text>
-      <div class="mt-9">
-        <SiteShot
-          src="/images/projects/rudiment-ui/rudiment-guide.webp"
-          alt="The Rudiment field guide: a 13-chapter walkthrough to building a component library"
-          href="https://rudiment-guide.netlify.app/"
-          label="rudiment-guide.netlify.app"
-          index="01"
-        />
-      </div>
-    </Container>
-  </Section>
-
   <Section tone="paper" padding="tight" aria-label="Scope and results" class="project-scope">
     <Container width="content">
       <p class="mono-label mb-8">Scope and results</p>
@@ -207,12 +165,10 @@ const proof = [
 
 
       <Text size="lg" tone="muted" class="mt-10 measure">
-        Rudiment UI is a personal reference project, showing component architecture and documentation rather than enterprise adoption or production application scale. Most of the component
-        libraries I've been brought in to fix had the same root cause:
-        architectural decisions that nobody wrote down, made in the wrong order,
-        and now taking a quarter's work to untangle. Rudiment UI is the library I
-        wish those teams had started with, built chapter by chapter with the
-        reasoning documented.
+        I designed and built Rudiment UI as a personal reference library for React
+        interfaces. Storybook brings the implementation together: component APIs,
+        visual variants, interaction states, and examples that show how the pieces
+        work in a complete interface.
       </Text>
     </Container>
   </Section>
@@ -222,29 +178,22 @@ const proof = [
       <div class="case-layout">
         <div class="case-layout__head">
           <Heading level={2} visual="display-md" tone="ink">
-            Why component libraries break down
+            Making components work together
           </Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
             <p>
-              Component libraries usually degrade through many small compromises
-              until they stop working as a system. A missing semantic
-              token layer turns a rebrand into hundreds of manual renames. An
-              undecided styling strategy turns a refactor into a full rewrite.
-              Accessibility bolted on after launch always costs more than
-              accessibility designed in from day one.
+              A component needs to hold up on its own and alongside the rest of the
+              library. A button can look right in isolation while its spacing,
+              focus behavior, or styling becomes awkward inside a form or toolbar.
             </p>
             <p>
-              These mistakes are usually expensive because they were
-              <strong class="text-ink font-semibold">made implicitly</strong>: in a stand-up,
-              a PR comment, or a rushed sprint. Rudiment UI makes the structural
-              decisions first, before writing code, and documents each choice with
-              its consequences.
-            </p>
-            <p>
-              Chapter 1 of the guide contains no code. It covers the decisions a team
-              should make <em>before</em> choosing a CSS strategy.
+              Rudiment UI combines component stories with composed interface
+              examples. The board, dashboard, and storefront show how the same
+              tokens, layout primitives, and controls work together across
+              different kinds of pages. Storybook gives readers a place to inspect
+              those details and try the interactions directly.
             </p>
           </div>
 
@@ -349,180 +298,41 @@ const proof = [
     </Container>
   </Section>
 
-  <Section id="chapters" tone="paper" padding="default" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">
-            Guide chapters
-          </Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
-            <p>
-              The chapters follow the order the decisions need to be made. The token
-              layer has to be settled before component decisions, the component API
-              has to be stable before tests are useful, and the build workflow has to
-              keep every tier in sync before the library is published.
-            </p>
-          </div>
-
-          <ul class="mt-10 rounded-lg border border-line">
-            {chapters.slice(0, 9).map((c) => (
-              <li class="flex items-center gap-4 border-b border-line px-5 py-3.5">
-                <span class="font-mono text-[0.75rem] text-accent">{c.num}</span>
-                <span class="text-sm text-ink">{c.title}</span>
-              </li>
-            ))}
-            <li class="border-b border-line">
-              <a
-                href="https://rudiment-ui.netlify.app/"
-                target="_blank"
-                rel="noopener"
-                class="group flex items-center gap-4 px-5 py-3.5 text-ink transition-colors hover:text-accent"
-              >
-                <span class="font-mono text-[0.75rem] text-accent">10</span>
-                <span class="flex-1 text-sm">Storybook documentation</span>
-                <Icon name="ph:arrow-up-right" size={14} class="text-accent" />
-              </a>
-            </li>
-            {chapters.slice(9).map((c) => (
-              <li class="flex items-center gap-4 border-b border-line px-5 py-3.5">
-                <span class="font-mono text-[0.75rem] text-accent">{c.num}</span>
-                <span class="text-sm text-ink">{c.title}</span>
-              </li>
-            ))}
-            <li class="flex items-center gap-4 px-5 py-3.5">
-              <span class="font-mono text-[0.75rem] text-accent">13</span>
-              <span class="text-sm text-ink">Publishing to npm</span>
-            </li>
-          </ul>
-
-          <Heading level={3} visual="h3" tone="ink" class="mt-16 mb-6">
-            What the guide provides
-          </Heading>
-          <div class="grid gap-6 md:grid-cols-3">
-            <div class="border-t border-line pt-5">
-              <Icon name="ph:compass" size={28} class="mb-3 text-ink-muted" />
-              <Heading level={4} visual="h4" tone="ink">Explained decisions</Heading>
-              <p class="mt-1 text-sm text-ink-muted leading-relaxed">
-                Every decision is explained alongside the alternatives it closes
-                off, so you can extend the system instead of copying it.
-              </p>
-            </div>
-            <div class="border-t border-line pt-5">
-              <Icon name="ph:stack" size={28} class="mb-3 text-ink-muted" />
-              <Heading level={4} visual="h4" tone="ink">A working reference</Heading>
-              <p class="mt-1 text-sm text-ink-muted leading-relaxed">
-                An end-to-end library you can run, read, and pull pieces from:
-                tokens, primitives, tests, publishing pipeline.
-              </p>
-            </div>
-            <div class="border-t border-line pt-5">
-              <Icon name="ph:shield-check" size={28} class="mb-3 text-ink-muted" />
-              <Heading level={4} visual="h4" tone="ink">Common mistakes, explained early</Heading>
-              <p class="mt-1 text-sm text-ink-muted leading-relaxed">
-                Common expensive mistakes, such as shallow tokens, accessibility
-                added late, and outdated docs, are explained before they become
-                costly to fix.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </Container>
-  </Section>
-
   <Section id="explore" tone="paper" padding="default" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
           <Heading level={2} visual="display-md" tone="ink">
-            Guide and Storybook
+            Explore the implementation
           </Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
             <p>
-              Rudiment is deployed as two sites. The guide explains the
-              architectural decisions and trade-offs chapter by chapter, and the
-              Storybook shows the library those decisions produced, with every
-              primitive, component, and variant.
+              Storybook is the live reference for the library. Browse layout
+              primitives, form controls, overlays, and visual variants, then open
+              the example pages to see them composed into interfaces.
             </p>
           </div>
-
-          <div class="mt-10 grid gap-7 md:grid-cols-2">
-            <a
-              href="https://rudiment-guide.netlify.app/"
-              target="_blank"
-              rel="noopener"
-              class="group block rounded-lg border border-line p-7 transition-colors hover:border-line-strong"
-            >
-              <Icon name="ph:compass" size={26} class="text-ink-muted" />
-              <Heading level={3} visual="h3" tone="ink" class="mt-5">The Rudiment Guide</Heading>
-              <p class="mt-1 font-mono text-xs text-ink-muted">rudiment-guide.netlify.app</p>
-
-              <p class="mt-5 text-ink-muted leading-relaxed">
-                A sequenced, decision-by-decision walkthrough: from an empty
-                directory to a published, token-driven, accessible React library.
-                Every choice is shown alongside the alternatives it closed off.
-              </p>
-
-              <ul class="mt-5 space-y-2 text-sm text-ink-muted">
-                {guideChecks.map((c) => (
-                  <li class="flex items-start gap-2">
-                    <Icon name="ph:check" size={16} class="mt-0.5 flex-shrink-0 text-accent" />
-                    {c}
-                  </li>
-                ))}
-                <li class="flex items-start gap-2">
-                  <Icon name="ph:check" size={16} class="mt-0.5 flex-shrink-0 text-accent" />
-                  The reasoning behind each decision
-                </li>
-              </ul>
-
-              <div class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink transition-colors group-hover:text-accent">
-                Open the guide
-                <Icon name="ph:arrow-up-right" size={14} />
-              </div>
-            </a>
-
-            <a
-              href="https://rudiment-ui.netlify.app/"
-              target="_blank"
-              rel="noopener"
-              class="group block rounded-lg border border-line p-7 transition-colors hover:border-line-strong"
-            >
-              <Icon name="ph:cube" size={26} class="text-ink-muted" />
-              <Heading level={3} visual="h3" tone="ink" class="mt-5">The Storybook</Heading>
-              <p class="mt-1 font-mono text-xs text-ink-muted">rudiment-ui.netlify.app</p>
-
-              <p class="mt-5 text-ink-muted leading-relaxed">
-                The deployed component library as an interactive reference:
-                layout primitives, form controls, overlays, and every variant
-                the guide produces, with controls and docs on each story.
-              </p>
-
-              <ul class="mt-5 space-y-2 text-sm text-ink-muted">
-                {storybookChecks.map((c) => (
-                  <li class="flex items-start gap-2">
-                    <Icon name="ph:check" size={16} class="mt-0.5 flex-shrink-0 text-accent" />
-                    {c}
-                  </li>
-                ))}
-              </ul>
-
-              <div class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink transition-colors group-hover:text-accent">
-                Browse the Storybook
-                <Icon name="ph:arrow-up-right" size={14} />
-              </div>
-            </a>
-          </div>
-
-          <p class="mt-10 text-center text-sm text-ink-muted">
-            Read a chapter, then open the matching story. The guide and the
-            library are meant to be used side by side.
+          <ul class="mt-8 space-y-3 text-ink-muted">
+            {storybookChecks.map((item) => (
+              <li class="flex items-start gap-3">
+                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="https://rudiment-ui.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="action-link mt-8"
+          >
+            Explore Storybook <span aria-hidden="true" data-link-arrow="up-right">↗</span>
+          </a>
+          <p class="mt-10 measure text-sm text-ink-muted leading-relaxed">
+            I also wrote the separate <a href="https://rudiment-guide.netlify.app/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-accent">13-chapter Rudiment Guide</a>,
+            a walkthrough of component-library architecture.
           </p>
         </div>
       </div>
