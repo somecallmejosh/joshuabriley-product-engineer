@@ -106,7 +106,7 @@ const labels = [
     <div class="relative z-10">
       <p class="mono-label text-paper/80 mb-2">Your assessment</p>
       <h3 class="font-serif text-3xl md:text-4xl font-semibold tracking-[-0.018em] mb-4 leading-tight">
-        <span data-result-headline>Keep going. Answer every question to unlock your report.</span>
+        <span data-result-headline>Answer every question to see your report.</span>
       </h3>
       <div class="flex flex-wrap items-end gap-x-10 gap-y-5 mb-7">
         <div>
@@ -305,7 +305,7 @@ const labels = [
       } else {
         finalGradeEl.textContent = '-';
         resultActions.hidden = true;
-        resultHeadline.textContent = 'Keep going. Answer every question to see your report.';
+        resultHeadline.textContent = 'Answer every question to see your report.';
         resultBody.textContent = `You're ${answered} of ${TOTAL_ITEMS} questions in. A personalized writeup appears here once you've scored every row.`;
         wasComplete = false;
       }

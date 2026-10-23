@@ -39,7 +39,7 @@ export const projectPages = {
   },
   logatot: {
     name: 'Logatot', kind: 'Product work · Home child care',
-    headline: 'Child care paperwork,', emphasis: 'handled by voice.',
+    headline: 'Helping child care providers', emphasis: 'log their day by voice.',
     intro: 'Providers can record meals, naps, and attendance while caring for children. I led front-end work on a three-developer team, connecting voice interactions, recoverable errors, and shared components in a paid product.',
     facts: [
       { label: 'My role', value: 'Lead front end and interaction design' },
@@ -57,7 +57,7 @@ export const projectPages = {
   },
   vmspark: {
     name: 'VMSpark', kind: 'Client work · Recruiting operations',
-    headline: 'Rebuilding the interface,', emphasis: 'keeping the system running.',
+    headline: 'Rebuilding the interface', emphasis: 'without stopping the pipeline.',
     intro: 'VMSpark processes thousands of job listings and sends them to more than a dozen hiring systems. I audited and rebuilt the admin interface in stages, preserving the pipeline and the workflows operators already knew.',
     facts: [
       { label: 'My role', value: 'Product design and UI engineering' },
@@ -76,7 +76,7 @@ export const projectPages = {
   },
   rudiment: {
     name: 'Rudiment UI', kind: 'Personal project · Component architecture',
-    headline: 'React components,', emphasis: 'working together.',
+    headline: 'A React component library', emphasis: 'I designed and built.',
     intro: 'A token-driven React component library with accessible interaction patterns and live Storybook documentation. Explore individual components and variants, then try the project board, sprint dashboard, and storefront built from them.',
     facts: [
       { label: 'My role', value: 'Designer and engineer' },

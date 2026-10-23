@@ -19,9 +19,13 @@ test('mobile navigation is a named modal with usable destinations and contained 
   const close = dialog.getByRole('button', { name: 'Close', exact: true });
   await expect(close).toBeFocused();
   await expect(dialog.getByRole('link', { name: 'About', exact: true })).toHaveAttribute('aria-current', 'page');
-  for (const name of ['Writing', 'Tools', 'Recommendations', 'Personal projects', 'Contact me']) {
+  for (const name of ['Résumé', 'Tools', 'Recommendations', 'Personal projects', 'Contact me']) {
     await expect(dialog.getByRole('link', { name, exact: true })).toBeVisible();
   }
+  // The large links mirror the footer's lead group.
+  const footerLead = await page.locator('.footer-nav--lead a').allTextContents();
+  const mobileLead = await dialog.locator('.mobile-primary a').allTextContents();
+  expect(mobileLead.map(t => t.replace('↗', '').trim())).toEqual(footerLead.map(t => t.replace('↗', '').trim()));
   await expect(page.locator('html')).toHaveClass(/nav-open/);
   expect(await page.locator('html').evaluate(el => getComputedStyle(el).overflowY)).toBe('hidden');
   // Attempts to focus the background remain inside the native modal.

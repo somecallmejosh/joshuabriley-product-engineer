@@ -3,7 +3,7 @@ export const selectedWork = [
   {
     name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/',
     kind: 'Personal project · React component library',
-    title: 'React components, working together.',
+    title: 'An accessible React component library I designed and built.',
     summary: 'Accessible React components and a three-tier token system, documented in Storybook. Inspect component APIs and variants, then try the project board, dashboard, and storefront built from the library.',
     ownership: 'Designer and engineer', evidence: 'Tokens, APIs, accessibility, Storybook documentation',
     image: '/images/projects/rudiment-ui/rudiment-board.webp',
@@ -21,7 +21,7 @@ export const selectedWork = [
   },
   {
     name: 'Logatot', href: '/projects/logatot/', kind: 'Product work · Home child care',
-    title: 'Less paperwork. More time with the actual children.',
+    title: 'Cutting paperwork for home child care providers.',
     summary: 'A voice-controlled platform for recording meals, naps, and attendance during the day. I led front-end work on a three-developer team, from interaction design to reusable components.',
     ownership: 'Lead front end and interaction design', evidence: 'Voice repair flows, shared components, live state',
     image: '/images/projects/logatot/wires-and-flows/01-voiceboard.svg',

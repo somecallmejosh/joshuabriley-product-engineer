@@ -6,9 +6,10 @@ export interface NavLink {
 }
 
 export const PRIMARY_NAV: NavLink[] = [
-  { href: '/projects/', label: 'Work' },
-  { href: '/about/', label: 'About' },
-  { href: '/resume/', label: 'Résumé' },
+  { href: '/', label: 'Home' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/about/', label: 'Biography' },
+  { href: '/blog/', label: 'Articles' },
   { href: '/contact/', label: 'Contact' },
 ]
 
@@ -16,17 +17,18 @@ export const FOOTER_NAV: { heading: string; links: NavLink[] }[] = [
   {
     heading: 'Explore',
     links: [
-      { href: '/projects/', label: 'Work' },
-      { href: '/blog/', label: 'Writing' },
-      { href: '/tools/', label: 'Tools' },
+      { href: '/projects/', label: 'Projects' },
+      { href: '/about/', label: 'Biography' },
+      { href: '/blog/', label: 'Articles' },
     ],
   },
   {
-    heading: 'About & experience',
+    heading: 'More',
     links: [
-      { href: '/about/', label: 'About' },
+      { href: '/', label: 'Home' },
       { href: '/resume/', label: 'Résumé' },
-      { href: '/testimonials/', label: 'Recommendations' },
+      { href: '/tools/', label: 'Tools' },
+      { href: '/testimonials/', label: 'Feedback' },
       { href: '/personal-projects/', label: 'Personal projects' },
     ],
   },

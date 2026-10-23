@@ -31,6 +31,6 @@ const { class: className } = Astro.props;
       <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </div>
 
-    <MobileNav links={PRIMARY_NAV} />
+    <MobileNav />
   </Container>
 </header>

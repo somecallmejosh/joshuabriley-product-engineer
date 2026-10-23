@@ -16,6 +16,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
       <div class="footer-identity">
         <Logo href="/" size="lg" tone="inverse" class="min-h-[44px] py-1.5" />
         <p class="footer-description">I design and build accessible product interfaces, connecting interaction design with front-end engineering.</p>
+        <a class="footer-guide" href="/style-guide/" aria-current={pathname === '/style-guide' ? 'page' : undefined}>See how this site is designed <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         <p class="footer-location">Connecticut, USA</p>
       </div>
 
@@ -42,7 +43,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 
     <div class="footer-bottom">
       <p>© {year} Joshua Briley</p>
-      <nav aria-label="Footer: Site information"><a href="/style-guide/">Style guide</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
+      <nav aria-label="Footer: Site information"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav>
     </div>
   </Container>
 </footer>
@@ -60,7 +61,9 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
   .footer-main { display: grid; gap: 3rem; padding-bottom: 3.5rem; }
   .footer-main > * { min-width: 0; }
   .footer-description { max-width: 30ch; color: var(--footer-muted); font-size: 1rem; line-height: 1.65; margin-top: 1.5rem; }
-  .footer-contact { margin-top: 1rem; }
+  .footer-guide { display: inline-flex; align-items: center; gap: .9rem; min-height: 44px; margin-top: .75rem; font-size: .95rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--footer-line); text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .footer-guide > span { color: var(--footer-accent); }
+  .footer-guide:hover, .footer-guide[aria-current='page'] { color: var(--footer-accent); text-decoration-color: currentColor; }
   .footer-location { color: var(--footer-muted); font-size: .83rem; margin-top: 1.25rem; }
   .footer-nav h2 { font-size: .85rem; font-weight: 500; color: var(--footer-muted); }
   .footer-nav ul { list-style: none; margin: 1rem 0 0; padding: 0; }
