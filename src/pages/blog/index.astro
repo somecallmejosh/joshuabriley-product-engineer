@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { writing } from '~/lib/writing';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
+import BookList from '~/components/patterns/BookList.astro';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id),
@@ -25,7 +26,7 @@ const guideSections = lead?.id === 'staff-level-ui-engineering-for-dummies' ? [
   { title: 'Accessibility, testing, and browser support', anchor: 'accessibility-testing-and-browser-support' },
   { title: 'Tokens, governance, and adoption', anchor: 'tokens-governance-and-adoption' },
 ] : [];
-const formatDate = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const formatDate =(date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 ---
 
@@ -36,8 +37,19 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
       <h1 class="page-type hero-in hero-in-2">Notes on building<br /><em>better UI.</em></h1>
       <p class="page-lede hero-in hero-in-3">Components, architecture, adoption, and the decisions behind shared interfaces. Guides and perspectives drawn from twenty-plus years in production UI.</p>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse writing by topic">
+        <a href="#books">Books <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         {groups.map((group) => <a href={`#${group.id}`}>{group.label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
       </nav>
+    </Container>
+  </section>
+
+  <section id="books" class="editorial-section books-section" aria-labelledby="books-title">
+    <Container width="wide">
+      <div class="books-intro">
+        <h2 id="books-title" class="section-type">Longer<br /><em>reads.</em></h2>
+        <p>Two free online books, each taking a single subject from start to finish.</p>
+      </div>
+      <BookList />
     </Container>
   </section>
 
@@ -128,6 +140,12 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   .writing-list li + li { margin-top: 1.5rem; }
   .post-link { display: block; border: 1px solid transparent; border-top-color: var(--line-strong); padding: 1.5rem 1rem 1.75rem; }
   .post-link h3 { max-width: 26ch; font-size: clamp(1.95rem, 3vw, 2.8rem); font-weight: 750; line-height: 1.12; letter-spacing: -.04em; margin-top: 1rem; text-wrap: balance; }
+  .books-section { background: var(--portfolio-tint); }
+  .books-intro { display: grid; gap: 1.5rem; margin-bottom: 3.5rem; }
+  .books-intro > p { max-width: 34ch; color: var(--ink-muted); font-size: 1.1rem; line-height: 1.65; }
+  @media (min-width: 1024px) {
+    .books-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 6rem; align-items: end; }
+  }
   .post-description { margin-top: 1rem; max-width: 57ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
   .post-action { display: inline-flex; align-items: center; gap: 1.2rem; min-height: 44px; margin-top: .85rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
   .writing-tools { background: var(--portfolio-tint); }

@@ -239,6 +239,13 @@ export const componentCatalogue = [
     "href": "/tools/"
   },
   {
+    "name": "BookList",
+    "path": "src/components/patterns/BookList.astro",
+    "group": "patterns",
+    "note": "Josh's free online books, each with a typographic cover.",
+    "href": "/"
+  },
+  {
     "name": "WorkList",
     "path": "src/components/patterns/WorkList.astro",
     "group": "patterns",

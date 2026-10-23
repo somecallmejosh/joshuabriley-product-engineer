@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
+import BookList from '~/components/patterns/BookList.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
 import { selectedWork } from '~/lib/selected-work';
@@ -67,4 +68,19 @@ const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href
       </div>
     </Container>
   </section>
+  <section class="editorial-section home-books" aria-labelledby="home-books-title">
+    <Container width="wide">
+      <div class="section-heading">
+        <h2 id="home-books-title" class="section-type">Books I've <em>written.</em></h2>
+        <p>Two free online books on building component systems and writing JavaScript for interfaces.</p>
+      </div>
+      <BookList />
+      <a href="/blog/" class="editorial-link home-books-more">Read more of my writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    </Container>
+  </section>
 </BaseLayout>
+
+<style>
+  .home-books { background: var(--portfolio-tint); }
+  .home-books-more { margin-top: 3.5rem; }
+</style>

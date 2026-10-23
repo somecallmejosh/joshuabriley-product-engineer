@@ -2,6 +2,7 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
+import BookList from '~/components/patterns/BookList.astro';
 const principles = [
   { title: 'Make the system useful to its users.', body: 'Engineers are users, too. I give component APIs, defaults, and documentation the same care as type and spacing. When teams can understand and use a component, they have fewer reasons to build their own version.' },
   { title: 'Build accessibility into the behavior.', body: 'Semantic markup, keyboard support, focus management, and recoverable errors belong in the component. I test those behaviors and take findings seriously, including the gaps documented in my own case studies.' },
@@ -47,6 +48,19 @@ const personal = [
       <div data-reveal-stagger>{principles.map((principle) => <article class="principle-row"><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
     </Container>
   </section>
+  <section class="editorial-section">
+    <Container width="wide">
+      <div class="approach-layout">
+        <h2 class="section-type">Why I wrote<br /><em>the books.</em></h2>
+        <div class="prose-lede">
+          <p>When I went looking for formal resources on UX engineering, I couldn’t find any. The work tends to be treated as something any developer can do because they know JavaScript or another programming language.</p>
+          <p>Knowing the language is only the start. The job also means building for people who use screen readers and other assistive technology, meeting visual accessibility needs like color contrast, and respecting user settings such as prefers-reduced-motion and prefers-contrast. It means knowing what CSS can handle on its own before reaching for JavaScript, and which browser APIs already solve the problem you’re about to write code for.</p>
+          <p>So I wrote the books for myself, because no one else had. I still use them as reference material in my own work, and both are free to read online.</p>
+          <div class="book-links"><BookList stacked /></div>
+        </div>
+      </div>
+    </Container>
+  </section>
   <section class="editorial-section work-section">
     <Container width="wide">
       <div class="approach-layout">
@@ -69,3 +83,7 @@ const personal = [
     </Container>
   </section>
 </BaseLayout>
+
+<style>
+  .book-links { margin-top: 2.5rem; }
+</style>
