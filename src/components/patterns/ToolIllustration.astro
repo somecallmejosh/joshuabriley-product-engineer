@@ -10,160 +10,127 @@ interface Props {
 const { tool, class: className } = Astro.props;
 const descriptions = {
   ScorecardEngine: 'A design system assessment turns answers about keyboard access, shared tokens, and component documentation into a recommendation to review documentation first.',
-  RoiCalculator: 'An annual rework estimate combines team size, weekly rework per person, working weeks, and hourly cost. The illustration includes a worked example.',
-  TokenPlayground: 'A shared action-color token connects to a button, a selected tab, and a checkbox. Changing that one color updates all three components together.',
-  Diagnostic: 'An interface review flags low-contrast help text, ranks it as a high-priority issue, and shows a readable replacement as the suggested fix.',
+  RoiCalculator: 'An annual rework estimate multiplies team size, weekly rework per person, and working weeks, then prices the hours. The illustration shows a worked example.',
+  TokenPlayground: 'A shared action-color token connects to a button, a selected tab, and a checkbox, so changing that one color updates all three components.',
+  Diagnostic: 'An interface review flags low-contrast help text under a sign-up button and ranks it as a high-priority issue.',
 };
 const example = computeRoi(DEFAULTS);
 const annualHours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 ---
 
+<!-- Same mat-and-frame treatment as the project teasers (.work-image): the frame
+     stays square, the drawing tilts inside it and straightens when a parent link is
+     hovered. data-surface="light" keeps the accent navy inside dark sections. -->
+<span class={cx('tool-art', className)} data-surface="light">
+<span class="tool-art-frame">
 <svg
   viewBox="0 0 480 360"
   fill="none"
   role="img"
   aria-label={descriptions[tool]}
-  class={cx('tool-illustration', `tool-illustration--${tool}`, className)}
+  class={cx('tool-illustration', `tool-illustration--${tool}`)}
 >
-  <rect width="480" height="360" fill="#e5edf3" />
-  <path d="M0 328H480M32 0V360M448 0V360" stroke="#d3dfe8" />
 
   {tool === 'ScorecardEngine' && (
     <g>
-      <rect x="40" y="35" width="406" height="200" fill="#c6d5e1" transform="rotate(-2 243 135)" />
-      <rect x="30" y="26" width="414" height="204" fill="#fafbfc" stroke="#9aafc1" />
-      <path d="M30 26H444V72H30Z" fill="#244c71" />
-      <text x="48" y="55" class="diagram-label" fill="white">SYSTEM ASSESSMENT</text>
-      <text x="340" y="55" class="diagram-small" fill="white">{TOTAL_ITEMS} prompts</text>
-      <path d="M48 124H426M48 177H426" stroke="#d3dfe8" />
-      <text x="48" y="106" class="diagram-body">Keyboard access</text>
-      <circle cx="358" cy="100" r="11" fill="#244c71" />
-      <path d="m353 100 4 4 6-8" stroke="white" stroke-width="2" />
-      <text x="378" y="106" class="diagram-small">Yes</text>
-      <text x="48" y="159" class="diagram-body">Shared tokens</text>
-      <circle cx="358" cy="153" r="11" fill="#244c71" />
-      <path d="m353 153 4 4 6-8" stroke="white" stroke-width="2" />
-      <text x="378" y="159" class="diagram-small">Yes</text>
-      <text x="48" y="212" class="diagram-body">Component docs</text>
-      <circle cx="358" cy="206" r="11" fill="#dce7ef" stroke="#244c71" />
-      <path d="M353 206H363" stroke="#244c71" stroke-width="2" />
-      <text x="378" y="212" class="diagram-small">Partial</text>
-      <path class="diagram-connector" d="M62 240V296H99" stroke="#244c71" stroke-width="2" />
-      <path d="m91 290 8 6-8 6" stroke="#244c71" stroke-width="2" />
-      <g class="diagram-result">
-        <rect x="112" y="251" width="332" height="86" fill="#244c71" />
-        <text x="130" y="276" class="diagram-label" fill="#c6d8e8">EXAMPLE PRIORITY</text>
-        <text x="130" y="307" class="diagram-title" fill="white">Review documentation</text>
-        <text x="130" y="328" class="diagram-small" fill="white">Working examples and usage guidance</text>
-      </g>
+      <text x="40" y="56" class="label">ASSESSMENT · {TOTAL_ITEMS} PROMPTS</text>
+      <path class="rule" d="M40 76H440M40 126H440M40 176H440M40 226H440" />
+      <text x="40" y="108" class="body">Keyboard access</text>
+      <circle cx="372" cy="101" r="5" class="accent" />
+      <text x="388" y="108" class="small">Yes</text>
+      <text x="40" y="158" class="body">Shared tokens</text>
+      <circle cx="372" cy="151" r="5" class="accent" />
+      <text x="388" y="158" class="small">Yes</text>
+      <text x="40" y="208" class="body">Component docs</text>
+      <circle cx="372" cy="201" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="388" y="208" class="small">Partial</text>
+      <text x="40" y="276" class="label">PRIORITY</text>
+      <text x="40" y="314" class="result">Review documentation</text>
     </g>
   )}
 
   {tool === 'RoiCalculator' && (
     <g>
-      <text x="34" y="42" class="diagram-label">REPEATED UI WORK</text>
-      <g transform="rotate(-5 100 91)">
-        <rect x="36" y="62" width="116" height="56" rx="16" fill="#fafbfc" stroke="#9aafc1" />
-        <text x="94" y="97" text-anchor="middle" class="diagram-button">Save</text>
-      </g>
-      <rect x="181" y="62" width="116" height="56" fill="#244c71" />
-      <text x="239" y="97" text-anchor="middle" class="diagram-button" fill="white">Save</text>
-      <g transform="rotate(5 386 91)">
-        <rect x="328" y="62" width="116" height="56" rx="28" fill="#b9ccdc" />
-        <text x="386" y="97" text-anchor="middle" class="diagram-button">Save</text>
-      </g>
-      <path d="M94 128V143H386V128M240 143V163" stroke="#7894aa" stroke-width="2" />
-      <rect x="28" y="166" width="424" height="61" fill="#fafbfc" stroke="#9aafc1" />
-      <text x="48" y="193" class="diagram-number">{DEFAULTS.team}</text>
-      <text x="48" y="213" class="diagram-small">people</text>
-      <text x="130" y="202" class="diagram-body">×</text>
-      <text x="165" y="193" class="diagram-number">{DEFAULTS.reworkHours} h</text>
-      <text x="165" y="213" class="diagram-small">weekly / person</text>
-      <text x="315" y="202" class="diagram-body">×</text>
-      <text x="349" y="193" class="diagram-number">{WEEKS_PER_YEAR}</text>
-      <text x="349" y="213" class="diagram-small">weeks</text>
-      <g class="diagram-result">
-        <rect x="28" y="242" width="424" height="94" fill="#244c71" />
-        <text x="46" y="266" class="diagram-label" fill="#c6d8e8">ANNUAL REWORK · EXAMPLE</text>
-        <text x="46" y="301" class="diagram-total" fill="white">{annualHours.toLocaleString('en-US')} <tspan class="diagram-body">hours</tspan></text>
-        <text x="46" y="323" class="diagram-small" fill="white">{formatCurrency(example.withoutSystem)} at ${DEFAULTS.rate}/hour</text>
-        <circle cx="407" cy="294" r="23" stroke="#9fbbd2" stroke-width="2" />
-        <path d="M407 277V294L418 301" stroke="white" stroke-width="2" />
-      </g>
+      <text x="40" y="56" class="label">ANNUAL REWORK · EXAMPLE</text>
+      <text x="40" y="122" class="number">{DEFAULTS.team}</text>
+      <text x="40" y="148" class="small">people</text>
+      <text x="122" y="118" class="op">×</text>
+      <text x="164" y="122" class="number">{DEFAULTS.reworkHours} h</text>
+      <text x="164" y="148" class="small">per week</text>
+      <text x="282" y="118" class="op">×</text>
+      <text x="324" y="122" class="number">{WEEKS_PER_YEAR}</text>
+      <text x="324" y="148" class="small">weeks</text>
+      <path class="rule" d="M40 190H440" />
+      <text x="40" y="262" class="total">{annualHours.toLocaleString('en-US')}<tspan class="result" dx="12">hours</tspan></text>
+      <path class="accent-stroke" d="M40 282H152" stroke-width="2" />
+      <text x="40" y="314" class="small">{formatCurrency(example.withoutSystem)} at ${DEFAULTS.rate}/hour</text>
     </g>
   )}
 
   {tool === 'TokenPlayground' && (
     <g>
-      <text x="34" y="42" class="diagram-label">CHANGE ONE SHARED VALUE</text>
-      <rect x="32" y="91" width="174" height="170" fill="#fafbfc" stroke="#9aafc1" />
-      <rect x="50" y="110" width="57" height="57" class="token-fill" />
-      <rect x="115" y="110" width="24" height="24" fill="#2c6a62" />
-      <rect x="147" y="110" width="24" height="24" fill="#5e4472" />
-      <text x="50" y="199" class="diagram-code">color.action</text>
-      <text x="50" y="224" class="diagram-small">A shared token</text>
-      <text x="50" y="245" class="diagram-small">for interactive UI</text>
-      <g class="diagram-connector" stroke="#7894aa" stroke-width="2">
-        <path d="M206 176H236V102H264M236 176H264M236 176V267H264" />
-        <path d="m258 96 6 6-6 6m0 62 6 6-6 6m0 79 6 6-6 6" />
-      </g>
-      <rect x="275" y="73" width="173" height="57" rx="5" class="token-fill" />
-      <text x="361.5" y="108" text-anchor="middle" class="diagram-button" fill="white">Save changes</text>
-      <rect x="275" y="151" width="173" height="64" fill="#fafbfc" stroke="#9aafc1" />
-      <text x="292" y="181" class="diagram-body token-ink">Overview</text>
-      <path d="M289 201H381" class="token-stroke" stroke-width="4" />
-      <rect x="275" y="239" width="173" height="56" fill="#fafbfc" stroke="#9aafc1" />
-      <rect x="291" y="255" width="23" height="23" rx="3" class="token-fill" />
-      <path d="m296 266 5 5 8-10" stroke="white" stroke-width="2" />
-      <text x="324" y="273" class="diagram-body">Selected</text>
-      <text x="240" y="337" text-anchor="middle" class="diagram-body">Every connected component updates.</text>
+      <text x="40" y="56" class="label">ONE TOKEN · THREE COMPONENTS</text>
+      <circle cx="84" cy="196" r="30" class="accent" />
+      <text x="40" y="262" class="code">color.action</text>
+      <path class="connector" d="M126 196H196M196 116V276M196 116H252M196 196H252M196 276H252" />
+      <rect x="268" y="94" width="148" height="44" rx="4" class="accent" />
+      <text x="342" y="122" text-anchor="middle" class="button">Save</text>
+      <text x="268" y="196" class="body">Overview</text>
+      <path class="accent-stroke" d="M268 210H352" stroke-width="2" />
+      <rect x="268" y="264" width="22" height="22" rx="3" class="accent" />
+      <path d="m273.5 275 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="302" y="282" class="body">Selected</text>
     </g>
   )}
 
   {tool === 'Diagnostic' && (
     <g>
-      <text x="34" y="42" class="diagram-label">INSPECT AN INTERFACE</text>
-      <rect x="30" y="65" width="291" height="212" fill="#fafbfc" stroke="#9aafc1" />
-      <path d="M30 65H321V96H30Z" fill="#d3dfe8" />
-      <circle cx="45" cy="81" r="3" fill="#7894aa" /><circle cx="57" cy="81" r="3" fill="#7894aa" /><circle cx="69" cy="81" r="3" fill="#7894aa" />
-      <text x="51" y="135" class="diagram-title">Get started</text>
-      <rect x="51" y="152" width="184" height="37" fill="#244c71" />
-      <text x="143" y="177" text-anchor="middle" class="diagram-button" fill="white">Create account</text>
-      <text x="51" y="218" class="diagram-body" fill="#9eaebb">No credit card required.</text>
-      <rect x="43" y="197" width="216" height="32" stroke="#244c71" stroke-width="2" stroke-dasharray="5 4" />
-      <circle cx="268" cy="211" r="12" fill="#244c71" />
-      <text x="268" y="217" text-anchor="middle" class="diagram-body" fill="white">!</text>
-      <path class="diagram-connector" d="M281 211H354V149" stroke="#244c71" stroke-width="2" />
-      <g class="diagram-result">
-        <rect x="254" y="103" width="199" height="89" fill="#244c71" />
-        <text x="270" y="128" class="diagram-label" fill="#c6d8e8">HIGH PRIORITY</text>
-        <text x="270" y="156" class="diagram-title" fill="white">Text contrast</text>
-        <text x="270" y="178" class="diagram-small" fill="white">Help text is faint.</text>
-      </g>
-      <rect x="112" y="256" width="341" height="71" fill="#fafbfc" stroke="#9aafc1" />
-      <text x="130" y="280" class="diagram-label">SUGGESTED FIX: DARKER TEXT</text>
-      <text x="130" y="308" class="diagram-body">No credit card required.</text>
-      <path d="m414 299 5 5 10-13" stroke="#244c71" stroke-width="2" />
+      <text x="40" y="56" class="label">INSPECT AN INTERFACE</text>
+      <rect x="40.5" y="80.5" width="219" height="219" class="frame" />
+      <text x="64" y="132" class="title">Get started</text>
+      <rect x="64" y="152" width="160" height="40" rx="4" class="ink" />
+      <text x="144" y="178" text-anchor="middle" class="button">Create account</text>
+      <text x="64" y="235" class="small faint">No credit card required.</text>
+      <rect x="56.5" y="212.5" width="192" height="34" class="accent-stroke" stroke-dasharray="4 4" />
+      <path class="connector" d="M249 230H288" />
+      <text x="296" y="214" class="label accent-text">HIGH PRIORITY</text>
+      <text x="296" y="242" class="result result--sm">Text contrast</text>
+      <text x="296" y="266" class="small">Help text is faint.</text>
     </g>
   )}
 </svg>
+</span>
+</span>
 
 <style>
-  .tool-illustration { display: block; width: 100%; height: auto; color: #1e2b36; font-family: var(--font-hanken), sans-serif; --illustration-token: #244c71; }
-  text:not([fill]):not(.token-ink) { fill: currentColor; }
-  .diagram-label { font-size: 14px; font-weight: 700; letter-spacing: 1.1px; }
-  .diagram-small { font-size: 17px; font-weight: 500; }
-  .diagram-body { font-size: 19px; font-weight: 500; }
-  .diagram-button { font-size: 20px; font-weight: 650; }
-  .diagram-title { font-size: 25px; font-weight: 750; letter-spacing: -.6px; }
-  .diagram-code { font-family: var(--font-geist-mono), monospace; font-size: 19px; font-weight: 600; }
-  .diagram-number { font-size: 25px; font-weight: 750; letter-spacing: -.7px; }
-  .diagram-total { font-size: 37px; font-weight: 800; letter-spacing: -1.4px; }
-  .token-fill { fill: var(--illustration-token); transition: fill .45s ease; }
-  .token-ink { fill: var(--illustration-token); transition: fill .45s ease; }
-  .token-stroke { stroke: var(--illustration-token); transition: stroke .45s ease; }
-  .diagram-result { transition: transform .35s var(--ease-out); }
-  svg:hover .diagram-result { transform: translateY(-3px); }
-  svg:hover { --illustration-token: #2c6a62; }
-  @media (prefers-reduced-motion: reduce) { .token-fill, .token-ink, .token-stroke, .diagram-result { transition: none; transform: none !important; } }
+  .tool-art { --mat: 2rem; --tilt: -4deg; display: block; padding: var(--mat); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
+  .tool-art-frame { display: block; overflow: hidden; background: var(--paper); box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--ink) 45%, transparent); }
+  .tool-illustration { display: block; width: 100%; height: auto; font-family: var(--font-hanken), sans-serif; transform: rotate(var(--tilt)); transition: transform .7s var(--ease-out); }
+  :global(a:is(:hover, :focus-visible)) .tool-illustration { transform: rotate(0deg) scale(1.03); }
+  .frame { fill: var(--raised); stroke: var(--line-strong); }
+  .rule { stroke: var(--line); }
+  .connector { stroke: var(--line-strong); stroke-width: 1.5; }
+  .accent { fill: var(--accent); }
+  .accent-stroke { stroke: var(--accent); }
+  .ink { fill: var(--ink); }
+  .check { stroke: var(--paper); }
+  text { fill: var(--ink); }
+  .label { font-family: var(--font-geist-mono), monospace; font-size: 12px; letter-spacing: 1px; fill: var(--ink-muted); }
+  .accent-text { fill: var(--accent); }
+  .small { font-size: 16px; fill: var(--ink-muted); }
+  .body { font-size: 18px; }
+  .faint { fill: var(--ink-faint); }
+  .button { font-size: 16px; font-weight: 600; fill: var(--paper); }
+  .code { font-family: var(--font-geist-mono), monospace; font-size: 16px; }
+  .op { font-size: 20px; fill: var(--ink-muted); }
+  .number { font-size: 30px; font-weight: 700; letter-spacing: -.8px; }
+  .title { font-size: 24px; font-weight: 700; letter-spacing: -.5px; }
+  .total { font-size: 56px; font-weight: 700; letter-spacing: -2px; }
+  .result { font-family: var(--font-fraunces), serif; font-style: italic; font-size: 30px; font-weight: 400; letter-spacing: -.4px; }
+  .result--sm { font-size: 26px; }
+  @media (max-width: 767px) { .tool-art { --mat: 1.25rem; } }
+  @media (prefers-reduced-motion: reduce) {
+    .tool-illustration { transition: none; }
+    :global(a:is(:hover, :focus-visible)) .tool-illustration { transform: rotate(var(--tilt)); }
+  }
 </style>

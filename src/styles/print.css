@@ -187,7 +187,8 @@
   body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait) { max-width: 36mm !important; margin: 4mm 0 !important; }
   body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait) img { max-height: 48mm !important; }
   body[data-print-layout='site'] #main :is(.work-image, .project-cover-stage, .plate__frame, .fband__frame, .scroll-shot-mount, .site-shot-mount, .live-embed-frame) { padding: 0 !important; aspect-ratio: auto !important; height: auto !important; }
-  body[data-print-layout='site'] #main .work-image img { max-height: 50mm !important; width: auto !important; margin-inline: auto; }
+  body[data-print-layout='site'] #main .work-image-frame { position: static !important; box-shadow: none !important; }
+  body[data-print-layout='site'] #main .work-image img { max-height: 50mm !important; width: auto !important; height: auto !important; margin-inline: auto; transform: none !important; }
   body[data-print-layout='site'] #main :is(.scroll-shot-stage, .live-embed-stage, .live-embed-viewport, .site-shot-stage) { height: auto !important; aspect-ratio: auto !important; }
   body[data-print-layout='site'] #main .live-embed-poster { display: block !important; opacity: 1 !important; visibility: visible !important; }
   body[data-print-layout='site'] #main .fband__grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 3mm !important; }

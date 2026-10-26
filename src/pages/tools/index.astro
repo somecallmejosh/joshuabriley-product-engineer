@@ -42,7 +42,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
             <a class="action-link" href="/tools/scorecard/">Take the assessment <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             <p class="assessment-note">About ten minutes. Based on your answers; a starting point for review.</p>
           </div>
-          <div class="scorecard-illustration"><ToolIllustration tool="ScorecardEngine" /></div>
+          <a class="scorecard-illustration" href="/tools/scorecard/" aria-label="Take the design system scorecard"><ToolIllustration tool="ScorecardEngine" /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
         </div>
       </Container>
     </section>
@@ -57,7 +57,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
       <div class="tool-list" data-reveal-stagger>
         {rest.map((tool) => (
           <article class="tool-entry">
-            <div class="tool-visual"><ToolIllustration tool={tool.data.tool} /></div>
+            <a class="tool-visual" href={`/tools/${tool.id}/`} aria-label={`Open the ${tool.data.title}`}><ToolIllustration tool={tool.data.tool} /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
             <div class="tool-details">
               <p class="tool-question">{uses[tool.id]?.question ?? tool.data.kind}</p>
               <h3><a href={`/tools/${tool.id}/`}>{tool.data.title}</a></h3>
@@ -102,13 +102,13 @@ const uses: Record<string, { question: string; outcome: string }> = {
   .scorecard-copy .action-link { margin-top: 2rem; background: white; color: var(--portfolio-blue); }
   .scorecard-copy .action-link:hover { background: #e0e8ef; }
   .assessment-note { max-width: 43ch; margin-top: 1rem; font-size: .8rem; line-height: 1.6; color: #c6d8e8; }
-  .scorecard-illustration { min-width: 0; }
+  .scorecard-illustration { display: block; position: relative; min-width: 0; }
   .tool-entry { display: grid; gap: 1.5rem; border-top: 1px solid var(--line-strong); padding: 2.5rem 0 3rem; }
   .tool-entry:last-child { padding-bottom: 0; }
   .tool-question { color: var(--ink-muted); font-size: .85rem; margin-bottom: 1rem; }
   .tool-details h3 { max-width: 18ch; font-size: clamp(2.1rem, 3.4vw, 3.2rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.08; }
   .tool-details h3 a:hover { color: var(--portfolio-blue); }
-  .tool-visual { min-width: 0; }
+  .tool-visual { display: block; position: relative; min-width: 0; }
   .tool-details { max-width: 49ch; align-self: center; }
   .tool-details h3 { margin-bottom: 1.5rem; }
   .tool-details > p:not(.tool-question) { font-size: 1.08rem; line-height: 1.65; }

@@ -194,7 +194,7 @@ export const CONTINUING_ED = [
   {
     title: 'Senior UX/UI/Product Designer + AI curriculum',
     org: 'Interaction Design Foundation (IxDF)',
-    href: 'https://ixdf.org',
+    href: 'https://ixdf.org/members/joshua-briley?r=joshua-briley',
   },
   {
     title: 'Web Accessibility',
