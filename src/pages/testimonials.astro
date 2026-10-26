@@ -20,48 +20,36 @@ const groups = themes.map(theme => ({
 const description = `Recommendations from ${sorted.length} clients and colleagues on Joshua Briley’s design systems work, accessibility, delivery, and collaboration.`;
 ---
 <BaseLayout title="Testimonials | Joshua Briley" description={description}>
-  <section class="page-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Testimonials</p>
-      <h1 class="page-type hero-in hero-in-2">What it’s like to <em>work with me.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Recommendations from {sorted.length} clients and colleagues on design quality, reliable delivery, and working across teams.</p>
-      <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse recommendations">
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">Testimonials</p>
+      <h1 class="calm-title hero-in hero-in-2">What it’s like to work with me.</h1>
+      <p class="calm-lede hero-in hero-in-3">Recommendations from {sorted.length} clients and colleagues on design quality, reliable delivery, and working across teams.</p>
+      <nav class="calm-jumps hero-in hero-in-4" aria-label="Browse recommendations">
         {groups.map(group => <a href={`#${group.id}`}>{group.title} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
-        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
       </nav>
     </Container>
   </section>
 
-  {featured && <section class="testimonials-feature" data-surface="dark" aria-label="Featured recommendation">
-    <Container width="wide"><Recommendation testimonial={featured} featured /></Container>
+  {featured && <section class="calm-section testimonials-feature" aria-label="Featured recommendation">
+    <Container><Recommendation testimonial={featured} featured /></Container>
   </section>}
 
-  {groups.map(group => <section id={group.id} class="testimonial-section" aria-labelledby={`${group.id}-title`}>
-    <Container width="wide">
-      <div class="testimonial-theme">
-        <h2 id={`${group.id}-title`}>{group.title}</h2>
-        <div class="testimonial-collection" data-reveal-stagger>
-          {group.entries.map(entry => <Recommendation testimonial={entry} />)}
-        </div>
+  {groups.map(group => <section id={group.id} class="calm-section testimonial-section" aria-labelledby={`${group.id}-title`}>
+    <Container>
+      <h2 id={`${group.id}-title`} class="calm-heading">{group.title}.</h2>
+      <div class="testimonial-collection" data-reveal-stagger>
+        {group.entries.map(entry => <Recommendation testimonial={entry} />)}
       </div>
     </Container>
   </section>)}
 </BaseLayout>
 <style>
-  .testimonials-feature { background: #233d56; padding: 5rem 0; }
-  .testimonial-section { padding: 5rem 0; border-bottom: 1px solid var(--line); scroll-margin-top: 1.5rem; }
-  .testimonial-theme { display: grid; gap: 2rem; }
-  .testimonial-theme > h2 { font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; text-wrap: balance; max-width: 15ch; }
-  .testimonial-collection { display: grid; gap: 3rem 2.5rem; min-width: 0; }
-  @media (min-width: 640px) {
+  .testimonials-feature { padding-top: clamp(2rem, 5vw, 4rem); }
+  .testimonial-section { scroll-margin-top: 4rem; }
+  .testimonial-collection { display: grid; gap: 3.5rem 4rem; margin-top: clamp(2.5rem, 5vw, 4rem); min-width: 0; }
+  @media (min-width: 768px) {
     .testimonial-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (min-width: 1024px) {
-    .testimonial-theme { grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr); gap: 5rem; align-items: start; }
-    .testimonial-theme > h2 { position: sticky; top: 7rem; }
-  }
-  @media (max-width: 639px) {
-    .testimonials-feature, .testimonial-section { padding-block: 3.5rem; }
-    .testimonial-collection { gap: 2.5rem; }
   }
 </style>

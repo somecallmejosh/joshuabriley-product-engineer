@@ -1,71 +1,60 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import Portrait from '~/components/patterns/Portrait.astro';
-import WorkList from '~/components/patterns/WorkList.astro';
 import { selectedWork } from '~/lib/selected-work';
-const needs = [
-  { title: 'Product decisions you can trace', body: 'I map the workflow before designing screens, then check the result after launch. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO decision' },
-  { title: 'Interfaces built the way they were designed', body: 'I build what I design, including the loading, error, and recovery states that mockups leave open. In Logatot, speech the app can’t understand becomes a quick fix for the provider instead of a wrong record.', href: '/projects/logatot/', link: 'See the voice repair flow' },
-  { title: 'Systems that save teams repeated work', body: 'In my current role, that means automating Storybook and Figma setup so teams spend their time on features. That work isn’t public, so Rudiment UI shows the same approach: accessible components, tokens, and documented APIs you can inspect.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
-];
 const workOrder = ['/projects/ivfcryo/', '/projects/logatot/', '/projects/vmspark/'];
 const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href === href));
 ---
 <BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years taking products from problem to production: working with product teams to frame what to build, design the workflow, and ship it accessible. Case studies with clear ownership.">
-  <section class="home-hero">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Product design engineer</p>
-      <div class="home-hero-grid">
-        <div class="home-hero-copy">
-          <h1 class="hero-type hero-in hero-in-2">Helping teams ship the <em>right product.</em></h1>
-          <p class="hero-lede hero-in hero-in-3">I partner with product managers, designers, and engineers to figure out what users need, shape the workflow, and ship it as an accessible product.</p>
-          <div class="hero-actions hero-in hero-in-4">
-            <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
-            <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+  <section class="home-open">
+    <Container>
+      <p class="home-label hero-in hero-in-1">Joshua Briley, product design engineer</p>
+      <h1 class="home-statement hero-in hero-in-2"><span>Helping teams ship</span> <span>the right product.</span></h1>
+      <a href="#selected-work" class="editorial-link hero-in hero-in-3">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
+    </Container>
+  </section>
+
+  <section class="home-screen">
+    <Container>
+      <p class="home-twotone"><strong>I partner with product managers, designers, and engineers</strong> to figure out what users need, shape the workflow, and ship it as an accessible product.</p>
+    </Container>
+  </section>
+
+  <section id="selected-work" class="home-work" aria-labelledby="selected-work-title">
+    <h2 id="selected-work-title" class="sr-only">Selected work</h2>
+    {homeWork.map((work) => (
+      <article class="home-screen">
+        <Container>
+          <h3 class="home-label">{work.name}</h3>
+          <p class="home-result"><strong>{work.result}</strong> {work.resultNote}.</p>
+          <div class="home-case-meta">
+            <p>{work.title}</p>
+            <a href={work.href} class="editorial-link">{work.action} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
-        </div>
-        <figure class="hero-portrait hero-in hero-in-5">
-          <Portrait eager />
-          <figcaption><span>Joshua Briley</span><span>Based in Connecticut</span></figcaption>
-        </figure>
-      </div>
-      <div class="current-work">
-        <p><span class="status-mark" aria-hidden="true"></span>Current role: <strong>design system engineer</strong></p>
-        <p>On a design system used by roughly <strong>3,500 engineers and designers,</strong> I automated Storybook setup, saving more than 10 hours per component, and Figma Code Connect mapping, so nobody translates components by hand.</p>
-        <a href="/about/" class="editorial-link">More about me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-      </div>
+          <a href={work.href} class="home-plate" tabindex="-1" aria-hidden="true">
+            <img src={work.image} alt="" width="1400" height="900" loading="lazy" decoding="async" />
+          </a>
+        </Container>
+      </article>
+    ))}
+  </section>
+
+  <section class="home-screen">
+    <Container>
+      <h2 class="home-label">Current role: design system engineer</h2>
+      <p class="home-twotone"><strong>On a design system used by roughly 3,500 engineers and designers,</strong> I automated Storybook setup, saving more than 10 hours per component, and Figma Code Connect mapping, so nobody translates components by hand.</p>
+      <a href="/about/" class="editorial-link home-after">More about me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </Container>
   </section>
-  <section id="selected-work" class="editorial-section work-section">
-    <Container width="wide">
-      <div class="section-heading">
-        <h2 class="section-type">Selected <em>work.</em></h2>
-        <p>See how I designed and built interfaces for complex workflows, with clear ownership and outcomes.</p>
-      </div>
-      <WorkList compact items={homeWork} />
-      <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-    </Container>
-  </section>
-  <section class="editorial-section approach-section">
-    <Container width="wide">
-      <div class="approach-layout">
-        <div>
-          <h2 class="section-type">Where I <em>can help.</em></h2>
-          <p class="section-intro">As a product design engineer, I work across the product decision, the design, and the code that ships it. The case studies show which parts I owned.</p>
-          <p class="quiet-aside">The button is usually the easy part.</p>
-        </div>
-        <div class="approach-list" data-reveal-stagger>
-          {needs.map((need) => (
-            <article>
-              <h3>{need.title}</h3>
-              <p>{need.body}</p>
-              <a href={need.href} class="editorial-link">{need.link} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            </article>
-          ))}
-        </div>
+
+  <section class="home-screen home-close">
+    <Container>
+      <p class="home-statement home-statement--close">The button is usually the easy&nbsp;part.</p>
+      <div class="home-links">
+        <a href="/projects/" class="editorial-link">Explore all work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a href="/contact/" class="editorial-link">Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </div>
     </Container>
   </section>
 </BaseLayout>
-

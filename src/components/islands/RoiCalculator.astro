@@ -33,7 +33,7 @@ const initial = computeRoi(DEFAULTS);
   <div class="rc-grid">
     <div class="rc-controls">
       <div class="mb-5">
-        <h3 id="rc-title" class="font-display text-2xl md:text-3xl font-bold text-ink leading-tight text-pretty mt-2">
+        <h3 id="rc-title" class="font-display text-2xl md:text-3xl font-light text-ink leading-tight text-pretty mt-2">
           Your team.
         </h3>
         <p class="text-sm text-ink-muted mt-2 leading-relaxed">
@@ -555,8 +555,8 @@ const initial = computeRoi(DEFAULTS);
     margin-bottom: 0.2rem;
   }
   .rc-headline {
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-weight: 600;
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-weight: 300;
     font-size: clamp(2.9rem, 7.5vw, 4.75rem);
     color: var(--accent);
     line-height: 0.92;
@@ -613,7 +613,7 @@ const initial = computeRoi(DEFAULTS);
     100% { filter: brightness(1); }
   }
 
-  .rc-assumptions { margin-top: 2rem; border-top: 1px solid var(--line-strong); padding-top: 1rem; }
+  .rc-assumptions { margin-top: 2rem; }
   .rc-assumptions summary { cursor: pointer; font-weight: 600; font-size: .95rem; padding: .5rem 0; }
   .rc-assumptions > div { max-width: 72ch; padding-top: .75rem; color: var(--ink-muted); font-size: .9rem; line-height: 1.65; }
   .rc-assumptions p + p { margin-top: 1rem; }

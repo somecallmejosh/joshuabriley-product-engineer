@@ -1,23 +1,11 @@
-/* Article typography follows the portfolio; the reading measure stays quiet. */
-.article-opener { padding-bottom: 4.5rem; }
-.article-meta { margin-top: 2.5rem; gap: .5rem 1.5rem; }
-.article-meta .article-read-time { color: var(--ink-muted); }
-.article-title { max-width: 23ch; font-size: clamp(3.1rem, 6.8vw, 6.4rem); margin-top: 1.5rem; }
-.article-opener .page-lede { max-width: 62ch; }
-.article-hero { display: grid; gap: 2.5rem; align-items: center; }
-.article-hero-copy, .article-hero-illustration { min-width: 0; }
-.article-hero-illustration { max-width: 40rem; }
-@media (min-width: 1024px) {
-  .article-hero--illustrated { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; }
-  .article-hero--illustrated .article-title { font-size: clamp(3rem, 5.2vw, 5.2rem); }
-}
-.article-overview { background: var(--portfolio-blue); color: white; padding: 3.5rem 0; }
-.article-overview-grid { display: grid; gap: 2rem; }
-.article-overview h2 { font-size: clamp(2.4rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.05; text-wrap: balance; }
-.article-overview h2 em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; color: #c6d8e8; }
-.article-overview ul { list-style: none; padding: 0; margin: 0; }
-.article-overview li { padding: .85rem 0; border-top: 1px solid #60809d; font-size: 1.06rem; line-height: 1.55; }
-.article-overview li:last-child { padding-bottom: 0; }
+/* Articles follow the calm page language: a centred light opening, the
+   illustration beneath it, and a reading column with quiet, light headings. */
+.article-opener .project-back { display: flex; width: fit-content; align-items: center; gap: .65rem; min-height: 44px; font-size: .88rem; color: var(--ink-muted); }
+.article-opener .project-back:hover { color: var(--accent); }
+.article-meta { margin-top: clamp(1.5rem, 5vw, 3.5rem); }
+.article-title { max-width: 20ch; }
+.article-opener .calm-lede { max-width: 54ch; }
+.article-hero-illustration { max-width: 40rem; min-width: 0; margin: clamp(3rem, 6vw, 4.5rem) auto 0; text-align: left; }
 .article-reading { padding: 4.5rem 0 5.5rem; }
 .article-grid { display: grid; gap: 2.5rem; }
 .article-column, .article-rail, .article-grid > * { min-width: 0; }
@@ -26,63 +14,52 @@
 .article-desktop-toc, .article-back-top { display: none; }
 .article-rail ol { list-style: none; padding: 0; margin: 1rem 0 0; }
 .article-rail li { margin: 0; }
-.article-rail nav a { display: block; color: var(--ink-muted); font-size: .9rem; line-height: 1.45; padding: .6rem .8rem; border-left: 2px solid var(--line); }
-.article-rail nav a:hover { color: var(--portfolio-blue); background: var(--portfolio-tint); text-decoration: underline; text-underline-offset: 4px; }
-.article-rail nav a[aria-current] { color: var(--portfolio-blue); font-weight: 700; border-color: var(--portfolio-blue); background: var(--portfolio-tint); }
-.article-mobile-toc { border-block: 1px solid var(--line-strong); padding-block: .25rem; }
-.article-mobile-toc summary { display: flex; justify-content: space-between; align-items: center; min-height: 52px; cursor: pointer; font-weight: 650; list-style: none; }
+/* Each entry is a 44px target with its text centred vertically, so the text
+   sits evenly inside the scroll-spy highlight. */
+.article-rail nav a { display: flex; align-items: center; min-height: 44px; color: var(--ink-muted); font-size: .9rem; line-height: 1.45; padding: .5rem .75rem; transition: color .25s var(--ease-out), background-color .25s var(--ease-out); }
+.article-rail nav a:hover, .article-rail nav a:focus-visible { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: var(--link-offset); }
+/* Scroll spy: the section being read sits in a soft accent highlight, like a
+   selected sidebar item. The filled shape (not just a colour shift) and the
+   heavier weight make it obvious at a glance, with no rule beside the list. */
+.article-rail nav a[aria-current] { color: var(--accent); font-weight: 600; background: rgb(var(--accent-rgb) / .1); }
+.article-mobile-toc { padding-block: .25rem; }
+.article-mobile-toc summary { display: flex; justify-content: space-between; align-items: center; min-height: 52px; cursor: pointer; font-weight: 500; list-style: none; }
 .article-mobile-toc summary::-webkit-details-marker { display: none; }
 .article-mobile-toc summary span { font-size: 1.4rem; transition: transform .2s; }
 .article-mobile-toc[open] summary span { transform: rotate(45deg); }
 .article-mobile-toc nav { padding-bottom: 1rem; }
 .article-prose { font-size: 1.12rem; line-height: 1.8; }
 .article-prose :is(h2, h3, h4)[id] { scroll-margin-top: 7rem; }
-.article-prose :where(h2):not(:where(.not-prose, .not-prose *)) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: clamp(2rem, 3.3vw, 2.85rem); font-weight: 800; line-height: 1.1; letter-spacing: -.045em; margin-top: 3.5rem; padding-top: 2rem; margin-bottom: 1.1rem; }
-.article-prose :where(h3):not(:where(.not-prose, .not-prose *)) { font-size: 1.55rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.2; margin-top: 2.4rem; }
+.article-prose :where(h2):not(:where(.not-prose, .not-prose *)) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.12; letter-spacing: -.04em; margin-top: 3.5rem; padding-top: 2rem; margin-bottom: 1.1rem; }
+.article-prose :where(h3):not(:where(.not-prose, .not-prose *)) { font-size: 1.45rem; font-weight: 500; letter-spacing: -.03em; line-height: 1.2; margin-top: 2.4rem; }
 .article-prose :where(h4):not(:where(.not-prose, .not-prose *)) { font-size: 1.2rem; }
 .article-prose .lede { font-size: clamp(1.24rem, 2vw, 1.45rem); line-height: 1.6; letter-spacing: -.02em; }
-.article-prose :where(a):not(:where(.not-prose, .not-prose *)) { text-decoration-color: var(--portfolio-blue); text-underline-offset: 4px; }
-.article-prose .pullquote { text-align: left; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--portfolio-blue); border-left: 3px solid var(--portfolio-blue); padding-left: 1.25rem; margin-block: 2.5rem; }
+.article-prose .pullquote { text-align: left; font-family: var(--font-hanken), system-ui, sans-serif; font-style: normal; font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 300; line-height: 1.25; letter-spacing: -.035em; color: var(--ink); border: 0; padding: 0; margin-block: 3rem; }
 .article-prose :where(pre):not(:where(.not-prose, .not-prose *)) { border-radius: 0; max-width: 100%; padding: 1.25rem; font-size: .86rem; overscroll-behavior-x: contain; }
 .article-prose :where(:not(pre) > code):not(:where(.not-prose, .not-prose *)) { border-radius: 0; }
-.article-prose .article-table { overflow-x: auto; margin: 2.5rem 0; border: 1px solid var(--line-strong); overscroll-behavior-x: contain; background: white; }
-.article-prose .article-table table { display: table; width: 100%; min-width: 38rem; margin: 0; font-size: .94rem; border: 0; border-radius: 0; box-shadow: none; line-height: 1.6; }
-.article-prose .article-table thead { display: table-header-group; background: var(--portfolio-tint); }
-.article-prose .article-table tbody { display: table-row-group; }
-.article-prose .article-table tr { display: table-row; border: 0; padding: 0; margin: 0; }
-.article-prose .article-table :is(td, th) { display: table-cell; width: auto; padding: .85rem 1rem !important; border-bottom: 1px solid var(--line) !important; }
-.article-prose .article-table th { font-family: var(--font-hanken), system-ui, sans-serif; text-transform: none; letter-spacing: 0; font-size: .88rem; font-weight: 700; color: var(--ink); }
-.article-prose .article-table td:first-child { font-size: inherit; color: var(--ink); }
-.article-prose .article-table tbody tr:last-child td { border-bottom: 0 !important; }
-.article-prose .article-table code { border-radius: 0; }
-.article-prose .essay-label { font-family: var(--font-hanken), system-ui, sans-serif; font-size: .88rem; letter-spacing: 0; text-transform: none; font-weight: 700; }
-.article-prose :is(.essay-stack__name, .essay-defs dt) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1rem; font-weight: 700; }
+/* ArticleTable only adds the keyboard-scrollable region; the table itself uses
+   the shared prose table design in site.css. */
+.article-prose .article-table { overflow-x: auto; margin: 2.5rem 0; overscroll-behavior-x: contain; }
+.article-prose .article-table table { min-width: 34rem; margin: 0; }
+.article-prose .essay-label { font-family: var(--font-hanken), system-ui, sans-serif; font-size: .88rem; letter-spacing: 0; text-transform: none; font-weight: 500; }
+.article-prose :is(.essay-stack__name, .essay-defs dt) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1rem; font-weight: 600; }
 .article-prose :is(.essay-panels, .essay-split, .essay-defs) :is(p, li) { font-size: 1rem; }
-.article-prose .cost-card { border-radius: 0; border: 0; border-top: 1px solid var(--line-strong); padding: 1.5rem 0; }
-.article-prose .cost-card h3 { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1.5rem; font-weight: 750; letter-spacing: -.03em; }
+.article-prose .cost-card { border-radius: 0; border: 0; padding: 1.5rem 0; }
+.article-prose .cost-card h3 { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1.4rem; font-weight: 400; letter-spacing: -.025em; }
 .article-prose .cost-card p { font-size: 1rem; color: var(--ink-muted); }
 .article-prose .footnotes { font-size: .95rem; overflow-wrap: anywhere; }
-.article-share { margin-top: 3.5rem; padding: 1.5rem 0; border-block: 1px solid var(--line-strong); }
-.article-share > p:first-child { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; }
+.article-share { margin-top: 3.5rem; padding: 1.5rem 0; }
+.article-share > p:first-child { font-size: 1.3rem; font-weight: 300; letter-spacing: -.025em; }
 .article-share > div { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: .5rem; }
 .article-copy-status { min-height: 1.5em; margin-top: .35rem; font-size: .88rem; color: var(--portfolio-blue); }
-.article-author { padding-top: 1.5rem; }
-.article-author-identity { display: flex; align-items: center; gap: .875rem; }
-.article-author img { width: 48px; height: 48px; flex-shrink: 0; object-fit: cover; }
-.article-author-label { font-size: .75rem; line-height: 1.5; color: var(--ink-muted); margin: 0; }
-.article-author h2 { font-size: 1.125rem; font-weight: 650; letter-spacing: -.02em; line-height: 1.3; margin: .125rem 0 0; }
-.article-author-bio { max-width: 62ch; margin: .875rem 0 .25rem; font-size: .875rem; line-height: 1.65; color: var(--ink-muted); }
-.article-author .article-author-link { font-size: .875rem; font-weight: 500; color: var(--ink-muted); }
-.article-author .article-author-link:hover { color: var(--accent); }
-.article-pager { display: grid; gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.article-pager { display: grid; gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; }
 .article-pager-link { display: flex; flex-direction: column; gap: .35rem; color: var(--ink); text-decoration: none; }
 .article-pager-label { display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--ink-muted); }
-.article-pager-title { font-size: 1.05rem; font-weight: 650; line-height: 1.35; letter-spacing: -.01em; text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: .15em; transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out); }
+.article-pager-title { font-size: 1.15rem; font-weight: 400; line-height: 1.35; letter-spacing: -.01em; text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: var(--link-offset); transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out); }
 .article-pager-link:is(:hover, :focus-visible) .article-pager-title { color: var(--accent); text-decoration-color: currentColor; }
 .article-page :is(a, button, summary, .article-table, pre):focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 4px; }
 .article-page pre:focus-visible { outline-offset: -4px; outline-color: #a3c1dd; }
 @media (min-width: 768px) {
-  .article-overview-grid { grid-template-columns: 1fr 1.65fr; gap: 4rem; align-items: start; }
   .article-pager { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
   .article-pager-link--newer { grid-column: 2; align-items: flex-end; text-align: right; }
 }
@@ -91,15 +68,12 @@
   .article-grid--wide { grid-template-columns: minmax(0, 48rem); justify-content: center; }
   .article-rail-sticky { position: sticky; top: 7rem; }
   .article-desktop-toc { display: block; }
-  .article-desktop-toc h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em; }
+  .article-desktop-toc h2 { padding-inline: .75rem; font-size: .95rem; font-weight: 500; color: var(--ink-muted); }
   .article-desktop-toc ol { max-height: calc(100dvh - 17rem); overflow-y: auto; padding: 4px; margin-left: -4px; scrollbar-width: thin; }
-  .article-back-top { display: inline-flex; margin-top: 1.5rem; font-size: .85rem; }
+  .article-back-top { display: inline-flex; margin: 1.5rem 0 0 .75rem; font-size: .85rem; }
   .article-mobile-toc { display: none; }
 }
 @media (max-width: 639px) {
-  .article-title { font-size: clamp(2.8rem, 11.5vw, 4.2rem); }
-  .article-opener { padding-bottom: 3rem; }
-  .article-overview { padding: 2.5rem 0; }
   .article-reading { padding: 2.5rem 0 3.5rem; }
   .article-prose { font-size: 1.05rem; line-height: 1.75; }
 }
@@ -108,6 +82,8 @@
 }
 .article-prose .cost-list { display: grid; gap: 0 2rem; margin: 2.5rem 0; }
 .article-prose .cost-card p { margin-top: .8rem; line-height: 1.65; }
-.article-prose .essay-panel, .article-prose .essay-chips > li { border-radius: 0; }
+.article-prose .essay-chips > li { border-radius: 0; }
 @media (min-width: 768px) { .article-prose .cost-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .article-prose .cost-card:last-child { grid-column: 1 / -1; } }
-.article-rail nav a { min-height: 44px; }
+/* Fenced code renders through CodeBlock (ArticleCode), the same artifact as the
+   project pages; give it the reading column's vertical rhythm. */
+.article-prose .code-artifact { margin-block: 2rem; }

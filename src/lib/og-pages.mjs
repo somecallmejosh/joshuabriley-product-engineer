@@ -7,10 +7,10 @@
  * Fields:
  *   slug     - output file name → public/images/og/<slug>.png
  *   path     - the route this card belongs to (with trailing slash)
- *   eyebrow  - Geist Mono label above the headline
- *   headline - Newsreader display line (a navy period is appended by the card)
- *   wink     - optional word inside `headline` set in navy italic (the site's
- *              ink-wink). Case-insensitive match on the last occurrence.
+ *   eyebrow  - small label above the headline
+ *   headline - light display line (a denim period is appended by the card)
+ *   wink     - optional word inside `headline` set in muted grey (the site's
+ *              two-tone device). Case-insensitive match on the last occurrence.
  *
  * Adding a page: add an entry here, then `node scripts/generate-og.mjs`.
  * A route with no entry falls back to the site default (social/og-image-2026.png), so
@@ -26,7 +26,7 @@ export const OG_PAGES = [
   { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build on my own time', wink: 'on my own time' },
   { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship' },
   { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Notes on design systems and front-end', wink: 'front-end' },
-  { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system', wink: null },
+  { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Calm design system', wink: null },
   { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy', wink: null },
   { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use', wink: null },
 

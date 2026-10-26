@@ -8,22 +8,25 @@ const projects = [
 ];
 ---
 <BaseLayout title="Personal projects | Joshua Briley" description="Working reference projects in component architecture and design tokens: Rudiment UI and Token Adventure.">
-  <section class="page-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Personal projects</p>
-      <h1 class="page-type hero-in hero-in-2">Things I build <em>on my own time.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Reference implementations and experiments in components and design tokens. Read the decisions, try the interfaces, and see how they work.</p>
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">Personal projects</p>
+      <h1 class="calm-title hero-in hero-in-2">Things I build on my own time.</h1>
+      <p class="calm-lede hero-in hero-in-3">Reference implementations and experiments in components and design tokens. Read the decisions, try the interfaces, and see how they work.</p>
     </Container>
   </section>
-  <section class="editorial-section work-section" aria-label="Personal project details">
+  <section class="index-work" aria-label="Personal project details">
     <Container width="wide">
-      <div class="work-list">
-        {projects.map(project => <article class="work-entry" data-reveal>
-          <a href={project.href} class="work-image work-image--rudiment" aria-label={`Explore ${project.name}`}><span class="work-image-frame"><img src={project.image} alt={project.alt} width="1600" height="1000" loading="lazy" decoding="async" /></span><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
-          <div class="work-copy"><p class="work-kind">{project.kind}</p><h2 class="project-index-name"><a href={project.href}>{project.name}</a></h2><p class="work-title">{project.headline} {project.emphasis}</p><p class="work-summary">{project.intro}</p><a class="editorial-link mt-5" href={project.href}>Explore the project <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+      <div class="work-grid">
+        {projects.map(project => <article class="work-card">
+          <a href={project.href} class="home-plate work-card-plate" tabindex="-1" aria-hidden="true"><img src={project.image} alt="" width="1600" height="1000" loading="lazy" decoding="async" /></a>
+          <p class="work-card-kind">{project.kind}</p>
+          <h2 class="work-card-title"><a href={project.href}><strong>{project.name}.</strong> {project.headline} {project.emphasis}</a></h2>
+          <p class="work-card-result">{project.intro}</p>
+          <a class="editorial-link work-card-link" href={project.href}>Explore the project <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </article>)}
       </div>
     </Container>
   </section>
 </BaseLayout>
-<style>.project-index-name { margin-top: .75rem; font-size: clamp(2.2rem, 3.5vw, 3.3rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; } .project-index-name a:hover { color: var(--accent); }</style>
+<style>.work-card-link { margin-top: 1.25rem; }</style>

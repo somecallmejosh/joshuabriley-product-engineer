@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Text from '~/components/primitives/Text.astro';
 
 // Shared with /resume-print/ and therefore with public/resume.pdf, so the page
 // and the download cannot drift. Edit the content in src/lib/resume-data.mjs,
@@ -65,35 +63,24 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 
 <BaseLayout title="Resume | Joshua Briley | Product Design Engineer" description={description} mainClass="resume-page">
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
-    <Container width="wide">
-      <div class="grid gap-10 lg:grid-cols-12 lg:gap-16 lg:items-end">
-        <div class="lg:col-span-8">
-          <div class="print-only">
-            <h1>{CONTACT.name}</h1>
-            <p><strong>{CONTACT.title}</strong></p>
-            <p>{CONTACT.location} · <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phone}</p>
-          </div>
-          <p class="role-line hero-in hero-in-1" data-print-screen>Résumé · Joshua Briley</p>
-          <h1 class="page-type hero-in hero-in-2" data-print-screen>I find what's worth building, <em>design it, and ship it.</em></h1>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
-            {summary}
-          </Text>
-        </div>
-
-        <div class="hero-in hero-in-4 lg:col-span-4 lg:flex lg:flex-col lg:items-end" data-print-screen>
-          <div class="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-end">
-            <a class="action-link" href="/resume.pdf" target="_blank" rel="noopener">
-              Download PDF <span aria-hidden="true" data-link-arrow="down">↓</span>
-            </a>
-            <a class="editorial-link" href="/contact/">
-              Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span>
-            </a>
-          </div>
-          <p class="mt-4 text-sm text-ink-muted">Updated {updated}</p>
-        </div>
+  <section class="calm-open resume-open">
+    <Container>
+      <div class="print-only">
+        <h1>{CONTACT.name}</h1>
+        <p><strong>{CONTACT.title}</strong></p>
+        <p>{CONTACT.location} · <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phone}</p>
       </div>
-      <nav class="evidence-nav" aria-label="Résumé sections and work samples">
+      <p class="calm-label hero-in hero-in-1" data-print-screen>Résumé · Joshua Briley</p>
+      <h1 class="calm-title hero-in hero-in-2" data-print-screen>I find what's worth building, design it, and ship it.</h1>
+      <p class="calm-lede hero-in hero-in-3">{summary}</p>
+      <div class="hero-in hero-in-4" data-print-screen>
+        <div class="calm-actions">
+          <a class="editorial-link" href="/resume.pdf" target="_blank" rel="noopener">Download PDF <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+          <a class="editorial-link" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        </div>
+        <p class="calm-note">Updated {updated}</p>
+      </div>
+      <nav class="calm-jumps" aria-label="Résumé sections and work samples">
         <a href="#approach">How I work <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#experience">Employment history <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#skills">Skills <span aria-hidden="true" data-link-arrow="down">↓</span></a>
@@ -102,32 +89,24 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <a href="/projects/">Product case studies <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </nav>
     </Container>
-  </Section>
+  </section>
 
-  <section id="approach" class="editorial-section resume-approach" aria-labelledby="approach-title">
+  <section id="approach" class="calm-section resume-approach" aria-labelledby="approach-title">
     <Container width="wide">
-      <div class="section-heading">
-        <h2 id="approach-title" class="section-type">How I work</h2>
-        <p>The same three things in every role below, whatever the industry.</p>
-      </div>
-      <ol class="approach-list" role="list" data-reveal-stagger>
-        {threads.map((thread, i) => (
-          <li class="approach-entry">
-            <p class="approach-index">{String(i + 1).padStart(2, '0')}</p>
-            <h3>{thread.title}</h3>
-            <p>{thread.body}</p>
-          </li>
+      <h2 id="approach-title" class="calm-heading">How I work.</h2>
+      <p class="calm-intro">The same three things in every role below, whatever the industry.</p>
+      <ol class="approach-list calm-points calm-points--grid calm-points--three" role="list" data-reveal-stagger>
+        {threads.map((thread) => (
+          <li class="approach-entry calm-point"><h3>{thread.title}.</h3> <p>{thread.body}</p></li>
         ))}
       </ol>
     </Container>
   </section>
 
-  <Section id="experience" tone="paper" padding="default" class="resume-experience">
+  <section id="experience" class="calm-section resume-experience" aria-labelledby="experience-title">
     <Container width="wide">
-      <div class="section-heading">
-        <h2 class="section-type">Experience</h2>
-        <p>Different industries, the same job: figure out the right problem, then design and build the answer.</p>
-      </div>
+      <h2 id="experience-title" class="calm-heading">Experience.</h2>
+      <p class="calm-intro">Different industries, the same job: figure out the right problem, then design and build the answer.</p>
 
       <ul class="experience-list" role="list" data-reveal-stagger>
         {experience.map((job) => (
@@ -158,14 +137,12 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         ))}
       </ul>
     </Container>
-  </Section>
+  </section>
 
-  <section id="skills" class="editorial-section resume-skills" aria-labelledby="skills-title">
+  <section id="skills" class="calm-section resume-skills" aria-labelledby="skills-title">
     <Container width="wide">
-      <div class="section-heading">
-        <h2 id="skills-title" class="section-type">Skills</h2>
-        <p>The tools and disciplines behind shared components, accessible interfaces, and product workflows.</p>
-      </div>
+      <h2 id="skills-title" class="calm-heading">Skills.</h2>
+      <p class="calm-intro">The tools and disciplines behind shared components, accessible interfaces, and product workflows.</p>
       <div class="skill-list" data-reveal-stagger>
         {skillGroups.map((skill) => (
           <section class="skill-entry" aria-labelledby={`skill-${skill.title.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
@@ -183,12 +160,10 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     </Container>
   </section>
 
-  <section id="education" class="editorial-section resume-education" aria-labelledby="education-title">
+  <section id="education" class="calm-section resume-education" aria-labelledby="education-title">
     <Container width="wide">
-      <div class="section-heading">
-        <h2 id="education-title" class="section-type">Education</h2>
-        <p>A foundation in science, with continued study in product design and accessibility.</p>
-      </div>
+      <h2 id="education-title" class="calm-heading">Education.</h2>
+      <p class="calm-intro">A foundation in science, with continued study in product design and accessibility.</p>
       <div class="education-layout" data-reveal>
         <div class="education-degrees">
           {education.map((degree) => (
@@ -213,126 +188,47 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 </BaseLayout>
 
 <style>
-  .experience-entry {
-    position: relative;
-    display: grid;
-    gap: 2rem;
-    padding: 2.5rem 0 2.5rem 1.75rem;
-  }
-  .experience-entry::before { content: ''; position: absolute; left: 3px; top: 0; bottom: 0; width: 1px; background: #b7c6d2; }
-  .experience-entry::after { content: ''; position: absolute; top: 2.85rem; left: 0; width: 7px; height: 7px; border: 1px solid var(--portfolio-blue); background: var(--paper); border-radius: 50%; }
-  .experience-entry:first-child { padding-top: 0; }
-  .experience-entry:first-child::before, .experience-entry:first-child::after { top: .35rem; }
-  .experience-entry:first-child::after { background: var(--portfolio-blue); }
-  .experience-entry:last-child::before { bottom: auto; height: 2.85rem; }
+  /* Long-form record: hairlines (not timelines, dots, or tinted bands) separate
+     entries so the page still scans; the type does the rest. */
+  .resume-open .calm-lede { max-width: 52ch; }
+  .approach-list { max-width: none; margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 0; list-style: none; }
+  .experience-list, .skill-list, .education-layout { margin-top: clamp(2.5rem, 5vw, 4rem); }
+  .experience-entry { display: grid; gap: 1.5rem; padding: 2.75rem 0; }
   .experience-context, .experience-contribution { min-width: 0; }
-  .experience-period {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: .75rem;
-    line-height: 1.5;
-    color: var(--accent);
-  }
-  .experience-company {
-    margin-top: 1rem;
-    max-width: 18ch;
-    font-size: clamp(2.1rem, 3.5vw, 3.2rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -.05em;
-    text-wrap: balance;
-  }
-  .experience-role {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: -.015em;
-  }
-  .experience-stack {
-    margin-top: .65rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    color: var(--ink-muted);
-  }
-  .experience-lead {
-    max-width: 45ch;
-    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: -.025em;
-    text-wrap: pretty;
-  }
-  .experience-details {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    max-width: 59ch;
-  }
-  .experience-details li {
-    position: relative;
-    padding-left: 1rem;
-    font-size: 1rem;
-    line-height: 1.65;
-    color: var(--ink-muted);
-  }
-  .experience-details li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: .72em;
-    width: 4px;
-    height: 4px;
-    background: var(--accent);
-  }
-  .experience-links { display: flex; flex-wrap: wrap; gap: .25rem 2rem; margin-top: 1.5rem; }
-  .experience-threads { display: grid; gap: .3rem; margin-top: 1rem; list-style: none; padding: 0; }
-  .experience-threads li { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; line-height: 1.5; color: var(--accent); }
-  .approach-list { display: grid; gap: 0; list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line-strong); }
-  .approach-entry { padding: 2rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
-  .approach-index { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; color: var(--accent); }
-  .approach-entry h3 { margin-top: .75rem; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; text-wrap: balance; }
-  .approach-entry p:last-child { margin-top: .85rem; max-width: 38ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
-  .resume-skills { background: var(--portfolio-tint); }
-  .skill-list { border-top: 1px solid #b7c6d2; }
-  .skill-entry { display: grid; gap: 1.75rem; padding: 2.5rem 0; border-bottom: 1px solid #b7c6d2; }
+  .experience-period { font-size: .875rem; line-height: 1.5; color: var(--ink-muted); }
+  .experience-company { margin-top: .6rem; max-width: 18ch; font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.08; letter-spacing: -.04em; text-wrap: balance; }
+  .experience-role { margin-top: .6rem; font-size: 1.05rem; font-weight: 500; line-height: 1.4; }
+  .experience-stack { margin-top: .5rem; font-size: .875rem; line-height: 1.5; color: var(--ink-muted); }
+  .experience-threads { display: grid; gap: .2rem; margin-top: 1rem; padding: 0; list-style: none; }
+  .experience-threads li { font-size: .82rem; line-height: 1.5; color: var(--ink-muted); }
+  .experience-lead { max-width: 46ch; font-size: clamp(1.2rem, 1.7vw, 1.45rem); font-weight: 400; line-height: 1.45; letter-spacing: -.02em; text-wrap: pretty; }
+  .experience-details { display: grid; gap: .85rem; margin-top: 1.25rem; max-width: 60ch; }
+  .experience-details li { font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
+  .experience-links { display: flex; flex-wrap: wrap; gap: .25rem 2rem; margin-top: 1.25rem; }
+  .skill-entry { display: grid; gap: 1.5rem; padding: 2.5rem 0; }
   .skill-entry > *, .education-layout > * { min-width: 0; }
-  .skill-context h3 { max-width: 19ch; font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
-  .skill-context p { max-width: 45ch; margin-top: 1rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
-  .skill-context a { margin-top: 1rem; }
-  .skill-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: .7rem 1.5rem; list-style: none; padding: 0; margin: 0; }
-  .skill-tools li { font-size: .98rem; line-height: 1.5; color: var(--ink); }
+  .skill-context h3 { max-width: 20ch; font-size: clamp(1.6rem, 2.4vw, 2.1rem); font-weight: 300; line-height: 1.12; letter-spacing: -.035em; text-wrap: balance; }
+  .skill-context p { max-width: 45ch; margin-top: .75rem; font-size: 1rem; line-height: 1.6; color: var(--ink-muted); }
+  .skill-context a { margin-top: .75rem; }
+  .skill-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: .6rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .skill-tools li { font-size: .98rem; line-height: 1.5; }
   .education-layout { display: grid; gap: 3rem; }
-  .education-degree { border-top: 1px solid var(--line-strong); padding-top: 1.75rem; }
+  .education-degree { padding-top: 1.75rem; }
   .education-degree + .education-degree { margin-top: 2rem; }
-  .education-degree h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; text-wrap: balance; }
-  .education-institution { margin-top: 1rem; font-size: 1.2rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
-  .education-note { margin-top: 1rem; max-width: 39ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.7; }
-  .education-learning > h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.25; letter-spacing: -.03em; }
-  .education-learning { border-top: 1px solid var(--line-strong); padding-top: 1.75rem; }
-  .education-courses { list-style: none; padding: 0; margin: 1.5rem 0 0; }
-  .education-courses li { border-top: 1px solid var(--line); padding: 1.25rem 0; }
-  .education-courses h4 { max-width: 35ch; font-size: 1.15rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.4; }
-  .education-courses p { margin-top: .5rem; font-size: .95rem; line-height: 1.6; color: var(--ink-muted); }
-  #approach, #skills, #education { scroll-margin-top: 6rem; }
-  @media (min-width: 1024px) {
-    .approach-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; border-top: 0; }
-    .approach-entry { border-top: 1px solid var(--line-strong); border-bottom: 0; }
-  }
+  .education-degree h3 { font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.08; letter-spacing: -.04em; text-wrap: balance; }
+  .education-institution { margin-top: .6rem; font-size: 1.05rem; font-weight: 500; }
+  .education-note { margin-top: .75rem; max-width: 40ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
+  .education-learning { padding-top: 1.75rem; }
+  .education-learning > h3 { font-size: .95rem; font-weight: 500; color: var(--ink-muted); }
+  .education-courses { margin: 1rem 0 0; padding: 0; list-style: none; }
+  .education-courses li { padding: 1rem 0; }
+  .education-courses h4 { max-width: 36ch; font-size: 1.1rem; font-weight: 400; line-height: 1.4; letter-spacing: -.015em; }
+  .education-courses p { margin-top: .25rem; font-size: .95rem; line-height: 1.6; color: var(--ink-muted); }
+  #approach, #experience, #skills, #education { scroll-margin-top: 5rem; }
   @media (min-width: 640px) { .skill-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1024px) {
-    .skill-entry, .education-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 6rem; }
-    .skill-entry { padding: 3rem 0; }
-    .skill-tools { padding-top: .4rem; }
-  }
-
-  @media (min-width: 1024px) {
-    .experience-entry {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-      gap: 6rem;
-      padding: 3.5rem 0 3.5rem 1.75rem;
-    }
-    .experience-entry::after { top: 3.85rem; }
-    .experience-entry:last-child::before { height: 3.85rem; }
-    .experience-contribution { padding-top: 2rem; }
+    .experience-entry, .skill-entry, .education-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 5rem; }
+    .experience-entry { padding: 3.25rem 0; }
+    .skill-tools { padding-top: .35rem; }
   }
 </style>

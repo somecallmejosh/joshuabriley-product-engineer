@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BlogPost from '~/layouts/BlogPost.astro';
 import ArticleTable from '~/components/writing/ArticleTable.astro';
+import ArticleCode from '~/components/writing/ArticleCode.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -39,5 +40,5 @@ const nextPost = toLink(orderedPosts[currentIndex - 1]);
   prevPost={prevPost}
   nextPost={nextPost}
 >
-  <Content components={{ table: ArticleTable }} />
+  <Content components={{ table: ArticleTable, pre: ArticleCode }} />
 </BlogPost>

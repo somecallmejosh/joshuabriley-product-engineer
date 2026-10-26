@@ -17,75 +17,77 @@ const personal = [
 ];
 ---
 <BaseLayout title="About | Joshua Briley | Product Design Engineer" description="Meet Joshua Briley, a product design engineer with 20+ years framing, designing, and building accessible products, from insurance platforms to consumer apps.">
-  <section class="page-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">About Joshua Briley</p>
-      <div class="about-intro">
-        <div>
-          <h1 class="page-type hero-in hero-in-2">Where product, design, and <em>engineering meet.</em></h1>
-          <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
-          <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        </div>
-        <figure class="about-portrait hero-in hero-in-5"><Portrait eager /><figcaption>Connecticut now. Louisiana always.</figcaption></figure>
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">About Joshua Briley</p>
+      <h1 class="calm-title hero-in hero-in-2">Where product, design, and engineering meet.</h1>
+      <p class="calm-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
+      <div class="calm-actions hero-in hero-in-4"><a href="/resume/" class="editorial-link">View my experience <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+    </Container>
+  </section>
+  <section class="about-figure">
+    <Container>
+      <figure class="calm-figure hero-in hero-in-5"><Portrait eager sizes="15rem" /><figcaption>Connecticut now. Louisiana always.</figcaption></figure>
+    </Container>
+  </section>
+  <section class="calm-section">
+    <Container>
+      <h2 class="calm-heading">Why design and build.</h2>
+      <div class="calm-column calm-prose">
+        <p>I’ve worked on both sides of the handoff for more than twenty years. The most useful work has usually happened in between: working out what a workflow actually needs, then testing that answer in working software instead of a static mockup.</p>
+        <p>The industries have changed, from insurance portals to recipes, child care, and an enterprise design system used by roughly 3,500 engineers and designers.</p>
+        <p>Across those roles, the useful work has often been connecting disciplines: making design intent concrete, giving engineers usable patterns, and staying involved when real data makes things complicated.</p>
+        <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </div>
     </Container>
   </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="approach-layout">
-        <h2 class="section-type">Why design <em>and build.</em></h2>
-        <div class="prose-lede">
-          <p>I’ve worked on both sides of the handoff for more than twenty years. The most useful work has usually happened in between: working out what a workflow actually needs, then testing that answer in working software instead of a static mockup.</p>
-          <p>The industries have changed, from insurance portals to recipes, child care, and an enterprise design system used by roughly 3,500 engineers and designers.</p>
-          <p>Across those roles, the useful work has often been connecting disciplines: making design intent concrete, giving engineers usable patterns, and staying involved when real data makes things complicated.</p>
-          <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        </div>
+  <section class="calm-section">
+    <Container>
+      <h2 class="calm-heading">What I care about.</h2>
+      <div class="calm-column calm-points" data-reveal-stagger>{principles.map((principle) => <article class="calm-point"><h3>{principle.title}</h3> <p>{principle.body}</p></article>)}</div>
+    </Container>
+  </section>
+  <section class="calm-section">
+    <Container>
+      <h2 class="calm-heading">Why I wrote the books.</h2>
+      <div class="calm-column calm-prose">
+        <p>When I went looking for formal resources on UX engineering, I couldn’t find any. The work tends to be treated as something any developer can do because they know JavaScript or another programming language.</p>
+        <p>Knowing the language is only the start. The job also means building for people who use screen readers and other assistive technology, meeting visual accessibility needs like color contrast, and respecting user settings such as prefers-reduced-motion and prefers-contrast. It means knowing what CSS can handle on its own before reaching for JavaScript, and which browser APIs already solve the problem you’re about to write code for.</p>
+        <p>So I wrote the books for myself, because no one else had. I still use them as reference material in my own work, and both are free to read online.</p>
+        <div class="book-links"><BookList stacked /></div>
       </div>
     </Container>
   </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="section-heading"><h2 class="section-type">What I <em>care about.</em></h2></div>
-      <div data-reveal-stagger>{principles.map((principle) => <article class="principle-row"><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
-    </Container>
-  </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="approach-layout">
-        <h2 class="section-type">Why I wrote <em>the books.</em></h2>
-        <div class="prose-lede">
-          <p>When I went looking for formal resources on UX engineering, I couldn’t find any. The work tends to be treated as something any developer can do because they know JavaScript or another programming language.</p>
-          <p>Knowing the language is only the start. The job also means building for people who use screen readers and other assistive technology, meeting visual accessibility needs like color contrast, and respecting user settings such as prefers-reduced-motion and prefers-contrast. It means knowing what CSS can handle on its own before reaching for JavaScript, and which browser APIs already solve the problem you’re about to write code for.</p>
-          <p>So I wrote the books for myself, because no one else had. I still use them as reference material in my own work, and both are free to read online.</p>
-          <div class="book-links"><BookList stacked /></div>
+  <section class="calm-section">
+    <Container>
+      <h2 class="calm-heading">Let’s look at the work.</h2>
+      <p class="calm-intro">If you lead design, start with IVFCRYO and Logatot. If you lead engineering, start with VMSpark and Rudiment UI.</p>
+      <div class="calm-column">
+        <div class="resource-list">
+          <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, repair flows, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/projects/vmspark/"><span><strong>Design system rollout</strong><span>VMSpark: a 350-template audit and a four-stage rebuild with no pipeline regressions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
+        <p class="calm-point about-fit"><strong>Frameworks and fit.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks, and web components let all of them use the same accessible components instead of rebuilding them for each one. Rudiment UI shows my React component work.</p>
       </div>
     </Container>
   </section>
-  <section class="editorial-section work-section">
-    <Container width="wide">
-      <div class="approach-layout">
-        <div><h2 class="section-type">Let’s look at <em>the work.</em></h2><p class="section-intro">If you lead design, start with IVFCRYO and Logatot. If you lead engineering, start with VMSpark and Rudiment UI.</p></div>
-        <div>
-          <div class="resource-list">
-            <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, repair flows, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/projects/vmspark/"><span><strong>Design system rollout</strong><span>VMSpark: a 350-template audit and a four-stage rebuild with no pipeline regressions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          </div>
-          <p class="experience-note"><strong>Frameworks and fit.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks, and web components let all of them use the same accessible components instead of rebuilding them for each one. Rudiment UI shows my React component work.</p>
-        </div>
-      </div>
-    </Container>
-  </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="section-heading"><h2 class="section-type">Away from <em>the keyboard.</em></h2><p>Family, music, travel, and strong opinions about gumbo.</p></div>
-      <div class="personal-grid" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+  <section class="calm-section">
+    <Container>
+      <h2 class="calm-heading">Away from the keyboard.</h2>
+      <p class="calm-intro">Family, music, travel, and strong opinions about gumbo.</p>
+      <div class="calm-column calm-points calm-points--grid" data-reveal-stagger>{personal.map((item) => <article class="calm-point"><h3>{item.title}.</h3> <p>{item.body}</p></article>)}</div>
     </Container>
   </section>
 </BaseLayout>
 
 <style>
+  .about-figure { padding-bottom: clamp(2rem, 5vw, 4rem); }
+  .about-figure .calm-figure { max-width: 15rem; }
+  /* A circular crop, square around the face. */
+  .about-figure .calm-figure :global(img) { aspect-ratio: 1; object-fit: cover; object-position: center 32%; border-radius: 50%; }
   .book-links { margin-top: 2.5rem; }
+  .about-fit { margin-top: 3rem; font-size: 1.05rem; line-height: 1.6; letter-spacing: -.01em; }
+  .about-fit strong { font-weight: inherit; color: var(--ink); }
 </style>

@@ -33,14 +33,14 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 ---
 
 <BaseLayout title="Writing on design systems & UI engineering | Joshua Briley" description="Guides, comparisons, and practical notes on component architecture, design system adoption, AI-assisted development, and front-end engineering.">
-  <section class="page-opener writing-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Writing <span aria-hidden="true">/</span> Design systems &amp; UI engineering</p>
-      <h1 class="page-type hero-in hero-in-2">Notes on building <em>better UI.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Components, architecture, adoption, and the decisions behind shared interfaces. Guides and perspectives drawn from twenty-plus years in production UI.</p>
-      <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse writing by topic">
-        <a href="#books">Books <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">Writing <span aria-hidden="true">·</span> Design systems &amp; UI engineering</p>
+      <h1 class="calm-title hero-in hero-in-2">Notes on building better UI.</h1>
+      <p class="calm-lede hero-in hero-in-3">Components, architecture, adoption, and the decisions behind shared interfaces. Guides and perspectives drawn from twenty-plus years in production UI.</p>
+      <nav class="calm-jumps hero-in hero-in-4" aria-label="Browse writing by topic">
         {groups.map((group) => <a href={`#${group.id}`}>{group.label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
+        <a href="#books">Books <span aria-hidden="true" data-link-arrow="down">↓</span></a>
       </nav>
     </Container>
   </section>
@@ -50,11 +50,11 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
       <Container width="wide">
         <div class="latest-layout" data-reveal>
           <div class="latest-copy">
-            <p class="latest-context">Latest {writing[lead.id]?.format?.toLowerCase() ?? 'article'}</p>
+            <p class="calm-label">Latest {writing[lead.id]?.format?.toLowerCase() ?? 'article'}</p>
             <h2 id="latest-title"><a href={`/blog/${lead.id}/`}>{lead.data.title}</a></h2>
             <p class="latest-description">{lead.data.description}</p>
             <p class="post-meta latest-meta"><time datetime={isoDate(lead.data.date)}>{formatDate(lead.data.date)}</time><span>{lead.data.readMinutes} min read</span></p>
-            <a class="action-link latest-action" href={`/blog/${lead.id}/`}>Read the {writing[lead.id]?.format?.toLowerCase() === 'guide' ? 'guide' : 'article'} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a class="editorial-link latest-action" href={`/blog/${lead.id}/`}>Read the {writing[lead.id]?.format?.toLowerCase() === 'guide' ? 'guide' : 'article'} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
           {guideSections.length === 0 && hasIllustration(lead.id) && (
             <div class="latest-illustration"><ArticleIllustration post={lead.id} /></div>
@@ -72,94 +72,74 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   )}
 
   {groups.map((group) => (
-    <section id={group.id} class="editorial-section writing-section" aria-labelledby={`${group.id}-title`}>
-      <Container width="wide">
-        <div class="writing-group">
-          <div class="writing-topic">
-            <h2 id={`${group.id}-title`} class="section-type">{group.title} <em>{group.emphasis}</em></h2>
-            <p>{group.description}</p>
-          </div>
-          <ul class="writing-list" data-reveal-stagger>
-            {group.posts.map((post) => (
-              <li>
-                <a class:list={['post-link article-preview-link', hasIllustration(post.id) && 'post-link--illustrated']} href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`}>
-                  {hasIllustration(post.id) && <ArticleIllustration post={post.id} class="post-illustration" />}
-                  <div class="post-copy">
-                    <p class="post-meta"><span>{post.data.category}</span><time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time><span>{post.data.readMinutes} min read</span></p>
-                    <h3 id={`title-${post.id}`}>{post.data.title}</h3>
-                    <p class="post-description">{post.data.description}</p>
-                    <span class="post-action" aria-hidden="true">Read article <span data-link-arrow="up-right">↗</span></span>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
+    <section id={group.id} class="calm-section writing-section" aria-labelledby={`${group.id}-title`}>
+      <Container>
+        <div class="writing-topic">
+          <h2 id={`${group.id}-title`} class="calm-heading">{group.title} {group.emphasis}</h2>
+          <p class="calm-intro">{group.description}</p>
         </div>
+        <ul class="writing-list" data-reveal-stagger>
+          {group.posts.map((post) => (
+            <li>
+              <a class:list={['post-link article-preview-link', hasIllustration(post.id) && 'post-link--illustrated']} href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`}>
+                {hasIllustration(post.id) && <ArticleIllustration post={post.id} class="post-illustration" />}
+                <div class="post-copy">
+                  <p class="post-meta"><span>{post.data.category}</span><time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time><span>{post.data.readMinutes} min read</span></p>
+                  <h3 id={`title-${post.id}`}>{post.data.title}</h3>
+                  <p class="post-description">{post.data.description}</p>
+                  <span class="editorial-link post-action" aria-hidden="true">Read article <span data-link-arrow="up-right">↗</span></span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
       </Container>
     </section>
   ))}
 
-  <section id="books" class="editorial-section books-section" aria-labelledby="books-title">
-    <Container width="wide">
-      <div class="books-intro">
-        <h2 id="books-title" class="section-type">Longer <em>reads.</em></h2>
-        <p>Two free online books, each taking a single subject from start to finish.</p>
-      </div>
-      <BookList />
+  <section id="books" class="calm-section books-section" aria-labelledby="books-title">
+    <Container>
+      <h2 id="books-title" class="calm-heading">Longer reads.</h2>
+      <p class="calm-intro">Two free online books, each taking a single subject from start to finish.</p>
+      <div class="calm-column"><BookList stacked /></div>
     </Container>
   </section>
 </BaseLayout>
 
 <style>
-  .writing-opener .page-type { max-width: 19ch; }
-  .latest-writing { background: var(--portfolio-blue); color: white; padding: 4.5rem 0; }
+  /* The latest piece leads the page on paper, not a coloured slab: light display
+     type beside its illustration. */
+  .latest-writing { padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem); }
   .latest-layout { display: grid; gap: 3rem; }
-  .latest-writing a:focus-visible { outline: 3px solid white; outline-offset: 5px; }
-  .latest-context { color: #c6d8e8; font-size: .87rem; margin-bottom: 1.4rem; }
-  .latest-copy h2 { max-width: 17ch; font-size: clamp(2.65rem, 5.3vw, 4.8rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.03; text-wrap: balance; }
-  .latest-copy h2 a:hover, .latest-copy h2 a:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
-  .latest-description { margin-top: 1.6rem; max-width: 49ch; font-size: 1.1rem; line-height: 1.65; color: #e0e8ef; }
-  .post-meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; color: var(--ink-muted); font-size: .82rem; line-height: 1.5; }
-  .latest-meta { color: #c6d8e8; margin-top: 1.4rem; }
-  .latest-action { background: white; color: var(--portfolio-blue); margin-top: 1.7rem; }
-  .latest-action:hover { background: #e0e8ef; }
-  .guide-contents { border-top: 1px solid #6c89a3; padding-top: 1.5rem; }
-  .guide-contents h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; }
-  .guide-contents li { border-top: 1px solid #6c89a3; }
-  .guide-contents li a { display: flex; gap: 1.5rem; justify-content: space-between; align-items: start; padding: 1.15rem 0; font-size: 1.1rem; line-height: 1.4; }
-  .guide-contents li a:hover, .guide-contents li a:focus-visible { text-decoration: underline; text-underline-offset: 5px; }
-  .guide-contents li span { color: #c6d8e8; }
-  .guide-contents > p { max-width: 38ch; color: #c6d8e8; font-size: .85rem; line-height: 1.65; margin-top: 1.5rem; }
-  .writing-group { display: grid; gap: 2.5rem; }
-  .writing-topic .section-type { font-size: clamp(2.6rem, 4.3vw, 4rem); }
-  .writing-topic > p { max-width: 29ch; margin-top: 1.5rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
-  .writing-list li + li { margin-top: 1.5rem; }
-  .post-link { display: block; border: 1px solid transparent; border-top-color: var(--line-strong); padding: 1.5rem 1rem 1.75rem; }
-  .post-link h3 { max-width: 26ch; font-size: clamp(1.95rem, 3vw, 2.8rem); font-weight: 750; line-height: 1.12; letter-spacing: -.04em; margin-top: 1rem; text-wrap: balance; }
-  .books-section { background: var(--portfolio-tint); }
-  .books-intro { display: grid; gap: 1.5rem; margin-bottom: 3.5rem; }
-  .books-intro > p { max-width: 34ch; color: var(--ink-muted); font-size: 1.1rem; line-height: 1.65; }
-  @media (min-width: 1024px) {
-    .books-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 6rem; align-items: end; }
-  }
+  .latest-copy h2 { max-width: 18ch; margin-top: 1rem; font-size: clamp(2.3rem, 4.4vw, 4rem); font-weight: 300; letter-spacing: -.045em; line-height: 1.05; text-wrap: balance; }
+  .latest-copy h2 a { transition: color .2s; }
+  .latest-copy h2 a:hover { color: var(--accent); }
+  .latest-description { margin-top: 1.5rem; max-width: 46ch; font-size: 1.15rem; line-height: 1.6; color: var(--ink-muted); }
+  .post-meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; color: var(--ink-muted); font-size: .85rem; line-height: 1.5; }
+  .latest-meta { margin-top: 1.25rem; }
+  .latest-action { margin-top: 1.5rem; }
+  .guide-contents h3 { font-size: .95rem; font-weight: 500; color: var(--ink-muted); }
+  .guide-contents ul { margin-top: .75rem; }
+  .guide-contents li a { display: flex; gap: 1.5rem; justify-content: space-between; align-items: start; padding: .9rem 0; font-size: 1.15rem; line-height: 1.4; letter-spacing: -.015em; transition: color .2s; }
+  .guide-contents li a:hover { color: var(--accent); }
+  .guide-contents li span { color: var(--ink-muted); }
+  .guide-contents > p { max-width: 40ch; margin-top: 1.25rem; font-size: .9rem; line-height: 1.6; color: var(--ink-muted); }
+  .latest-illustration { display: block; min-width: 0; }
+  .writing-list { max-width: 50rem; margin: clamp(2.5rem, 5vw, 4rem) auto 0; }
+  .writing-list li + li { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+  .post-link { display: block; }
   .post-copy { min-width: 0; }
+  .post-link h3 { max-width: 28ch; margin-top: .6rem; font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 400; line-height: 1.15; letter-spacing: -.035em; text-wrap: balance; transition: color .2s; }
+  .post-link:hover h3 { color: var(--accent); }
+  .post-description { margin-top: .75rem; max-width: 56ch; font-size: 1.02rem; line-height: 1.6; color: var(--ink-muted); }
+  .post-action { margin-top: .5rem; }
   .post-link--illustrated { display: grid; gap: 1.5rem; }
   .post-link :global(.post-illustration) { --mat: 1rem; min-width: 0; }
-  .latest-illustration { display: block; min-width: 0; }
-  .post-description { margin-top: 1rem; max-width: 57ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
-  .post-action { display: inline-flex; align-items: center; gap: 1.2rem; min-height: 44px; margin-top: .85rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
-  @media (min-width: 1024px) {
-    .latest-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 6rem; align-items: center; }
-    .guide-contents { border-top: 0; border-left: 1px solid #6c89a3; padding: 0 0 0 2.5rem; }
-    .writing-group { grid-template-columns: minmax(0, .8fr) minmax(0, 1.7fr); gap: 5rem; }
-  }
   @media (min-width: 768px) {
-    .post-link--illustrated { grid-template-columns: minmax(0, 1fr) minmax(0, 15rem); gap: 2.5rem; align-items: start; }
+    .post-link--illustrated { grid-template-columns: minmax(0, 1fr) minmax(0, 13rem); gap: 2.5rem; align-items: start; }
     .post-link--illustrated :global(.post-illustration) { order: 2; }
   }
-  @media (max-width: 639px) {
-    .latest-writing { padding: 3.5rem 0; }
-    .post-link { padding-inline: .5rem; }
-    .writing-list li + li { margin-top: 1rem; }
+  @media (min-width: 1024px) {
+    .latest-layout { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 5rem; align-items: center; }
   }
 </style>

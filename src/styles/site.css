@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   EDITORIAL TECHNICAL — base layer (2026 redesign)
-   Cool slate page, near-black ink, one denim-navy accent, Hanken Grotesk +
-   Geist Mono. Palette pulled from josh-suit.png: the bright cool room reads
+   CALM — base layer
+   Cool slate page, near-black ink, one denim-navy accent, Hanken Grotesk
+   (light display type, ink against muted grey) + Geist Mono for code. Palette pulled from josh-suit.png: the bright cool room reads
    as light grey paper and near-black ink, and the one saturated colour in the
    frame — the navy knit throw and book spines — becomes the accent. The neutral
    stays a cool light grey so the navy sits in-key with the page rather than
@@ -44,7 +44,6 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* Let Fraunces switch to its display optical cut at large sizes. */
   font-optical-sizing: auto;
 }
 body {
@@ -94,7 +93,7 @@ html {
 
 /* ── Whimsy: living signatures ───────────────────────────────────────────────
    The sneakers worn with the suit. A few deliberate flourishes that extend the
-   editorial-technical voice rather than fight it. Transform/opacity only; all of
+   site's calm voice rather than fight it. Transform/opacity only; all of
    it bows out under the global prefers-reduced-motion block further down. */
 
 /* The accent period after "Joshua Briley." draws itself in on load, then breathes
@@ -142,6 +141,9 @@ html {
 .ix-toast,
 [data-surface='dark'] {
   --accent-rgb: 107 166 216; /* #6BA6D8 — AA on ink (6.6:1) */
+  /* Redeclared here: --accent is computed where it is declared, so a child
+     that only changes --accent-rgb would otherwise inherit the paper value. */
+  --accent: rgb(var(--accent-rgb));
   /* On dark surfaces the subtle navy tint goes muddy and the ink text vanishes
      into the background. Use a solid sky-denim highlight with ink text:
      #1a1b1e on #6BA6D8 is 6.6:1 → clears WCAG AA for body text. */
@@ -153,46 +155,70 @@ html {
 .bg-white,
 [data-surface='light'] {
   --accent-rgb: 46 92 138; /* #2E5C8A — deep denim navy for light paper */
+  --accent: rgb(var(--accent-rgb));
   --selection-bg: rgba(46, 92, 138, 0.16);
   --selection-fg: var(--ink);
 }
 
-/* Monospace metadata label — eyebrows, indices, spec rails, kbd. */
-.mono-label {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-muted);
-  font-weight: 500;
-}
 
-/* Hairline rule used between editorial blocks. */
-.rule {
-  height: 1px;
-  background: var(--line);
-  border: 0;
-}
-
-/* ── Primary nav — same underline language as .editorial-link and the footer:
-   ink on hover/current, a 1px underline that fades in. ─────────────────────── */
+/* ── Primary nav: small and quiet. Muted until hovered; the current page is
+   simply ink. ─────────────────────────────────────────────────────────────── */
 header .desktop-nav a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  text-decoration: underline;
+  font-size: 0.875rem;
+}
+header .desktop-nav a:hover,
+header .desktop-nav a[aria-current] {
+  color: var(--ink);
+}
+/* The current page or section keeps a 2px ink underline (hover shows 1px), so
+   the active state never relies on colour alone. aria-current is 'page' on the
+   exact page and 'true' elsewhere in the link's section. */
+header .desktop-nav a[aria-current] {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+
+/* ── Text-link hover ──────────────────────────────────────────────────────────
+   Every text link shows an underline in its own colour on hover and on keyboard
+   focus, so the change never relies on colour alone (WCAG 1.4.1). Quiet links
+   carry a transparent underline at rest and reveal it; links underlined at rest
+   (.editorial-link, prose) already meet this. Card links underline their title. */
+:is(header .desktop-nav a, .site-footer a, .calm-jumps a, .calm-label a, .project-back,
+    .guide-contents li a, .mobile-primary a, .mobile-supporting a, .work-card-title a,
+    .latest-copy h2 a, .live-embed-open, .project-next-nav a) {
+  text-decoration-line: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
-  text-underline-offset: 6px;
+  text-underline-offset: var(--link-offset);
   transition: color 0.2s, text-decoration-color 0.2s;
 }
-header .desktop-nav a:hover {
-  color: var(--ink);
-  text-decoration-color: var(--line-strong);
+:is(header .desktop-nav a, .site-footer a, .calm-jumps a, .calm-label a, .project-back,
+    .guide-contents li a, .mobile-primary a, .mobile-supporting a, .work-card-title a,
+    .latest-copy h2 a, .live-embed-open, .project-next-nav a):is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
 }
-header .desktop-nav a[aria-current='page'] {
-  color: var(--ink);
-  text-decoration-color: var(--accent);
+:is(.resource-list > a, .index-further a, .post-link, .related-tool-link) :is(strong, h3) {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-offset);
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+:is(.resource-list > a, .index-further a, .post-link, .related-tool-link):is(:hover, :focus-visible) :is(strong, h3) {
+  text-decoration-color: currentColor;
+}
+/* Arrows and other glyphs inside a link keep clear of the underline. */
+:is(.site-footer a, .calm-jumps a, .project-back, .guide-contents li a) > span[aria-hidden] {
+  display: inline-block;
+  text-decoration: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(header .desktop-nav a, .site-footer a, .calm-jumps a, .calm-label a, .project-back,
+      .guide-contents li a, .mobile-primary a, .mobile-supporting a, .work-card-title a,
+      .latest-copy h2 a, .live-embed-open, .project-next-nav a) { transition: none; }
 }
 
 /* ─── Shared scorecard styles ─────────────────────────────────────────────── */
@@ -318,7 +344,7 @@ header .desktop-nav a[aria-current='page'] {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   LONGFORM ARTICLE TYPOGRAPHY (.prose-whimsy) — Editorial-Technical.
+   LONGFORM ARTICLE TYPOGRAPHY (.prose-whimsy) — light headings, ink and grey.
    No Tailwind Typography plugin here; this is the complete reading hierarchy
    for blog-post bodies. Structural rules are wrapped in :where() (zero
    specificity) and excluded from `.not-prose` subtrees, so the posts' custom
@@ -343,8 +369,8 @@ header .desktop-nav a[aria-current='page'] {
   margin: 1.3em 0;
 }
 
-/* Heading hierarchy — Hanken, tight tracking; h2 gets a hairline divider so
-   sections read as clear chapters. scroll-margin clears the sticky header. */
+/* Heading hierarchy — Hanken, tight tracking; space above an h2 (not a rule)
+   marks a new chapter. scroll-margin clears the sticky header. */
 .prose-whimsy :where(h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
   color: var(--ink);
   font-weight: 600;
@@ -353,19 +379,19 @@ header .desktop-nav a[aria-current='page'] {
   scroll-margin-top: 6rem;
   text-wrap: balance;
 }
-/* h2 chapter dividers pick up the display serif (matching the Heading primitive);
-   h3/h4 stay grotesk for in-flow density. */
+/* Chapter headings are light and large; h3/h4 step up to a medium weight for
+   in-flow density. One family throughout. */
 .prose-whimsy :where(h3, h4):not(:where(.not-prose, .not-prose *)) {
   font-family: var(--font-hanken), system-ui, sans-serif;
+  font-weight: 500;
 }
 .prose-whimsy :where(h2):not(:where(.not-prose, .not-prose *)) {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 600;
-  letter-spacing: -0.014em;
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.03em;
   font-size: clamp(1.55rem, 1.25rem + 1.3vw, 1.85rem);
   margin: 0 0 0.7em;
   padding-top: 1.6em;
-  border-top: 1px solid var(--line);
 }
 .prose-whimsy :where(h2 + *) {
   margin-top: 0;
@@ -376,15 +402,15 @@ header .desktop-nav a[aria-current='page'] {
 }
 .prose-whimsy :where(h4):not(:where(.not-prose, .not-prose *)) {
   font-size: 1.03rem;
-  font-weight: 700;
+  font-weight: 500;
   margin: 1.7em 0 0.4em;
 }
 /* Numbered-section prefix in headings: `<span class="num">1.</span>` */
 .prose-whimsy .num {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.66em;
-  font-weight: 500;
-  color: var(--accent);
+  font-size: 0.8em;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
   margin-right: 0.6em;
   vertical-align: 0.1em;
 }
@@ -398,32 +424,35 @@ header .desktop-nav a[aria-current='page'] {
   margin: 0 0 1.8em;
 }
 
-/* Links — ink with a quiet navy underline; full accent on hover. */
+/* Links in running text use the site's one text-link treatment (see .text-link
+   below and .editorial-link in redesign.css): ink with a quiet underline that
+   turns accent and thickens on hover and keyboard focus. */
 .prose-whimsy :where(a):not(:where(.not-prose, .not-prose *)) {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: rgba(46, 92, 138, 0.45);
+  text-decoration-color: var(--link-underline);
   text-decoration-thickness: 1px;
-  text-underline-offset: 2.5px;
+  text-underline-offset: var(--link-offset);
   transition:
-    color 0.18s ease,
-    text-decoration-color 0.18s ease;
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
 }
-.prose-whimsy :where(a):not(:where(.not-prose, .not-prose *)):hover {
+.prose-whimsy :where(a):not(:where(.not-prose, .not-prose *)):is(:hover, :focus-visible) {
   color: var(--accent);
-  text-decoration-color: var(--accent);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
 }
 
 /* Emphasis */
 .prose-whimsy :where(strong, b):not(:where(.not-prose, .not-prose *)) {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink);
 }
 .prose-whimsy :where(em, i):not(:where(.not-prose, .not-prose *)) {
   font-style: italic;
 }
 
-/* Lists — disc bullets get a small navy square; ordered markers go mono. */
+/* Lists — quiet muted bullets and numbers in the text family. */
 .prose-whimsy :where(ul, ol):not(:where(.not-prose, .not-prose *)) {
   margin: 1.3em 0;
   padding-left: 1.4em;
@@ -442,51 +471,48 @@ header .desktop-nav a[aria-current='page'] {
   position: absolute;
   left: -1.05em;
   top: 0.72em;
-  width: 5px;
-  height: 5px;
-  border-radius: 1px;
-  background: var(--accent);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink-muted);
 }
 .prose-whimsy :where(ol):not(:where(.not-prose, .not-prose *)) {
   list-style: decimal;
 }
 .prose-whimsy :where(ol > li):not(:where(.not-prose, .not-prose *))::marker {
   color: var(--ink-muted);
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.85em;
+  font-size: 0.95em;
 }
 .prose-whimsy :where(li > ul, li > ol):not(:where(.not-prose, .not-prose *)) {
   margin: 0.5em 0;
 }
 
-/* Blockquote — an accent rule pulls it out of the column. */
+/* Blockquote — set apart by size and light weight, not a rule or italics. */
 .prose-whimsy :where(blockquote):not(:where(.not-prose, .not-prose *)) {
   margin: 2em 0;
-  padding: 0.1em 0 0.1em 1.25em;
-  border-left: 2px solid var(--accent);
-  font-size: 1.18rem;
-  line-height: 1.5;
-  color: var(--ink-muted);
-  font-style: italic;
+  padding: 0 0 0 1.25em;
+  font-size: 1.3rem;
+  font-weight: 300;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: var(--ink);
 }
 .prose-whimsy :where(blockquote p):not(:where(.not-prose, .not-prose *)) {
   margin: 0.4em 0;
 }
 
-/* Big centered pull quote (.pullquote) — set in the display serif's italic for
-   an editorial flourish that ties back to the headline voice. */
+/* Pull quote (.pullquote) — light display type, the same voice as the page
+   headlines. */
 .prose-whimsy .pullquote {
   margin: 2.4em 0;
   padding: 0;
   border: 0;
-  text-align: center;
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: clamp(1.5rem, 1.15rem + 1.6vw, 1.95rem);
-  line-height: 1.28;
-  letter-spacing: -0.012em;
-  font-weight: 500;
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  font-size: clamp(1.5rem, 1.15rem + 1.6vw, 2.1rem);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  font-weight: 300;
   color: var(--ink);
-  font-style: italic;
 }
 
 /* Inline code */
@@ -527,110 +553,73 @@ header .desktop-nav a[aria-current='page'] {
   background: var(--line);
 }
 .prose-whimsy :where(img):not(:where(.not-prose, .not-prose *)) {
-  border-radius: 10px;
-  border: 1px solid var(--line);
   margin: 1.6em 0;
 }
 
 /* In-post card grid (.cost-card / .icon-wrap) — neutralize the inline
-   scrapbook (rotation + bright fill) into clean hairline cards. */
+   scrapbook (rotation + bright fill) into plain blocks on the page. */
 .cost-card {
-  /* Paper, not white: matches the site's hairline de-card pattern so cards
-     don't pop off the warm-paper page. */
+  /* Paper, no border or fill: the grid's spacing separates the blocks. */
   background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 12px;
   padding: 1.4rem 1.4rem 1.5rem;
   transform: none !important;
   box-shadow: none !important;
 }
 
 
-/* Blog markdown tables — clean editorial data table (hairline rules, mono head). */
+/* Tables in prose — calm, not utilitarian. No band, frame, fill, or shadow:
+   small grey column labels over one slightly stronger line, light row lines
+   (the only rules tables need), and generous rows. The first column is the
+   row's label in ink; the rest continue in muted grey, the site's two-tone
+   device, so a row reads like a sentence. Flush with the text column. */
 .prose-whimsy table {
   width: 100%;
   border-collapse: collapse;
   margin: 2.5rem 0;
   font-size: 0.95rem;
-  line-height: 1.6;
-  color: #2e2e30;
-  background: #fff;
-  border: 1px solid rgba(45, 43, 85, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 12px 32px -26px rgba(45, 43, 85, 0.22);
-}
-.prose-whimsy table code {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.85em;
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
-  background: rgba(27, 26, 23, 0.06);
-  color: var(--ink);
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
 }
 .prose-whimsy table th,
 .prose-whimsy table td {
   text-align: left;
   vertical-align: top;
+  padding: 1rem 1.5rem 1rem 0;
+}
+.prose-whimsy table :is(th, td):last-child {
+  padding-right: 0;
 }
 .prose-whimsy table p,
 .prose-whimsy table ul,
 .prose-whimsy table ol {
   margin: 0;
 }
-.prose-whimsy thead {
-  background: var(--paper);
-}
 .prose-whimsy thead th {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  padding-top: 0;
+  padding-bottom: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: var(--ink-muted);
-  font-size: 0.72rem;
-  padding: 0.85rem 1.25rem;
-  border-bottom: 1px solid rgba(45, 43, 85, 0.12);
+  border-bottom: 1px solid var(--line-strong);
 }
 .prose-whimsy tbody td {
-  padding: 0.8rem 1.25rem;
-  border-bottom: 1px solid rgba(45, 43, 85, 0.07);
+  border-bottom: 1px solid var(--line);
 }
 .prose-whimsy tbody tr:last-child td {
   border-bottom: 0;
 }
 .prose-whimsy tbody td:first-child {
-  font-weight: 600;
-  color: #2d2b55;
+  font-weight: 500;
+  color: var(--ink);
 }
-
-@media (max-width: 640px) {
-  .prose-whimsy table thead {
-    display: none;
-  }
-  .prose-whimsy table,
-  .prose-whimsy table tbody,
-  .prose-whimsy table tr,
-  .prose-whimsy table td {
-    display: block;
-    width: 100%;
-  }
-  .prose-whimsy table tr {
-    margin-bottom: 1rem;
-    padding: 0.5rem 0 0.75rem;
-    border-bottom: 1px solid rgba(45, 43, 85, 0.08);
-  }
-  .prose-whimsy table tr:last-child {
-    margin-bottom: 0;
-    border-bottom: 0;
-  }
-  .prose-whimsy table td {
-    padding: 0.3rem 1.25rem !important;
-    border: 0 !important;
-  }
-  .prose-whimsy table td:first-child {
-    font-size: 1.02rem;
-    padding-top: 0.5rem !important;
-  }
+/* Code in a table is a name, not an aside: plain mono ink, no chip. */
+.prose-whimsy table code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.86em;
+  padding: 0;
+  background: none;
+  color: var(--ink);
 }
 
 /* =====================================================================
@@ -719,20 +708,17 @@ header .desktop-nav a[aria-current='page'] {
   position: absolute;
   left: 0;
   top: 0.62em;
-  width: 5px;
-  height: 5px;
-  border-radius: 1px;
-  background: var(--accent);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink-muted);
 }
 
-/* Column / panel label. This is a data label naming the column beneath it,
-   not a decorative section eyebrow. */
+/* Column / panel label: a quiet sentence-case label naming the column beneath
+   it. */
 .essay-label {
   display: block;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--ink-muted);
   margin: 0 0 0.7rem;
@@ -742,20 +728,19 @@ header .desktop-nav a[aria-current='page'] {
 }
 
 /* ── Split compare ──────────────────────────────────────────────────────
-   Two columns divided by a hairline. For genuine oppositions only (the
-   senior response vs the staff response, an attribute vs a property), never
-   as a general two-up layout. The rule rotates from vertical to horizontal
-   on the stacked mobile layout so the division survives the collapse. */
+   Two columns divided by a vertical hairline. For genuine oppositions only
+   (the senior response vs the staff response, an attribute vs a property),
+   never as a general two-up layout. Stacked on mobile, space separates them;
+   the site avoids horizontal rules. */
 .essay-split {
   display: grid;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  margin-block: 2rem;
 }
 .essay-split > * {
   padding: 1.5rem 0;
 }
 .essay-split > * + * {
-  border-top: 1px solid var(--line);
+  padding-top: 0;
 }
 @media (min-width: 44rem) {
   .essay-split {
@@ -765,7 +750,6 @@ header .desktop-nav a[aria-current='page'] {
     padding: 1.6rem 2.25rem 1.7rem 0;
   }
   .essay-split > * + * {
-    border-top: 0;
     border-left: 1px solid var(--line);
     padding: 1.6rem 0 1.7rem 2.25rem;
   }
@@ -774,25 +758,18 @@ header .desktop-nav a[aria-current='page'] {
 /* ── Layer stack ────────────────────────────────────────────────────────
    An ordered set of layers where the ordering is the point (the browser
    platform beneath a framework, the scope ladder above a component). The
-   accent rail on the left is the depth axis; each row earns a one-line note
-   saying what that layer is actually responsible for, which is the part the
-   ASCII drawings never carried. */
-.essay-stack {
-  border-left: 2px solid var(--accent);
-}
+   order itself is the depth axis, so there is no rail; each row earns a
+   one-line note saying what that layer is actually responsible for. */
 .essay-stack__row {
   display: grid;
   gap: 0.15rem 1.25rem;
-  padding: 0.75rem 0 0.8rem 1.25rem;
-  border-bottom: 1px solid var(--line);
+  padding: 0.75rem 0 0.8rem;
 }
 .essay-stack__row:last-child {
-  border-bottom: 0;
   padding-bottom: 0.2rem;
 }
 .essay-stack__name {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--ink);
   letter-spacing: -0.01em;
@@ -805,24 +782,15 @@ header .desktop-nav a[aria-current='page'] {
 }
 
 /* ── Rail ───────────────────────────────────────────────────────────────
-   A vertical spine with marked nodes. Two skins off one structure: bare
-   nodes for a pipeline (design decision through to shipped product), and
+   An ordered sequence of named steps, separated by space (no spine or
+   markers on a line). Two skins off one structure: plain steps for a pipeline (design decision through to shipped product), and
    `--numbered` for a process whose step order is normative (a migration
    sequence, a breaking-change process). Replaces both the ASCII pipelines
    and the long <ol>s, which at nine or eleven items stopped being readable
    as a sequence. */
 .essay-rail {
   position: relative;
-  padding-left: 1.6rem;
-}
-.essay-rail::before {
-  content: '';
-  position: absolute;
-  left: 3px;
-  top: 0.55rem;
-  bottom: 0.55rem;
-  width: 1px;
-  background: var(--line-strong);
+  padding-left: 0;
 }
 .essay-rail__step {
   position: relative;
@@ -830,16 +798,6 @@ header .desktop-nav a[aria-current='page'] {
 }
 .essay-rail__step:last-child {
   padding-bottom: 0;
-}
-.essay-rail__step::before {
-  content: '';
-  position: absolute;
-  left: -1.6rem;
-  top: 0.5em;
-  width: 7px;
-  height: 7px;
-  border-radius: 1px;
-  background: var(--accent);
 }
 .essay-rail__name {
   display: block;
@@ -853,11 +811,9 @@ header .desktop-nav a[aria-current='page'] {
   padding-left: 2.6rem;
   counter-reset: essay-step;
 }
-.essay-rail--numbered::before {
-  left: 0.85rem;
-}
 .essay-rail--numbered .essay-rail__step::before {
   counter-increment: essay-step;
+  position: absolute;
   content: counter(essay-step, decimal-leading-zero);
   left: -2.6rem;
   top: 0.1em;
@@ -865,12 +821,12 @@ header .desktop-nav a[aria-current='page'] {
   height: auto;
   background: none;
   border-radius: 0;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
   text-align: left;
-  /* Sit the numeral on the page, not on the spine. */
+  /* The step number sits in the gutter as plain text; it carries the order. */
   padding-top: 0.35em;
 }
 
@@ -892,9 +848,7 @@ header .desktop-nav a[aria-current='page'] {
   font-size: 0.76rem;
   line-height: 1.3;
   color: var(--ink);
-  background: var(--raised);
-  border: 1px solid var(--line);
-  border-radius: 6px;
+  background: var(--portfolio-tint);
   padding: 0.42rem 0.7rem;
   margin: 0;
 }
@@ -903,12 +857,13 @@ header .desktop-nav a[aria-current='page'] {
 }
 
 /* ── Panels ─────────────────────────────────────────────────────────────
-   Hairline panels on paper, not raised white cards — the site's de-card
-   pattern. For a small set of peers that each need a couple of sentences
-   (the three lenses on system health, the self-check groups). */
+   Groups of peers (the self-check groups, the questions to ask). No box, fill,
+   or inset: each group is a short title over its content, flush with the
+   reading column, and the space between groups (wider than the space inside
+   one) is what groups them. */
 .essay-panels {
   display: grid;
-  gap: 1rem;
+  gap: 2.25rem 3rem;
 }
 @media (min-width: 40rem) {
   .essay-panels {
@@ -922,31 +877,25 @@ header .desktop-nav a[aria-current='page'] {
   }
 }
 .essay-panel {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 1.3rem 1.35rem 1.4rem;
+  min-width: 0;
 }
 .essay-panel__title {
-  font-size: 1.02rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 500;
   line-height: 1.3;
+  letter-spacing: -0.01em;
   color: var(--ink);
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.6rem;
 }
 
 /* ── Definition rows ────────────────────────────────────────────────────
    A term, the question it answers, and the distinction that matters. Three
    h4s and three blockquotes doing this job read as three unrelated asides;
    as rows they read as one comparison. */
-.essay-defs {
-  border-top: 1px solid var(--line);
-}
 .essay-defs__row {
   display: grid;
   gap: 0.4rem 2rem;
   padding: 1.15rem 0 1.25rem;
-  border-bottom: 1px solid var(--line);
 }
 .essay-defs__term {
   font-weight: 600;
@@ -955,10 +904,9 @@ header .desktop-nav a[aria-current='page'] {
   color: var(--ink);
 }
 .essay-defs__q {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.74rem;
+  font-size: 0.92rem;
   line-height: 1.5;
-  color: var(--accent);
+  color: var(--ink-muted);
   margin-top: 0.3rem;
 }
 @media (min-width: 44rem) {
@@ -979,19 +927,15 @@ header .desktop-nav a[aria-current='page'] {
 .prose-whimsy :where(.footnotes) {
   margin-top: 3.5rem;
   padding-top: 1.75rem;
-  border-top: 1px solid var(--line);
   font-size: 0.86rem;
   line-height: 1.6;
   color: var(--ink-muted);
 }
 .prose-whimsy :where(.footnotes h2) {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  font-size: 0.95rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
   color: var(--ink-muted);
-  border-top: 0;
   padding-top: 0;
   margin: 0 0 1.25rem;
 }
@@ -1023,21 +967,37 @@ header .desktop-nav a[aria-current='page'] {
   text-decoration: none;
   padding-left: 0.35em;
 }
+/* Like every text link, citation markers and back-references show an
+   underline on hover and keyboard focus, not just a colour change. */
+.prose-whimsy :where(sup a[data-footnote-ref], a[data-footnote-backref]):is(:hover, :focus-visible) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-offset);
+}
 
-/* Calm editorial link for the hero lede — not the spellcheck-style wavy underline. */
-.hero-link {
+/* ── Text links ──────────────────────────────────────────────────────────────
+   One treatment for every underlined text link: ink with a 1px line-strong
+   underline at rest; accent with a 2px underline on hover and keyboard focus.
+   .text-link is for links inside a sentence (it keeps the surrounding weight);
+   .editorial-link is the standalone version; article prose uses the same values. */
+:root {
+  --link-underline: var(--line-strong);
+  --link-offset: 0.3em;
+}
+.text-link {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: var(--line-strong);
+  text-decoration-color: var(--link-underline);
   text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+  text-underline-offset: var(--link-offset);
   transition:
     color 0.2s ease,
     text-decoration-color 0.2s ease;
 }
-.hero-link:hover {
+.text-link:is(:hover, :focus-visible) {
   color: var(--accent);
-  text-decoration-color: var(--accent);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
 }
 
 /* =====================================================================

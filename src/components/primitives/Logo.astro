@@ -53,6 +53,9 @@ const Tag = href ? 'a' : 'span';
     'inline-block font-script font-normal leading-[1.05] tracking-normal [text-rendering:optimizeLegibility] -my-[0.16em]',
     wordmarkSize[size],
     wordmarkTone[tone],
+    // As a link, the wordmark reveals a thin underline on hover and focus like
+    // every other text link.
+    href && 'underline decoration-transparent decoration-1 underline-offset-[0.12em] transition-colors hover:decoration-current focus-visible:decoration-current',
     className,
   )}
 >JoshuaBriley<span class="brand-dot text-accent">.</span></Tag>

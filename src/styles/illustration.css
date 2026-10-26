@@ -20,14 +20,14 @@ a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) sca
 .illustration .small { font-size: 16px; fill: var(--ink-muted); }
 .illustration .body { font-size: 18px; }
 .illustration .faint { fill: var(--ink-faint); }
-.illustration .button { font-size: 16px; font-weight: 600; fill: var(--paper); }
+.illustration .button { font-size: 16px; font-weight: 500; fill: var(--paper); }
 .illustration .code { font-family: var(--font-geist-mono), monospace; font-size: 16px; }
 .illustration .on-accent { fill: var(--paper); }
 .illustration .op { font-size: 20px; fill: var(--ink-muted); }
-.illustration .number { font-size: 30px; font-weight: 700; letter-spacing: -.8px; }
-.illustration .title { font-size: 24px; font-weight: 700; letter-spacing: -.5px; }
-.illustration .total { font-size: 56px; font-weight: 700; letter-spacing: -2px; }
-.illustration .result { font-family: var(--font-fraunces), serif; font-style: italic; font-size: 30px; font-weight: 400; letter-spacing: -.4px; }
+.illustration .number { font-size: 30px; font-weight: 300; letter-spacing: -1px; }
+.illustration .title { font-size: 24px; font-weight: 400; letter-spacing: -.6px; }
+.illustration .total { font-size: 56px; font-weight: 300; letter-spacing: -2.4px; }
+.illustration .result { font-size: 30px; font-weight: 300; letter-spacing: -1px; }
 .illustration .result--sm { font-size: 26px; }
 @media (max-width: 767px) { .illustration { --mat: 1.25rem; } }
 @media (prefers-reduced-motion: reduce) {

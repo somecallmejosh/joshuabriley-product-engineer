@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * WCAG contrast audit for the Editorial-Technical design system.
+ * WCAG contrast audit for the Calm design system.
  *
  * Walks the text-on-surface pairs the current components actually use (see
  * src/styles/site.css tokens + the primitives), composites any alpha-channel
@@ -80,7 +80,7 @@ const cases = [
   { context: 'body / heading (ink) on raised card',      fg: T.ink,           bg: T.raised },
   { context: 'secondary text (ink-muted) on paper',      fg: T['ink-muted'],  bg: T.paper },
   { context: 'secondary text (ink-muted) on raised',     fg: T['ink-muted'],  bg: T.raised },
-  { context: 'mono-label (ink-muted) on paper',          fg: T['ink-muted'],  bg: T.paper },
+  { context: 'calm-label (ink-muted) on paper',          fg: T['ink-muted'],  bg: T.paper },
   { context: 'ink-faint decorative text on paper',       fg: T['ink-faint'],  bg: T.paper, role: 'decorative' },
 
   // ── Accent text on light surfaces (links, hero CTA, nav) ──

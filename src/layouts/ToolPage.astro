@@ -71,20 +71,16 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   mainClass="tool-page"
   article={{ publishedTime: date, section: 'Tools', author: 'Joshua Briley' }}
 >
-  <section class="page-opener tool-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1"><a href="/tools/">Tools</a><span aria-hidden="true">/</span>{kind}</p>
-      <div class="tool-hero-layout">
-        <div class="tool-hero-copy">
-          <h1 class="page-type hero-in hero-in-2">{titleWords.join(' ')} <em>{titleEnd}.</em></h1>
-          <p class="page-lede hero-in hero-in-3">{description}</p>
-          <div class="hero-actions hero-in hero-in-4">
-            <a class="action-link" href="#tool">{startLabels[tool]} <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-            <a class="editorial-link" href="/tools/">All tools <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          </div>
-        </div>
-        <div class="tool-hero-illustration hero-in hero-in-3"><ToolIllustration tool={tool} /></div>
+  <section class="calm-open tool-opener">
+    <Container>
+      <p class="calm-label hero-in hero-in-1"><a href="/tools/">Tools</a> <span aria-hidden="true">·</span> {kind}</p>
+      <h1 class="calm-title hero-in hero-in-2">{titleWords.join(' ')} <em>{titleEnd}.</em></h1>
+      <p class="calm-lede hero-in hero-in-3">{description}</p>
+      <div class="calm-actions hero-in hero-in-4">
+        <a class="editorial-link" href="#tool">{startLabels[tool]} <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+        <a class="editorial-link" href="/tools/">All tools <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </div>
+      <div class="tool-hero-illustration hero-in hero-in-5"><ToolIllustration tool={tool} /></div>
       {toolProps.length > 0 && <ul class="tool-facts">{toolProps.map((fact) => <li>{fact}</li>)}</ul>}
     </Container>
   </section>
@@ -92,8 +88,8 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   <section id="tool" class="tool-workspace" aria-labelledby="tool-workspace-title">
     <Container width="wide">
       <div class="tool-workspace-heading" data-reveal>
-        <h2 id="tool-workspace-title" class="section-type">{workspaceLead} <em>{workspaceEmphasis}</em></h2>
-        <p class="tool-instructions">{instructions}</p>
+        <h2 id="tool-workspace-title" class="calm-heading">{workspaceLead} <em>{workspaceEmphasis}</em></h2>
+        <p class="calm-intro tool-instructions">{instructions}</p>
       </div>
       <div class="tool-stage">
         <Island />
@@ -101,27 +97,25 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
     </Container>
   </section>
 
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="tool-reading">
-        <h2 class="section-type">Using <em>this tool.</em></h2>
-        <div>
-          <article class="prose-whimsy"><slot /></article>
-          <div class="tool-share">
-            <span>Share this tool</span>
-            <a href={xShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X"><Icon name="ph:x-logo" size={17} /></a>
-            <a href={liShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn"><Icon name="ph:linkedin-logo" size={17} /></a>
-            <button type="button" class="share-btn" data-copy-link aria-label="Copy link"><Icon name="ph:link" size={17} /></button>
-          </div>
+  <section class="calm-section">
+    <Container>
+      <h2 class="calm-heading">Using this tool.</h2>
+      <div class="calm-column tool-reading">
+        <article class="prose-whimsy"><slot /></article>
+        <div class="tool-share">
+          <span>Share this tool</span>
+          <a href={xShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on X"><Icon name="ph:x-logo" size={17} /></a>
+          <a href={liShare} target="_blank" rel="noopener noreferrer" class="share-btn" aria-label="Share on LinkedIn"><Icon name="ph:linkedin-logo" size={17} /></a>
+          <button type="button" class="share-btn" data-copy-link aria-label="Copy link"><Icon name="ph:link" size={17} /></button>
         </div>
       </div>
     </Container>
   </section>
 
   {related.length > 0 && (
-    <section class="editorial-section related-tools" aria-labelledby="related-title">
+    <section class="calm-section related-tools" aria-labelledby="related-title">
       <Container width="wide">
-        <h2 id="related-title" class="section-type">Another question <em>to explore?</em></h2>
+        <h2 id="related-title" class="calm-heading">Another question to explore?</h2>
         <ul class="related-list" data-reveal-stagger>
           {related.map((item) => (
             <li>
@@ -129,7 +123,7 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
                 <ToolIllustration tool={item.tool} />
                 <h3 id={`related-${item.tool}`}>{item.title}</h3>
                 <p>{item.takeaway}</p>
-                <span class="related-tool-action" aria-hidden="true">Explore tool <span data-link-arrow="up-right">↗</span></span>
+                <span class="editorial-link related-tool-action" aria-hidden="true">Explore tool <span data-link-arrow="up-right">↗</span></span>
               </a>
             </li>
           ))}
@@ -140,35 +134,26 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
 </BaseLayout>
 
 <style>
-  .tool-opener .role-line a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  .tool-hero-layout { display: grid; gap: 2.5rem; align-items: center; margin-top: 2rem; }
-  .tool-opener .page-type { max-width: 19ch; margin-top: 0; font-size: clamp(2.6rem, 5.7vw, 5.5rem); }
-  .tool-hero-illustration { min-width: 0; max-width: 40rem; }
-  .tool-workspace-heading { display: grid; gap: 1.5rem; align-items: end; margin-bottom: 3rem; }
-  .tool-workspace-heading .section-type { font-size: clamp(2.5rem, 4.4vw, 4rem); }
-  .tool-facts { display: flex; flex-wrap: wrap; gap: .7rem 2rem; border-top: 1px solid var(--line-strong); padding-top: 1.4rem; margin-top: 2.5rem; color: var(--ink-muted); font-size: .85rem; }
-  .tool-workspace { padding: 5rem 0; background: var(--portfolio-tint); }
+  .tool-opener .calm-label a:hover { color: var(--ink); }
+  .tool-hero-illustration { max-width: 40rem; margin: clamp(3rem, 6vw, 4.5rem) auto 0; text-align: left; }
+  .tool-facts { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 2rem; margin-top: 2rem; padding: 0; list-style: none; color: var(--ink-muted); font-size: .875rem; }
+  /* The working tool keeps its tinted stage: it is the product on the page. */
+  .tool-workspace { padding: clamp(4rem, 8vw, 6rem) 0; background: var(--portfolio-tint); }
+  .tool-workspace-heading { margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+  .tool-workspace-heading em { font-style: normal; color: var(--ink-muted); }
   .tool-stage { width: 100%; }
-  .tool-instructions { max-width: 49ch; margin-bottom: 0; color: var(--ink-muted); font-size: 1.08rem; line-height: 1.65; }
-  .tool-reading { display: grid; gap: 2.5rem; }
-  .tool-reading > div { min-width: 0; max-width: 46rem; }
   .tool-reading :global(.prose-whimsy > h2:first-child) { margin-top: 0; }
-  .tool-reading :global(.prose-whimsy h2) { font-family: var(--font-hanken), sans-serif; font-size: 1.65rem; font-weight: 700; letter-spacing: -.035em; }
-  .tool-share { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .tool-reading :global(.prose-whimsy h2) { font-family: var(--font-hanken), sans-serif; font-size: 1.6rem; font-weight: 400; letter-spacing: -.03em; }
+  .tool-share { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; margin-top: 2.5rem; }
   .tool-share > span { margin-right: .5rem; color: var(--ink-muted); font-size: .85rem; }
-  .related-tools { background: var(--portfolio-tint); }
-  .related-list { display: grid; gap: 2.5rem; margin-top: 3rem; }
+  .related-list { display: grid; gap: 3.5rem 3rem; margin-top: clamp(2.5rem, 5vw, 4rem); }
   .related-list li { min-width: 0; }
-  .related-tool-link { display: flex; flex-direction: column; height: 100%; padding: 1rem; border: 1px solid transparent; border-top-color: var(--line-strong); transition: background .2s, border-color .2s; }
-  .related-tool-link:hover, .related-tool-link:focus-visible { background: var(--paper); border-color: #8da4b8; }
+  .related-tool-link { display: flex; flex-direction: column; height: 100%; }
   .related-tool-link:focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 5px; }
-  .related-tool-link:hover h3, .related-tool-link:focus-visible h3 { color: var(--portfolio-blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
-  .related-tool-action { display: flex; align-items: center; gap: 1rem; margin-top: auto; padding-top: 1.5rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
-  .related-list h3 { margin-top: 1rem; max-width: 20ch; font-size: 1.7rem; font-weight: 700; letter-spacing: -.035em; line-height: 1.15; }
-  .related-list p { margin-top: 1rem; color: var(--ink-muted); font-size: .95rem; line-height: 1.65; max-width: 38ch; }
+  .related-tool-link:hover h3 { color: var(--accent); }
+  .related-tool-action { align-self: flex-start; margin-top: auto; padding-top: 1rem; }
+  .related-list h3 { margin-top: 1.5rem; max-width: 22ch; font-size: clamp(1.35rem, 1.9vw, 1.6rem); font-weight: 400; letter-spacing: -.03em; line-height: 1.2; transition: color .2s; }
+  .related-list p { margin-top: .75rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.6; max-width: 40ch; }
   @media (min-width: 768px) { .related-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1280px) { .related-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (min-width: 1024px) { .tool-hero-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; } .tool-workspace-heading { grid-template-columns: 1.15fr 1fr; gap: 4rem; } .tool-reading { grid-template-columns: minmax(0, .8fr) minmax(0, 1.7fr); gap: 6rem; } }
-  @media (prefers-reduced-motion: reduce) { .related-tool-link { transition: none; } }
-  @media (max-width: 639px) { .tool-workspace { padding: 3rem 0; } }
 </style>

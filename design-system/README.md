@@ -1,6 +1,6 @@
 # Design system contract
 
-The Editorial-Technical system in machine-readable form, plus the check that keeps the code honest to it. Written for people and for coding agents.
+The Calm system in machine-readable form, plus the check that keeps the code honest to it. Written for people and for coding agents.
 
 | File | What it is |
 | --- | --- |

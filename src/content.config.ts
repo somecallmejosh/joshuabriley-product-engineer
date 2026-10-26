@@ -43,7 +43,7 @@ const tools = defineCollection({
     date: z.coerce.date(),
     /** Which island renders above the essay. Must be a key of ISLANDS in ToolPage.astro. */
     tool: z.enum(['ScorecardEngine', 'RoiCalculator', 'TokenPlayground', 'Diagnostic']),
-    /** Shown in the hero mono-label ("Tools / Self-assessment") and on index rows. */
+    /** Shown in the hero calm-label ("Tools / Self-assessment") and on index rows. */
     kind: z.string(),
     /** Ordering on the /tools/ index. Lower runs first. */
     order: z.number(),

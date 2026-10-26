@@ -13,8 +13,9 @@ type Variant = 'inline' | 'arrow' | 'nav' | 'unstyled';
 interface Props {
   href: string;
   variant?: Variant;
-  /** Override active matching for the `nav` variant. */
-  current?: boolean;
+  /** Override active matching for the `nav` variant: 'page' for the exact page,
+   *  'true' for elsewhere in the link's section, false for neither. */
+  current?: boolean | 'page' | 'true';
   /** Icon shown after the label (default for `arrow` is ph:arrow-right). */
   iconRight?: string;
   class?: string;
@@ -37,21 +38,20 @@ const linkPath = href.replace(/\/+$/, '') || '/';
 // A nav link is active for its own page and any descendant route (e.g. the
 // Tools link stays active on /tools/audit-findings/). Guard against '/'
 // matching everything.
-const isActive =
-  current ??
-  (variant === 'nav' &&
-    (linkPath === pathname ||
-      (linkPath !== '/' && pathname.startsWith(linkPath + '/'))));
+const autoCurrent =
+  variant === 'nav' &&
+  (linkPath === pathname || (linkPath !== '/' && pathname.startsWith(linkPath + '/')));
+const resolved = current ?? autoCurrent;
+const ariaCurrent = resolved === true ? 'page' : resolved || undefined;
 
-// Inline links read as ink with an accent underline. The arrow variant stays
-// quiet — ink label, accent on hover, arrow motion comes from the shared link-motion styles.
+// Inline links use the shared .text-link treatment (site.css). The arrow variant
+// stays quiet: ink label, accent on hover, with the shared link-motion arrow.
 const variants: Record<Variant, string> = {
-  inline:
-    'text-ink underline decoration-line-strong decoration-1 underline-offset-[3px] transition-colors hover:decoration-accent hover:text-accent',
+  inline: 'text-link',
   arrow:
-    'group/lnk inline-flex items-center gap-2 font-sans font-medium text-[0.9rem] text-ink transition-colors hover:text-accent',
+    'group/lnk inline-flex items-center gap-2 font-sans font-medium text-[0.9rem] text-ink transition-colors hover:text-accent underline decoration-transparent decoration-1 underline-offset-4 hover:decoration-current focus-visible:decoration-current',
   nav:
-    'font-sans text-[0.9rem] font-medium text-ink-muted transition-colors',
+    'font-sans text-[0.9rem] font-medium text-ink-muted transition-colors underline decoration-transparent decoration-1 underline-offset-4 hover:decoration-current focus-visible:decoration-current',
   unstyled: '',
 };
 
@@ -66,7 +66,7 @@ const finalIconRight = variant === 'arrow' ? (iconRight ?? 'ph:arrow-right') : i
 <a
   href={href}
   class={cx(variants[variant], className)}
-  aria-current={isActive ? 'page' : undefined}
+  aria-current={ariaCurrent}
   {...externalAttrs}
 >
   <slot />

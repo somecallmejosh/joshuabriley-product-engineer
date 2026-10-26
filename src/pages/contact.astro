@@ -4,25 +4,30 @@ import Container from '~/components/layout/Container.astro';
 import ContactForm from '~/components/islands/ContactForm.astro';
 ---
 <BaseLayout title="Contact | Joshua Briley" description="Talk shop with Joshua Briley about design systems and UI engineering, plan a group meetup, or share an invitation to a social event.">
-  <section class="page-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Contact</p>
-      <h1 class="page-type hero-in hero-in-2">Let’s talk <em>shop.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Want to compare notes on design systems or UI engineering, organize a group meetup, or invite me to a social event? Send me a note.</p>
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">Contact</p>
+      <h1 class="calm-title hero-in hero-in-2">Let’s talk shop.</h1>
+      <p class="calm-lede hero-in hero-in-3">Want to compare notes on design systems or UI engineering, organize a group meetup, or invite me to a social event? Send me a note.</p>
+      <div class="calm-actions hero-in hero-in-4">
+        <a class="editorial-link" href="mailto:josh@thebrileys.com">josh@thebrileys.com <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a class="editorial-link" href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+      <p class="calm-note hero-in hero-in-4">Based in Barkhamsted, Connecticut.</p>
     </Container>
   </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="approach-layout contact-layout">
-        <div>
-          <h2 class="section-type">Get in <em>touch.</em></h2>
-          <p class="section-intro">Use the form or email me directly. You can also connect with me on LinkedIn.</p>
-          <a class="editorial-link mt-6" href="mailto:josh@thebrileys.com">josh@thebrileys.com <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <p class="mt-6 text-sm text-ink-muted">Based in Barkhamsted, Connecticut.</p>
-          <div class="mt-8"><a class="editorial-link" href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        </div>
-        <div><h2 class="mb-8 text-2xl font-semibold tracking-tight">Send a message</h2><ContactForm /></div>
+  <section class="contact-form-section">
+    <Container>
+      <div class="calm-column contact-column">
+        <h2 class="contact-heading">Send a message.</h2>
+        <ContactForm />
       </div>
     </Container>
   </section>
 </BaseLayout>
+
+<style>
+  .contact-form-section { padding-bottom: clamp(5rem, 10vw, 8rem); }
+  .contact-column { max-width: 36rem; margin-top: 0; }
+  .contact-heading { margin-bottom: 2rem; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 300; line-height: 1.1; letter-spacing: -.04em; text-align: center; }
+</style>

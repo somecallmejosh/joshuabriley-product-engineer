@@ -32,20 +32,21 @@ const {
 const resolvedVisual: HeadingVisual = visual ?? (`h${level}` as HeadingVisual);
 const Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = `h${level}` as any;
 
-// Bold display type carries hierarchy; editorial italics add character within a heading.
+// Light display type carries hierarchy at size; smaller headings step up to a
+// medium weight so they still hold their place in running text.
 const visualStyles: Record<HeadingVisual, string> = {
   'display-xl':
-    'font-heading text-[2.75rem] leading-[1.02] sm:text-6xl md:text-[4.25rem] font-extrabold tracking-[-0.055em] text-balance',
+    'font-heading text-[2.75rem] leading-[1.02] sm:text-6xl md:text-[4.25rem] font-light tracking-[-0.05em] text-balance',
   'display-lg':
-    'font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.02] tracking-[-0.05em] text-balance',
+    'font-heading text-4xl sm:text-5xl md:text-6xl font-light leading-[1.04] tracking-[-0.045em] text-balance',
   'display-md':
-    'font-heading text-3xl sm:text-4xl md:text-[2.75rem] font-bold leading-[1.08] tracking-[-0.04em] text-pretty',
-  h1: 'font-heading text-4xl md:text-5xl font-bold leading-[1.08] tracking-[-0.04em]',
-  h2: 'font-heading text-2xl md:text-[2rem] font-semibold leading-tight tracking-[-0.015em] text-pretty',
-  h3: 'font-heading text-lg md:text-xl font-semibold leading-snug tracking-[-0.015em] text-pretty',
-  h4: 'font-heading text-base font-semibold leading-snug tracking-[-0.01em] text-pretty',
+    'font-heading text-3xl sm:text-4xl md:text-[2.75rem] font-light leading-[1.08] tracking-[-0.04em] text-pretty',
+  h1: 'font-heading text-4xl md:text-5xl font-light leading-[1.08] tracking-[-0.04em]',
+  h2: 'font-heading text-2xl md:text-[2rem] font-light leading-tight tracking-[-0.03em] text-pretty',
+  h3: 'font-heading text-lg md:text-xl font-medium leading-snug tracking-[-0.015em] text-pretty',
+  h4: 'font-heading text-base font-medium leading-snug tracking-[-0.01em] text-pretty',
   eyebrow:
-    'font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em]',
+    'font-heading text-[0.95rem] font-medium tracking-[-0.005em]',
 };
 
 const tones: Record<NonNullable<Props['tone']>, string> = {

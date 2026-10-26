@@ -2,7 +2,6 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
-import { writing } from '~/lib/writing';
 import { hasIllustration } from '~/lib/article-illustrations';
 import '~/styles/articles.css';
 
@@ -19,7 +18,6 @@ interface Props {
   nextPost?: { id: string; title: string } | null;
 }
 const { slug, title, description, category, date, readMinutes, pathname, headings = [], prevPost, nextPost } = Astro.props;
-const context = writing[slug];
 const toc = headings.filter((h) => h.depth === 2 && h.slug !== 'footnote-label');
 const hasToc = toc.length >= 2;
 const words = title.split(' ');
@@ -34,34 +32,20 @@ const neighbours = [
 ---
 
 <BaseLayout title={`${title} · Joshua Briley`} description={description} pathname={pathname} mainClass="article-page" article={{ publishedTime: date, section: category, author: 'Joshua Briley' }}>
-  <header class="page-opener article-opener">
-    <Container width="wide">
-      <a class="editorial-link hero-in hero-in-1" href="/blog/"><span aria-hidden="true" data-link-arrow="left">←</span> All writing</a>
-      <div class:list={['article-hero', hasIllustration(slug) && 'article-hero--illustrated']}>
-        <div class="article-hero-copy">
-          <p class="role-line article-meta hero-in hero-in-2"><span>{category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
-          <h1 class="page-type article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
-          <p class="page-lede hero-in hero-in-4">{description}</p>
-          <div class="hero-actions hero-in hero-in-4">
-            <a class="action-link" href="#article-body">Read article <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-            {hasToc && <a class="editorial-link" href="#article-contents">Browse sections <span aria-hidden="true" data-link-arrow="down">↓</span></a>}
-          </div>
-        </div>
-        {hasIllustration(slug) && <div class="article-hero-illustration hero-in hero-in-3"><ArticleIllustration post={slug} /></div>}
+  <header class="calm-open article-opener">
+    <Container>
+      <a class="project-back hero-in hero-in-1" href="/blog/"><span aria-hidden="true" data-link-arrow="left">←</span> All writing</a>
+      <p class="calm-label article-meta hero-in hero-in-2"><span>{category}</span> <span aria-hidden="true">·</span> <time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time> <span aria-hidden="true">·</span> <span class="article-read-time">{readMinutes} min read</span></p>
+      <h1 class="calm-title article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
+      <p class="calm-lede hero-in hero-in-4">{description}</p>
+      <div class="calm-actions hero-in hero-in-4">
+        <a class="editorial-link" href="#article-body">Read article <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+        {hasToc && <a class="editorial-link" href="#article-contents">Browse sections <span aria-hidden="true" data-link-arrow="down">↓</span></a>}
       </div>
+      {hasIllustration(slug) && <div class="article-hero-illustration hero-in hero-in-5"><ArticleIllustration post={slug} /></div>}
     </Container>
   </header>
 
-  {context && (
-    <section class="article-overview" aria-labelledby="overview-title">
-      <Container width="wide">
-        <div class="article-overview-grid" data-reveal>
-          <h2 id="overview-title">What this <em>covers.</em></h2>
-          <ul>{context.covers.map((item) => <li>{item}</li>)}</ul>
-        </div>
-      </Container>
-    </section>
-  )}
 
   <div class="article-reading">
     <Container width="wide">
@@ -88,17 +72,6 @@ const neighbours = [
             <div><button type="button" class="editorial-link" data-article-copy>Copy article link <span aria-hidden="true" data-link-arrow="up-right">↗</span></button><a class="editorial-link" href={liShare} target="_blank" rel="noopener noreferrer">Share on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
             <p class="article-copy-status" role="status" data-article-copy-status></p>
           </div>
-          <aside class="article-author" aria-labelledby="author-title">
-            <div class="article-author-identity">
-              <img src="/images/about/josh-suit-avatar-96.webp" srcset="/images/about/josh-suit-avatar-96.webp 96w, /images/about/josh-suit-avatar-192.webp 192w" sizes="48px" alt="" width="48" height="48" loading="lazy" decoding="async" />
-              <div>
-                <p class="article-author-label">Written by</p>
-                <h2 id="author-title">Joshua Briley</h2>
-              </div>
-            </div>
-            <p class="article-author-bio">Product design engineer with twenty-plus years building accessible interfaces and shared UI foundations.</p>
-            <a class="editorial-link article-author-link" href="/about/">More about my work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          </aside>
           {neighbours.length > 0 && (
             <nav class="article-pager" aria-label="More writing">
               {neighbours.map((post) => (
@@ -158,10 +131,5 @@ const neighbours = [
     } catch {
       status.textContent = 'Couldn’t copy the link. You can copy it from your browser’s address bar.';
     }
-  });
-  // Make long code examples keyboard-scrollable without changing the source.
-  document.querySelectorAll<HTMLElement>('.article-prose pre').forEach((block) => {
-    block.tabIndex = 0;
-    block.setAttribute('aria-label', 'Code example');
   });
 </script>

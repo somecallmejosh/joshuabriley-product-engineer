@@ -5,33 +5,26 @@ const { testimonial, featured = false } = Astro.props;
 const { quote, name, role, company, image, initials } = testimonial.data;
 ---
 <figure class:list={['recommendation', { 'recommendation--featured': featured }]}>
-  <blockquote>{featured && <span class="recommendation-quote-mark" aria-hidden="true">“</span>}<p>{quote}</p></blockquote>
+  <blockquote><p>{quote}</p></blockquote>
   <figcaption>
     {image ? <img src={image} alt="" width="80" height="80" loading="lazy" decoding="async" /> : <span class="recommendation-initials" aria-hidden="true">{initials}</span>}
     <div class="recommendation-person"><p class="recommendation-name">{name}</p><p class="recommendation-role">{role}</p><p class="recommendation-company">{company}</p></div>
   </figcaption>
 </figure>
 <style>
-  .recommendation { margin: 0; border-top: 1px solid var(--line-strong); padding-top: 1.5rem; }
-  blockquote p { font-size: clamp(1.2rem, 1.65vw, 1.55rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.4; text-wrap: pretty; }
-  figcaption { display: flex; align-items: start; gap: 1rem; margin-top: 1.6rem; }
-  figcaption img, .recommendation-initials { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-  .recommendation-initials { display: grid; place-items: center; background: var(--portfolio-tint); color: var(--portfolio-blue); font-size: .9rem; font-weight: 600; }
+  /* The words lead in ink; the person follows quietly. The featured quote is the
+     same thing larger and centred, on paper. */
+  .recommendation { margin: 0; }
+  blockquote p { font-size: clamp(1.15rem, 1.5vw, 1.35rem); font-weight: 400; letter-spacing: -.02em; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
+  figcaption { display: flex; align-items: center; gap: .9rem; margin-top: 1.25rem; }
+  figcaption img, .recommendation-initials { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+  .recommendation-initials { display: grid; place-items: center; background: var(--portfolio-tint); color: var(--ink-muted); font-size: .85rem; font-weight: 500; }
   .recommendation-person { min-width: 0; }
-  .recommendation-name { font-size: 1rem; line-height: 1.35; font-weight: 650; letter-spacing: -.015em; }
-  .recommendation-role, .recommendation-company { font-size: .83rem; line-height: 1.5; color: var(--ink-muted); }
-  .recommendation-role { margin-top: .35rem; }
-  .recommendation--featured { display: grid; gap: 2rem; border: 0; padding-top: 0; }
-  .recommendation-quote-mark { display: block; color: #a3c1dd; font-family: var(--font-fraunces), Georgia, serif; font-size: 4rem; line-height: .7; height: 2rem; margin-bottom: 1rem; }
-  .recommendation--featured blockquote p { font-size: clamp(1.8rem, 3.4vw, 3.15rem); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; color: var(--paper); }
-  .recommendation--featured figcaption { margin-top: 0; align-items: center; }
-  .recommendation--featured figcaption img, .recommendation--featured .recommendation-initials { width: 72px; height: 72px; }
-  .recommendation--featured .recommendation-name { color: var(--paper); font-size: 1.15rem; }
-  .recommendation--featured .recommendation-role, .recommendation--featured .recommendation-company { color: #d0dce7; font-size: .9rem; }
-  @media (min-width: 1024px) {
-    .recommendation--featured { grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr); gap: 5rem; align-items: start; }
-    .recommendation--featured blockquote { grid-column: 2; grid-row: 1; }
-    .recommendation--featured figcaption { grid-column: 1; grid-row: 1; flex-direction: column; align-items: start; gap: 1.4rem; }
-    .recommendation--featured figcaption img, .recommendation--featured .recommendation-initials { width: 88px; height: 88px; }
-  }
+  .recommendation-name { font-size: .95rem; line-height: 1.35; font-weight: 500; }
+  .recommendation-role, .recommendation-company { font-size: .85rem; line-height: 1.45; color: var(--ink-muted); }
+  .recommendation-role { margin-top: .15rem; }
+  .recommendation--featured { text-align: center; }
+  .recommendation--featured blockquote p { max-width: 30ch; margin-inline: auto; font-size: clamp(1.8rem, 3.4vw, 3rem); font-weight: 300; line-height: 1.2; letter-spacing: -.04em; text-wrap: balance; }
+  .recommendation--featured figcaption { flex-direction: column; gap: .75rem; margin-top: 2.5rem; }
+  .recommendation--featured figcaption img, .recommendation--featured .recommendation-initials { width: 64px; height: 64px; }
 </style>
