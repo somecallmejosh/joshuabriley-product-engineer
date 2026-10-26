@@ -118,7 +118,7 @@ const proof = [
       <div class="mt-12 space-y-16">
         {liveStories.map((story) => (
           <div>
-            <div class="mb-6 flex items-baseline gap-3 border-t border-line pt-4">
+            <div class="mb-6 flex items-baseline gap-3 pt-4">
               <div>
                 <p class="font-medium text-ink">{story.title}</p>
                 <Text tone="muted" size="sm" class="mt-1 max-w-xl">{story.blurb}</Text>
@@ -142,7 +142,7 @@ const proof = [
       <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
-          <div class="border-t border-line pt-4">
+          <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
             <dd>
               <ul class="space-y-1.5">
@@ -221,9 +221,9 @@ const proof = [
             </p>
           </div>
 
-          <div class="mt-10 border-t border-line">
+          <div class="mt-10">
             {tokenTiers.map((tier) => (
-              <div class="border-b border-line py-5">
+              <div class="py-5">
                 <div class="flex items-start gap-4">
                   <Icon name={tier.icon} size={26} class="mt-1 flex-shrink-0 text-ink-muted" />
                   <div>

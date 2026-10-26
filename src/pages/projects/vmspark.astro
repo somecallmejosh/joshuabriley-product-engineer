@@ -285,7 +285,7 @@ const tldr = {
       <p class="mono-label mb-8">Scope and contribution</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
-          <div class="border-t border-line pt-4">
+          <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
             <dd>
               <ul class="space-y-1.5">
@@ -340,7 +340,7 @@ const tldr = {
             </Text>
           </div>
 
-          <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 border-y border-line py-8">
+          <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 py-8">
             <Metric value="350" label="ERB templates inventoried" />
             <Metric value="8+" label="button styles, one concept" />
             <Metric value="10+" label="form-element styles" />
@@ -351,7 +351,7 @@ const tldr = {
             <p class="mono-label mb-4">A few of the findings</p>
             <div>
               {findings.map((f) => (
-                <div class="flex items-start gap-4 py-4 border-b border-line last:border-0">
+                <div class="flex items-start gap-4 py-4">
                   <span class="font-mono text-sm text-accent shrink-0 w-12" aria-hidden="true">{f.count}</span>
                   <div>
                     <Heading level={3} visual="h4" tone="ink" class="mb-1">{f.title}</Heading>
@@ -497,7 +497,7 @@ const tldr = {
           </Text>
 
           <div class="mt-12 grid md:grid-cols-2 gap-6">
-            <div class="border-t border-line pt-5">
+            <div class="pt-5">
               <p class="mono-label">Phase 1 &middot; Baseline</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:ruler" size={22} class="text-ink-muted" />
@@ -512,7 +512,7 @@ const tldr = {
               </Text>
             </div>
 
-            <div class="border-t border-line pt-5">
+            <div class="pt-5">
               <p class="mono-label">Phase 2 &middot; The shell</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:sidebar" size={22} class="text-ink-muted" />
@@ -528,7 +528,7 @@ const tldr = {
               </Text>
             </div>
 
-            <div class="border-t border-line pt-5">
+            <div class="pt-5">
               <p class="mono-label">Phase 3 &middot; ⌘K</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:magnifying-glass" size={22} class="text-ink-muted" />
@@ -545,7 +545,7 @@ const tldr = {
               </Text>
             </div>
 
-            <div class="border-t border-line pt-5">
+            <div class="pt-5">
               <p class="mono-label">Phase 4 &middot; Polish</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:sparkle" size={22} class="text-ink-muted" />
@@ -581,7 +581,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="content">
       <p class="mono-label mb-3">What it looks like now</p>
       <Heading level={2} visual="display-md" tone="ink" class="mb-6">A style guide that ships with the app</Heading>
@@ -628,7 +628,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section id="sheets" tone="paper" padding="default" class="scroll-mt-24 border-t border-line">
+  <Section id="sheets" tone="paper" padding="default" class="scroll-mt-24">
     <Container width="content">
       <p class="mono-label mb-3">Screens and flows</p>
       <Heading level={2} visual="display-md" tone="ink" class="mb-6">What actually got built</Heading>
@@ -665,7 +665,7 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-20">
-      <div class="border-t border-line pt-10">
+      <div class="pt-10">
         <p class="mono-label mb-3">The rest of the system</p>
         <Text tone="muted" class="measure mb-10">
           Seven more screens, ending with the inventory that replaced eight button
@@ -687,7 +687,7 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-20">
-      <div class="border-t border-line pt-10">
+      <div class="pt-10">
         <p class="mono-label mb-3">User flows</p>
         <Text tone="muted" class="measure mb-10">
           Five flows covering the paths the screens sit on, each one splitting what
@@ -727,7 +727,7 @@ const tldr = {
 
           <div class="mt-12 grid sm:grid-cols-2 gap-6">
             {outcomeStats.map((s) => (
-              <div class="border-t border-line pt-5">
+              <div class="pt-5">
                 <Icon name={s.icon} size={24} class="mb-3 text-ink-muted" />
                 <Heading level={3} visual="h4" tone="ink" class="mb-1">{s.title}</Heading>
                 <Text size="sm" tone="muted">{s.body}</Text>
@@ -793,7 +793,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="content">
       <p class="mono-label mb-3">The edges</p>
       <Text size="lg" tone="muted" class="measure mb-10">
@@ -803,7 +803,7 @@ const tldr = {
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
-          <li class="border-t border-line pt-5">
+          <li class="pt-5">
             <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
             <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
             <Text size="sm" tone="muted">{e.body}</Text>

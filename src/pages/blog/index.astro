@@ -123,9 +123,9 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   .latest-meta { color: #c6d8e8; margin-top: 1.4rem; }
   .latest-action { background: white; color: var(--portfolio-blue); margin-top: 1.7rem; }
   .latest-action:hover { background: #e0e8ef; }
-  .guide-contents { border-top: 1px solid #6c89a3; padding-top: 1.5rem; }
+  .guide-contents { padding-top: 1.5rem; }
   .guide-contents h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; }
-  .guide-contents li { border-top: 1px solid #6c89a3; }
+  .guide-contents li { }
   .guide-contents li a { display: flex; gap: 1.5rem; justify-content: space-between; align-items: start; padding: 1.15rem 0; font-size: 1.1rem; line-height: 1.4; }
   .guide-contents li a:hover, .guide-contents li a:focus-visible { text-decoration: underline; text-underline-offset: 5px; }
   .guide-contents li span { color: #c6d8e8; }
@@ -150,7 +150,7 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   .post-action { display: inline-flex; align-items: center; gap: 1.2rem; min-height: 44px; margin-top: .85rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
   @media (min-width: 1024px) {
     .latest-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 6rem; align-items: center; }
-    .guide-contents { border-top: 0; border-left: 1px solid #6c89a3; padding: 0 0 0 2.5rem; }
+    .guide-contents { border-left: 1px solid #6c89a3; padding: 0 0 0 2.5rem; }
     .writing-group { grid-template-columns: minmax(0, .8fr) minmax(0, 1.7fr); gap: 5rem; }
   }
   @media (min-width: 768px) {

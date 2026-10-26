@@ -264,7 +264,7 @@ const tldr = {
       <p class="mono-label mb-8">Scope and results</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
-          <div class="border-t border-line pt-4">
+          <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
             <dd>
               <ul class="space-y-1.5">
@@ -283,7 +283,7 @@ const tldr = {
   </Section>
 
 
-  <Section tone="paper" padding="default" id="hands" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="hands" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -308,7 +308,7 @@ const tldr = {
             <p class="mono-label mb-6">Three sets of rules</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {regimes.map((r) => (
-                <li class="border-t border-line pt-5">
+                <li class="pt-5">
                   <div class="mb-3 flex items-center gap-3">
                     <Icon name={r.icon} size={20} class="text-ink-muted" />
                   </div>
@@ -323,7 +323,7 @@ const tldr = {
             <p class="mono-label mb-6">Problems with logging from memory</p>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {problems.map((p) => (
-                <li class="border-t border-line pt-5">
+                <li class="pt-5">
                   <Icon name={p.icon} size={24} class="mb-3 text-ink-muted" />
                   <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{p.title}</Heading>
                   <Text size="sm" tone="muted">{p.body}</Text>
@@ -336,7 +336,7 @@ const tldr = {
             <p class="mono-label mb-6">Four types of users</p>
             <ul class="grid gap-x-10 gap-y-1 md:grid-cols-2">
               {users.map((u) => (
-                <li class="flex gap-3.5 border-b border-line py-4">
+                <li class="flex gap-3.5 py-4">
                   <Icon name={u.icon} size={22} class="mt-0.5 shrink-0 text-ink-muted" />
                   <div>
                     <p class="font-medium text-ink leading-snug">{u.name}</p>
@@ -355,7 +355,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="research" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="research" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -383,7 +383,7 @@ const tldr = {
             <p class="mono-label mb-6">Changes from the research calls</p>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {research.map((r) => (
-                <li class="border-t border-line pt-5">
+                <li class="pt-5">
                   <Icon name={r.icon} size={24} class="mb-3 text-ink-muted" />
                   <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{r.title}</Heading>
                   <Text size="sm" tone="muted">{r.body}</Text>
@@ -417,7 +417,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="shapes" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="shapes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -533,7 +533,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -577,7 +577,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="failure" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="failure" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -629,7 +629,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="pipeline" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="pipeline" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -703,7 +703,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -734,7 +734,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -750,7 +750,7 @@ const tldr = {
             </p>
           </div>
 
-          <div class="mt-12 grid grid-cols-2 gap-8 border-y border-line py-8">
+          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
             <Metric value="2+ hrs" label="less data entry per day" caption="reported by a provider association president" />
             <Metric value="~1,100" label="of the project's 1,939 commits" caption="lead front-end on a three-developer team" />
           </div>
@@ -773,7 +773,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="wide">
       <Heading level={2} visual="h2" tone="ink" class="mb-3">Other screens</Heading>
       <Text size="lg" tone="muted" class="measure mb-10">
@@ -796,7 +796,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="content">
       <p class="mono-label mb-10">Testimonials</p>
       <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
@@ -806,7 +806,7 @@ const tldr = {
             <blockquote class="font-display text-xl md:text-2xl tracking-tight leading-snug text-ink">
               {q.body}
             </blockquote>
-            <figcaption class="mt-6 border-t border-line pt-4">
+            <figcaption class="mt-6 pt-4">
               <p class="font-display font-semibold text-ink">{q.name}</p>
               <p class="mt-1 text-sm text-ink-muted leading-snug">{q.role}</p>
             </figcaption>
@@ -816,7 +816,7 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
     <Container width="content">
       <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
       <Text size="lg" tone="muted" class="measure mb-10">
@@ -826,7 +826,7 @@ const tldr = {
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
-          <li class="border-t border-line pt-5">
+          <li class="pt-5">
             <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
             <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
             <Text size="sm" tone="muted">{e.body}</Text>

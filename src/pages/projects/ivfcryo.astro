@@ -278,7 +278,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
       <p class="mono-label mb-8">Scope</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {proof.map((group) => (
-          <div class="border-t border-line pt-4">
+          <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
             <dd>
               <ul class="space-y-1.5">
@@ -297,7 +297,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
   </Section>
 
 
-  <Section tone="paper" padding="default" id="stakes" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="stakes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -325,7 +325,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <p class="mono-label mb-6">The five parties</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {parties.map((node) => (
-                <li class="relative border-t border-line pt-5">
+                <li class="relative pt-5">
                   <div class="mb-3 flex items-center gap-3">
                     <Icon name={node.icon} size={20} class="text-ink-muted" />
                   </div>
@@ -340,7 +340,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <p class="mono-label mb-6">Chain of custody</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {custody.map((node) => (
-                <li class="relative border-t border-line pt-5">
+                <li class="relative pt-5">
                   <div class="mb-3 flex items-center gap-3">
                     <Icon name={node.icon} size={20} class="text-ink-muted" />
                   </div>
@@ -385,7 +385,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="readiness" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="readiness" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -443,7 +443,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="flows" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="flows" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -471,13 +471,13 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <p class="mono-label mb-6">Customer and staff screens</p>
             <div class="grid gap-x-10 gap-y-10 md:grid-cols-2">
               <div>
-                <div class="mb-5 flex items-center gap-3 border-b border-line-strong pb-3">
+                <div class="mb-5 flex items-center gap-3 pb-3">
                   <Icon name="ph:user" size={18} class="text-accent" />
                   <p class="font-display font-semibold text-ink">Customer</p>
                 </div>
                 <ul>
                   {customerFlow.map((p) => (
-                    <li class="flex gap-4 border-b border-line py-3.5 last:border-b-0">
+                    <li class="flex gap-4 py-3.5">
                       <div>
                         <p class="font-medium text-ink leading-snug">{p.label}</p>
                         <p class="mt-0.5 text-sm text-ink-muted leading-snug">{p.note}</p>
@@ -488,13 +488,13 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
               </div>
 
               <div>
-                <div class="mb-5 flex items-center gap-3 border-b border-line-strong pb-3">
+                <div class="mb-5 flex items-center gap-3 pb-3">
                   <Icon name="ph:users-three" size={18} class="text-accent" />
                   <p class="font-display font-semibold text-ink">Admin &middot; IVFCRYO staff</p>
                 </div>
                 <ul>
                   {adminFlow.map((p) => (
-                    <li class="flex gap-4 border-b border-line py-3.5 last:border-b-0">
+                    <li class="flex gap-4 py-3.5">
                       <div>
                         <p class="font-medium text-ink leading-snug">{p.label}</p>
                         <p class="mt-0.5 text-sm text-ink-muted leading-snug">{p.note}</p>
@@ -550,7 +550,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="recovery" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="recovery" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -619,7 +619,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 
   </Section>
 
-  <Section tone="paper" padding="default" id="architecture" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="architecture" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -687,7 +687,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
@@ -704,7 +704,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             </p>
           </div>
 
-          <div class="mt-12 grid grid-cols-2 gap-8 border-y border-line py-8">
+          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
             <Metric value="75%" label="fewer support calls" caption="patients and clinics got answers without phoning in" />
             <Metric value="55%" label="fewer shipping errors" caption="caught before they reached a patient's specimens" />
           </div>
@@ -713,7 +713,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
             <p class="mono-label mb-6">How success is measured</p>
             <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {metricLenses.map((m) => (
-                <div class="border-t border-line pt-4">
+                <div class="pt-4">
                   <p class="mono-label mb-3">{m.lens}</p>
                   <ul class="space-y-1.5">
                     {m.items.map((item) => (
@@ -733,7 +733,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line" data-rest-of-system>
+  <Section tone="paper" padding="default" data-rest-of-system>
     <Container width="wide">
       <div>
         <Heading level={2} visual="h2" tone="ink" class="mb-3">Other screens</Heading>
@@ -757,7 +757,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="content">
       <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
         <figcaption class="md:col-span-4">
@@ -791,7 +791,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24 border-t border-line">
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
     <Container width="content">
       <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
       <Text size="lg" tone="muted" class="measure mb-10">
@@ -801,7 +801,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
-          <li class="border-t border-line pt-5">
+          <li class="pt-5">
             <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
             <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
             <Text size="sm" tone="muted">{e.body}</Text>

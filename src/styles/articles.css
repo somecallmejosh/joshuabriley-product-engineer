@@ -16,7 +16,7 @@
 .article-overview h2 { font-size: clamp(2.4rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.05; text-wrap: balance; }
 .article-overview h2 em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; color: #c6d8e8; }
 .article-overview ul { list-style: none; padding: 0; margin: 0; }
-.article-overview li { padding: .85rem 0; border-top: 1px solid #60809d; font-size: 1.06rem; line-height: 1.55; }
+.article-overview li { padding: .85rem 0; font-size: 1.06rem; line-height: 1.55; }
 .article-overview li:last-child { padding-bottom: 0; }
 .article-reading { padding: 4.5rem 0 5.5rem; }
 .article-grid { display: grid; gap: 2.5rem; }
@@ -58,11 +58,11 @@
 .article-prose .essay-label { font-family: var(--font-hanken), system-ui, sans-serif; font-size: .88rem; letter-spacing: 0; text-transform: none; font-weight: 700; }
 .article-prose :is(.essay-stack__name, .essay-defs dt) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1rem; font-weight: 700; }
 .article-prose :is(.essay-panels, .essay-split, .essay-defs) :is(p, li) { font-size: 1rem; }
-.article-prose .cost-card { border-radius: 0; border: 0; border-top: 1px solid var(--line-strong); padding: 1.5rem 0; }
+.article-prose .cost-card { border-radius: 0; border: 0; padding: 1.5rem 0; }
 .article-prose .cost-card h3 { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1.5rem; font-weight: 750; letter-spacing: -.03em; }
 .article-prose .cost-card p { font-size: 1rem; color: var(--ink-muted); }
 .article-prose .footnotes { font-size: .95rem; overflow-wrap: anywhere; }
-.article-share { margin-top: 3.5rem; padding: 1.5rem 0; border-block: 1px solid var(--line-strong); }
+.article-share { margin-top: 3.5rem; padding: 1.5rem 0; }
 .article-share > p:first-child { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; }
 .article-share > div { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: .5rem; }
 .article-copy-status { min-height: 1.5em; margin-top: .35rem; font-size: .88rem; color: var(--portfolio-blue); }
@@ -74,7 +74,7 @@
 .article-author-bio { max-width: 62ch; margin: .875rem 0 .25rem; font-size: .875rem; line-height: 1.65; color: var(--ink-muted); }
 .article-author .article-author-link { font-size: .875rem; font-weight: 500; color: var(--ink-muted); }
 .article-author .article-author-link:hover { color: var(--accent); }
-.article-pager { display: grid; gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.article-pager { display: grid; gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; }
 .article-pager-link { display: flex; flex-direction: column; gap: .35rem; color: var(--ink); text-decoration: none; }
 .article-pager-label { display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--ink-muted); }
 .article-pager-title { font-size: 1.05rem; font-weight: 650; line-height: 1.35; letter-spacing: -.01em; text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: .15em; transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out); }
