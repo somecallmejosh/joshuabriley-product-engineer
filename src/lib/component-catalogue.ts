@@ -239,6 +239,13 @@ export const componentCatalogue = [
     "href": "/tools/"
   },
   {
+    "name": "ArticleIllustration",
+    "path": "src/components/patterns/ArticleIllustration.astro",
+    "group": "patterns",
+    "note": "An explanatory SVG for each article, drawn in the same style as the tool illustrations.",
+    "href": "/blog/"
+  },
+  {
     "name": "BookList",
     "path": "src/components/patterns/BookList.astro",
     "group": "patterns",

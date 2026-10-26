@@ -1,6 +1,6 @@
 export const CONTACT = {
   name: 'Joshua K. Briley',
-  title: 'Design Systems & UI Engineer',
+  title: 'Product Design Engineer',
   location: 'Barkhamsted, CT',
   phone: '860.232.8250',
   email: 'josh@thebrileys.com',
@@ -11,32 +11,28 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  'Design systems and UI engineer with 20+ years in production interfaces. I build accessible components, document their use, and work with designers and engineers on complex product workflows. My current work supports a design system used by roughly 3,500 engineers and designers.'
+  "Product design engineer with 20+ years taking products from an unclear problem to a shipped, accessible product. I work out what users actually need, design the flow, and build it myself, in settings from a child-care platform to a design system used by roughly 3,500 engineers and designers."
 
+/**
+ * The résumé's through-line. Each EXPERIENCE entry tags the threads it proves
+ * (by key), so the same three ideas recur down the page instead of the reader
+ * averaging a list of employers into a theme on their own.
+ */
 export const STRENGTHS = [
   {
-    title: 'Design by building',
-    body: 'Prototype, validate, and ship front-end work directly in modern product codebases rather than relying on static handoffs.',
+    key: 'frame',
+    title: 'Frame the problem',
+    body: "Use analytics, experiments, and time with real users to decide what's worth building, then cut scope to the useful path.",
   },
   {
-    title: 'Complex insurance UX',
-    body: 'Internal portals, customer portals, admin tools, tables, filters, workflows, and data-dense interfaces for specialty-insurance users.',
+    key: 'build',
+    title: 'Design and build in one pass',
+    body: 'Prototype, validate, and ship directly in product codebases, so design decisions are tested in working software instead of static handoffs.',
   },
   {
-    title: 'Design systems',
-    body: 'Component libraries, tokens, documentation, Storybook stories, usage guidance, accessibility patterns, and developer-facing workflows.',
-  },
-  {
-    title: 'AI-assisted delivery',
-    body: "Use AI tools across research, prototyping, and build, catching where output looks right but isn't and owning the result rather than trusting it.",
-  },
-  {
-    title: 'Invisible craft',
-    body: 'Accessibility, responsive behavior, performance, semantics, and interaction polish that make products feel fast and dependable.',
-  },
-  {
-    title: 'Product judgment',
-    body: "Partner across product, design, and engineering to frame what's worth building, cut scope, validate with real users, and ship the useful path.",
+    key: 'everyone',
+    title: 'Make it work for everyone',
+    body: 'Accessibility, performance, language parity, and recoverable flows, treated as part of the product rather than a final pass.',
   },
 ]
 
@@ -46,6 +42,7 @@ export const EXPERIENCE = [
     company: 'Travelers',
     role: 'Software Engineer II, Design System',
     stack: 'Stencil Web Components · React',
+    threads: ['build', 'everyone'],
     bullets: [
       'Gave roughly 3,500 engineers and designers across the organization one accessible component set to build against, cutting duplicate UI work.',
       'Cut more than 10 hours of setup per component story by automating Storybook story generation, returning that time to feature work.',
@@ -58,6 +55,7 @@ export const EXPERIENCE = [
     company: 'Logatot, Inc.',
     role: 'Senior UX/UI Developer',
     stack: 'Rails · ViewComponents',
+    threads: ['frame', 'build', 'everyone'],
     bullets: [
       'Moved documentation from evening paperwork to hands-free capture during the day; one provider reported saving more than two hours daily.',
       'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events already captured.',
@@ -70,6 +68,7 @@ export const EXPERIENCE = [
     company: "America's Test Kitchen",
     role: 'Senior Software Engineer (UI)',
     stack: 'React · Next.js',
+    threads: ['frame', 'everyone'],
     bullets: [
       'Moved consumer-facing experiences off a legacy Rails platform onto documented React and Next.js components the team could reuse.',
       "Settled design questions with Optimizely A/B tests and the site's analytics stack.",
@@ -82,10 +81,11 @@ export const EXPERIENCE = [
     company: 'Berkshire Hathaway Specialty Insurance',
     role: 'Principal Design Engineer',
     stack: 'Vue.js · Nuxt.js',
+    threads: ['frame', 'build'],
     bullets: [
-      'Standardized front-end work across internal, agent, and customer portals with one shared UI library, so teams stopped rebuilding the same patterns.',
-      'Made underwriting, administration, customer service, and agent workflows usable at scale through data-heavy tables, filters, forms, and dashboards.',
       'Focused the roadmap on the screens underwriters and agents used most, based on Segment and Heap data from the portals.',
+      'Made underwriting, administration, customer service, and agent workflows usable at scale through data-heavy tables, filters, forms, and dashboards.',
+      'Standardized front-end work across internal, agent, and customer portals with one shared UI library, so teams stopped rebuilding the same patterns.',
     ],
   },
   {
@@ -93,6 +93,7 @@ export const EXPERIENCE = [
     company: "America's Test Kitchen",
     role: 'Lead UI Developer',
     stack: 'UI Systems',
+    threads: ['build', 'everyone'],
     bullets: [
       'Sped up development while improving consistency, accessibility, SEO, and performance across digital properties with a scalable UI utility system.',
       "Raised the team's baseline by training engineers on accessible markup, performance, and durable UI practices.",
@@ -104,6 +105,7 @@ export const EXPERIENCE = [
     company: 'Independent',
     role: 'Freelance UI Designer/Developer',
     stack: 'Contract',
+    threads: ['frame', 'build', 'everyone'],
     bullets: [
       "Cut IVFCRYO's support calls 75% and shipping errors 55% with recoverable, accessible flows for high-stakes fertility logistics.",
       "Rebuilt VMSpark's multi-tenant admin app in four phases with zero pipeline regressions and no operator retraining.",
@@ -113,27 +115,6 @@ export const EXPERIENCE = [
 ]
 
 export const SKILLS = [
-  {
-    group: 'Front end',
-    items: [
-      'Alpine.js',
-      'Astro',
-      'CSS',
-      'Gatsby',
-      'HTML',
-      'HTMX',
-      'Hotwire',
-      'JavaScript',
-      'React',
-      'Sass',
-      'Stencil Web Components',
-      'Stimulus',
-      'Storybook',
-      'Tailwind',
-      'TypeScript',
-      'Vue',
-    ],
-  },
   {
     group: 'Design & craft',
     items: [
@@ -160,8 +141,25 @@ export const SKILLS = [
     ],
   },
   {
-    group: 'Back end & hosting',
-    items: ['Heroku', 'Netlify', 'Next', 'Nuxt', 'Ruby on Rails'],
+    group: 'Front end',
+    items: [
+      'Alpine.js',
+      'Astro',
+      'CSS',
+      'Gatsby',
+      'HTML',
+      'HTMX',
+      'Hotwire',
+      'JavaScript',
+      'React',
+      'Sass',
+      'Stencil Web Components',
+      'Stimulus',
+      'Storybook',
+      'Tailwind',
+      'TypeScript',
+      'Vue',
+    ],
   },
   {
     group: 'Systems & testing',
@@ -179,6 +177,10 @@ export const SKILLS = [
       'Playwright',
       'Vitest',
     ],
+  },
+  {
+    group: 'Back end & hosting',
+    items: ['Heroku', 'Netlify', 'Next', 'Nuxt', 'Ruby on Rails'],
   },
 ]
 

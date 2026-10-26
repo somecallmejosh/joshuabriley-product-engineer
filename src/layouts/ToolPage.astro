@@ -92,7 +92,7 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   <section id="tool" class="tool-workspace" aria-labelledby="tool-workspace-title">
     <Container width="wide">
       <div class="tool-workspace-heading" data-reveal>
-        <h2 id="tool-workspace-title" class="section-type">{workspaceLead}<br /><em>{workspaceEmphasis}</em></h2>
+        <h2 id="tool-workspace-title" class="section-type">{workspaceLead} <em>{workspaceEmphasis}</em></h2>
         <p class="tool-instructions">{instructions}</p>
       </div>
       <div class="tool-stage">
@@ -104,7 +104,7 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   <section class="editorial-section">
     <Container width="wide">
       <div class="tool-reading">
-        <h2 class="section-type">Using<br /><em>this tool.</em></h2>
+        <h2 class="section-type">Using <em>this tool.</em></h2>
         <div>
           <article class="prose-whimsy"><slot /></article>
           <div class="tool-share">
@@ -121,7 +121,7 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
   {related.length > 0 && (
     <section class="editorial-section related-tools" aria-labelledby="related-title">
       <Container width="wide">
-        <h2 id="related-title" class="section-type">Another question<br /><em>to explore?</em></h2>
+        <h2 id="related-title" class="section-type">Another question <em>to explore?</em></h2>
         <ul class="related-list" data-reveal-stagger>
           {related.map((item) => (
             <li>

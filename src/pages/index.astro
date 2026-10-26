@@ -5,21 +5,21 @@ import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
 import { selectedWork } from '~/lib/selected-work';
 const needs = [
-  { title: 'Design decisions you can follow', body: 'I map workflows, prototype interactions, and work through loading, error, and recovery states with designers and engineers. The case studies show the decisions I owned and why.', href: '/projects/ivfcryo/', link: 'Follow a design decision' },
-  { title: 'Front-end engineering that carries the design through', body: 'I build the interfaces as well as design them, including the state changes and accessible behavior that static mockups leave open. Logatot shows my work on voice input, repair flows, and shared UI.', href: '/projects/logatot/', link: 'Explore the implementation' },
-  { title: 'Shared foundations for a consistent product', body: 'Reusable components and clear interaction patterns help complex interfaces hold together. My current design systems work and public component library show how I support that foundation.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component work' },
+  { title: 'Product decisions you can trace', body: 'I map the workflow before designing screens, then check the result after launch. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO decision' },
+  { title: 'Interfaces built the way they were designed', body: 'I build what I design, including the loading, error, and recovery states that mockups leave open. In Logatot, speech the app can’t understand becomes a quick fix for the provider instead of a wrong record.', href: '/projects/logatot/', link: 'See the voice repair flow' },
+  { title: 'Systems that save teams repeated work', body: 'In my current role, that means automating Storybook and Figma setup so teams spend their time on features. That work isn’t public, so Rudiment UI shows the same approach: accessible components, tokens, and documented APIs you can inspect.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
 ];
-const workOrder = ['/projects/ivfcryo/', '/projects/logatot/', '/personal-projects/rudiment-ui/'];
+const workOrder = ['/projects/ivfcryo/', '/projects/logatot/', '/projects/vmspark/'];
 const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href === href));
 ---
-<BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years in production UI. Explore interaction design, accessible front-end implementation, and product case studies with clear ownership.">
+<BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years taking products from problem to production: working with product teams to frame what to build, design the workflow, and ship it accessible. Case studies with clear ownership.">
   <section class="home-hero">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">Product design engineer</p>
       <div class="home-hero-grid">
         <div class="home-hero-copy">
-          <h1 class="hero-type hero-in hero-in-2">I design and<br />build product<br /><em>interfaces.</em></h1>
-          <p class="hero-lede hero-in hero-in-3">I connect product design and front-end engineering, from workflows and prototypes to accessible interfaces in production.</p>
+          <h1 class="hero-type hero-in hero-in-2">Helping teams ship the <em>right product.</em></h1>
+          <p class="hero-lede hero-in hero-in-3">I partner with product managers, designers, and engineers to figure out what users need, shape the workflow, and ship it as an accessible product.</p>
           <div class="hero-actions hero-in hero-in-4">
             <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
             <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -31,8 +31,8 @@ const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href
         </figure>
       </div>
       <div class="current-work">
-        <p><span class="status-mark" aria-hidden="true"></span>Current focus: <strong>design systems</strong></p>
-        <p>Building the design system used by roughly <strong>3,500 engineers and designers.</strong></p>
+        <p><span class="status-mark" aria-hidden="true"></span>Current role: <strong>design system engineer</strong></p>
+        <p>On a design system used by roughly <strong>3,500 engineers and designers,</strong> I automated Storybook setup, saving more than 10 hours per component, and Figma Code Connect mapping, so nobody translates components by hand.</p>
         <a href="/about/" class="editorial-link">More about me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </div>
     </Container>
@@ -51,8 +51,8 @@ const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href
     <Container width="wide">
       <div class="approach-layout">
         <div>
-          <h2 class="section-type">Where I<br /><em>can help.</em></h2>
-          <p class="section-intro">My work spans product workflows, interaction design, and front-end implementation. The case studies make my role and contributions explicit.</p>
+          <h2 class="section-type">Where I <em>can help.</em></h2>
+          <p class="section-intro">As a product design engineer, I work across the product decision, the design, and the code that ships it. The case studies show which parts I owned.</p>
           <p class="quiet-aside">The button is usually the easy part.</p>
         </div>
         <div class="approach-list" data-reveal-stagger>

@@ -71,7 +71,7 @@
 .project-page .code-artifact > div { border-radius: 0; box-shadow: none; }
 .project-summary { padding: 5rem 0; background: var(--paper); border-bottom: 1px solid var(--line); }
 .project-summary-grid { display: grid; gap: 2rem; }
-.project-summary h2 { font-size: clamp(2.7rem, 4.6vw, 4.4rem); font-weight: 800; line-height: 1.02; letter-spacing: -.06em; }
+.project-summary h2 { font-size: clamp(2.7rem, 4.6vw, 4.4rem); font-weight: 800; line-height: 1.02; letter-spacing: -.06em; text-wrap: balance; }
 .project-summary h2 em { font-family: var(--font-fraunces), Georgia, serif; color: var(--portfolio-blue); font-weight: 400; }
 .summary-problem, .summary-situation { max-width: 57ch; font-size: 1.12rem; line-height: 1.7; color: var(--ink-muted); }
 .summary-situation { margin-bottom: 1rem; }

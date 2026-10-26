@@ -1,16 +1,6 @@
 /** Existing portfolio evidence; personal reference work stays explicitly labeled. */
 export const selectedWork = [
   {
-    name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/',
-    kind: 'Personal project · React component library',
-    title: 'An accessible React component library I designed and built.',
-    summary: 'Accessible React components and a three-tier token system, documented in Storybook. Inspect component APIs and variants, then try the project board, dashboard, and storefront built from the library.',
-    ownership: 'Designer and engineer', evidence: 'Tokens, APIs, accessibility, Storybook documentation',
-    image: '/images/projects/rudiment-ui/rudiment-board.webp',
-    alt: 'Rudiment UI project board showing tasks organized into four sprint columns',
-    imageClass: 'work-image--rudiment', result: '3 examples', resultNote: 'featured from Storybook', action: 'Explore the library',
-  },
-  {
     name: 'IVFCRYO', href: '/projects/ivfcryo/', kind: 'Client work · Fertility logistics',
     title: 'Getting five parties ready before a shipment moves.',
     summary: 'A shared workflow for patients and staff shipping fertility specimens between clinics. I owned design and front end, and partnered with engineers on the backend.',
@@ -27,5 +17,24 @@ export const selectedWork = [
     image: '/images/projects/logatot/wires-and-flows/01-voiceboard.svg',
     alt: 'Logatot Voiceboard interface design showing children and their daily care records',
     imageClass: 'work-image--logatot', result: '2+ hours', resultNote: 'saved daily, reported by one provider', action: 'Read the case study',
+  },
+  {
+    name: 'VMSpark', href: '/projects/vmspark/', kind: 'Client work · Recruiting operations',
+    title: 'Rebuilding an admin app without stopping the pipeline.',
+    summary: 'An admin interface for a system that sends thousands of job listings to more than a dozen hiring systems. I audited 350 templates and rebuilt the app in four stages, keeping the workflows operators already knew.',
+    ownership: 'Product design and UI engineering', evidence: 'Template audit, app shell, tokens, staged rollout',
+    image: '/images/projects/vmspark/wires-and-flows/02-job-listings.svg',
+    alt: 'VMSpark job listings interface design with status tabs, filters, and a shared application shell',
+    imageClass: 'work-image--vmspark', result: '0', resultNote: 'pipeline regressions across four stages', action: 'Read the case study',
+  },
+  {
+    name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/',
+    kind: 'Personal project · React component library',
+    title: 'An accessible React component library I designed and built.',
+    summary: 'Accessible React components and a three-tier token system, documented in Storybook. Inspect component APIs and variants, then try the project board, dashboard, and storefront built from the library.',
+    ownership: 'Designer and engineer', evidence: 'Tokens, APIs, accessibility, Storybook documentation',
+    image: '/images/projects/rudiment-ui/rudiment-board.webp',
+    alt: 'Rudiment UI project board showing tasks organized into four sprint columns',
+    imageClass: 'work-image--rudiment', result: '3 examples', resultNote: 'featured from Storybook', action: 'Explore the library',
   },
 ];

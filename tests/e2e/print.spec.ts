@@ -124,12 +124,10 @@ test('print keeps the current assessment answers and fits article tables to pape
   expect(await table.locator('thead').evaluate(el => getComputedStyle(el).display)).toBe('table-header-group');
 });
 
-test('screen heading breaks become spaces on paper and the dedicated resume renderer stays independent', async ({ page }) => {
+test('headings print as plain text and the dedicated resume renderer stays independent', async ({ page }) => {
   await page.goto('/');
   await page.emulateMedia({ media: 'print' });
-  await expect(page.locator('#main h1')).toHaveText('I design and build product interfaces.');
-  await page.emulateMedia({ media: 'screen' });
-  await expect(page.locator('.print-heading-space')).toHaveCount(0);
+  await expect(page.locator('#main h1')).toHaveText('Helping teams ship the right product.');
   await page.goto('/resume-print/');
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('body')).toHaveAttribute('data-print-layout', 'document');

@@ -49,7 +49,8 @@ body { overflow-wrap: break-word; }
 .work-image { --mat: 2rem; --tilt: -4deg; display: block; position: relative; aspect-ratio: 1.25; overflow: hidden; background: #dde5ee; }
 .work-image--rudiment { background: #233d56; }
 .work-image--ivfcryo { background: #dce6eb; }
-.work-image--logatot { background: #e3e7e9; }
+.work-image--logatot,
+.work-image--vmspark { background: #e3e7e9; }
 /* The frame stays square to the page; the image turns inside it. Pivoting near
    the top-left keeps the screen's chrome in view; 1.14 is the smallest scale that
    keeps every frame corner covered at -4deg across the 1.25-1.66 frame ratios. */

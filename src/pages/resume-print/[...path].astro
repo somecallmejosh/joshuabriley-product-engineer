@@ -58,7 +58,7 @@ const contactLines = [
 
     <p class="summary">{SUMMARY}</p>
 
-    <h2 class="section-label">Core strengths</h2>
+    <h2 class="section-label">How I work</h2>
     <div class="strengths">
       {STRENGTHS.map((s) => (
         <div class="strength">
@@ -215,10 +215,10 @@ const contactLines = [
     page-break-after: avoid;
   }
 
-  /* ── Core strengths ───────────────────────────────────────────────────── */
+  /* ── How I work ───────────────────────────────────────────────────── */
   .strengths {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.1in 0.36in;
   }
   .strength { break-inside: avoid; page-break-inside: avoid; }

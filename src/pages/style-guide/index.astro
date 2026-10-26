@@ -64,7 +64,7 @@ const groups = [
   { id: 'islands', label: 'Interactive features' }, { id: 'writing', label: 'Article components' },
 ];
 const primaryMarkup = `<a class="action-link" href="/projects/">\n  Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span>\n</a>\n<a class="editorial-link" href="/resume/">\n  View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span>\n</a>`;
-const typeMarkup = `<h1 class="page-type">How this site<br /><em>is designed.</em></h1>\n<p class="page-lede">A short introduction with a clear purpose.</p>\n<h2 class="section-type">Section <em>heading.</em></h2>`;
+const typeMarkup = `<h1 class="page-type">How this site <em>is designed.</em></h1>\n<p class="page-lede">A short introduction with a clear purpose.</p>\n<h2 class="section-type">Section <em>heading.</em></h2>`;
 const formMarkup = `<Field label="Email" name="email" required hint="Only used to reply.">\n  <Input name="email" type="email" required\n    describedBy="field-email-hint" />\n</Field>\n<SubmitButton label="Send message" loadingLabel="Sending…" />`;
 const widths = [
   ['narrow', '48rem', 'Supporting copy and narrow page content'], ['content', '64rem', 'Case-study reading layouts'],
@@ -76,7 +76,7 @@ const widths = [
   <header class="page-opener">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">Style guide <span aria-hidden="true">/</span> The portfolio’s working design system</p>
-      <h1 class="page-type hero-in hero-in-2">How this site<br /><em>is designed.</em></h1>
+      <h1 class="page-type hero-in hero-in-2">How this site <em>is designed.</em></h1>
       <p class="page-lede hero-in hero-in-3">The colors, type, components, and interactions used across this portfolio. Live examples, usage notes, and links to the pages where they do the work.</p>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Style guide sections">{sections.map(([id, label]) => <a href={`#${id}`}>{label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}</nav>
     </Container>
@@ -84,7 +84,7 @@ const widths = [
 
   <section id="foundations" class="editorial-section" aria-labelledby="foundations-title">
     <Container width="wide">
-      <div class="section-heading"><h2 id="foundations-title" class="section-type">Colors &<br /><em>surfaces.</em></h2><p>Cool paper, charcoal, and denim. The palette stays in tune with the photograph on the home and about pages.</p></div>
+      <div class="section-heading"><h2 id="foundations-title" class="section-type">Colors & <em>surfaces.</em></h2><p>Cool paper, charcoal, and denim. The palette stays in tune with the photograph on the home and about pages.</p></div>
       <div class="sg-palette-intro" data-reveal><div class="sg-portrait"><Portrait /></div><div><h3>A photograph sets the tone.</h3><p>The navy suit and throw, dark shelves, and daylight give the site its color direction. Strong typography provides the emphasis; blue connects the actions, feature sections, and editorial details.</p><p>Use paper for reading, denim tint to group related content, and ink or denim for a deliberate change of pace.</p><a class="editorial-link" href="/about/">See the portrait in context <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div></div>
       <ul class="sg-swatches">{colors.map((color) => <li><div class="sg-swatch" style={`background: var(${color.token})`} aria-hidden="true"></div><h3>{color.name}</h3><p class="sg-color-value">{tokenValue(color.token)}</p><code>{color.token}</code><p>{color.note}</p></li>)}</ul>
       <div class="sg-surface-grid"><div class="sg-surface bg-paper"><h3>Paper & ink</h3><p>Primary text stays dark. Descriptions use muted ink; readable text never uses faint ink.</p><a class="editorial-link" href="/blog/">Browse writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div><div class="sg-surface sg-surface--denim"><h3>Denim & paper</h3><p>Feature bands use white text and lighter blue supporting text. Keep links underlined or otherwise explicit.</p><a class="editorial-link editorial-link--light" href="/testimonials/">Read recommendations <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div><div class="sg-surface bg-ink"><h3>Ink & paper</h3><p>The footer, project navigation, and code artifacts use light text on ink. Links, icons, and focus styles need enough contrast against the dark surface.</p><a class="editorial-link editorial-link--light" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div></div>
@@ -94,10 +94,10 @@ const widths = [
 
   <section id="typography" class="editorial-section sg-tint" aria-labelledby="typography-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="typography-title">Type<br /><em>and hierarchy.</em></h2><p>Four typefaces, with distinct jobs. Bold headings carry the message; italics add a little character.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="typography-title">Type <em>and hierarchy.</em></h2><p>Four typefaces, with distinct jobs. Bold headings carry the message; italics add a little character.</p></div>
       <div class="sg-fonts"><article><p class="sg-font-label">Hanken Grotesk</p><p class="sg-hanken">Built to be used.</p><p>Headlines, paragraphs, navigation, form labels, and most metadata. Display type is heavy and tightly tracked; reading text has a more relaxed rhythm.</p></article><article><p class="sg-font-label">Newsreader</p><p class="sg-newsreader">A little character.</p><p>Editorial italics within large headings and occasional pull quotes. It adds contrast without taking over the reading experience.</p></article><article><p class="sg-font-label">Geist Mono</p><p class="sg-mono">const shared = true;</p><p>Code and selected technical metadata. It identifies technical detail rather than serving as a label on every section.</p></article><article><p class="sg-font-label">Style Script</p><div class="sg-logo"><Logo /></div><p>The wordmark in the header and footer. Keep it out of body copy, buttons, and interface labels.</p></article></div>
       <Specimen title="Page and section headings" note="Use the shared page-type and section-type classes for the main editorial hierarchy. Semantic heading levels still follow the document outline." href="/" code={typeMarkup} filename="Shared heading styles">
-        <p class="page-type sg-type-page">Shared UI.<br /><em>Clear intent.</em></p><p class="page-lede">Accessible components and product interfaces, built for the teams using them.</p><p class="section-type sg-type-section">Section <em>heading.</em></p>
+        <p class="page-type sg-type-page">Shared UI. <em>Clear intent.</em></p><p class="page-lede">Accessible components and product interfaces, built for the teams using them.</p><p class="section-type sg-type-section">Section <em>heading.</em></p>
       </Specimen>
       <Specimen title="Supporting headings and body copy" note="Heading and Text remain in use for case studies and supporting pages. Visual size is independent of the heading’s semantic level." href="/projects/ivfcryo/">
         <Heading level={4} visual="h2">Decisions need context.</Heading><Text size="lg" tone="muted" class="mt-4">Explain the situation, the alternatives, and the reason for a decision. Keep the reading column comfortable rather than stretching every paragraph across the page.</Text><Text size="sm" tone="muted" class="mt-4">Captions describe what the reader is seeing and why it matters.</Text>
@@ -107,7 +107,7 @@ const widths = [
 
   <section id="actions" class="editorial-section" aria-labelledby="actions-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="actions-title">Buttons<br /><em>and links.</em></h2><p>Use a filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="actions-title">Buttons <em>and links.</em></h2><p>Use a filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
       <Specimen title="Primary action and editorial link" note="The same styles appear on the home page, résumé, articles, and tools. Arrow glyphs are decorative; the visible words name the destination." href="/resume/" code={primaryMarkup} filename="Shared actions">
         <div class="sg-actions"><a class="action-link" href="/projects/">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a><a class="editorial-link" href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
       </Specimen>
@@ -121,7 +121,7 @@ const widths = [
 
   <section id="forms" class="editorial-section sg-tint" aria-labelledby="forms-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="forms-title">Forms<br /><em>and feedback.</em></h2><p>Visible labels, useful hints, specific errors, and feedback while sending. The contact page uses these same components.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="forms-title">Forms <em>and feedback.</em></h2><p>Visible labels, useful hints, specific errors, and feedback while sending. The contact page uses these same components.</p></div>
       <Specimen title="Fields, validation, and submission" note="Try the validation and sending state. This demonstration stays in your browser and does not send a message." href="/contact/" code={formMarkup} filename="Contact field pattern">
         <form id="sg-form" class="sg-demo-form" novalidate>
           <Field label="Email" name="sg-email" required hint="Use an address like you@example.com."><Input name="sg-email" type="email" required autocomplete="email" describedBy="field-sg-email-hint sg-email-error" /></Field>
@@ -139,7 +139,7 @@ const widths = [
 
   <section id="patterns" class="editorial-section" aria-labelledby="patterns-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="patterns-title">Content<br /><em>patterns.</em></h2><p>Case studies make ownership and evidence clear. Articles support long reading. Recommendations keep the words and their author together.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="patterns-title">Content <em>patterns.</em></h2><p>Case studies make ownership and evidence clear. Articles support long reading. Recommendations keep the words and their author together.</p></div>
       <Specimen title="Project summaries and evidence" note="ProjectHero establishes context and ownership. Tldr expands the decision record. WorkList and ProjectNext connect related work; CaseReview provides page shortcuts." href="/projects/ivfcryo/">
         <div class="project-page"><div class="sg-metrics">{projectPages.ivfcryo.figures.map((metric) => <Metric value={metric.value} label={metric.label} />)}</div>
         <p class="sg-note">Reported outcomes from the IVFCRYO case study. Keep a metric’s source, scope, and explanation close to the number.</p>
@@ -175,7 +175,7 @@ const widths = [
 
   <section id="tools" class="editorial-section sg-tint" aria-labelledby="tools-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive<br /><em>tools.</em></h2><p>Four explanatory illustrations, each tied to a working tool. Their controls and results share the portfolio’s type, surfaces, and action styles.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive <em>tools.</em></h2><p>Four explanatory illustrations, each tied to a working tool. Their controls and results share the portfolio’s type, surfaces, and action styles.</p></div>
       <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action} <span data-link-arrow="up-right">↗</span></span></a></li>)}</ul>
       <div class="sg-guidance-grid"><article><h3>Inputs and choices</h3><p>The calculator and token playground use labelled sliders and numeric inputs. The Scorecard uses grouped choices with a visible selected state. Preserve the label, value, and keyboard behavior.</p></article><article><h3>Results and state</h3><p>The calculator recalculates estimates from its inputs. The Scorecard preserves progress locally and opens a report. The audit tool pairs findings with fixes; it is a sample interface, not a scan of the reader’s website.</p></article></div>
     </Container>
@@ -183,7 +183,7 @@ const widths = [
 
   <section id="interaction" class="editorial-section" aria-labelledby="interaction-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="interaction-title">Spacing, layout,<br /><em>and motion.</em></h2><p>Shared widths and spacing keep pages coherent. Motion helps explain a state change or makes an available action easier to notice.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="interaction-title">Spacing, layout, <em>and motion.</em></h2><p>Shared widths and spacing keep pages coherent. Motion helps explain a state change or makes an available action easier to notice.</p></div>
       <div class="sg-guidance-grid"><article><h3>Containers and spacing</h3><p>Container provides a 24px gutter on each side. Its width caps include those gutters. Editorial sections use 5.5rem vertical padding on larger screens and 3.75rem on phones.</p><dl class="sg-widths">{widths.map(([name, width, note]) => <div><dt><code>{name}</code> <span>{width}</span></dt><dd>{note}</dd></div>)}</dl></article><article><h3>Reading and responsive layout</h3><p>Article text is capped at 48rem, with a separate contents rail on desktop and an expandable index on smaller screens. Project pages combine narrower reading columns with wider interface artifacts.</p><p>Headings use fluid sizes. Section shortcut navigation becomes a full-width list below 768px, with labels on the left and arrows on the right. Multi-column content stacks when its reading space gets too tight; data tables keep a horizontal scroller rather than dropping their headers.</p></article></div>
       <div class="sg-guidance-grid"><article><h3>Entry and scroll reveal</h3><p>Hero content rises 12px over 0.7 seconds with a small stagger. Sections reveal once as they enter the viewport. Content stays visible when reduced motion is requested.</p><button type="button" class="editorial-link" data-guide-replay>Replay entry motion <span aria-hidden="true" data-link-arrow="up-right">↗</span></button><div class="sg-motion-sample" data-guide-motion><strong>Clear, then a little character.</strong><span>Heading entrance and restrained movement.</span></div><p role="status" class="sg-motion-status" data-guide-motion-status></p></article><article><h3>Hover, focus, and reading progress</h3><p>Link arrows move 3px in their pointing direction over 200ms with the shared ease-out curve, on hover and keyboard focus. Reduced motion keeps arrows still. Article previews fade in a title underline and accent color on hover, with no enclosing hover border. Keyboard focus adds the enclosing border and outline. Other related-content links may also change their background or underline. A visible focus outline supports keyboard navigation. The thin page-top progress bar tracks scrolling where the browser supports scroll timelines.</p><a class="editorial-link" href="/tools/scorecard/#related-title">Try the related-tool links <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></article></div>
       <div class="sg-guidance-grid"><article><h3>Designed for paper</h3><p>Print uses one centered 70ch measure for body content and headings, with no narrower text limits inside it. Hanken headings with Newsreader emphasis, generous page margins and spacing, white surfaces, and a small identity and source line keep the document coherent. Whitespace separates sections; horizontal section rules are omitted. Screen navigation, share controls, and decorative effects are omitted. Headings stay with their content; tables repeat their column headings and code wraps to the page width.</p></article><article><h3>Complete, readable snapshots</h3><p>Disclosures expand for print and return to their previous state afterward. Case-study artwork fits within a sheet, live demos use their poster images, and external links receive numbered references. Tools retain current answers, values, and results. The downloadable résumé keeps its separate document layout.</p></article></div>
@@ -193,7 +193,7 @@ const widths = [
 
   <section id="components" class="editorial-section sg-tint" aria-labelledby="components-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="components-title">The component<br /><em>index.</em></h2><p>{componentCatalogue.length} components reached by the site’s pages. Each entry links to a page that uses it; examples created only for this guide are excluded.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="components-title">The component <em>index.</em></h2><p>{componentCatalogue.length} components reached by the site’s pages. Each entry links to a page that uses it; examples created only for this guide are excluded.</p></div>
       <p class="sg-note">Shared CSS patterns such as <code>action-link</code>, <code>page-type</code>, and <code>editorial-section</code> are documented above. Run <code>npm run audit:components</code> to check production usage and this index.</p>
       <div class="sg-catalogue">{groups.map((group) => <details class="sg-catalogue-group"><summary>{group.label}<span>{componentCatalogue.filter((component) => component.group === group.id).length} <span aria-hidden="true">+</span></span></summary><ul>{componentCatalogue.filter((component) => component.group === group.id).map((component) => <li><div><h3>{component.name}</h3><p>{component.note}</p><code>{component.path}</code></div><a class="editorial-link" href={component.href} aria-label={`See ${component.name} in use`}>See in use <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></li>)}</ul></details>)}</div>
     </Container>

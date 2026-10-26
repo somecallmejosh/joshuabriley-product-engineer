@@ -81,7 +81,7 @@
     .related-tools, .project-next, .work-more, .work-image-arrow,
     .live-embed-cta, .live-embed-tag, .live-embed-corner, .scroll-shot-fade,
     .sg-markup, .sg-motion-sample, [data-guide-replay], [role='tablist'],
-    .dx-controls, .tp-preview-live, .tool-hero-illustration,
+    .dx-controls, .tp-preview-live, .tool-hero-illustration, .article-hero-illustration,
     button:not(.tp-btn, .dx-price-cta, .dx-hero-cta), input[type='range'],
     input[type='hidden'], [data-link-arrow], .status-mark, .recommendation-quote-mark) {
     display: none !important;
@@ -119,7 +119,7 @@
     .article-grid, .article-overview-grid, .case-layout, .project-summary-grid,
     .project-facts, .project-figures, .project-cover-stage,
     .writing-group, .latest-layout, .testimonial-theme, .testimonial-collection,
-    .recommendation--featured, .tool-hero-layout, .tool-workspace-heading, .tool-reading,
+    .recommendation--featured, .tool-hero-layout, .article-hero, .tool-workspace-heading, .tool-reading,
     .related-list, .experience-entry, .skill-entry, .education-layout,
     .rc-grid, .tp-grid, .dx-panel, .verdict-grid, .sg-two-up, .sg-guidance-grid) {
     display: block !important;
@@ -149,7 +149,6 @@
     max-width: none !important; margin: 4mm 0 6mm !important;
   }
   body[data-print-layout='site'] #main :is(h1, h2) br { display: none; }
-  body[data-print-layout='site'] #main .print-heading-space { display: inline !important; }
   body[data-print-layout='site'] #main h2 {
     font-size: 19pt !important; line-height: 1.15 !important; letter-spacing: -.025em !important;
     max-width: none !important; margin: 12mm 0 4mm !important; padding-top: 0 !important;

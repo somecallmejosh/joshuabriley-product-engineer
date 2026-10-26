@@ -10,6 +10,7 @@ import Text from '~/components/primitives/Text.astro';
 import {
   CONTACT,
   SUMMARY as summary,
+  STRENGTHS as threads,
   EXPERIENCE as experience,
   SKILLS as skills,
   EDUCATION as education,
@@ -18,7 +19,7 @@ import {
 } from '~/lib/resume-data.mjs';
 
 const description =
-  'Design systems and UI platform engineer with 20+ years in production UI. Design-grade, accessible interfaces, design systems, and data-rich tools for insurance platforms and consumer products.';
+  'Product design engineer with 20+ years taking products from an unclear problem to a shipped, accessible product: framing what to build, designing the flow, and building it.';
 
 const workLinks: Record<string, { href: string; label: string }[]> = {
   'Logatot, Inc.': [{ href: '/projects/logatot/', label: 'Read the Logatot case study' }],
@@ -29,19 +30,9 @@ const workLinks: Record<string, { href: string; label: string }[]> = {
 };
 
 const skillContext: Record<string, { title: string; description: string; href?: string; link?: string }> = {
-  'Systems & testing': {
-    title: 'Design systems & testing',
-    description: 'Shared components, tokens, documentation, and the tests and tooling that support their use across product teams.',
-    href: '/personal-projects/rudiment-ui/',
-    link: 'Inspect a component library',
-  },
-  'Front end': {
-    title: 'Front-end engineering',
-    description: 'My deepest current systems work is in Stencil Web Components and Storybook. My broader toolkit spans markup, styling, and product UI frameworks.',
-  },
   'Design & craft': {
-    title: 'Interface design & accessibility',
-    description: 'Working through workflows, interaction states, prototypes, and accessibility behavior with design and engineering.',
+    title: 'Product design & accessibility',
+    description: 'Framing workflows, then working through interaction states, prototypes, and accessibility behavior with product, design, and engineering.',
     href: '/projects/ivfcryo/',
     link: 'Follow a design decision',
   },
@@ -49,11 +40,22 @@ const skillContext: Record<string, { title: string; description: string; href?: 
     title: 'Data & experimentation',
     description: 'Analytics, experimentation, and performance checks to identify friction and evaluate changes to an interface.',
   },
+  'Front end': {
+    title: 'Front-end engineering',
+    description: 'My deepest current systems work is in Stencil Web Components and Storybook. My broader toolkit spans markup, styling, and product UI frameworks.',
+  },
+  'Systems & testing': {
+    title: 'Design systems & testing',
+    description: 'Shared components, tokens, documentation, and the tests and tooling that support their use across product teams.',
+    href: '/personal-projects/rudiment-ui/',
+    link: 'Inspect a component library',
+  },
   'Back end & hosting': {
     title: 'Application delivery',
     description: 'Backend and deployment tools used to support product interfaces and working prototypes.',
   },
 };
+const threadTitle = Object.fromEntries(threads.map((t) => [t.key, t.title]));
 const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   ...context,
   items: skills.find((skill) => skill.group === group)!.items,
@@ -61,7 +63,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 
 ---
 
-<BaseLayout title="Resume | Joshua Briley | Design Systems & UI Platform Engineer" description={description} mainClass="resume-page">
+<BaseLayout title="Resume | Joshua Briley | Product Design Engineer" description={description} mainClass="resume-page">
 
   <Section tone="paper" padding="default" class="pt-12 md:pt-16 border-b border-line">
     <Container width="wide">
@@ -73,7 +75,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
             <p>{CONTACT.location} · <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phone}</p>
           </div>
           <p class="role-line hero-in hero-in-1" data-print-screen>Résumé · Joshua Briley</p>
-          <h1 class="page-type hero-in hero-in-2" data-print-screen>Twenty-plus years of<br /><em>design and engineering.</em></h1>
+          <h1 class="page-type hero-in hero-in-2" data-print-screen>I find what's worth building, <em>design it, and ship it.</em></h1>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
             {summary}
           </Text>
@@ -92,6 +94,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         </div>
       </div>
       <nav class="evidence-nav" aria-label="Résumé sections and work samples">
+        <a href="#approach">How I work <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#experience">Employment history <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#skills">Skills <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#education">Education <span aria-hidden="true" data-link-arrow="down">↓</span></a>
@@ -101,11 +104,29 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     </Container>
   </Section>
 
+  <section id="approach" class="editorial-section resume-approach" aria-labelledby="approach-title">
+    <Container width="wide">
+      <div class="section-heading">
+        <h2 id="approach-title" class="section-type">How I work</h2>
+        <p>The same three things in every role below, whatever the industry.</p>
+      </div>
+      <ol class="approach-list" role="list" data-reveal-stagger>
+        {threads.map((thread, i) => (
+          <li class="approach-entry">
+            <p class="approach-index">{String(i + 1).padStart(2, '0')}</p>
+            <h3>{thread.title}</h3>
+            <p>{thread.body}</p>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  </section>
+
   <Section id="experience" tone="paper" padding="default" class="resume-experience">
     <Container width="wide">
       <div class="section-heading">
         <h2 class="section-type">Experience</h2>
-        <p>Design systems and product UI across insurance, consumer products, and independent client work.</p>
+        <p>Different industries, the same job: figure out the right problem, then design and build the answer.</p>
       </div>
 
       <ul class="experience-list" role="list" data-reveal-stagger>
@@ -116,6 +137,9 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
               <h3 class="experience-company">{job.company}</h3>
               <p class="experience-role">{job.role}</p>
               <p class="experience-stack"><span class="sr-only">Tools and context: </span>{job.stack}</p>
+              <ul class="experience-threads" role="list" aria-label="How this role shows the approach">
+                {job.threads.map((key) => <li>{threadTitle[key]}</li>)}
+              </ul>
             </div>
             <div class="experience-contribution">
               <p class="experience-lead">{job.bullets[0]}</p>
@@ -261,6 +285,13 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     background: var(--accent);
   }
   .experience-links { display: flex; flex-wrap: wrap; gap: .25rem 2rem; margin-top: 1.5rem; }
+  .experience-threads { display: grid; gap: .3rem; margin-top: 1rem; list-style: none; padding: 0; }
+  .experience-threads li { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; line-height: 1.5; color: var(--accent); }
+  .approach-list { display: grid; gap: 0; list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line-strong); }
+  .approach-entry { padding: 2rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  .approach-index { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; color: var(--accent); }
+  .approach-entry h3 { margin-top: .75rem; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; text-wrap: balance; }
+  .approach-entry p:last-child { margin-top: .85rem; max-width: 38ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
   .resume-skills { background: var(--portfolio-tint); }
   .skill-list { border-top: 1px solid #b7c6d2; }
   .skill-entry { display: grid; gap: 1.75rem; padding: 2.5rem 0; border-bottom: 1px solid #b7c6d2; }
@@ -282,7 +313,11 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .education-courses li { border-top: 1px solid var(--line); padding: 1.25rem 0; }
   .education-courses h4 { max-width: 35ch; font-size: 1.15rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.4; }
   .education-courses p { margin-top: .5rem; font-size: .95rem; line-height: 1.6; color: var(--ink-muted); }
-  #skills, #education { scroll-margin-top: 6rem; }
+  #approach, #skills, #education { scroll-margin-top: 6rem; }
+  @media (min-width: 1024px) {
+    .approach-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; border-top: 0; }
+    .approach-entry { border-top: 1px solid var(--line-strong); border-bottom: 0; }
+  }
   @media (min-width: 640px) { .skill-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1024px) {
     .skill-entry, .education-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 6rem; }

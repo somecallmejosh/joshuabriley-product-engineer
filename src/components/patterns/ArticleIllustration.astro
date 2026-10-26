@@ -1,0 +1,204 @@
+---
+import { cx } from '~/lib/cx';
+import '~/styles/illustration.css';
+
+import { illustrationDescriptions, type IllustratedPost } from '~/lib/article-illustrations';
+
+interface Props {
+  post: IllustratedPost;
+  class?: string;
+}
+const { post, class: className } = Astro.props;
+---
+
+<!-- Styles live in illustration.css, shared with ToolIllustration.
+     data-surface="light" keeps the accent navy inside dark sections. -->
+<span class={cx('illustration', className)} data-surface="light">
+<span class="illustration-frame">
+<svg
+  viewBox="0 0 480 360"
+  fill="none"
+  role="img"
+  aria-label={illustrationDescriptions[post]}
+  class={cx('illustration-drawing', `illustration-drawing--${post}`)}
+>
+
+  {post === 'automation-work-behind-the-scenes' && (
+    <g>
+      <text x="40" y="56" class="label">AUTOMATION · OUT OF SIGHT</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="120.5" width="150" height="88" class="accent-stroke" stroke-dasharray="4 4" />
+      <text x="60" y="160" class="body">Story</text>
+      <text x="60" y="184" class="body">generator</text>
+      <path class="connector" d="M191 164H226M226 108V220M226 108H256M226 164H256M226 220H256" />
+      <circle cx="262" cy="108" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="280" y="114" class="body">No funding</text>
+      <circle cx="262" cy="164" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="280" y="170" class="body">No new users</text>
+      <circle cx="262" cy="220" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="280" y="226" class="body">No credit</text>
+      <text x="40" y="276" class="label">RESULT</text>
+      <text x="40" y="314" class="result">Easy to cut</text>
+    </g>
+  )}
+
+  {post === 'design-system-rules-for-ai-agents' && (
+    <g>
+      <text x="40" y="56" class="label">DESIGN AUDIT · PRE-COMMIT</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="36.5" y="96.5" width="228" height="34" class="accent-stroke" stroke-dasharray="4 4" />
+      <text x="48" y="119" class="code">default-palette-class</text>
+      <path class="connector" d="M265 114H296" />
+      <text x="308" y="108" class="label accent-text">CAUGHT</text>
+      <text x="308" y="130" class="small">by the audit</text>
+      <path class="rule" d="M40 166H440" />
+      <text x="40" y="200" class="label">FIX</text>
+      <rect x="40" y="217" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 228 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="76" y="234" class="body">Use a system color</text>
+      <text x="40" y="276" class="label">RESULT</text>
+      <text x="40" y="314" class="result">Blocked until fixed</text>
+    </g>
+  )}
+
+  {post === 'future-proofing-front-end-dev-roles' && (
+    <g>
+      <text x="40" y="56" class="label">THE FRONT-END ROLE · SPLITTING</text>
+      <rect x="40.5" y="166.5" width="150" height="52" class="frame" />
+      <text x="60" y="198" class="body">Front end</text>
+      <path class="connector" d="M191 192H226M226 128V256M226 128H256M226 256H256" />
+      <circle cx="262" cy="128" r="5" class="accent" />
+      <text x="280" y="124" class="body">Design engineer</text>
+      <text x="280" y="148" class="small">Interface quality</text>
+      <circle cx="262" cy="256" r="5" class="accent" />
+      <text x="280" y="252" class="body">Directs AI agents</text>
+      <text x="280" y="276" class="small">Review, architecture</text>
+    </g>
+  )}
+
+  {post === 'measuring-style-guide-adoption' && (
+    <g>
+      <text x="40" y="56" class="label">RUDI CHECK · REPOSITORY SCAN</text>
+      <path class="rule" d="M40 76H440M40 126H440M40 176H440M40 226H440" />
+      <text x="40" y="108" class="code">&lt;rudi-button&gt;</text>
+      <rect x="300" y="96" width="140" height="10" class="accent" />
+      <text x="40" y="158" class="code">&lt;rudi-dialog&gt;</text>
+      <rect x="300" y="146" width="64" height="10" class="accent" />
+      <text x="40" y="208" class="code">--rudi-color-accent</text>
+      <rect x="300" y="196" width="104" height="10" class="accent" />
+      <text x="40" y="276" class="label">OUTPUT</text>
+      <text x="40" y="314" class="result">Baseline report</text>
+    </g>
+  )}
+
+  {post === 'native-lit-or-stencil' && (
+    <g>
+      <text x="40" y="56" class="label">ONE ELEMENT · THREE ROUTES</text>
+      <rect x="40.5" y="88.5" width="120" height="56" class="frame" />
+      <text x="100" y="122" text-anchor="middle" class="small">Browser APIs</text>
+      <rect x="180.5" y="88.5" width="120" height="56" class="frame" />
+      <text x="240" y="122" text-anchor="middle" class="body">Lit</text>
+      <rect x="320.5" y="88.5" width="120" height="56" class="frame" />
+      <text x="380" y="122" text-anchor="middle" class="body">Stencil</text>
+      <path class="connector" d="M100 145V188M240 145V228M380 145V188M100 188H380" />
+      <rect x="140" y="236" width="200" height="48" rx="4" class="accent" />
+      <text x="240" y="266" text-anchor="middle" class="code on-accent">&lt;my-button&gt;</text>
+      <text x="240" y="316" text-anchor="middle" class="small">The same custom element</text>
+    </g>
+  )}
+
+  {post === 'people-still-print-web-pages' && (
+    <g>
+      <text x="40" y="56" class="label">SCREEN TO PAPER</text>
+      <rect x="40.5" y="80.5" width="170" height="220" class="frame" />
+      <path class="rule" d="M40 104H210" />
+      <text x="56" y="140" class="title">Pizza menu</text>
+      <path class="rule" d="M56 170H194M56 196H180M56 222H190" />
+      <text x="56" y="268" class="small accent-text">Order online</text>
+      <path class="accent-stroke" d="M56 274H152" stroke-width="1.5" />
+      <path class="connector" d="M218 190H254" />
+      <rect x="268.5" y="72.5" width="172" height="236" class="frame" />
+      <text x="286" y="122" class="title">Pizza menu</text>
+      <path class="rule" d="M286 152H424M286 178H410M286 204H420" />
+      <text x="286" y="248" class="small">Order online<tspan class="accent-text" dx="3" dy="-7" font-size="12">1</tspan></text>
+      <path class="rule" d="M286 272H424" />
+      <text x="286" y="292" class="label">1 · /ORDER</text>
+    </g>
+  )}
+
+  {post === 'staff-level-ui-engineering-for-dummies' && (
+    <g>
+      <text x="40" y="56" class="label">COMPONENT LIBRARY → UI PLATFORM</text>
+      <path class="rule" d="M40 76H440M40 126H440M40 176H440M40 226H440" />
+      <circle cx="46" cy="101" r="5" class="accent" />
+      <text x="64" y="108" class="body">Components</text>
+      <circle cx="46" cy="151" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="64" y="158" class="body">Public API</text>
+      <circle cx="46" cy="201" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="64" y="208" class="body">Releases</text>
+      <text x="40" y="276" class="label">GOVERNANCE AND ADOPTION</text>
+      <text x="40" y="314" class="result">A shared UI platform</text>
+    </g>
+  )}
+
+  {post === 'the-hidden-cost-of-component-inconsistency' && (
+    <g>
+      <text x="40" y="56" class="label">ONE BUTTON · THREE VERSIONS</text>
+      <rect x="40" y="80" width="148" height="44" rx="4" class="accent" />
+      <text x="114" y="108" text-anchor="middle" class="button">Save</text>
+      <rect x="40" y="136" width="148" height="44" rx="22" class="ink" />
+      <text x="114" y="164" text-anchor="middle" class="button">Save</text>
+      <rect x="40.5" y="192.5" width="147" height="43" class="frame" />
+      <text x="114" y="220" text-anchor="middle" class="body">Save</text>
+      <path class="connector" d="M204 80H216V236H204M216 158H236" />
+      <text x="248" y="150" class="small">Designed, built, and</text>
+      <text x="248" y="174" class="small">tested three times.</text>
+      <text x="40" y="276" class="label">COST</text>
+      <text x="40" y="314" class="result">Repeated rework</text>
+    </g>
+  )}
+
+  {post === 'web-component-libraries-in-the-ai-era' && (
+    <g>
+      <text x="40" y="56" class="label">WEB COMPONENTS · 2011 TO TODAY</text>
+      <path class="connector" d="M40 176H440" />
+      <circle cx="44" cy="176" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
+      <text x="40" y="146" class="label">2011</text>
+      <text x="40" y="212" class="small">Proposal</text>
+      <circle cx="128" cy="176" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
+      <text x="124" y="146" class="label">2014</text>
+      <text x="124" y="212" class="small">v1 specs</text>
+      <circle cx="212" cy="176" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
+      <text x="208" y="146" class="label">2019</text>
+      <text x="208" y="212" class="small">Lit</text>
+      <circle cx="278" cy="176" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
+      <text x="274" y="146" class="label">2023</text>
+      <text x="274" y="212" class="small">shadcn/ui</text>
+      <circle cx="370" cy="176" r="6" class="accent" />
+      <text x="366" y="146" class="label accent-text">2024</text>
+      <text x="366" y="212" class="small">AI agents</text>
+      <text x="40" y="276" class="label">TODAY</text>
+      <text x="40" y="314" class="result result--sm">Tokens, MCP, and copy-paste</text>
+    </g>
+  )}
+
+  {post === 'where-to-learn-modern-front-end' && (
+    <g>
+      <text x="40" y="56" class="label">A READING LIST</text>
+      <path class="rule" d="M40 76H440M40 126H440M40 176H440M40 226H440M40 276H440" />
+      <rect x="40" y="90" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 101 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="108" class="body">Courses</text>
+      <rect x="40" y="140" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 151 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="158" class="body">Books</text>
+      <rect x="40.75" y="190.75" width="20.5" height="20.5" rx="3" class="accent-stroke" stroke-width="1.5" />
+      <text x="80" y="208" class="body">Newsletters</text>
+      <rect x="40.75" y="240.75" width="20.5" height="20.5" rx="3" class="accent-stroke" stroke-width="1.5" />
+      <text x="80" y="258" class="body">Podcasts</text>
+      <text x="40" y="320" class="result result--sm">Start with your current work</text>
+    </g>
+  )}
+</svg>
+</span>
+</span>

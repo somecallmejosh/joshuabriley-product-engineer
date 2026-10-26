@@ -2,6 +2,7 @@
 import { cx } from '~/lib/cx';
 import { TOTAL_ITEMS } from '~/lib/scorecard';
 import { DEFAULTS, WEEKS_PER_YEAR, computeRoi, formatCurrency } from '~/lib/roi';
+import '~/styles/illustration.css';
 
 interface Props {
   tool: 'ScorecardEngine' | 'RoiCalculator' | 'TokenPlayground' | 'Diagnostic';
@@ -18,17 +19,16 @@ const example = computeRoi(DEFAULTS);
 const annualHours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 ---
 
-<!-- Same mat-and-frame treatment as the project teasers (.work-image): the frame
-     stays square, the drawing tilts inside it and straightens when a parent link is
-     hovered. data-surface="light" keeps the accent navy inside dark sections. -->
-<span class={cx('tool-art', className)} data-surface="light">
-<span class="tool-art-frame">
+<!-- Styles live in illustration.css, shared with ArticleIllustration.
+     data-surface="light" keeps the accent navy inside dark sections. -->
+<span class={cx('illustration', className)} data-surface="light">
+<span class="illustration-frame">
 <svg
   viewBox="0 0 480 360"
   fill="none"
   role="img"
   aria-label={descriptions[tool]}
-  class={cx('tool-illustration', `tool-illustration--${tool}`)}
+  class={cx('illustration-drawing', `illustration-drawing--${tool}`)}
 >
 
   {tool === 'ScorecardEngine' && (
@@ -102,35 +102,3 @@ const annualHours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 </span>
 </span>
 
-<style>
-  .tool-art { --mat: 2rem; --tilt: -4deg; display: block; padding: var(--mat); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
-  .tool-art-frame { display: block; overflow: hidden; background: var(--paper); box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--ink) 45%, transparent); }
-  .tool-illustration { display: block; width: 100%; height: auto; font-family: var(--font-hanken), sans-serif; transform: rotate(var(--tilt)); transition: transform .7s var(--ease-out); }
-  :global(a:is(:hover, :focus-visible)) .tool-illustration { transform: rotate(0deg) scale(1.03); }
-  .frame { fill: var(--raised); stroke: var(--line-strong); }
-  .rule { stroke: var(--line); }
-  .connector { stroke: var(--line-strong); stroke-width: 1.5; }
-  .accent { fill: var(--accent); }
-  .accent-stroke { stroke: var(--accent); }
-  .ink { fill: var(--ink); }
-  .check { stroke: var(--paper); }
-  text { fill: var(--ink); }
-  .label { font-family: var(--font-geist-mono), monospace; font-size: 12px; letter-spacing: 1px; fill: var(--ink-muted); }
-  .accent-text { fill: var(--accent); }
-  .small { font-size: 16px; fill: var(--ink-muted); }
-  .body { font-size: 18px; }
-  .faint { fill: var(--ink-faint); }
-  .button { font-size: 16px; font-weight: 600; fill: var(--paper); }
-  .code { font-family: var(--font-geist-mono), monospace; font-size: 16px; }
-  .op { font-size: 20px; fill: var(--ink-muted); }
-  .number { font-size: 30px; font-weight: 700; letter-spacing: -.8px; }
-  .title { font-size: 24px; font-weight: 700; letter-spacing: -.5px; }
-  .total { font-size: 56px; font-weight: 700; letter-spacing: -2px; }
-  .result { font-family: var(--font-fraunces), serif; font-style: italic; font-size: 30px; font-weight: 400; letter-spacing: -.4px; }
-  .result--sm { font-size: 26px; }
-  @media (max-width: 767px) { .tool-art { --mat: 1.25rem; } }
-  @media (prefers-reduced-motion: reduce) {
-    .tool-illustration { transition: none; }
-    :global(a:is(:hover, :focus-visible)) .tool-illustration { transform: rotate(var(--tilt)); }
-  }
-</style>

@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
+import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
 import { writing } from '~/lib/writing';
+import { hasIllustration } from '~/lib/article-illustrations';
 import '~/styles/articles.css';
 
 interface Props {
@@ -35,12 +37,17 @@ const neighbours = [
   <header class="page-opener article-opener">
     <Container width="wide">
       <a class="editorial-link hero-in hero-in-1" href="/blog/"><span aria-hidden="true" data-link-arrow="left">←</span> All writing</a>
-      <p class="role-line article-meta hero-in hero-in-2"><span>{category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
-      <h1 class="page-type article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
-      <p class="page-lede hero-in hero-in-4">{description}</p>
-      <div class="hero-actions hero-in hero-in-4">
-        <a class="action-link" href="#article-body">Read article <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-        {hasToc && <a class="editorial-link" href="#article-contents">Browse sections <span aria-hidden="true" data-link-arrow="down">↓</span></a>}
+      <div class:list={['article-hero', hasIllustration(slug) && 'article-hero--illustrated']}>
+        <div class="article-hero-copy">
+          <p class="role-line article-meta hero-in hero-in-2"><span>{category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
+          <h1 class="page-type article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
+          <p class="page-lede hero-in hero-in-4">{description}</p>
+          <div class="hero-actions hero-in hero-in-4">
+            <a class="action-link" href="#article-body">Read article <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+            {hasToc && <a class="editorial-link" href="#article-contents">Browse sections <span aria-hidden="true" data-link-arrow="down">↓</span></a>}
+          </div>
+        </div>
+        {hasIllustration(slug) && <div class="article-hero-illustration hero-in hero-in-3"><ArticleIllustration post={slug} /></div>}
       </div>
     </Container>
   </header>
@@ -49,7 +56,7 @@ const neighbours = [
     <section class="article-overview" aria-labelledby="overview-title">
       <Container width="wide">
         <div class="article-overview-grid" data-reveal>
-          <h2 id="overview-title">What this<br /><em>covers.</em></h2>
+          <h2 id="overview-title">What this <em>covers.</em></h2>
           <ul>{context.covers.map((item) => <li>{item}</li>)}</ul>
         </div>
       </Container>

@@ -18,12 +18,6 @@ if (document.body.dataset.printLayout === 'site') {
     closedDetails.forEach(details => { details.open = true; });
     imageLoading = [...document.querySelectorAll<HTMLImageElement>('#main img[loading="lazy"]')].map(image => ({ image, loading: image.getAttribute('loading') }));
     imageLoading.forEach(({ image }) => { image.loading = 'eager'; });
-    document.querySelectorAll('#main :is(h1, h2) br').forEach(br => {
-      const space = document.createElement('span');
-      space.className = 'print-only print-heading-space';
-      space.textContent = ' ';
-      br.before(space);
-    });
 
     const destinations = new Map<string, number>();
     const notes = document.querySelector<HTMLElement>('[data-print-references]');
@@ -72,7 +66,6 @@ if (document.body.dataset.printLayout === 'site') {
       else image.setAttribute('loading', loading);
     });
     document.querySelectorAll('.print-link-marker').forEach(marker => marker.remove());
-    document.querySelectorAll('.print-heading-space').forEach(space => space.remove());
     document.querySelector('[data-print-references]')?.replaceChildren();
     if (sourceLine) sourceLine.textContent = originalSource;
     delete document.body.dataset.printing;

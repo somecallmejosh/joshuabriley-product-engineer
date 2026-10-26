@@ -1,0 +1,36 @@
+/* Shared drawing language for ToolIllustration and ArticleIllustration: the same
+   mat-and-frame treatment as the project teasers (.work-image). The frame stays
+   square, the drawing tilts inside it and straightens when a parent link is
+   hovered. Everything is scoped under .illustration because several of these
+   names (.rule, .label) are global classes elsewhere in site.css. */
+.illustration { --mat: 2rem; --tilt: -4deg; display: block; padding: var(--mat); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
+.illustration-frame { display: block; overflow: hidden; background: var(--paper); box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--ink) 45%, transparent); }
+.illustration-drawing { display: block; width: 100%; height: auto; font-family: var(--font-hanken), sans-serif; transform: rotate(var(--tilt)); transition: transform .7s var(--ease-out); }
+a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) scale(1.03); }
+.illustration .frame { fill: var(--raised); stroke: var(--line-strong); }
+.illustration .rule { stroke: var(--line); }
+.illustration .connector { stroke: var(--line-strong); stroke-width: 1.5; }
+.illustration .accent { fill: var(--accent); }
+.illustration .accent-stroke { stroke: var(--accent); }
+.illustration .ink { fill: var(--ink); }
+.illustration .check { stroke: var(--paper); }
+.illustration text { fill: var(--ink); }
+.illustration .label { font-family: var(--font-geist-mono), monospace; font-size: 12px; letter-spacing: 1px; fill: var(--ink-muted); }
+.illustration .accent-text { fill: var(--accent); }
+.illustration .small { font-size: 16px; fill: var(--ink-muted); }
+.illustration .body { font-size: 18px; }
+.illustration .faint { fill: var(--ink-faint); }
+.illustration .button { font-size: 16px; font-weight: 600; fill: var(--paper); }
+.illustration .code { font-family: var(--font-geist-mono), monospace; font-size: 16px; }
+.illustration .on-accent { fill: var(--paper); }
+.illustration .op { font-size: 20px; fill: var(--ink-muted); }
+.illustration .number { font-size: 30px; font-weight: 700; letter-spacing: -.8px; }
+.illustration .title { font-size: 24px; font-weight: 700; letter-spacing: -.5px; }
+.illustration .total { font-size: 56px; font-weight: 700; letter-spacing: -2px; }
+.illustration .result { font-family: var(--font-fraunces), serif; font-style: italic; font-size: 30px; font-weight: 400; letter-spacing: -.4px; }
+.illustration .result--sm { font-size: 26px; }
+@media (max-width: 767px) { .illustration { --mat: 1.25rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .illustration-drawing { transition: none; }
+  a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(var(--tilt)); }
+}

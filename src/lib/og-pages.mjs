@@ -18,10 +18,10 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'I design and build product interfaces', wink: 'interfaces' },
-  { slug: 'about', path: '/about/', eyebrow: 'About · Design Systems & UI Engineer', headline: 'An engineer with an eye for the details', wink: 'the details' },
+  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Helping teams ship the right product', wink: 'right product' },
+  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet' },
   { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop' },
-  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Design Systems & UI Engineer', headline: 'Twenty-plus years of design and engineering', wink: 'design and engineering' },
+  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it' },
   { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built' },
   { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build on my own time', wink: 'on my own time' },
   { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship' },
