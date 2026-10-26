@@ -13,7 +13,7 @@
 }
 .article-overview { background: var(--portfolio-blue); color: white; padding: 3.5rem 0; }
 .article-overview-grid { display: grid; gap: 2rem; }
-.article-overview h2 { font-size: clamp(2.4rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.05; text-wrap: balance; }
+.article-overview h2 { font-size: clamp(2.4rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.05; }
 .article-overview h2 em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; color: #c6d8e8; }
 .article-overview ul { list-style: none; padding: 0; margin: 0; }
 .article-overview li { padding: .85rem 0; font-size: 1.06rem; line-height: 1.55; }
@@ -41,7 +41,6 @@
 .article-prose :where(h3):not(:where(.not-prose, .not-prose *)) { font-size: 1.55rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.2; margin-top: 2.4rem; }
 .article-prose :where(h4):not(:where(.not-prose, .not-prose *)) { font-size: 1.2rem; }
 .article-prose .lede { font-size: clamp(1.24rem, 2vw, 1.45rem); line-height: 1.6; letter-spacing: -.02em; }
-.article-prose :where(a):not(:where(.not-prose, .not-prose *)) { text-decoration-color: var(--portfolio-blue); text-underline-offset: 4px; }
 .article-prose .pullquote { text-align: left; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--portfolio-blue); border-left: 3px solid var(--portfolio-blue); padding-left: 1.25rem; margin-block: 2.5rem; }
 .article-prose :where(pre):not(:where(.not-prose, .not-prose *)) { border-radius: 0; max-width: 100%; padding: 1.25rem; font-size: .86rem; overscroll-behavior-x: contain; }
 .article-prose :where(:not(pre) > code):not(:where(.not-prose, .not-prose *)) { border-radius: 0; }

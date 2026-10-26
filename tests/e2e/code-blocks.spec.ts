@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/']) {
+for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/', '/blog/design-system-rules-for-ai-agents/']) {
   test(`highlighted code preserves source, copy, and accessible layout: ${path}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addInitScript(() => {

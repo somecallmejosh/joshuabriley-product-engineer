@@ -14,7 +14,6 @@ interface Props {
   visual?: HeadingVisual;
   tone?: 'ink' | 'paper' | 'accent' | 'muted';
   align?: 'left' | 'center';
-  balance?: boolean;
   class?: string;
   id?: string;
 }
@@ -24,7 +23,6 @@ const {
   visual,
   tone = 'ink',
   align = 'left',
-  balance = false,
   class: className,
   id,
 } = Astro.props;
@@ -35,15 +33,15 @@ const Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = `h${level}` as any;
 // Bold display type carries hierarchy; editorial italics add character within a heading.
 const visualStyles: Record<HeadingVisual, string> = {
   'display-xl':
-    'font-heading text-[2.75rem] leading-[1.02] sm:text-6xl md:text-[4.25rem] font-extrabold tracking-[-0.055em] text-balance',
+    'font-heading text-[2.75rem] leading-[1.02] sm:text-6xl md:text-[4.25rem] font-extrabold tracking-[-0.055em]',
   'display-lg':
-    'font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.02] tracking-[-0.05em] text-balance',
+    'font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.02] tracking-[-0.05em]',
   'display-md':
-    'font-heading text-3xl sm:text-4xl md:text-[2.75rem] font-bold leading-[1.08] tracking-[-0.04em] text-pretty',
+    'font-heading text-3xl sm:text-4xl md:text-[2.75rem] font-bold leading-[1.08] tracking-[-0.04em]',
   h1: 'font-heading text-4xl md:text-5xl font-bold leading-[1.08] tracking-[-0.04em]',
-  h2: 'font-heading text-2xl md:text-[2rem] font-semibold leading-tight tracking-[-0.015em] text-pretty',
-  h3: 'font-heading text-lg md:text-xl font-semibold leading-snug tracking-[-0.015em] text-pretty',
-  h4: 'font-heading text-base font-semibold leading-snug tracking-[-0.01em] text-pretty',
+  h2: 'font-heading text-2xl md:text-[2rem] font-semibold leading-tight tracking-[-0.015em]',
+  h3: 'font-heading text-lg md:text-xl font-semibold leading-snug tracking-[-0.015em]',
+  h4: 'font-heading text-base font-semibold leading-snug tracking-[-0.01em]',
   eyebrow:
     'font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em]',
 };
@@ -62,7 +60,6 @@ const tones: Record<NonNullable<Props['tone']>, string> = {
     visualStyles[resolvedVisual],
     tones[tone],
     align === 'center' && 'text-center',
-    balance && 'text-balance',
     className
   )}
 >

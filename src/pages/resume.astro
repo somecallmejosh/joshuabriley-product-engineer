@@ -239,7 +239,6 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -.05em;
-    text-wrap: balance;
   }
   .experience-role {
     margin-top: 1rem;
@@ -290,13 +289,13 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .approach-list { display: grid; gap: 0; list-style: none; padding: 0; margin: 0; }
   .approach-entry { padding: 2rem 0; min-width: 0; }
   .approach-index { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; color: var(--accent); }
-  .approach-entry h3 { margin-top: .75rem; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; text-wrap: balance; }
+  .approach-entry h3 { margin-top: .75rem; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; }
   .approach-entry p:last-child { margin-top: .85rem; max-width: 38ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
   .resume-skills { background: var(--portfolio-tint); }
   .skill-list { }
   .skill-entry { display: grid; gap: 1.75rem; padding: 2.5rem 0; }
   .skill-entry > *, .education-layout > * { min-width: 0; }
-  .skill-context h3 { max-width: 19ch; font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
+  .skill-context h3 { max-width: 19ch; font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; }
   .skill-context p { max-width: 45ch; margin-top: 1rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
   .skill-context a { margin-top: 1rem; }
   .skill-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: .7rem 1.5rem; list-style: none; padding: 0; margin: 0; }
@@ -304,7 +303,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .education-layout { display: grid; gap: 3rem; }
   .education-degree { padding-top: 1.75rem; }
   .education-degree + .education-degree { margin-top: 2rem; }
-  .education-degree h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; text-wrap: balance; }
+  .education-degree h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; }
   .education-institution { margin-top: 1rem; font-size: 1.2rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
   .education-note { margin-top: 1rem; max-width: 39ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.7; }
   .education-learning > h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.25; letter-spacing: -.03em; }

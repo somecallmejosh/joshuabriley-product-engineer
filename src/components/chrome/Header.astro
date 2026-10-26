@@ -15,7 +15,7 @@ const { class: className } = Astro.props;
 
 <header
   class={cx(
-    'site-header sticky top-0 z-40 border-b border-line',
+    'site-header sticky top-0 z-40 border-b',
     className,
   )}
 >
@@ -34,3 +34,13 @@ const { class: className } = Astro.props;
     <MobileNav />
   </Container>
 </header>
+
+<script>
+  // The bottom rule only appears once the page has scrolled under the header.
+  const header = document.querySelector<HTMLElement>('.site-header');
+  if (header) {
+    const update = () => header.toggleAttribute('data-scrolled', window.scrollY > 0);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

@@ -7,7 +7,39 @@ const { stacked = false } = Astro.props;
   {books.map((book, index) => (
     <li>
       <a class="book-link" href={book.href} target="_blank" rel="noopener noreferrer" aria-labelledby={`book-${index}-title`}>
-        <div class="book-cover" aria-hidden="true">
+        <div class="book-cover" data-surface="dark" aria-hidden="true">
+          {index === 0 ? (
+            <svg class="book-art" viewBox="0 0 200 150" fill="none">
+              <rect class="art-faint" x="0" y="10" width="62" height="7" rx="3.5" />
+              <rect class="art-accent" x="70" y="10" width="34" height="7" rx="3.5" />
+              <rect class="art-faint" x="16" y="26" width="96" height="7" rx="3.5" />
+              <rect class="art-faint" x="16" y="42" width="54" height="7" rx="3.5" />
+              <rect class="art-faint" x="0" y="58" width="22" height="7" rx="3.5" />
+              <path class="art-line" d="M60 66 C 92 66, 96 98, 122 98" />
+              <rect class="art-panel" x="96" y="84" width="96" height="50" rx="8" />
+              <rect class="art-button" x="110" y="100" width="68" height="20" rx="10" />
+              <circle class="art-ripple" cx="160" cy="114" r="16" />
+              <circle class="art-ripple art-ripple--far" cx="160" cy="114" r="26" />
+              <path class="art-cursor" d="M156 108 L156 132 L162 126 L167 137 L171 135 L166 124 L174 124 Z" />
+            </svg>
+          ) : (
+            <svg class="book-art" viewBox="0 0 200 150" fill="none">
+              <rect class="art-panel" x="52" y="4" width="96" height="42" rx="7" />
+              <rect class="art-accent" x="62" y="14" width="22" height="22" rx="4" />
+              <rect class="art-faint" x="92" y="16" width="44" height="6" rx="3" />
+              <rect class="art-faint" x="92" y="28" width="30" height="6" rx="3" />
+              <path class="art-line" d="M100 46 V62 M44 74 L100 62 L156 74 M100 62 V74" />
+              <rect class="art-outline" x="26" y="74" width="36" height="28" rx="5" />
+              <rect class="art-outline" x="82" y="74" width="36" height="28" rx="14" />
+              <rect class="art-outline" x="138" y="74" width="36" height="28" rx="2" />
+              <path class="art-line" d="M44 102 L20 128 M44 102 L60 128 M100 102 L100 128 M156 102 L140 128 M156 102 L180 128" />
+              <circle class="art-dot" cx="20" cy="134" r="6" />
+              <circle class="art-dot" cx="60" cy="134" r="6" />
+              <circle class="art-dot" cx="100" cy="134" r="6" />
+              <circle class="art-dot" cx="140" cy="134" r="6" />
+              <circle class="art-dot" cx="180" cy="134" r="6" />
+            </svg>
+          )}
           <p class="book-cover-title">{book.title}</p>
           <p class="book-cover-subtitle">{book.subtitle}</p>
           <p class="book-cover-author">Joshua Briley</p>
@@ -27,17 +59,27 @@ const { stacked = false } = Astro.props;
   .book-list { display: grid; gap: 3.5rem; }
   .book-link { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 2rem; align-items: start; }
   .book-link:focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 8px; }
-  .book-cover { display: flex; flex-direction: column; aspect-ratio: 2 / 3; padding: 1.4rem 1.2rem 1.2rem 1.6rem; background: var(--portfolio-blue); color: white; border-left: 6px solid var(--ink); box-shadow: 0 18px 30px -18px var(--ink); transition: transform .3s; }
-  .book-list li:nth-child(even) .book-cover { background: var(--ink); border-left-color: var(--portfolio-blue); }
-  .book-cover-title { font-size: 1.3rem; font-weight: 800; line-height: 1.08; letter-spacing: -.04em; text-wrap: balance; }
-  .book-cover-subtitle { margin-top: .6rem; font-family: var(--font-fraunces); font-style: italic; font-size: .95rem; line-height: 1.3; }
-  .book-cover-author { margin-top: auto; padding-top: .8rem; border-top: 1px solid currentColor; font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .book-cover { display: flex; flex-direction: column; aspect-ratio: 2 / 3; padding: 1.25rem 1.2rem 1.2rem; background: var(--portfolio-blue); color: var(--paper); overflow: hidden; transition: transform .4s var(--ease-out); }
+  .book-list li:nth-child(even) .book-cover { background: var(--ink); }
+  .book-art { display: block; width: 100%; height: auto; margin-bottom: auto; overflow: visible; }
+  .book-art .art-faint { fill: currentColor; opacity: .28; }
+  .book-art .art-accent, .book-art .art-dot, .book-art .art-button { fill: rgb(var(--accent-rgb)); }
+  .book-art .art-line { stroke: currentColor; stroke-width: 1.5; opacity: .45; stroke-linecap: round; }
+  .book-art .art-panel { fill: currentColor; fill-opacity: .08; stroke: currentColor; stroke-opacity: .5; stroke-width: 1.5; }
+  .book-art .art-outline { stroke: currentColor; stroke-width: 1.5; opacity: .85; }
+  .book-art .art-ripple { stroke: rgb(var(--accent-rgb)); stroke-width: 1.5; opacity: .75; transform-origin: 160px 114px; transition: transform .6s var(--ease-out), opacity .6s; }
+  .book-art .art-ripple--far { opacity: .45; }
+  .book-art .art-cursor { fill: var(--paper); stroke: var(--ink); stroke-width: 1; stroke-linejoin: round; }
+  .book-link:is(:hover, :focus-visible) .art-ripple { transform: scale(1.18); opacity: .9; }
+  .book-cover-title { margin-top: 1rem; font-size: 1.5rem; font-weight: 300; line-height: 1.06; letter-spacing: -.04em; text-wrap: balance; }
+  .book-cover-subtitle { margin-top: .6rem; font-size: .9rem; line-height: 1.35; opacity: .8; }
+  .book-cover-author { margin-top: .9rem; font-size: .78rem; font-weight: 500; opacity: .8; }
   .book-link:hover .book-cover, .book-link:focus-visible .book-cover { transform: translateY(-6px); }
   .book-meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; color: var(--ink-muted); font-size: .82rem; line-height: 1.5; }
-  .book-copy h3 { margin-top: .9rem; color: var(--ink);font-size: clamp(1.7rem, 2.4vw, 2.3rem); font-weight: 750; line-height: 1.12; letter-spacing: -.04em; text-wrap: balance; }
+  .book-copy h3 { margin-top: .9rem; color: var(--ink);font-size: clamp(1.7rem, 2.4vw, 2.3rem); font-weight: 750; line-height: 1.12; letter-spacing: -.04em; }
   .book-description { margin-top: 1rem; max-width: 40ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
   .book-action { display: inline-flex; align-items: center; gap: 1.2rem; min-height: 44px; margin-top: .85rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 5px; }
-  @media (prefers-reduced-motion: reduce) { .book-cover { transition: none; } .book-link:hover .book-cover, .book-link:focus-visible .book-cover { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .book-cover, .book-art .art-ripple { transition: none; } .book-link:hover .book-cover, .book-link:focus-visible .book-cover, .book-link:is(:hover, :focus-visible) .art-ripple { transform: none; } }
   @media (min-width: 1024px) {
     .book-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4rem; }
     .book-link { grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); }
@@ -48,7 +90,7 @@ const { stacked = false } = Astro.props;
   }
   /* Stacked: cover above the copy, for narrower columns. */
   .book-list--stacked .book-link { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-  .book-list--stacked .book-cover { width: 11rem; }
+  .book-list--stacked .book-cover { width: 13rem; }
   .book-list--stacked .book-copy h3 { font-size: 1.45rem; }
   @media (min-width: 640px) {
     .book-list--stacked { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem; }

@@ -351,7 +351,6 @@ header .desktop-nav a[aria-current='page'] {
   letter-spacing: -0.022em;
   line-height: 1.2;
   scroll-margin-top: 6rem;
-  text-wrap: balance;
 }
 /* h2 chapter dividers pick up the display serif (matching the Heading primitive);
    h3/h4 stay grotesk for in-flow density. */
@@ -397,16 +396,16 @@ header .desktop-nav a[aria-current='page'] {
   margin: 0 0 1.8em;
 }
 
-/* Links — ink with a quiet navy underline; full accent on hover. */
+/* Links — same treatment as .hero-link: ink with a grey underline; full accent on hover. */
 .prose-whimsy :where(a):not(:where(.not-prose, .not-prose *)) {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: rgba(46, 92, 138, 0.45);
+  text-decoration-color: var(--line-strong);
   text-decoration-thickness: 1px;
-  text-underline-offset: 2.5px;
+  text-underline-offset: 4px;
   transition:
-    color 0.18s ease,
-    text-decoration-color 0.18s ease;
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
 }
 .prose-whimsy :where(a):not(:where(.not-prose, .not-prose *)):hover {
   color: var(--accent);
@@ -1131,5 +1130,17 @@ p,
 li,
 td,
 th {
+  text-wrap: pretty;
+}
+
+/* Display headings balance their lines; every other heading avoids orphans. */
+h1 {
+  text-wrap: balance;
+}
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: pretty;
 }

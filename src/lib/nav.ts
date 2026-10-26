@@ -6,8 +6,8 @@ export interface NavLink {
 }
 
 export const PRIMARY_NAV: NavLink[] = [
-  { href: '/', label: 'Home' },
   { href: '/projects/', label: 'Projects' },
+  { href: '/resume/', label: 'Résumé' },
   { href: '/about/', label: 'Biography' },
   { href: '/blog/', label: 'Writing' },
   { href: '/contact/', label: 'Contact' },

@@ -4,6 +4,7 @@ import tailwind from '@astrojs/tailwind'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import netlify from '@astrojs/netlify'
+import remarkCodeBlock from './src/lib/remark-code-block.mjs'
 
 const isDev = process.argv.includes('dev')
 
@@ -94,7 +95,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    mdx(),
+    mdx({ remarkPlugins: [remarkCodeBlock] }),
     sitemap({
       filter: (page) =>
         !page.includes('/og-render') &&
