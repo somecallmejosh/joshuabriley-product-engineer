@@ -43,16 +43,6 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
     </Container>
   </section>
 
-  <section id="books" class="editorial-section books-section" aria-labelledby="books-title">
-    <Container width="wide">
-      <div class="books-intro">
-        <h2 id="books-title" class="section-type">Longer<br /><em>reads.</em></h2>
-        <p>Two free online books, each taking a single subject from start to finish.</p>
-      </div>
-      <BookList />
-    </Container>
-  </section>
-
   {lead && (
     <section class="latest-writing" aria-labelledby="latest-title">
       <Container width="wide">
@@ -101,15 +91,13 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
     </section>
   ))}
 
-  <section class="editorial-section writing-tools" aria-labelledby="writing-tools-title">
+  <section id="books" class="editorial-section books-section" aria-labelledby="books-title">
     <Container width="wide">
-      <div class="approach-layout">
-        <h2 id="writing-tools-title" class="section-type">Try the<br /><em>tools.</em></h2>
-        <div>
-          <p>Assess your design system, estimate UI rework, explore shared tokens, or inspect sample audit findings. Four free tools you can use in your browser.</p>
-          <a href="/tools/" class="action-link">Explore the tools <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        </div>
+      <div class="books-intro">
+        <h2 id="books-title" class="section-type">Longer<br /><em>reads.</em></h2>
+        <p>Two free online books, each taking a single subject from start to finish.</p>
       </div>
+      <BookList />
     </Container>
   </section>
 </BaseLayout>
