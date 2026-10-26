@@ -1,6 +1,6 @@
 ---
 import Icon from '~/components/primitives/Icon.astro';
-import { FOOTER_NAV } from '~/lib/nav';
+import { FOOTER_NAV, navCurrent, type NavLink } from '~/lib/nav';
 import { cx } from '~/lib/cx';
 
 interface Props { class?: string; }
@@ -8,11 +8,7 @@ const { class: className } = Astro.props;
 // Mirror the footer: its lead group is the large list, the rest are supporting links.
 const [leadGroup, ...supportingGroups] = FOOTER_NAV;
 const primaryLinks = leadGroup.links;
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isCurrent = (href: string) => {
-  const path = href.replace(/\/$/, '') || '/';
-  return pathname === path || (path !== '/' && pathname.startsWith(`${path}/`));
-};
+const current = (link: NavLink) => navCurrent(Astro.url.pathname, link);
 ---
 
 <button
@@ -35,46 +31,47 @@ const isCurrent = (href: string) => {
     <div class="mobile-menu-content">
       <nav aria-label="Mobile primary">
         <ul class="mobile-primary" role="list">
-          {primaryLinks.map(link => <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}<span aria-hidden="true" data-link-arrow="up-right">↗</span></a></li>)}
+          {primaryLinks.map(link => <li><a href={link.href} aria-current={current(link)}>{link.label}</a></li>)}
         </ul>
       </nav>
       {supportingGroups.map((group, index) => (
         <nav class="mobile-more" aria-labelledby={`mobile-more-title-${index}`}>
           <h3 id={`mobile-more-title-${index}`}>{group.heading}</h3>
           <ul class="mobile-supporting" role="list">
-            {group.links.map(link => <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a></li>)}
+            {group.links.map(link => <li><a href={link.href} aria-current={current(link)}>{link.label}</a></li>)}
           </ul>
         </nav>
       ))}
-      <a class="editorial-link mobile-contact" href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="editorial-link mobile-contact" href="/contact/" aria-current={current({ href: '/contact/', label: 'Contact me' })}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </div>
   </div>
 </dialog>
 
 <style>
-  .mobile-menu-toggle, .mobile-menu-close { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 44px; padding: .5rem .25rem; color: var(--ink); font-size: .95rem; font-weight: 600; }
-  .mobile-menu-toggle { border-bottom: 1px solid var(--line-strong); }
+  .mobile-menu-toggle, .mobile-menu-close { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 44px; padding: .5rem .25rem; color: var(--ink); font-size: .875rem; font-weight: 500; }
   .mobile-menu-toggle:hover, .mobile-menu-close:hover { color: var(--portfolio-blue); }
-  .mobile-menu { width: calc(100% - 2rem); max-width: 36rem; max-height: calc(100dvh - 2rem); margin: 1rem auto auto; padding: 0; border: 1px solid var(--line-strong); border-top: 4px solid var(--portfolio-blue); background: var(--paper); color: var(--ink); overflow: hidden; }
+  .mobile-menu { width: calc(100% - 2rem); max-width: 36rem; max-height: calc(100dvh - 2rem); margin: 1rem auto auto; padding: 0; border: 1px solid var(--line); background: var(--paper); color: var(--ink); overflow: hidden; }
   .mobile-menu::backdrop { background: rgb(26 27 30 / .48); }
   .mobile-menu-panel { display: flex; flex-direction: column; max-height: calc(100dvh - 2rem - 5px); }
   .mobile-menu-heading { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; gap: 1rem; padding: 1rem 1.5rem .75rem; }
   .mobile-menu-heading h2 { font-size: .9rem; font-weight: 500; color: var(--ink-muted); }
   .mobile-menu-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 1.5rem 1.5rem; }
   .mobile-primary, .mobile-supporting { margin: 0; padding: 0; list-style: none; }
-  .mobile-primary a { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 56px; padding: .6rem 0; border-bottom: 1px solid var(--line-strong); font-size: clamp(1.75rem, 7vw, 2.25rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; }
-  .mobile-primary a > span { color: var(--portfolio-blue); font-size: .6em; font-weight: 400; }
+  /* The one place the chrome uses display type: large and light, like the homepage. */
+  .mobile-primary a { display: flex; align-items: center; min-height: 56px; padding: .35rem 0; font-size: clamp(2.1rem, 9vw, 2.75rem); font-weight: 300; line-height: 1.05; letter-spacing: -.045em; }
   .mobile-more { padding-top: 1.75rem; container-type: inline-size; }
   .mobile-more h3 { font-size: .8rem; font-weight: 500; color: var(--ink-muted); }
   .mobile-supporting { display: grid; gap: .375rem; margin-top: .75rem; }
   @container (min-width: 19rem) { .mobile-supporting { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .mobile-supporting a { display: flex; align-items: center; height: 100%; min-height: 56px; padding: .625rem .75rem; background: rgb(var(--accent-rgb) / .06); font-size: .9375rem; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; transition: color 200ms, background-color 200ms; }
-  .mobile-supporting a:hover { background: rgb(var(--accent-rgb) / .11); color: var(--portfolio-blue); }
-  .mobile-supporting a[aria-current='page'] { background: rgb(var(--accent-rgb) / .11); color: var(--portfolio-blue); box-shadow: inset 0 -2px var(--portfolio-blue); }
-  .mobile-primary a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color 200ms, text-decoration-color 200ms; }
-  .mobile-primary a:hover, .mobile-primary a[aria-current='page'] { color: var(--portfolio-blue); text-decoration-color: currentColor; }
-  .mobile-contact { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line-strong); width: 100%; justify-content: flex-start; }
-  .mobile-contact[aria-current='page'] { color: var(--accent); text-decoration-color: currentColor; }
+  .mobile-supporting a { display: flex; align-items: center; min-height: 44px; font-size: .9375rem; color: var(--ink-muted); transition: color 200ms; }
+  .mobile-supporting a:hover, .mobile-supporting a[aria-current] { color: var(--ink); }
+  .mobile-supporting a[aria-current] { text-decoration-color: currentColor; text-decoration-thickness: 2px; }
+  .mobile-primary a { transition: color 200ms; }
+  .mobile-primary a:hover, .mobile-primary a[aria-current] { color: var(--accent); }
+  /* The current page or section keeps its underline, so it never relies on colour alone. */
+  .mobile-primary a[aria-current] { text-decoration-color: currentColor; text-decoration-thickness: 2px; }
+  .mobile-contact { margin-top: 2rem; width: 100%; justify-content: flex-start; }
+  .mobile-contact[aria-current] { color: var(--accent); text-decoration-color: currentColor; }
   .mobile-menu-toggle:focus-visible, .mobile-menu :is(a, button):focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 4px; }
   :global(html.nav-open), :global(html.nav-open body) { overflow: hidden; }
   @media (min-width: 768px) { .mobile-menu-toggle { display: none; } }
@@ -153,7 +150,7 @@ const isCurrent = (href: string) => {
     desktop.addEventListener('change', () => {
       if (desktop.matches && menu.open) {
         close(false);
-        document.querySelector<HTMLAnchorElement>('.desktop-nav a[aria-current="page"], .desktop-nav a')?.focus({ preventScroll: true });
+        document.querySelector<HTMLAnchorElement>('.desktop-nav a[aria-current], .desktop-nav a')?.focus({ preventScroll: true });
       }
     });
   }

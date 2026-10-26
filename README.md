@@ -1,10 +1,10 @@
 # joshuabriley.com
 
-The personal site and portfolio of **Joshua Briley**, a Product Design Engineer who builds full-stack products and design systems. Static-generated with [Astro](https://astro.build), deployed to Netlify, and built around a hand-tuned "Editorial-Technical" design system.
+The personal site and portfolio of **Joshua Briley**, a Product Design Engineer who builds full-stack products and design systems. Static-generated with [Astro](https://astro.build), deployed to Netlify, and built around a hand-tuned "Calm" design system.
 
 ## Highlights
 
-- **Editorial-Technical design system** — one warm grotesk (Hanken), a display serif for character (Newsreader), and a mono for technical moments (Geist Mono). Monochrome neutrals with a single surface-aware accent that shifts between light and ink surfaces.
+- **Calm design system** — one grotesk (Hanken) set large and light for display, with hierarchy from ink against muted grey; a mono (Geist Mono) for code; space instead of rules. Monochrome neutrals with a single surface-aware accent that shifts between light and ink surfaces.
 - **Case studies & projects** — client work (IVFCRYO, VMSpark, Logatot) and personal projects (Rudiment UI, Token Adventure, West Baton Rouge Presbyterian).
 - **Content collections** — blog posts (`.mdx`), tools (`.mdx`), and testimonials (`.json`) are type-checked via Zod schemas in `src/content.config.ts`.
 - **Interactive tools** — four live islands (scorecard, ROI calculator, token playground, audit inspector) render above their essays under `/tools/`.
@@ -18,7 +18,7 @@ The personal site and portfolio of **Joshua Briley**, a Product Design Engineer 
 | Framework      | Astro 5 (`output: 'static'`)              |
 | Styling        | Tailwind CSS 3 + custom CSS tokens        |
 | Content        | MDX posts, MDX tools, JSON testimonials collections |
-| Fonts          | Astro font provider (Google) — Hanken Grotesk, Newsreader, Geist Mono |
+| Fonts          | Astro font provider (Google) — Hanken Grotesk, Geist Mono, Style Script |
 | Hosting        | Netlify (`@astrojs/netlify` adapter)      |
 | Unit tests     | Vitest                                    |
 | E2E / a11y     | Playwright + axe-core                     |

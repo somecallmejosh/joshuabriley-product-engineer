@@ -8,10 +8,6 @@ export default {
         // Legacy token names are kept and pointed at the new families so every
         // page that still references font-display/-heading/-body reflows cleanly.
         sans: ['var(--font-hanken)', 'system-ui', 'sans-serif'],
-        // Display serif — the character face. Applied deliberately (Heading
-        // primitive's display/h1/h2 variants + oversized numerals), never as a
-        // blanket override, so small functional text keeps the legible grotesk.
-        serif: ['var(--font-fraunces)', 'Georgia', 'Times New Roman', 'serif'],
         display: ['var(--font-hanken)', 'system-ui', 'sans-serif'],
         heading: ['var(--font-hanken)', 'system-ui', 'sans-serif'],
         body: ['var(--font-hanken)', 'system-ui', 'sans-serif'],
@@ -33,7 +29,7 @@ export default {
           faint: '#9A9AA1', // metadata / disabled
         },
         line: {
-          DEFAULT: '#E5E7EB', // hairline rules / borders
+          DEFAULT: '#E5E7EB', // table rows, sticky edges, input outlines
           strong: '#D4D7DD',
         },
         accent: {

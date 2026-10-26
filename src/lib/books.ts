@@ -3,6 +3,7 @@ export const books = [
   {
     title: 'UX Design Engineering',
     subtitle: 'JavaScript for interface builders',
+    motif: 'interface' as const,
     href: 'https://rudiment-guide.netlify.app/ux-design-engineering/',
     chapters: 12,
     description:
@@ -11,6 +12,7 @@ export const books = [
   {
     title: 'Building your own component system',
     subtitle: 'From first principles',
+    motif: 'system' as const,
     href: 'https://rudiment-guide.netlify.app/component-systems/',
     chapters: 17,
     description:

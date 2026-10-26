@@ -17,15 +17,13 @@ const uses: Record<string, { question: string; outcome: string }> = {
 };
 ---
 <BaseLayout title="Free design system tools | Joshua Briley" description="Assess your design system, estimate UI rework costs, explore design tokens, and inspect sample audit findings. Four free browser tools, no signup required.">
-  <section class="page-opener tools-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Design system tools <span aria-hidden="true">/</span> Free to use</p>
-      <h1 class="page-type hero-in hero-in-2">Tools for planning <em>design system work.</em></h1>
-      <div class="tools-intro hero-in hero-in-3">
-        <p class="page-lede">Shared UI should make your team’s work easier. These four tools help you assess what’s working, understand the cost of rework, and make the next decision.</p>
-        <p class="tools-note">No signup or installation. Tool inputs stay in your browser; shared scorecard results and calculator settings are included in their links.</p>
-      </div>
-      <nav class="evidence-nav hero-in hero-in-4" aria-label="Choose a tool">
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">Design system tools <span aria-hidden="true">·</span> Free to use</p>
+      <h1 class="calm-title hero-in hero-in-2">Tools for planning design system work.</h1>
+      <p class="calm-lede hero-in hero-in-3">Shared UI should make your team’s work easier. These four tools help you assess what’s working, understand the cost of rework, and make the next decision.</p>
+      <p class="calm-note tools-note hero-in hero-in-3">No signup or installation. Tool inputs stay in your browser; shared scorecard results and calculator settings are included in their links.</p>
+      <nav class="calm-jumps hero-in hero-in-4" aria-label="Choose a tool">
         {tools.map((tool) => <a href={`/tools/${tool.id}/`}>{tool.data.kind} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}
       </nav>
     </Container>
@@ -36,93 +34,72 @@ const uses: Record<string, { question: string; outcome: string }> = {
       <Container width="wide">
         <div class="scorecard-layout" data-reveal>
           <div class="scorecard-copy">
-            <p class="feature-context">Not sure where to start?</p>
-            <h2 id="scorecard-title" class="section-type">Design system <em>scorecard.</em></h2>
+            <p class="calm-label">Not sure where to start?</p>
+            <h2 id="scorecard-title">Design system scorecard.</h2>
             <p>Take a structured look at your shared UI. Answer {TOTAL_ITEMS} prompts and get a breakdown of strengths, gaps, and suggested priorities for your team.</p>
-            <a class="action-link" href="/tools/scorecard/">Take the assessment <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a class="editorial-link" href="/tools/scorecard/">Take the assessment <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             <p class="assessment-note">About ten minutes. Based on your answers; a starting point for review.</p>
           </div>
-          <a class="scorecard-illustration" href="/tools/scorecard/" aria-label="Take the design system scorecard"><ToolIllustration tool="ScorecardEngine" /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
+          <a class="scorecard-illustration" href="/tools/scorecard/" tabindex="-1" aria-hidden="true"><ToolIllustration tool="ScorecardEngine" /></a>
         </div>
       </Container>
     </section>
   )}
 
-  <section class="editorial-section tools-directory" aria-labelledby="other-tools-title">
+  <section class="calm-section tools-directory" aria-labelledby="other-tools-title">
     <Container width="wide">
-      <div class="section-heading">
-        <h2 id="other-tools-title" class="section-type">Have a specific <em>question?</em></h2>
-        <p>Estimate the effort, try a shared design decision, or see how an issue becomes an actionable finding.</p>
-      </div>
+      <h2 id="other-tools-title" class="calm-heading">Have a specific question?</h2>
+      <p class="calm-intro">Estimate the effort, try a shared design decision, or see how an issue becomes an actionable finding.</p>
       <div class="tool-list" data-reveal-stagger>
         {rest.map((tool) => (
           <article class="tool-entry">
-            <a class="tool-visual" href={`/tools/${tool.id}/`} aria-label={`Open the ${tool.data.title}`}><ToolIllustration tool={tool.data.tool} /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
-            <div class="tool-details">
-              <p class="tool-question">{uses[tool.id]?.question ?? tool.data.kind}</p>
-              <h3><a href={`/tools/${tool.id}/`}>{tool.data.title}</a></h3>
-              <p>{tool.data.description}</p>
-              <p class="tool-outcome">{uses[tool.id]?.outcome ?? tool.data.takeaway}</p>
-              <a class="editorial-link" href={`/tools/${tool.id}/`}>{tool.data.action} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            </div>
+            <a class="tool-visual" href={`/tools/${tool.id}/`} tabindex="-1" aria-hidden="true"><ToolIllustration tool={tool.data.tool} /></a>
+            <p class="work-card-kind">{uses[tool.id]?.question ?? tool.data.kind}</p>
+            <h3 class="work-card-title"><a href={`/tools/${tool.id}/`}><strong>{tool.data.title}</strong></a></h3>
+            <p class="work-card-result">{tool.data.description}</p>
+            <p class="tool-outcome">{uses[tool.id]?.outcome ?? tool.data.takeaway}</p>
+            <a class="editorial-link" href={`/tools/${tool.id}/`}>{tool.data.action} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </article>
         ))}
       </div>
     </Container>
   </section>
 
-  <section class="editorial-section tools-evidence" aria-labelledby="tools-evidence-title">
-    <Container width="wide">
-      <div class="approach-layout">
-        <div>
-          <h2 id="tools-evidence-title" class="section-type">See how I <em>apply this.</em></h2>
-          <p class="section-intro">These tools make parts of my approach tangible. The work shows the context: what I owned, the tradeoffs, and the result.</p>
-        </div>
-        <div class="resource-list">
-          <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system</strong><span>Rudiment UI: a personal reference project with tokens, component APIs, and live Storybook examples.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/projects/ivfcryo/"><span><strong>Follow an interface decision</strong><span>IVFCRYO: design alternatives, form behavior, and recovery paths in a product workflow.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/resume/#experience"><span><strong>Review my systems experience</strong><span>Enterprise design systems experience and twenty-plus years of production UI.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        </div>
+  <section class="calm-section tools-evidence" aria-labelledby="tools-evidence-title">
+    <Container>
+      <h2 id="tools-evidence-title" class="calm-heading">See how I apply this.</h2>
+      <p class="calm-intro">These tools make parts of my approach tangible. The work shows the context: what I owned, the tradeoffs, and the result.</p>
+      <div class="calm-column resource-list">
+        <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system</strong><span>Rudiment UI: a personal reference project with tokens, component APIs, and live Storybook examples.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a href="/projects/ivfcryo/"><span><strong>Follow an interface decision</strong><span>IVFCRYO: design alternatives, form behavior, and recovery paths in a product workflow.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a href="/resume/#experience"><span><strong>Review my systems experience</strong><span>Enterprise design systems experience and twenty-plus years of production UI.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </div>
     </Container>
   </section>
 </BaseLayout>
 
 <style>
-  .tools-opener .page-type { max-width: 19ch; }
-  .tools-intro { display: grid; gap: 1.5rem; align-items: end; margin-top: 2rem; }
-  .tools-intro .page-lede { margin: 0; max-width: 53ch; }
-  .tools-note { max-width: 34ch; font-size: .85rem; line-height: 1.65; color: var(--ink-muted); }
-  .scorecard-feature { padding: 4.5rem 0; color: white; background: var(--portfolio-blue); }
+  /* The scorecard leads on paper: light display type beside its illustration,
+     not a coloured slab. The other tools follow as an even three-up index. */
+  .tools-note { max-width: 46ch; margin-inline: auto; }
+  .scorecard-feature { padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem); }
   .scorecard-layout { display: grid; gap: 3rem; }
-  .feature-context { margin-bottom: 1.5rem; color: #c6d8e8; font-size: .86rem; }
-  .scorecard-copy .section-type { font-size: clamp(2.65rem, 5.4vw, 4.8rem); }
-  .scorecard-copy .section-type em { color: #c6d8e8; }
-  .scorecard-copy > p:not([class]) { max-width: 44ch; font-size: 1.08rem; line-height: 1.65; color: #e0e8ef; margin-top: 1.8rem; }
-  .scorecard-copy .action-link { margin-top: 2rem; background: white; color: var(--portfolio-blue); }
-  .scorecard-copy .action-link:hover { background: #e0e8ef; }
-  .assessment-note { max-width: 43ch; margin-top: 1rem; font-size: .8rem; line-height: 1.6; color: #c6d8e8; }
-  .scorecard-illustration { display: block; position: relative; min-width: 0; }
-  .tool-entry { display: grid; gap: 1.5rem; border-top: 1px solid var(--line-strong); padding: 2.5rem 0 3rem; }
-  .tool-entry:last-child { padding-bottom: 0; }
-  .tool-question { color: var(--ink-muted); font-size: .85rem; margin-bottom: 1rem; }
-  .tool-details h3 { max-width: 18ch; font-size: clamp(2.1rem, 3.4vw, 3.2rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.08; }
-  .tool-details h3 a:hover { color: var(--portfolio-blue); }
-  .tool-visual { display: block; position: relative; min-width: 0; }
-  .tool-details { max-width: 49ch; align-self: center; }
-  .tool-details h3 { margin-bottom: 1.5rem; }
-  .tool-details > p:not(.tool-question) { font-size: 1.08rem; line-height: 1.65; }
-  .tool-details .tool-outcome { margin-top: .85rem; font-size: .94rem; color: var(--ink-muted); }
-  .tool-details .editorial-link { margin-top: 1.2rem; }
-  .tools-evidence { background: var(--portfolio-tint); }
-  @media (min-width: 1024px) {
-    .tools-intro { grid-template-columns: 1.7fr 1fr; gap: 5rem; }
-    .tools-note { justify-self: end; }
-    .scorecard-layout { grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: center; }
-    .tool-entry { grid-template-columns: 1.1fr 1fr; gap: 4.5rem; }
+  .scorecard-copy h2 { max-width: 14ch; margin-top: 1rem; font-size: clamp(2.3rem, 4.4vw, 4rem); font-weight: 300; line-height: 1.05; letter-spacing: -.045em; text-wrap: balance; }
+  .scorecard-copy > p:not([class]) { max-width: 44ch; margin-top: 1.5rem; font-size: 1.15rem; line-height: 1.6; color: var(--ink-muted); }
+  .scorecard-copy .editorial-link { margin-top: 1.5rem; }
+  .assessment-note { max-width: 43ch; margin-top: .5rem; font-size: .85rem; line-height: 1.6; color: var(--ink-muted); }
+  .scorecard-illustration, .tool-visual { display: block; min-width: 0; }
+  .tool-list { display: grid; gap: 4rem 3rem; margin-top: clamp(2.5rem, 5vw, 4rem); }
+  .tool-entry { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+  .tool-visual { align-self: stretch; }
+  .tool-entry .work-card-title { font-size: clamp(1.35rem, 1.9vw, 1.6rem); }
+  .tool-entry .work-card-result { font-size: 1rem; line-height: 1.6; }
+  .tool-outcome { margin-top: .75rem; font-size: .875rem; line-height: 1.55; color: var(--ink-muted); }
+  .tool-entry .editorial-link { margin-top: 1rem; }
+  @media (min-width: 900px) {
+    .tool-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
-  @media (max-width: 639px) {
-    .scorecard-feature { padding: 3.5rem 0; }
-    .tool-entry { padding: 2rem 0 2.5rem; }
+  @media (min-width: 1024px) {
+    .scorecard-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 5rem; align-items: center; }
   }
 </style>

@@ -3,7 +3,7 @@ import Container from '~/components/layout/Container.astro';
 import Logo from '~/components/primitives/Logo.astro';
 import Link from '~/components/primitives/Link.astro';
 import MobileNav from '~/components/chrome/MobileNav.astro';
-import { PRIMARY_NAV } from '~/lib/nav';
+import { PRIMARY_NAV, navCurrent } from '~/lib/nav';
 import { cx } from '~/lib/cx';
 
 interface Props {
@@ -13,24 +13,28 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<header
-  class={cx(
-    'site-header sticky top-0 z-40 border-b border-line',
-    className,
-  )}
->
+<header class={cx('site-header sticky top-0 z-40', className)} data-site-header>
   <Container as="div" width="wide" class="flex items-center justify-between gap-6 relative">
     <Logo href="/" size="md" class="shrink-0" />
 
-    <div class="hidden md:flex items-center gap-8 shrink-0">
-      <nav class="desktop-nav flex items-center gap-7" aria-label="Primary">
-        {PRIMARY_NAV.filter((l) => l.href !== '/contact/').map((link) => (
-          <Link href={link.href} variant="nav" class="whitespace-nowrap">{link.label}</Link>
-        ))}
-      </nav>
-      <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-    </div>
+    <!-- The wordmark is the way home, so Home isn't repeated here. -->
+    <nav class="desktop-nav hidden md:flex items-center gap-7" aria-label="Primary">
+      {PRIMARY_NAV.filter((l) => l.href !== '/').map((link) => (
+        <Link href={link.href} variant="nav" current={navCurrent(Astro.url.pathname, link) ?? false} class="whitespace-nowrap">{link.label}</Link>
+      ))}
+    </nav>
 
     <MobileNav />
   </Container>
 </header>
+
+<script>
+  // The bar sits flush with the page at the top and only draws its hairline
+  // once content scrolls beneath it.
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  if (header) {
+    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

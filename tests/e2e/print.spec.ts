@@ -18,8 +18,8 @@ test('print content retains an inner gutter when named page margins are unavaila
 test('print headings and prose share one centered 70ch body measure', async ({ page }) => {
   await page.setViewportSize({ width: 1100, height: 950 });
   const examples = [
-    ['/', '.hero-lede'],
-    ['/about/', '.page-lede'],
+    ['/', '.home-twotone'],
+    ['/about/', '.calm-lede'],
     ['/projects/ivfcryo/', '.project-introduction > p'],
     ['/blog/where-to-learn-modern-front-end/', '.article-prose .lede'],
     ['/resume/', '.experience-lead'],

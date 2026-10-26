@@ -2,34 +2,31 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
+const further = [
+  { href: '/resume/', title: 'Enterprise systems experience', body: 'Shared UI for enterprise insurance platforms and consumer products.' },
+  { href: '/personal-projects/', title: 'Personal projects', body: 'Experiments in design tokens, component systems, and learning by building.' },
+  { href: '/blog/', title: 'Writing about the work', body: 'Component architecture, adoption, and the decisions that keep UI maintainable.' },
+];
 ---
 <BaseLayout title="Work | Joshua Briley" description="Explore Joshua Briley’s product design and engineering work: IVFCRYO, Logatot, VMSpark, and Rudiment UI, with contribution, decisions, and outcomes explained.">
-  <section class="page-opener">
-    <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Selected work</p>
-      <h1 class="page-type hero-in hero-in-2">Projects I’ve designed <em>and built.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Explore the architecture, the interaction decisions, and the work I owned. Each project gives you a different part of the picture.</p>
-      <nav class="evidence-nav" aria-label="Find relevant work">
-        <a href="/projects/ivfcryo/">Workflow design <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        <a href="/projects/logatot/">Application behavior <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        <a href="/projects/vmspark/">Design system rollout <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        <a href="/personal-projects/rudiment-ui/">Component architecture <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-      </nav>
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label hero-in hero-in-1">Selected work</p>
+      <h1 class="calm-title hero-in hero-in-2">Projects I’ve designed and built.</h1>
+      <p class="calm-lede hero-in hero-in-3">Explore the architecture, the interaction decisions, and the work I owned. Each project gives you a different part of the picture.</p>
     </Container>
   </section>
-  <section class="editorial-section work-section" aria-label="Project details">
+  <section class="index-work" aria-label="Project details">
     <Container width="wide"><WorkList /></Container>
   </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="approach-layout">
-        <h2 class="section-type">Still <em>curious?</em></h2>
-        <div class="resource-list">
-          <a href="/resume/"><span><strong>Enterprise systems experience</strong><span>Shared UI for enterprise insurance platforms and consumer products.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/personal-projects/"><span><strong>Personal projects</strong><span>Experiments in design tokens, component systems, and learning by building.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/blog/"><span><strong>Writing about the work</strong><span>Component architecture, adoption, and the decisions that keep UI maintainable.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        </div>
-      </div>
+  <section class="home-screen home-close">
+    <Container>
+      <h2 class="home-statement home-statement--close">Still curious?</h2>
+      <ul class="index-further">
+        {further.map((item) => (
+          <li><a href={item.href}><strong>{item.title} <span aria-hidden="true" data-link-arrow="up-right">↗</span></strong><span>{item.body}</span></a></li>
+        ))}
+      </ul>
     </Container>
   </section>
 </BaseLayout>

@@ -282,11 +282,11 @@ const tldr = {
 
   <Section tone="paper" padding="tight" aria-label="Project receipts" class="project-scope">
     <Container width="content">
-      <p class="mono-label mb-8">Scope and contribution</p>
+      <p class="calm-label mb-8">Scope and contribution</p>
       <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {proof.map((group) => (
-          <div class="border-t border-line pt-4">
-            <dt class="mono-label mb-3">{group.label}</dt>
+          <div class="pt-4">
+            <dt class="calm-label mb-3">{group.label}</dt>
             <dd>
               <ul class="space-y-1.5">
                 {group.items.map((item) => (
@@ -340,7 +340,7 @@ const tldr = {
             </Text>
           </div>
 
-          <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 border-y border-line py-8">
+          <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 py-8">
             <Metric value="350" label="ERB templates inventoried" />
             <Metric value="8+" label="button styles, one concept" />
             <Metric value="10+" label="form-element styles" />
@@ -348,10 +348,10 @@ const tldr = {
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-7">
-            <p class="mono-label mb-4">A few of the findings</p>
+            <p class="calm-label mb-4">A few of the findings</p>
             <div>
               {findings.map((f) => (
-                <div class="flex items-start gap-4 py-4 border-b border-line last:border-0">
+                <div class="flex items-start gap-4 py-4">
                   <span class="font-mono text-sm text-accent shrink-0 w-12" aria-hidden="true">{f.count}</span>
                   <div>
                     <Heading level={3} visual="h4" tone="ink" class="mb-1">{f.title}</Heading>
@@ -365,7 +365,7 @@ const tldr = {
       </div>
 
       <div class="mt-16">
-        <p class="mono-label mb-3">What the sprawl actually looked like</p>
+        <p class="calm-label mb-3">What the sprawl actually looked like</p>
         <Text tone="muted" class="mb-10 max-w-2xl">
           Four screens pulled from the same app, on the same day. Each one makes its own
           decisions about buttons, inputs, labels, and tables. None of them agree with
@@ -409,7 +409,7 @@ const tldr = {
             <div class="rounded-lg border border-line p-6">
               <div class="mb-2 flex items-center gap-2">
                 <span class="font-mono text-[0.75rem] text-accent">A</span>
-                <span class="font-heading text-xs font-semibold uppercase tracking-wider text-ink">Command Shell</span>
+                <span class="font-heading text-sm font-medium text-ink">Command Shell</span>
               </div>
               <Text size="sm" tone="muted" class="mb-3">Dense &middot; Keyboard-first</Text>
               <Text size="sm" tone="muted">
@@ -424,10 +424,10 @@ const tldr = {
             </div>
 
             <div class="relative rounded-lg border border-accent p-6">
-              <p class="mono-label !text-accent mb-2">Chosen</p>
+              <p class="calm-label !text-accent mb-2">Chosen</p>
               <div class="mb-2 flex items-center gap-2">
                 <span class="font-mono text-[0.75rem] text-accent">B</span>
-                <span class="font-heading text-xs font-semibold uppercase tracking-wider text-ink">Two-Tier Platform</span>
+                <span class="font-heading text-sm font-medium text-ink">Two-Tier Platform</span>
               </div>
               <Text size="sm" tone="muted" class="mb-3">Enterprise-familiar</Text>
               <Text size="sm" tone="muted">
@@ -444,7 +444,7 @@ const tldr = {
             <div class="rounded-lg border border-line p-6">
               <div class="mb-2 flex items-center gap-2">
                 <span class="font-mono text-[0.75rem] text-accent">C</span>
-                <span class="font-heading text-xs font-semibold uppercase tracking-wider text-ink">Modern Workspace</span>
+                <span class="font-heading text-sm font-medium text-ink">Modern Workspace</span>
               </div>
               <Text size="sm" tone="muted" class="mb-3">Spacious &middot; Document-forward</Text>
               <Text size="sm" tone="muted">
@@ -497,8 +497,8 @@ const tldr = {
           </Text>
 
           <div class="mt-12 grid md:grid-cols-2 gap-6">
-            <div class="border-t border-line pt-5">
-              <p class="mono-label">Phase 1 &middot; Baseline</p>
+            <div class="pt-5">
+              <p class="calm-label">Phase 1 &middot; Baseline</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:ruler" size={22} class="text-ink-muted" />
                 <Heading level={3} visual="h3" tone="ink">Visual baseline</Heading>
@@ -512,8 +512,8 @@ const tldr = {
               </Text>
             </div>
 
-            <div class="border-t border-line pt-5">
-              <p class="mono-label">Phase 2 &middot; The shell</p>
+            <div class="pt-5">
+              <p class="calm-label">Phase 2 &middot; The shell</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:sidebar" size={22} class="text-ink-muted" />
                 <Heading level={3} visual="h3" tone="ink">Two-tier shell</Heading>
@@ -528,8 +528,8 @@ const tldr = {
               </Text>
             </div>
 
-            <div class="border-t border-line pt-5">
-              <p class="mono-label">Phase 3 &middot; ⌘K</p>
+            <div class="pt-5">
+              <p class="calm-label">Phase 3 &middot; ⌘K</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:magnifying-glass" size={22} class="text-ink-muted" />
                 <Heading level={3} visual="h3" tone="ink">Command palette</Heading>
@@ -545,8 +545,8 @@ const tldr = {
               </Text>
             </div>
 
-            <div class="border-t border-line pt-5">
-              <p class="mono-label">Phase 4 &middot; Polish</p>
+            <div class="pt-5">
+              <p class="calm-label">Phase 4 &middot; Polish</p>
               <div class="mt-3 mb-3 flex items-center gap-2">
                 <Icon name="ph:sparkle" size={22} class="text-ink-muted" />
                 <Heading level={3} visual="h3" tone="ink">Density, shortcuts, inspector</Heading>
@@ -581,9 +581,9 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default" class="">
     <Container width="content">
-      <p class="mono-label mb-3">What it looks like now</p>
+      <p class="calm-label mb-3">What it looks like now</p>
       <Heading level={2} visual="display-md" tone="ink" class="mb-6">A style guide that ships with the app</Heading>
       <Text size="lg" tone="muted" class="measure">
         Buttons collapsed down to one consistent style instead of eight competing
@@ -628,9 +628,9 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section id="sheets" tone="paper" padding="default" class="scroll-mt-24 border-t border-line">
+  <Section id="sheets" tone="paper" padding="default" class="scroll-mt-24">
     <Container width="content">
-      <p class="mono-label mb-3">Screens and flows</p>
+      <p class="calm-label mb-3">Screens and flows</p>
       <Heading level={2} visual="display-md" tone="ink" class="mb-6">What actually got built</Heading>
       <Text size="lg" tone="muted" class="measure">
         Eleven screens and five flows, with the reasoning written onto each one.
@@ -639,7 +639,7 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-14">
-      <p class="mono-label mb-6">How a screen got built</p>
+      <p class="calm-label mb-6">How a screen got built</p>
       <FidelityBand
         title={keyScreens[0].title}
         sketch={art(`${keyScreens[0].slug}-sketch.svg`)}
@@ -665,8 +665,8 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-20">
-      <div class="border-t border-line pt-10">
-        <p class="mono-label mb-3">The rest of the system</p>
+      <div class="pt-10">
+        <p class="calm-label mb-3">The rest of the system</p>
         <Text tone="muted" class="measure mb-10">
           Seven more screens, ending with the inventory that replaced eight button
           styles, ten form styles, and six table conventions with one of each.
@@ -687,8 +687,8 @@ const tldr = {
     </Container>
 
     <Container width="wide" class="mt-20">
-      <div class="border-t border-line pt-10">
-        <p class="mono-label mb-3">User flows</p>
+      <div class="pt-10">
+        <p class="calm-label mb-3">User flows</p>
         <Text tone="muted" class="measure mb-10">
           Five flows covering the paths the screens sit on, each one splitting what
           a person does from what the system does with it.
@@ -727,7 +727,7 @@ const tldr = {
 
           <div class="mt-12 grid sm:grid-cols-2 gap-6">
             {outcomeStats.map((s) => (
-              <div class="border-t border-line pt-5">
+              <div class="pt-5">
                 <Icon name={s.icon} size={24} class="mb-3 text-ink-muted" />
                 <Heading level={3} visual="h4" tone="ink" class="mb-1">{s.title}</Heading>
                 <Text size="sm" tone="muted">{s.body}</Text>
@@ -736,7 +736,7 @@ const tldr = {
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-3">A detail worth calling out</p>
+            <p class="calm-label mb-3">A detail worth calling out</p>
             <Heading level={3} visual="h3" tone="ink" class="mb-4">Aligning the app with the marketing site</Heading>
             <Text tone="muted" class="measure">
               Partway through phase two, I pointed the admin app's color system at the
@@ -766,7 +766,7 @@ const tldr = {
     <Container width="content">
       <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
         <figcaption class="md:col-span-4">
-          <p class="mono-label mb-6">What Jon said</p>
+          <p class="calm-label mb-6">What Jon said</p>
           <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
             <img
               src="/images/testimonials/jon-sturm.jpeg"
@@ -793,9 +793,9 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default" class="">
     <Container width="content">
-      <p class="mono-label mb-3">The edges</p>
+      <p class="calm-label mb-3">The edges</p>
       <Text size="lg" tone="muted" class="measure mb-10">
         Both of these are the kind of problem a page-by-page review, done by hand,
         is likely to miss: patterns that only show up when you interact with
@@ -803,7 +803,7 @@ const tldr = {
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
-          <li class="border-t border-line pt-5">
+          <li class="pt-5">
             <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
             <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
             <Text size="sm" tone="muted">{e.body}</Text>

@@ -3,6 +3,7 @@
 // (not query strings) so it works under `output: 'static'`. noindex + excluded
 // from the sitemap; not linked anywhere. scripts/generate-og.mjs screenshots
 // each /og-render/<slug>/ into public/images/og/<slug>.png.
+import Logo from '~/components/primitives/Logo.astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { OG_PAGES, postToOgEntry } from '~/lib/og-pages.mjs';
@@ -29,7 +30,8 @@ const disciplines = entry.path === '/'
   : ['Design systems', 'UI engineering', 'Accessibility'];
 
 // Split the headline around the wink word (last, case-insensitive occurrence),
-// so the card sets just that word in navy italic without markup in the data.
+// so the card sets just that word in muted grey (the site's two-tone device)
+// without markup in the data.
 let pre = headline;
 let winkText = '';
 let post = '';
@@ -52,8 +54,7 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
 
     <header class="og-top">
       <div class="og-brand">
-        <span class="og-mono">JB</span>
-        <span class="og-wordmark">Joshua Briley<span class="og-dot">.</span></span>
+        <Logo size="lg" class="og-wordmark" />
       </div>
       <p class="og-eyebrow">{eyebrow}</p>
     </header>
@@ -65,7 +66,7 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
     <footer class="og-bottom">
       <span class="og-url">joshuabriley.com</span>
       <ul class="og-tags">
-        {disciplines.map(discipline => <li><span class="og-tick" aria-hidden="true"></span>{discipline}</li>)}
+        {disciplines.map(discipline => <li>{discipline}</li>)}
       </ul>
     </footer>
   </div>
@@ -105,35 +106,14 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
       align-items: center;
       gap: 18px;
     }
-    .og-mono {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      background: var(--og-ink);
-      color: var(--og-paper);
-      font-weight: 700;
-      font-size: 20px;
-      letter-spacing: 0.02em;
-    }
-    .og-wordmark {
-      font-weight: 600;
-      font-size: 31px;
-      letter-spacing: -0.02em;
-      color: var(--og-ink);
-    }
+    /* The site's own Logo component carries the script wordmark. */
     .og-dot {
       color: var(--og-accent);
     }
 
     .og-eyebrow {
-      font-family: var(--font-geist-mono), ui-monospace, monospace;
       font-weight: 500;
-      font-size: 15px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+      font-size: 20px;
       color: var(--og-muted);
       margin: 0;
       text-align: right;
@@ -144,26 +124,23 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
       position: relative;
       z-index: 1;
       font-family: var(--font-hanken), system-ui, sans-serif;
-      font-weight: 800;
+      font-weight: 300;
       font-size: var(--og-headline-size, 76px);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
+      line-height: 1.05;
+      letter-spacing: -0.045em;
       color: var(--og-ink);
       max-width: 1000px;
       margin: 0;
       text-wrap: balance;
     }
     .og-headline em {
-      font-family: var(--font-fraunces), Georgia, serif;
-      font-style: italic;
-      font-weight: 400;
-      color: var(--og-accent);
+      font-style: normal;
+      color: var(--og-muted);
     }
 
     .og-url {
-      font-family: var(--font-geist-mono), ui-monospace, monospace;
-      font-size: 17px;
-      letter-spacing: 0.01em;
+      font-size: 20px;
+      font-weight: 500;
       color: var(--og-muted);
     }
     .og-tags {
@@ -177,18 +154,8 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
     .og-tags li {
       display: flex;
       align-items: center;
-      gap: 9px;
-      font-family: var(--font-geist-mono), ui-monospace, monospace;
-      font-size: 13.5px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-size: 20px;
       color: var(--og-muted);
-    }
-    .og-tick {
-      width: 5px;
-      height: 5px;
-      border-radius: 1px;
-      background: var(--og-accent);
     }
   </style>
 </BaseLayout>

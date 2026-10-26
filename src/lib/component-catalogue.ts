@@ -4,14 +4,14 @@ export const componentCatalogue = [
     "name": "Footer",
     "path": "src/components/chrome/Footer.astro",
     "group": "chrome",
-    "note": "Site navigation, contact information, and supporting links.",
+    "note": "A quiet colophon: site navigation, contact and social links, and legal links.",
     "href": "/"
   },
   {
     "name": "Header",
     "path": "src/components/chrome/Header.astro",
     "group": "chrome",
-    "note": "The shared wordmark, primary navigation, and contact link.",
+    "note": "The shared wordmark and primary navigation, including Contact; its hairline appears only once the page scrolls.",
     "href": "/"
   },
   {
@@ -102,7 +102,7 @@ export const componentCatalogue = [
     "name": "ScorecardEngine",
     "path": "src/components/islands/ScorecardEngine.astro",
     "group": "islands",
-    "note": "A design-system self-assessment with local progress and report output.",
+    "note": "A design-system self-assessment whose answers travel to a shareable report in the link.",
     "href": "/tools/scorecard/"
   },
   {
@@ -186,7 +186,7 @@ export const componentCatalogue = [
     "name": "Portrait",
     "path": "src/components/patterns/Portrait.astro",
     "group": "patterns",
-    "note": "The responsive photograph used on the home and about pages.",
+    "note": "The responsive photograph used on the about page.",
     "href": "/about/"
   },
   {
@@ -249,14 +249,14 @@ export const componentCatalogue = [
     "name": "BookList",
     "path": "src/components/patterns/BookList.astro",
     "group": "patterns",
-    "note": "Josh's free online books, each with a typographic cover.",
+    "note": "Josh's free online books, each with an illustrated cover drawn in the site's illustration style.",
     "href": "/"
   },
   {
     "name": "WorkList",
     "path": "src/components/patterns/WorkList.astro",
     "group": "patterns",
-    "note": "Selected case studies with interface images, roles, and results.",
+    "note": "The project index: each case study on a plain stage with its role, result, and what to look for.",
     "href": "/projects/"
   },
   {
@@ -300,6 +300,13 @@ export const componentCatalogue = [
     "group": "writing",
     "note": "Scannable article resources with clear links, optional descriptions, and responsive columns.",
     "href": "/blog/where-to-learn-modern-front-end/"
+  },
+  {
+    "name": "ArticleCode",
+    "path": "src/components/writing/ArticleCode.astro",
+    "group": "writing",
+    "note": "Renders an article's fenced code through CodeBlock, so articles and project pages share one code artifact.",
+    "href": "/blog/staff-level-ui-engineering-for-dummies/"
   },
   {
     "name": "ArticleTable",

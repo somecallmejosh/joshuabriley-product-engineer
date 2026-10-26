@@ -1,0 +1,26 @@
+---
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+
+/**
+ * MDX `pre` override: articles render their fenced code through the same
+ * CodeBlock artifact as the project pages. MDX hands over code that is already
+ * highlighted, so recover the exact source text (strip the token spans, decode
+ * entities) and let CodeBlock highlight, number, and copy it.
+ */
+
+interface Props { 'data-language'?: string; }
+
+const lang = Astro.props['data-language'];
+const html = await Astro.slots.render('default');
+const entities: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+const code = html
+  .replace(/<[^>]+>/g, '')
+  .replace(/&(#x[\da-f]+|#\d+|\w+);/gi, (match, entity: string) => {
+    if (entity[0] === '#') {
+      const point = entity[1].toLowerCase() === 'x' ? parseInt(entity.slice(2), 16) : parseInt(entity.slice(1), 10);
+      return String.fromCodePoint(point);
+    }
+    return entities[entity.toLowerCase()] ?? match;
+  });
+---
+<CodeBlock code={code} lang={lang && lang !== 'plaintext' ? (lang as never) : undefined} class="article-code" />

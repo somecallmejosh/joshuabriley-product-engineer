@@ -132,9 +132,8 @@ const contactLines = [
   :global(body) { background: #fff; }
 
   .doc {
-    /* The site's three faces, same roles they play everywhere else:
-       Hanken Grotesk for body, Newsreader (--font-fraunces) for display,
-       Geist Mono for the small uppercase labels. */
+    /* One family, as on the site: Hanken Grotesk light for the name, medium
+       for labels, regular for reading. Hierarchy comes from ink against grey. */
     font-family: var(--font-hanken), system-ui, sans-serif;
     font-size: 9.2pt;
     line-height: 1.45;
@@ -155,15 +154,14 @@ const contactLines = [
   }
 
   .masthead__id h1 {
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-size: 21pt;
-    font-weight: 600;
-    letter-spacing: -0.018em;
+    font-size: 23pt;
+    font-weight: 300;
+    letter-spacing: -0.035em;
     line-height: 1.05;
-    color: #1b1a17;
+    color: var(--ink);
   }
   /* The trailing period is the site's wordmark, carried onto paper. */
-  .masthead__id h1 .dot { color: #a8412a; }
+  .masthead__id h1 .dot { color: var(--accent); }
 
   .masthead__title {
     margin-top: 0.05in !important;
@@ -174,11 +172,8 @@ const contactLines = [
 
   .masthead__contact {
     text-align: right;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 7pt;
-    letter-spacing: 0.055em;
-    text-transform: uppercase;
-    color: #5b574f;
+    font-size: 8pt;
+    color: var(--ink-muted);
     line-height: 1.65;
   }
 
@@ -194,22 +189,15 @@ const contactLines = [
   }
 
   /* ── Section headings ─────────────────────────────────────────────────── */
-  /* The site's .mono-label, in accent. These were hairline-ruled; with the rule
-     gone, the label carries the break on its own, so it gets wider tracking and
-     a lot more air above than below. That asymmetry is what groups it with the
-     content beneath instead of floating between two blocks.
-     NOT named .rule: site.css already owns that class as a 1px hairline with a
-     `background: var(--line)`, which the scoped styles here do not override and
-     which printed as a stray grey line above every section. */
+  /* No rule: the label carries the break on its own, with much more air above
+     than below so it groups with the content beneath it. */
   .section-label {
     margin-top: 0.34in !important;
-    margin-bottom: 0.15in !important;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 7.2pt;
-    font-weight: 500;
-    letter-spacing: 0.185em;
-    text-transform: uppercase;
-    color: #a8412a;
+    margin-bottom: 0.13in !important;
+    font-size: 11pt;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--ink);
     /* A heading stranded at the foot of a sheet is the classic print bug. */
     break-after: avoid;
     page-break-after: avoid;
@@ -258,22 +246,16 @@ const contactLines = [
   .job__co { font-weight: 400; color: #5b574f; }
   .sep { color: #a09a90; }
 
-  .job__period,
-  .job__stack {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
   .job__period {
     flex-shrink: 0;
-    font-size: 7pt;
-    color: #5b574f;
+    font-size: 8pt;
+    color: var(--ink-muted);
     white-space: nowrap;
   }
   .job__stack {
     margin-top: 0.022in !important;
-    font-size: 6.9pt;
-    color: #8a847a;
+    font-size: 7.8pt;
+    color: var(--ink-muted);
   }
 
   /* Real list markers rather than the colored squares that were here before:
@@ -303,11 +285,9 @@ const contactLines = [
     page-break-inside: avoid;
   }
   .toolkit dt {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 7pt;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #5b574f;
+    font-size: 8pt;
+    font-weight: 500;
+    color: var(--ink-muted);
     padding-top: 0.015in;
   }
   .toolkit dd {

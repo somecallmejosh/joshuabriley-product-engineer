@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/']) {
+for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/blog/staff-level-ui-engineering-for-dummies/', '/style-guide/']) {
   test(`highlighted code preserves source, copy, and accessible layout: ${path}`, async ({ page }) => {
+    // The Staff-level guide carries ~30 code artifacts, so three axe passes run long under a full parallel suite.
+    if (path.startsWith('/blog/')) test.slow();
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'clipboard', {

@@ -33,27 +33,27 @@ const description =
     <meta name="twitter:image" content="/images/social/og-image-2026.png" />
   </Fragment>
 
-  <section class="page-opener">
-    <Container width="wide">
-      <p class="role-line"><a href="/tools/">Tools</a><span aria-hidden="true">/</span>Self-assessment results</p>
-
-      <h1 class="page-type">Your scorecard <em>results.</em></h1>
-      <p class="page-lede">Review your scores across five subjects and suggested priorities based on your answers. Use this snapshot to guide a closer look at your system.</p>
-      <p class="mt-5 text-sm text-ink-muted max-w-xl">Your answers are included in this page’s URL. Anyone with the link can read the results. Save it to revisit this snapshot or compare it with a later assessment.</p>
+  <section class="calm-open">
+    <Container>
+      <p class="calm-label"><a href="/tools/">Tools</a> <span aria-hidden="true">·</span> Self-assessment results</p>
+      <h1 class="calm-title">Your scorecard <em>results.</em></h1>
+      <p class="calm-lede">Review your scores across five subjects and suggested priorities based on your answers. Use this snapshot to guide a closer look at your system.</p>
+      <p class="calm-note report-url-note">Your answers are included in this page’s URL. Anyone with the link can read the results. Save it to revisit this snapshot or compare it with a later assessment.</p>
     </Container>
   </section>
 
-  <Section tone="ink" padding="default" class="verdict-section">
+  <section class="report-verdict">
     <Container width="wide">
-      <div id="verdictBand"></div>
+      <!-- The verdict is the answer panel: denim, contained, never a full-width band. -->
+      <div class="verdict-section" data-surface="dark">
+        <div id="verdictBand"></div>
+      </div>
     </Container>
-  </Section>
+  </section>
 
   <Section tone="paper" padding="default">
     <Container width="wide">
-      <div class="max-w-2xl">
-        <h2 class="section-type">Your scores, <em>by subject.</em></h2>
-      </div>
+      <h2 class="calm-heading">Your scores by subject.</h2>
 
       <div class="mt-12 grid items-center gap-10 lg:mt-14 lg:grid-cols-2 lg:gap-16">
         <div class="report-paper" id="radarCard">
@@ -64,9 +64,9 @@ const description =
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" class="border-t border-line">
+  <Section tone="paper" padding="default">
     <Container width="wide">
-      <h2 class="section-type report-priorities-title">Suggested <em>priorities.</em></h2>
+      <h2 class="calm-heading report-priorities-title">Suggested priorities.</h2>
       <div id="recommendationContainer"></div>
     </Container>
   </Section>
@@ -88,8 +88,8 @@ const description =
   }
 
   .verdict-grade {
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-weight: 600;
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-weight: 300;
     line-height: 0.74;
     letter-spacing: -0.045em;
     font-size: clamp(7rem, 27vw, 15.5rem);
@@ -109,8 +109,8 @@ const description =
   .verdict-grid.is-in .verdict-grade .g { opacity: 1; transform: none; filter: blur(0); }
 
   .verdict-score {
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-weight: 500;
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-weight: 300;
     font-size: clamp(2.2rem, 5vw, 3.25rem);
     letter-spacing: -0.02em;
     line-height: 1;
@@ -252,10 +252,8 @@ const description =
   .focus-item {
     position: relative;
     padding: 1.25rem 0;
-    border-top: 1px solid rgba(246, 247, 249, 0.15);
   }
   .focus-item:first-child {
-    border-top: none;
     padding-top: 0;
   }
   .focus-priority {
@@ -335,6 +333,9 @@ const description =
     background: rgba(246, 247, 249, 0.06);
     border: 1px solid rgba(246, 247, 249, 0.15);
   }
+  .report-url-note { max-width: 46ch; margin-inline: auto; }
+  .report-verdict { padding-bottom: clamp(2rem, 5vw, 4rem); }
+  .verdict-section { padding: clamp(1.5rem, 5vw, 4rem); color: var(--paper); }
 </style>
 
 <script>
@@ -573,13 +574,13 @@ const description =
       container.innerHTML = `
         <div class="verdict-grid">
           <div class="verdict-glyph">
-            <p class="mono-label text-paper/80">Final grade</p>
+            <p class="calm-label text-paper/80">Final grade</p>
             <div class="verdict-grade mt-3" data-status="${status}" aria-hidden="true"><span class="g">${grade}</span></div>
             <span class="sr-only">Grade ${grade}. Total score ${score} out of ${TOTAL_MAX}.</span>
           </div>
 
           <div class="verdict-details">
-            <p class="mono-label text-paper/80">Total score</p>
+            <p class="calm-label text-paper/80">Total score</p>
             <p class="verdict-score mt-2"><span data-countup>${score}</span><span class="slash">/${TOTAL_MAX}</span></p>
             <div class="mt-4"><span class="status-pill ${statusClass}">${TOTAL_STATUS_LABEL[status]}</span></div>
 
@@ -640,7 +641,7 @@ const description =
         html += `
           <div class="bd-row" style="--d:${(i * 0.08).toFixed(2)}s">
             <div class="bd-head flex items-center justify-between mb-1.5">
-              <span class="bd-title font-display text-sm font-semibold tracking-tight text-ink">${s.title}</span>
+              <span class="bd-title font-display text-sm font-medium tracking-tight text-ink">${s.title}</span>
               <div class="flex items-center gap-3">
                 <span class="font-mono text-xs tabular-nums text-ink-muted">
                   <span class="sr-only">Score: </span>
@@ -667,8 +668,8 @@ const description =
 
       if (recommendation.type === 'healthy') {
         html += `
-          <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/80 mb-3">The verdict</p>
-          <h3 class="font-serif text-3xl md:text-4xl font-semibold tracking-[-0.018em] mb-4 leading-tight">
+          <p class="text-sm font-medium text-paper/80 mb-3">The verdict</p>
+          <h3 class="text-3xl md:text-4xl font-light tracking-tight mb-4 leading-tight">
             Keep checking what works.
           </h3>
           <p class="text-paper/75 leading-relaxed max-w-2xl mb-8">
@@ -685,8 +686,8 @@ const description =
         const rec = recommendation;
         html += `
           <div class="mb-4">
-            <p class="mono-label text-paper/80 mb-3">Where I'd focus first</p>
-            <h3 class="font-serif text-2xl md:text-3xl font-semibold tracking-[-0.018em] leading-tight">
+            <p class="calm-label text-paper/80 mb-3">Where I'd focus first</p>
+            <h3 class="text-2xl md:text-3xl font-light tracking-tight leading-tight">
               ${rec.label}
             </h3>
           </div>
@@ -697,7 +698,7 @@ const description =
         if (rec.strongSections && rec.strongSections.length > 0) {
           html += `
             <div class="mb-6">
-              <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/80 font-medium mb-3">
+              <p class="text-sm font-medium text-paper/80 mb-3">
                 What&rsquo;s working
               </p>
               <div class="rec-section-list">
@@ -755,8 +756,8 @@ const description =
           const sec = rec.secondaryRecommendation;
           html += `
             <div class="secondary-rec">
-              <p class="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-paper/80 font-medium mb-2">You may also benefit from</p>
-              <p class="font-display text-lg font-semibold tracking-tight mb-1">${sec.label}</p>
+              <p class="text-sm font-medium text-paper/80 mb-2">You may also benefit from</p>
+              <p class="font-display text-lg font-medium tracking-tight mb-1">${sec.label}</p>
               <p class="text-paper/70 text-sm">
                 Your ${sec.sectionNames.map((n) => n.toLowerCase()).join(', ')} ${sec.sectionNames.length === 1 ? 'could' : 'could all'} use attention beyond the handoff fixes.
               </p>

@@ -43,15 +43,16 @@ npm run resume:pdf          # regenerate public/resume.pdf (needs dev server)
 
 **Components** (`src/components/`): `primitives/` → `patterns/` → `layout/`, `chrome/`, `form/`, `islands/` (client-interactive, vanilla TS `<script>`s; no UI framework). Import alias `~/*` → `src/*`.
 
-## Styling system ("Editorial-Technical")
+## Styling system ("Calm")
 
 **The contract is `design-system/`: read `design-system/README.md`, `tokens.json` and `rules.json` (including `guidelines`) before any UI work, and run `npm run audit:design` before calling it done.** The audit fails on hardcoded or off-palette colors, Tailwind default-palette and legacy color classes, arbitrary values outside `src/components/primitives/`, literal font stacks, and deprecated or forbidden component prop values. It also checks that `site.css` and `tailwind.config.mjs` match `tokens.json`. When it fails, fix the code. Never edit `baseline.json`, add exceptions, or add tokens to make it pass; those are design-system changes that need Josh's go-ahead.
 
 - CSS entry: `src/styles/global.css` imports `site.css` (tokens + global classes), `link-motion.css`, `syntax-highlighting.css`, then Tailwind layers. `BaseLayout` also imports `redesign.css`. Page-family sheets: `articles.css`, `projects.css`, `tools.css`, `style-guide.css`.
 - Tokens are defined in **both** `site.css` (`:root` CSS vars) and `tailwind.config.mjs`. Legacy token names (`cream`, `coral`, `font-display`, etc.) are deliberately remapped onto the new monochrome system — don't delete them without migrating callers.
 - The accent is surface-aware: use `accent` / `var(--accent-rgb)`, never a hardcoded accent hex, so it shifts correctly on ink (dark) surfaces.
-- Fonts: Hanken Grotesk (everything), Newsreader (display serif, CSS var keeps the historic name `--font-fraunces`), Geist Mono (technical/metadata), Style Script (logo wordmark only). Adding a font requires both the `astro.config.mjs` entry and a `<Font cssVariable>` in `BaseLayout`.
-- `site.css` owns global class names (`.rule`, `.measure`, `.mono-label`, …). A scoped Astro `<style>` with the same class name won't override properties it doesn't declare, and scoped styles don't reach DOM created at runtime by scripts — pre-render and toggle instead.
+- Fonts: Hanken Grotesk (everything; light 300 for display, medium for labels), Geist Mono (code and technical labels inside illustrations only), Style Script (logo wordmark only, via the Logo component). Adding a font requires both the `astro.config.mjs` entry and a `<Font cssVariable>` in `BaseLayout`.
+- Page structure uses the shared `calm-*` classes in `redesign.css` (`calm-open`, `calm-label`, `calm-title`, `calm-lede`, `calm-section`, `calm-heading`, `calm-column`, `calm-point`). Separate sections with space, not rules; see `design-system/rules.json` guidelines.
+- `site.css` owns global class names (`.measure`, `.prose-whimsy`, …). A scoped Astro `<style>` with the same class name won't override properties it doesn't declare, and scoped styles don't reach DOM created at runtime by scripts — pre-render and toggle instead.
 - Accessibility (WCAG AA) is enforced by the audit scripts and the axe-core e2e suite; `--ink-faint` is decoration-only and must not carry text.
 
 ## Repo conventions

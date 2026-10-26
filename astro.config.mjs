@@ -33,35 +33,18 @@ export default defineConfig({
   // would have shipped source bytes untouched. Nothing outside src/assets is
   // affected: images still in public/ are never processed either way.
   experimental: {
-    // Editorial-Technical type system: one warm grotesk does all the work,
-    // one mono carries every technical/metadata moment. Legacy CSS-var names
-    // are aliased onto these in global.css so un-migrated pages stay in-system.
+    // Calm type system: one grotesk does all the work (light for display,
+    // medium for labels), one mono for code, and the script for the wordmark.
     fonts: [
       {
         provider: fontProviders.google(),
         name: 'Hanken Grotesk',
         cssVariable: '--font-hanken',
-        weights: [400, 500, 600, 700, 800],
+        weights: [300, 400, 500, 600, 700, 800],
         styles: ['normal'],
         subsets: ['latin'],
         display: 'swap',
         fallbacks: ['system-ui', 'sans-serif'],
-      },
-      {
-        // Display serif (the character face). Headlines + oversized numerals only;
-        // body stays Hanken, technical labels stay Geist Mono. Newsreader's
-        // editorial warmth, optical sizing and distinctive italic break the
-        // "one-grotesk Tailwind template" read. Italic carries the editorial wink.
-        // The CSS var keeps its historic name so every downstream reference (the
-        // font-display/font-serif tokens, .ink-wink, headings) tracks the swap.
-        provider: fontProviders.google(),
-        name: 'Newsreader',
-        cssVariable: '--font-fraunces',
-        weights: [400, 500, 600, 700],
-        styles: ['normal', 'italic'],
-        subsets: ['latin'],
-        display: 'swap',
-        fallbacks: ['Georgia', 'Times New Roman', 'serif'],
       },
       {
         // Signature script — the brand lockup ONLY (header + footer wordmark).

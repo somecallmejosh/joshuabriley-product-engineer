@@ -1,5 +1,5 @@
 {
-  "$description": "Usage rules for the Editorial-Technical system. `rules` are enforced by `npm run audit:design` (scripts/audit-design-system.mjs). `guidelines` cannot be checked mechanically; follow them anyway. Tokens live in tokens.json. Changing this file changes the design system: do it only on Josh's request, never to make a failing audit pass.",
+  "$description": "Usage rules for the Calm system. `rules` are enforced by `npm run audit:design` (scripts/audit-design-system.mjs). `guidelines` cannot be checked mechanically; follow them anyway. Tokens live in tokens.json. Changing this file changes the design system: do it only on Josh's request, never to make a failing audit pass.",
 
   "scan": {
     "roots": ["src"],
@@ -32,11 +32,11 @@
     },
     "font-family": {
       "why": "Font stacks are tokens. A literal family name skips the Astro font loader and its fallbacks.",
-      "fix": "Use a font utility (font-sans, font-serif, font-mono) or var(--font-hanken) / var(--font-fraunces) / var(--font-geist-mono), or `inherit`."
+      "fix": "Use a font utility (font-sans, font-mono) or var(--font-hanken) / var(--font-geist-mono), or `inherit`."
     },
     "restricted-font": {
       "why": "The script face is the wordmark only (see restrictedTo in tokens.json).",
-      "fix": "Use the Logo component; set any other text in font-sans or font-serif."
+      "fix": "Use the Logo component; set any other text in font-sans."
     },
     "legacy-prop-value": {
       "why": "Component props still accept pre-rebrand tone names for back-compat. They all map to the same few colors, which makes the intent unreadable.",
@@ -117,11 +117,23 @@
   "guidelines": [
     {
       "id": "one-accent",
-      "rule": "There is exactly one accent hue. Don't add a second highlight color, gradient, or 'candy' palette for variety; hierarchy comes from type weight, size and the serif italic."
+      "rule": "There is exactly one accent hue. Don't add a second highlight color, gradient, or 'candy' palette for variety; hierarchy comes from size and from ink against muted grey."
+    },
+    {
+      "id": "light-display-type",
+      "rule": "One family, Hanken Grotesk. Display type is large and light (300); labels are sentence-case and medium (500), never uppercase mono eyebrows. Emphasis inside a heading is muted grey (an em inside calm-title), never italics or a second typeface. Geist Mono is for code and the small technical labels inside illustrations and interface artifacts only."
+    },
+    {
+      "id": "space-not-rules",
+      "rule": "Separate sections, list items, and steps with space, not rules, rails, or tinted bands. Borders exist only where they are necessary: table rows, sticky-bar edges, the 1px vertical divider between side-by-side compared columns, the code gutter, and input outlines. A line never carries bullets, numbers, or highlight segments; sequence lives in the text. The working tools' stage is the only full-width tinted band."
+    },
+    {
+      "id": "hover-not-color-only",
+      "rule": "Every text link changes something besides color on hover and keyboard focus: quiet links reveal an underline, underlined links thicken it to 2px, card links underline their title. Never rely on a color shift alone."
     },
     {
       "id": "no-default-cards",
-      "rule": "Don't reach for bg-raised white cards with shadows to group content. Case studies use hairline columns and panels (border-line) on paper; the small Berxi-style testimonial is the model."
+      "rule": "Don't reach for bg-raised white cards, borders, or shadows to group content. Interfaces sit on the plain denim-tint stage (the home-plate pattern); everything else sits directly on paper."
     },
     {
       "id": "surface-warm-callout-only",
@@ -129,7 +141,7 @@
     },
     {
       "id": "tools-stay-on-brand",
-      "rule": "Interactive islands must look like the site, not third-party widgets: navy accent plus in-key editorial hues, the site's type and controls."
+      "rule": "Interactive islands must look like the site, not third-party widgets: the site's light type, the denim accent plus in-key hues, and its controls. Answers sit in contained denim panels."
     },
     {
       "id": "case-study-plates",
@@ -145,7 +157,7 @@
     },
     {
       "id": "global-classes",
-      "rule": "site.css owns global classes (.rule, .measure, .mono-label, …). Don't redefine them in a scoped <style>; scoped styles also don't reach DOM created at runtime, so pre-render and toggle instead."
+      "rule": "site.css and redesign.css own global classes (.measure, .prose-whimsy, .calm-label, …). Don't redefine them in a scoped <style>; scoped styles also don't reach DOM created at runtime, so pre-render and toggle instead."
     },
     {
       "id": "style-guide-is-the-reference",

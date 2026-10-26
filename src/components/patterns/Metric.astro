@@ -3,8 +3,8 @@ import { cx } from '~/lib/cx';
 import Icon from '~/components/primitives/Icon.astro';
 
 /**
- * A single measured outcome. Editorial-Technical: oversized ink figure, sans
- * label, monospace source caption. Real, defensible numbers only.
+ * A single measured outcome: a large, light ink figure, a medium label, and a
+ * muted caption. Real, defensible numbers only.
  */
 
 interface Props {
@@ -26,7 +26,7 @@ const { value, label, caption, before, trend, class: className } = Astro.props;
       <span class="font-display text-2xl md:text-3xl text-ink-muted line-through decoration-accent/50">{before}</span>
     )}
     {before && <Icon name="ph:arrow-right" size={16} class="self-center text-ink-faint" />}
-    <span class="metric__value font-display font-semibold leading-none text-4xl md:text-5xl tracking-[-0.03em] text-ink">{value}</span>
+    <span class="metric__value font-display font-light leading-none text-4xl md:text-5xl tracking-[-0.03em] text-ink">{value}</span>
     {trend && (
       <Icon
         name={trend === 'up' ? 'ph:arrow-up-right' : 'ph:arrow-down-right'}
@@ -38,6 +38,6 @@ const { value, label, caption, before, trend, class: className } = Astro.props;
   </div>
   <p class="metric__label mt-2 font-sans text-sm font-medium tracking-tight text-ink">{label}</p>
   {caption && (
-    <p class="metric__caption mt-1.5 font-mono text-[0.62rem] uppercase tracking-[0.1em] leading-relaxed text-ink-muted">{caption}</p>
+    <p class="metric__caption mt-1.5 text-sm leading-relaxed text-ink-muted">{caption}</p>
   )}
 </div>
