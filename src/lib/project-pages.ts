@@ -114,20 +114,5 @@ export const projectPages = {
     actions: [{ href: 'https://token-galaga.netlify.app/', label: 'Play the game' }],
     next: { name: 'IVFCRYO', href: '/projects/ivfcryo/', description: 'A shared workflow for the people coordinating fertility shipments.' },
   },
-  church: {
-    name: 'West Baton Rouge Presbyterian', kind: 'Volunteer work · Publishing platform',
-    headline: 'A publishing system', emphasis: 'built for a small church.',
-    intro: 'A custom Rails CMS that lets staff manage events, galleries, and pages. I built the content models, media pipeline, authentication, and public interface over one weekend.',
-    facts: [
-      { label: 'My role', value: 'Design and full-stack development' },
-      { label: 'Built with', value: 'Ruby on Rails and Cloudinary' },
-      { label: 'Delivery', value: 'Volunteer project, one weekend' },
-    ],
-    figures: [],
-    image: '/images/projects/west-baton-rouge-presbyterian/wbrpres.webp',
-    alt: 'West Baton Rouge Presbyterian public website screenshot',
-    imageNote: 'Website screenshot · West Baton Rouge Presbyterian',
-    next: { name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/', description: 'Accessible components, design tokens, and the decisions behind them.' },
-  },
 } satisfies Record<string, ProjectPage>;
 export type ProjectKey = keyof typeof projectPages;

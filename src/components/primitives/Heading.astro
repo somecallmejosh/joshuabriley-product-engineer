@@ -12,7 +12,7 @@ type HeadingVisual = 'display-xl' | 'display-lg' | 'display-md' | 'h1' | 'h2' | 
 interface Props {
   level: HeadingLevel;
   visual?: HeadingVisual;
-  tone?: 'navy' | 'white' | 'plum' | 'coral' | 'ink' | 'paper' | 'accent' | 'muted';
+  tone?: 'ink' | 'paper' | 'accent' | 'muted';
   align?: 'left' | 'center';
   balance?: boolean;
   class?: string;
@@ -22,7 +22,7 @@ interface Props {
 const {
   level,
   visual,
-  tone = 'navy',
+  tone = 'ink',
   align = 'left',
   balance = false,
   class: className,
@@ -49,10 +49,6 @@ const visualStyles: Record<HeadingVisual, string> = {
 };
 
 const tones: Record<NonNullable<Props['tone']>, string> = {
-  navy: 'text-ink',
-  white: 'text-paper',
-  plum: 'text-ink',
-  coral: 'text-accent',
   ink: 'text-ink',
   paper: 'text-paper',
   accent: 'text-accent',

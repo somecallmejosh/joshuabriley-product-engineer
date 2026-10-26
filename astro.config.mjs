@@ -22,9 +22,6 @@ export default defineConfig({
     '/blog/what-inconsistency-costs': '/tools/roi-calculator',
     '/scorecard': '/tools/scorecard',
     '/scorecard/results': '/tools/scorecard/results',
-    // Clempo + Bass Face moved into the personal-projects section.
-    // '/projects/clempo': '/personal-projects/clempo',
-    // '/projects/bass-face': '/personal-projects/bass-face',
     // Rudiment UI moved back: it has no client and no user research to
     // report, so it doesn't fit the case-study bar the other /projects/
     // pages are held to.
@@ -100,8 +97,6 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: (page) =>
-        !page.includes('/dev/') &&
-        !page.includes('/component-inventory') &&
         !page.includes('/og-render') &&
         !page.includes('/resume-print') &&
         !page.includes('/tools/scorecard/results'),

@@ -117,7 +117,6 @@ const cases = [
 
 /* ─── thresholds & evaluation ─── */
 
-const isText = (role) => role == null || role === 'text' || role === 'large';
 const aaFloor = (role) => (role === 'large' ? 3.0 : 4.5);
 const aaaFloor = (role) => (role === 'large' ? 4.5 : 7.0);
 

@@ -253,7 +253,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 // The TLDR digest. "Alternatives" and "Decision" restate the two-apps-vs-one
 // call already argued in the #flows step; "Reflection" restates the edges
 // section below rather than inventing a new critique — see
-// src/pages/projects/interview-notes/tldr.md.
+// notes/interview-notes/tldr.md.
 
 ---
 
@@ -324,7 +324,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
           <div class="mt-12">
             <p class="mono-label mb-6">The five parties</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {parties.map((node, i) => (
+              {parties.map((node) => (
                 <li class="relative border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
                     <Icon name={node.icon} size={20} class="text-ink-muted" />
@@ -339,7 +339,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
           <div class="mt-12">
             <p class="mono-label mb-6">Chain of custody</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {custody.map((node, i) => (
+              {custody.map((node) => (
                 <li class="relative border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
                     <Icon name={node.icon} size={20} class="text-ink-muted" />
@@ -413,7 +413,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
             <p class="mono-label mb-6">Readiness checks before scheduling</p>
             <ul>
-              {readinessGate.map((row, i) => (
+              {readinessGate.map((row) => (
                 <li class="grid grid-cols-[18px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-b border-line py-3.5 last:border-b-0 sm:grid-cols-[18px_9rem_minmax(0,1fr)]">
                   <Icon name="ph:seal-check" size={18} class="shrink-0 text-accent" />
                   <span class="font-medium text-ink">{row.party}</span>
@@ -476,7 +476,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
                   <p class="font-display font-semibold text-ink">Customer</p>
                 </div>
                 <ul>
-                  {customerFlow.map((p, i) => (
+                  {customerFlow.map((p) => (
                     <li class="flex gap-4 border-b border-line py-3.5 last:border-b-0">
                       <div>
                         <p class="font-medium text-ink leading-snug">{p.label}</p>
@@ -493,7 +493,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
                   <p class="font-display font-semibold text-ink">Admin &middot; IVFCRYO staff</p>
                 </div>
                 <ul>
-                  {adminFlow.map((p, i) => (
+                  {adminFlow.map((p) => (
                     <li class="flex gap-4 border-b border-line py-3.5 last:border-b-0">
                       <div>
                         <p class="font-medium text-ink leading-snug">{p.label}</p>

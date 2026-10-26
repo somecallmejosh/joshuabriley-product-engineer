@@ -58,15 +58,9 @@ body {
    spot, and the width the project case studies are tuned to). Note the `ch` unit
    is the advance of "0", which is wider than the average prose glyph, so 52ch
    lands at roughly 60-68 actual characters per full line (case-study body copy
-   is 18px throughout, so the column is a consistent ~525px). `.measure-head` caps
-   the display headlines so they wrap inside that same optical column at every
-   breakpoint — CSS `ch` is per-element, so a headline needs a tighter character
-   count than body text to land at the same physical width as the prose column. */
+   is 18px throughout, so the column is a consistent ~525px). */
 .measure {
   max-width: 52ch;
-}
-.measure-head {
-  max-width: 28ch;
 }
 
 :focus {
@@ -145,7 +139,6 @@ html {
    bg-accent / border-accent / var(--accent) on that surface updates at once. */
 .bg-ink,
 .reveal-card,
-.score-float,
 .ix-toast,
 [data-surface='dark'] {
   --accent-rgb: 107 166 216; /* #6BA6D8 — AA on ink (6.6:1) */
@@ -157,7 +150,6 @@ html {
 }
 .bg-paper,
 .bg-raised,
-.bg-cream,
 .bg-white,
 [data-surface='light'] {
   --accent-rgb: 46 92 138; /* #2E5C8A — deep denim navy for light paper */
@@ -226,45 +218,6 @@ header .desktop-nav a[aria-current='page'] {
   border-radius: 8px;
   padding: 1.75rem 1.75rem 2rem;
   border: 1px solid var(--line);
-}
-.report-paper::before {
-  content: none;
-}
-.project-logo-tag {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.75rem;
-  padding: 0.25rem 1.5rem 1.25rem;
-  border-bottom: 1px solid var(--line);
-  max-width: 320px;
-  min-height: 52px;
-}
-.project-logo-tag img {
-  max-height: 44px;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  display: block;
-}
-.project-logo-tag--wordmark {
-  font-family: var(--font-hanken), Georgia, serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  font-size: 1.9rem;
-  line-height: 1;
-  color: var(--ink);
-}
-.project-logo-tag--wordmark .dot {
-  color: var(--accent);
-}
-@media (min-width: 768px) {
-  .project-logo-tag img {
-    max-height: 52px;
-  }
-  .project-logo-tag--wordmark {
-    font-size: 2.25rem;
-  }
 }
 /* The one dark anchor surface in the tool — kept ink, radius pulled to the
    site's 8px panel scale (no more 12px). */

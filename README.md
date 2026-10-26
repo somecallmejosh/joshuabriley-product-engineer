@@ -53,10 +53,12 @@ npm run dev          # start the dev server at http://localhost:4321
 src/
 ├── components/
 │   ├── chrome/       # Header, Footer, nav
-│   ├── layout/       # Container, Grid, Section
-│   ├── primitives/   # Button, Heading, Text, Icon, Badge, Link, Logo
-│   ├── patterns/     # CodeBlock, FAQ, Metric, CTABanner, ...
-│   ├── form/         # Field, Input, Select, Textarea, ...
+│   ├── layout/       # Container, Section
+│   ├── primitives/   # Heading, Text, Icon, Link, Logo
+│   ├── patterns/     # CodeBlock, Metric, Plate, ProjectHero, ...
+│   ├── form/         # Field, Input, Textarea, SubmitButton, FormAlert
+│   ├── style-guide/  # Specimen (style guide only)
+│   ├── writing/      # ArticleTable, ResourceList
 │   └── islands/      # Client-interactive: ContactForm, RoiCalculator,
 │                     #   ScorecardEngine, TokenPlayground, ...
 ├── content/
@@ -64,8 +66,8 @@ src/
 │   ├── tools/        # Tool essays (.mdx), one per island
 │   └── testimonials/ # Testimonials (.json)
 ├── content.config.ts # Zod schemas for all three collections
-├── layouts/          # BaseLayout, BlogPost, ToolPage
-├── lib/              # Pure helpers (cx, nav, tones, roi, scorecard)
+├── layouts/          # BaseLayout, BlogPost, ProjectLayout, ToolPage
+├── lib/              # Pure helpers + shared data (cx, nav, roi, scorecard, resume-data, og-pages, ...)
 ├── pages/            # File-based routes (projects, blog, tools, personal-projects, ...)
 ├── scripts/          # Client-side TS entry points
 └── styles/           # global.css, site.css (design tokens)

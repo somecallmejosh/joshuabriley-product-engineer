@@ -2,7 +2,7 @@
 import { cx } from '~/lib/cx';
 
 interface Props {
-  tone?: 'cream' | 'navy' | 'white' | 'plum' | 'charcoal' | 'surface-warm' | 'paper' | 'ink' | 'raised';
+  tone?: 'paper' | 'ink' | 'raised';
   padding?: 'tight' | 'default' | 'loose';
   id?: string;
   class?: string;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const {
-  tone = 'cream',
+  tone = 'paper',
   padding = 'default',
   id,
   class: className,
@@ -19,15 +19,9 @@ const {
 } = Astro.props;
 
 const tones: Record<NonNullable<Props['tone']>, string> = {
-  cream: 'bg-paper text-ink',
   paper: 'bg-paper text-ink',
-  navy: 'bg-ink text-paper',
   ink: 'bg-ink text-paper',
-  white: 'bg-raised text-ink',
   raised: 'bg-raised text-ink',
-  plum: 'bg-ink text-paper',
-  charcoal: 'bg-ink text-paper',
-  'surface-warm': 'bg-surface-warm text-ink',
 };
 
 const paddings: Record<NonNullable<Props['padding']>, string> = {

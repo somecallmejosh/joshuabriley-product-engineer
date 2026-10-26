@@ -1,7 +1,6 @@
 ---
 import { cx } from '~/lib/cx';
 import Icon from '~/components/primitives/Icon.astro';
-import type { Tone } from '~/lib/tones';
 
 /**
  * A single measured outcome. Editorial-Technical: oversized ink figure, sans
@@ -15,8 +14,6 @@ interface Props {
   /** Optional "before" value, struck through ahead of an arrow. */
   before?: string;
   trend?: 'up' | 'down';
-  /** Accepted for back-compat; figures are ink in this register. */
-  tone?: Tone;
   class?: string;
 }
 

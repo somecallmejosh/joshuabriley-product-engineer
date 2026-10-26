@@ -3,7 +3,7 @@ import { cx } from '~/lib/cx';
 
 interface Props {
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
-  tone?: 'navy' | 'muted' | 'white' | 'whiteMuted' | 'coral' | 'ink' | 'paper' | 'faint' | 'accent';
+  tone?: 'ink' | 'muted' | 'paper' | 'whiteMuted' | 'faint' | 'accent';
   weight?: 'normal' | 'medium' | 'semibold';
   align?: 'left' | 'center';
   as?: 'p' | 'span' | 'div';
@@ -13,7 +13,7 @@ interface Props {
 
 const {
   size = 'base',
-  tone = 'navy',
+  tone = 'ink',
   weight = 'normal',
   align = 'left',
   leading = 'relaxed',
@@ -30,12 +30,9 @@ const sizes: Record<NonNullable<Props['size']>, string> = {
 };
 
 const tones: Record<NonNullable<Props['tone']>, string> = {
-  navy: 'text-ink',
-  muted: 'text-ink-muted',
-  white: 'text-paper',
-  whiteMuted: 'text-paper/70',
-  coral: 'text-accent',
   ink: 'text-ink',
+  muted: 'text-ink-muted',
+  whiteMuted: 'text-paper/70',
   paper: 'text-paper',
   faint: 'text-ink-faint',
   accent: 'text-accent',

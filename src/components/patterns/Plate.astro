@@ -123,19 +123,6 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
 <style>
   .plate { margin: 0; }
 
-  /* --ink-muted, not --ink-faint: at 0.68rem the faint token lands at 2.69:1 on
-     paper, which fails WCAG AA. The old plate chrome had the same problem, and
-     there are far more of these labels now. */
-  .plate__index {
-    margin: 0 0 0.75rem;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--ink-muted);
-  }
-  .plate__index span { margin: 0 0.35em; opacity: 0.6; }
-
   /* A hairline frame, not a raised card. The sheets are white line work, so all
      they need is an edge; the old 8px mount plus drop shadow was chrome around
      chrome. */

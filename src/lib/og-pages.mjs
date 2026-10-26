@@ -31,19 +31,14 @@ export const OG_PAGES = [
   { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use', wink: null },
 
   // Case studies (client work)
-  { slug: 'project-americas-test-kitchen', path: '/projects/americas-test-kitchen/', eyebrow: 'Case Study · Design & Front-End', headline: "America's Test Kitchen", wink: null },
-  { slug: 'project-berxi-insurance', path: '/projects/berxi-insurance/', eyebrow: 'Case Study · Design & Front-End', headline: 'Berxi.com', wink: null },
   { slug: 'project-ivfcryo', path: '/projects/ivfcryo/', eyebrow: 'Case Study · Design & Front-End', headline: 'IVFCRYO', wink: null },
   { slug: 'project-vmspark', path: '/projects/vmspark/', eyebrow: 'Case Study · Design & Front-End', headline: 'VMSpark', wink: null },
 
   // Personal projects
-  { slug: 'pp-bass-face', path: '/personal-projects/bass-face/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Bass Face', wink: null },
-  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Clempo', wink: null },
   // Moved back from the client case studies; the eyebrow (baked into the PNG)
   // had to change with it, so this card is regenerated under its old slug.
   { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Rudiment UI', wink: null },
   { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Token Adventure', wink: null },
-  { slug: 'pp-west-baton-rouge-presbyterian', path: '/personal-projects/west-baton-rouge-presbyterian/', eyebrow: 'Personal Project · Design & Front-End', headline: 'West Baton Rouge Presbyterian', wink: null },
 
   // Blog posts are NOT listed here. They are derived from the posts collection
   // via postToOgEntry() below, so a new post gets a card automatically (just

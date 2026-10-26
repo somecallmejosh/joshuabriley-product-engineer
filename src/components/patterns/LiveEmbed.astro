@@ -41,7 +41,7 @@ const {
 } = Astro.props;
 ---
 
-<figure class={cx('live-embed', className)} data-live-embed data-view="desktop">
+<figure class={cx('live-embed', className)} data-live-embed>
   <div class="live-embed-frame">
     <span class="live-embed-corner live-embed-corner--tl" aria-hidden="true"></span>
     <span class="live-embed-corner live-embed-corner--tr" aria-hidden="true"></span>
@@ -260,36 +260,6 @@ const {
   }
   .live-embed-controls { display: inline-flex; align-items: center; gap: 0.85rem; }
 
-  .live-embed-views {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    padding: 2px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--raised);
-  }
-  .live-embed-view {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.28rem 0.6rem;
-    border-radius: 999px;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.58rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--ink-muted);
-    transition: color 0.2s var(--ease-out), background 0.2s var(--ease-out);
-  }
-  .live-embed-view span { display: none; }
-  @media (min-width: 480px) { .live-embed-view span { display: inline; } }
-  .live-embed-view:hover { color: var(--ink); }
-  .live-embed-view[aria-pressed='true'] {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
   .live-embed-open {
     display: inline-flex;
     align-items: center;
@@ -302,32 +272,6 @@ const {
     transition: color 0.2s var(--ease-out);
   }
   .live-embed-open:hover { color: var(--accent); }
-
-  /* Mobile preview — the stage becomes a device backdrop holding a centered
-     phone. Brackets step aside so the phone reads cleanly. */
-  .live-embed[data-view='mobile'] .live-embed-corner { opacity: 0; }
-  .live-embed[data-view='mobile'] .live-embed-stage {
-    aspect-ratio: auto;
-    height: clamp(560px, 78vh, 760px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.75rem 1rem;
-    background:
-      radial-gradient(120% 120% at 50% 0%, rgba(27, 26, 23, 0.05), transparent 60%),
-      var(--raised);
-  }
-  .live-embed[data-view='mobile'] .live-embed-viewport {
-    position: relative;
-    inset: auto;
-    height: 100%;
-    aspect-ratio: 390 / 760;
-    max-width: 100%;
-    border-radius: 30px;
-    overflow: hidden;
-    border: 1px solid var(--line-strong);
-    box-shadow: 0 22px 60px -24px rgba(27, 26, 23, 0.5);
-  }
 
   @media (prefers-reduced-motion: reduce) {
     .live-embed-poster, .live-embed-iframe, .live-embed-cta-pill { transition: none; }
@@ -345,19 +289,6 @@ const {
       if (!root || !frame || root.dataset.loaded) return;
       if (frame.dataset.src) frame.src = frame.dataset.src;
       root.dataset.loaded = 'true';
-    });
-  });
-
-  // Viewport switch: flip the figure's data-view (CSS reflows the frame). No
-  // network — an already-loaded iframe just re-renders at the new width.
-  document.querySelectorAll('[data-live-embed]').forEach((root) => {
-    const host = root as HTMLElement;
-    const btns = host.querySelectorAll<HTMLButtonElement>('[data-view-btn]');
-    btns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        host.dataset.view = btn.dataset.viewBtn ?? 'desktop';
-        btns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-      });
     });
   });
 </script>

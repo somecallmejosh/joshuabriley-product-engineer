@@ -355,9 +355,7 @@ const description =
     type TotalStatus,
   } from '~/lib/scorecard';
 
-  // ─── Helpers not yet exported from ~/lib/scorecard (ported from
-  //     legacy /scripts/scorecard-engine.js so this page can render results
-  //     without modifying the shared lib). ─────────────────────────────────────
+  // ─── Results-only helpers: labels, recommendation logic. ─────────────────
 
   const SHORT_LABELS: Record<string, string> = {
     'Component consistency': 'Consistency',

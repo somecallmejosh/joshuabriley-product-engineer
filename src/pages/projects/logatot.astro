@@ -225,7 +225,7 @@ const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slu
 // The TLDR digest. "Alternatives" and "Decision" restate the AI-in-the-loop
 // call already argued in the #pipeline step; "Reflection" restates the edges
 // section below rather than inventing a new critique — see
-// src/pages/projects/interview-notes/tldr.md.
+// notes/interview-notes/tldr.md.
 const tldr = {
   problem: `Three separate provider interviews all pointed to the same problem: a job that demands constant attention leaves no time for paperwork, so providers filled it in from memory at night, and those memory-based records were the ones inspectors and food-program auditors cared about most.`,
   alternativeA: {
@@ -307,7 +307,7 @@ const tldr = {
           <div class="mt-12">
             <p class="mono-label mb-6">Three sets of rules</p>
             <ol class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {regimes.map((r, i) => (
+              {regimes.map((r) => (
                 <li class="border-t border-line pt-5">
                   <div class="mb-3 flex items-center gap-3">
                     <Icon name={r.icon} size={20} class="text-ink-muted" />

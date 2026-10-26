@@ -18,8 +18,8 @@ test('mobile navigation is a named modal with usable destinations and contained 
   await expect(dialog).toBeVisible();
   const close = dialog.getByRole('button', { name: 'Close', exact: true });
   await expect(close).toBeFocused();
-  await expect(dialog.getByRole('link', { name: 'About', exact: true })).toHaveAttribute('aria-current', 'page');
-  for (const name of ['Résumé', 'Tools', 'Recommendations', 'Personal projects', 'Contact me']) {
+  await expect(dialog.getByRole('link', { name: 'Biography', exact: true })).toHaveAttribute('aria-current', 'page');
+  for (const name of ['Résumé', 'Tools', 'Feedback', 'Personal projects', 'Contact me']) {
     await expect(dialog.getByRole('link', { name, exact: true })).toBeVisible();
   }
   // The large links mirror the footer's lead group.

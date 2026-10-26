@@ -1,7 +1,6 @@
 /**
- * Shared module: scorecard sections, scoring logic, URL encoding, recommendation engine.
- * Ported verbatim from the legacy scripts/scorecard-engine.js with light TypeScript.
- * Used by the /tools/scorecard/ entry page; the future results page will import the same source.
+ * Shared module: scorecard sections, scoring logic, URL encoding.
+ * Used by the /tools/scorecard/ entry page and /tools/scorecard/results/.
  */
 
 interface ScorecardItem {

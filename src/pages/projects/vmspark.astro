@@ -245,7 +245,7 @@ const flows = [
 // The TLDR digest. "Alternatives" and "Decision" restate the three-directions
 // call already argued in the #directions step (narrowed to the two most
 // credible); "Reflection" restates the edges section below rather than
-// inventing a new critique — see src/pages/projects/interview-notes/tldr.md.
+// inventing a new critique — see notes/interview-notes/tldr.md.
 const tldr = {
   situation: `VMSpark pulls in thousands of job listings a day and sends them out to more than a dozen hiring systems. I owned the admin app operators used every day and investors saw in every demo, without touching the systems underneath it.`,
   problem: `The app hadn't kept up with what it did. Buttons, forms, and tables were each built a different way on nearly every screen, so it looked more like an old prototype than the enterprise product it powered.`,
@@ -694,7 +694,7 @@ const tldr = {
           a person does from what the system does with it.
         </Text>
         <div class="space-y-16">
-          {flows.map((f, i) => (
+          {flows.map((f) => (
             <Plate
               title={f.title}
               caption={f.note}

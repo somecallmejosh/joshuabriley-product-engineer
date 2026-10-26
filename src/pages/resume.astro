@@ -14,7 +14,6 @@ import {
   SKILLS as skills,
   EDUCATION as education,
   CONTINUING_ED as continuingEd,
-  CERT_FOCUS as certFocus,
   UPDATED as updated,
 } from '~/lib/resume-data.mjs';
 
@@ -277,14 +276,12 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .education-degree h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; text-wrap: balance; }
   .education-institution { margin-top: 1rem; font-size: 1.2rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
   .education-note { margin-top: 1rem; max-width: 39ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.7; }
-  .education-learning > h3, .education-preparation h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.25; letter-spacing: -.03em; }
+  .education-learning > h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.25; letter-spacing: -.03em; }
   .education-learning { border-top: 1px solid var(--line-strong); padding-top: 1.75rem; }
   .education-courses { list-style: none; padding: 0; margin: 1.5rem 0 0; }
   .education-courses li { border-top: 1px solid var(--line); padding: 1.25rem 0; }
   .education-courses h4 { max-width: 35ch; font-size: 1.15rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.4; }
   .education-courses p { margin-top: .5rem; font-size: .95rem; line-height: 1.6; color: var(--ink-muted); }
-  .education-preparation { margin-top: 1rem; padding-top: 1.75rem; border-top: 1px solid var(--line-strong); }
-  .education-preparation p { margin-top: .75rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
   #skills, #education { scroll-margin-top: 6rem; }
   @media (min-width: 640px) { .skill-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1024px) {

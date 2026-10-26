@@ -15,7 +15,6 @@ const PAGES = [
   '/projects/vmspark/',
   '/personal-projects/rudiment-ui/',
   '/personal-projects/token-galaga/',
-  '/personal-projects/west-baton-rouge-presbyterian/',
   '/personal-projects/',
   '/blog/',
   '/blog/native-lit-or-stencil/',

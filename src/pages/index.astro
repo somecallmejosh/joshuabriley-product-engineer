@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import BookList from '~/components/patterns/BookList.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
 import { selectedWork } from '~/lib/selected-work';
@@ -70,7 +69,3 @@ const homeWork = workOrder.flatMap(href => selectedWork.filter(work => work.href
   </section>
 </BaseLayout>
 
-<style>
-  .home-books { background: var(--portfolio-tint); }
-  .home-books-more { margin-top: 3.5rem; }
-</style>
