@@ -21,6 +21,8 @@ export interface NavMenu {
   /** Heading over the links when a feature column sits beside them. */
   linksLabel?: string
   links: NavMenuLink[]
+  /** The section's index page, linked after the menu's links in the footer. */
+  overview?: NavLink
 }
 
 /** Desktop header menus, followed by the contact link. */
@@ -36,6 +38,7 @@ export const HEADER_MENUS: NavMenu[] = [
       { href: '/tools/', label: 'Tools', description: 'Free design system tools, no signup.' },
       { href: '/play/', label: 'Play', description: 'Short games about accessible interfaces.' },
     ],
+    overview: { href: '/projects/', label: 'All projects' },
   },
   {
     id: 'about',
@@ -59,27 +62,6 @@ export const HEADER_MENUS: NavMenu[] = [
       ...writingTopics.map((topic) => ({ href: `/blog/#${topic.id}`, label: topic.category, description: topic.description })),
       { href: '/blog/#books', label: 'Longer reads', description: 'Two free online books, each on a single subject.' },
     ],
-  },
-]
-
-export const FOOTER_NAV: { heading: string; links: NavLink[] }[] = [
-  {
-    heading: 'Explore',
-    links: [
-      { href: '/projects/', label: 'Projects' },
-      { href: '/about/', label: 'Biography' },
-      { href: '/blog/', label: 'Writing' },
-    ],
-  },
-  {
-    heading: 'More',
-    links: [
-      { href: '/', label: 'Home' },
-      { href: '/resume/', label: 'Résumé' },
-      { href: '/tools/', label: 'Tools' },
-      { href: '/play/', label: 'Play' },
-      { href: '/testimonials/', label: 'Testimonials' },
-      { href: '/personal-projects/', label: 'Personal projects' },
-    ],
+    overview: { href: '/blog/', label: 'All writing' },
   },
 ]
