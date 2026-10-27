@@ -1,0 +1,324 @@
+---
+/**
+ * "Fix the outline": raise or lower each heading's level until the article's
+ * outline matches its structure. Content: ~/lib/games/outline.
+ *
+ * - progressive: ships `hidden`; appears once the script runs
+ * - keyboard: each heading has labelled Raise / Lower buttons whose names say
+ *   the level they lead to; focus never moves on its own while editing
+ * - screen readers: level changes are announced; structural problems are listed
+ *   in plain text and re-announced only when they change
+ */
+import '~/styles/games.css';
+import { outlineRounds } from '~/lib/games/outline';
+
+const rounds = outlineRounds;
+---
+
+<section class="game-panel ol-game" data-outline-game aria-label="Game" hidden>
+  <div class="game-meta" aria-hidden="true">
+    <span data-ol-progress></span>
+    <span data-ol-score></span>
+  </div>
+
+  {rounds.map((round, r) => (
+    <div
+      class="ol-round"
+      data-ol-round={r}
+      data-target={round.headings.map((h) => h.level).join(' ')}
+      data-start={round.headings.map((h) => h.start).join(' ')}
+      hidden
+    >
+      <p class="game-prompt game-focus-target" id={`ol-${round.id}`} tabindex="-1">
+        <span class="sr-only">Round {r + 1} of {rounds.length}. </span>{round.title}: set each heading's level so the
+        outline matches how the page is organized.
+      </p>
+
+      <ol class="ol-list" aria-labelledby={`ol-${round.id}`}>
+        {round.headings.map((h) => (
+          <li class="ol-row" data-heading={h.id} data-text={h.text}>
+            <span class="ol-level" aria-hidden="true" data-level-badge></span>
+            <span class="ol-text">
+              {h.text}<span class="sr-only" data-level-sr></span>
+            </span>
+            <span class="ol-note" data-note></span>
+            <span class="ol-actions">
+              <button type="button" class="game-button ol-step" data-step="-1">Raise</button>
+              <button type="button" class="game-button ol-step" data-step="1">Lower</button>
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <div class="ol-issues" data-ol-issues-wrap>
+        <p class="ol-issues-title">Outline check</p>
+        <ul data-ol-issues></ul>
+      </div>
+
+      <button type="button" class="game-button game-button--primary" data-ol-check>Check the outline</button>
+
+      <div data-ol-feedback hidden>
+        <p class="game-verdict" data-ol-verdict></p>
+        <p class="game-explain">{round.explanation}</p>
+      </div>
+    </div>
+  ))}
+
+  <button type="button" class="game-button game-button--primary" data-ol-next hidden>Next round</button>
+
+  <div data-ol-end hidden>
+    <p class="game-verdict game-focus-target" data-ol-summary tabindex="-1"></p>
+    <p class="game-explain">Pick heading levels for structure, then style them however you like. Size belongs in CSS, not in the heading level.</p>
+    <p class="game-explain" data-ol-best></p>
+    <div class="game-end-actions">
+      <button type="button" class="game-button game-button--primary" data-ol-restart>Play again</button>
+      <a href="/play/" class="editorial-link">More games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-ol-live></p>
+</section>
+
+<style>
+  .ol-list {
+    display: grid;
+    gap: 0.35rem;
+  }
+  /* Small screens: buttons get their own row so headings never break mid-word. */
+  .ol-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: 'level text' '. note' '. actions';
+    align-items: center;
+    gap: 0.35rem 0.75rem;
+    padding: 0.5rem 0.5rem 0.5rem calc(0.6rem + var(--depth, 0) * 0.9rem);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    overflow-wrap: normal;
+    transition: padding-left 200ms var(--ease-out);
+  }
+  @media (min-width: 640px) {
+    .ol-row {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: 'level text actions' '. note note';
+      gap: 0.2rem 0.75rem;
+      padding-left: calc(0.6rem + var(--depth, 0) * 1.4rem);
+    }
+  }
+  .ol-level {
+    grid-area: level;
+    min-width: 2.1rem;
+    padding: 0.15rem 0.35rem;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--ink-muted);
+  }
+  .ol-text {
+    grid-area: text;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .ol-row[data-level='1'] .ol-text {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .ol-row[data-level='2'] .ol-text {
+    font-size: 1.12rem;
+    font-weight: 700;
+  }
+  .ol-row[data-level='3'] .ol-text {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .ol-row[data-level='4'] .ol-text,
+  .ol-row[data-level='5'] .ol-text,
+  .ol-row[data-level='6'] .ol-text {
+    font-size: 0.93rem;
+    font-weight: 500;
+  }
+  .ol-note {
+    grid-area: note;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .ol-note:empty {
+    display: none;
+  }
+  .ol-actions {
+    grid-area: actions;
+    display: flex;
+    gap: 0.35rem;
+  }
+  .ol-step {
+    min-height: 36px;
+    padding: 0.3rem 0.65rem;
+    font-size: 0.83rem;
+  }
+  .ol-issues {
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--line-strong);
+    background: var(--paper);
+  }
+  .ol-issues[data-clean] {
+    border-left-color: var(--accent);
+  }
+  .ol-issues-title {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ol-issues ul {
+    display: grid;
+    gap: 0.2rem;
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ol-row {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { clampLevel, outlineIssues } from '~/lib/games/outline';
+  import { saveBest } from '~/lib/game-best';
+
+  document.querySelectorAll<HTMLElement>('[data-outline-game]').forEach(init);
+
+  function init(root: HTMLElement) {
+    const rounds = [...root.querySelectorAll<HTMLElement>('[data-ol-round]')];
+    const next = root.querySelector<HTMLButtonElement>('[data-ol-next]')!;
+    const end = root.querySelector<HTMLElement>('[data-ol-end]')!;
+    const live = root.querySelector<HTMLElement>('[data-ol-live]')!;
+    const progress = root.querySelector<HTMLElement>('[data-ol-progress]')!;
+    const scoreEl = root.querySelector<HTMLElement>('[data-ol-score]')!;
+    let index = 0;
+    let score = 0;
+    let lastIssues = '';
+
+    const rows = (round: HTMLElement) => [...round.querySelectorAll<HTMLLIElement>('[data-heading]')];
+    const levels = (round: HTMLElement) => rows(round).map((li) => Number(li.dataset.level));
+
+    function setLevel(li: HTMLLIElement, level: number) {
+      li.dataset.level = String(level);
+      li.style.setProperty('--depth', String(level - 1));
+      li.querySelector('[data-level-badge]')!.textContent = `H${level}`;
+      li.querySelector('[data-level-sr]')!.textContent = `, heading level ${level}`;
+      const text = li.dataset.text;
+      const raise = li.querySelector<HTMLButtonElement>('[data-step="-1"]')!;
+      const lower = li.querySelector<HTMLButtonElement>('[data-step="1"]')!;
+      raise.disabled = level === 1;
+      lower.disabled = level === 6;
+      raise.setAttribute('aria-label', level === 1 ? `${text} is already h1` : `Raise ${text} to h${level - 1}`);
+      lower.setAttribute('aria-label', level === 6 ? `${text} is already h6` : `Lower ${text} to h${level + 1}`);
+    }
+
+    function renderIssues(round: HTMLElement, announce: boolean) {
+      const issues = outlineIssues(rows(round).map((li) => ({ text: li.dataset.text!, level: Number(li.dataset.level) })));
+      const list = round.querySelector('[data-ol-issues]')!;
+      list.replaceChildren();
+      const lines = issues.length ? issues : ['No structural problems. Now check that each level matches the content.'];
+      // Scoped styles still reach these <li>s: they inherit from the styled <ul>.
+      lines.forEach((line) => list.append(Object.assign(document.createElement('li'), { textContent: line })));
+      round.querySelector<HTMLElement>('[data-ol-issues-wrap]')!.toggleAttribute('data-clean', issues.length === 0);
+      const summary = lines.join(' ');
+      if (announce && summary !== lastIssues) live.textContent += ` ${summary}`;
+      lastIssues = summary;
+    }
+
+    function show(i: number, moveFocus: boolean) {
+      index = i;
+      rounds.forEach((r, n) => (r.hidden = n !== i));
+      const round = rounds[i];
+      const start = round.dataset.start!.split(' ').map(Number);
+      rows(round).forEach((li, n) => {
+        setLevel(li, start[n]);
+        li.querySelector('[data-note]')!.textContent = '';
+      });
+      round.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) => (b.hidden = false));
+      round.querySelector<HTMLButtonElement>('[data-ol-check]')!.hidden = false;
+      round.querySelector<HTMLElement>('[data-ol-feedback]')!.hidden = true;
+      lastIssues = '';
+      renderIssues(round, false);
+      next.hidden = true;
+      end.hidden = true;
+      progress.textContent = `Round ${i + 1} of ${rounds.length}`;
+      scoreEl.textContent = `Score ${score}`;
+      if (moveFocus) round.querySelector<HTMLElement>('.game-prompt')!.focus();
+    }
+
+    function step(round: HTMLElement, li: HTMLLIElement, delta: number) {
+      const level = clampLevel(Number(li.dataset.level) + delta);
+      setLevel(li, level);
+      live.textContent = `${li.dataset.text} is now h${level}.`;
+      renderIssues(round, true);
+    }
+
+    function check(round: HTMLElement) {
+      const target = round.dataset.target!.split(' ').map(Number);
+      const current = levels(round);
+      let wrong = 0;
+      rows(round).forEach((li, n) => {
+        const ok = current[n] === target[n];
+        if (!ok) wrong++;
+        li.querySelector('[data-note]')!.textContent = ok ? '' : `Should be h${target[n]}`;
+      });
+      const right = wrong === 0;
+      if (right) score++;
+      round.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) => (b.hidden = true));
+      round.querySelector<HTMLButtonElement>('[data-ol-check]')!.hidden = true;
+      const verdict = right
+        ? 'Right. That outline matches the page.'
+        : `Not quite. ${wrong} heading${wrong === 1 ? ' is' : 's are'} at the wrong level; each one is marked.`;
+      round.querySelector('[data-ol-verdict]')!.textContent = verdict;
+      round.querySelector<HTMLElement>('[data-ol-feedback]')!.hidden = false;
+      live.textContent = verdict;
+      scoreEl.textContent = `Score ${score}`;
+      next.textContent = index + 1 >= rounds.length ? 'See your score' : 'Next round';
+      next.hidden = false;
+      next.focus();
+    }
+
+    function finish() {
+      rounds.forEach((r) => (r.hidden = true));
+      next.hidden = true;
+      progress.textContent = 'Finished';
+      const best = saveBest('outline', score);
+      const summary = root.querySelector<HTMLElement>('[data-ol-summary]')!;
+      summary.textContent = `You fixed ${score} of ${rounds.length} outlines.`;
+      root.querySelector('[data-ol-best]')!.textContent =
+        best > score ? `Your best is ${best} of ${rounds.length}.` : "That's your best so far.";
+      end.hidden = false;
+      live.textContent = summary.textContent;
+      summary.focus();
+    }
+
+    rounds.forEach((round) => {
+      round.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) =>
+        b.addEventListener('click', () => {
+          live.textContent = '';
+          step(round, b.closest('li')!, Number(b.dataset.step));
+          // A button that just became disabled loses focus; keep the player on this row.
+          if (b.disabled) b.closest('li')!.querySelector<HTMLButtonElement>(`[data-step]:not(:disabled)`)?.focus();
+        }),
+      );
+      round.querySelector('[data-ol-check]')!.addEventListener('click', () => check(round));
+    });
+    next.addEventListener('click', () => (index + 1 >= rounds.length ? finish() : show(index + 1, true)));
+    root.querySelector('[data-ol-restart]')!.addEventListener('click', () => {
+      score = 0;
+      show(0, true);
+    });
+
+    root.hidden = false;
+    show(0, false);
+  }
+</script>

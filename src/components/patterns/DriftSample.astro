@@ -1,0 +1,131 @@
+---
+import Icon from '~/components/primitives/Icon.astro';
+import type { DriftProperty, DriftRound } from '~/lib/games/spot-the-drift';
+
+/**
+ * One copy of a component in "Spot the drift": the design system version
+ * (`drift` empty) or a production copy with some properties changed. Purely
+ * visual; the game lists the same differences as text for screen readers.
+ */
+interface Props {
+  component: DriftRound['component'];
+  drift?: DriftProperty[];
+}
+
+const { component, drift = [] } = Astro.props;
+const has = (p: DriftProperty) => drift.includes(p);
+const classes = ['ds', `ds--${component}`, ...drift.map((p) => `ds-drift-${p}`)].join(' ');
+---
+
+<div class={classes} aria-hidden="true">
+  {component === 'alert' && (
+    <>
+      <Icon name="ph:info" size={has('icon-size') ? 16 : 20} class="ds-icon" />
+      <span class="ds-copy">
+        <strong>Scheduled maintenance</strong>
+        <span>Sign-in will be unavailable on Sunday from 1 to 3 a.m.</span>
+      </span>
+    </>
+  )}
+
+  {component === 'button' && (
+    <span class="ds-button">
+      <Icon name="ph:download-simple" size={18} />
+      <span>Download report</span>
+    </span>
+  )}
+
+  {component === 'field' && (
+    <span class="ds-field">
+      <span class="ds-field-label">Work email</span>
+      <span class="ds-field-input">name@company.com</span>
+    </span>
+  )}
+</div>
+
+<style>
+  .ds {
+    width: 100%;
+  }
+
+  .ds--alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--line-strong);
+    background: var(--raised);
+  }
+  .ds--alert.ds-drift-padding {
+    padding: 0.75rem;
+  }
+  .ds--alert.ds-drift-radius {
+    border-radius: 6px;
+  }
+  .ds-icon {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .ds-copy {
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--ink-muted);
+  }
+  .ds-copy strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .ds--button {
+    display: grid;
+    place-items: start;
+  }
+  .ds-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--paper);
+  }
+  .ds-drift-weight .ds-button {
+    font-weight: 400;
+  }
+  .ds-drift-gap .ds-button {
+    gap: 0.25rem;
+  }
+  .ds-drift-tracking .ds-button {
+    letter-spacing: 0.06em;
+  }
+
+  .ds-field {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .ds-drift-gap .ds-field {
+    gap: 0.125rem;
+  }
+  .ds-field-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ds-drift-text-color .ds-field-label {
+    color: var(--ink-muted);
+  }
+  .ds-field-input {
+    padding: 0.625rem;
+    border: 1px solid var(--ink-muted);
+    background: var(--raised);
+    font-size: 0.93rem;
+    color: var(--ink-muted);
+  }
+  .ds-drift-border .ds-field-input {
+    border-color: var(--line-strong);
+  }
+</style>

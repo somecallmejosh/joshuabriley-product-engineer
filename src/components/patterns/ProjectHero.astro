@@ -1,5 +1,6 @@
 ---
 import Container from '~/components/layout/Container.astro';
+import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
 import { projectPages, type ProjectKey, type ProjectPage } from '~/lib/project-pages';
 interface Props { project: ProjectKey; }
 const data: ProjectPage = projectPages[Astro.props.project];
@@ -7,11 +8,16 @@ const data: ProjectPage = projectPages[Astro.props.project];
 <section class="project-opening">
   <Container width="wide">
     <a href="/projects/" class="project-back hero-in hero-in-1"><span aria-hidden="true" data-link-arrow="up-left">↖</span> All work</a>
-    <div class="project-identity hero-in hero-in-1"><p>{data.name}</p><span>{data.kind}</span></div>
-    <h1 class="project-title hero-in hero-in-2">{data.headline} <em>{data.emphasis}</em></h1>
-    <div class="project-introduction hero-in hero-in-3">
-      <p>{data.intro}</p>
-      {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}</div>}
+    <div class="project-hero">
+      <div class="project-hero-copy">
+        <div class="project-identity hero-in hero-in-1"><p>{data.name}</p><span>{data.kind}</span></div>
+        <h1 class="project-title hero-in hero-in-2">{data.headline} <em>{data.emphasis}</em></h1>
+        <div class="project-introduction hero-in hero-in-3">
+          <p>{data.intro}</p>
+          {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}</div>}
+        </div>
+      </div>
+      <div class="project-hero-illustration hero-in hero-in-3"><ProjectIllustration project={data.illustration} /></div>
     </div>
     <dl class="project-facts hero-in hero-in-4">{data.facts.map(fact => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
   </Container>

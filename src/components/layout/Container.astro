@@ -19,6 +19,6 @@ const widths: Record<NonNullable<Props['width']>, string> = {
 };
 ---
 
-<Tag class={cx(widths[width], 'mx-auto px-6', className)}>
+<Tag class={cx(widths[width], 'mx-auto px-6 md:px-10 lg:px-12', className)}>
   <slot />
 </Tag>

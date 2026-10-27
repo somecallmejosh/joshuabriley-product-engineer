@@ -20,13 +20,18 @@ Most teams treat component drift as a design-system problem, but it behaves more
 
 Here's where it usually hides:
 
-<div class="cost-list not-prose">
-<section class="cost-card"><h3>Slower code reviews</h3><p>Reviewers pause to ask which version is the official one. It doesn't block the pull request, but it makes every review a little slower.</p></section>
-<section class="cost-card"><h3>Accessibility bugs multiply</h3><p>Each fix has to be repeated in every copy of the component. You end up patching the same problem in four codebases and hoping you caught all four.</p></section>
-<section class="cost-card"><h3>Designers answer the same questions</h3><p>"Is this spacing right?" "Is this the new card or the old one?" Small questions like these get asked, and answered, over and over in meetings and chat threads.</p></section>
-<section class="cost-card"><h3>New hires relearn everything</h3><p>New engineers learn the patterns in one part of the codebase, then find out those patterns don't apply anywhere else. So they ask around, or just build their own version.</p></section>
-<section class="cost-card"><h3>Upgrades only reach part of the product</h3><p>You ship a better focus state, a cleaner token, or a faster way to render, but it only reaches teams already using the shared version, while the rest stay on the old one. Over time it gets harder to justify investing in the shared system, because fewer teams actually benefit from it.</p></section>
-</div>
+<dl>
+  <dt>Slower code reviews</dt>
+  <dd>Reviewers pause to ask which version is the official one. It doesn't block the pull request, but it makes every review a little slower.</dd>
+  <dt>Accessibility bugs multiply</dt>
+  <dd>Each fix has to be repeated in every copy of the component. You end up patching the same problem in four codebases and hoping you caught all four.</dd>
+  <dt>Designers answer the same questions</dt>
+  <dd>“Is this spacing right?” “Is this the new card or the old one?” Small questions like these get asked, and answered, over and over in meetings and chat threads.</dd>
+  <dt>New hires relearn everything</dt>
+  <dd>New engineers learn the patterns in one part of the codebase, then find out those patterns don't apply anywhere else. So they ask around, or just build their own version.</dd>
+  <dt>Upgrades only reach part of the product</dt>
+  <dd>You ship a better focus state, a cleaner token, or a faster way to render, but it only reaches teams already using the shared version, while the rest stay on the old one. Over time it gets harder to justify investing in the shared system, because fewer teams actually benefit from it.</dd>
+</dl>
 
 ## Why leadership can't see it
 

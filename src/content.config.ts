@@ -14,6 +14,8 @@ const testimonials = defineCollection({
     image: z.string().optional(),
     /** Use the larger featured recommendation layout. */
     featured: z.boolean().optional(),
+    /** One of the strongest quotes, eligible for the random pick in the About menu. */
+    menu: z.boolean().optional(),
   }),
 });
 

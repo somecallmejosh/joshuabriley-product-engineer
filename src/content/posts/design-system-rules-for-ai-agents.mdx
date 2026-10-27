@@ -146,9 +146,9 @@ That last instruction addresses a real risk. An agent told to make a failing che
 
 You don't need the whole setup to get most of the benefit. In order of value:
 
-1. Write your tokens in one DTCG file, with a description on each that says when to use it.
-2. Add a check that compares your CSS variables and Tailwind config to that file. This prevents the most common kind of drift: a new value added in one place.
-3. Flag literal colors and arbitrary values, and record the existing ones as a baseline that can only shrink.
-4. Point your agent's instruction file at the token and rules files, and run the check in a pre-commit hook.
+- Write your tokens in one DTCG file, with a description on each that says when to use it.
+- Add a check that compares your CSS variables and Tailwind config to that file. This prevents the most common kind of drift: a new value added in one place.
+- Flag literal colors and arbitrary values, and record the existing ones as a baseline that can only shrink.
+- Point your agent's instruction file at the token and rules files, and run the check in a pre-commit hook.
 
 To see the system these files describe, visit the [style guide](/style-guide/).

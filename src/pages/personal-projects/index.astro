@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
+import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
 import { projectPages } from '~/lib/project-pages';
 const projects = [
   { ...projectPages.rudiment, href: '/personal-projects/rudiment-ui/' },
@@ -19,7 +20,7 @@ const projects = [
     <Container width="wide">
       <div class="work-list">
         {projects.map(project => <article class="work-entry" data-reveal>
-          <a href={project.href} class="work-image work-image--rudiment" aria-label={`Explore ${project.name}`}><span class="work-image-frame"><img src={project.image} alt={project.alt} width="1600" height="1000" loading="lazy" decoding="async" /></span><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
+          <a href={project.href} class="work-image" aria-label={`Explore ${project.name}`}><ProjectIllustration project={project.illustration} /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
           <div class="work-copy"><p class="work-kind">{project.kind}</p><h2 class="project-index-name"><a href={project.href}>{project.name}</a></h2><p class="work-title">{project.headline} {project.emphasis}</p><p class="work-summary">{project.intro}</p><a class="editorial-link mt-5" href={project.href}>Explore the project <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
         </article>)}
       </div>

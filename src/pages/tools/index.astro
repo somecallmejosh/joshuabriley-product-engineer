@@ -24,6 +24,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
       <div class="tools-intro hero-in hero-in-3">
         <p class="page-lede">Shared UI should make your team’s work easier. These four tools help you assess what’s working, understand the cost of rework, and make the next decision.</p>
         <p class="tools-note">No signup or installation. Tool inputs stay in your browser; shared scorecard results and calculator settings are included in their links.</p>
+        <p class="tools-note">Want something lighter? <a class="editorial-link" href="/play/">Try the accessibility games <span aria-hidden="true" data-link-arrow="right">→</span></a></p>
       </div>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Choose a tool">
         {tools.map((tool) => <a href={`/tools/${tool.id}/`}>{tool.data.kind} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}

@@ -279,13 +279,13 @@ Treat accessibility as part of the component API from the start, instead of a re
 
 Seven testing layers, and skipping the last three is the usual mistake:
 
-1. Unit-test state transitions, property and attribute reflection, event payloads, and cleanup.
-2. Browser-test keyboard use, focus, slots, styles, forms, and upgrade timing.
-3. Run accessibility checks plus targeted screen-reader tests on high-risk patterns.
-4. Install the packed npm artifact into clean React, Angular, and plain-HTML fixtures.
-5. Run production builds to verify tree shaking, chunks, CSS, assets, and source maps.
-6. Test SSR and hydration separately from client-only rendering.
-7. Measure a representative page carrying many real components, not isolated microbenchmarks.
+- Unit-test state transitions, property and attribute reflection, event payloads, and cleanup.
+- Browser-test keyboard use, focus, slots, styles, forms, and upgrade timing.
+- Run accessibility checks plus targeted screen-reader tests on high-risk patterns.
+- Install the packed npm artifact into clean React, Angular, and plain-HTML fixtures.
+- Run production builds to verify tree shaking, chunks, CSS, assets, and source maps.
+- Test SSR and hydration separately from client-only rendering.
+- Measure a representative page carrying many real components, not isolated microbenchmarks.
 
 Publish a Custom Elements Manifest or equivalent machine-readable metadata describing attributes, properties, methods, events, slots, CSS parts, custom properties, inheritance, and exports. It feeds IDE tooling, documentation generation, and adapter generation. Treat it as a tested release artifact rather than incidental documentation, because everything downstream will trust it.
 
@@ -326,13 +326,13 @@ Adopt Lit as the default candidate for a new standards-first enterprise library.
 
 Then run a real proof of concept:
 
-1. Select six representative components, including a form control and a composite interactive widget.
-2. Implement or port the same public API in the two leading candidates.
-3. Publish packed prerelease artifacts through the actual internal registry path.
-4. Consume them in one Angular application, one React application, and one SSR or static-rendering application that matters to you.
-5. Measure authoring effort, package size contribution, runtime behavior, accessibility, build compatibility, and debugging experience.
-6. Have consumer teams complete normal tasks with no help from the component authors. This step finds more than the other five combined.
-7. Score the options, record the architectural decision, and set a review date.
+- Select six representative components, including a form control and a composite interactive widget.
+- Implement or port the same public API in the two leading candidates.
+- Publish packed prerelease artifacts through the actual internal registry path.
+- Consume them in one Angular application, one React application, and one SSR or static-rendering application that matters to you.
+- Measure authoring effort, package size contribution, runtime behavior, accessibility, build compatibility, and debugging experience.
+- Have consumer teams complete normal tasks with no help from the component authors. This step finds more than the other five combined.
+- Score the options, record the architectural decision, and set a review date.
 
 Score with weights you can defend:
 

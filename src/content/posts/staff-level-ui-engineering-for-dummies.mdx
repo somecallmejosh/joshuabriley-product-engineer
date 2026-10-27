@@ -38,27 +38,24 @@ It's a simplification, but it holds up well in interviews and career planning.
 
 Take a concrete case. A button component has an accessibility defect.
 
-<div class="not-prose essay-split">
-  <div>
-    <p class="essay-label">The senior response</p>
-    <p> Diagnose the defect. Fix the component. Add a test. Document the behavior. Ship the release. </p>
-    <p> This is correct, necessary work, and none of what follows replaces it. Someone still has to fix the button. </p>
-  </div>
-  <div>
-    <p class="essay-label essay-label--accent">The staff response</p>
-    <p>All of that, plus a wider set of questions:</p>
-    <ul>
-      <li>Why did our process let this ship?</li>
-      <li>Do other components share the same defect?</li>
-      <li>Are the automated tests checking the right thing?</li>
-      <li>Does the component API make accessible behavior easy or hard?</li>
-      <li>Can the default be made safe, so product teams need no accessibility expertise to use it correctly?</li>
-      <li>How do existing consumers receive the fix, and is it a patch or a break?</li>
-      <li>How will we know which applications are still on the bad version?</li>
-      <li>Does the design library teach the same behavior as the code does?</li>
-    </ul>
-  </div>
-</div>
+#### The senior response
+
+Diagnose the defect. Fix the component. Add a test. Document the behavior. Ship the release.
+
+This is correct, necessary work, and none of what follows replaces it. Someone still has to fix the button.
+
+#### The staff response
+
+All of that, plus a wider set of questions:
+
+- Why did our process let this ship?
+- Do other components share the same defect?
+- Are the automated tests checking the right thing?
+- Does the component API make accessible behavior easy or hard?
+- Can the default be made safe, so product teams need no accessibility expertise to use it correctly?
+- How do existing consumers receive the fix, and is it a patch or a break?
+- How will we know which applications are still on the bad version?
+- Does the design library teach the same behavior as the code does?
 
 The Staff engineer usually still writes the fix. The difference is that the engineer also repairs whatever produced the defect, so the next one has a harder time getting out.
 
@@ -74,56 +71,28 @@ If you like building things and do not want to manage people, Staff or Principal
 
 These three terms get used interchangeably, and the difference between them is most of what this guide is about.
 
-<div class="not-prose essay-defs">
-  <div class="essay-defs__row">
-    <div>
-      <p class="essay-defs__term">Component library</p>
-      <p class="essay-defs__q">How do developers reuse this UI code?</p>
-    </div>
-    <p> Reusable implementation code. A button, an input, a dialog, a date picker. The output is code other people import. </p>
-  </div>
-  <div class="essay-defs__row">
-    <div>
-      <p class="essay-defs__term">Design system</p>
-      <p class="essay-defs__q">How should this organization design and build interfaces?</p>
-    </div>
-    <p> The library plus the shared decisions around it: patterns, tokens, accessibility guidance, documentation. The output is agreement, and code that encodes it. This is a working definition for this guide, not a universal one. </p>
-  </div>
-  <div class="essay-defs__row">
-    <div>
-      <p class="essay-defs__term">UI platform</p>
-      <p class="essay-defs__q">Can many teams depend on this safely, for years?</p>
-    </div>
-    <p> What a design system becomes once enough teams depend on it that it needs a deliberate public API, a release process, a compatibility strategy, a support model, and a migration path. The output is infrastructure, and infrastructure has consumers. </p>
-  </div>
-</div>
+| Term | The question it answers | What it is |
+| --- | --- | --- |
+| Component library | How do developers reuse this UI code? | Reusable implementation code. A button, an input, a dialog, a date picker. The output is code other people import. |
+| Design system | How should this organization design and build interfaces? | The library plus the shared decisions around it: patterns, tokens, accessibility guidance, documentation. The output is agreement, and code that encodes it. This is a working definition for this guide, not a universal one. |
+| UI platform | Can many teams depend on this safely, for years? | What a design system becomes once enough teams depend on it that it needs a deliberate public API, a release process, a compatibility strategy, a support model, and a migration path. The output is infrastructure, and infrastructure has consumers. |
 
 The third row is where Staff-level UI work becomes most valuable, because it is the layer where many teams share the consequences of one architectural decision.
 
 A platform is a pipeline with a fan-out in the middle, and every stage of it is somebody's job:
 
-<div class="not-prose essay-rail">
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Design decisions</span>
-    <p>What the organization has agreed a button, a spacing step, or an error state is. Usually held in design tooling, occasionally only in someone's head.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Design tokens</span>
-    <p>Those decisions given names and made portable, so they can travel between tools and platforms without being retyped by hand.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Shared components</span>
-    <p>The tokens rendered as behavior. Web Components put this layer on the browser rather than on a framework, which is the whole reason to choose them.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Consumers</span>
-    <p>A React adapter, plain HTML, whatever else is in the estate. Each one is a translation layer with its own ergonomics and its own maintenance cost.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Products</span>
-    <p>The applications people actually use. Everything upstream is only worth what reaches this row.</p>
-  </div>
-</div>
+<dl>
+  <dt>Design decisions</dt>
+  <dd>What the organization has agreed a button, a spacing step, or an error state is. Usually held in design tooling, occasionally only in someone's head.</dd>
+  <dt>Design tokens</dt>
+  <dd>Those decisions given names and made portable, so they can travel between tools and platforms without being retyped by hand.</dd>
+  <dt>Shared components</dt>
+  <dd>The tokens rendered as behavior. Web Components put this layer on the browser rather than on a framework, which is the whole reason to choose them.</dd>
+  <dt>Consumers</dt>
+  <dd>A React adapter, plain HTML, whatever else is in the estate. Each one is a translation layer with its own ergonomics and its own maintenance cost.</dd>
+  <dt>Products</dt>
+  <dd>The applications people actually use. Everything upstream is only worth what reaches this stage.</dd>
+</dl>
 
 Around that pipeline sits everything that keeps it alive: accessibility, documentation, testing, versioning, distribution, governance, adoption, support. The component is one piece, and rarely the piece that fails.
 
@@ -131,21 +100,19 @@ Around that pipeline sits everything that keeps it alive: accessibility, documen
 
 A product team using a shared component does not care whether its internals are Lit, Stencil, or hand-written Custom Elements. It cares about the contract. For a Web Component, that contract is bigger than most people first assume:
 
-<ul class="not-prose essay-chips">
-  <li>Tag name</li>
-  <li>Attributes</li>
-  <li>Properties</li>
-  <li>Methods</li>
-  <li>Events</li>
-  <li>Event payloads</li>
-  <li>Slots</li>
-  <li>CSS custom properties</li>
-  <li>CSS parts</li>
-  <li>DOM semantics</li>
-  <li>Keyboard behavior</li>
-  <li>Focus behavior</li>
-  <li>Accessible name and role</li>
-</ul>
+- Tag name
+- Attributes
+- Properties
+- Methods
+- Events
+- Event payloads
+- Slots
+- CSS custom properties
+- CSS parts
+- DOM semantics
+- Keyboard behavior
+- Focus behavior
+- Accessible name and role
 
 Treat that whole surface the way you would treat an API you sell to customers. Changing an internal implementation is cheap. Changing a contract that hundreds of applications depend on is not, and the cost lands on people who did not choose it. This is the single principle that governs everything in the migration section later.
 
@@ -153,38 +120,24 @@ Treat that whole surface the way you would treat an API you sell to customers. C
 
 The HTML Standard defines Custom Elements as a way for authors to build their own DOM elements with custom behavior. The DOM Standard defines the event dispatch, composition, retargeting, and Shadow DOM concepts those elements rely on.[^whatwg-custom-elements][^whatwg-dom] Stencil and Lit are higher-level APIs over exactly those capabilities.[^stencil-api][^lit-intro]
 
-That's the reason to learn the layer underneath: a Staff-level Web Component engineer should be able to reason about a component after every framework name is deleted from the conversation. Frameworks are the top row, and the top row is the one that gets replaced.
+That's the reason to learn the layer underneath: a Staff-level Web Component engineer should be able to reason about a component after every framework name is deleted from the conversation. Frameworks are the top layer, and the top layer is the one that gets replaced.
 
-<div class="not-prose essay-stack">
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">Lit / Stencil / FAST</span>
-    <p>Reactive updates, templating, and less boilerplate. This is the layer most likely to be replaced.</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">Custom Elements</span>
-    <p>The registry binding a tag name to a class, plus the lifecycle callbacks around connection and attribute change.</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">Shadow DOM</span>
-    <p>A private DOM tree with its own styling boundary, which gives a component encapsulation.</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">DOM events</span>
-    <p>How a component speaks outward, and whether that speech crosses the shadow boundary.</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">HTML semantics</span>
-    <p>Role, name, and state, supplied free by the browser if you picked the right element.</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">CSS</span>
-    <p>Custom properties and parts are the only styling hooks a consumer gets. You choose them on purpose or they get chosen for you.</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">Accessibility APIs</span>
-    <p>What assistive technology reads. It sits at the bottom of every stack, and no framework can work around it.</p>
-  </div>
-</div>
+<dl>
+  <dt>Lit / Stencil / FAST</dt>
+  <dd>Reactive updates, templating, and less boilerplate. This is the layer most likely to be replaced.</dd>
+  <dt>Custom Elements</dt>
+  <dd>The registry binding a tag name to a class, plus the lifecycle callbacks around connection and attribute change.</dd>
+  <dt>Shadow DOM</dt>
+  <dd>A private DOM tree with its own styling boundary, which gives a component encapsulation.</dd>
+  <dt>DOM events</dt>
+  <dd>How a component speaks outward, and whether that speech crosses the shadow boundary.</dd>
+  <dt>HTML semantics</dt>
+  <dd>Role, name, and state, supplied free by the browser if you picked the right element.</dd>
+  <dt>CSS</dt>
+  <dd>Custom properties and parts are the only styling hooks a consumer gets. You choose them on purpose or they get chosen for you.</dd>
+  <dt>Accessibility APIs</dt>
+  <dd>What assistive technology reads. It sits at the bottom of every stack, and no framework can work around it.</dd>
+</dl>
 
 ### Custom Elements
 
@@ -230,20 +183,11 @@ disconnectedCallback() {
 
 They look interchangeable in a framework and they are not.
 
-<div class="not-prose essay-split">
-  <div>
-    <p class="essay-label">Attributes</p>
-    <p>Serialized text sitting in markup. They survive in static HTML, show up in the inspector, and can be targeted by CSS selectors.</p>
-    <p>Because the value is a string, everything else has to be parsed out of one.</p>
-    <p><strong>Good for:</strong> simple scalar configuration. A variant, a size, a boolean state.</p>
-  </div>
-  <div>
-    <p class="essay-label">Properties</p>
-    <p>Live JavaScript values on the element object. They hold anything the language holds: objects, arrays, functions, class instances.</p>
-    <p>They leave no trace in markup, which means no static HTML and no CSS selector can reach them.</p>
-    <p><strong>Good for:</strong> structured data. A list of menu items, a formatter, a fetched record.</p>
-  </div>
-</div>
+| Aspect | Attributes | Properties |
+| --- | --- | --- |
+| What they are | Serialized text sitting in markup. They survive in static HTML, show up in the inspector, and can be targeted by CSS selectors. | Live JavaScript values on the element object. They hold anything the language holds: objects, arrays, functions, class instances. |
+| The catch | Because the value is a string, everything else has to be parsed out of one. | They leave no trace in markup, which means no static HTML and no CSS selector can reach them. |
+| Good for | Simple scalar configuration. A variant, a size, a boolean state. | Structured data. A list of menu items, a formatter, a fetched record. |
 
 In practice that means the same component is configured two ways, and the split is not arbitrary:
 
@@ -406,32 +350,20 @@ export class UiButton extends LitElement {
 
 Lit batches reactive updates asynchronously rather than rendering once per assignment, so "when does this run" has a real answer worth knowing.[^lit-properties][^lit-lifecycle]
 
-<div class="not-prose essay-rail">
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">constructor</span>
-    <p>The element exists but is not in the document. Set defaults. Do not touch the DOM or read layout.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">connectedCallback</span>
-    <p>Now it is in the document. Subscribe to things you do not own, and remember that this can run more than once per element.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">willUpdate</span>
-    <p>Before rendering. Compute derived values here so render stays a pure description of output.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">render</span>
-    <p>Return the template. No side effects, no fetching, no measuring.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">firstUpdated</span>
-    <p>First render only. The shadow tree now exists, so this is where one-time DOM setup goes.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">updated</span>
-    <p>Every render after work is committed. Read layout here if you must, and expect to pay for it.</p>
-  </div>
-</div>
+<dl>
+  <dt><code>constructor</code></dt>
+  <dd>The element exists but is not in the document. Set defaults. Do not touch the DOM or read layout.</dd>
+  <dt><code>connectedCallback</code></dt>
+  <dd>Now it is in the document. Subscribe to things you do not own, and remember that this can run more than once per element.</dd>
+  <dt><code>willUpdate</code></dt>
+  <dd>Before rendering. Compute derived values here so render stays a pure description of output.</dd>
+  <dt><code>render</code></dt>
+  <dd>Return the template. No side effects, no fetching, no measuring.</dd>
+  <dt><code>firstUpdated</code></dt>
+  <dd>First render only. The shadow tree now exists, so this is where one-time DOM setup goes.</dd>
+  <dt><code>updated</code></dt>
+  <dd>Every render after work is committed. Read layout here if you must, and expect to pay for it.</dd>
+</dl>
 
 Lit also exposes `updateComplete`, a promise resolving around the end of the update cycle. Its documentation recommends awaiting a completed render before emitting events whose listeners need to observe the new rendered state.[^lit-lifecycle] Learn the lifecycle well enough to answer "when should this work happen," not well enough to recite the names.
 
@@ -481,25 +413,23 @@ Stencil's compiler reads metadata from decorators like `@Prop()` and its event a
 
 The goal is to **replace the implementation and preserve the consumer contract, unless there is a deliberate, argued reason to change it.** So the first deliverable is an inventory, per component, of everything a consumer can currently observe:
 
-<ul class="not-prose essay-chips">
-  <li>Tag name</li>
-  <li>Attributes</li>
-  <li>Properties</li>
-  <li>Property types</li>
-  <li>Reflection behavior</li>
-  <li>Methods</li>
-  <li>Events</li>
-  <li>Event payloads</li>
-  <li>Bubbling and composition</li>
-  <li>Slots</li>
-  <li>CSS custom properties</li>
-  <li>CSS parts</li>
-  <li>Default content</li>
-  <li>Keyboard behavior</li>
-  <li>Focus behavior</li>
-  <li>ARIA and semantics</li>
-  <li>Form behavior</li>
-</ul>
+- Tag name
+- Attributes
+- Properties
+- Property types
+- Reflection behavior
+- Methods
+- Events
+- Event payloads
+- Bubbling and composition
+- Slots
+- CSS custom properties
+- CSS parts
+- Default content
+- Keyboard behavior
+- Focus behavior
+- ARIA and semantics
+- Form behavior
 
 ### One component in Stencil and Lit
 
@@ -579,32 +509,12 @@ This example is also deliberately small. A real migration has to account for eve
 
 Unless there's a business reason for a rewrite, migrate a large shared library in slices, keeping consumers whole while the implementation changes underneath them.
 
-<div class="not-prose essay-rail essay-rail--numbered">
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Inventory the current public contracts</span>
-    <p>Everything in the list above, per component, written down where other people can read it.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Add contract tests to the existing components</span>
-    <p>Written against consumer-visible behavior, not internals. These are what let you swap implementations at all.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Pick one low-risk component</span>
-    <p>Something with few consumers and no form or focus behavior, so the first migration tests the process itself.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Reimplement it, and run both through the same tests</span>
-    <p>One suite, two implementations. Any divergence is a contract change you did not intend.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Publish a prerelease and validate real consumers</span>
-    <p>Use a real product with its real build and framework, instead of a demo application.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Migrate in slices, then remove the old implementation</span>
-    <p>Removal comes after adoption, which you can only confirm if you are measuring it.</p>
-  </div>
-</div>
+- **Inventory the current public contracts.** Everything in the list above, per component, written down where other people can read it.
+- **Add contract tests to the existing components.** Written against consumer-visible behavior, not internals. These are what let you swap implementations at all.
+- **Pick one low-risk component.** Something with few consumers and no form or focus behavior, so the first migration tests the process itself.
+- **Reimplement it, and run both through the same tests.** One suite, two implementations. Any divergence is a contract change you did not intend.
+- **Publish a prerelease and validate real consumers.** Use a real product with its real build and framework, instead of a demo application.
+- **Migrate in slices, then remove the old implementation.** Removal comes after adoption, which you can only confirm if you are measuring it.
 
 The key point in that sequence is that a migration has consumers, and every decision in it affects another team's sprint.
 
@@ -737,32 +647,12 @@ For most enterprise design systems, a small number of deliberately layered packa
 
 SemVer announces that a break happened.[^semver] It does not perform the migration, and the version number is the least useful part of the process to a team with forty applications and a quarter of committed roadmap.
 
-<div class="not-prose essay-rail essay-rail--numbered">
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Proposal, and consumer impact analysis</span>
-    <p>Who breaks, how badly, and how many of them are mid-release when it lands.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Deprecation period with a replacement already shipped</span>
-    <p>Deprecating an API before its replacement exists just tells teams to feel bad about code they can't change yet.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Migration guide, and a codemod where it is practical</span>
-    <p>A guide moves the migration work onto each consuming team, and a codemod automates most of it.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Prerelease, validated against real consumers</span>
-    <p>The point is to find what your inventory missed while it's still cheap to find.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Major release, then adoption tracking</span>
-    <p>You won't know the change succeeded until you can see which teams have upgraded.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Removal of the old API</span>
-    <p>Last, and only once tracking says it's safe. A deprecated API you never remove is a permanent API with a warning on it.</p>
-  </div>
-</div>
+- **Proposal, and consumer impact analysis.** Who breaks, how badly, and how many of them are mid-release when it lands.
+- **Deprecation period with a replacement already shipped.** Deprecating an API before its replacement exists just tells teams to feel bad about code they can't change yet.
+- **Migration guide, and a codemod where it is practical.** A guide moves the migration work onto each consuming team, and a codemod automates most of it.
+- **Prerelease, validated against real consumers.** The point is to find what your inventory missed while it's still cheap to find.
+- **Major release, then adoption tracking.** You won't know the change succeeded until you can see which teams have upgraded.
+- **Removal of the old API.** Last, and only once tracking says it's safe. A deprecated API you never remove is a permanent API with a warning on it.
 
 A system used by a hundred applications needs a different policy from one used by three. The failure mode is running the hundred-application process at three applications, which reads as bureaucracy, or the three-application process at a hundred, which reads as chaos.
 
@@ -994,23 +884,20 @@ Work through the consumer, problem, constraints, options, tradeoffs, decision, r
 
 Take a real question: should the shared system be React components or Web Components?
 
-<div class="not-prose essay-split">
-  <div>
-    <p class="essay-label">Consumer and constraints</p>
-    <p>Thirty applications. Twenty React, six Angular, four framework-light. One visual language, accessibility consistency required, long product lifetimes, some server-rendering needs.</p>
-    <p>None of this is a technology preference yet, just facts about the estate.</p>
-  </div>
-  <div>
-    <p class="essay-label">Options on the table</p>
-    <ul>
-      <li>React-only core</li>
-      <li>Web Component core with adapters</li>
-      <li>A separate implementation per framework</li>
-      <li>Shared headless logic with framework-native view layers</li>
-    </ul>
-    <p>Each moves interoperability, ergonomics, SSR strategy, team expertise, package complexity, and maintenance cost in different directions.</p>
-  </div>
-</div>
+#### Consumer and constraints
+
+Thirty applications. Twenty React, six Angular, four framework-light. One visual language, accessibility consistency required, long product lifetimes, some server-rendering needs.
+
+None of this is a technology preference yet, just facts about the estate.
+
+#### Options on the table
+
+- React-only core
+- Web Component core with adapters
+- A separate implementation per framework
+- Shared headless logic with framework-native view layers
+
+Each moves interoperability, ergonomics, SSR strategy, team expertise, package complexity, and maintenance cost in different directions.
 
 The decision comes after that, and it's defensible because everyone can see what it was weighed against. Staff-level interviewing is mostly about demonstrating which facts determine the answer, not naming the interviewer's preferred technology.
 
@@ -1020,18 +907,10 @@ GitLab's Staff and Principal frameworks emphasize architectural leadership, stan
 
 The best Staff engineers don't make themselves indispensable by holding knowledge. They make their judgment reproducible, in tools and standards and examples, so the same decision gets made correctly in rooms they're not in. That's also the difference between mentoring and being an answer machine. Compare:
 
-<div class="not-prose essay-split">
-  <div>
-    <p class="essay-label">Answering</p>
-    <p>"Change this to <code>composed: true</code>."</p>
-    <p>Correct and fast, but it only fixes one bug, and the engineer mostly learns that you know the answer.</p>
-  </div>
-  <div>
-    <p class="essay-label essay-label--accent">Mentoring</p>
-    <p>"Does this event need to be observed outside the shadow tree? If so, let's look at how <code>composed</code> affects the boundary."</p>
-    <p>It takes longer the first time, but the engineer can solve the next four event problems without you.</p>
-  </div>
-</div>
+| Aspect | Answering | Mentoring |
+| --- | --- | --- |
+| What you say | "Change this to `composed: true`." | "Does this event need to be observed outside the shadow tree? If so, let's look at how `composed` affects the boundary." |
+| What it achieves | Correct and fast, but it only fixes one bug, and the engineer mostly learns that you know the answer. | It takes longer the first time, but the engineer can solve the next four event problems without you. |
 
 ### Mistakes to avoid
 
@@ -1061,28 +940,11 @@ ui-system/
 
 Four components is enough: `ui-button`, `ui-text-field`, `ui-alert`, and `ui-dialog`, because they cover progressively harder concerns in order. The button covers semantics, the text field covers form participation, the alert covers announcements and status, and the dialog covers focus management and modality, which is where many component libraries give up.
 
-<div class="not-prose essay-rail essay-rail--numbered">
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Build one component with no framework at all</span>
-    <p>A native Custom Element. Lifecycle, attributes and properties, event dispatch, Shadow DOM, slots, styling boundaries. Then rebuild the same component in Lit. The comparison is the actual lesson, and you only get it by doing both.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Build the other three in Lit</span>
-    <p>With typed properties, documented events, slots, CSS custom properties, deliberately chosen parts, real accessibility behavior, stories, and tests. Lit's documentation is the reference here, not a tutorial from 2021.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Package it properly</span>
-    <p>Three packages: tokens, components, react. Practise <code>exports</code>, declaration files, ESM, versioning, peer dependencies, and installing it somewhere else. Use the Node, npm and SemVer documentation as your source of truth rather than copying an old package template off a blog.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Consume it from React, twice</span>
-    <p>Use the Custom Elements directly first. Then add an adapter. Then answer honestly whether the adapter improved anything, because that is the question you will be asked in an interview.</p>
-  </div>
-  <div class="essay-rail__step">
-    <span class="essay-rail__name">Break it on purpose</span>
-    <p>Rename <code>variant="danger"</code> to <code>intent="critical"</code>, then do the work a platform team would owe its consumers: explain why, deprecate the old API, warn at the right moment, write the migration guide, consider a codemod, ship a prerelease, update the adapter, the tests, and the examples.</p>
-  </div>
-</div>
+- **Build one component with no framework at all.** A native Custom Element. Lifecycle, attributes and properties, event dispatch, Shadow DOM, slots, styling boundaries. Then rebuild the same component in Lit. The comparison is the actual lesson, and you only get it by doing both.
+- **Build the other three in Lit.** With typed properties, documented events, slots, CSS custom properties, deliberately chosen parts, real accessibility behavior, stories, and tests. Lit's documentation is the reference here, not a tutorial from 2021.
+- **Package it properly.** Three packages: tokens, components, react. Practise `exports`, declaration files, ESM, versioning, peer dependencies, and installing it somewhere else. Use the Node, npm and SemVer documentation as your source of truth rather than copying an old package template off a blog.
+- **Consume it from React, twice.** Use the Custom Elements directly first. Then add an adapter. Then answer honestly whether the adapter improved anything, because that is the question you will be asked in an interview.
+- **Break it on purpose.** Rename `variant="danger"` to `intent="critical"`, then do the work a platform team would owe its consumers: explain why, deprecate the old API, warn at the right moment, write the migration guide, consider a codemod, ship a prerelease, update the adapter, the tests, and the examples.
 
 That last stage teaches more Staff-level thinking than building ten additional visual components, because it is the only one where the hard part is other people.
 
@@ -1105,54 +967,48 @@ If you want the same thing on a schedule, this is the sequence I would run. The 
 
 The checklist has three groups. It isn't a certification, and nobody will ask you to produce it. It's useful the same way a preflight checklist is: gaps are hard to see until you look for them.
 
-<div class="not-prose essay-panels essay-panels--stack">
-  <div class="essay-panel">
-    <p class="essay-panel__title">Technical depth</p>
-    <p>Can you explain, without reaching for a framework's vocabulary:</p>
-    <ul>
-      <li>Custom Elements, without using Stencil or Lit terminology</li>
-      <li>The tradeoffs of Shadow DOM, in both directions</li>
-      <li>Attributes versus properties, and when to reflect</li>
-      <li>Event bubbling, composition, and retargeting</li>
-      <li>Component lifecycle, and what work belongs where</li>
-      <li>Form-associated custom elements and <code>ElementInternals</code></li>
-      <li>Accessibility semantics and keyboard behavior</li>
-      <li>TypeScript API design, and when to close a type</li>
-      <li>Package entry points and dependency kinds</li>
-      <li>SemVer, and what counts as breaking in a design system</li>
-      <li>A browser testing strategy and why it has those layers</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">Platform thinking</p>
-    <p>Can you:</p>
-    <ul>
-      <li>Define a component's public contract, completely</li>
-      <li>Design a migration that does not require rewriting every consumer</li>
-      <li>Decide what belongs in the core versus an adapter</li>
-      <li>Explain how the library is packaged and released</li>
-      <li>Diagnose low adoption without defaulting to "better docs"</li>
-      <li>Design a support model that does not depend on you</li>
-      <li>Write contribution and governance rules people will follow</li>
-      <li>Measure system health across more than one lens</li>
-      <li>Explain a tradeoff instead of naming a preference</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">Influence</p>
-    <p>Can you:</p>
-    <ul>
-      <li>Lead a technical decision without managing anyone</li>
-      <li>Write a proposal other teams can act on</li>
-      <li>Mentor through reasoning rather than answers</li>
-      <li>Hold design and engineering concerns at the same time</li>
-      <li>Challenge a requirement constructively</li>
-      <li>Operate when the requirements are incomplete</li>
-      <li>Identify which problem actually matters most right now</li>
-      <li>Leave the organization better able to solve the next one</li>
-    </ul>
-  </div>
-</div>
+#### Technical depth
+
+Can you explain, without reaching for a framework's vocabulary:
+
+- Custom Elements, without using Stencil or Lit terminology
+- The tradeoffs of Shadow DOM, in both directions
+- Attributes versus properties, and when to reflect
+- Event bubbling, composition, and retargeting
+- Component lifecycle, and what work belongs where
+- Form-associated custom elements and `ElementInternals`
+- Accessibility semantics and keyboard behavior
+- TypeScript API design, and when to close a type
+- Package entry points and dependency kinds
+- SemVer, and what counts as breaking in a design system
+- A browser testing strategy and why it has those layers
+
+#### Platform thinking
+
+Can you:
+
+- Define a component's public contract, completely
+- Design a migration that does not require rewriting every consumer
+- Decide what belongs in the core versus an adapter
+- Explain how the library is packaged and released
+- Diagnose low adoption without defaulting to "better docs"
+- Design a support model that does not depend on you
+- Write contribution and governance rules people will follow
+- Measure system health across more than one lens
+- Explain a tradeoff instead of naming a preference
+
+#### Influence
+
+Can you:
+
+- Lead a technical decision without managing anyone
+- Write a proposal other teams can act on
+- Mentor through reasoning rather than answers
+- Hold design and engineering concerns at the same time
+- Challenge a requirement constructively
+- Operate when the requirements are incomplete
+- Identify which problem actually matters most right now
+- Leave the organization better able to solve the next one
 
 ## Finding the right role
 
@@ -1160,20 +1016,18 @@ The checklist has three groups. It isn't a certification, and nobody will ask yo
 
 The title matters far less than the work, but you have to type something into the search box:
 
-<ul class="not-prose essay-chips">
-  <li>Staff Design Systems Engineer</li>
-  <li>Principal Design Systems Engineer</li>
-  <li>Staff UI Engineer</li>
-  <li>Principal UI Engineer</li>
-  <li>Staff Frontend Engineer, Design Systems</li>
-  <li>UI Platform Engineer</li>
-  <li>Staff UI Platform Engineer</li>
-  <li>Principal UI Platform Engineer</li>
-  <li>UX Engineer</li>
-  <li>Staff UX Engineer</li>
-  <li>Principal Product Design Engineer</li>
-  <li>Design Systems Architect</li>
-</ul>
+- Staff Design Systems Engineer
+- Principal Design Systems Engineer
+- Staff UI Engineer
+- Principal UI Engineer
+- Staff Frontend Engineer, Design Systems
+- UI Platform Engineer
+- Staff UI Platform Engineer
+- Principal UI Platform Engineer
+- UX Engineer
+- Staff UX Engineer
+- Principal Product Design Engineer
+- Design Systems Architect
 
 ### Reading the job description
 
@@ -1181,33 +1035,28 @@ A real platform role gives one person responsibility across several of these: sh
 
 The faster tell is the language. Job descriptions leak scope:
 
-<div class="not-prose essay-split">
-  <div>
-    <p class="essay-label essay-label--accent">Platform scope</p>
-    <ul>
-      <li>"used across multiple products"</li>
-      <li>"shared UI platform"</li>
-      <li>"framework-agnostic architecture"</li>
-      <li>"component distribution and versioning"</li>
-      <li>"design-system governance"</li>
-      <li>"drive adoption across engineering teams"</li>
-    </ul>
-    <p>Every one of these implies consumers who are not you, which is the whole distinction.</p>
-  </div>
-  <div>
-    <p class="essay-label">Feature scope, relabelled</p>
-    <ul>
-      <li>"implement Figma designs in our React app"</li>
-      <li>"own our component library" with no consumers named</li>
-      <li>"pixel-perfect implementation"</li>
-      <li>"maintain our CSS framework"</li>
-      <li>"partner with design to deliver features"</li>
-    </ul>
-    <p>Also: application state management, feature delivery with occasional component cleanup, or people management wearing a technical title.</p>
-  </div>
-</div>
+#### Platform scope
 
-There is nothing wrong with the right-hand column. Those are good jobs, and simply a different career. Taking one while expecting the other is how people end up frustrated eighteen months later. The same goes for a short contract when what you want is stability: no amount of technical fit fixes that mismatch.
+- "used across multiple products"
+- "shared UI platform"
+- "framework-agnostic architecture"
+- "component distribution and versioning"
+- "design-system governance"
+- "drive adoption across engineering teams"
+
+Every one of these implies consumers who are not you, which is the whole distinction.
+
+#### Feature scope, relabelled
+
+- "implement Figma designs in our React app"
+- "own our component library" with no consumers named
+- "pixel-perfect implementation"
+- "maintain our CSS framework"
+- "partner with design to deliver features"
+
+Also: application state management, feature delivery with occasional component cleanup, or people management wearing a technical title.
+
+There is nothing wrong with the second list. Those are good jobs, and simply a different career. Taking one while expecting the other is how people end up frustrated eighteen months later. The same goes for a short contract when what you want is stability: no amount of technical fit fixes that mismatch.
 
 ### Industries that hire for this work
 
@@ -1254,57 +1103,42 @@ And prepare a real failure. "I care too much about quality" is not a failure and
 
 Ask questions that reveal the system behind the job description.
 
-<div class="not-prose essay-panels">
-  <div class="essay-panel">
-    <p class="essay-panel__title">The problem</p>
-    <ul>
-      <li>What problem caused you to open this role?</li>
-      <li>What happens if you do not fill it?</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">System maturity</p>
-    <ul>
-      <li>How mature is the existing design system?</li>
-      <li>How many applications and teams consume it?</li>
-      <li>Which frameworks are those applications built in?</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">Architecture</p>
-    <ul>
-      <li>Who owns component API decisions today?</li>
-      <li>How are packages distributed and versioned?</li>
-      <li>How are breaking changes handled?</li>
-      <li>Is a migration already underway?</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">Design partnership</p>
-    <ul>
-      <li>How closely do product design and design-system engineering work?</li>
-      <li>How are design tokens managed?</li>
-      <li>How is Figma and code alignment handled?</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">Scope and success</p>
-    <ul>
-      <li>How do you distinguish Senior, Staff, and Principal here?</li>
-      <li>What would this person decide independently?</li>
-      <li>A year from now, what would make you call this hire a success?</li>
-    </ul>
-  </div>
-  <div class="essay-panel">
-    <p class="essay-panel__title">Employment structure</p>
-    <ul>
-      <li>Is the role permanent or contract?</li>
-      <li>If contract, what duration and what conversion expectation?</li>
-      <li>Who is the actual employer?</li>
-      <li>What benefits and protections differ from direct employment?</li>
-    </ul>
-  </div>
-</div>
+#### The problem
+
+- What problem caused you to open this role?
+- What happens if you do not fill it?
+
+#### System maturity
+
+- How mature is the existing design system?
+- How many applications and teams consume it?
+- Which frameworks are those applications built in?
+
+#### Architecture
+
+- Who owns component API decisions today?
+- How are packages distributed and versioned?
+- How are breaking changes handled?
+- Is a migration already underway?
+
+#### Design partnership
+
+- How closely do product design and design-system engineering work?
+- How are design tokens managed?
+- How is Figma and code alignment handled?
+
+#### Scope and success
+
+- How do you distinguish Senior, Staff, and Principal here?
+- What would this person decide independently?
+- A year from now, what would make you call this hire a success?
+
+#### Employment structure
+
+- Is the role permanent or contract?
+- If contract, what duration and what conversion expectation?
+- Who is the actual employer?
+- What benefits and protections differ from direct employment?
 
 Ask that last group early rather than late. A technically perfect role can still be the wrong opportunity if its risk profile conflicts with what you need, and finding that out at offer stage wastes everyone's time.
 
@@ -1314,24 +1148,16 @@ The long game is not learning every part of software engineering equally. It is 
 
 The guide comes down to four layers.
 
-<div class="not-prose essay-stack">
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">The component</span>
-    <p>Can I build it correctly?</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">The API</span>
-    <p>Can other engineers use it correctly, without reading how it works?</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">The platform</span>
-    <p>Can many teams depend on it safely, over years, while it keeps changing?</p>
-  </div>
-  <div class="essay-stack__row">
-    <span class="essay-stack__name">The organization</span>
-    <p>Can I improve the decisions, standards, tools, and people that keep the platform healthy?</p>
-  </div>
-</div>
+<dl>
+  <dt>The component</dt>
+  <dd>Can I build it correctly?</dd>
+  <dt>The API</dt>
+  <dd>Can other engineers use it correctly, without reading how it works?</dd>
+  <dt>The platform</dt>
+  <dd>Can many teams depend on it safely, over years, while it keeps changing?</dd>
+  <dt>The organization</dt>
+  <dd>Can I improve the decisions, standards, tools, and people that keep the platform healthy?</dd>
+</dl>
 
 Senior UI engineering tends to be strongest in the first two. Staff UI-platform engineering increasingly operates in the second and third. Principal scope reaches the fourth. Real companies draw those boundaries differently, so treat it as a thinking tool rather than a ladder to climb.
 

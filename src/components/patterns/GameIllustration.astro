@@ -1,0 +1,236 @@
+---
+import { cx } from '~/lib/cx';
+import { gameIllustrationDescriptions, type IllustratedGame } from '~/lib/game-illustrations';
+import '~/styles/illustration.css';
+
+interface Props {
+  game: IllustratedGame;
+  class?: string;
+}
+const { game, class: className } = Astro.props;
+---
+
+<!-- Styles live in illustration.css, shared with the tool and article drawings.
+     The game set tilts the other way and uses a few extra playful classes.
+     data-surface="light" keeps the accent navy inside dark sections. -->
+<span class={cx('illustration illustration--play', className)} data-surface="light">
+<span class="illustration-frame">
+<svg
+  viewBox="0 0 480 360"
+  fill="none"
+  role="img"
+  aria-label={gameIllustrationDescriptions[game]}
+  class={cx('illustration-drawing', `illustration-drawing--${game}`)}
+>
+
+  {game === 'contrast' && (
+    <g>
+      <text x="40" y="56" class="label">PASS OR FAIL · 10 ROUNDS</text>
+      <rect x="40.5" y="96.5" width="183" height="150" class="frame" />
+      <text x="66" y="196" class="giant">Aa</text>
+      <rect x="256.5" y="96.5" width="183" height="150" class="frame" />
+      <text x="282" y="196" class="giant ghost">Aa</text>
+      <g transform="rotate(-10 176 236)">
+        <rect x="128" y="218" width="98" height="38" rx="3" class="accent-stroke" stroke-width="2.5" />
+        <text x="177" y="244" text-anchor="middle" class="stamp accent-text">PASS</text>
+      </g>
+      <g transform="rotate(8 392 236)">
+        <rect x="344" y="218" width="98" height="38" rx="3" class="ink-stroke" stroke-width="2.5" />
+        <text x="393" y="244" text-anchor="middle" class="stamp">FAIL</text>
+      </g>
+      <text x="40" y="314" class="result">4.5:1 or bust</text>
+    </g>
+  )}
+
+  {game === 'alt-or-not' && (
+    <g>
+      <text x="40" y="56" class="label">ALT TEXT · YOUR CALL</text>
+      <rect x="40.5" y="90.5" width="219" height="160" class="frame" />
+      <circle cx="206" cy="132" r="16" class="accent" />
+      <path d="M41 250 L112 168 L156 214 L188 184 L259 250 Z" class="line-fill" />
+      <path d="M259 106 C 290 106, 300 128, 312 146" class="connector" />
+      <g transform="rotate(10 360 176)">
+        <path d="M300 152 H418 V200 H300 L286 176 Z" class="note" />
+        <circle cx="304" cy="176" r="4" class="paper-fill" />
+        <text x="318" y="183" class="code">alt="?"</text>
+      </g>
+      <text x="40" y="314" class="result">Worth a description?</text>
+    </g>
+  )}
+
+  {game === 'use-the-platform' && (
+    <g>
+      <text x="40" y="56" class="label">HTML · ALREADY BUILT IN</text>
+      <rect x="40.5" y="96.5" width="179" height="134" class="accent-stroke" stroke-dasharray="4 4" />
+      <circle cx="104" cy="134" r="14" class="ink-stroke" stroke-width="2.5" />
+      <circle cx="156" cy="134" r="14" class="ink-stroke" stroke-width="2.5" />
+      <path d="M118 134 Q130 127 142 134" class="ink-stroke" stroke-width="2.5" />
+      <path d="M100 166 q15 -14 30 -2 q15 -12 30 2 q-15 8 -30 0 q-15 8 -30 0 z" class="ink" />
+      <text x="130" y="210" text-anchor="middle" class="code code--sm">&lt;div onclick&gt;</text>
+      <text x="40" y="262" class="small">A div in disguise</text>
+      <path class="connector" d="M228 164H264" />
+      <path class="connector" d="m256 157 8 7-8 7" />
+      <rect x="276" y="142" width="150" height="44" rx="4" class="accent" />
+      <text x="351" y="170" text-anchor="middle" class="button">Save</text>
+      <text x="276" y="216" class="small">Works out of the box</text>
+      <text x="40" y="314" class="result">Skip the costume</text>
+    </g>
+  )}
+
+  {game === 'name-that-button' && (
+    <g>
+      <text x="40" y="56" class="label">ICON BUTTONS · NO NAMES</text>
+      <rect x="40.5" y="90.5" width="51" height="51" rx="4" class="frame" />
+      <path d="M56 106 L76 126 M76 106 L56 126" class="ink-stroke" stroke-width="2.5" stroke-linecap="round" />
+      <rect x="108.5" y="90.5" width="51" height="51" rx="4" class="frame" />
+      <path d="M121 106 H147 M130 106 V101 H138 V106 M125 110 V127 H143 V110" class="ink-stroke" stroke-width="2.5" stroke-linejoin="round" />
+      <rect x="176.5" y="90.5" width="51" height="51" rx="4" class="frame" />
+      <path d="M192 126 L194 116 L208 102 L216 110 L202 124 Z" class="ink-stroke" stroke-width="2.5" stroke-linejoin="round" />
+      <path
+        d="M44 170 H436 a4 4 0 0 1 4 4 V236 a4 4 0 0 1 -4 4 H112 L82 266 L88 240 H44 a4 4 0 0 1 -4 -4 V174 a4 4 0 0 1 4 -4 Z"
+        class="frame"
+      />
+      <text x="64" y="212" class="body body--lg">“Button. Button. Button.”</text>
+      <text x="40" y="314" class="result">Say what it does</text>
+    </g>
+  )}
+
+  {game === 'tab-order' && (
+    <g>
+      <text x="40" y="56" class="label">TAB · TAB · TAB</text>
+      <path d="M95 140 Q167 80 240 140" class="accent-stroke" stroke-width="2" stroke-dasharray="5 5" />
+      <path d="M240 140 Q312 80 385 140" class="accent-stroke" stroke-width="2" stroke-dasharray="5 5" />
+      <rect x="35" y="143" width="120" height="50" rx="3" class="accent-stroke" stroke-width="2.5" />
+      <rect x="40.5" y="148.5" width="109" height="39" class="frame" />
+      <text x="54" y="174" class="small">Name</text>
+      <rect x="185.5" y="148.5" width="109" height="39" class="frame" />
+      <text x="199" y="174" class="small">Email</text>
+      <rect x="330" y="148" width="110" height="40" rx="4" class="accent" />
+      <text x="385" y="174" text-anchor="middle" class="button">Send</text>
+      <circle cx="40" cy="148" r="11" class="ink" />
+      <text x="40" y="153" text-anchor="middle" class="badge">1</text>
+      <circle cx="185" cy="148" r="11" class="ink" />
+      <text x="185" y="153" text-anchor="middle" class="badge">2</text>
+      <circle cx="330" cy="148" r="11" class="ink" />
+      <text x="330" y="153" text-anchor="middle" class="badge">3</text>
+      <path d="M385 192 Q240 290 95 192" class="ink-stroke" stroke-width="1.5" stroke-dasharray="3 6" />
+      <path d="m104 191 -9 1 4 8" class="ink-stroke" stroke-width="1.5" />
+      <text x="240" y="270" text-anchor="middle" class="small">Wait, back to 1?</text>
+      <text x="40" y="314" class="result">Follow the ring</text>
+    </g>
+  )}
+
+  {game === 'fix-the-outline' && (
+    <g>
+      <text x="40" y="56" class="label">HEADINGS · H1 TO H6</text>
+      <text x="40" y="118" class="code code--sm muted-text">h1</text>
+      <rect x="72" y="104" width="240" height="18" rx="2" class="ink" />
+      <text x="70" y="168" class="code code--sm muted-text">h2</text>
+      <rect x="102" y="156" width="180" height="14" rx="2" class="ink" />
+      <g transform="rotate(14 130 214)">
+        <text x="130" y="218" class="code code--sm accent-text">h4</text>
+        <rect x="162" y="208" width="120" height="10" rx="2" class="accent" />
+      </g>
+      <g transform="rotate(6 376 196)">
+        <rect x="330" y="150" width="96" height="88" class="note" />
+        <text x="378" y="194" text-anchor="middle" class="note-text">h3?</text>
+        <text x="378" y="220" text-anchor="middle" class="small">skipped one</text>
+      </g>
+      <text x="40" y="314" class="result">No skipping levels</text>
+    </g>
+  )}
+
+  {game === 'snap-to-grid' && (
+    <g>
+      <defs>
+        <pattern id="game-illustration-dots" width="16" height="16" patternUnits="userSpaceOnUse" x="40" y="88">
+          <circle cx="1.5" cy="1.5" r="1.5" class="line-fill" />
+        </pattern>
+      </defs>
+      <text x="40" y="56" class="label">8PX GRID · NUDGE IT</text>
+      <rect x="40" y="88" width="403" height="179" fill="url(#game-illustration-dots)" />
+      <rect x="57.5" y="105.5" width="128" height="96" class="frame" />
+      <rect x="73.5" y="121.5" width="64" height="8" class="ink" />
+      <rect x="73.5" y="141.5" width="96" height="6" class="line-fill" />
+      <rect x="73.5" y="155.5" width="80" height="6" class="line-fill" />
+      <g transform="rotate(-6 300 170)">
+        <rect x="244" y="124" width="128" height="96" class="frame accent-stroke" stroke-width="2" stroke-dasharray="5 4" />
+        <rect x="260" y="140" width="64" height="8" class="ink" />
+        <rect x="260" y="160" width="96" height="6" class="line-fill" />
+      </g>
+      <path d="M386 120 l10 -6 M392 136 l12 -2 M388 152 l10 4" class="accent-stroke" stroke-width="2" stroke-linecap="round" />
+      <text x="244" y="250" class="label accent-text">+3PX</text>
+      <text x="40" y="314" class="result">Almost isn’t aligned</text>
+    </g>
+  )}
+
+  {game === 'spot-the-drift' && (
+    <g>
+      <text x="40" y="56" class="label">AS DESIGNED · AS SHIPPED</text>
+      <rect x="40" y="124" width="160" height="52" rx="4" class="accent" />
+      <text x="120" y="156" text-anchor="middle" class="button">Save</text>
+      <text x="40" y="208" class="small">Figma</text>
+      <rect x="262" y="124" width="160" height="52" rx="18" class="ink" />
+      <text x="342" y="157" text-anchor="middle" class="button">Save</text>
+      <text x="262" y="208" class="small">Production</text>
+      <circle cx="396" cy="138" r="38" class="ink-stroke" stroke-width="3" />
+      <path d="M423 165 L452 194" class="ink-stroke" stroke-width="7" stroke-linecap="round" />
+      <text x="40" y="314" class="result">Find three differences</text>
+    </g>
+  )}
+
+  {game === 'just-enough-contrast' && (
+    <g>
+      <text x="40" y="56" class="label">FADE TO 4.5:1 · NO LOWER</text>
+      <text x="40" y="178" class="aa">Aa</text>
+      <text x="122" y="178" class="aa fade-1">Aa</text>
+      <text x="204" y="178" class="aa fade-2">Aa</text>
+      <text x="300" y="178" class="aa fade-3">Aa</text>
+      <text x="382" y="178" class="aa fade-4">Aa</text>
+      <path d="M284 102 V200" class="accent-stroke" stroke-width="2" stroke-dasharray="5 5" />
+      <text x="284" y="94" text-anchor="middle" class="label accent-text">4.5:1</text>
+      <path d="M40 240 H440" class="line-stroke" stroke-width="4" stroke-linecap="round" />
+      <path d="M40 240 H284" class="accent-stroke" stroke-width="4" stroke-linecap="round" />
+      <circle cx="284" cy="240" r="11" class="accent paper-stroke" stroke-width="3" />
+      <text x="40" y="314" class="result">Right on the edge</text>
+    </g>
+  )}
+
+  {game === 'should-it-stop' && (
+    <g>
+      <text x="40" y="56" class="label">REDUCED MOTION · ON</text>
+      <path d="M40 240 H440" class="connector" />
+      <path d="M52 228 Q104 70 160 228 Q200 140 240 228 Q256 200 272 228" class="ink-stroke" stroke-width="1.5" stroke-dasharray="3 6" />
+      <circle cx="105" cy="149" r="12" class="accent fade-ball-1" />
+      <circle cx="200" cy="184" r="12" class="accent fade-ball-2" />
+      <circle cx="272" cy="228" r="12" class="accent" />
+      <text x="282" y="200" class="small">z</text>
+      <text x="294" y="176" class="body">z</text>
+      <text x="308" y="148" class="title">Z</text>
+      <circle cx="390" cy="206" r="30" class="ink" />
+      <rect x="378" y="192" width="8" height="28" rx="1" class="paper-fill" />
+      <rect x="394" y="192" width="8" height="28" rx="1" class="paper-fill" />
+      <text x="40" y="314" class="result">Let it rest</text>
+    </g>
+  )}
+
+  {game === 'name-that-token' && (
+    <g>
+      <text x="40" y="56" class="label">TOKENS · ON A FIRST-NAME BASIS</text>
+      <rect x="40" y="96" width="150" height="150" rx="6" class="accent" />
+      <circle cx="94" cy="156" r="6" class="paper-fill" />
+      <circle cx="136" cy="156" r="6" class="paper-fill" />
+      <path d="M92 188 Q115 208 138 188" class="paper-stroke" stroke-width="3.5" stroke-linecap="round" />
+      <g transform="rotate(-5 330 172)">
+        <rect x="222" y="104" width="216" height="136" rx="10" class="accent" />
+        <text x="330" y="140" text-anchor="middle" class="hello">HELLO</text>
+        <text x="330" y="162" text-anchor="middle" class="small on-accent">my name is</text>
+        <rect x="236" y="176" width="188" height="50" rx="3" class="paper-fill" />
+        <text x="330" y="208" text-anchor="middle" class="code">--accent</text>
+      </g>
+      <text x="40" y="314" class="result">Call it by name</text>
+    </g>
+  )}
+</svg>
+</span>
+</span>

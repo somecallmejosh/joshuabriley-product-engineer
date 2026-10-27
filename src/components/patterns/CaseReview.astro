@@ -5,7 +5,11 @@ const { links } = Astro.props;
 ---
 <nav class="case-review" aria-label="Review this project">
   <Container width="wide">
-    <p>Jump to the details</p>
-    {links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
+    <div class="scroll-fade" data-scroll-fade>
+      <div class="case-review-links">
+        <p>Jump to the details</p>
+        {links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
+      </div>
+    </div>
   </Container>
 </nav>

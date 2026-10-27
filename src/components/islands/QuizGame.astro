@@ -1,0 +1,297 @@
+---
+/**
+ * Multiple-choice game engine for /play/ (and posts that embed a game).
+ * Every question is pre-rendered and the script shows one at a time, so scoped
+ * styles apply to every state. Content comes from ~/lib/games.
+ *
+ * - progressive: ships `hidden`; appears only once the script runs
+ * - keyboard: answering moves focus to "Next"; "Next" moves focus to the new prompt
+ * - screen readers: verdict and explanation are announced in a polite live region;
+ *   answered choices are labelled "Correct answer" / "Your answer" in text, not color
+ * - storage: best score is a per-visitor convenience; every access is guarded
+ */
+import QuizVisual from '~/components/patterns/QuizVisual.astro';
+import type { QuizQuestion } from '~/lib/quiz';
+
+interface Props {
+  slug: string;
+  questions: QuizQuestion[];
+  outro: string;
+}
+
+const { slug, questions, outro } = Astro.props;
+const total = questions.length;
+---
+
+<section class="qz" data-quiz={slug} aria-label="Game" hidden>
+
+  <div class="qz-meta" aria-hidden="true">
+    <span data-qz-progress></span>
+    <span data-qz-score></span>
+  </div>
+
+  {questions.map((q, i) => (
+    <div class="qz-question" data-qz-question={i} data-answer={q.answer} hidden>
+      <p class="qz-prompt" id={`qz-${slug}-${q.id}`} tabindex="-1">
+        <span class="sr-only">Question {i + 1} of {total}. </span>{q.prompt}
+      </p>
+      {q.visual && <QuizVisual visual={q.visual} />}
+      <div class="qz-choices" role="group" aria-labelledby={`qz-${slug}-${q.id}`}>
+        {q.choices.map((c) => (
+          <button type="button" class="qz-choice" data-choice={c.id}>
+            {c.code ? <code>{c.label}</code> : <span>{c.label}</span>}
+            <span class="qz-tag" data-qz-tag></span>
+          </button>
+        ))}
+      </div>
+      <div class="qz-feedback" data-qz-feedback hidden>
+        <p class="qz-verdict" data-qz-verdict></p>
+        <p class="qz-explain">{q.explanation}</p>
+      </div>
+    </div>
+  ))}
+
+  <button type="button" class="qz-next" data-qz-next hidden>Next question</button>
+
+  <div class="qz-end" data-qz-end hidden>
+    <p class="qz-verdict" data-qz-summary tabindex="-1"></p>
+    <p class="qz-explain">{outro}</p>
+    <p class="qz-explain" data-qz-best></p>
+    <div class="qz-end-actions">
+      <button type="button" class="qz-next" data-qz-restart>Play again</button>
+      <a href="/play/" class="editorial-link">More games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-qz-live></p>
+</section>
+
+<style>
+  .qz {
+    padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    border: 1px solid var(--line);
+    background: var(--raised);
+  }
+  .qz-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+  .qz-prompt {
+    margin: 1rem 0 1.25rem;
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .qz-prompt:focus-visible,
+  .qz-verdict:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+  }
+  .qz-choices {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .qz-choice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition:
+      border-color 200ms var(--ease-out),
+      transform 120ms var(--ease-out);
+  }
+  .qz-choice code {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+  .qz-choice:not(:disabled):hover {
+    border-color: var(--accent);
+  }
+  .qz-choice:not(:disabled):active {
+    transform: translateY(1px);
+  }
+  .qz-choice:focus-visible,
+  .qz-next:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .qz-choice:disabled {
+    cursor: default;
+    color: var(--ink-muted);
+  }
+  .qz-choice[data-state='correct'] {
+    border: 2px solid var(--accent);
+    color: var(--ink);
+  }
+  .qz-choice[data-state='wrong'] {
+    border-style: dashed;
+    color: var(--ink);
+  }
+  .qz-tag {
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .qz-choice[data-state='correct'] .qz-tag {
+    color: var(--accent);
+  }
+  .qz-verdict {
+    margin-top: 1.25rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .qz-explain {
+    margin-top: 0.4rem;
+    max-width: 60ch;
+    font-size: 0.93rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+  .qz-next {
+    min-height: 48px;
+    margin-top: 1.25rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--paper);
+  }
+  .qz-end-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 2rem;
+  }
+  .qz-end-actions .editorial-link {
+    margin-top: 1.25rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .qz-choice {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-quiz]').forEach(init);
+
+  function init(root: HTMLElement) {
+    const slug = root.dataset.quiz!;
+    const bestKey = `quiz-best-${slug}`;
+    const questions = [...root.querySelectorAll<HTMLElement>('[data-qz-question]')];
+    const total = questions.length;
+    const next = root.querySelector<HTMLButtonElement>('[data-qz-next]')!;
+    const end = root.querySelector<HTMLElement>('[data-qz-end]')!;
+    const live = root.querySelector<HTMLElement>('[data-qz-live]')!;
+    const progress = root.querySelector<HTMLElement>('[data-qz-progress]')!;
+    const scoreEl = root.querySelector<HTMLElement>('[data-qz-score]')!;
+    let index = 0;
+    let score = 0;
+
+    const readBest = () => {
+      try {
+        return Number(localStorage.getItem(bestKey)) || 0;
+      } catch {
+        return 0;
+      }
+    };
+    const saveBest = (value: number) => {
+      try {
+        localStorage.setItem(bestKey, String(value));
+      } catch {
+        /* storage blocked: the game works without it */
+      }
+    };
+
+    function reset(q: HTMLElement) {
+      q.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach((b) => {
+        b.disabled = false;
+        delete b.dataset.state;
+        b.querySelector('[data-qz-tag]')!.textContent = '';
+      });
+      q.querySelector<HTMLElement>('[data-qz-feedback]')!.hidden = true;
+    }
+
+    function show(i: number, moveFocus: boolean) {
+      index = i;
+      questions.forEach((q, n) => (q.hidden = n !== i));
+      reset(questions[i]);
+      next.hidden = true;
+      end.hidden = true;
+      progress.textContent = `Question ${i + 1} of ${total}`;
+      scoreEl.textContent = `Score ${score}`;
+      if (moveFocus) questions[i].querySelector<HTMLElement>('.qz-prompt')!.focus();
+    }
+
+    function answer(q: HTMLElement, chosen: HTMLButtonElement) {
+      const right = chosen.dataset.choice === q.dataset.answer;
+      if (right) score++;
+      let correctLabel = '';
+      q.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach((b) => {
+        b.disabled = true;
+        const isAnswer = b.dataset.choice === q.dataset.answer;
+        if (isAnswer) {
+          b.dataset.state = 'correct';
+          correctLabel = b.firstElementChild!.textContent ?? '';
+        } else if (b === chosen) {
+          b.dataset.state = 'wrong';
+        }
+        b.querySelector('[data-qz-tag]')!.textContent = isAnswer ? 'Correct answer' : b === chosen ? 'Your answer' : '';
+      });
+      const verdict = right ? 'Right.' : `Not quite. The answer is ${correctLabel}.`;
+      q.querySelector('[data-qz-verdict]')!.textContent = verdict;
+      const feedback = q.querySelector<HTMLElement>('[data-qz-feedback]')!;
+      feedback.hidden = false;
+      live.textContent = `${verdict} ${q.querySelector('.qz-explain')!.textContent}`;
+      scoreEl.textContent = `Score ${score}`;
+      next.textContent = index + 1 >= total ? 'See your score' : 'Next question';
+      next.hidden = false;
+      next.focus();
+    }
+
+    function finish() {
+      questions.forEach((q) => (q.hidden = true));
+      next.hidden = true;
+      const best = Math.max(score, readBest());
+      saveBest(best);
+      progress.textContent = 'Finished';
+      const summary = root.querySelector<HTMLElement>('[data-qz-summary]')!;
+      summary.textContent = `You got ${score} of ${total}.`;
+      root.querySelector('[data-qz-best]')!.textContent =
+        best > score ? `Your best is ${best} of ${total}.` : 'That\'s your best so far.';
+      end.hidden = false;
+      live.textContent = `You got ${score} of ${total}.`;
+      summary.focus();
+    }
+
+    questions.forEach((q) =>
+      q.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach((b) => b.addEventListener('click', () => answer(q, b))),
+    );
+    next.addEventListener('click', () => (index + 1 >= total ? finish() : show(index + 1, true)));
+    root.querySelector('[data-qz-restart]')!.addEventListener('click', () => {
+      score = 0;
+      show(0, true);
+    });
+
+    root.hidden = false;
+    show(0, false);
+  }
+</script>

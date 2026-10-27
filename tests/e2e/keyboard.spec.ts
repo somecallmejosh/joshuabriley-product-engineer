@@ -33,6 +33,18 @@ const PAGES = [
   '/tools/roi-calculator/',
   '/tools/token-playground/',
   '/tools/audit-findings/',
+  '/play/',
+  '/play/contrast/',
+  '/play/alt-or-not/',
+  '/play/use-the-platform/',
+  '/play/name-that-button/',
+  '/play/tab-order/',
+  '/play/fix-the-outline/',
+  '/play/snap-to-grid/',
+  '/play/spot-the-drift/',
+  '/play/just-enough-contrast/',
+  '/play/should-it-stop/',
+  '/play/name-that-token/',
 ];
 
 for (const path of PAGES) {

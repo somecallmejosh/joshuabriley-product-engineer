@@ -1,0 +1,327 @@
+---
+/**
+ * "Tab order": reorder a scrambled form's controls, then watch a focus ring
+ * replay the chosen order across the layout. Content: ~/lib/games/tab-order.
+ *
+ * - progressive: ships `hidden`; appears once the script runs
+ * - keyboard: every item has labelled Move up / Move down buttons; focus stays
+ *   on the moved item's button
+ * - screen readers: the ordered list is the game; the layout mock is decoration;
+ *   moves and results are announced in a polite live region
+ * - reduced motion: the replay shows all numbers at once instead of stepping
+ */
+import '~/styles/games.css';
+import { tabOrderRounds } from '~/lib/games/tab-order';
+
+const rounds = tabOrderRounds;
+---
+
+<section class="game-panel to" data-tab-order aria-label="Game" hidden>
+  <div class="game-meta" aria-hidden="true">
+    <span data-to-progress></span>
+    <span data-to-score></span>
+  </div>
+
+  {rounds.map((round, r) => (
+    <div class="to-round" data-to-round={r} data-correct={round.correct.join(' ')} data-start={round.start.join(' ')} hidden>
+      <p class="game-prompt game-focus-target" id={`to-${round.id}`} tabindex="-1">
+        <span class="sr-only">Round {r + 1} of {rounds.length}. </span>{round.title}: put the controls in the order keyboard
+        focus should reach them.
+      </p>
+
+      <div class="to-stage">
+        <div
+          class="to-mock"
+          aria-hidden="true"
+          style={`grid-template-areas: ${round.areas.map((row) => `"${row}"`).join(' ')}`}
+        >
+          {round.fields.map((f) => (
+            <div class={`to-box to-box--${f.kind}`} data-mock={f.id} style={`grid-area: ${f.area}`}>
+              <span class="to-badge" data-badge></span>
+              <span class="to-box-label">{f.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <ol class="to-list" data-list aria-labelledby={`to-${round.id}`}>
+          {round.fields.map((f) => (
+            <li class="to-item" data-item={f.id} data-label={f.label}>
+              <span class="to-item-label">{f.label}</span>
+              <span class="to-item-actions">
+                <button type="button" class="game-button to-move" data-move="-1" aria-label={`Move ${f.label} up`}>Up</button>
+                <button type="button" class="game-button to-move" data-move="1" aria-label={`Move ${f.label} down`}>Down</button>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <button type="button" class="game-button game-button--primary" data-to-check>Check the order</button>
+
+      <div data-to-feedback hidden>
+        <p class="game-verdict" data-to-verdict></p>
+        <p class="game-explain" data-to-answer></p>
+        <p class="game-explain">{round.explanation}</p>
+      </div>
+    </div>
+  ))}
+
+  <button type="button" class="game-button game-button--primary" data-to-next hidden>Next round</button>
+
+  <div data-to-end hidden>
+    <p class="game-verdict game-focus-target" data-to-summary tabindex="-1"></p>
+    <p class="game-explain">Focus order should match the order people read. When CSS moves things around, check the result by pressing Tab.</p>
+    <p class="game-explain" data-to-best></p>
+    <div class="game-end-actions">
+      <button type="button" class="game-button game-button--primary" data-to-restart>Play again</button>
+      <a href="/play/" class="editorial-link">More games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-to-live></p>
+</section>
+
+<style>
+  .to-stage {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .to-stage {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+  .to-mock {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .to-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 2.6rem;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--line-strong);
+    background: var(--raised);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    transition:
+      outline-color 150ms var(--ease-out),
+      background-color 150ms var(--ease-out);
+    outline: 3px solid transparent;
+    outline-offset: 2px;
+  }
+  .to-box--button {
+    justify-content: center;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+    font-weight: 600;
+  }
+  .to-box--link {
+    border-color: transparent;
+    background: transparent;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .to-box--toggle {
+    justify-content: center;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .to-box[data-focused] {
+    outline-color: var(--accent);
+  }
+  .to-badge {
+    position: absolute;
+    top: -0.55rem;
+    left: -0.55rem;
+    display: grid;
+    place-items: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.25rem;
+    border-radius: 999px;
+    background: var(--ink);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .to-badge:empty {
+    display: none;
+  }
+  .to-list {
+    display: grid;
+    gap: 0.4rem;
+    counter-reset: to;
+  }
+  .to-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.35rem 0.35rem 0.35rem 0.75rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    counter-increment: to;
+  }
+  .to-item-label {
+    font-size: 0.93rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .to-item-label::before {
+    content: counter(to) '. ';
+    color: var(--ink-muted);
+  }
+  .to-item-actions {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+  .to-move {
+    min-height: 36px;
+    padding: 0.3rem 0.65rem;
+    font-size: 0.83rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .to-box {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { isCorrectOrder, moveItem } from '~/lib/games/tab-order';
+  import { saveBest } from '~/lib/game-best';
+
+  document.querySelectorAll<HTMLElement>('[data-tab-order]').forEach(init);
+
+  function init(root: HTMLElement) {
+    const rounds = [...root.querySelectorAll<HTMLElement>('[data-to-round]')];
+    const next = root.querySelector<HTMLButtonElement>('[data-to-next]')!;
+    const end = root.querySelector<HTMLElement>('[data-to-end]')!;
+    const live = root.querySelector<HTMLElement>('[data-to-live]')!;
+    const progress = root.querySelector<HTMLElement>('[data-to-progress]')!;
+    const scoreEl = root.querySelector<HTMLElement>('[data-to-score]')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let index = 0;
+    let score = 0;
+
+    const items = (round: HTMLElement) => [...round.querySelectorAll<HTMLLIElement>('[data-item]')];
+    const order = (round: HTMLElement) => items(round).map((li) => li.dataset.item!);
+    const labelOf = (round: HTMLElement, id: string) =>
+      round.querySelector<HTMLElement>(`[data-item="${id}"]`)!.dataset.label!;
+
+    function paint(round: HTMLElement) {
+      const current = order(round);
+      round.querySelectorAll<HTMLElement>('[data-mock]').forEach((box) => {
+        box.querySelector('[data-badge]')!.textContent = String(current.indexOf(box.dataset.mock!) + 1);
+        delete box.dataset.focused;
+      });
+      items(round).forEach((li, i, all) => {
+        li.querySelector<HTMLButtonElement>('[data-move="-1"]')!.disabled = i === 0;
+        li.querySelector<HTMLButtonElement>('[data-move="1"]')!.disabled = i === all.length - 1;
+      });
+    }
+
+    function arrange(round: HTMLElement, ids: string[]) {
+      const list = round.querySelector('[data-list]')!;
+      ids.forEach((id) => list.append(round.querySelector(`[data-item="${id}"]`)!));
+      paint(round);
+    }
+
+    function show(i: number, moveFocus: boolean) {
+      index = i;
+      rounds.forEach((r, n) => (r.hidden = n !== i));
+      const round = rounds[i];
+      arrange(round, round.dataset.start!.split(' '));
+      round.querySelector<HTMLElement>('[data-to-feedback]')!.hidden = true;
+      round.querySelector<HTMLButtonElement>('[data-to-check]')!.hidden = false;
+      round.querySelectorAll<HTMLButtonElement>('[data-move]').forEach((b) => (b.hidden = false));
+      next.hidden = true;
+      end.hidden = true;
+      progress.textContent = `Round ${i + 1} of ${rounds.length}`;
+      scoreEl.textContent = `Score ${score}`;
+      if (moveFocus) round.querySelector<HTMLElement>('.game-prompt')!.focus();
+    }
+
+    function move(round: HTMLElement, li: HTMLLIElement, direction: -1 | 1) {
+      const ids = order(round);
+      const from = ids.indexOf(li.dataset.item!);
+      const updated = moveItem(ids, from, direction);
+      arrange(round, updated);
+      const position = updated.indexOf(li.dataset.item!) + 1;
+      live.textContent = `${li.dataset.label} is now number ${position}.`;
+      // Moving a node drops focus; return it to the same control, or its partner at an edge.
+      const same = li.querySelector<HTMLButtonElement>(`[data-move="${direction}"]`)!;
+      (same.disabled ? li.querySelector<HTMLButtonElement>(`[data-move="${-direction}"]`)! : same).focus();
+    }
+
+    async function replay(round: HTMLElement, ids: string[]) {
+      if (reduced.matches) return;
+      for (const id of ids) {
+        round.querySelectorAll<HTMLElement>('[data-mock]').forEach((b) => delete b.dataset.focused);
+        round.querySelector<HTMLElement>(`[data-mock="${id}"]`)!.dataset.focused = '';
+        await new Promise((resolve) => setTimeout(resolve, 380));
+      }
+      round.querySelectorAll<HTMLElement>('[data-mock]').forEach((b) => delete b.dataset.focused);
+    }
+
+    async function check(round: HTMLElement) {
+      const ids = order(round);
+      const correct = round.dataset.correct!.split(' ');
+      const right = isCorrectOrder(ids, correct);
+      if (right) score++;
+      round.querySelector<HTMLButtonElement>('[data-to-check]')!.hidden = true;
+      round.querySelectorAll<HTMLButtonElement>('[data-move]').forEach((b) => (b.hidden = true));
+      await replay(round, ids);
+      const verdict = right ? 'Right. Focus follows the layout.' : 'Not quite.';
+      round.querySelector('[data-to-verdict]')!.textContent = verdict;
+      round.querySelector('[data-to-answer]')!.textContent = right
+        ? ''
+        : `The order should be: ${correct.map((id) => labelOf(round, id)).join(', ')}.`;
+      round.querySelector<HTMLElement>('[data-to-feedback]')!.hidden = false;
+      live.textContent = `${verdict} ${round.querySelector('[data-to-answer]')!.textContent}`;
+      scoreEl.textContent = `Score ${score}`;
+      next.textContent = index + 1 >= rounds.length ? 'See your score' : 'Next round';
+      next.hidden = false;
+      next.focus();
+    }
+
+    function finish() {
+      rounds.forEach((r) => (r.hidden = true));
+      next.hidden = true;
+      progress.textContent = 'Finished';
+      const best = saveBest('tab-order', score);
+      const summary = root.querySelector<HTMLElement>('[data-to-summary]')!;
+      summary.textContent = `You got ${score} of ${rounds.length} rounds right.`;
+      root.querySelector('[data-to-best]')!.textContent =
+        best > score ? `Your best is ${best} of ${rounds.length}.` : "That's your best so far.";
+      end.hidden = false;
+      live.textContent = summary.textContent;
+      summary.focus();
+    }
+
+    rounds.forEach((round) => {
+      round.querySelectorAll<HTMLButtonElement>('[data-move]').forEach((b) =>
+        b.addEventListener('click', () => move(round, b.closest('li')!, Number(b.dataset.move) as -1 | 1)),
+      );
+      round.querySelector('[data-to-check]')!.addEventListener('click', () => check(round));
+    });
+    next.addEventListener('click', () => (index + 1 >= rounds.length ? finish() : show(index + 1, true)));
+    root.querySelector('[data-to-restart]')!.addEventListener('click', () => {
+      score = 0;
+      show(0, true);
+    });
+
+    root.hidden = false;
+    show(0, false);
+  }
+</script>

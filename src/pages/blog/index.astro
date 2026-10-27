@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { writing } from '~/lib/writing';
+import { writingTopics } from '~/lib/writing-topics';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import BookList from '~/components/patterns/BookList.astro';
@@ -12,11 +13,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
 );
 const [lead, ...rest] = posts;
 // Index sections follow each post's frontmatter `category`, so a post's label and its section always agree.
-const topics = [
-  { id: 'design-systems', category: 'Design Systems', title: 'Design', emphasis: 'systems.', description: 'Architecture, adoption, and the effort behind a dependable component system.' },
-  { id: 'ai-and-engineering', category: 'AI & Engineering', title: 'AI &', emphasis: 'engineering.', description: 'Research and perspectives on changing tools, responsibilities, and ownership.' },
-  { id: 'ui-engineering', category: 'UI Engineering', title: 'UI', emphasis: 'engineering.', description: 'Interface craft beyond the component library, and the skills behind it.' },
-];
+const topics = writingTopics;
 const known = new Set(topics.map((topic) => topic.category));
 // Posts with an unlisted category remain visible without requiring an index edit.
 const groups = [

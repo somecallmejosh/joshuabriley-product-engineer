@@ -1,18 +1,23 @@
 ---
 import Icon from '~/components/primitives/Icon.astro';
-import { FOOTER_NAV } from '~/lib/nav';
+import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
+import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
+import { HEADER_MENUS } from '~/lib/nav';
+import { hasIllustration } from '~/lib/article-illustrations';
+import { currentMatcher, formatNavDate, getNavFeatures } from '~/lib/nav-features';
 import { cx } from '~/lib/cx';
 
+/**
+ * Mobile navigation: a modal sheet carrying the same three sections as the
+ * desktop menus (HEADER_MENUS) and the same feature content, as an accordion.
+ * The section holding the current page starts open; opening one closes the others.
+ */
 interface Props { class?: string; }
 const { class: className } = Astro.props;
-// Mirror the footer: its lead group is the large list, the rest are supporting links.
-const [leadGroup, ...supportingGroups] = FOOTER_NAV;
-const primaryLinks = leadGroup.links;
+const { caseStudies, latest, testimonials, defaultTestimonial, linkExists } = await getNavFeatures();
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isCurrent = (href: string) => {
-  const path = href.replace(/\/$/, '') || '/';
-  return pathname === path || (path !== '/' && pathname.startsWith(`${path}/`));
-};
+const isCurrent = currentMatcher(Astro.url.pathname);
+const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(isCurrent);
 ---
 
 <button
@@ -32,56 +37,209 @@ const isCurrent = (href: string) => {
       <h2 id="mobile-menu-title">Explore</h2>
       <button class="mobile-menu-close" type="button" autofocus>Close <Icon name="ph:x" size={22} /></button>
     </div>
-    <div class="mobile-menu-content">
-      <nav aria-label="Mobile primary">
-        <ul class="mobile-primary" role="list">
-          {primaryLinks.map(link => <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}<span aria-hidden="true" data-link-arrow="up-right">↗</span></a></li>)}
-        </ul>
-      </nav>
-      {supportingGroups.map((group, index) => (
-        <nav class="mobile-more" aria-labelledby={`mobile-more-title-${index}`}>
-          <h3 id={`mobile-more-title-${index}`}>{group.heading}</h3>
-          <ul class="mobile-supporting" role="list">
-            {group.links.map(link => <li><a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a></li>)}
+    <div class="mobile-menu-fade scroll-fade" data-scroll-fade>
+      <div class="mobile-menu-content">
+        <nav aria-label="Mobile primary">
+          <ul class="mobile-sections" role="list">
+            {HEADER_MENUS.map((menu, index) => {
+              const open = menuIsCurrent(menu);
+              const links = menu.links.filter((link) => linkExists(link.href));
+              return (
+                <li class="mobile-section" style={`--i: ${index}`}>
+                  <h3>
+                    <button
+                      type="button"
+                      class="mobile-section-trigger"
+                      aria-expanded={open ? 'true' : 'false'}
+                      aria-controls={`mobile-panel-${menu.id}`}
+                      data-current={open ? '' : undefined}
+                    >
+                      <span class="mobile-section-name">{menu.label}</span>
+                      <span class="mobile-section-icon" aria-hidden="true"><Icon name="ph:plus" size={20} /></span>
+                    </button>
+                  </h3>
+                  <div id={`mobile-panel-${menu.id}`} class="mobile-section-panel" data-open={open ? '' : undefined}>
+                    <div class="mobile-section-clip">
+                      <div class="mobile-section-body">
+                        {menu.feature === 'work' && (
+                          <div class="mobile-block" style="--j: 0">
+                            <p class="mobile-label">Case studies</p>
+                            <ul role="list" class="mobile-list">
+                              {caseStudies.map((work) => (
+                                <li>
+                                  <a class="mobile-case" href={work.href} aria-current={isCurrent(work.href) ? 'page' : undefined}>
+                                    <span class="mobile-case-thumb" aria-hidden="true"><ProjectIllustration project={work.illustration} /></span>
+                                    <span class="mobile-link-text">
+                                      <span class="mobile-link-name">{work.name}</span>
+                                      <span class="mobile-link-description">{work.title}</span>
+                                    </span>
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {menu.feature === 'writing' && latest && (
+                          <div class="mobile-block" style="--j: 0">
+                            <p class="mobile-label">Latest article</p>
+                            <a class="mobile-article" href={`/blog/${latest.id}/`} aria-current={isCurrent(`/blog/${latest.id}/`) ? 'page' : undefined}>
+                              {hasIllustration(latest.id) && <span class="mobile-article-art" aria-hidden="true"><ArticleIllustration post={latest.id} /></span>}
+                              <span class="mobile-article-meta">{latest.data.category} · <time datetime={latest.data.date.toISOString().slice(0, 10)}>{formatNavDate(latest.data.date)}</time></span>
+                              <span class="mobile-link-name mobile-article-title">{latest.data.title}</span>
+                            </a>
+                          </div>
+                        )}
+                        <div class="mobile-block" style="--j: 1">
+                          {menu.linksLabel && <p class="mobile-label">{menu.linksLabel}</p>}
+                          <ul role="list" class="mobile-list mobile-links">
+                            {links.map((link) => (
+                              <li>
+                                <a class="mobile-link" href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+                                  <span class="mobile-link-name">{link.label}</span>
+                                  <span class="mobile-link-description">{link.description}</span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        {menu.feature === 'testimonial' && testimonials.length > 0 && (
+                          <div class="mobile-block" style="--j: 2">
+                            {testimonials.map(({ id, data: testimonial }) => (
+                              <figure class="mobile-quote" data-mobile-quote hidden={id !== defaultTestimonial.id}>
+                                <blockquote><p>“{testimonial.quote}”</p></blockquote>
+                                <figcaption>
+                                  {testimonial.image ? <img src={testimonial.image} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="mobile-quote-initials" aria-hidden="true">{testimonial.initials}</span>}
+                                  <span class="mobile-link-text">
+                                    <span class="mobile-quote-name">{testimonial.name}</span>
+                                    <span class="mobile-link-description">{testimonial.role}, {testimonial.company}</span>
+                                  </span>
+                                </figcaption>
+                              </figure>
+                            ))}
+                          </div>
+                        )}
+                        {menu.feature === 'work' && <a class="mobile-all" style="--j: 2" href="/projects/" aria-current={pathname === '/projects' ? 'page' : undefined}>All projects <span aria-hidden="true" data-link-arrow="right">→</span></a>}
+                        {menu.feature === 'writing' && <a class="mobile-all" style="--j: 2" href="/blog/" aria-current={pathname === '/blog' ? 'page' : undefined}>All writing <span aria-hidden="true" data-link-arrow="right">→</span></a>}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </nav>
-      ))}
-      <a class="editorial-link mobile-contact" href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      </div>
+    </div>
+    <div class="mobile-menu-footer">
+      <a class="action-link mobile-contact" href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="right">→</span></a>
     </div>
   </div>
 </dialog>
 
 <style>
-  .mobile-menu-toggle, .mobile-menu-close { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 44px; padding: .5rem .25rem; color: var(--ink); font-size: .95rem; font-weight: 600; }
-  .mobile-menu-toggle { border-bottom: 1px solid var(--line-strong); }
-  .mobile-menu-toggle:hover, .mobile-menu-close:hover { color: var(--portfolio-blue); }
-  .mobile-menu { width: calc(100% - 2rem); max-width: 36rem; max-height: calc(100dvh - 2rem); margin: 1rem auto auto; padding: 0; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); overflow: hidden; }
-  .mobile-menu::backdrop { background: rgb(26 27 30 / .48); }
-  .mobile-menu-panel { display: flex; flex-direction: column; max-height: calc(100dvh - 2rem - 5px); }
-  .mobile-menu-heading { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; gap: 1rem; padding: 1rem 1.5rem .75rem; }
-  .mobile-menu-heading h2 { font-size: .9rem; font-weight: 500; color: var(--ink-muted); }
-  .mobile-menu-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 1.5rem 1.5rem; }
-  .mobile-primary, .mobile-supporting { margin: 0; padding: 0; list-style: none; }
-  .mobile-primary a { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 56px; padding: .6rem 0; font-size: clamp(1.75rem, 7vw, 2.25rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; }
-  .mobile-primary a > span { color: var(--portfolio-blue); font-size: .6em; font-weight: 400; }
-  .mobile-more { padding-top: 1.75rem; container-type: inline-size; }
-  .mobile-more h3 { font-size: .8rem; font-weight: 500; color: var(--ink-muted); }
-  .mobile-supporting { display: grid; gap: .375rem; margin-top: .75rem; }
-  @container (min-width: 19rem) { .mobile-supporting { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .mobile-supporting a { display: flex; align-items: center; height: 100%; min-height: 56px; padding: .625rem .75rem; background: rgb(var(--accent-rgb) / .06); font-size: .9375rem; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; transition: color 200ms, background-color 200ms; }
-  .mobile-supporting a:hover { background: rgb(var(--accent-rgb) / .11); color: var(--portfolio-blue); }
-  .mobile-supporting a[aria-current='page'] { background: rgb(var(--accent-rgb) / .11); color: var(--portfolio-blue); box-shadow: inset 0 -2px var(--portfolio-blue); }
-  .mobile-primary a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color 200ms, text-decoration-color 200ms; }
-  .mobile-primary a:hover, .mobile-primary a[aria-current='page'] { color: var(--portfolio-blue); text-decoration-color: currentColor; }
-  .mobile-contact { margin-top: 1.5rem; padding-top: 1rem; width: 100%; justify-content: flex-start; }
-  .mobile-contact[aria-current='page'] { color: var(--accent); text-decoration-color: currentColor; }
-  .mobile-menu-toggle:focus-visible, .mobile-menu :is(a, button):focus-visible { outline: 3px solid var(--portfolio-blue); outline-offset: 4px; }
+  .mobile-menu-toggle, .mobile-menu-close { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; min-height: 44px; padding: .5rem .25rem; color: var(--ink); font-size: .95rem; font-weight: 600; transition: color .2s; }
+  .mobile-menu-toggle:hover, .mobile-menu-close:hover { color: var(--accent); }
+
+  /* The sheet floats just inside the viewport and grows with its open section. */
+  .mobile-menu {
+    width: calc(100% - 1rem); max-width: 36rem; max-height: calc(100dvh - 1rem);
+    margin: .5rem auto auto; padding: 0;
+    border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+    box-shadow: 0 24px 64px rgb(var(--accent-rgb) / .18);
+    overflow: hidden;
+  }
+  .mobile-menu::backdrop { background: rgb(26 27 30 / .42); backdrop-filter: blur(4px); }
+  .mobile-menu-panel { display: flex; flex-direction: column; max-height: calc(100dvh - 1rem - 2px); }
+  .mobile-menu-heading { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; gap: 1rem; padding: .75rem 1.25rem .25rem; }
+  .mobile-menu-heading h2 { font-size: .8rem; font-weight: 500; color: var(--ink-muted); }
+  .mobile-menu-fade { display: flex; flex-direction: column; min-height: 0; }
+  .mobile-menu-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 1.25rem .5rem; }
+
+  .mobile-sections, .mobile-list { margin: 0; padding: 0; list-style: none; }
+
+  /* Section rows: the three desktop menus, as large type. */
+  .mobile-section-trigger {
+    display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 1rem;
+    min-height: 64px; padding: .5rem 0; text-align: left;
+    font-size: clamp(1.9rem, 8.5vw, 2.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.045em; color: var(--ink);
+  }
+  .mobile-section-name { text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 2px; text-underline-offset: 8px; transition: color .25s, text-decoration-color .25s; }
+  .mobile-section-trigger[data-current] .mobile-section-name { text-decoration-color: var(--accent); }
+  .mobile-section-trigger:hover .mobile-section-name, .mobile-section-trigger[aria-expanded='true'] .mobile-section-name { color: var(--accent); }
+  .mobile-section-icon {
+    display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+    background: rgb(var(--accent-rgb) / .06); color: var(--accent);
+    transition: rotate .4s var(--ease-out), background-color .25s;
+  }
+  .mobile-section-trigger[aria-expanded='true'] .mobile-section-icon { rotate: 45deg; background: rgb(var(--accent-rgb) / .12); }
+
+  /* Height animates through the grid row; hidden panels leave the tab order. */
+  .mobile-section-panel { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .45s var(--ease-out), visibility 0s .45s; }
+  .mobile-section-panel[data-open] { grid-template-rows: 1fr; visibility: visible; transition-delay: 0s; }
+  /* The negative inset leaves room for row tints and focus rings inside the clip. */
+  .mobile-section-clip { min-height: 0; overflow: hidden; margin-inline: -1rem; }
+  .mobile-section-body { display: grid; gap: 1.5rem; padding: .25rem 1rem 1.75rem; }
+  .mobile-section-body > * { opacity: 0; translate: 0 10px; transition: opacity .3s var(--ease-out), translate .45s var(--ease-out); }
+  .mobile-section-panel[data-open] .mobile-section-body > * { opacity: 1; translate: 0 0; transition-delay: calc(var(--j, 0) * 60ms + 120ms); }
+
+  .mobile-label { font-size: .8rem; font-weight: 500; color: var(--ink-muted); margin-bottom: .5rem; }
+  .mobile-list { display: grid; gap: .125rem; }
+
+  .mobile-case, .mobile-link, .mobile-article { display: flex; gap: 1rem; min-height: 44px; padding: .625rem .75rem; margin-inline: -.75rem; transition: background-color .2s, scale .2s var(--ease-out); }
+  .mobile-case { align-items: center; }
+  .mobile-link { flex-direction: column; gap: .15rem; }
+  .mobile-article { flex-direction: column; gap: .4rem; }
+  :is(.mobile-case, .mobile-link, .mobile-article):is(:hover, :focus-visible) { background: rgb(var(--accent-rgb) / .06); }
+  :is(.mobile-case, .mobile-link, .mobile-article):active { scale: .985; }
+  .mobile-case-thumb { flex-shrink: 0; width: 88px; }
+  .mobile-case-thumb :global(.illustration) { --mat: .25rem; }
+  .mobile-article-art { display: block; margin-bottom: .35rem; }
+  .mobile-article-art :global(.illustration) { --mat: .75rem; }
+  .mobile-link-text { display: grid; gap: .15rem; min-width: 0; }
+  .mobile-link-name { font-size: 1rem; font-weight: 650; letter-spacing: -.01em; color: var(--ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
+  .mobile-link-description, .mobile-article-meta { font-size: .8125rem; line-height: 1.4; color: var(--ink-muted); }
+  .mobile-article-title { font-size: 1.0625rem; line-height: 1.3; }
+  :is(.mobile-case, .mobile-link, .mobile-article):is(:hover, :focus-visible, [aria-current='page']) .mobile-link-name { color: var(--accent); text-decoration-color: currentColor; }
+
+  .mobile-quote { margin: 0; padding: 1.25rem; background: rgb(var(--accent-rgb) / .04); }
+  .mobile-quote blockquote p { font-size: 1rem; font-weight: 600; line-height: 1.5; letter-spacing: -.015em; color: var(--ink); text-wrap: pretty; }
+  .mobile-quote figcaption { display: flex; align-items: center; gap: .75rem; margin-top: 1rem; }
+  .mobile-quote img, .mobile-quote-initials { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .mobile-quote-initials { display: grid; place-items: center; background: rgb(var(--accent-rgb) / .08); color: var(--accent); font-size: .8rem; font-weight: 600; }
+  .mobile-quote-name { font-size: .9375rem; font-weight: 600; color: var(--ink); }
+
+  .mobile-all {
+    justify-self: start; display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; margin-top: -.75rem;
+    font-size: .9375rem; font-weight: 600; color: var(--ink);
+    text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 6px;
+    transition: color .2s, text-decoration-color .2s;
+  }
+  .mobile-all:is(:hover, :focus-visible, [aria-current='page']) { color: var(--accent); text-decoration-color: currentColor; }
+
+  .mobile-menu-footer { flex-shrink: 0; padding: .75rem 1.25rem 1.25rem; }
+  .mobile-contact { width: 100%; }
+  .mobile-contact[aria-current='page'] { box-shadow: inset 0 -3px color-mix(in srgb, var(--paper) 55%, transparent); }
+
+  .mobile-menu-toggle:focus-visible, .mobile-menu :is(a, button):focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   :global(html.nav-open), :global(html.nav-open body) { overflow: hidden; }
   @media (min-width: 768px) { .mobile-menu-toggle { display: none; } }
+
+  /* Opening: the sheet drops in, then the sections and the contact action follow. */
   @media (prefers-reduced-motion: no-preference) {
-    .mobile-menu[open] { animation: mobile-menu-enter 180ms var(--ease-out); }
+    .mobile-menu[open] { animation: mobile-sheet-in .42s var(--ease-out); transform-origin: top center; }
+    .mobile-menu[open]::backdrop { animation: mobile-backdrop-in .3s var(--ease-out); }
+    .mobile-menu[open] :is(.mobile-section, .mobile-menu-footer) { animation: mobile-row-in .5s var(--ease-out) both; animation-delay: calc(var(--i, 3) * 55ms + 90ms); }
+    .mobile-menu[data-closing] { animation: mobile-sheet-out .2s var(--ease-out) forwards; }
+    .mobile-menu[data-closing]::backdrop { animation: mobile-backdrop-out .2s var(--ease-out) forwards; }
   }
-  @keyframes mobile-menu-enter { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-section-panel, .mobile-section-body > *, .mobile-section-icon, :is(.mobile-case, .mobile-link, .mobile-article) { transition: none; }
+  }
+  @keyframes mobile-sheet-in { from { opacity: 0; transform: translateY(-14px) scale(.98); } }
+  @keyframes mobile-sheet-out { to { opacity: 0; transform: translateY(-8px) scale(.99); } }
+  @keyframes mobile-row-in { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes mobile-backdrop-in { from { opacity: 0; } }
+  @keyframes mobile-backdrop-out { to { opacity: 0; } }
 </style>
 
 <script>
@@ -89,7 +247,10 @@ const isCurrent = (href: string) => {
   const menu = document.getElementById('mobile-menu');
   if (toggle instanceof HTMLButtonElement && menu instanceof HTMLDialogElement) {
     const closeButton = menu.querySelector<HTMLButtonElement>('.mobile-menu-close');
+    const scroller = menu.querySelector<HTMLElement>('.mobile-menu-content');
+    const triggers = Array.from(menu.querySelectorAll<HTMLButtonElement>('.mobile-section-trigger'));
     const desktop = window.matchMedia('(min-width: 768px)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let restoreFocus = true;
     let pointerStartedOutside = false;
     let pagePosition = { left: 0, top: 0 };
@@ -98,13 +259,58 @@ const isCurrent = (href: string) => {
       const rect = menu.getBoundingClientRect();
       return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
     };
+
+    const quotes = Array.from(menu.querySelectorAll<HTMLElement>('[data-mobile-quote]'));
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    quotes.forEach((figure) => { figure.hidden = figure !== quote; });
+
+    // One section open at a time. Once it has grown, bring it into view if it ran past the sheet.
+    const panelFor = (trigger: HTMLButtonElement) => document.getElementById(trigger.getAttribute('aria-controls')!)!;
+    const reveal = (trigger: HTMLButtonElement) => {
+      if (!scroller) return;
+      const panel = panelFor(trigger).getBoundingClientRect();
+      if (panel.bottom > scroller.getBoundingClientRect().bottom) {
+        trigger.scrollIntoView({ block: 'start', behavior: reduceMotion.matches ? 'instant' : 'smooth' });
+      }
+    };
+    for (const trigger of triggers) {
+      trigger.addEventListener('click', () => {
+        const opening = trigger.getAttribute('aria-expanded') !== 'true';
+        for (const other of triggers) {
+          const open = opening && other === trigger;
+          other.setAttribute('aria-expanded', String(open));
+          panelFor(other).toggleAttribute('data-open', open);
+        }
+        if (!opening) return;
+        const panel = panelFor(trigger);
+        if (reduceMotion.matches) { requestAnimationFrame(() => reveal(trigger)); return; }
+        // Children's fades bubble up too; wait for the panel's own growth.
+        const grown = (event: TransitionEvent) => {
+          if (event.target !== panel || event.propertyName !== 'grid-template-rows') return;
+          panel.removeEventListener('transitionend', grown);
+          reveal(trigger);
+        };
+        panel.addEventListener('transitionend', grown);
+      });
+    }
+
+    let closeTimer = 0;
+    // Child animations bubble up too; only the sheet's own exit ends the close.
+    const faded = (event: AnimationEvent) => { if (event.target === menu) finishClose(); };
+    const finishClose = () => {
+      clearTimeout(closeTimer);
+      menu.removeEventListener('animationend', faded);
+      delete menu.dataset.closing;
+      if (menu.open) menu.close();
+    };
     const close = (restore = true) => {
-      if (!menu.open) return;
+      if (!menu.open || menu.dataset.closing !== undefined) return;
       restoreFocus = restore;
-      menu.close();
       toggle.setAttribute('aria-expanded', 'false');
-      document.documentElement.classList.remove('nav-open');
-      restorePagePosition();
+      if (reduceMotion.matches || desktop.matches) { finishClose(); return; }
+      menu.dataset.closing = '';
+      menu.addEventListener('animationend', faded);
+      closeTimer = window.setTimeout(finishClose, 400);
     };
     toggle.addEventListener('click', () => {
       if (menu.open) { close(); return; }
@@ -118,6 +324,8 @@ const isCurrent = (href: string) => {
       toggle.setAttribute('aria-expanded', 'true');
     });
     closeButton?.addEventListener('click', () => close());
+    // Escape plays the same closing animation as the close button.
+    menu.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
     menu.addEventListener('pointerdown', event => { pointerStartedOutside = outside(event); });
     menu.addEventListener('click', event => {
       if (pointerStartedOutside && outside(event)) { close(); return; }
@@ -125,7 +333,7 @@ const isCurrent = (href: string) => {
     });
     menu.addEventListener('keydown', event => {
       if (event.key !== 'Tab') return;
-      const targets = Array.from(menu.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)'));
+      const targets = Array.from(menu.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)')).filter((el) => el.checkVisibility({ visibilityProperty: true }));
       const first = targets[0];
       const last = targets[targets.length - 1];
       if (event.shiftKey && document.activeElement === first) {
@@ -144,7 +352,7 @@ const isCurrent = (href: string) => {
       });
     });
     menu.addEventListener('close', () => {
-      if (menu.open) return;
+      delete menu.dataset.closing;
       toggle.setAttribute('aria-expanded', 'false');
       document.documentElement.classList.remove('nav-open');
       if (restoreFocus && !desktop.matches) toggle.focus({ preventScroll: true });
@@ -153,7 +361,7 @@ const isCurrent = (href: string) => {
     desktop.addEventListener('change', () => {
       if (desktop.matches && menu.open) {
         close(false);
-        document.querySelector<HTMLAnchorElement>('.desktop-nav a[aria-current="page"], .desktop-nav a')?.focus({ preventScroll: true });
+        (document.querySelector<HTMLElement>('.desktop-nav-top:is([aria-current="page"], [data-current])') ?? document.querySelector<HTMLElement>('.desktop-nav-top'))?.focus({ preventScroll: true });
       }
     });
   }

@@ -1,5 +1,5 @@
-/* Shared drawing language for ToolIllustration and ArticleIllustration: the same
-   mat-and-frame treatment as the project teasers (.work-image). The frame stays
+/* Shared drawing language for ToolIllustration, ArticleIllustration, GameIllustration and
+   ProjectIllustration: a tinted mat around a paper frame. The frame stays
    square, the drawing tilts inside it and straightens when a parent link is
    hovered. Everything is scoped under .illustration because several of these
    names (.rule, .label) are global classes elsewhere in site.css. */
@@ -29,6 +29,31 @@ a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) sca
 .illustration .total { font-size: 56px; font-weight: 700; letter-spacing: -2px; }
 .illustration .result { font-family: var(--font-fraunces), serif; font-style: italic; font-size: 30px; font-weight: 400; letter-spacing: -.4px; }
 .illustration .result--sm { font-size: 26px; }
+/* GameIllustration: the playful set. Tilts the other way and adds stamps, notes
+   and faded samples, all mixed from tokens. */
+.illustration--play { --tilt: 3deg; }
+.illustration .ink-stroke { stroke: var(--ink); }
+.illustration .paper-stroke { stroke: var(--paper); }
+.illustration .line-stroke { stroke: var(--line); }
+.illustration .paper-fill { fill: var(--paper); }
+.illustration .line-fill { fill: var(--line-strong); }
+.illustration .note { fill: color-mix(in srgb, var(--accent) 14%, var(--paper)); }
+.illustration .muted-text { fill: var(--ink-muted); }
+.illustration .code--sm { font-size: 14px; }
+.illustration .body--lg { font-size: 22px; font-weight: 500; }
+.illustration .badge { font-size: 13px; font-weight: 700; fill: var(--paper); }
+.illustration .stamp { font-size: 18px; font-weight: 800; letter-spacing: 3px; }
+.illustration .note-text { font-family: var(--font-geist-mono), monospace; font-size: 26px; font-weight: 600; fill: var(--accent); }
+.illustration .hello { font-size: 26px; font-weight: 800; letter-spacing: 2px; fill: var(--paper); }
+.illustration .giant { font-size: 84px; font-weight: 800; letter-spacing: -3px; }
+.illustration .aa { font-size: 48px; font-weight: 700; letter-spacing: -1.5px; }
+.illustration .ghost { fill: color-mix(in srgb, var(--ink) 14%, var(--raised)); }
+.illustration .fade-1 { fill: color-mix(in srgb, var(--ink) 72%, var(--paper)); }
+.illustration .fade-2 { fill: color-mix(in srgb, var(--ink) 52%, var(--paper)); }
+.illustration .fade-3 { fill: color-mix(in srgb, var(--ink) 30%, var(--paper)); }
+.illustration .fade-4 { fill: color-mix(in srgb, var(--ink) 14%, var(--paper)); }
+.illustration .fade-ball-1 { opacity: .25; }
+.illustration .fade-ball-2 { opacity: .5; }
 @media (max-width: 767px) { .illustration { --mat: 1.25rem; } }
 @media (prefers-reduced-motion: reduce) {
   .illustration-drawing { transition: none; }

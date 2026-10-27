@@ -1,0 +1,131 @@
+---
+import { cx } from '~/lib/cx';
+import { projectIllustrationDescriptions, type IllustratedProject } from '~/lib/project-illustrations';
+import '~/styles/illustration.css';
+
+interface Props {
+  project: IllustratedProject;
+  class?: string;
+}
+const { project, class: className } = Astro.props;
+---
+
+<!-- Styles live in illustration.css, shared with the tool, article and game drawings.
+     data-surface="light" keeps the accent navy inside dark sections. -->
+<span class={cx('illustration', className)} data-surface="light">
+<span class="illustration-frame">
+<svg
+  viewBox="0 0 480 360"
+  fill="none"
+  role="img"
+  aria-label={projectIllustrationDescriptions[project]}
+  class={cx('illustration-drawing', `illustration-drawing--${project}`)}
+>
+
+  {project === 'ivfcryo' && (
+    <g>
+      <text x="40" y="56" class="label">ONE SHIPMENT · FIVE PARTIES</text>
+      <path class="rule" d="M40 126H440M40 166H440M40 206H440M40 246H440" />
+      <rect x="40" y="90" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 101 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="108" class="body">Patient</text>
+      <text x="440" y="108" text-anchor="end" class="small">Ready</text>
+      <rect x="40" y="130" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 141 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="148" class="body">Sending clinic</text>
+      <text x="440" y="148" text-anchor="end" class="small">Ready</text>
+      <rect x="40" y="170" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 181 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="188" class="body">Receiving clinic</text>
+      <text x="440" y="188" text-anchor="end" class="small">Ready</text>
+      <rect x="40" y="210" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 221 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="228" class="body">Courier</text>
+      <text x="440" y="228" text-anchor="end" class="small">Ready</text>
+      <rect x="40.75" y="250.75" width="20.5" height="20.5" rx="3" class="accent-stroke" stroke-width="1.5" stroke-dasharray="3 3" />
+      <text x="80" y="268" class="body">Equipment</text>
+      <text x="440" y="268" text-anchor="end" class="small accent-text">Waiting</text>
+      <text x="40" y="320" class="result result--sm">Scheduled once all five clear</text>
+    </g>
+  )}
+
+  {project === 'logatot' && (
+    <g>
+      <text x="40" y="56" class="label">VOICEBOARD · HANDS-FREE</text>
+      <path class="accent-stroke" stroke-width="4" stroke-linecap="round" d="M44 120V136M56 110V146M68 100V156M80 112V144M92 122V134" />
+      <path d="M132 88H432A8 8 0 0 1 440 96V160A8 8 0 0 1 432 168H148L124 184V96A8 8 0 0 1 132 88Z" class="note" />
+      <text x="282" y="136" text-anchor="middle" class="body--lg">“Nap for Leo”</text>
+      <path class="connector" d="M282 168V206" />
+      <path class="rule" d="M40 206H440M40 258H440" />
+      <rect x="40" y="221" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 232 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="239" class="body">Nap</text>
+      <text x="176" y="239" class="body">Leo</text>
+      <text x="440" y="239" text-anchor="end" class="small">12:40 pm</text>
+      <text x="40" y="320" class="result">Logged without a tap</text>
+    </g>
+  )}
+
+  {project === 'vmspark' && (
+    <g>
+      <text x="40" y="56" class="label">ADMIN REBUILD · FOUR PHASES</text>
+      <rect x="40.5" y="88.5" width="88" height="60" class="frame" />
+      <text x="84.5" y="124" text-anchor="middle" class="small">Baseline</text>
+      <rect x="144.5" y="88.5" width="88" height="60" class="frame" />
+      <text x="188.5" y="124" text-anchor="middle" class="small">Shell</text>
+      <rect x="248.5" y="88.5" width="88" height="60" class="frame" />
+      <text x="292.5" y="124" text-anchor="middle" class="code">⌘K</text>
+      <rect x="352.5" y="88.5" width="88" height="60" class="frame" />
+      <text x="396.5" y="124" text-anchor="middle" class="small">Polish</text>
+      <path class="connector" stroke-dasharray="3 4" d="M84.5 149V202M188.5 149V202M292.5 149V202M396.5 149V202" />
+      <path class="accent-stroke" stroke-width="2" d="M40 206H432" />
+      <path class="accent-stroke" stroke-width="2" d="m424 199 8 7-8 7" />
+      <circle cx="136" cy="206" r="5" class="accent" />
+      <circle cx="240" cy="206" r="5" class="accent" />
+      <circle cx="344" cy="206" r="5" class="accent" />
+      <text x="40" y="240" class="small">Job listings out to every hiring system</text>
+      <text x="40" y="320" class="result">Rebuilt while it ran</text>
+    </g>
+  )}
+
+  {project === 'rudiment-ui' && (
+    <g>
+      <text x="40" y="56" class="label">TOKENS · THREE TIERS</text>
+      <path class="connector" d="M46 120V250" />
+      <circle cx="46" cy="114" r="5" class="accent" />
+      <text x="64" y="100" class="label">GLOBAL</text>
+      <text x="64" y="124" class="code">color.blue.500</text>
+      <circle cx="46" cy="180" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
+      <text x="64" y="166" class="label">SEMANTIC</text>
+      <text x="64" y="190" class="code">color.brand.primary</text>
+      <circle cx="46" cy="246" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
+      <text x="64" y="232" class="label">COMPONENT</text>
+      <text x="64" y="256" class="code">button.background</text>
+      <path class="connector" d="M248 250H386V158" />
+      <rect x="332" y="112" width="108" height="44" rx="4" class="accent" />
+      <text x="386" y="140" text-anchor="middle" class="button">Save</text>
+      <text x="40" y="320" class="result">Documented in Storybook</text>
+    </g>
+  )}
+
+  {project === 'token-adventure' && (
+    <g>
+      <text x="40" y="56" class="label">LEVEL 10 · TYPES OF THE REALM</text>
+      <rect x="40.5" y="78.5" width="399" height="132" class="frame" />
+      <text x="60" y="110" class="code muted-text">"brand": {"{"}</text>
+      <text x="84" y="138" class="code">"$type": "color",</text>
+      <text x="84" y="166" class="code">"$value": <tspan class="accent-text">"{"{"}color.blue{"}"}"</tspan></text>
+      <text x="60" y="194" class="code muted-text">{"}"}</text>
+      <rect x="40" y="232" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 243 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="76" y="250" class="small">Valid type</text>
+      <rect x="220" y="232" width="22" height="22" rx="3" class="accent" />
+      <path d="m225.5 243 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="256" y="250" class="small">Alias resolves</text>
+      <text x="40" y="320" class="result">Wave cleared</text>
+    </g>
+  )}
+
+</svg>
+</span>
+</span>

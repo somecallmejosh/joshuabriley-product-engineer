@@ -38,8 +38,10 @@ import Icon from '~/components/primitives/Icon.astro';
       </div>
     </div>
 
-    <div class="lb__stage" data-lb-stage tabindex="0">
-      <img class="lb__img" data-lb-img alt="" draggable="false" />
+    <div class="lb__stage-fade scroll-fade" data-scroll-fade>
+      <div class="lb__stage" data-lb-stage tabindex="0">
+        <img class="lb__img" data-lb-img alt="" draggable="false" />
+      </div>
     </div>
 
     <p class="lb__hint" data-lb-hint aria-hidden="true"></p>
@@ -139,6 +141,17 @@ import Icon from '~/components/primitives/Icon.astro';
   }
   .lb__tool--close { padding: 0.4rem; }
 
+  .lb__stage-fade {
+    --scroll-fade-color: var(--raised);
+    --scroll-fade-radius: 12px;
+    /* Like the scroll container it wraps, contribute no intrinsic size, or a
+       zoomed image would widen the whole viewer. */
+    contain: size;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
   .lb__stage {
     flex: 1;
     min-height: 0;

@@ -25,9 +25,11 @@ const tones: Record<NonNullable<Props['tone']>, string> = {
 };
 
 const paddings: Record<NonNullable<Props['padding']>, string> = {
-  tight: 'py-14 md:py-20',
-  default: 'py-20 md:py-28',
-  loose: 'py-24 md:py-36',
+  tight: 'py-16 md:py-20 lg:py-24',
+  // Mirrors --space-section in redesign.css so Section bands and editorial
+  // sections share one rhythm.
+  default: 'py-20 md:py-28 lg:py-36',
+  loose: 'py-24 md:py-36 lg:py-44',
 };
 ---
 

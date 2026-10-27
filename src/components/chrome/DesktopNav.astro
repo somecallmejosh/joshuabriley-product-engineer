@@ -1,0 +1,307 @@
+---
+import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
+import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
+import { HEADER_MENUS } from '~/lib/nav';
+import { hasIllustration } from '~/lib/article-illustrations';
+import { currentMatcher, formatNavDate as formatDate, getNavFeatures } from '~/lib/nav-features';
+
+/**
+ * Desktop primary navigation. Menus are disclosure buttons (not ARIA menus):
+ * each panel sits after its trigger in the DOM, so Tab order follows reading
+ * order. One shared surface behind the panels resizes and slides between them.
+ * Without the script, a panel shows on hover or keyboard focus.
+ */
+
+const { caseStudies, latest, testimonials, defaultTestimonial, linkExists } = await getNavFeatures();
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = currentMatcher(Astro.url.pathname);
+const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(isCurrent);
+---
+
+<nav class="desktop-nav" aria-label="Primary">
+  <ul class="desktop-nav-list" role="list">
+    {HEADER_MENUS.map((menu) => (
+      <li class="desktop-nav-item">
+        <button
+          type="button"
+          class="desktop-nav-top desktop-nav-trigger"
+          aria-expanded="false"
+          aria-controls={`nav-panel-${menu.id}`}
+          data-current={menuIsCurrent(menu) ? '' : undefined}
+        >
+          {menu.label}
+          <svg class="desktop-nav-chevron" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div id={`nav-panel-${menu.id}`} class:list={['nav-panel', menu.feature && `nav-panel--${menu.feature}`]}>
+          {menu.feature === 'work' && (
+            <div class="nav-panel-feature">
+              <p class="nav-panel-label">Case studies</p>
+              <ul role="list" class="nav-case-list">
+                {caseStudies.map((work) => (
+                  <li>
+                    <a class="nav-case" href={work.href} aria-current={isCurrent(work.href) ? 'page' : undefined}>
+                      <span class="nav-case-thumb" aria-hidden="true"><ProjectIllustration project={work.illustration} /></span>
+                      <span class="nav-case-text">
+                        <span class="nav-link-name">{work.name}</span>
+                        <span class="nav-link-description">{work.title}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="nav-panel-all" href="/projects/" aria-current={pathname === '/projects' ? 'page' : undefined}>All projects <span aria-hidden="true" data-link-arrow="right">→</span></a>
+            </div>
+          )}
+          {menu.feature === 'testimonial' && testimonials.length > 0 && (
+            <div class="nav-panel-feature">
+              <p class="nav-panel-label">Testimonial</p>
+              {testimonials.map(({ id, data: testimonial }) => (
+                <figure class="nav-quote" data-nav-quote hidden={id !== defaultTestimonial.id}>
+                  <blockquote><p>“{testimonial.quote}”</p></blockquote>
+                  <figcaption>
+                    {testimonial.image ? <img src={testimonial.image} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="nav-quote-initials" aria-hidden="true">{testimonial.initials}</span>}
+                    <span class="nav-case-text">
+                      <span class="nav-quote-name">{testimonial.name}</span>
+                      <span class="nav-link-description">{testimonial.role}, {testimonial.company}</span>
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+          {menu.feature === 'writing' && latest && (
+            <div class="nav-panel-feature">
+              <p class="nav-panel-label">Latest article</p>
+              <a class="nav-article" href={`/blog/${latest.id}/`} aria-current={isCurrent(`/blog/${latest.id}/`) ? 'page' : undefined}>
+                {hasIllustration(latest.id) && <span class="nav-article-art" aria-hidden="true"><ArticleIllustration post={latest.id} /></span>}
+                <span class="nav-article-meta">{latest.data.category} · <time datetime={latest.data.date.toISOString().slice(0, 10)}>{formatDate(latest.data.date)}</time></span>
+                <span class="nav-link-name nav-article-title">{latest.data.title}</span>
+                <span class="nav-link-description">{latest.data.description}</span>
+              </a>
+              <a class="nav-panel-all" href="/blog/" aria-current={pathname === '/blog' ? 'page' : undefined}>All writing <span aria-hidden="true" data-link-arrow="right">→</span></a>
+            </div>
+          )}
+          <div class="nav-panel-links">
+            {menu.feature && menu.linksLabel && <p class="nav-panel-label">{menu.linksLabel}</p>}
+            <ul role="list" class="nav-link-list">
+              {menu.links.filter((link) => linkExists(link.href)).map((link) => (
+                <li>
+                  <a class="nav-link" href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+                    <span class="nav-link-name">{link.label}</span>
+                    <span class="nav-link-description">{link.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+  <div class="nav-surface" aria-hidden="true"></div>
+</nav>
+
+<style>
+  .desktop-nav-list { display: flex; align-items: center; gap: 1.75rem; margin: 0; padding: 0; list-style: none; }
+
+  .desktop-nav-trigger {
+    display: inline-flex; align-items: center; gap: .4rem; min-height: 44px;
+    font-size: .9rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 6px;
+    transition: color .2s, text-decoration-color .2s;
+  }
+  .desktop-nav-trigger:hover, .desktop-nav-trigger[aria-expanded='true'] { color: var(--ink); text-decoration-color: var(--line-strong); }
+  .desktop-nav-trigger[data-current] { color: var(--ink); text-decoration-color: var(--accent); }
+  .desktop-nav-chevron { transition: transform .2s var(--ease-out); }
+  .desktop-nav-trigger[aria-expanded='true'] .desktop-nav-chevron { transform: rotate(180deg); }
+
+  /* Panels and the shared surface position against the header's Container. */
+  .nav-panel, .nav-surface { position: absolute; top: calc(100% - .5rem); }
+  .nav-panel {
+    right: 0; z-index: 1; display: grid; gap: 2rem; padding: 1.5rem;
+    width: max-content; max-width: calc(100vw - 2rem);
+    visibility: hidden; opacity: 0;
+    transition: opacity .2s var(--ease-out), translate .3s var(--ease-out), visibility 0s .2s;
+  }
+  .nav-panel--work { grid-template-columns: 22rem 16.5rem; }
+  .nav-panel--testimonial { grid-template-columns: 20rem 16.5rem; }
+  .nav-panel--writing { grid-template-columns: 20rem 17.5rem; }
+  .nav-panel[data-active] { visibility: visible; opacity: 1; transition-delay: 0s; }
+
+  /* No script: each panel carries its own surface and opens on hover or focus. */
+  .desktop-nav:not([data-enhanced]) .nav-panel { background: var(--paper); border: 1px solid var(--line); box-shadow: 0 18px 48px rgb(var(--accent-rgb) / .12); }
+  .desktop-nav:not([data-enhanced]) .desktop-nav-item:is(:hover, :focus-within) .nav-panel { visibility: visible; opacity: 1; transition-delay: 0s; }
+
+  .nav-surface {
+    left: 0; width: var(--surface-w, 0); height: var(--surface-h, 0); translate: var(--surface-x, 0) .25rem;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 0;
+    box-shadow: 0 18px 48px rgb(var(--accent-rgb) / .12);
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s var(--ease-out), translate .3s var(--ease-out), width .3s var(--ease-out), height .3s var(--ease-out);
+  }
+  .nav-surface[data-open] { opacity: 1; translate: var(--surface-x, 0) 0; }
+  .desktop-nav[data-instant] :is(.nav-surface, .nav-panel) { transition: none; }
+
+  .nav-panel-label { font-size: .8rem; font-weight: 500; color: var(--ink-muted); }
+  .nav-case-list, .nav-link-list { display: grid; gap: .25rem; margin: 0; padding: 0; list-style: none; }
+  .nav-case-list { margin-top: .75rem; }
+  /* The secondary column sits on a light tint that runs to the panel's edges. */
+  :is(.nav-panel--work, .nav-panel--testimonial, .nav-panel--writing) .nav-panel-links { margin: -1.5rem -1.5rem -1.5rem 0; padding: 1.5rem; background: rgb(var(--accent-rgb) / .04); }
+  :is(.nav-panel--work, .nav-panel--testimonial, .nav-panel--writing) .nav-link-list { margin-top: .75rem; }
+
+  .nav-article { display: grid; gap: .4rem; margin: .75rem -.75rem 0; padding: .75rem; transition: background-color .2s; }
+  .nav-article:is(:hover, :focus-visible) { background: rgb(var(--accent-rgb) / .06); }
+  .nav-article-art { display: block; margin-bottom: .5rem; }
+  .nav-article-art :global(.illustration) { --mat: .75rem; }
+  .nav-article-meta { font-size: .8rem; color: var(--ink-muted); }
+  .nav-article-title { font-size: 1.0625rem; line-height: 1.3; }
+  .nav-article .nav-link-description { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .nav-article:is(:hover, :focus-visible, [aria-current='page']) .nav-link-name { color: var(--accent); text-decoration-color: currentColor; }
+
+  .nav-quote { margin: 1rem 0 0; }
+  .nav-quote blockquote p { font-size: 1.0625rem; font-weight: 600; line-height: 1.45; letter-spacing: -.015em; color: var(--ink); text-wrap: pretty; }
+  .nav-quote figcaption { display: flex; align-items: center; gap: .75rem; margin-top: 1.25rem; }
+  .nav-quote img, .nav-quote-initials { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .nav-quote-initials { display: grid; place-items: center; background: rgb(var(--accent-rgb) / .08); color: var(--accent); font-size: .8rem; font-weight: 600; }
+  .nav-quote-name { font-size: .9375rem; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+
+  .nav-case, .nav-link { display: flex; gap: 1rem; padding: .625rem .75rem; margin-inline: -.75rem; transition: background-color .2s; }
+  .nav-case { align-items: center; }
+  .nav-link { flex-direction: column; gap: .2rem; }
+  .nav-case-text { display: grid; gap: .2rem; min-width: 0; }
+  .nav-case-thumb { flex-shrink: 0; width: 96px; }
+  .nav-case-thumb :global(.illustration) { --mat: .25rem; }
+  .nav-link-name { font-size: .9375rem; font-weight: 600; color: var(--ink); letter-spacing: -.01em; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
+  .nav-link-description { font-size: .8125rem; line-height: 1.4; color: var(--ink-muted); }
+  .nav-link .nav-link-description { max-width: 15rem; }
+  .nav-case:hover, .nav-link:hover, .nav-case:focus-visible, .nav-link:focus-visible { background: rgb(var(--accent-rgb) / .06); }
+  :is(.nav-case, .nav-link):is(:hover, :focus-visible, [aria-current='page']) .nav-link-name { color: var(--accent); text-decoration-color: currentColor; }
+
+  .nav-panel-all {
+    display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; margin-top: .5rem;
+    font-size: .875rem; font-weight: 600; color: var(--ink);
+    text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 6px;
+    transition: color .2s, text-decoration-color .2s;
+  }
+  .nav-panel-all:is(:hover, :focus-visible, [aria-current='page']) { color: var(--accent); text-decoration-color: currentColor; }
+
+  .desktop-nav :is(a, button):focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-surface, .nav-panel, .desktop-nav-chevron { transition: none; }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('.desktop-nav');
+  const surface = nav?.querySelector<HTMLElement>('.nav-surface');
+  const quotes = Array.from(nav?.querySelectorAll<HTMLElement>('[data-nav-quote]') ?? []);
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  quotes.forEach((figure) => { figure.hidden = figure !== quote; });
+  if (nav && surface) {
+    const container = nav.offsetParent as HTMLElement | null;
+    const triggers = Array.from(nav.querySelectorAll<HTMLButtonElement>('.desktop-nav-trigger'));
+    const panelFor = (trigger: HTMLButtonElement) => document.getElementById(trigger.getAttribute('aria-controls')!)!;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let active: HTMLButtonElement | null = null;
+    let openTimer = 0;
+    let closeTimer = 0;
+    let openedByHoverAt = 0;
+    nav.dataset.enhanced = '';
+
+    // Align a panel's centre under its trigger, kept inside the container's padding.
+    const place = (trigger: HTMLButtonElement, panel: HTMLElement) => {
+      if (!container) return;
+      const box = container.getBoundingClientRect();
+      const inset = parseFloat(getComputedStyle(container).paddingRight) || 0;
+      const t = trigger.getBoundingClientRect();
+      const width = panel.offsetWidth;
+      const centred = t.left + t.width / 2 - box.left - width / 2;
+      const x = Math.max(inset, Math.min(centred, box.width - inset - width));
+      panel.style.left = `${x}px`;
+      panel.style.right = 'auto';
+      surface.style.setProperty('--surface-x', `${x}px`);
+      surface.style.setProperty('--surface-w', `${width}px`);
+      surface.style.setProperty('--surface-h', `${panel.offsetHeight}px`);
+    };
+
+    const open = (trigger: HTMLButtonElement) => {
+      clearTimeout(closeTimer);
+      if (active === trigger) return;
+      const previous = active;
+      const panel = panelFor(trigger);
+      const direction = previous ? Math.sign(triggers.indexOf(trigger) - triggers.indexOf(previous)) : 0;
+
+      if (!previous) nav.dataset.instant = '';
+      // Start the incoming panel off to the side it is coming from.
+      panel.style.transition = 'none';
+      panel.style.translate = reduceMotion.matches ? '' : `${direction * 24}px 0`;
+      place(trigger, panel);
+      void panel.offsetWidth;
+      panel.style.transition = '';
+      panel.style.translate = '';
+      delete nav.dataset.instant;
+
+      if (previous) {
+        const old = panelFor(previous);
+        old.style.translate = reduceMotion.matches ? '' : `${direction * -24}px 0`;
+        delete old.dataset.active;
+        previous.setAttribute('aria-expanded', 'false');
+      }
+      panel.dataset.active = '';
+      surface.dataset.open = '';
+      trigger.setAttribute('aria-expanded', 'true');
+      active = trigger;
+    };
+
+    const close = (returnFocus = false) => {
+      clearTimeout(openTimer);
+      clearTimeout(closeTimer);
+      if (!active) return;
+      const panel = panelFor(active);
+      delete panel.dataset.active;
+      panel.style.translate = '';
+      delete surface.dataset.open;
+      active.setAttribute('aria-expanded', 'false');
+      if (returnFocus) active.focus();
+      active = null;
+    };
+
+    for (const trigger of triggers) {
+      trigger.addEventListener('click', () => {
+        // A click right after hover-opening confirms the open rather than undoing it.
+        if (active === trigger && performance.now() - openedByHoverAt > 400) close();
+        else open(trigger);
+      });
+      trigger.addEventListener('pointerenter', (event) => {
+        if (event.pointerType !== 'mouse') return;
+        clearTimeout(openTimer);
+        const go = () => { if (active !== trigger) { open(trigger); openedByHoverAt = performance.now(); } };
+        if (active) go();
+        else openTimer = window.setTimeout(go, 90);
+      });
+    }
+
+    nav.addEventListener('pointerenter', () => clearTimeout(closeTimer));
+    nav.addEventListener('pointerleave', (event) => {
+      clearTimeout(openTimer);
+      if (event.pointerType === 'mouse') closeTimer = window.setTimeout(() => close(), 200);
+    });
+    nav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && active) { event.preventDefault(); close(true); }
+    });
+    // Focus reaching another top-level item means the reader has moved on.
+    nav.addEventListener('focusin', (event) => {
+      const target = event.target as HTMLElement;
+      if (active && target.matches('.desktop-nav-top') && target !== active) close();
+    });
+    nav.addEventListener('focusout', (event) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && !nav.contains(next)) close();
+    });
+    document.addEventListener('pointerdown', (event) => {
+      if (active && !nav.contains(event.target as Node)) close();
+    });
+    window.addEventListener('resize', () => close());
+  }
+</script>

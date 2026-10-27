@@ -4,6 +4,8 @@ import Container from '~/components/layout/Container.astro';
 import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
 import { writing } from '~/lib/writing';
 import { hasIllustration } from '~/lib/article-illustrations';
+import GameStage from '~/components/patterns/GameStage.astro';
+import { gameForPost } from '~/lib/games';
 import '~/styles/articles.css';
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 }
 const { slug, title, description, category, date, readMinutes, pathname, headings = [], prevPost, nextPost } = Astro.props;
 const context = writing[slug];
+const game = gameForPost(slug);
 const toc = headings.filter((h) => h.depth === 2 && h.slug !== 'footnote-label');
 const hasToc = toc.length >= 2;
 const words = title.split(' ');
@@ -71,7 +74,7 @@ const neighbours = [
             <div class="article-rail-sticky">
               <nav class="article-desktop-toc" aria-label="On this page">
                 <h2>On this page</h2>
-                <ol>{toc.map((h) => <li><a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a></li>)}</ol>
+                <div class="article-toc-fade scroll-fade" data-scroll-fade><ol>{toc.map((h) => <li><a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a></li>)}</ol></div>
               </nav>
               <details class="article-mobile-toc">
                 <summary>On this page <span aria-hidden="true">+</span></summary>
@@ -83,22 +86,19 @@ const neighbours = [
         )}
         <div class="article-column">
           <article id="article-body" aria-label={title} tabindex="-1" class="prose-whimsy article-prose"><slot /></article>
+          {game && (
+            <section class="article-game" aria-labelledby="article-game-title">
+              <h2 id="article-game-title">Try it: {game.title}</h2>
+              <p>{game.summary}</p>
+              <GameStage game={game} />
+              <a class="editorial-link" href="/play/">More short games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+            </section>
+          )}
           <div class="article-share" aria-label="Share this article" role="group">
             <p>Useful to your team?</p>
             <div><button type="button" class="editorial-link" data-article-copy>Copy article link <span aria-hidden="true" data-link-arrow="up-right">↗</span></button><a class="editorial-link" href={liShare} target="_blank" rel="noopener noreferrer">Share on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
             <p class="article-copy-status" role="status" data-article-copy-status></p>
           </div>
-          <aside class="article-author" aria-labelledby="author-title">
-            <div class="article-author-identity">
-              <img src="/images/about/josh-suit-avatar-96.webp" srcset="/images/about/josh-suit-avatar-96.webp 96w, /images/about/josh-suit-avatar-192.webp 192w" sizes="48px" alt="" width="48" height="48" loading="lazy" decoding="async" />
-              <div>
-                <p class="article-author-label">Written by</p>
-                <h2 id="author-title">Joshua Briley</h2>
-              </div>
-            </div>
-            <p class="article-author-bio">Product design engineer with twenty-plus years building accessible interfaces and shared UI foundations.</p>
-            <a class="editorial-link article-author-link" href="/about/">More about my work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          </aside>
           {neighbours.length > 0 && (
             <nav class="article-pager" aria-label="More writing">
               {neighbours.map((post) => (

@@ -19,8 +19,14 @@ test('article contents and data tables are usable on a narrow phone', async ({ p
   await table.focus();
   await expect(table).toBeFocused();
   expect(await table.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
+  const frame = page.locator('.article-table-frame').first();
+  await expect(frame).toHaveAttribute('data-overflow-right', '');
+  await expect(frame).not.toHaveAttribute('data-overflow-left', '');
   await page.keyboard.press('ArrowRight');
   await expect.poll(() => table.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+  await expect(frame).toHaveAttribute('data-overflow-left', '');
+  await table.evaluate((el) => { el.scrollLeft = el.scrollWidth; });
+  await expect(frame).not.toHaveAttribute('data-overflow-right', '');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 

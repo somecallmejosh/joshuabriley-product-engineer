@@ -1,6 +1,13 @@
 /** Components reached by public pages, excluding style-guide-only examples. */
 export const componentCatalogue = [
   {
+    "name": "DesktopNav",
+    "path": "src/components/chrome/DesktopNav.astro",
+    "group": "chrome",
+    "note": "Desktop primary navigation: Work and About disclosure panels on one shared surface that resizes between them.",
+    "href": "/"
+  },
+  {
     "name": "Footer",
     "path": "src/components/chrome/Footer.astro",
     "group": "chrome",
@@ -71,6 +78,13 @@ export const componentCatalogue = [
     "href": "/contact/"
   },
   {
+    "name": "ContrastGame",
+    "path": "src/components/islands/ContrastGame.astro",
+    "group": "islands",
+    "note": "A ten-round WCAG contrast guessing game built from faded site tokens.",
+    "href": "/404/"
+  },
+  {
     "name": "CopyButton",
     "path": "src/components/islands/CopyButton.astro",
     "group": "islands",
@@ -92,6 +106,34 @@ export const componentCatalogue = [
     "href": "/"
   },
   {
+    "name": "DriftGame",
+    "path": "src/components/islands/DriftGame.astro",
+    "group": "islands",
+    "note": "Compare two copies of a component and pick the properties that drifted.",
+    "href": "/play/spot-the-drift/"
+  },
+  {
+    "name": "JustEnoughGame",
+    "path": "src/components/islands/JustEnoughGame.astro",
+    "group": "islands",
+    "note": "Slide faded text down to the edge of WCAG AA and score how close you land.",
+    "href": "/play/just-enough-contrast/"
+  },
+  {
+    "name": "OutlineGame",
+    "path": "src/components/islands/OutlineGame.astro",
+    "group": "islands",
+    "note": "Raise and lower heading levels with a live outline check.",
+    "href": "/play/fix-the-outline/"
+  },
+  {
+    "name": "QuizGame",
+    "path": "src/components/islands/QuizGame.astro",
+    "group": "islands",
+    "note": "A multiple-choice game with explanations, used by the /play/ games.",
+    "href": "/play/alt-or-not/"
+  },
+  {
     "name": "RoiCalculator",
     "path": "src/components/islands/RoiCalculator.astro",
     "group": "islands",
@@ -104,6 +146,20 @@ export const componentCatalogue = [
     "group": "islands",
     "note": "A design-system self-assessment with local progress and report output.",
     "href": "/tools/scorecard/"
+  },
+  {
+    "name": "SnapGridGame",
+    "path": "src/components/islands/SnapGridGame.astro",
+    "group": "islands",
+    "note": "Nudge pieces onto an 8px grid with buttons, arrow keys or dragging.",
+    "href": "/play/snap-to-grid/"
+  },
+  {
+    "name": "TabOrderGame",
+    "path": "src/components/islands/TabOrderGame.astro",
+    "group": "islands",
+    "note": "Reorder form controls and replay the focus order across the layout.",
+    "href": "/play/tab-order/"
   },
   {
     "name": "TokenPlayground",
@@ -139,6 +195,27 @@ export const componentCatalogue = [
     "group": "patterns",
     "note": "Case-study shortcuts to the summary, interface, and outcomes.",
     "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "DriftSample",
+    "path": "src/components/patterns/DriftSample.astro",
+    "group": "patterns",
+    "note": "A component drawn as designed or with drifted properties, for Spot the drift.",
+    "href": "/play/spot-the-drift/"
+  },
+  {
+    "name": "GameStage",
+    "path": "src/components/patterns/GameStage.astro",
+    "group": "patterns",
+    "note": "Picks the right game island for a game page or a post embed.",
+    "href": "/play/tab-order/"
+  },
+  {
+    "name": "QuizVisual",
+    "path": "src/components/patterns/QuizVisual.astro",
+    "group": "patterns",
+    "note": "The image or interface scene shown above a game question.",
+    "href": "/play/alt-or-not/"
   },
   {
     "name": "CodeBlock",
@@ -237,6 +314,20 @@ export const componentCatalogue = [
     "group": "patterns",
     "note": "An explanatory SVG for each of the four tools.",
     "href": "/tools/"
+  },
+  {
+    "name": "GameIllustration",
+    "path": "src/components/patterns/GameIllustration.astro",
+    "group": "patterns",
+    "note": "A playful explanatory SVG for each /play/ game.",
+    "href": "/play/"
+  },
+  {
+    "name": "ProjectIllustration",
+    "path": "src/components/patterns/ProjectIllustration.astro",
+    "group": "patterns",
+    "note": "An explanatory SVG for each project in WorkList, drawn in the same style as the tool illustrations.",
+    "href": "/projects/"
   },
   {
     "name": "ArticleIllustration",

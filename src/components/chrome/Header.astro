@@ -1,9 +1,8 @@
 ---
 import Container from '~/components/layout/Container.astro';
 import Logo from '~/components/primitives/Logo.astro';
-import Link from '~/components/primitives/Link.astro';
+import DesktopNav from '~/components/chrome/DesktopNav.astro';
 import MobileNav from '~/components/chrome/MobileNav.astro';
-import { PRIMARY_NAV } from '~/lib/nav';
 import { cx } from '~/lib/cx';
 
 interface Props {
@@ -23,12 +22,8 @@ const { class: className } = Astro.props;
     <Logo href="/" size="md" class="shrink-0" />
 
     <div class="hidden md:flex items-center gap-8 shrink-0">
-      <nav class="desktop-nav flex items-center gap-7" aria-label="Primary">
-        {PRIMARY_NAV.filter((l) => l.href !== '/contact/').map((link) => (
-          <Link href={link.href} variant="nav" class="whitespace-nowrap">{link.label}</Link>
-        ))}
-      </nav>
-      <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <DesktopNav />
+      <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me <svg class="hover-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path class="hover-arrow-stem" d="M0 5h7" /><path class="hover-arrow-head" d="M1 1l4 4-4 4" /></svg></a>
     </div>
 
     <MobileNav />

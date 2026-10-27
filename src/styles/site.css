@@ -174,27 +174,6 @@ html {
   border: 0;
 }
 
-/* ── Primary nav — same underline language as .editorial-link and the footer:
-   ink on hover/current, a 1px underline that fades in. ─────────────────────── */
-header .desktop-nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 6px;
-  transition: color 0.2s, text-decoration-color 0.2s;
-}
-header .desktop-nav a:hover {
-  color: var(--ink);
-  text-decoration-color: var(--line-strong);
-}
-header .desktop-nav a[aria-current='page'] {
-  color: var(--ink);
-  text-decoration-color: var(--accent);
-}
-
 /* ─── Shared scorecard styles ─────────────────────────────────────────────── */
 
 @keyframes stamp-in {
@@ -321,8 +300,8 @@ header .desktop-nav a[aria-current='page'] {
    LONGFORM ARTICLE TYPOGRAPHY (.prose-whimsy) — Editorial-Technical.
    No Tailwind Typography plugin here; this is the complete reading hierarchy
    for blog-post bodies. Structural rules are wrapped in :where() (zero
-   specificity) and excluded from `.not-prose` subtrees, so the posts' custom
-   utility-styled components (e.g. .cost-card grids) keep their own styling.
+   specificity) and excluded from `.not-prose` subtrees, so embedded
+   components (ResourceList, games) keep their own styling.
    ───────────────────────────────────────────────────────────────────────── */
 .prose-whimsy {
   color: var(--ink);
@@ -457,6 +436,25 @@ header .desktop-nav a[aria-current='page'] {
   margin: 0.5em 0;
 }
 
+/* Definition lists — a bold term over its description, separated by space. */
+.prose-whimsy :where(dl):not(:where(.not-prose, .not-prose *)) {
+  margin: 1.6em 0;
+}
+.prose-whimsy :where(dt):not(:where(.not-prose, .not-prose *)) {
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.prose-whimsy :where(dd):not(:where(.not-prose, .not-prose *)) {
+  margin: 0.3em 0 0;
+}
+.prose-whimsy :where(dd + dt):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 1.3em;
+}
+.prose-whimsy :where(dt code):not(:where(.not-prose, .not-prose *)) {
+  font-weight: 500;
+}
+
 /* Blockquote — an accent rule pulls it out of the column. */
 .prose-whimsy :where(blockquote):not(:where(.not-prose, .not-prose *)) {
   margin: 2em 0;
@@ -530,33 +528,14 @@ header .desktop-nav a[aria-current='page'] {
   margin: 1.6em 0;
 }
 
-/* In-post card grid (.cost-card / .icon-wrap) — neutralize the inline
-   scrapbook (rotation + bright fill) into clean hairline cards. */
-.cost-card {
-  /* Paper, not white: matches the site's hairline de-card pattern so cards
-     don't pop off the warm-paper page. */
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 1.4rem 1.4rem 1.5rem;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-
-/* Blog markdown tables — clean editorial data table (hairline rules, mono head). */
+/* Blog markdown tables — hairline rules only, no box around the table. */
 .prose-whimsy table {
   width: 100%;
   border-collapse: collapse;
   margin: 2.5rem 0;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #2e2e30;
-  background: #fff;
-  border: 1px solid rgba(45, 43, 85, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 12px 32px -26px rgba(45, 43, 85, 0.22);
+  color: var(--ink);
 }
 .prose-whimsy table code {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
@@ -628,341 +607,6 @@ header .desktop-nav a[aria-current='page'] {
   .prose-whimsy table td:first-child {
     font-size: 1.02rem;
     padding-top: 0.5rem !important;
-  }
-}
-
-/* =====================================================================
-   LONGFORM ARTICLE BLOCKS (.essay-*)
-   Structured devices for essays that outgrow paragraphs and bullets. Each
-   one exists to replace a specific failure mode of plain markdown: a
-   comparison written as two adjacent lists, a flat list of sixteen nouns,
-   an architecture drawn in ASCII inside a ```text fence.
-
-   Hairlines and tokens only — no fills, no shadows, no raised cards — so a
-   block reads as structure the prose grew into rather than a widget dropped
-   on top of it. Because they use var(--accent) rather than a literal hex,
-   they follow the surface-aware accent like everything else.
-
-   USAGE: wrap in `.not-prose` inside MDX. That opts the subtree out of
-   .prose-whimsy's paragraph and list rhythm (see the :not(:where(.not-prose,
-   .not-prose *)) guards above), which is why every inner element is
-   re-typed here rather than inherited.
-   ===================================================================== */
-.essay-split,
-.essay-stack,
-.essay-rail,
-.essay-chips,
-.essay-panels,
-.essay-defs {
-  margin: 2.5rem 0;
-}
-
-/* Shared inner typography. One declaration so a paragraph reads identically
-   whichever block it lands in. */
-.essay-split :where(p, li),
-.essay-panels :where(p, li),
-.essay-defs :where(p, li),
-.essay-rail :where(p, li),
-.essay-stack :where(p) {
-  margin: 0;
-  font-size: 0.96rem;
-  line-height: 1.62;
-  color: var(--ink-muted);
-}
-.essay-split :where(p + p, ul, p + ul),
-.essay-panels :where(p + p),
-.essay-defs :where(p + p),
-.essay-rail :where(p + p) {
-  margin-top: 0.65rem;
-}
-.essay-split :where(strong),
-.essay-panels :where(strong),
-.essay-defs :where(strong),
-.essay-rail :where(strong) {
-  color: var(--ink);
-  font-weight: 600;
-}
-.essay-split :where(code),
-.essay-panels :where(code),
-.essay-defs :where(code),
-.essay-rail :where(code),
-.essay-stack :where(code) {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.86em;
-  padding: 0.12em 0.4em;
-  border-radius: 4px;
-  background: rgba(27, 26, 23, 0.06);
-  color: var(--ink);
-}
-
-/* Square-bullet lists, matching the prose signature. */
-.essay-split :where(ul),
-.essay-panels :where(ul),
-.essay-rail :where(ul) {
-  list-style: none;
-  margin: 0.65rem 0 0;
-  padding: 0;
-}
-.essay-split :where(li),
-.essay-panels :where(li),
-.essay-rail :where(li) {
-  position: relative;
-  padding-left: 1.05rem;
-  margin-top: 0.5rem;
-}
-.essay-split :where(li)::before,
-.essay-panels :where(li)::before,
-.essay-rail :where(li)::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 5px;
-  height: 5px;
-  border-radius: 1px;
-  background: var(--accent);
-}
-
-/* Column / panel label. This is a data label naming the column beneath it,
-   not a decorative section eyebrow. */
-.essay-label {
-  display: block;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: var(--ink-muted);
-  margin: 0 0 0.7rem;
-}
-.essay-label--accent {
-  color: var(--accent);
-}
-
-/* ── Split compare ──────────────────────────────────────────────────────
-   Two columns divided by a hairline. For genuine oppositions only (the
-   senior response vs the staff response, an attribute vs a property), never
-   as a general two-up layout. The rule rotates from vertical to horizontal
-   on the stacked mobile layout so the division survives the collapse. */
-.essay-split {
-  display: grid;
-}
-.essay-split > * {
-  padding: 1.5rem 0;
-}
-.essay-split > * + * {
-  border-top: 1px solid var(--line);
-}
-@media (min-width: 44rem) {
-  .essay-split {
-    grid-template-columns: 1fr 1fr;
-  }
-  .essay-split > * {
-    padding: 1.6rem 2.25rem 1.7rem 0;
-  }
-  .essay-split > * + * {
-    border-top: 0;
-    border-left: 1px solid var(--line);
-    padding: 1.6rem 0 1.7rem 2.25rem;
-  }
-}
-
-/* ── Layer stack ────────────────────────────────────────────────────────
-   An ordered set of layers where the ordering is the point (the browser
-   platform beneath a framework, the scope ladder above a component). The
-   accent rail on the left is the depth axis; each row earns a one-line note
-   saying what that layer is actually responsible for, which is the part the
-   ASCII drawings never carried. */
-.essay-stack {
-  border-left: 2px solid var(--accent);
-}
-.essay-stack__row {
-  display: grid;
-  gap: 0.15rem 1.25rem;
-  padding: 0.75rem 0 0.8rem 1.25rem;
-  border-bottom: 1px solid var(--line);
-}
-.essay-stack__row:last-child {
-  border-bottom: 0;
-  padding-bottom: 0.2rem;
-}
-.essay-stack__name {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--ink);
-  letter-spacing: -0.01em;
-}
-@media (min-width: 40rem) {
-  .essay-stack__row {
-    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
-    align-items: baseline;
-  }
-}
-
-/* ── Rail ───────────────────────────────────────────────────────────────
-   A vertical spine with marked nodes. Two skins off one structure: bare
-   nodes for a pipeline (design decision through to shipped product), and
-   `--numbered` for a process whose step order is normative (a migration
-   sequence, a breaking-change process). Replaces both the ASCII pipelines
-   and the long <ol>s, which at nine or eleven items stopped being readable
-   as a sequence. */
-.essay-rail {
-  position: relative;
-  padding-left: 1.6rem;
-}
-.essay-rail::before {
-  content: '';
-  position: absolute;
-  left: 3px;
-  top: 0.55rem;
-  bottom: 0.55rem;
-  width: 1px;
-  background: var(--line-strong);
-}
-.essay-rail__step {
-  position: relative;
-  padding: 0 0 1.15rem;
-}
-.essay-rail__step:last-child {
-  padding-bottom: 0;
-}
-.essay-rail__step::before {
-  content: '';
-  position: absolute;
-  left: -1.6rem;
-  top: 0.5em;
-  width: 7px;
-  height: 7px;
-  border-radius: 1px;
-  background: var(--accent);
-}
-.essay-rail__name {
-  display: block;
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.35;
-  color: var(--ink);
-  margin-bottom: 0.25rem;
-}
-.essay-rail--numbered {
-  padding-left: 2.6rem;
-  counter-reset: essay-step;
-}
-.essay-rail--numbered::before {
-  left: 0.85rem;
-}
-.essay-rail--numbered .essay-rail__step::before {
-  counter-increment: essay-step;
-  content: counter(essay-step, decimal-leading-zero);
-  left: -2.6rem;
-  top: 0.1em;
-  width: 1.7rem;
-  height: auto;
-  background: none;
-  border-radius: 0;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--accent);
-  text-align: left;
-  /* Sit the numeral on the page, not on the spine. */
-  padding-top: 0.35em;
-}
-
-/* ── Chips ──────────────────────────────────────────────────────────────
-   A flat set with no internal hierarchy and no useful ordering: the surface
-   of a component contract, the fields of a migration inventory, the titles
-   worth searching. As a <ul> these read as a checklist the reader has to
-   work through; as chips they read as one object with many faces, which is
-   what they are. */
-.essay-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  list-style: none;
-  padding: 0;
-}
-.essay-chips > li {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.76rem;
-  line-height: 1.3;
-  color: var(--ink);
-  background: var(--raised);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 0.42rem 0.7rem;
-  margin: 0;
-}
-.essay-chips > li::before {
-  display: none;
-}
-
-/* ── Panels ─────────────────────────────────────────────────────────────
-   Hairline panels on paper, not raised white cards — the site's de-card
-   pattern. For a small set of peers that each need a couple of sentences
-   (the three lenses on system health, the self-check groups). */
-.essay-panels {
-  display: grid;
-  gap: 1rem;
-}
-@media (min-width: 40rem) {
-  .essay-panels {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  /* Three-up is deliberately absent: the reading column is capped at 42rem, so
-     a third column lands near 180px and a six-word bullet wraps four times. A
-     set of three panels stays stacked and full width instead. */
-  .essay-panels--stack {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-.essay-panel {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 1.3rem 1.35rem 1.4rem;
-}
-.essay-panel__title {
-  font-size: 1.02rem;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--ink);
-  margin: 0 0 0.5rem;
-}
-
-/* ── Definition rows ────────────────────────────────────────────────────
-   A term, the question it answers, and the distinction that matters. Three
-   h4s and three blockquotes doing this job read as three unrelated asides;
-   as rows they read as one comparison. */
-.essay-defs {
-  border-top: 1px solid var(--line);
-}
-.essay-defs__row {
-  display: grid;
-  gap: 0.4rem 2rem;
-  padding: 1.15rem 0 1.25rem;
-  border-bottom: 1px solid var(--line);
-}
-.essay-defs__term {
-  font-weight: 600;
-  font-size: 1.02rem;
-  line-height: 1.3;
-  color: var(--ink);
-}
-.essay-defs__q {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.74rem;
-  line-height: 1.5;
-  color: var(--accent);
-  margin-top: 0.3rem;
-}
-@media (min-width: 44rem) {
-  .essay-defs__row {
-    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
-  }
-  .essay-defs__q {
-    margin-top: 0.45rem;
   }
 }
 
@@ -1126,6 +770,38 @@ header .desktop-nav a[aria-current='page'] {
   }
 }
 
+/* ── Page transitions — native cross-document view transitions, no JS router.
+   The outgoing page fades quickly, the incoming one settles in, and the header
+   holds still so the frame feels constant. Motion stays a cross-fade because
+   .hero-in already supplies the rise. Unsupported browsers navigate normally. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+.site-header {
+  view-transition-name: site-header;
+}
+::view-transition-group(site-header) {
+  animation: none;
+}
+::view-transition-old(root) {
+  animation: page-out 0.16s ease-in both;
+}
+::view-transition-new(root) {
+  animation: page-in 0.32s var(--ease-out) both;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+
 p,
 li,
 td,
@@ -1143,4 +819,58 @@ h4,
 h5,
 h6 {
   text-wrap: pretty;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SCROLL FADES (.scroll-fade)
+   Wrap any scroll container in `.scroll-fade[data-scroll-fade]` (the scroller
+   must be its first child). src/scripts/scroll-fade.ts marks each edge with
+   more content past it, and that edge fades into --scroll-fade-color. Set
+   the color to the scroller's own background and, if it is rounded,
+   --scroll-fade-radius to match.
+   ───────────────────────────────────────────────────────────────────────── */
+@property --scroll-fade-top { syntax: '<color>'; inherits: false; initial-value: transparent; }
+@property --scroll-fade-right { syntax: '<color>'; inherits: false; initial-value: transparent; }
+@property --scroll-fade-bottom { syntax: '<color>'; inherits: false; initial-value: transparent; }
+@property --scroll-fade-left { syntax: '<color>'; inherits: false; initial-value: transparent; }
+.scroll-fade {
+  --scroll-fade-color: var(--paper);
+  --scroll-fade-size: 3rem;
+  position: relative;
+}
+.scroll-fade::before,
+.scroll-fade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: var(--scroll-fade-radius, 0);
+  transition:
+    --scroll-fade-top 200ms var(--ease-out),
+    --scroll-fade-right 200ms var(--ease-out),
+    --scroll-fade-bottom 200ms var(--ease-out),
+    --scroll-fade-left 200ms var(--ease-out);
+}
+.scroll-fade::before {
+  background:
+    linear-gradient(to right, var(--scroll-fade-left), transparent) left / var(--scroll-fade-size) 100% no-repeat,
+    linear-gradient(to bottom, var(--scroll-fade-top), transparent) top / 100% var(--scroll-fade-size) no-repeat;
+}
+.scroll-fade::after {
+  background:
+    linear-gradient(to left, var(--scroll-fade-right), transparent) right / var(--scroll-fade-size) 100% no-repeat,
+    linear-gradient(to top, var(--scroll-fade-bottom), transparent) bottom / 100% var(--scroll-fade-size) no-repeat;
+}
+.scroll-fade[data-overflow-left]::before { --scroll-fade-left: var(--scroll-fade-color); }
+.scroll-fade[data-overflow-top]::before { --scroll-fade-top: var(--scroll-fade-color); }
+.scroll-fade[data-overflow-right]::after { --scroll-fade-right: var(--scroll-fade-color); }
+.scroll-fade[data-overflow-bottom]::after { --scroll-fade-bottom: var(--scroll-fade-color); }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-fade::before,
+  .scroll-fade::after { transition: none; }
+}
+@media print {
+  .scroll-fade::before,
+  .scroll-fade::after { display: none; }
 }

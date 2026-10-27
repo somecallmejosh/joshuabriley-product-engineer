@@ -1,0 +1,408 @@
+---
+/**
+ * "Snap to grid": nudge three interface pieces back onto an 8px grid.
+ * Content and math: ~/lib/games/snap-grid.
+ *
+ * - progressive: ships `hidden`; appears once the script runs
+ * - keyboard and screen readers: a radio group picks the piece; Left/Right/Up/Down
+ *   buttons nudge it 1px. Arrow keys (Shift for 8px) and dragging are shortcuts.
+ *   Each piece's offset is spoken after every nudge and listed in plain text.
+ * - reduced motion: the snap pulse is skipped
+ */
+import '~/styles/games.css';
+import Icon from '~/components/primitives/Icon.astro';
+import { GRID, gridPieces } from '~/lib/games/snap-grid';
+---
+
+<section class="game-panel sg" data-snap-grid data-grid={GRID} aria-label="Game" hidden>
+  <div class="game-meta" aria-hidden="true">
+    <span data-sg-snapped></span>
+    <span data-sg-nudges></span>
+  </div>
+
+  <p class="game-prompt">
+    Three pieces have drifted off the {GRID}px grid. Pick a piece and nudge it until it lands on a grid line in both
+    directions.
+  </p>
+
+  <div class="sg-canvas" data-sg-canvas aria-hidden="true">
+    {gridPieces.map((p) => (
+      <div class={`sg-piece sg-piece--${p.kind}`} data-piece={p.id} data-label={p.label} data-x={p.x} data-y={p.y}>
+        {p.kind === 'card' ? (
+          <>
+            <strong>{p.label}</strong>
+            <span>Supporting text</span>
+          </>
+        ) : (
+          <span>{p.label}</span>
+        )}
+        <span class="sg-check"><Icon name="ph:check-bold" size={12} /></span>
+      </div>
+    ))}
+  </div>
+
+  <div class="sg-controls">
+    <fieldset class="sg-pick">
+      <legend>Piece to move</legend>
+      {gridPieces.map((p, i) => (
+        <label class="sg-option">
+          <input type="radio" name="sg-piece" value={p.id} checked={i === 0} />
+          <span>{p.label}: <span data-status={p.id}></span></span>
+        </label>
+      ))}
+    </fieldset>
+
+    <div class="sg-pad" role="group" aria-label="Nudge the selected piece by 1 pixel">
+      <button type="button" class="game-button sg-dir sg-up" data-dx="0" data-dy="-1">Up</button>
+      <button type="button" class="game-button sg-dir sg-left" data-dx="-1" data-dy="0">Left</button>
+      <button type="button" class="game-button sg-dir sg-right" data-dx="1" data-dy="0">Right</button>
+      <button type="button" class="game-button sg-dir sg-down" data-dx="0" data-dy="1">Down</button>
+    </div>
+  </div>
+  <p class="sg-hint">Shortcut: with a nudge button focused, use the arrow keys. Hold Shift to move a full grid step. You can also drag the pieces.</p>
+
+  <div data-sg-done hidden>
+    <p class="game-verdict game-focus-target" data-sg-summary tabindex="-1"></p>
+    <p class="game-explain">
+      A shared spacing scale is what makes separate screens feel like one product. When every gap is a multiple of the
+      same unit, things line up without anyone measuring.
+    </p>
+    <p class="game-explain" data-sg-best></p>
+    <div class="game-end-actions">
+      <button type="button" class="game-button game-button--primary" data-sg-restart>Scramble them again</button>
+      <a href="/play/" class="editorial-link">More games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-sg-live></p>
+</section>
+
+<style>
+  .sg-canvas {
+    position: relative;
+    height: 15rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background-color: var(--paper);
+    /* One dot per 8px, offset so dots sit on the grid lines the pieces snap to. */
+    background-image: radial-gradient(circle, var(--line-strong) 1px, transparent 1.2px);
+    background-size: 8px 8px;
+    background-position: -4px -4px;
+    touch-action: none;
+  }
+  .sg-piece {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px dashed var(--line-strong);
+    background: var(--raised);
+    color: var(--ink);
+    cursor: grab;
+    user-select: none;
+    outline: 3px solid transparent;
+    outline-offset: 2px;
+  }
+  .sg-piece[data-selected] {
+    outline-color: var(--accent);
+  }
+  .sg-piece[data-dragging] {
+    cursor: grabbing;
+  }
+  .sg-piece--label {
+    height: 32px;
+    padding: 0 0.6rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .sg-piece--card {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 160px;
+    height: 80px;
+    padding: 0 0.85rem;
+    gap: 0.15rem;
+    font-size: 0.85rem;
+  }
+  .sg-piece--card span:not(.sg-check) {
+    color: var(--ink-muted);
+  }
+  .sg-piece--button {
+    height: 40px;
+    padding: 0 1rem;
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .sg-piece[data-snapped] {
+    border-style: solid;
+    border-color: var(--accent);
+  }
+  .sg-check {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    display: none;
+    place-items: center;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .sg-piece--button .sg-check {
+    background: var(--ink);
+  }
+  .sg-piece[data-snapped] .sg-check {
+    display: grid;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sg-piece[data-pulse] {
+      animation: sg-pulse 320ms var(--ease-out);
+    }
+  }
+  @keyframes sg-pulse {
+    50% {
+      scale: 1.06;
+    }
+  }
+
+  .sg-controls {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .sg-controls {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+  }
+  .sg-pick {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .sg-pick legend {
+    margin-bottom: 0.35rem;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .sg-option {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 32px;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .sg-option input {
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--accent);
+  }
+  .sg-option [data-status] {
+    color: var(--ink-muted);
+  }
+  .sg-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 4.25rem);
+    grid-template-areas: '. up .' 'left . right' '. down .';
+    gap: 0.35rem;
+  }
+  .sg-up {
+    grid-area: up;
+  }
+  .sg-left {
+    grid-area: left;
+  }
+  .sg-right {
+    grid-area: right;
+  }
+  .sg-down {
+    grid-area: down;
+  }
+  .sg-dir {
+    padding: 0.4rem 0;
+    font-size: 0.83rem;
+  }
+  .sg-hint {
+    margin-top: 0.85rem;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+</style>
+
+<script>
+  import { clamp, describeOffset, isSnapped } from '~/lib/games/snap-grid';
+  import { saveBest } from '~/lib/game-best';
+
+  document.querySelectorAll<HTMLElement>('[data-snap-grid]').forEach(init);
+
+  function init(root: HTMLElement) {
+    const grid = Number(root.dataset.grid);
+    const canvas = root.querySelector<HTMLElement>('[data-sg-canvas]')!;
+    const live = root.querySelector<HTMLElement>('[data-sg-live]')!;
+    const done = root.querySelector<HTMLElement>('[data-sg-done]')!;
+    const pieces = [...root.querySelectorAll<HTMLElement>('[data-piece]')];
+    const radios = [...root.querySelectorAll<HTMLInputElement>('input[name="sg-piece"]')];
+    const startPositions = pieces.map((p) => ({ x: Number(p.dataset.x), y: Number(p.dataset.y) }));
+    const pos = new Map<string, { x: number; y: number }>();
+    let nudges = 0;
+    let finished = false;
+
+    const selected = () => radios.find((r) => r.checked)!.value;
+    const pieceEl = (id: string) => pieces.find((p) => p.dataset.piece === id)!;
+    const labelOf = (id: string) => pieceEl(id).dataset.label!;
+
+    function place(id: string) {
+      const el = pieceEl(id);
+      const { x, y } = pos.get(id)!;
+      el.style.transform = `translate(${x}px, ${y}px)`;
+      const snapped = isSnapped({ x, y }, grid);
+      el.toggleAttribute('data-snapped', snapped);
+      root.querySelector(`[data-status="${id}"]`)!.textContent = describeOffset({ x, y }, grid);
+    }
+
+    function paintMeta() {
+      const count = pieces.filter((p) => p.hasAttribute('data-snapped')).length;
+      root.querySelector('[data-sg-snapped]')!.textContent = `${count} of ${pieces.length} on the grid`;
+      root.querySelector('[data-sg-nudges]')!.textContent = `${nudges} nudge${nudges === 1 ? '' : 's'}`;
+      return count;
+    }
+
+    function select(id: string) {
+      radios.forEach((r) => (r.checked = r.value === id));
+      pieces.forEach((p) => p.toggleAttribute('data-selected', p.dataset.piece === id));
+    }
+
+    /** `count`/`announce` are off while dragging; the drag counts once, on release. */
+    function nudge(id: string, dx: number, dy: number, count = true, announce = true) {
+      if (finished) return;
+      const el = pieceEl(id);
+      const current = pos.get(id)!;
+      const maxX = canvas.clientWidth - el.offsetWidth;
+      const maxY = canvas.clientHeight - el.offsetHeight;
+      const next = { x: clamp(current.x + dx, 0, maxX), y: clamp(current.y + dy, 0, maxY) };
+      if (next.x === current.x && next.y === current.y) return;
+      const wasSnapped = el.hasAttribute('data-snapped');
+      pos.set(id, next);
+      if (count) nudges++;
+      place(id);
+      const snappedNow = el.hasAttribute('data-snapped');
+      if (snappedNow && !wasSnapped) {
+        el.removeAttribute('data-pulse');
+        void el.offsetWidth;
+        el.setAttribute('data-pulse', '');
+      }
+      if (announce) live.textContent = snappedNow ? `${labelOf(id)} is on the grid.` : `${labelOf(id)}: ${describeOffset(next, grid)}.`;
+      if (paintMeta() === pieces.length) finish();
+    }
+
+    function finish() {
+      finished = true;
+      const best = saveBest('snap-grid', nudges, false);
+      const summary = root.querySelector<HTMLElement>('[data-sg-summary]')!;
+      summary.textContent = `All three pieces are on the grid. That took ${nudges} nudges.`;
+      root.querySelector('[data-sg-best]')!.textContent =
+        best < nudges ? `Your best is ${best} nudges.` : 'That is your best so far.';
+      root.querySelectorAll<HTMLButtonElement>('.sg-dir').forEach((b) => (b.disabled = true));
+      done.hidden = false;
+      live.textContent = summary.textContent;
+      summary.focus();
+    }
+
+    function reset(scramble: boolean) {
+      finished = false;
+      nudges = 0;
+      pieces.forEach((p, i) => {
+        const start = startPositions[i];
+        // Re-scramble to a fresh off-grid spot near the authored one (offsets 1-7px).
+        const jitter = () => 1 + Math.floor(Math.random() * (grid - 1));
+        const x = scramble ? Math.floor(start.x / grid) * grid + jitter() : start.x;
+        const y = scramble ? Math.floor(start.y / grid) * grid + jitter() : start.y;
+        pos.set(p.dataset.piece!, { x, y });
+        place(p.dataset.piece!);
+      });
+      root.querySelectorAll<HTMLButtonElement>('.sg-dir').forEach((b) => (b.disabled = false));
+      done.hidden = true;
+      paintMeta();
+      select(pieces[0].dataset.piece!);
+    }
+
+    radios.forEach((r) => r.addEventListener('change', () => select(r.value)));
+    root.querySelectorAll<HTMLButtonElement>('.sg-dir').forEach((b) =>
+      b.addEventListener('click', () => nudge(selected(), Number(b.dataset.dx), Number(b.dataset.dy))),
+    );
+
+    const arrows: Record<string, [number, number]> = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    };
+    root.querySelector('.sg-pad')!.addEventListener('keydown', (event) => {
+      const e = event as KeyboardEvent;
+      const step = arrows[e.key];
+      if (!step) return;
+      e.preventDefault();
+      const size = e.shiftKey ? grid : 1;
+      nudge(selected(), step[0] * size, step[1] * size);
+    });
+
+    // Pointer dragging: a shortcut for mouse and touch, in whole pixels.
+    pieces.forEach((el) => {
+      el.addEventListener('pointerdown', (e) => {
+        if (finished) return;
+        const id = el.dataset.piece!;
+        select(id);
+        el.setPointerCapture(e.pointerId);
+        el.setAttribute('data-dragging', '');
+        let lastX = e.clientX;
+        let lastY = e.clientY;
+        let moved = false;
+        const onMove = (m: PointerEvent) => {
+          const dx = Math.round(m.clientX - lastX);
+          const dy = Math.round(m.clientY - lastY);
+          if (!dx && !dy) return;
+          lastX += dx;
+          lastY += dy;
+          moved = true;
+          nudge(id, dx, dy, false, false);
+        };
+        const onUp = () => {
+          el.removeAttribute('data-dragging');
+          if (moved && !finished) {
+            nudges++;
+            paintMeta();
+            const p = pos.get(id)!;
+            live.textContent = isSnapped(p, grid) ? `${labelOf(id)} is on the grid.` : `${labelOf(id)}: ${describeOffset(p, grid)}.`;
+          }
+          el.removeEventListener('pointermove', onMove);
+          el.removeEventListener('pointerup', onUp);
+          el.removeEventListener('pointercancel', onUp);
+        };
+        el.addEventListener('pointermove', onMove);
+        el.addEventListener('pointerup', onUp);
+        el.addEventListener('pointercancel', onUp);
+      });
+    });
+
+    root.querySelector('[data-sg-restart]')!.addEventListener('click', () => {
+      reset(true);
+      root.querySelector<HTMLInputElement>('input[name="sg-piece"]:checked')!.focus();
+    });
+
+    root.hidden = false;
+    reset(false);
+  }
+</script>

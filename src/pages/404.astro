@@ -2,9 +2,7 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Icon from '~/components/primitives/Icon.astro';
+import ContrastGame from '~/components/islands/ContrastGame.astro';
 
 const description =
   "The page you're looking for wandered off. Let's get you back on track.";
@@ -17,86 +15,101 @@ const detours = [
 ---
 
 <BaseLayout title="Page not found | Joshua Briley" description={description} noindex>
-  <Section tone="paper" padding="loose">
+  <Section tone="paper" padding="tight">
     <Container width="wide">
-      <div class="relative">
-        <span class="notfound-mark" aria-hidden="true">404</span>
+      <div class="notfound-layout">
+        <div class="notfound-copy">
+          <figure class="notfound-mark" aria-hidden="true">
+            <svg viewBox="0 0 330 124" role="presentation">
+              <text x="-3" y="114">404</text>
+            </svg>
+            <figcaption>This 404 fails contrast on purpose.</figcaption>
+          </figure>
 
-        <div class="relative">
-          <p class="mono-label">404 / Not found</p>
+          <h1 class="hero-type notfound-title">This page took an <em>unplanned detour.</em></h1>
 
-          <Heading level={1} visual="display-xl" class="mt-7 max-w-[18ch]">
-            This page took an unplanned detour.
-          </Heading>
-
-          <Text size="lg" tone="muted" class="mt-7 max-w-xl">
+          <p class="hero-lede">
             Maybe it was renamed, maybe it's a typo, or maybe it drifted out of the system and nobody
             wrote it down. Either way, here are a few good places to land.
-          </Text>
+          </p>
 
-          <pre class="notfound-diff" aria-hidden="true"><span class="del">- removed   the page you wanted</span><span class="add">+ added     three worth landing on</span></pre>
+          <ul class="notfound-links">
+            {detours.map((d) => (
+              <li>
+                <a href={d.href} class="editorial-link">{d.label} <span aria-hidden="true" data-link-arrow="right">→</span></a>
+              </li>
+            ))}
+          </ul>
+
+          <p class="notfound-report">
+            Broken link? <a href="/contact/" class="editorial-link">Let me know <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          </p>
         </div>
+
+        <ContrastGame />
       </div>
-
-      <ul class="relative mt-12 max-w-xl">
-        {detours.map((d) => (
-          <li>
-            <a href={d.href} class="group flex items-center justify-between gap-4 py-5">
-              <span class="font-display text-lg font-medium tracking-tight text-ink transition-colors group-hover:text-accent">{d.label}</span>
-              <Icon name="ph:arrow-right" size={18} class="text-ink-muted transition-colors group-hover:text-accent" />
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <p class="mt-10 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">
-        Broken link?
-        <a href="/contact/" class="text-ink underline decoration-line-strong decoration-1 underline-offset-[3px] transition-colors hover:text-accent hover:decoration-accent">Let me know</a>.
-      </p>
     </Container>
   </Section>
 </BaseLayout>
 
 <style>
-  /* Oversized italic "404" — a quiet outline watermark, the same editorial tell
-     as the project-hero chapter numerals. Sits behind the heading block. */
-  .notfound-mark {
-    position: absolute;
-    top: -2.5rem;
-    right: -0.5rem;
-    z-index: 0;
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-weight: 500;
-    font-style: italic;
-    line-height: 0.8;
-    font-size: clamp(7rem, 26vw, 18rem);
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(27, 26, 23, 0.08);
-    pointer-events: none;
-    user-select: none;
+  .notfound-layout {
+    display: grid;
+    gap: var(--space-block);
   }
-  @media (min-width: 768px) {
-    .notfound-mark {
-      top: -3.5rem;
-      right: 2rem;
+  @media (min-width: 1024px) {
+    .notfound-layout {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 5rem;
     }
   }
 
-  /* A git-diff aside in the design-systems voice. Mono, hairline-framed. */
-  .notfound-diff {
-    margin-top: 2.25rem;
-    display: inline-flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 0.85rem 1.1rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--raised);
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.72rem;
-    line-height: 1.5;
-    white-space: pre;
+  /* The numeral is decoration in the hero's own face, drawn in a pale token. It
+     really does fail contrast, and the caption owns up to it as a nod to the game. */
+  .notfound-mark {
+    max-width: 17rem;
+    margin: 0 0 1.5rem;
   }
-  .notfound-diff .del { color: var(--ink-muted); }
-  .notfound-diff .add { color: var(--accent); }
+  .notfound-mark svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .notfound-mark text {
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-size: 150px;
+    font-weight: 800;
+    letter-spacing: -0.065em;
+    fill: var(--line-strong);
+  }
+  .notfound-mark figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+
+  .notfound-title {
+    max-width: 13ch;
+    font-size: clamp(2.8rem, 2rem + 3.2vw, 4.9rem);
+    line-height: 1.02;
+  }
+
+  .notfound-links {
+    display: grid;
+    justify-items: start;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+  }
+  .notfound-links .editorial-link {
+    font-size: 1.15rem;
+  }
+
+  .notfound-report {
+    margin-top: 2.5rem;
+    font-size: 0.93rem;
+    color: var(--ink-muted);
+  }
 </style>

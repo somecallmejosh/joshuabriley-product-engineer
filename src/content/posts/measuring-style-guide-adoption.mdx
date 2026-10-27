@@ -112,11 +112,11 @@ Ship it as a report-only tool first. Don't fail builds on adoption thresholds. M
 
 Start with a few repositories whose maintainers can check the results. Once the parsers and counting rules are reliable, a central scan could collect reports without requiring every team to install a workflow. The following is a rollout sketch; the scanner package and organization-scan script would need to be implemented first.
 
-1. Publish `@rudi/check` to your registry.
-2. Create a `rudiment-metrics` repository to hold reports and the dashboard.
-3. Add a scheduled workflow (weekly is enough) that lists organization repositories through the GitHub API, shallow-clones each, runs `rudi check --report`, and commits the output to `data/<repo>/<date>.json`.
-4. Build the dashboard as a static page that reads the JSON history. Astro fits, and it can live in the Field Guide, next to the docs that improve it.
-5. Later, offer an opt-in reusable workflow so teams can surface their own report as a PR comment.
+- Publish `@rudi/check` to your registry.
+- Create a `rudiment-metrics` repository to hold reports and the dashboard.
+- Add a scheduled workflow (weekly is enough) that lists organization repositories through the GitHub API, shallow-clones each, runs `rudi check --report`, and commits the output to `data/<repo>/<date>.json`.
+- Build the dashboard as a static page that reads the JSON history. Astro fits, and it can live in the Field Guide, next to the docs that improve it.
+- Later, offer an opt-in reusable workflow so teams can surface their own report as a PR comment.
 
 Minimal workflow sketch:
 

@@ -1,6 +1,10 @@
+import type { IllustratedProject } from '~/lib/project-illustrations';
+
 export interface ProjectPage {
   name: string;
   kind: string;
+  /** ProjectIllustration drawing shown in the page hero and the work lists. */
+  illustration: IllustratedProject;
   headline: string;
   emphasis: string;
   intro: string;
@@ -18,6 +22,7 @@ export interface ProjectPage {
 
 export const projectPages = {
   ivfcryo: {
+    illustration: 'ivfcryo',
     name: 'IVFCRYO', kind: 'Client work · Fertility logistics',
     headline: 'Five parties working from', emphasis: 'one shipment record.',
     intro: 'Shipping fertility specimens means coordinating a patient, two clinics, a courier, and IVFCRYO. I designed and built the shared interface that helps everyone confirm readiness before a shipment moves.',
@@ -38,6 +43,7 @@ export const projectPages = {
     next: { name: 'Logatot', href: '/projects/logatot/', description: 'Voice input, repair flows, and reusable UI for home child care.' },
   },
   logatot: {
+    illustration: 'logatot',
     name: 'Logatot', kind: 'Product work · Home child care',
     headline: 'Helping child care providers', emphasis: 'log their day by voice.',
     intro: 'Providers can record meals, naps, and attendance while caring for children. I led front-end work on a three-developer team, connecting voice interactions, recoverable errors, and shared components in a paid product.',
@@ -56,6 +62,7 @@ export const projectPages = {
     next: { name: 'VMSpark', href: '/projects/vmspark/', description: 'Rebuilding an admin interface around a working production system.' },
   },
   vmspark: {
+    illustration: 'vmspark',
     name: 'VMSpark', kind: 'Client work · Recruiting operations',
     headline: 'Rebuilding the interface', emphasis: 'without stopping the pipeline.',
     intro: 'VMSpark processes thousands of job listings and sends them to more than a dozen hiring systems. I audited and rebuilt the admin interface in stages, preserving the pipeline and the workflows operators already knew.',
@@ -75,6 +82,7 @@ export const projectPages = {
     next: { name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/', description: 'A React component library with the architecture and decisions documented.' },
   },
   rudiment: {
+    illustration: 'rudiment-ui',
     name: 'Rudiment UI', kind: 'Personal project · Component architecture',
     headline: 'A React component library', emphasis: 'I designed and built.',
     intro: 'A token-driven React component library with accessible interaction patterns and live Storybook documentation. Explore individual components and variants, then try the project board, sprint dashboard, and storefront built from them.',
@@ -96,6 +104,7 @@ export const projectPages = {
     next: { name: 'Token Adventure', href: '/personal-projects/token-galaga/', description: 'A coding game for learning the design token format through practice.' },
   },
   tokens: {
+    illustration: 'token-adventure',
     name: 'Token Adventure', kind: 'Personal project · Interactive learning',
     headline: 'Learning design tokens', emphasis: 'one level at a time.',
     intro: 'A browser game where you write tokens, run them in a sandbox, and pass checks against the 2025.10 Design Tokens Format. I designed the curriculum and interface, and built the editor, execution sandbox, and assertion engine.',

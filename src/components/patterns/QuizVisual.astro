@@ -1,0 +1,526 @@
+---
+import Icon from '~/components/primitives/Icon.astro';
+import type { QuizVisual } from '~/lib/quiz';
+
+/**
+ * The small scene shown above a quiz question: an image in context or an
+ * icon-only button in its surroundings. Purely visual; the question prompt
+ * describes the same scene in words, so the wrapper is hidden from assistive tech.
+ */
+interface Props {
+  visual: QuizVisual;
+}
+
+const { visual } = Astro.props;
+---
+
+<div class="qv" aria-hidden="true">
+  {visual.kind === 'bio' && (
+    <div class="qv-bio">
+      <img src={visual.src} alt="" width="72" height="72" loading="lazy" />
+      <div><strong>{visual.name}</strong><span>{visual.role}</span></div>
+    </div>
+  )}
+
+  {visual.kind === 'logo-link' && (
+    <span class="qv-logo-link"><img src={visual.src} alt="" height="40" loading="lazy" /></span>
+  )}
+
+  {visual.kind === 'figure' && (
+    <div class="qv-figure">
+      <img src={visual.src} alt="" style={`object-position: ${visual.position}`} loading="lazy" />
+      <p>{visual.text}</p>
+    </div>
+  )}
+
+  {visual.kind === 'divider' && (
+    <div class="qv-divider">
+      <span class="qv-lines"></span>
+      <Icon name={visual.icon} size={28} class="text-ink-muted" />
+      <span class="qv-lines"></span>
+    </div>
+  )}
+
+  {visual.kind === 'card' && (
+    <span class="qv-card">
+      <img src={visual.src} alt="" style={`object-position: ${visual.position}`} loading="lazy" />
+      <strong>{visual.title}</strong>
+    </span>
+  )}
+
+  {visual.kind === 'banner' && (
+    <div class="qv-banner"><img src={visual.src} alt="" style={`object-position: ${visual.position}`} loading="lazy" /></div>
+  )}
+
+  {visual.kind === 'token' && (
+    <div class={`qv-token qv-token--${visual.sample}`}>
+      {visual.sample === 'muted-text' && (
+        <p><strong>Weeknight chili</strong><span class="qv-target">Updated October 12 · 6 min read</span></p>
+      )}
+      {visual.sample === 'faint' && (
+        <p class="qv-faint-row">Projects <span class="qv-target">·</span> Writing <span class="qv-target">·</span> Tools <span class="qv-target">→</span></p>
+      )}
+      {visual.sample === 'hairline' && (
+        <div class="qv-rules"><span>Section one</span><span class="qv-target-rule"></span><span>Section two</span></div>
+      )}
+      {visual.sample === 'accent' && (
+        <p class="qv-accent-row"><span class="qv-accent-button">Get in touch</span><span class="qv-accent-link">Read the case study</span></p>
+      )}
+      {visual.sample === 'surfaces' && (
+        <div class="qv-surfaces"><span class="qv-surface-label">Page</span><span class="qv-raised">Raised panel</span></div>
+      )}
+      {visual.sample === 'serif' && <p class="qv-serif">better interfaces.</p>}
+    </div>
+  )}
+
+  {visual.kind === 'motion' && (
+    <div class={`qv-motion qv-motion--${visual.demo}`}>
+      {visual.demo === 'parallax' && (
+        <div class="qv-par"><span class="qv-par-back"></span><span class="qv-par-front">Scrolling page</span></div>
+      )}
+      {visual.demo === 'spinner' && <span class="qv-spin"><Icon name="ph:spinner-gap" size={32} /></span>}
+      {visual.demo === 'slide' && (
+        <div class="qv-slide"><span class="qv-slide-old">Page one</span><span class="qv-slide-new">Page two</span></div>
+      )}
+      {visual.demo === 'progress' && (
+        <div class="qv-prog"><span>Uploading report.pdf</span><span class="qv-prog-track"><span class="qv-prog-fill"></span></span></div>
+      )}
+      {visual.demo === 'carousel' && (
+        <div class="qv-car"><div class="qv-car-track"><span>Slide 1</span><span>Slide 2</span><span>Slide 3</span></div></div>
+      )}
+      {visual.demo === 'zoom' && (
+        <span class="qv-zoom"><img src="/images/projects/rudiment-ui/rudiment-board.webp" alt="" loading="lazy" /></span>
+      )}
+      <span class="qv-paused">Paused because your device asks for reduced motion.</span>
+    </div>
+  )}
+
+  {visual.kind === 'icon-button' && (
+    <div class={`qv-scene qv-scene--${visual.scene}`}>
+      {visual.scene === 'dialog' && <strong class="qv-scene-title">{visual.context}</strong>}
+      {visual.scene === 'search' && <span class="qv-field">{visual.context}</span>}
+      {visual.scene === 'field' && <span class="qv-label">{visual.context}<span class="qv-value">name@example.com</span></span>}
+      {(visual.scene === 'file-row' || visual.scene === 'card' || visual.scene === 'toggle') && <span class="qv-row-label">{visual.context}</span>}
+      <span class="qv-icon-button"><Icon name={visual.icon} size={20} /></span>
+    </div>
+  )}
+</div>
+
+<style>
+  .qv {
+    display: grid;
+    place-items: center;
+    min-height: 9rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .qv img {
+    display: block;
+  }
+
+  .qv-bio {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .qv-bio img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .qv-bio div {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .qv-bio strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .qv-bio span {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+  }
+
+  .qv-logo-link {
+    padding: 0.5rem 0.75rem;
+    outline: 2px dashed var(--line-strong);
+    outline-offset: 4px;
+  }
+  .qv-logo-link img {
+    height: 40px;
+    width: auto;
+  }
+
+  .qv-figure {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+  }
+  .qv-figure img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid var(--line);
+  }
+  .qv-figure p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ink-muted);
+  }
+
+  .qv-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+  .qv-lines {
+    flex: 1;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .qv-lines::before,
+  .qv-lines::after {
+    content: '';
+    height: 0.5rem;
+    background: var(--line);
+  }
+
+  .qv-card {
+    display: grid;
+    gap: 0.6rem;
+    width: min(100%, 15rem);
+    padding: 0.6rem;
+    border: 1px solid var(--line);
+    background: var(--raised);
+  }
+  .qv-card img,
+  .qv-banner img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .qv-card strong {
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 4px;
+  }
+  .qv-banner {
+    width: 100%;
+  }
+  .qv-banner img {
+    aspect-ratio: 4 / 1;
+  }
+
+  .qv-scene {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: min(100%, 22rem);
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--raised);
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .qv-scene--dialog {
+    padding-block: 1rem 2.5rem;
+    align-items: start;
+  }
+  .qv-scene-title {
+    font-weight: 600;
+  }
+  .qv-field {
+    flex: 1;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+  }
+  .qv-label {
+    display: grid;
+    gap: 0.15rem;
+    font-weight: 600;
+  }
+  .qv-value {
+    font-weight: 400;
+    color: var(--ink-muted);
+  }
+  .qv-icon-button {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+  .qv-scene--toggle .qv-icon-button {
+    color: var(--accent);
+  }
+  /* Token samples: the element in question is ringed in the accent. */
+  .qv-token {
+    width: 100%;
+    max-width: 22rem;
+  }
+  .qv-token p {
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .qv-token--muted-text p {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .qv-token--muted-text .qv-target {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    outline: 2px dashed var(--accent);
+    outline-offset: 3px;
+    justify-self: start;
+  }
+  .qv-faint-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .qv-token--faint .qv-target {
+    color: var(--ink-faint);
+    outline: 2px dashed var(--accent);
+    outline-offset: 2px;
+  }
+  .qv-rules {
+    display: grid;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .qv-target-rule {
+    height: 1px;
+    background: var(--line);
+    outline: 2px dashed var(--accent);
+    outline-offset: 5px;
+  }
+  .qv-accent-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+  .qv-accent-button {
+    padding: 0.6rem 1rem;
+    background: var(--accent);
+    font-weight: 600;
+    color: var(--paper);
+  }
+  .qv-accent-link {
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .qv-surfaces {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 7rem;
+    background: var(--paper);
+    outline: 2px dashed var(--accent);
+    outline-offset: -2px;
+  }
+  .qv-surface-label {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.75rem;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+  }
+  .qv-raised {
+    padding: 0.85rem 1.25rem;
+    border: 1px solid var(--line);
+    background: var(--raised);
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+  .qv-token .qv-serif {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-size: 2.4rem;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+  }
+
+  /* Motion demos play three times, then rest. Under reduced motion they stay
+     still and say so; the question describes the motion in words either way. */
+  .qv-motion {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-width: 20rem;
+    min-height: 6rem;
+  }
+  .qv-paused {
+    display: none;
+    margin-top: 0.75rem;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+  }
+  .qv-par {
+    position: relative;
+    width: 100%;
+    height: 6rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .qv-par-back {
+    position: absolute;
+    inset: -40% 0;
+    background-image: radial-gradient(circle, var(--line-strong) 2px, transparent 2.5px);
+    background-size: 18px 18px;
+  }
+  .qv-par-front {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 30%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    background: var(--raised);
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+  .qv-spin {
+    display: grid;
+    color: var(--accent);
+  }
+  .qv-slide {
+    position: relative;
+    width: 100%;
+    height: 5.5rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .qv-slide span {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .qv-slide-new {
+    background: var(--raised);
+    transform: translateX(0);
+  }
+  .qv-prog {
+    display: grid;
+    gap: 0.5rem;
+    width: 100%;
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+  .qv-prog-track {
+    height: 0.5rem;
+    background: var(--line);
+  }
+  .qv-prog-fill {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0.7);
+  }
+  .qv-car {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .qv-car-track {
+    display: flex;
+    width: 300%;
+  }
+  .qv-car-track span {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    height: 5rem;
+    background: var(--raised);
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .qv-car-track span:nth-child(2) {
+    background: var(--paper);
+  }
+  .qv-zoom {
+    display: block;
+    width: 12rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .qv-zoom img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .qv-par-back {
+      animation: qv-par 2.4s ease-in-out 3 alternate;
+    }
+    .qv-par-front {
+      animation: qv-par-front 2.4s ease-in-out 3 alternate;
+    }
+    .qv-spin {
+      animation: qv-spin 1s linear 3;
+    }
+    .qv-slide-new {
+      animation: qv-slide 1.6s var(--ease-out) 3;
+    }
+    .qv-prog-fill {
+      animation: qv-prog 2s ease-out 3;
+    }
+    .qv-car-track {
+      animation: qv-car 4.5s steps(1, end) 2;
+    }
+    .qv-zoom img {
+      animation: qv-zoom 1.6s ease-in-out 3 alternate;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .qv-paused {
+      display: block;
+    }
+  }
+  @keyframes qv-par {
+    from { transform: translateY(-14%); }
+    to { transform: translateY(14%); }
+  }
+  @keyframes qv-par-front {
+    from { transform: translateY(-40%); }
+    to { transform: translateY(40%); }
+  }
+  @keyframes qv-spin {
+    to { rotate: 1turn; }
+  }
+  @keyframes qv-slide {
+    from { transform: translateX(100%); }
+    60%, to { transform: translateX(0); }
+  }
+  @keyframes qv-prog {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(0.7); }
+  }
+  @keyframes qv-car {
+    0% { transform: translateX(0); }
+    33% { transform: translateX(-33.333%); }
+    66% { transform: translateX(-66.666%); }
+  }
+  @keyframes qv-zoom {
+    to { transform: scale(1.08); }
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+import ContrastGame from '~/components/islands/ContrastGame.astro';
+import DriftGame from '~/components/islands/DriftGame.astro';
+import JustEnoughGame from '~/components/islands/JustEnoughGame.astro';
+import OutlineGame from '~/components/islands/OutlineGame.astro';
+import QuizGame from '~/components/islands/QuizGame.astro';
+import SnapGridGame from '~/components/islands/SnapGridGame.astro';
+import TabOrderGame from '~/components/islands/TabOrderGame.astro';
+import type { Game } from '~/lib/games';
+
+/** Renders the right island for a game. Used by /play/[slug]/ and post embeds. */
+interface Props {
+  game: Game;
+}
+
+const { game } = Astro.props;
+---
+
+{game.kind === 'quiz' && <QuizGame slug={game.slug} questions={game.questions} outro={game.outro} />}
+{game.kind === 'contrast' && <ContrastGame title={null} />}
+{game.kind === 'just-enough' && <JustEnoughGame />}
+{game.kind === 'tab-order' && <TabOrderGame />}
+{game.kind === 'outline' && <OutlineGame />}
+{game.kind === 'snap-grid' && <SnapGridGame />}
+{game.kind === 'spot-the-drift' && <DriftGame />}
+<noscript><p class="game-noscript">This game needs JavaScript to run.</p></noscript>
+
+<style>
+  .game-noscript {
+    color: var(--ink-muted);
+  }
+</style>

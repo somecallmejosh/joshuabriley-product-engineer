@@ -1,0 +1,113 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Container from '~/components/layout/Container.astro';
+import GameIllustration from '~/components/patterns/GameIllustration.astro';
+import GameStage from '~/components/patterns/GameStage.astro';
+import { GAMES, type Game } from '~/lib/games';
+import { hasGameIllustration } from '~/lib/game-illustrations';
+
+export function getStaticPaths() {
+  return GAMES.map((game) => ({ params: { slug: game.slug }, props: { game } }));
+}
+
+const { game } = Astro.props as { game: Game };
+const others = GAMES.filter((g) => g.slug !== game.slug);
+---
+
+<BaseLayout title={`${game.title} | Play | Joshua Briley`} description={`${game.summary} A short accessibility game, no signup.`}>
+  <section class="page-opener">
+    <Container width="wide">
+      <p class="role-line hero-in hero-in-1"><a href="/play/">Play</a> <span aria-hidden="true">/</span> {game.topic}</p>
+      <div class="game-hero">
+        <div>
+          <h1 class="page-type hero-in hero-in-2">{game.heading.lead} <em>{game.heading.emphasis}</em></h1>
+          <p class="page-lede hero-in hero-in-3">{game.summary}</p>
+        </div>
+        {hasGameIllustration(game.slug) && <div class="game-hero-illustration hero-in hero-in-3"><GameIllustration game={game.slug} /></div>}
+      </div>
+    </Container>
+  </section>
+
+  <section class="editorial-section game-section">
+    <Container width="wide">
+      <div class="game-layout">
+        <div class="game-stage">
+          <GameStage game={game} />
+        </div>
+
+        <aside class="game-aside" aria-labelledby="game-learn-title">
+          <h2 id="game-learn-title" class="game-aside-title">What you'll learn</h2>
+          <p>{game.teaches}</p>
+
+          <h2 class="game-aside-title">More games</h2>
+          <ul class="game-others">
+            {others.map((g) => (
+              <li><a href={`/play/${g.slug}/`} class="editorial-link">{g.title} <span aria-hidden="true" data-link-arrow="right">→</span></a></li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .game-hero {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .game-hero-illustration {
+    min-width: 0;
+    max-width: 36rem;
+  }
+  @media (min-width: 1024px) {
+    .game-hero {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+  }
+  .game-section {
+    padding-top: 0;
+  }
+  .game-layout {
+    display: grid;
+    gap: var(--space-block);
+  }
+  @media (min-width: 1024px) {
+    .game-layout {
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 5rem;
+    }
+  }
+  .game-aside-title {
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+  .game-aside-title + p {
+    margin-top: 0.6rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .game-aside-title:not(:first-child) {
+    margin-top: 2.5rem;
+  }
+  .game-others {
+    display: grid;
+    justify-items: start;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+  }
+  .role-line a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 4px;
+  }
+  .role-line a:hover {
+    color: var(--accent);
+  }
+</style>

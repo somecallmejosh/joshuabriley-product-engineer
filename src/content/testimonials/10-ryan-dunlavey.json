@@ -5,6 +5,7 @@
   "company": "BHSI",
   "quote": "Josh is a rare UX Engineer who truly builds for everyone. His ability to architect design systems that are both technically rigorous and deeply human makes him invaluable.",
   "initials": "RD",
+  "menu": true,
   "featured": true,
   "image": "/images/testimonials/ryan-dunlavey.jpeg"
 }

@@ -1,3 +1,5 @@
+import { writingTopics } from './writing-topics'
+
 /** Site-wide navigation structure. Single source of truth for header + footer. */
 
 export interface NavLink {
@@ -5,12 +7,59 @@ export interface NavLink {
   label: string
 }
 
-export const PRIMARY_NAV: NavLink[] = [
-  { href: '/projects/', label: 'Projects' },
-  { href: '/resume/', label: 'Résumé' },
-  { href: '/about/', label: 'Biography' },
-  { href: '/blog/', label: 'Writing' },
-  { href: '/contact/', label: 'Contact' },
+export interface NavMenuLink extends NavLink {
+  description: string
+}
+
+export interface NavMenu {
+  id: string
+  label: string
+  /** Path prefixes that make this menu the current section. */
+  match: string[]
+  /** Lead column beside the links: featured case studies, the featured testimonial, or the latest article. */
+  feature?: 'work' | 'testimonial' | 'writing'
+  /** Heading over the links when a feature column sits beside them. */
+  linksLabel?: string
+  links: NavMenuLink[]
+}
+
+/** Desktop header menus, followed by the contact link. */
+export const HEADER_MENUS: NavMenu[] = [
+  {
+    id: 'work',
+    label: 'Work',
+    match: ['/projects/', '/personal-projects/', '/tools/', '/play/'],
+    feature: 'work',
+    linksLabel: 'More',
+    links: [
+      { href: '/personal-projects/', label: 'Personal projects', description: 'Things I build on my own time.' },
+      { href: '/tools/', label: 'Tools', description: 'Free design system tools, no signup.' },
+      { href: '/play/', label: 'Play', description: 'Short games about accessible interfaces.' },
+    ],
+  },
+  {
+    id: 'about',
+    label: 'About',
+    match: ['/about/', '/resume/', '/testimonials/'],
+    feature: 'testimonial',
+    linksLabel: 'About me',
+    links: [
+      { href: '/about/', label: 'Biography', description: '20+ years framing, designing, and building products.' },
+      { href: '/resume/', label: 'Résumé', description: 'Roles, skills, and a PDF to download.' },
+      { href: '/testimonials/', label: 'Testimonials', description: 'Recommendations from clients and colleagues.' },
+    ],
+  },
+  {
+    id: 'writing',
+    label: 'Writing',
+    match: ['/blog/'],
+    feature: 'writing',
+    linksLabel: 'Topics',
+    links: [
+      ...writingTopics.map((topic) => ({ href: `/blog/#${topic.id}`, label: topic.category, description: topic.description })),
+      { href: '/blog/#books', label: 'Longer reads', description: 'Two free online books, each on a single subject.' },
+    ],
+  },
 ]
 
 export const FOOTER_NAV: { heading: string; links: NavLink[] }[] = [
@@ -28,7 +77,8 @@ export const FOOTER_NAV: { heading: string; links: NavLink[] }[] = [
       { href: '/', label: 'Home' },
       { href: '/resume/', label: 'Résumé' },
       { href: '/tools/', label: 'Tools' },
-      { href: '/testimonials/', label: 'Feedback' },
+      { href: '/play/', label: 'Play' },
+      { href: '/testimonials/', label: 'Testimonials' },
       { href: '/personal-projects/', label: 'Personal projects' },
     ],
   },

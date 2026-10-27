@@ -1,0 +1,227 @@
+---
+/**
+ * "Just enough contrast": drag a slider until faded text only just passes
+ * WCAG AA (4.5:1), then lock it in to see how close you got. Three rounds, each
+ * a real site token over a real site background. Math: ~/lib/contrast-game.
+ *
+ * - progressive: ships `hidden`; appears once the script runs
+ * - keyboard: a native range input (arrows, Page Up/Down, Home/End), then a button
+ * - screen readers: the sample is SVG text with role="img" (incidental contrast,
+ *   WCAG 1.4.3); its name and the slider's value text describe the strength.
+ *   The live ratio is hidden until you lock in, or the game would be arithmetic.
+ */
+import '~/styles/games.css';
+
+const ROUNDS = [
+  { fg: '--ink', fgLabel: 'ink', bg: '--paper', bgLabel: 'paper', line: 'Readable, but only just?' },
+  { fg: '--accent', fgLabel: 'accent blue', bg: '--raised', bgLabel: 'white', line: 'Find the edge of AA.' },
+  { fg: '--paper', fgLabel: 'paper', bg: '--accent', bgLabel: 'accent blue', line: 'Light text, dark ground.' },
+];
+---
+
+<section class="game-panel je" data-just-enough aria-label="Game" hidden>
+  <div class="game-meta" aria-hidden="true">
+    <span data-je-progress></span>
+    <span data-je-score></span>
+  </div>
+
+  <p class="game-prompt game-focus-target" data-je-prompt tabindex="-1">
+    Fade the text until it only just passes AA contrast for body text, 4.5:1. Closer to the line scores more; below it
+    scores nothing.
+  </p>
+
+  {ROUNDS.map((r, i) => (
+    <div class="je-round" data-je-round={i} data-fg={r.fg} data-fg-label={r.fgLabel} data-bg={r.bg} data-bg-label={r.bgLabel} hidden>
+      <div class="je-sample" style={`background-color: var(${r.bg})`}>
+        <svg class="je-art" role="img" data-je-art>
+          <text x="0" y="50%" dominant-baseline="middle" data-je-text>{r.line}</text>
+        </svg>
+      </div>
+    </div>
+  ))}
+
+  <div class="je-control" data-je-control>
+    <label class="je-label" for="je-strength">Text strength</label>
+    <input id="je-strength" class="je-range" type="range" min="1" max="100" step="1" value="20" data-je-range />
+    <button type="button" class="game-button game-button--primary" data-je-lock>Lock it in</button>
+  </div>
+
+  <div data-je-feedback hidden>
+    <p class="game-verdict" data-je-verdict></p>
+    <p class="game-explain" data-je-detail></p>
+  </div>
+
+  <button type="button" class="game-button game-button--primary" data-je-next hidden>Next round</button>
+
+  <div data-je-end hidden>
+    <p class="game-verdict game-focus-target" data-je-summary tabindex="-1"></p>
+    <p class="game-explain">
+      Designers often chase the lightest grey that still passes. Landing right on the line leaves no room for screens,
+      glare or anti-aliasing, so a little headroom is kinder in real use.
+    </p>
+    <p class="game-explain" data-je-best></p>
+    <div class="game-end-actions">
+      <button type="button" class="game-button game-button--primary" data-je-restart>Play again</button>
+      <a href="/play/" class="editorial-link">More games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-je-live></p>
+  <span data-je-probe hidden></span>
+</section>
+
+<style>
+  .je-sample {
+    margin-top: 0.5rem;
+    padding: 2.25rem 1.5rem;
+    border: 1px solid var(--line);
+  }
+  .je-art {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    overflow: visible;
+  }
+  /* 20px regular: "normal" text under WCAG, so 4.5:1 applies. */
+  .je-art text {
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .je-control {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .je-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .je-range {
+    width: 100%;
+    min-height: 44px;
+    accent-color: var(--accent);
+  }
+  .je-range:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .je-control .game-button--primary {
+    justify-self: start;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<script>
+  import { blend, contrastRatio, formatRatio, parseRgb, scoreJustEnough, AA_NORMAL } from '~/lib/contrast-game';
+  import { saveBest } from '~/lib/game-best';
+
+  document.querySelectorAll<HTMLElement>('[data-just-enough]').forEach(init);
+
+  function init(root: HTMLElement) {
+    const rounds = [...root.querySelectorAll<HTMLElement>('[data-je-round]')];
+    const range = root.querySelector<HTMLInputElement>('[data-je-range]')!;
+    const lock = root.querySelector<HTMLButtonElement>('[data-je-lock]')!;
+    const control = root.querySelector<HTMLElement>('[data-je-control]')!;
+    const feedback = root.querySelector<HTMLElement>('[data-je-feedback]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-je-next]')!;
+    const end = root.querySelector<HTMLElement>('[data-je-end]')!;
+    const live = root.querySelector<HTMLElement>('[data-je-live]')!;
+    const probe = root.querySelector<HTMLElement>('[data-je-probe]')!;
+    const total = rounds.length * 100;
+    let index = 0;
+    let score = 0;
+
+    const rgbOf = (token: string) => {
+      probe.style.color = `var(${token})`;
+      return parseRgb(getComputedStyle(probe).color);
+    };
+
+    function paint() {
+      const round = rounds[index];
+      const strength = Number(range.value);
+      round.querySelector<SVGTextElement>('[data-je-text]')!.style.fill =
+        `color-mix(in srgb, var(${round.dataset.fg}) ${strength}%, transparent)`;
+      const text = round.querySelector('[data-je-text]')!.textContent;
+      round
+        .querySelector('[data-je-art]')!
+        .setAttribute('aria-label', `"${text}" in ${round.dataset.fgLabel} at ${strength}% strength on ${round.dataset.bgLabel}.`);
+      range.setAttribute('aria-valuetext', `${strength}%`);
+    }
+
+    function show(i: number, moveFocus: boolean) {
+      index = i;
+      rounds.forEach((r, n) => (r.hidden = n !== i));
+      range.value = '20';
+      range.disabled = false;
+      control.hidden = false;
+      feedback.hidden = true;
+      next.hidden = true;
+      end.hidden = true;
+      root.querySelector<HTMLElement>('[data-je-prompt]')!.hidden = false;
+      root.querySelector('[data-je-progress]')!.textContent = `Round ${i + 1} of ${rounds.length}`;
+      root.querySelector('[data-je-score]')!.textContent = `${score} points`;
+      paint();
+      if (moveFocus) range.focus();
+    }
+
+    function lockIn() {
+      const round = rounds[index];
+      const fg = rgbOf(round.dataset.fg!);
+      const bg = rgbOf(round.dataset.bg!);
+      if (!fg || !bg) return;
+      const strength = Number(range.value);
+      const ratio = contrastRatio(blend(fg, bg, strength), bg);
+      const points = scoreJustEnough(ratio);
+      // The lowest whole-percent strength that passes, for the "best possible" hint.
+      let lowestPass = 1;
+      while (lowestPass < 100 && contrastRatio(blend(fg, bg, lowestPass), bg) < AA_NORMAL) lowestPass++;
+      score += points;
+      const verdict =
+        ratio < AA_NORMAL
+          ? `${formatRatio(ratio)} fails, so no points this round.`
+          : points >= 90
+            ? `${formatRatio(ratio)}. Right on the line: ${points} points.`
+            : `${formatRatio(ratio)} passes, with room to spare: ${points} points.`;
+      root.querySelector('[data-je-verdict]')!.textContent = verdict;
+      root.querySelector('[data-je-detail]')!.textContent =
+        `You set ${strength}%. The lowest strength that passes here is ${lowestPass}%.`;
+      range.disabled = true;
+      control.hidden = true;
+      feedback.hidden = false;
+      live.textContent = `${verdict} The lowest strength that passes is ${lowestPass}%.`;
+      root.querySelector('[data-je-score]')!.textContent = `${score} points`;
+      next.textContent = index + 1 >= rounds.length ? 'See your score' : 'Next round';
+      next.hidden = false;
+      next.focus();
+    }
+
+    function finish() {
+      rounds.forEach((r) => (r.hidden = true));
+      feedback.hidden = true;
+      next.hidden = true;
+      control.hidden = true;
+      root.querySelector<HTMLElement>('[data-je-prompt]')!.hidden = true;
+      root.querySelector('[data-je-progress]')!.textContent = 'Finished';
+      const best = saveBest('just-enough', score);
+      const summary = root.querySelector<HTMLElement>('[data-je-summary]')!;
+      summary.textContent = `You scored ${score} of ${total}.`;
+      root.querySelector('[data-je-best]')!.textContent = best > score ? `Your best is ${best}.` : "That's your best so far.";
+      end.hidden = false;
+      live.textContent = summary.textContent;
+      summary.focus();
+    }
+
+    range.addEventListener('input', paint);
+    lock.addEventListener('click', lockIn);
+    next.addEventListener('click', () => (index + 1 >= rounds.length ? finish() : show(index + 1, true)));
+    root.querySelector('[data-je-restart]')!.addEventListener('click', () => {
+      score = 0;
+      show(0, true);
+    });
+
+    root.hidden = false;
+    show(0, false);
+  }
+</script>

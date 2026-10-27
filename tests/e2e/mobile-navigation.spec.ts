@@ -18,14 +18,24 @@ test('mobile navigation is a named modal with usable destinations and contained 
   await expect(dialog).toBeVisible();
   const close = dialog.getByRole('button', { name: 'Close', exact: true });
   await expect(close).toBeFocused();
-  await expect(dialog.getByRole('link', { name: 'Biography', exact: true })).toHaveAttribute('aria-current', 'page');
-  for (const name of ['Résumé', 'Tools', 'Feedback', 'Personal projects', 'Contact me']) {
-    await expect(dialog.getByRole('link', { name, exact: true })).toBeVisible();
-  }
-  // The large links mirror the footer's lead group.
-  const footerLead = await page.locator('.footer-nav--lead a').allTextContents();
-  const mobileLead = await dialog.locator('.mobile-primary a').allTextContents();
-  expect(mobileLead.map(t => t.replace('↗', '').trim())).toEqual(footerLead.map(t => t.replace('↗', '').trim()));
+  // The sections mirror the desktop menus, and the one holding this page starts open.
+  const desktopMenus = await page.locator('.desktop-nav-trigger').allTextContents();
+  const sections = dialog.locator('.mobile-section-trigger');
+  expect((await sections.allTextContents()).map(t => t.trim())).toEqual(desktopMenus.map(t => t.trim()));
+  const work = dialog.getByRole('button', { name: 'Work', exact: true });
+  const about = dialog.getByRole('button', { name: 'About', exact: true });
+  await expect(about).toHaveAttribute('aria-expanded', 'true');
+  await expect(work).toHaveAttribute('aria-expanded', 'false');
+  await expect(dialog.getByRole('link', { name: /^Biography/ })).toHaveAttribute('aria-current', 'page');
+  for (const name of [/^Résumé/, /^Testimonials/]) await expect(dialog.getByRole('link', { name })).toBeVisible();
+  await expect(dialog.getByRole('link', { name: /^Tools/ })).toBeHidden();
+  // Opening another section closes this one.
+  await work.click();
+  await expect(work).toHaveAttribute('aria-expanded', 'true');
+  await expect(about).toHaveAttribute('aria-expanded', 'false');
+  for (const name of [/^Personal projects/, /^Tools/, /^IVFCRYO/]) await expect(dialog.getByRole('link', { name })).toBeVisible();
+  await expect(dialog.getByRole('link', { name: /^Biography/ })).toBeHidden();
+  await expect(dialog.getByRole('link', { name: 'Contact me', exact: true })).toBeVisible();
   await expect(page.locator('html')).toHaveClass(/nav-open/);
   expect(await page.locator('html').evaluate(el => getComputedStyle(el).overflowY)).toBe('hidden');
   // Attempts to focus the background remain inside the native modal.
@@ -71,15 +81,19 @@ test('links navigate and switching to desktop clears the modal and scroll lock',
   const toggle = page.locator('#mobile-menu-toggle');
   const dialog = page.getByRole('dialog', { name: 'Explore' });
   await toggle.click();
-  await dialog.getByRole('link', { name: 'Tools', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Work', exact: true }).click();
+  await dialog.getByRole('link', { name: /^Tools/ }).click();
   await expect(page).toHaveURL(/\/tools\/$/);
   await expect(page.locator('html')).not.toHaveClass(/nav-open/);
+  // The URL changes before the new page's scripts run; wait so the toggle is wired.
+  await page.waitForLoadState('domcontentloaded');
   await toggle.click();
+  await expect(dialog).toBeVisible();
   await page.setViewportSize({ width: 1024, height: 900 });
   await expect(dialog).not.toBeVisible();
   await expect(page.locator('html')).not.toHaveClass(/nav-open/);
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await expect(page.locator('.desktop-nav a').first()).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Work' })).toBeFocused();
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(dialog).not.toBeVisible();
   await toggle.click();
@@ -106,7 +120,7 @@ test('menu remains operable on narrow and short screens, with reduced motion', a
     await expect(contact).toBeInViewport();
     const targets = await dialog.locator('a, button').evaluateAll(els => els.map(el => el.getBoundingClientRect().height));
     expect(targets.every(height => height >= 44)).toBe(true);
-    expect(await dialog.locator('.mobile-supporting a').evaluateAll(els => els.every(el => el.scrollWidth <= el.clientWidth + 1))).toBe(true);
+    expect(await dialog.locator('.mobile-link, .mobile-case').evaluateAll(els => els.every(el => el.scrollWidth <= el.clientWidth + 1))).toBe(true);
   }
   expect(await dialog.evaluate(el => getComputedStyle(el).animationName)).toBe('none');
   await page.keyboard.press('Escape');

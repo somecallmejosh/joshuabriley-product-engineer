@@ -1,0 +1,129 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Container from '~/components/layout/Container.astro';
+import GameIllustration from '~/components/patterns/GameIllustration.astro';
+import { GAMES } from '~/lib/games';
+import { hasGameIllustration } from '~/lib/game-illustrations';
+---
+
+<BaseLayout
+  title="Play: small games about accessible interfaces | Joshua Briley"
+  description="Short browser games about accessibility and front-end craft: contrast, alt text, button names, and choosing the right HTML element. A minute or two each, no signup."
+>
+  <section class="page-opener">
+    <Container width="wide">
+      <p class="role-line hero-in hero-in-1">Play <span aria-hidden="true">/</span> {GAMES.length} short games</p>
+      <h1 class="page-type hero-in hero-in-2">Small games about <em>better interfaces.</em></h1>
+      <p class="page-lede hero-in hero-in-3">
+        Each one takes a minute or two and teaches one thing about accessibility or front-end craft. Nothing
+        to install, and nothing leaves your browser.
+      </p>
+    </Container>
+  </section>
+
+  <section class="editorial-section play-directory" aria-labelledby="play-list-title">
+    <Container width="wide">
+      <h2 id="play-list-title" class="sr-only">Games</h2>
+      <ul class="play-list" data-reveal-stagger>
+        {GAMES.map((game) => (
+          <li class="play-entry">
+            {hasGameIllustration(game.slug) && (
+              <a class="play-visual" href={`/play/${game.slug}/`} aria-hidden="true" tabindex="-1"><GameIllustration game={game.slug} /></a>
+            )}
+            <p class="play-topic">{game.topic}</p>
+            <h3><a href={`/play/${game.slug}/`}>{game.title}</a></h3>
+            <p>{game.summary}</p>
+            <a class="editorial-link" href={`/play/${game.slug}/`} aria-hidden="true" tabindex="-1">Play <span data-link-arrow="right">→</span></a>
+          </li>
+        ))}
+      </ul>
+
+      <aside class="play-bigger" aria-labelledby="play-bigger-title">
+        <h2 id="play-bigger-title" class="play-bigger-title">Want something bigger?</h2>
+        <p>
+          Token Adventure was my first attempt at a much larger learning tool. You write design tokens in a
+          code editor across 20 levels, and the game checks your code against the W3C Design Tokens spec.
+        </p>
+        <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure <span aria-hidden="true" data-link-arrow="right">→</span></a>
+      </aside>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .play-directory {
+    padding-top: 0;
+  }
+  .play-list {
+    display: grid;
+    gap: var(--space-block) 4rem;
+  }
+  @media (min-width: 768px) {
+    .play-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .play-entry {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    max-width: 34rem;
+  }
+  .play-visual {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .play-entry:has(a:hover, a:focus-visible) :global(.illustration-drawing) {
+    transform: rotate(0deg) scale(1.03);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .play-entry:has(a:hover, a:focus-visible) :global(.illustration-drawing) {
+      transform: rotate(var(--tilt));
+    }
+  }
+  .play-topic {
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+  .play-entry h3 {
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.1;
+  }
+  .play-entry h3 a {
+    color: var(--ink);
+    transition: color 200ms var(--ease-out);
+  }
+  .play-entry h3 a:hover {
+    color: var(--accent);
+  }
+  .play-entry > p:not(.play-topic) {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+  .play-entry .editorial-link {
+    justify-self: start;
+  }
+  .play-bigger {
+    display: grid;
+    justify-items: start;
+    gap: 0.75rem;
+    max-width: 40rem;
+    margin-top: var(--space-block);
+  }
+  .play-bigger-title {
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .play-bigger p {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+</style>

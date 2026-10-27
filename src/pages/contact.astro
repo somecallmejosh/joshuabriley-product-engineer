@@ -2,27 +2,79 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import ContactForm from '~/components/islands/ContactForm.astro';
+import Portrait from '~/components/patterns/Portrait.astro';
+import Icon from '~/components/primitives/Icon.astro';
+const reasons = [
+  { icon: 'ph:chats-circle-light', text: 'Compare notes on design systems or UI engineering' },
+  { icon: 'ph:users-three-light', text: 'Organize a group meetup' },
+  { icon: 'ph:confetti-light', text: 'Invite me to a social event' },
+];
 ---
 <BaseLayout title="Contact | Joshua Briley" description="Talk shop with Joshua Briley about design systems and UI engineering, plan a group meetup, or share an invitation to a social event.">
-  <section class="page-opener">
+  <section class="page-opener contact-opener">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Contact</p>
-      <h1 class="page-type hero-in hero-in-2">Let’s talk <em>shop.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Want to compare notes on design systems or UI engineering, organize a group meetup, or invite me to a social event? Send me a note.</p>
-    </Container>
-  </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="approach-layout contact-layout">
-        <div>
-          <h2 class="section-type">Get in <em>touch.</em></h2>
-          <p class="section-intro">Use the form or email me directly. You can also connect with me on LinkedIn.</p>
-          <a class="editorial-link mt-6" href="mailto:josh@thebrileys.com">josh@thebrileys.com <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <p class="mt-6 text-sm text-ink-muted">Based in Barkhamsted, Connecticut.</p>
-          <div class="mt-8"><a class="editorial-link" href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+      <div class="contact-layout">
+        <div class="contact-invite">
+          <p class="role-line hero-in hero-in-1">Contact</p>
+          <h1 class="page-type hero-in hero-in-2">Let’s talk <em>shop.</em></h1>
+          <p class="page-lede hero-in hero-in-3">Send me a note if you’d like to:</p>
+          <ul class="contact-reasons hero-in hero-in-3">
+            {reasons.map((reason) => <li><Icon name={reason.icon} size={28} class="text-accent" /><span>{reason.text}</span></li>)}
+          </ul>
+          <div class="contact-card hero-in hero-in-4">
+            <Portrait class="contact-avatar" />
+            <div>
+              <p class="contact-name">Joshua Briley</p>
+              <p class="contact-place">Barkhamsted, Connecticut</p>
+              <ul class="contact-direct">
+                <li><a class="editorial-link" href="mailto:josh@thebrileys.com">josh@thebrileys.com <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></li>
+                <li><a class="editorial-link" href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div><h2 class="mb-8 text-2xl font-semibold tracking-tight">Send a message</h2><ContactForm /></div>
+        <div class="contact-stage hero-in hero-in-4">
+          <h2 class="contact-stage-title">Send a message</h2>
+          <ContactForm />
+        </div>
       </div>
     </Container>
   </section>
 </BaseLayout>
+
+<style>
+  .contact-opener { padding-bottom: var(--space-section); }
+  .contact-layout { display: grid; gap: var(--space-block); align-items: start; }
+  .contact-invite .page-type { max-width: none; }
+  .contact-reasons { display: grid; gap: 1.1rem; margin-top: 1.5rem; }
+  .contact-reasons li {
+    display: grid;
+    grid-template-columns: 1.75rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    font-size: clamp(1.15rem, 1rem + 0.5vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .contact-reasons :global(iconify-icon) { margin-top: -0.1rem; }
+  .contact-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-top: var(--space-block);
+  }
+  .contact-card :global(.contact-avatar) { flex: none; display: block; width: 4.5rem; height: 4.5rem; overflow: hidden; border-radius: 50%; background: var(--portfolio-tint); }
+  .contact-card :global(.contact-avatar img) { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+  .contact-name { font-weight: 650; letter-spacing: -0.015em; }
+  .contact-place { margin-top: 0.15rem; font-size: 0.9rem; color: var(--ink-muted); }
+  .contact-direct { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1rem; }
+  .contact-stage { padding: clamp(1.5rem, 1rem + 2.5vw, 3rem); background: var(--portfolio-tint); }
+  .contact-stage-title { margin-bottom: 2rem; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.025em; }
+  @media (min-width: 1024px) {
+    .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 6rem; }
+    .contact-invite .page-type { font-size: clamp(3.5rem, 5.6vw, 5.5rem); }
+    .contact-stage { margin-top: 3.25rem; }
+  }
+</style>

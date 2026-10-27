@@ -1,0 +1,294 @@
+---
+/**
+ * "Spot the drift": compare a design system component with a production copy
+ * and tick the three properties that drifted. Content: ~/lib/games/spot-the-drift.
+ *
+ * - progressive: ships `hidden`; appears once the script runs
+ * - keyboard: native checkboxes in a fieldset, then Check
+ * - screen readers: the two samples are decoration; a "Compare the specs" table
+ *   gives the same differences in words. Results are labelled in text per option.
+ */
+import '~/styles/games.css';
+import DriftSample from '~/components/patterns/DriftSample.astro';
+import { DRIFT_LABELS, driftRounds } from '~/lib/games/spot-the-drift';
+
+const rounds = driftRounds;
+---
+
+<section class="game-panel dg" data-drift-game aria-label="Game" hidden>
+  <div class="game-meta" aria-hidden="true">
+    <span data-dg-progress></span>
+    <span data-dg-score></span>
+  </div>
+
+  {rounds.map((round, r) => (
+    <div class="dg-round" data-dg-round={r} data-drifted={round.drifted.join(' ')} hidden>
+      <p class="game-prompt game-focus-target" tabindex="-1">
+        <span class="sr-only">Round {r + 1} of {rounds.length}. </span>{round.title}: the production copy has drifted from the
+        design system in three ways. Which three?
+      </p>
+
+      <div class="dg-compare">
+        <figure>
+          <figcaption>Design system</figcaption>
+          <DriftSample component={round.component} />
+        </figure>
+        <figure>
+          <figcaption>In production</figcaption>
+          <DriftSample component={round.component} drift={round.drifted} />
+        </figure>
+      </div>
+
+      <details class="dg-specs">
+        <summary>Compare the specs in text</summary>
+        <table>
+          <caption class="sr-only">{round.title} properties, design system compared with production</caption>
+          <thead>
+            <tr><th scope="col">Property</th><th scope="col">Design system</th><th scope="col">In production</th></tr>
+          </thead>
+          <tbody>
+            {round.options.map((p) => (
+              <tr><th scope="row">{DRIFT_LABELS[p]}</th><td>{round.specs[p].system}</td><td>{round.specs[p].production}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+
+      <fieldset class="dg-options">
+        <legend>Pick three</legend>
+        {round.options.map((p) => (
+          <label class="dg-option" data-option={p}>
+            <input type="checkbox" value={p} />
+            <span>{DRIFT_LABELS[p]}</span>
+            <span class="dg-tag" data-tag></span>
+          </label>
+        ))}
+      </fieldset>
+
+      <button type="button" class="game-button game-button--primary" data-dg-check>Check my picks</button>
+
+      <div data-dg-feedback hidden>
+        <p class="game-verdict" data-dg-verdict></p>
+        <p class="game-explain">{round.explanation}</p>
+      </div>
+    </div>
+  ))}
+
+  <button type="button" class="game-button game-button--primary" data-dg-next hidden>Next round</button>
+
+  <div data-dg-end hidden>
+    <p class="game-verdict game-focus-target" data-dg-summary tabindex="-1"></p>
+    <p class="game-explain">Drift is cheap to prevent and expensive to find later. Shared tokens and components keep every copy in step.</p>
+    <p class="game-explain" data-dg-best></p>
+    <div class="game-end-actions">
+      <button type="button" class="game-button game-button--primary" data-dg-restart>Play again</button>
+      <a href="/play/" class="editorial-link">More games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-dg-live></p>
+</section>
+
+<style>
+  .dg-compare {
+    display: grid;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .dg-compare {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .dg-compare figure {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 1.1rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .dg-compare figcaption {
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+  .dg-specs {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  .dg-specs summary {
+    padding: 0.7rem 0;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .dg-specs summary:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .dg-specs table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .dg-specs th,
+  .dg-specs td {
+    padding: 0.4rem 0.5rem 0.4rem 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+    color: var(--ink-muted);
+  }
+  .dg-specs thead th,
+  .dg-specs tbody th {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dg-options {
+    display: grid;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .dg-options {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .dg-options legend {
+    margin-bottom: 0.4rem;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dg-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    font-size: 0.93rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .dg-option input {
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--accent);
+  }
+  .dg-option:has(input:focus-visible) {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .dg-option[data-result='found'] {
+    border: 2px solid var(--accent);
+  }
+  .dg-option[data-result='missed'] {
+    border: 2px dashed var(--accent);
+  }
+  .dg-option[data-result='wrong'] {
+    border-style: dashed;
+  }
+  .dg-tag {
+    margin-left: auto;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+</style>
+
+<script>
+  import { scoreDrift, type DriftProperty } from '~/lib/games/spot-the-drift';
+  import { saveBest } from '~/lib/game-best';
+
+  document.querySelectorAll<HTMLElement>('[data-drift-game]').forEach(init);
+
+  function init(root: HTMLElement) {
+    const rounds = [...root.querySelectorAll<HTMLElement>('[data-dg-round]')];
+    const next = root.querySelector<HTMLButtonElement>('[data-dg-next]')!;
+    const end = root.querySelector<HTMLElement>('[data-dg-end]')!;
+    const live = root.querySelector<HTMLElement>('[data-dg-live]')!;
+    const progress = root.querySelector<HTMLElement>('[data-dg-progress]')!;
+    const scoreEl = root.querySelector<HTMLElement>('[data-dg-score]')!;
+    const perRound = 3;
+    let index = 0;
+    let score = 0;
+
+    const boxes = (round: HTMLElement) => [...round.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
+
+    function show(i: number, moveFocus: boolean) {
+      index = i;
+      rounds.forEach((r, n) => (r.hidden = n !== i));
+      const round = rounds[i];
+      boxes(round).forEach((b) => {
+        b.checked = false;
+        b.disabled = false;
+      });
+      round.querySelectorAll<HTMLElement>('[data-option]').forEach((o) => {
+        delete o.dataset.result;
+        o.querySelector('[data-tag]')!.textContent = '';
+      });
+      round.querySelector<HTMLDetailsElement>('details')!.open = false;
+      round.querySelector<HTMLButtonElement>('[data-dg-check]')!.hidden = false;
+      round.querySelector<HTMLElement>('[data-dg-feedback]')!.hidden = true;
+      next.hidden = true;
+      end.hidden = true;
+      progress.textContent = `Round ${i + 1} of ${rounds.length}`;
+      scoreEl.textContent = `Found ${score}`;
+      if (moveFocus) round.querySelector<HTMLElement>('.game-prompt')!.focus();
+    }
+
+    function check(round: HTMLElement) {
+      const selected = boxes(round).filter((b) => b.checked).map((b) => b.value as DriftProperty);
+      const drifted = round.dataset.drifted!.split(' ') as DriftProperty[];
+      const result = scoreDrift(selected, drifted);
+      score += result.found.length;
+      boxes(round).forEach((b) => (b.disabled = true));
+      round.querySelectorAll<HTMLElement>('[data-option]').forEach((o) => {
+        const p = o.dataset.option as DriftProperty;
+        const state = result.found.includes(p) ? 'found' : result.missed.includes(p) ? 'missed' : result.wrong.includes(p) ? 'wrong' : '';
+        if (state) o.dataset.result = state;
+        o.querySelector('[data-tag]')!.textContent =
+          state === 'found' ? 'Drifted, you found it' : state === 'missed' ? 'Drifted, missed' : state === 'wrong' ? 'Did not drift' : '';
+      });
+      const n = result.found.length;
+      const verdict =
+        n === perRound && result.wrong.length === 0
+          ? 'All three. Sharp eyes.'
+          : `You found ${n} of ${perRound}${result.wrong.length ? `, plus ${result.wrong.length} that didn't drift` : ''}. Each option is marked.`;
+      round.querySelector('[data-dg-verdict]')!.textContent = verdict;
+      round.querySelector<HTMLButtonElement>('[data-dg-check]')!.hidden = true;
+      round.querySelector<HTMLElement>('[data-dg-feedback]')!.hidden = false;
+      live.textContent = verdict;
+      scoreEl.textContent = `Found ${score}`;
+      next.textContent = index + 1 >= rounds.length ? 'See your score' : 'Next round';
+      next.hidden = false;
+      next.focus();
+    }
+
+    function finish() {
+      rounds.forEach((r) => (r.hidden = true));
+      next.hidden = true;
+      progress.textContent = 'Finished';
+      const total = rounds.length * perRound;
+      const best = saveBest('spot-the-drift', score);
+      const summary = root.querySelector<HTMLElement>('[data-dg-summary]')!;
+      summary.textContent = `You found ${score} of ${total} drifted properties.`;
+      root.querySelector('[data-dg-best]')!.textContent = best > score ? `Your best is ${best} of ${total}.` : "That's your best so far.";
+      end.hidden = false;
+      live.textContent = summary.textContent;
+      summary.focus();
+    }
+
+    rounds.forEach((round) => round.querySelector('[data-dg-check]')!.addEventListener('click', () => check(round)));
+    next.addEventListener('click', () => (index + 1 >= rounds.length ? finish() : show(index + 1, true)));
+    root.querySelector('[data-dg-restart]')!.addEventListener('click', () => {
+      score = 0;
+      show(0, true);
+    });
+
+    root.hidden = false;
+    show(0, false);
+  }
+</script>

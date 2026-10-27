@@ -1,0 +1,339 @@
+---
+/**
+ * "Pass or fail?" — a ten-round WCAG contrast guessing game for the 404 page.
+ *
+ * Each round fades a real site token toward its background (color-mix, no
+ * literal colors), and the visitor guesses whether it passes AA for body text.
+ * Logic lives in ~/lib/contrast-game; this file only renders and toggles.
+ *
+ * - progressive: the section ships `hidden` and appears only once the script runs
+ * - keyboard: two plain buttons; focus moves to the result, then back to the sample
+ * - screen readers: each sample is role="img" named with its token, strength and
+ *   background; results are announced through a polite live region
+ * - storage: best score is a per-visitor convenience; every access is guarded
+ */
+interface Props {
+  /** Visible h2. Pass `null` on pages where the h1 already names the game. */
+  title?: string | null;
+}
+
+const { title = "While you're here: pass or fail?" } = Astro.props;
+const ROUNDS = 10;
+---
+
+<section
+  class="cg"
+  aria-labelledby={title ? 'cg-title' : undefined}
+  aria-label={title ? undefined : 'Game'}
+  data-contrast-game
+  data-rounds={ROUNDS}
+  hidden
+>
+  {title && <h2 id="cg-title" class="cg-title">{title}</h2>}
+  <p class="cg-intro">
+    Does this text pass WCAG AA? Body text needs a contrast ratio of at least 4.5:1. Every sample is
+    one of this site's own colors, faded a little.
+  </p>
+
+  <div class="cg-meta" aria-hidden="true">
+    <span data-cg-round></span>
+    <span data-cg-score></span>
+  </div>
+
+  <!-- The sample is a picture of text to be judged, so its contrast is incidental
+       (WCAG 1.4.3). It is drawn as SVG text with an accessible name that carries
+       the same information in words. -->
+  <div class="cg-sample" data-cg-sample tabindex="-1">
+    <svg class="cg-sample-art" role="img" data-cg-art>
+      <text x="0" y="50%" dominant-baseline="middle" data-cg-text></text>
+    </svg>
+  </div>
+
+  <div class="cg-play" data-cg-play>
+    <div class="cg-actions">
+      <button type="button" class="cg-button" data-cg-answer="pass">Passes AA</button>
+      <button type="button" class="cg-button" data-cg-answer="fail">Fails AA</button>
+    </div>
+  </div>
+
+  <div class="cg-feedback" data-cg-feedback hidden>
+    <p class="cg-verdict" data-cg-verdict></p>
+    <p class="cg-detail">
+      That's <code data-cg-fg></code> at <span data-cg-strength></span>% on <code data-cg-bg></code>.
+    </p>
+    <button type="button" class="cg-button cg-button--primary" data-cg-next>Next round</button>
+  </div>
+
+  <div class="cg-end" data-cg-end hidden>
+    <p class="cg-verdict" data-cg-summary></p>
+    <p class="cg-detail" data-cg-best></p>
+    <button type="button" class="cg-button cg-button--primary" data-cg-restart>Play again</button>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-cg-live></p>
+  <span data-cg-probe hidden></span>
+</section>
+
+<style>
+  .cg {
+    padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    border: 1px solid var(--line);
+    background: var(--raised);
+  }
+  .cg-title {
+    font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.7rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .cg-intro {
+    margin-top: 0.75rem;
+    max-width: 46ch;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+  .cg-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+  }
+  .cg-sample {
+    margin-top: 0.75rem;
+    padding: 2.25rem 1.5rem;
+    border: 1px solid var(--line);
+    transition: background-color 250ms var(--ease-out);
+  }
+  .cg-sample:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .cg-sample-art {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    overflow: visible;
+  }
+  /* 20px regular: "normal" text under WCAG, so the 4.5:1 threshold applies. */
+  .cg-sample-art text {
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    transition: fill 250ms var(--ease-out);
+  }
+  .cg-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  .cg-button {
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    transition:
+      border-color 200ms var(--ease-out),
+      color 200ms var(--ease-out),
+      transform 120ms var(--ease-out);
+  }
+  .cg-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .cg-button:active {
+    transform: translateY(1px);
+  }
+  .cg-button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .cg-button--primary {
+    margin-top: 1.25rem;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .cg-button--primary:hover {
+    color: var(--paper);
+  }
+  .cg-verdict {
+    margin-top: 1.25rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .cg-detail {
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+  .cg-detail code {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.85em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cg-sample,
+    .cg-sample-art text,
+    .cg-button {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { formatRatio, makeRound, parseRgb, type Pairing, type Round, type Swatch } from '~/lib/contrast-game';
+
+  const BEST_KEY = 'contrast-game-best';
+  // Short enough to fit a phone-width sample: SVG text does not wrap.
+  const LINES = [
+    'This page wandered off.',
+    'Can you read this?',
+    'Lost pages, found links.',
+    'Nothing to see here.',
+    'Still reading? Nice.',
+  ];
+
+  const root = document.querySelector<HTMLElement>('[data-contrast-game]');
+  if (root) init(root);
+
+  function init(root: HTMLElement) {
+    const $ = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const total = Number(root.dataset.rounds) || 10;
+    const probe = $('[data-cg-probe]');
+    const sample = $('[data-cg-sample]');
+    const art = root.querySelector<SVGSVGElement>('[data-cg-art]')!;
+    const text = root.querySelector<SVGTextElement>('[data-cg-text]')!;
+    const play = $('[data-cg-play]');
+    const feedback = $('[data-cg-feedback]');
+    const end = $('[data-cg-end]');
+    const live = $('[data-cg-live]');
+    const nextBtn = $<HTMLButtonElement>('[data-cg-next]');
+
+    const swatch = (token: string, label: string): Swatch | null => {
+      probe.style.color = `var(${token})`;
+      const rgb = parseRgb(getComputedStyle(probe).color);
+      return rgb ? { token, label, rgb } : null;
+    };
+    const s = {
+      ink: swatch('--ink', 'ink'),
+      muted: swatch('--ink-muted', 'muted ink'),
+      accent: swatch('--accent', 'accent blue'),
+      denim: swatch('--portfolio-blue', 'denim blue'),
+      paper: swatch('--paper', 'paper'),
+      white: swatch('--raised', 'white'),
+    };
+    const pairings = (
+      [
+        [s.ink, s.paper],
+        [s.muted, s.paper],
+        [s.accent, s.paper],
+        [s.denim, s.white],
+        [s.muted, s.white],
+        [s.paper, s.accent],
+        [s.paper, s.denim],
+        [s.paper, s.ink],
+      ] as const
+    ).flatMap(([fg, bg]) => (fg && bg ? [{ fg, bg } as Pairing] : []));
+
+    let round = 0;
+    let score = 0;
+    let current: Round;
+
+    const readBest = () => {
+      try {
+        return Number(localStorage.getItem(BEST_KEY)) || 0;
+      } catch {
+        return 0;
+      }
+    };
+    const saveBest = (value: number) => {
+      try {
+        localStorage.setItem(BEST_KEY, String(value));
+      } catch {
+        /* private mode or blocked storage: the game works without it */
+      }
+    };
+
+    function render() {
+      $('[data-cg-round]').textContent = `Round ${round + 1} of ${total}`;
+      $('[data-cg-score]').textContent = `Score ${score}`;
+    }
+
+    function nextRound(moveFocus: boolean) {
+      try {
+        current = makeRound(pairings);
+      } catch {
+        root.hidden = true;
+        return;
+      }
+      sample.style.backgroundColor = `var(${current.bg.token})`;
+      text.style.fill = `color-mix(in srgb, var(${current.fg.token}) ${current.strength}%, transparent)`;
+      text.textContent = LINES[round % LINES.length];
+      art.setAttribute(
+        'aria-label',
+        `Sample ${round + 1}: "${text.textContent}" in ${current.fg.label} at ${current.strength}% strength on a ${current.bg.label} background.`,
+      );
+      play.hidden = false;
+      feedback.hidden = true;
+      end.hidden = true;
+      render();
+      if (moveFocus) sample.focus();
+    }
+
+    function answer(guess: 'pass' | 'fail') {
+      const right = (guess === 'pass') === current.passes;
+      if (right) score++;
+      const ratio = formatRatio(current.ratio);
+      const verdict = right ? 'Right.' : 'Not quite.';
+      const outcome = current.passes ? 'passes' : 'fails';
+      $('[data-cg-verdict]').textContent = `${verdict} ${ratio} ${outcome} for body text.`;
+      $('[data-cg-fg]').textContent = current.fg.token;
+      $('[data-cg-strength]').textContent = String(current.strength);
+      $('[data-cg-bg]').textContent = current.bg.token;
+      live.textContent = `${verdict} ${ratio} ${outcome}.`;
+      $('[data-cg-score]').textContent = `Score ${score}`;
+      round++;
+      nextBtn.textContent = round >= total ? 'See your score' : 'Next round';
+      play.hidden = true;
+      feedback.hidden = false;
+      nextBtn.focus();
+    }
+
+    function finish() {
+      const best = Math.max(score, readBest());
+      saveBest(best);
+      $('[data-cg-summary]').textContent = `You scored ${score} of ${total}.`;
+      $('[data-cg-best]').textContent =
+        best > score
+          ? `Your best is ${best}. Judging contrast by eye is hard, which is why it's worth checking with a tool.`
+          : `That's your best so far. Judging contrast by eye is hard, which is why it's worth checking with a tool.`;
+      live.textContent = `Game over. You scored ${score} of ${total}.`;
+      feedback.hidden = true;
+      end.hidden = false;
+      $<HTMLButtonElement>('[data-cg-restart]').focus();
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('[data-cg-answer]').forEach((btn) =>
+      btn.addEventListener('click', () => answer(btn.dataset.cgAnswer as 'pass' | 'fail')),
+    );
+    nextBtn.addEventListener('click', () => (round >= total ? finish() : nextRound(true)));
+    $('[data-cg-restart]').addEventListener('click', () => {
+      round = 0;
+      score = 0;
+      nextRound(true);
+    });
+
+    root.hidden = false;
+    nextRound(false);
+  }
+</script>

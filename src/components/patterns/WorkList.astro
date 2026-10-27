@@ -1,4 +1,5 @@
 ---
+import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
 import { selectedWork } from '~/lib/selected-work';
 interface Props { compact?: boolean; items?: typeof selectedWork; }
 const { compact = false, items = selectedWork } = Astro.props;
@@ -6,8 +7,8 @@ const { compact = false, items = selectedWork } = Astro.props;
 <div class:list={['work-list', { 'work-list--compact': compact }]}>
   {items.map((work) => (
     <article class="work-entry" data-reveal>
-      <a href={work.href} class:list={['work-image', work.imageClass]} aria-label={`View ${work.name}`}>
-        <span class="work-image-frame"><img src={work.image} alt={work.alt} width="1400" height="900" loading="lazy" decoding="async" /></span>
+      <a href={work.href} class="work-image" aria-label={`View ${work.name}`}>
+        <ProjectIllustration project={work.illustration} />
         <span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span>
       </a>
       <div class="work-copy">
