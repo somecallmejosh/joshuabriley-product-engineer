@@ -17,8 +17,6 @@ const PAGES = [
   '/personal-projects/token-galaga/',
   '/personal-projects/',
   '/blog/',
-  '/blog/native-lit-or-stencil/',
-  '/blog/staff-level-ui-engineering-for-dummies/',
   '/blog/measuring-style-guide-adoption/',
   '/blog/the-hidden-cost-of-component-inconsistency/',
   '/blog/future-proofing-front-end-dev-roles/',

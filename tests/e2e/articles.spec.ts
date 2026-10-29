@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('article contents and data tables are usable on a narrow phone', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/blog/native-lit-or-stencil/');
+  await page.goto('/blog/future-proofing-front-end-dev-roles/');
   const contents = page.locator('.article-mobile-toc');
   await contents.locator('summary').focus();
   await page.keyboard.press('Enter');
@@ -49,8 +49,8 @@ test('article sharing announces clipboard success and failure', async ({ page })
 test('article contents track a section after jumping through a long guide', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/blog/staff-level-ui-engineering-for-dummies/');
-  const section = 'tokens-governance-and-adoption';
+  await page.goto('/blog/future-proofing-front-end-dev-roles/');
+  const section = 'what-engineering-leaders-should-do';
   await page.locator(`#${section}`).evaluate((heading) => heading.scrollIntoView({ block: 'start' }));
   const links = page.locator(`[data-toc-link="${section}"]`);
   await expect(links).toHaveCount(2);

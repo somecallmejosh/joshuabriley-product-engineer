@@ -337,13 +337,6 @@ export const componentCatalogue = [
     "href": "/blog/"
   },
   {
-    "name": "BookList",
-    "path": "src/components/patterns/BookList.astro",
-    "group": "patterns",
-    "note": "Josh's free online books, each with a typographic cover.",
-    "href": "/"
-  },
-  {
     "name": "WorkList",
     "path": "src/components/patterns/WorkList.astro",
     "group": "patterns",
@@ -397,6 +390,6 @@ export const componentCatalogue = [
     "path": "src/components/writing/ArticleTable.astro",
     "group": "writing",
     "note": "A labelled, keyboard-scrollable table region that preserves column headings.",
-    "href": "/blog/native-lit-or-stencil/"
+    "href": "/blog/future-proofing-front-end-dev-roles/"
   }
 ] as const;

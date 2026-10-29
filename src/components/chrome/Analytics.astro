@@ -1,0 +1,30 @@
+---
+/**
+ * Google Analytics 4, production builds only.
+ *
+ * The gtag stub queues the page view immediately, but gtag.js itself is only
+ * fetched after `load` once the main thread is idle, so it never competes with
+ * fonts, CSS, or LCP. Queued commands replay when the library arrives.
+ */
+const GA_ID = 'G-2Z540WCTFV';
+---
+
+{import.meta.env.PROD && (
+  <script is:inline define:vars={{ GA_ID }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+
+    const loadGtag = () => {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      document.head.appendChild(script);
+    };
+    const whenIdle = () => ('requestIdleCallback' in window ? requestIdleCallback(loadGtag, { timeout: 3000 }) : setTimeout(loadGtag, 1));
+    if (document.readyState === 'complete') whenIdle();
+    else addEventListener('load', whenIdle, { once: true });
+  </script>
+)}

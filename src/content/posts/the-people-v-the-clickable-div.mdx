@@ -1,0 +1,84 @@
+---
+title: "The People v. the Clickable Div"
+description: "A div written by an AI coding agent stands accused of impersonating a button. The real button testifies as an expert witness, and it has been waiting since 1997."
+date: 2026-10-25
+category: UI Court
+tags:
+  - Accessibility
+  - AI & Engineering
+  - Semantic HTML
+readMinutes: 3
+---
+
+<p class="lede">The defendant was generated at 2:14 a.m. by an AI coding agent, approved in a pull request with the comment "lgtm," and in production by breakfast. It looks exactly like a Submit button. It is not a Submit button.</p>
+
+Judge Patricia Semantics is presiding. The bailiff, a focus ring, is standing by. She will become important later.
+
+## The charges
+
+1. **Impersonating a button.** The defendant has a background color, rounded corners, and a hover state. Underneath, it's a `<div>` with a click handler.
+2. **Ignoring keyboard users.** A div can't receive keyboard focus on its own, so the Tab key skips right past it. Enter and Space do nothing.
+3. **Withholding its identity.** The defendant has no role, so assistive technology has no reason to announce it as a button, if it announces it at all.
+
+## Opening statements
+
+**Defense:** My client passed visual review. It passed the screenshot test. It passed the vibe check.
+
+**Judge Semantics:** This court does not recognize the vibe check.
+
+## The witnesses
+
+The defense called the **AI coding agent** that wrote the defendant.
+
+**Agent:** The design showed a rectangle with the word "Submit" in it. I built a rectangle with the word "Submit" in it.
+
+**Prosecution:** Does your team's design system have a Button component?
+
+**Agent:** Yes.
+
+**Prosecution:** Did you use it?
+
+**Agent:** It was in a different folder.
+
+**Prosecution:** Did anyone tell you to use it?
+
+**Agent:** Nobody tells me anything. Every time I'm here, it's my first time here.
+
+The prosecution entered into the record that agents use what they can see. A design system that only lives in someone's head, or in a Figma file the agent can't open, is invisible to them.
+
+Next, a **keyboard user** testified. She filled out every field, pressed Tab to reach the Submit button, and landed on the Privacy link in the footer.
+
+"I had a completed form and no way to send it," she said. "It felt like holding a signed permission slip after the bus already left."
+
+The **bailiff** was then asked whether she had ever been called to the defendant. "Never," said the focus ring. "I was standing right there the whole time."
+
+## The expert witness
+
+The prosecution called `<button>`, which has been part of HTML since version 4.0 in 1997.
+
+**Prosecution:** What do you give a team, out of the box?
+
+**Button:** Keyboard focus. Activation with Enter and Space. I announce myself as a button. I submit forms. I understand what "disabled" means. You don't have to add anything. You just have to use me.
+
+**Defense:** But you're hard to style.
+
+**Button:** I was hard to style in 2009. Have you looked at me lately? I take CSS like anyone else.
+
+The defense then tried to rehabilitate its client on the stand. It added `role="button"`, then `tabindex="0"`, then a keyboard handler for Enter and Space.
+
+**Button:** Congratulations. You rebuilt me with three extra parts and a bug.
+
+## The verdict
+
+Guilty on all counts. The court noted that the agent acted without intent, and the reviewer acted without reading.
+
+## Sentencing
+
+- **The defendant is replaced by a real button,** or by the design system's Button component, which already uses one.
+- **The team adds a lint rule** that flags click handlers on elements that aren't interactive.
+- **The design system's rules move somewhere agents can read them,** so the next agent finds Button before it draws another rectangle.
+- **Every reviewer is sentenced to press Tab at least once** before approving a pull request.
+
+The agent was released on its own recognizance. It has no memory of the trial and will be back tomorrow.
+
+This case is part of the [UI Court series](/blog/#ui-court).

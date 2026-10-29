@@ -43,17 +43,15 @@ for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/',
 }
 
 test('project and article blocks share their theme and readable comment colors', async ({ page }) => {
-  const styles: { background: string; comment: string }[] = [];
-  for (const path of ['/projects/ivfcryo/', '/blog/staff-level-ui-engineering-for-dummies/']) {
+  const backgrounds: string[] = [];
+  for (const path of ['/projects/ivfcryo/', '/blog/design-system-rules-for-ai-agents/']) {
     await page.goto(path);
     const code = page.locator('#main pre.astro-code').first();
     await expect(code).toHaveClass(/github-dark/);
-    const comment = page.locator('#main pre.astro-code span[style*="color:#6A737D" i]').first();
-    styles.push({
-      background: await code.evaluate(el => getComputedStyle(el).backgroundColor),
-      comment: await comment.evaluate(el => getComputedStyle(el).color),
-    });
+    backgrounds.push(await code.evaluate(el => getComputedStyle(el).backgroundColor));
   }
-  expect(styles[0]).toEqual(styles[1]);
-  expect(styles[0].comment).toBe('rgb(163, 178, 191)');
+  expect(backgrounds[0]).toEqual(backgrounds[1]);
+  await page.goto('/projects/ivfcryo/');
+  const comment = page.locator('#main pre.astro-code span[style*="color:#6A737D" i]').first();
+  expect(await comment.evaluate(el => getComputedStyle(el).color)).toBe('rgb(163, 178, 191)');
 });

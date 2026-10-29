@@ -4,14 +4,6 @@ export const writing: Record<string, { format: string; covers: string[] }> = {
     format: 'Article',
     covers: ['What a printed pizza menu can teach us about product design.', 'A practical starting point for layout, margins, and page breaks.', 'How to scope design-system support and check printed output.'],
   },
-  'staff-level-ui-engineering-for-dummies': {
-    format: 'Guide',
-    covers: ['How technical scope grows from a component to a shared UI platform.', 'The decisions behind APIs, accessibility, testing, and releases.', 'How governance and adoption connect the system to its users.'],
-  },
-  'native-lit-or-stencil': {
-    format: 'Comparison',
-    covers: ['What each option provides, and what your team still owns.', 'The distribution and integration work behind a component library.', 'How to evaluate the tradeoffs against your consuming applications.'],
-  },
   'measuring-style-guide-adoption': {
     format: 'Specification',
     covers: ['A proposed scanner for component and token references.', 'What source-level counts can tell you, and where they need review.', 'A report schema and a staged approach to collecting a baseline.'],

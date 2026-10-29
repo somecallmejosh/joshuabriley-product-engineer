@@ -25,7 +25,7 @@ export const OG_PAGES = [
   { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built' },
   { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build on my own time', wink: 'on my own time' },
   { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship' },
-  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Notes on design systems and front-end', wink: 'front-end' },
+  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Interface lessons, played for laughs', wink: 'played for laughs' },
   { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system', wink: null },
   { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy', wink: null },
   { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use', wink: null },

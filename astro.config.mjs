@@ -27,6 +27,9 @@ export default defineConfig({
     // report, so it doesn't fit the case-study bar the other /projects/
     // pages are held to.
     '/projects/rudiment-ui': '/personal-projects/rudiment-ui',
+    // Retired 2026-10-28 when the writing moved from guides to opinion pieces.
+    '/blog/staff-level-ui-engineering-for-dummies': '/blog',
+    '/blog/native-lit-or-stencil': '/blog',
   },
   ...(isDev ? {} : { adapter: netlify() }),
   // Default (sharp) image service. The passthrough service was carried in at the

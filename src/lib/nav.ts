@@ -60,7 +60,6 @@ export const HEADER_MENUS: NavMenu[] = [
     linksLabel: 'Topics',
     links: [
       ...writingTopics.map((topic) => ({ href: `/blog/#${topic.id}`, label: topic.category, description: topic.description })),
-      { href: '/blog/#books', label: 'Longer reads', description: 'Two free online books, each on a single subject.' },
     ],
     overview: { href: '/blog/', label: 'All writing' },
   },

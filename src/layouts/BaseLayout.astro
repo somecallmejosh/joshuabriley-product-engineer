@@ -4,6 +4,7 @@ import '~/styles/redesign.css';
 import '~/styles/print.css';
 import Font from 'astro/components/Font.astro';
 import SkipLink from '~/components/chrome/SkipLink.astro';
+import Analytics from '~/components/chrome/Analytics.astro';
 import Header from '~/components/chrome/Header.astro';
 import Footer from '~/components/chrome/Footer.astro';
 import InspectorMode from '~/components/islands/InspectorMode.astro';
@@ -194,6 +195,8 @@ const jsonLdGraph = {
       is:inline
       src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"
       defer></script>
+
+    <Analytics />
 
     <slot name="head" />
   </head>

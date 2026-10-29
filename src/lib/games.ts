@@ -62,7 +62,6 @@ export const GAMES: Game[] = [
     teaches: 'Which built-in elements give you keyboard support, states and semantics without extra JavaScript.',
     outro: 'Native elements carry years of browser and assistive tech work. Reach for them before writing your own.',
     questions: useThePlatform,
-    posts: ['native-lit-or-stencil'],
   },
   {
     slug: 'name-that-button',
@@ -74,7 +73,6 @@ export const GAMES: Game[] = [
     teaches: 'How to name buttons by what they do, so they still make sense out of context.',
     outro: 'A good accessible name says what happens, and is specific enough to tell repeated buttons apart.',
     questions: nameThatButton,
-    posts: ['staff-level-ui-engineering-for-dummies'],
   },
   {
     slug: 'tab-order',

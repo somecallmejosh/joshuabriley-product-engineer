@@ -57,7 +57,7 @@ test('the Writing menu teases the latest article and links to topic sections tha
   const teaser = panel.locator('.nav-article');
   await expect(teaser).toHaveAttribute('href', /^\/blog\/[^/]+\/$/);
   const anchors = await panel.locator('.nav-link').evaluateAll((links) => links.map((a) => (a as HTMLAnchorElement).hash));
-  expect(anchors).toContain('#books');
+  expect(anchors.length).toBeGreaterThan(0);
   await page.goto('/blog/');
   for (const hash of anchors) await expect(page.locator(hash)).toHaveCount(1);
 });

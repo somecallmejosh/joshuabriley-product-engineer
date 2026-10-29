@@ -1,0 +1,53 @@
+---
+title: "The modal, in its natural habitat"
+description: "The modal dialog is an ambush predator. It waits for the visitor to start reading, then strikes. A look at its hunting habits, and at the gentler native species that's finally spreading."
+date: 2026-10-14
+category: Wild Interfaces
+tags:
+  - Accessibility
+  - Dialogs
+  - HTML
+readMinutes: 3
+---
+
+<p class="lede">The visitor has found what they came for: an article, the second paragraph, a sentence that's finally getting interesting. They don't see it coming. They never do. From the center of the screen, the modal strikes.</p>
+
+"Before you go," it says, though the visitor has only just arrived. "Join our newsletter."
+
+## An ambush predator
+
+The modal is a patient hunter. Some wait for a set number of seconds. Others wait until the visitor scrolls halfway down the page. The most cunning wait until the mouse drifts toward the top of the browser, where the visitor might be about to leave.
+
+Then it pounces, dims everything else on the screen, and stands between the visitor and whatever they were doing.
+
+## A well-camouflaged exit
+
+Escaping a modal requires skill. The close button is often small, light gray, and hidden in a corner. Sometimes there's no button at all, only a line of text beneath the main offer that reads, "No thanks, I don't like saving money."
+
+Visitors have developed their own techniques for survival. Some press Escape. Some click the dimmed area outside the modal. Some simply close the tab, which, from the modal's point of view, is a successful hunt for nobody.
+
+## The danger to other species
+
+For keyboard users, a careless modal is especially treacherous. When it opens, focus should move into it. While it's open, the Tab key should stay inside it. When it closes, focus should return to where it was. Many modals do none of these things.
+
+So the keyboard user is left wandering through the page behind the dimmed overlay, unable to see where they are, while the modal waits in the middle of the screen, unreachable.
+
+Screen reader users may not be told the modal has appeared at all. They continue reading the page beneath it, a page that, as far as everyone else is concerned, is no longer there.
+
+## A native species returns
+
+But the ecosystem is recovering. For years, every team built its own modal from scratch, with mixed results. Today, the HTML `<dialog>` element lives in every major browser. Opened as a modal, it keeps focus inside, closes with Escape, and tells assistive technology what it is, all without a single line of custom focus-trapping code.
+
+It has been joined by a close relative, the popover, which handles lighter work like menus and toggletips without taking over the whole screen.
+
+Conservationists recommend these native species wherever possible. They're hardier than anything built by hand, and they don't bite.
+
+## When the modal belongs
+
+The modal isn't a villain. In its proper role, it's useful. It asks "Delete this project?" before something can't be undone. It holds a short form that only makes sense in the middle of a task. It appears because the visitor asked for it, not because a timer went off.
+
+In these habitats, the modal thrives, and so does everyone around it.
+
+The article's second paragraph is still there, waiting. The visitor, having survived, reads on.
+
+This episode is part of the [Wild Interfaces series](/blog/#wild-interfaces).

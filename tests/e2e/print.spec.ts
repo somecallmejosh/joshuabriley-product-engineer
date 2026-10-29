@@ -62,7 +62,7 @@ test('printed sections use whitespace while table structure remains readable', a
   }
   expect(await page.locator('#courses').evaluate(element => parseFloat(getComputedStyle(element).marginTop))).toBeGreaterThan(40);
   expect(await page.locator('.reading-resources > li').first().evaluate(element => parseFloat(getComputedStyle(element).paddingTop))).toBeGreaterThan(10);
-  await page.goto('/blog/native-lit-or-stencil/');
+  await page.goto('/blog/future-proofing-front-end-dev-roles/');
   await page.emulateMedia({ media: 'print' });
   expect(await page.locator('.article-table th').first().evaluate(element => parseFloat(getComputedStyle(element).borderBottomWidth))).toBeGreaterThan(0);
 });
@@ -116,7 +116,7 @@ test('print keeps the current assessment answers and fits article tables to pape
   await page.emulateMedia({ media: 'screen' });
   await expect(answer).toBeChecked();
 
-  await page.goto('/blog/native-lit-or-stencil/');
+  await page.goto('/blog/future-proofing-front-end-dev-roles/');
   await page.setViewportSize({ width: 650, height: 950 });
   await page.emulateMedia({ media: 'print' });
   const table = page.locator('.article-table').first();

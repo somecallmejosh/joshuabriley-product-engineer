@@ -91,22 +91,6 @@ const { post, class: className } = Astro.props;
     </g>
   )}
 
-  {post === 'native-lit-or-stencil' && (
-    <g>
-      <text x="40" y="56" class="label">ONE ELEMENT · THREE ROUTES</text>
-      <rect x="40.5" y="88.5" width="120" height="56" class="frame" />
-      <text x="100" y="122" text-anchor="middle" class="small">Browser APIs</text>
-      <rect x="180.5" y="88.5" width="120" height="56" class="frame" />
-      <text x="240" y="122" text-anchor="middle" class="body">Lit</text>
-      <rect x="320.5" y="88.5" width="120" height="56" class="frame" />
-      <text x="380" y="122" text-anchor="middle" class="body">Stencil</text>
-      <path class="connector" d="M100 145V188M240 145V228M380 145V188M100 188H380" />
-      <rect x="140" y="236" width="200" height="48" rx="4" class="accent" />
-      <text x="240" y="266" text-anchor="middle" class="code on-accent">&lt;my-button&gt;</text>
-      <text x="240" y="316" text-anchor="middle" class="small">The same custom element</text>
-    </g>
-  )}
-
   {post === 'people-still-print-web-pages' && (
     <g>
       <text x="40" y="56" class="label">SCREEN TO PAPER</text>
@@ -123,21 +107,6 @@ const { post, class: className } = Astro.props;
       <text x="286" y="248" class="small">Order online<tspan class="accent-text" dx="3" dy="-7" font-size="12">1</tspan></text>
       <path class="rule" d="M286 272H424" />
       <text x="286" y="292" class="label">1 · /ORDER</text>
-    </g>
-  )}
-
-  {post === 'staff-level-ui-engineering-for-dummies' && (
-    <g>
-      <text x="40" y="56" class="label">COMPONENT LIBRARY → UI PLATFORM</text>
-      <path class="rule" d="M40 76H440M40 126H440M40 176H440M40 226H440" />
-      <circle cx="46" cy="101" r="5" class="accent" />
-      <text x="64" y="108" class="body">Components</text>
-      <circle cx="46" cy="151" r="4.5" class="accent-stroke" stroke-width="1.5" />
-      <text x="64" y="158" class="body">Public API</text>
-      <circle cx="46" cy="201" r="4.5" class="accent-stroke" stroke-width="1.5" />
-      <text x="64" y="208" class="body">Releases</text>
-      <text x="40" y="276" class="label">GOVERNANCE AND ADOPTION</text>
-      <text x="40" y="314" class="result">A shared UI platform</text>
     </g>
   )}
 
@@ -197,6 +166,576 @@ const { post, class: className } = Astro.props;
       <rect x="40.75" y="240.75" width="20.5" height="20.5" rx="3" class="accent-stroke" stroke-width="1.5" />
       <text x="80" y="258" class="body">Podcasts</text>
       <text x="40" y="320" class="result result--sm">Start with your current work</text>
+    </g>
+  )}
+
+  {post === 'amelie-poulain-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink" d="M78 208C73 160 82 118 115 117C148 118 157 160 152 208H138C141 186 143 168 144 156H86C87 168 89 186 92 208Z" />
+      <path class="ink-stroke" stroke-width="2" d="M98 164Q104 161 110 164M120 164Q126 161 132 164" />
+      <circle cx="104" cy="172" r="3.5" class="ink" /><circle cx="126" cy="172" r="3.5" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 177L113 187H117" />
+      <path class="accent-stroke" stroke-width="2.5" d="M108 198Q115 204 122 198" />
+      <path class="ink-stroke" stroke-width="2" d="M100 228Q115 240 130 228" />
+      <text x="226" y="126" class="title">Amélie Poulain</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Fixing what no one logs</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Warm microcopy</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Hidden Easter eggs</text>
+      <text x="40" y="324" class="result result--sm">Magic in the margins</text>
+    </g>
+  )}
+
+  {post === 'dwight-schrute-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M83 166C76 164 76 182 84 184M147 166C154 164 154 182 146 184" />
+      <path class="ink" d="M83 160C80 128 98 118 115 118S150 128 147 160C140 149 128 144 115 131C102 144 90 149 83 160Z" />
+      <rect x="95" y="163" width="16" height="11" rx="1" class="ink-stroke" stroke-width="2" />
+      <rect x="119" y="163" width="16" height="11" rx="1" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M111 168H119M95 167H84M135 167H146" />
+      <circle cx="103" cy="169" r="1.8" class="ink" /><circle cx="127" cy="169" r="1.8" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 178L112 190H118M107 201Q115 197 123 201" />
+      <path class="ink-stroke" stroke-width="2" d="M106 226L115 236L124 226" />
+      <path class="accent" d="M112 236H118L121 262L115 270L109 262Z" />
+      <text x="226" y="126" class="title">Dwight Schrute</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">A 74-row WCAG audit</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Trapped modal focus</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Strict naming rules</text>
+      <text x="40" y="324" class="result result--sm">Feelings are a liability</text>
+    </g>
+  )}
+
+  {post === 'forrest-gump-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M83 166C76 164 76 182 84 184M147 166C154 164 154 182 146 184" />
+      <path class="ink" d="M85 152C84 133 96 124 115 124S146 133 145 152C140 142 128 138 115 138S90 142 85 152Z" />
+      <path class="ink-stroke" stroke-width="2" d="M98 160Q104 156 110 160M120 160Q126 156 132 160" />
+      <circle cx="104" cy="170" r="2.2" class="ink" /><circle cx="126" cy="170" r="2.2" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 174L112 188H118M102 197Q115 211 128 197" />
+      <path class="ink-stroke" stroke-width="2" d="M106 226L112 252M124 226L118 252M112 234H118" />
+      <path class="accent" d="M152 142C158 126 170 114 182 106C180 122 170 136 152 142Z" />
+      <path class="accent-stroke" stroke-width="1.5" d="M146 150L176 114" />
+      <text x="226" y="126" class="title">Forrest Gump</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Works on a flip phone</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Sensible tab order</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Asking users first</text>
+      <text x="40" y="324" class="result result--sm">Calm, not clever</text>
+    </g>
+  )}
+
+  {post === 'ron-swanson-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M83 166C76 164 76 182 84 184M147 166C154 164 154 182 146 184" />
+      <path class="ink" d="M84 160C84 130 99 120 115 120S146 130 146 160C142 146 134 140 124 138C114 136 104 138 96 142C90 146 86 152 84 160Z" />
+      <path class="ink-stroke" stroke-width="3" d="M97 160H110M120 160H133" />
+      <circle cx="104" cy="170" r="2.2" class="ink" /><circle cx="126" cy="170" r="2.2" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 174L111 188H118M107 207H123" />
+      <path class="ink" d="M96 198C101 190 110 191 115 194C120 191 129 190 134 198C134 203 128 202 123 200C119 199 117 200 115 201C113 200 111 199 107 200C102 202 96 203 96 198Z" />
+      <path class="accent-stroke" stroke-width="2" d="M106 226L113 240L115 230L117 240L124 226" />
+      <text x="226" y="126" class="title">Ron Swanson</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Deleting the modals</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Zero trackers</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">One field, one button</text>
+      <text x="40" y="324" class="result result--sm">“Simpler.”</text>
+    </g>
+  )}
+
+  {post === 'ted-lasso-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M83 166C76 164 76 182 84 184M147 166C154 164 154 182 146 184" />
+      <path class="ink" d="M86 148C84 126 99 117 115 117S146 126 144 148Z" />
+      <path class="accent" d="M83 145C100 138 130 138 147 145V153C130 146 100 146 83 153Z" />
+      <path class="accent" d="M80 153C100 145 130 145 150 153C138 163 92 163 80 153Z" />
+      <path class="ink-stroke" stroke-width="2" d="M100 174Q104 170 108 174M122 174Q126 170 130 174M115 177L112 189H118" />
+      <path class="ink" d="M95 201C101 191 110 192 115 195C120 192 129 191 135 201C136 208 131 210 129 205C126 200 120 200 115 201C110 200 104 200 101 205C99 210 94 208 95 201Z" />
+      <path class="ink-stroke" stroke-width="2" d="M106 209Q115 215 124 209" />
+      <path class="ink-stroke" stroke-width="1.5" d="M106 226L112 248M124 226L118 248" />
+      <rect x="109" y="247" width="12" height="7" rx="3" class="accent" />
+      <text x="226" y="126" class="title">Ted Lasso</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Kind error messages</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Keyboard testing</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Bringing biscuits</text>
+      <text x="40" y="324" class="result result--sm">Be a goldfish</text>
+    </g>
+  )}
+
+  {post === 'keeley-jones-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <path class="paper-fill ink-stroke" stroke-width="2" d="M115 116C92 116 79 132 81 162C82 196 74 220 69 242C84 247 93 236 95 222H135C137 236 146 247 161 242C156 220 148 196 149 162C151 132 138 116 115 116Z" />
+      <path class="ink-stroke" stroke-width="1.5" d="M77 204C78 218 75 230 73 238M153 204C152 218 155 230 157 238" />
+      <ellipse cx="115" cy="174" rx="31" ry="39" class="paper-fill ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M84 164C96 152 112 140 130 134C139 141 145 150 147 162" />
+      <path class="ink-stroke" stroke-width="2" d="M97 165Q104 160 110 164M120 164Q126 160 133 165M106 212V224M124 212V224" />
+      <circle cx="104" cy="173" r="2.4" class="ink" /><circle cx="126" cy="173" r="2.4" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 177L113 188H118" />
+      <path class="accent-stroke" stroke-width="2.5" d="M104 198Q115 210 126 198" />
+      <circle cx="84" cy="196" r="6" class="accent-stroke" stroke-width="1.5" /><circle cx="146" cy="196" r="6" class="accent-stroke" stroke-width="1.5" />
+      <path class="ink-stroke" stroke-width="2" d="M104 228L115 244L126 228" />
+      <text x="226" y="126" class="title">Keeley Jones</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Reading the room</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">On-brand error states</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Celebrating teammates</text>
+      <text x="40" y="324" class="result result--sm">Everyone feels seen</text>
+    </g>
+  )}
+
+  {post === 'sheldon-cooper-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M83 166C76 164 76 182 84 184M147 166C154 164 154 182 146 184" />
+      <path class="ink" d="M83 158C80 128 98 118 115 118S150 128 147 158C142 148 134 142 104 141C96 143 88 149 83 158Z" />
+      <path class="paper-stroke" stroke-width="2" d="M101 121L97 140" />
+      <path class="ink-stroke" stroke-width="2" d="M97 160Q104 154 110 158M120 161H133" />
+      <circle cx="104" cy="170" r="2.2" class="ink" /><circle cx="126" cy="170" r="2.2" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 174L112 188H118M106 200Q117 203 125 195" />
+      <path class="ink-stroke" stroke-width="2" d="M104 228Q115 236 126 228" />
+      <path class="accent" d="M120 242L110 257H116L112 270L125 252H119L124 242Z" />
+      <text x="226" y="126" class="title">Sheldon Cooper</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Working agreements</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Literal microcopy</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">One spot per button</text>
+      <text x="40" y="324" class="result result--sm">Knock, knock, knock</text>
+    </g>
+  )}
+
+  {post === 'the-people-v-the-carousel' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. CAROUSEL</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANT</text>
+      <path class="accent-stroke" stroke-width="1.5" d="M72 136C92 128 138 128 158 136M151 131L158 136L150 139" />
+      <rect x="62.5" y="144.5" width="106" height="68" class="frame" />
+      <circle cx="100" cy="172" r="7" class="paper-fill ink-stroke" stroke-width="2" /><circle cx="130" cy="172" r="7" class="paper-fill ink-stroke" stroke-width="2" />
+      <circle cx="96" cy="172" r="2.8" class="ink" /><circle cx="126" cy="172" r="2.8" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M104 196H126M56 170L50 178L56 186M174 170L180 178L174 186" />
+      <circle cx="97" cy="234" r="3.5" class="accent" />
+      <circle cx="109" cy="234" r="3.5" class="accent-stroke" stroke-width="1.5" /><circle cx="121" cy="234" r="3.5" class="accent-stroke" stroke-width="1.5" /><circle cx="133" cy="234" r="3.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="226" y="126" class="title">The Carousel</text>
+      <text x="226" y="152" class="small">Charged on three counts</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Rotating without consent</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Hiding slides 2 to 5</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Resisting pause</text>
+      <text x="40" y="324" class="result result--sm">Sentenced to stay still</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
+  {post === 'the-people-v-placeholder-text' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. PLACEHOLDER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANT</text>
+      <circle cx="103" cy="140" r="9" class="ink-stroke" stroke-width="2" /><circle cx="127" cy="140" r="9" class="ink-stroke" stroke-width="2" />
+      <path class="ink-stroke" stroke-width="2" d="M112 140H118M115 142Q123 154 115 156" />
+      <path class="ink" d="M99 162C105 155 111 157 115 160C119 157 125 155 131 162C125 165 119 163 115 165C111 163 105 165 99 162Z" />
+      <rect x="54.5" y="180.5" width="122" height="40" rx="4" class="frame" />
+      <text x="66" y="206" class="small">Email</text>
+      <path class="accent-stroke" stroke-width="2" d="M114 190V211" />
+      <text x="54" y="252" class="label">NO LABEL FOUND</text>
+      <text x="226" y="126" class="title">Placeholder Text</text>
+      <text x="226" y="152" class="small">Charged on three counts</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Impersonating a label</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Vanishing on input</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Failing contrast</text>
+      <text x="40" y="324" class="result result--sm">Guilty, out on probation</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
+  {post === 'the-people-v-the-clickable-div' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. CLICKABLE DIV</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANT</text>
+      <rect x="58" y="134" width="114" height="40" rx="6" class="accent" />
+      <text x="115" y="160" text-anchor="middle" class="button">Submit</text>
+      <text x="58" y="200" class="code code--sm">&lt;div onclick&gt;</text>
+      <rect x="62.5" y="226.5" width="52" height="28" rx="4" class="frame" />
+      <text x="88" y="246" text-anchor="middle" class="small">Tab</text>
+      <path class="connector" d="M116 240C160 236 180 200 180 142" />
+      <path class="connector" d="M175 148L180 141L185 148" />
+      <text x="226" y="126" class="title">The Clickable Div</text>
+      <text x="226" y="152" class="small">Charged on three counts</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Impersonating a button</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Ignoring the Tab key</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Hiding its role</text>
+      <text x="40" y="324" class="result result--sm">Replaced by a real button</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
+  {post === 'the-people-v-the-band-of-tumultuous-tooltips' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. TOOLTIPS</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANTS</text>
+      <path class="ink" d="M58 132H118V156H92L86 163L82 156H58Z" />
+      <path class="paper-stroke" stroke-width="2" d="M66 141H108M66 148H96" />
+      <path class="accent" d="M98 158H170V182H126L120 189L116 182H98Z" />
+      <path class="paper-stroke" stroke-width="2" d="M106 167H160M106 174H142" />
+      <rect x="62.5" y="196.5" width="88" height="22" rx="2" class="frame" />
+      <text x="70" y="212" class="code code--sm">Title</text>
+      <rect x="54.5" y="226.5" width="96" height="34" rx="4" class="frame" />
+      <text x="64" y="249" class="small">••••••</text>
+      <circle cx="166" cy="243" r="10" class="accent-stroke" stroke-width="1.5" />
+      <path class="accent-stroke" stroke-width="2" d="M166 241V249" />
+      <circle cx="166" cy="237" r="1.4" class="accent" />
+      <text x="226" y="126" class="title">The Tooltips</text>
+      <text x="226" y="152" class="small">Charged on three counts</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Hiding required info</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Vanishing when approached</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Ignoring touch and keys</text>
+      <text x="40" y="324" class="result result--sm">Ordered to break up</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
+  {post === 'the-people-v-superfluous-scroll-animation' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. SCROLL ANIMATION</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANT</text>
+      <rect x="58.5" y="130.5" width="104" height="134" rx="2" class="frame" />
+      <rect x="68" y="142" width="84" height="14" rx="2" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M68 166H146M68 176H132" />
+      <rect x="68" y="194" width="84" height="22" rx="2" class="fade-3" />
+      <rect x="68" y="230" width="84" height="22" rx="2" class="fade-4" />
+      <path class="accent-stroke" stroke-width="2" d="M160 214V198M155 203L160 197L165 203M160 250V234M155 239L160 233L165 239" />
+      <path class="line-stroke" stroke-width="3" d="M176 132V262" />
+      <path class="accent-stroke" stroke-width="3" d="M176 140V164" />
+      <text x="226" y="126" class="title">Scroll Animation</text>
+      <text x="226" y="152" class="small">Charged on three counts</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Holding text hostage</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Hijacking the scroll</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Ignoring reduced motion</text>
+      <text x="40" y="324" class="result result--sm">Motion privileges revoked</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
+  {post === 'the-great-migration-of-the-hamburger-menu' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">FIELD NOTES · HAMBURGER MENU</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">SPECIMEN</text>
+      <rect x="112.5" y="130.5" width="64" height="44" rx="2" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M144 175V184M132 186H156M120 140H132M120 145H132M120 150H132" />
+      <path class="ink-stroke" stroke-width="4" d="M64 214H96M64 225H96M64 236H96M72 248V256M88 248V256" />
+      <path class="accent-stroke" stroke-width="2" stroke-dasharray="4 5" d="M100 206C110 194 118 188 126 182" />
+      <path class="accent-stroke" stroke-width="2" d="M118 182L127 181L125 190" />
+      <text x="226" y="126" class="title">Hamburger menu</text>
+      <text x="226" y="152" class="small" font-style="italic">Navigatus abscondus</text>
+      <text x="226" y="194" class="label">FIELD MARKS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Three horizontal stripes</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Hides the navigation</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Migrating to desktop</text>
+      <text x="40" y="324" class="result result--sm">Overpopulated on desktop</text>
+      <path class="ink-stroke" stroke-width="2.5" d="M391 314L394 300H404L407 314M419 314L422 300H432L435 314M408 322H418" />
+      <circle cx="398" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="428" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="395" cy="321" r="3" class="accent" /><circle cx="425" cy="321" r="3" class="accent" />
+    </g>
+  )}
+
+  {post === 'the-cookie-banner-a-most-persistent-species' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">FIELD NOTES · COOKIE BANNER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">SPECIMEN</text>
+      <rect x="58.5" y="130.5" width="114" height="130" rx="2" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M70 146H160M70 158H148M70 170H154" />
+      <rect x="58" y="190" width="115" height="71" rx="2" class="ink" />
+      <circle cx="78" cy="212" r="10" class="accent" />
+      <circle cx="75" cy="209" r="1.8" class="paper-fill" /><circle cx="82" cy="214" r="1.8" class="paper-fill" /><circle cx="76" cy="217" r="1.5" class="paper-fill" />
+      <rect x="96" y="202" width="68" height="22" rx="3" class="accent" />
+      <text x="130" y="217" text-anchor="middle" class="on-accent" font-size="11" font-weight="600">Accept all</text>
+      <text x="96" y="246" class="on-accent" font-size="8">settings</text>
+      <path class="paper-stroke" stroke-width="1" d="M96 249H124" />
+      <text x="226" y="126" class="title">Cookie banner</text>
+      <text x="226" y="152" class="small" font-style="italic">Consentia insistens</text>
+      <text x="226" y="194" class="label">FIELD MARKS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Bright Accept button</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">A hidden Reject option</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Covers the content</text>
+      <text x="40" y="324" class="result result--sm">Thriving, sadly</text>
+      <path class="ink-stroke" stroke-width="2.5" d="M391 314L394 300H404L407 314M419 314L422 300H432L435 314M408 322H418" />
+      <circle cx="398" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="428" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="395" cy="321" r="3" class="accent" /><circle cx="425" cy="321" r="3" class="accent" />
+    </g>
+  )}
+
+  {post === 'the-modal-in-its-natural-habitat' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">FIELD NOTES · MODAL DIALOG</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">SPECIMEN</text>
+      <rect x="58.5" y="130.5" width="114" height="130" rx="2" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M70 146H160M70 158H148M70 236H156M70 248H140" />
+      <rect x="59" y="131" width="113" height="129" class="fade-4" />
+      <rect x="74.5" y="164.5" width="82" height="62" rx="3" class="frame" />
+      <path class="ink-stroke" stroke-width="3" d="M84 180H124" />
+      <path class="line-stroke" stroke-width="2" d="M84 193H146M84 201H136" />
+      <path class="line-stroke" stroke-width="1.5" d="M146 171L151 176M151 171L146 176" />
+      <rect x="84" y="210" width="46" height="10" rx="2" class="accent" />
+      <text x="226" y="126" class="title">Modal dialog</text>
+      <text x="226" y="152" class="small" font-style="italic">Dialogus interruptus</text>
+      <text x="226" y="194" class="label">FIELD MARKS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Strikes on page load</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Tiny gray close button</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Loses keyboard focus</text>
+      <text x="40" y="324" class="result result--sm">Best when invited</text>
+      <path class="ink-stroke" stroke-width="2.5" d="M391 314L394 300H404L407 314M419 314L422 300H432L435 314M408 322H418" />
+      <circle cx="398" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="428" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="395" cy="321" r="3" class="accent" /><circle cx="425" cy="321" r="3" class="accent" />
+    </g>
+  )}
+
+  {post === 'life-in-the-button-colony' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">FIELD NOTES · BUTTON</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">SPECIMEN</text>
+      <rect x="58" y="134" width="52" height="22" rx="3" class="accent" />
+      <rect x="120" y="134" width="52" height="22" rx="11" class="accent" />
+      <rect x="58" y="168" width="52" height="22" class="ink" />
+      <rect x="120.75" y="168.75" width="50.5" height="20.5" rx="6" class="accent-stroke" stroke-width="1.5" />
+      <rect x="58" y="202" width="52" height="22" rx="3" class="fade-2" />
+      <rect x="120.75" y="202.75" width="50.5" height="20.5" rx="11" class="accent-stroke" stroke-width="1.5" stroke-dasharray="4 3" />
+      <path class="paper-stroke" stroke-width="2" d="M72 145H96M134 145H158M72 179H96M72 213H96" />
+      <path class="accent-stroke" stroke-width="2" d="M134 179H158M134 213H158" />
+      <text x="58" y="256" class="label">14 VARIANTS</text>
+      <text x="226" y="126" class="title">Button</text>
+      <text x="226" y="152" class="small" font-style="italic">Buttonus variabilis</text>
+      <text x="226" y="194" class="label">FIELD MARKS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Fourteen variants</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Breeds in isolation</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Six shades of blue</text>
+      <text x="40" y="324" class="result result--sm">Overpopulated</text>
+      <path class="ink-stroke" stroke-width="2.5" d="M391 314L394 300H404L407 314M419 314L422 300H432L435 314M408 322H418" />
+      <circle cx="398" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="428" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="395" cy="321" r="3" class="accent" /><circle cx="425" cy="321" r="3" class="accent" />
+    </g>
+  )}
+
+  {post === 'a-new-species-arrives-the-coding-agent' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">FIELD NOTES · CODING AGENT</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">SPECIMEN</text>
+      <path class="ink-stroke" stroke-width="2" d="M115 152V140" />
+      <circle cx="115" cy="136" r="4.5" class="accent" />
+      <rect x="82" y="152" width="66" height="52" rx="14" class="ink" />
+      <circle cx="103" cy="174" r="7" class="paper-fill" /><circle cx="127" cy="174" r="7" class="paper-fill" />
+      <circle cx="104" cy="177" r="3" class="ink" /><circle cx="128" cy="177" r="3" class="ink" />
+      <path class="paper-stroke" stroke-width="2" d="M107 192Q115 197 123 192" />
+      <path class="ink-stroke" stroke-width="2.5" d="M100 204V214M130 204V214" />
+      <path class="frame" d="M64.5 216.5H96L100 220.5H166.5V234.5H64.5Z" />
+      <path class="frame" d="M70.5 236.5H100L104 240.5H160.5V254.5H70.5Z" />
+      <text x="226" y="126" class="title">Coding agent</text>
+      <text x="226" y="152" class="small" font-style="italic">Agentus mimicus</text>
+      <text x="226" y="194" class="label">FIELD MARKS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Copies what it sees</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Forgets every night</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Follows clear rules</text>
+      <text x="40" y="324" class="result result--sm">Spreading fast</text>
+      <path class="ink-stroke" stroke-width="2.5" d="M391 314L394 300H404L407 314M419 314L422 300H432L435 314M408 322H418" />
+      <circle cx="398" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="428" cy="324" r="11" class="paper-fill ink-stroke" stroke-width="3" />
+      <circle cx="395" cy="321" r="3" class="accent" /><circle cx="425" cy="321" r="3" class="accent" />
+    </g>
+  )}
+
+  {post === 'happy-gilmore-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 210V226C80 230 58 242 56 276M124 210V226C150 230 172 242 174 276" />
+      <path class="accent" d="M60 252C82 244 148 244 170 252L172 264C150 256 80 256 58 264Z" />
+      <ellipse cx="115" cy="172" rx="32" ry="40" class="ink-stroke" stroke-width="2" />
+      <path class="ink" d="M79 176C74 136 94 116 115 116C138 116 157 134 151 176L146 164L143 150C134 152 124 148 116 142C106 150 96 152 88 150L84 164Z" />
+      <path class="ink-stroke" stroke-width="2.5" d="M97 160L110 165M133 160L120 165" />
+      <circle cx="104" cy="172" r="2.2" class="ink" /><circle cx="126" cy="172" r="2.2" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 176L112 189H118M105 199Q116 205 126 197M104 226L115 236L126 226" />
+      <circle cx="103" cy="208" r="1" class="ink" /><circle cx="110" cy="211" r="1" class="ink" /><circle cx="120" cy="211" r="1" class="ink" /><circle cx="127" cy="208" r="1" class="ink" />
+      <text x="226" y="126" class="title">Happy Gilmore</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">A running-start drive</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Practicing the putts</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Finding his happy place</text>
+      <text x="40" y="324" class="result result--sm">It's all in the hips</text>
+    </g>
+  )}
+
+  {post === 'snoop-dogg-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 212V226C80 230 58 242 56 276M124 212V226C150 230 172 242 174 276" />
+      <ellipse cx="115" cy="172" rx="29" ry="42" class="ink-stroke" stroke-width="2" />
+      <path class="ink" d="M86 160C84 130 98 118 115 118S146 130 144 160C138 146 128 140 115 140S92 146 86 160Z" />
+      <path class="ink-stroke" stroke-width="4" stroke-dasharray="5 2" d="M86 152C82 182 82 212 84 240M92 156C90 184 90 208 92 232M144 152C148 182 148 212 146 240M138 156C140 184 140 208 138 232" />
+      <rect x="96" y="161" width="16" height="11" rx="3" class="ink" />
+      <rect x="118" y="161" width="16" height="11" rx="3" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M112 165H118M115 176L113 188H118M104 196Q115 192 126 196M108 202H122" />
+      <path class="ink" d="M110 207Q115 216 120 207Z" />
+      <path class="accent-stroke" stroke-width="2" d="M102 228Q115 246 128 228" />
+      <circle cx="115" cy="242" r="4" class="accent" />
+      <text x="226" y="126" class="title">Snoop Dogg</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Keeping it calm</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Plain-language docs</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Keyboard drag and drop</text>
+      <text x="40" y="324" class="result result--sm">Drop it like it's hot</text>
     </g>
   )}
 </svg>

@@ -6,7 +6,7 @@ import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Link from '~/components/primitives/Link.astro';
 
-const updated = 'June 2026';
+const updated = 'October 2026';
 ---
 
 <BaseLayout
@@ -45,6 +45,9 @@ const updated = 'June 2026';
               submissions and stores them so I can manage and respond to inquiries.</li>
             <li><strong>Netlify</strong> hosts the site and keeps
               the server logs described above.</li>
+            <li><strong>Google Analytics</strong> records how the site is used, like which pages are
+              visited, how people arrive, and general device and location details, so I can see
+              what's useful.</li>
           </ul>
         </section>
 
@@ -60,7 +63,11 @@ const updated = 'June 2026';
         <section>
           <Heading level={2} visual="h2" class="mb-4">Cookies</Heading>
           <p>
-            The site itself doesn't set tracking or advertising cookies. The embedded HubSpot form
+            The site uses Google Analytics, which sets first-party cookies (named <code>_ga</code>)
+            to count visits. It doesn't set advertising cookies. You can block analytics with
+            your browser's privacy settings or Google's
+            <Link href="https://tools.google.com/dlpage/gaoptout" variant="inline">opt-out add-on</Link>.
+            The embedded HubSpot form
             and Calendly scheduler may set their own cookies when you interact with them; those are
             governed by their respective policies.
           </p>

@@ -1,0 +1,59 @@
+---
+title: "Life in the button colony"
+description: "Deep inside a large codebase lives a colony of buttons that started as one species and became fourteen. A look at how variants multiply when nobody's watching."
+date: 2026-10-16
+category: Wild Interfaces
+tags:
+  - Design Systems
+  - Components
+  - Governance
+readMinutes: 3
+---
+
+<p class="lede">Deep inside a large codebase, beneath years of sprints, lives one of the most fascinating colonies in all of software. It began, many years ago, with a single button. Today, if you count carefully, there are fourteen.</p>
+
+Let's watch them for a while. Quietly, so we don't trigger a redesign.
+
+## The founding ancestor
+
+The first button was simple. Blue background, white text, slightly rounded corners. It lived in a file called `Button.js`, and for one glorious quarter, every team used it.
+
+Then the colony began to grow.
+
+## Adaptation in isolation
+
+The checkout team needed a button that was a little larger. Rather than change the original, they made their own, `CheckoutButton`, in a different folder. It was nearly identical, except for its padding, its corners, and a shade of blue that was off by one percent.
+
+The marketing team needed a button with an arrow. The admin team needed a button that worked in a table. The mobile team needed a button that was the same as the others, but different in a way nobody can now remember.
+
+Each new button adapted perfectly to its tiny environment. None of them ever met.
+
+## Signs of an overpopulated colony
+
+Observers can spot an overpopulated colony by several signs. There are six shades of the same blue. There are three different focus rings, and one button with no focus ring at all. There's a `PrimaryButtonNew`, which is older than `PrimaryButton2`.
+
+When the brand color changes, which it does every few years, a developer must find every button in the colony and repaint it by hand. The work takes weeks. Some buttons are never found. They live on, in the old blue, on a settings page nobody visits.
+
+## The keystone species
+
+Every healthy ecosystem has a keystone species, one that holds the whole environment together. In the button colony, that role belongs to the design system.
+
+When a design system arrives, the colony changes. There's one button, with clearly documented variants: primary, secondary, quiet, destructive. Each one is designed, built, and tested once. When the brand color changes, it changes in one place, and every button in the colony updates overnight.
+
+The old buttons don't disappear immediately. They're gradually replaced as teams pass through their territory, one feature at a time. Biologists call this a migration. Engineers call it a ticket.
+
+## The predators
+
+Not every threat comes from outside. The button colony's most dangerous predator is the phrase "just this once." It's how `CheckoutButton` was born, and it's how most of the other thirteen followed.
+
+The colony's best protection is a simple question, asked whenever a new button seems necessary: could the existing one do this with a variant? Usually, it can.
+
+## A colony in balance
+
+In the healthiest codebases, the button colony is quiet. One species, a handful of variants, all of them well documented and easy to find. Teams can build new features quickly, because the buttons are already there and already accessible.
+
+It's not the most dramatic ecosystem in software. But it's one of the most productive.
+
+And somewhere in the old settings page, a single button in last year's blue waits patiently for someone to come and find it.
+
+This episode is part of the [Wild Interfaces series](/blog/#wild-interfaces).
