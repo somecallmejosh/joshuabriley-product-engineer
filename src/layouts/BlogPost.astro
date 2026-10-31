@@ -40,8 +40,8 @@ const neighbours = [
   <header class="page-opener article-opener">
     <Container width="wide">
       <a class="editorial-link hero-in hero-in-1" href="/blog/"><span aria-hidden="true" data-link-arrow="left">←</span> All writing</a>
-      <div class:list={['article-hero', hasIllustration(slug) && 'article-hero--illustrated']}>
-        <div class="article-hero-copy">
+      <div class:list={['article-hero', 'hero-split', hasIllustration(slug) && 'article-hero--illustrated']}>
+        <div class="article-hero-copy hero-split-copy">
           <p class="role-line article-meta hero-in hero-in-2"><span>{category}</span><time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time><span class="article-read-time">{readMinutes} min read</span></p>
           <h1 class="page-type article-title hero-in hero-in-3">{words.join(' ')} <em>{emphasis}</em></h1>
           <p class="page-lede hero-in hero-in-4">{description}</p>
@@ -50,7 +50,7 @@ const neighbours = [
             {hasToc && <a class="editorial-link" href="#article-contents">Browse sections <span aria-hidden="true" data-link-arrow="down">↓</span></a>}
           </div>
         </div>
-        {hasIllustration(slug) && <div class="article-hero-illustration hero-in hero-in-3"><ArticleIllustration post={slug} /></div>}
+        {hasIllustration(slug) && <div class="article-hero-illustration hero-split-media hero-in hero-in-3"><ArticleIllustration post={slug} /></div>}
       </div>
     </Container>
   </header>

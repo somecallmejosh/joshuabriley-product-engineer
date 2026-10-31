@@ -323,6 +323,13 @@ export const componentCatalogue = [
     "href": "/play/"
   },
   {
+    "name": "RoleIllustration",
+    "path": "src/components/patterns/RoleIllustration.astro",
+    "group": "patterns",
+    "note": "A decorative SVG for each job title in the footer's dictionary entry.",
+    "href": "/"
+  },
+  {
     "name": "ProjectIllustration",
     "path": "src/components/patterns/ProjectIllustration.astro",
     "group": "patterns",

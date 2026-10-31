@@ -1,6 +1,8 @@
 ---
 import Container from '~/components/layout/Container.astro';
 import Logo from '~/components/primitives/Logo.astro';
+import RoleIllustration from '~/components/patterns/RoleIllustration.astro';
+import type { IllustratedRole } from '~/lib/role-illustrations';
 import { HEADER_MENUS } from '~/lib/nav';
 import { currentMatcher, getNavFeatures } from '~/lib/nav-features';
 import { cx } from '~/lib/cx';
@@ -12,25 +14,55 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = currentMatcher(Astro.url.pathname);
 const { linkExists } = await getNavFeatures();
 const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/') ? 'page' : undefined);
+
+// Neighbouring job titles, read as entries in the same dictionary. `xref`
+// links another entry inline, between its `before` and `after` text.
+// `example` is the usage line a dictionary prints under a sense.
+const entries: { id: IllustratedRole; term: string; ipa: string; sense: string; xref?: { id: IllustratedRole; before: string; after: string }; example?: string }[] = [
+  { id: 'product-design-engineer', term: 'product design engineer', ipa: '/ˈprɑːdʌkt dɪˈzaɪn ˌɛndʒəˈnɪr/', sense: 'Someone who works across the product decision, the design, and the code that ships it:', xref: { id: 'full-stack-developer', before: 'a', after: 'from the design side.' }, example: 'This is my role.' },
+  { id: 'full-stack-developer', term: 'full-stack developer', ipa: '/ˈfʊl ˌstæk dɪˈvɛləpər/', sense: 'Someone who builds across the whole application, from the database and server to the interface.', xref: { id: 'product-design-engineer', before: 'Compare', after: 'for the same reach from the design side.' } },
+  { id: 'front-end-developer', term: 'front-end developer', ipa: '/ˈfrʌnt ˌɛnd dɪˈvɛləpər/', sense: 'Someone who builds what runs in the browser: the markup, the styles, and the scripts that make an interface respond.' },
+  { id: 'ux-engineer', term: 'UX engineer', ipa: '/ˌjuːˈɛks ˌɛndʒəˈnɪr/', sense: 'Someone who turns interaction design into working prototypes and front-end code, so a design behaves the way it was meant to.' },
+  { id: 'ui-engineer', term: 'UI engineer', ipa: '/ˌjuːˈaɪ ˌɛndʒəˈnɪr/', sense: 'Someone who turns visual design into the components and code of an interface, often as part of a design system.' },
+  { id: 'ux-designer', term: 'UX designer', ipa: '/ˌjuːˈɛks dɪˈzaɪnər/', sense: 'Someone who studies how people use a product and shapes its flows, structure, and behavior around what they need.' },
+  { id: 'ui-designer', term: 'UI designer', ipa: '/ˌjuːˈaɪ dɪˈzaɪnər/', sense: 'Someone who designs how an interface looks: its layout, type, color, and the components it is built from.' },
+];
+const termFor = (id: string) => entries.find((entry) => entry.id === id)?.term;
 ---
 
 <footer class={cx('site-footer bg-ink', className)}>
   <Container width="wide">
-    <!-- The page closes like a letter: a dictionary entry for the role and how
-         to reply, an index in the header menus' own words, then the signature. -->
-    <div class="footer-close">
+    <!-- The page closes like a letter: a dictionary entry for the role, an index
+         in the header menus' own words, then the signature and how to reply. -->
       <div class="footer-definition">
-        <p class="footer-term"><dfn>product design engineer</dfn></p>
-        <p class="footer-grammar"><span aria-hidden="true">/ˈprɑːdʌkt dɪˈzaɪn ˌɛndʒəˈnɪr/</span> noun</p>
-        <p class="footer-sense">Someone who works across the product decision, the design, and the code that ships it.</p>
+        <!-- Every entry is pre-rendered in one grid cell, so swapping entries never
+             shifts the footer and scoped styles reach all of them. -->
+        <div class="footer-entries" id="footer-entries">
+          {entries.map((entry, i) => (
+            <div class="footer-entry" data-entry={entry.id} data-current={i === 0 ? '' : undefined}>
+              <div class="footer-entry-text">
+                <p class="footer-term"><dfn>{entry.term.split(' ').slice(0, -1).join(' ')} <em>{entry.term.split(' ').at(-1)}</em></dfn></p>
+                <p class="footer-grammar"><span aria-hidden="true">{entry.ipa}</span> noun</p>
+                <p class="footer-sense">
+                  {entry.sense}
+                  {entry.xref && <>{' '}{entry.xref.before}{' '}<button type="button" class="footer-xref" data-show={entry.xref.id} aria-controls="footer-entries">{termFor(entry.xref.id)}</button>{' '}{entry.xref.after}</>}
+                </p>
+                {entry.example && <p class="footer-example">“{entry.example}”</p>}
+              </div>
+              <RoleIllustration role={entry.id} class="footer-illustration" />
+            </div>
+          ))}
+        </div>
+        <div class="footer-see-also" role="group" aria-labelledby="footer-see-also-label" hidden>
+          <span id="footer-see-also-label" class="footer-see-also-label">See also</span>
+          <ul role="list">
+            {entries.map((entry, i) => (
+              <li><button type="button" data-show={entry.id} aria-controls="footer-entries" aria-pressed={i === 0 ? 'true' : 'false'}>{entry.term}</button></li>
+            ))}
+          </ul>
+        </div>
+        <p class="sr-only" aria-live="polite" data-entry-status></p>
       </div>
-      <nav class="footer-reach" aria-label="Footer: Get in touch">
-        <a class="footer-contact" href="/contact/" aria-current={current('/contact/')}>Contact me <svg class="hover-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path class="hover-arrow-stem" d="M0 5h7" /><path class="hover-arrow-head" d="M1 1l4 4-4 4" /></svg></a>
-        <a href="mailto:josh@thebrileys.com">josh@thebrileys.com</a>
-        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
-        <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
-      </nav>
-    </div>
 
     <div class="footer-index">
       {HEADER_MENUS.map((menu) => (
@@ -55,6 +87,12 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
       <div class="footer-signature">
         <Logo href="/" size="lg" tone="inverse" />
         <p>Based in Connecticut</p>
+        <nav class="footer-reach" aria-label="Footer: Get in touch">
+          <a class="footer-contact" href="/contact/" aria-current={current('/contact/')}>Contact me <svg class="hover-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path class="hover-arrow-stem" d="M0 5h7" /><path class="hover-arrow-head" d="M1 1l4 4-4 4" /></svg></a>
+          <a href="mailto:josh@thebrileys.com">josh@thebrileys.com</a>
+          <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+          <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        </nav>
       </div>
       <div class="footer-colophon">
         <nav aria-label="Footer: Site information">
@@ -70,9 +108,9 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
 </footer>
 
 <style>
-  /* Three moments separated by space alone: the closing line with ways to
-     reply, the index (the header menus' links and descriptions), and the
-     signature with the colophon. */
+  /* Three moments separated by space alone: the definition, the index (the
+     header menus' links and descriptions), and the signature with ways to
+     reply and the colophon. */
   .site-footer {
     --footer-muted: #bfc8d1;
     --footer-accent: #a3c1dd;
@@ -82,12 +120,33 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
   }
   .site-footer :global(.brand-dot) { color: var(--footer-accent); }
 
-  .footer-close { display: grid; gap: 2.5rem; }
-  .footer-term { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 500; line-height: 1.1; letter-spacing: -.035em; }
+  /* Stacked entries share one cell, so the tallest sets the height. */
+  .footer-entries { display: grid; }
+  .footer-entry { grid-area: 1 / 1; align-self: end; visibility: hidden; opacity: 0; transition: opacity .3s var(--ease-out), visibility 0s .3s; }
+  .footer-entry[data-current] { visibility: visible; opacity: 1; transition: opacity .3s var(--ease-out) .1s, visibility 0s; }
+  .footer-entry { display: grid; gap: 2rem; align-items: end; }
+  .footer-entry :global(.footer-illustration) { max-width: 22rem; }
+  /* A switched-in drawing starts square and settles into its tilt. */
+  .footer-entry:not([data-current]) :global(.illustration-drawing) { transform: rotate(0deg); }
+  /* The term is set like the hero headlines: heavy, tight sans with the last
+     word in the display serif, as the headlines carry their <em>. */
+  .footer-term { max-width: 16ch; font-size: clamp(2.6rem, 5.4vw, 4.75rem); font-weight: 800; line-height: .99; letter-spacing: -.065em; text-wrap: balance; }
   .footer-term dfn { font-style: normal; }
+  .footer-term em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; letter-spacing: -.055em; color: var(--footer-accent); }
   .footer-grammar { display: flex; flex-wrap: wrap; gap: 0 1rem; margin-top: .75rem; font-size: .95rem; color: var(--footer-muted); }
-  .footer-sense { max-width: 30ch; margin-top: 1.5rem; font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; letter-spacing: -.015em; color: var(--footer-muted); text-wrap: balance; }
-  .footer-reach { display: flex; flex-wrap: wrap; gap: .25rem 2rem; }
+  .footer-sense { max-width: 34ch; margin-top: 1.5rem; font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; letter-spacing: -.015em; color: var(--footer-muted); text-wrap: balance; }
+  .footer-xref { color: var(--paper); text-decoration: underline; text-decoration-color: var(--footer-line); text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .footer-example { margin-top: 1.25rem; font-family: var(--font-fraunces), Georgia, serif; font-size: clamp(1.15rem, 1.6vw, 1.35rem); font-style: italic; color: var(--footer-muted); }
+  .footer-xref:is(:hover, :focus-visible) { color: var(--footer-accent); text-decoration-color: currentColor; }
+
+  .footer-see-also { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem 1.25rem; margin-top: 2rem; }
+  .footer-see-also-label { font-size: .8rem; font-weight: 500; color: var(--footer-muted); }
+  .footer-see-also ul { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: 0; padding: 0; list-style: none; }
+  .footer-see-also button { min-height: 2.25rem; font-size: .9rem; color: var(--footer-muted); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .footer-see-also button:is(:hover, :focus-visible) { color: var(--footer-accent); text-decoration-color: currentColor; }
+  .footer-see-also button[aria-pressed='true'] { color: var(--paper); text-decoration-color: var(--footer-accent); }
+
+  .footer-reach { display: flex; flex-wrap: wrap; gap: 0 2rem; margin-top: 1.25rem; }
   .footer-reach a { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; font-size: .95rem; color: var(--footer-muted); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
   .footer-reach a > span[aria-hidden] { color: var(--footer-accent); }
   .footer-reach .footer-contact { font-weight: 600; color: var(--paper); text-decoration-color: var(--footer-line); }
@@ -114,7 +173,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
   .footer-colophon a:is(:hover, [aria-current='page']) { color: var(--footer-accent); text-decoration-color: currentColor; }
   .footer-colophon .footer-top { color: var(--paper); font-weight: 600; }
 
-  .site-footer a:focus-visible { outline: 3px solid var(--footer-accent); outline-offset: 4px; }
+  .site-footer :is(a, button):focus-visible { outline: 3px solid var(--footer-accent); outline-offset: 4px; }
 
   /* With script and motion allowed, the signature writes itself in from the
      left once it scrolls into view, and the dot lands after the last stroke. */
@@ -138,21 +197,48 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
     .footer-index { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 4rem; }
   }
   @media (min-width: 1024px) {
-    /* Shares the index's three columns so the ways to reply sit over Writing. */
-    .footer-close { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4rem; align-items: end; }
-    .footer-definition { grid-column: span 2; }
-    .footer-reach { flex-direction: column; align-items: start; gap: 0; }
+    /* The drawing takes the index's third column, over Writing. */
+    .footer-entry { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4rem; }
+    .footer-entry-text { grid-column: span 2; }
+    .footer-entry :global(.footer-illustration) { max-width: none; }
     .footer-index { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4rem; }
     .footer-signoff { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 4rem; }
     .footer-colophon { justify-items: end; text-align: right; }
     .footer-colophon nav { justify-content: end; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .site-footer a, .footer-link, .footer-link-name { transition: none; }
+    .site-footer :is(a, button), .footer-link, .footer-link-name, .footer-entry { transition: none; }
   }
 </style>
 
 <script>
+  // The see-also list is only useful with script, so it stays hidden until here.
+  const definition = document.querySelector<HTMLElement>('.footer-definition');
+  if (definition) {
+    const seeAlso = definition.querySelector<HTMLElement>('.footer-see-also');
+    const status = definition.querySelector<HTMLElement>('[data-entry-status]');
+    const show = (id: string) => {
+      let shown: HTMLElement | undefined;
+      definition.querySelectorAll<HTMLElement>('[data-entry]').forEach((entry) => {
+        const isCurrent = entry.dataset.entry === id;
+        entry.toggleAttribute('data-current', isCurrent);
+        if (isCurrent) shown = entry;
+      });
+      seeAlso?.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.show === id));
+      });
+      if (shown && status) status.textContent = `${shown.querySelector('dfn')?.textContent}, noun. ${shown.querySelector('.footer-sense')?.textContent?.trim().replace(/\s+/g, ' ')} ${shown.querySelector('.footer-example')?.textContent ?? ''}`.trim();
+    };
+    if (seeAlso) seeAlso.hidden = false;
+    definition.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest<HTMLButtonElement>('button[data-show]');
+      if (!button?.dataset.show) return;
+      show(button.dataset.show);
+      // A cross-reference sits inside the entry it hides, so hand focus to its see-also button.
+      if (button.classList.contains('footer-xref')) seeAlso?.querySelector<HTMLButtonElement>(`button[data-show="${button.dataset.show}"]`)?.focus();
+    });
+  }
+
   const signature = document.querySelector<HTMLElement>('.footer-signature');
   if (signature && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     signature.dataset.signing = '';

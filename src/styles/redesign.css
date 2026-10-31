@@ -270,18 +270,15 @@ body {
 .section-type {
   font-size: clamp(2.6rem, 5vw, 4.5rem);
 }
+/* The description reads under the headline, never set opposite it. */
 .section-heading {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 4rem;
-  align-items: end;
-  justify-content: space-between;
   margin-bottom: var(--space-block);
 }
 .section-heading > p {
+  margin-top: 1.25rem;
   font-size: 1.06rem;
   line-height: 1.6;
-  max-width: 36ch;
+  max-width: 52ch;
   color: var(--ink-muted);
 }
 .work-section {
@@ -645,28 +642,31 @@ body {
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     gap: 6rem;
   }
+  /* Every project on the home page carries equal weight: one even row. */
   .work-list--compact {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-block) 4rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-block) 3rem;
   }
-  .work-list--compact .work-entry:first-child {
-    grid-column: 1 / -1;
-  }
-  .work-list--compact .work-entry + .work-entry {
+  .work-list--compact .work-entry {
     display: block;
     margin: 0;
     padding: 0;
     border: 0;
   }
-  .work-list--compact .work-entry + .work-entry .work-copy {
+  .work-list--compact .work-copy {
     margin-top: 2.25rem;
   }
-  .work-list--compact .work-entry + .work-entry h3 {
+  .work-list--compact h3 {
     font-size: 2.4rem;
   }
-  .work-list--compact .work-entry + .work-entry .work-title {
+  .work-list--compact .work-title {
     max-width: 30ch;
+  }
+  /* Narrow columns wrap the note unevenly, so it always sits under the figure. */
+  .work-list--compact .work-result {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .approach-layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
@@ -707,6 +707,23 @@ body {
   .home-hero-grid {
     gap: 2.5rem;
     padding-top: 2rem;
+  }
+  /* Hero images sit directly under the headline: flatten the copy column so the
+     image can slot between the h1 and whatever follows it. Children keep their
+     own top margins, so the image carries the gap the grid used to provide.
+     #main outranks the page sheets and scoped styles that set each hero's gap. */
+  #main .hero-split {
+    row-gap: 0;
+  }
+  .hero-split-copy {
+    display: contents;
+  }
+  .hero-split-copy h1 ~ * {
+    order: 2;
+  }
+  .hero-split-media {
+    order: 1;
+    margin-top: 2.5rem;
   }
   .hero-type {
     font-size: clamp(2.9rem, 12.4vw, 4.75rem);

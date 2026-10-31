@@ -1,0 +1,153 @@
+---
+import { cx } from '~/lib/cx';
+import type { IllustratedRole } from '~/lib/role-illustrations';
+import '~/styles/illustration.css';
+
+interface Props {
+  role: IllustratedRole;
+  class?: string;
+}
+const { role, class: className } = Astro.props;
+
+// The two "full stack" roles share one drawing: the same reach of four layers,
+// offset so the product design engineer sits on the design side.
+const layers = ['PRODUCT', 'DESIGN', 'INTERFACE', 'FRONT END', 'BACK END', 'DATABASE'];
+const spans: Partial<Record<IllustratedRole, [number, number]>> = {
+  'product-design-engineer': [0, 3],
+  'full-stack-developer': [2, 5],
+};
+const span = spans[role];
+const rowY = (i: number) => 92 + i * 32;
+const rows = layers.map((name, i) => ({ name, y: rowY(i), covered: !!span && i >= span[0] && i <= span[1] }));
+---
+
+<!-- Decorative: the dictionary entry beside it carries the meaning. Styles live
+     in illustration.css; the on-ink variant blends into the footer's ink. -->
+<span class={cx('illustration illustration--on-ink', className)} aria-hidden="true">
+<span class="illustration-frame">
+<svg viewBox="0 0 480 360" fill="none" class={cx('illustration-drawing', `illustration-drawing--${role}`)}>
+
+  {span && (
+    <g>
+      <text x="40" y="56" class="label">{role === 'product-design-engineer' ? 'THE STACK · DESIGN SIDE' : 'THE STACK · ENGINEERING SIDE'}</text>
+      <path class="rule" d="M40 76H440" />
+      {rows.map((row) => (
+        <g>
+          <rect x="72.5" y={row.y + .5} width="367" height="26" class={row.covered ? 'note accent-stroke' : 'frame'} />
+          <text x="88" y={row.y + 18} class={cx('label', row.covered && 'accent-text')}>{row.name}</text>
+        </g>
+      ))}
+      <path class="accent-stroke" stroke-width="2" d={`M60 ${rowY(span[0]) + 1}H52V${rowY(span[1]) + 26}H60`} />
+      <text x="40" y="324" class="result">{role === 'product-design-engineer' ? 'Product to front end' : 'Interface to database'}</text>
+    </g>
+  )}
+
+  {role === 'front-end-developer' && (
+    <g>
+      <text x="40" y="56" class="label">BROWSER · HTML, CSS, JS</text>
+      <rect x="40.5" y="90.5" width="399" height="176" class="frame" />
+      <path class="rule" d="M41 116H439" />
+      <circle cx="56" cy="103" r="4" class="line-fill" />
+      <circle cx="70" cy="103" r="4" class="line-fill" />
+      <circle cx="84" cy="103" r="4" class="line-fill" />
+      <text x="64" y="160" class="code">&lt;button&gt;</text>
+      <text x="64" y="192" class="code muted-text">.btn &#123; &#125;</text>
+      <text x="64" y="224" class="code muted-text">onClick()</text>
+      <path class="connector" d="M200 188H264M256 182l8 6-8 6" />
+      <rect x="290" y="168" width="116" height="40" rx="4" class="accent" />
+      <text x="348" y="194" text-anchor="middle" class="button">Save</text>
+      <path d="M390 200l0 26 7-7 6 12 5-2-6-12 10 0z" class="ink paper-stroke" stroke-width="1.5" stroke-linejoin="round" />
+      <text x="40" y="320" class="result">Rendered in the browser</text>
+    </g>
+  )}
+
+  {role === 'ux-engineer' && (
+    <g>
+      <text x="40" y="56" class="label">PROTOTYPE · INTERACTION</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="100.5" width="90" height="156" rx="10" class="frame" />
+      <rect x="56" y="200" width="58" height="24" rx="3" class="accent" />
+      <circle cx="104" cy="226" r="14" class="accent-stroke" stroke-width="1.5" />
+      <circle cx="104" cy="226" r="5" class="ink paper-stroke" stroke-width="1.5" />
+      <path class="connector" d="M140 178H186M178 172l8 6-8 6" />
+      <rect x="195.5" y="100.5" width="90" height="156" rx="10" class="frame" />
+      <rect x="196" y="176" width="89" height="80" rx="0" class="note" />
+      <path class="line-stroke" stroke-width="3" stroke-linecap="round" d="M228 188H252" />
+      <path class="connector" d="M295 178H341M333 172l8 6-8 6" />
+      <rect x="349.5" y="100.5" width="90" height="156" rx="10" class="frame" />
+      <circle cx="395" cy="178" r="18" class="accent" />
+      <path d="m386 178 6 6 11-12" class="check" stroke-width="2.5" />
+      <text x="40" y="320" class="result">Behaves as designed</text>
+    </g>
+  )}
+
+  {role === 'ui-engineer' && (
+    <g>
+      <text x="40" y="56" class="label">TOKENS · COMPONENT · INSTANCES</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40" y="108" width="24" height="24" class="accent" />
+      <text x="76" y="126" class="code muted-text">--accent</text>
+      <rect x="40" y="152" width="24" height="24" class="ink" />
+      <text x="76" y="170" class="code muted-text">--ink</text>
+      <rect x="40" y="196" width="24" height="24" class="line-fill" />
+      <text x="76" y="214" class="code muted-text">--line</text>
+      <path class="connector" d="M168 164H200M192 158l8 6-8 6" />
+      <rect x="212" y="110" width="120" height="36" rx="4" class="accent" />
+      <text x="272" y="134" text-anchor="middle" class="button">Button</text>
+      <rect x="212.5" y="156.5" width="119" height="35" rx="4" class="frame" />
+      <text x="272" y="180" text-anchor="middle" class="small">Button</text>
+      <rect x="212.5" y="202.5" width="119" height="35" rx="4" class="accent-stroke" stroke-dasharray="4 4" />
+      <text x="272" y="226" text-anchor="middle" class="small accent-text">Button</text>
+      <path class="connector" d="M342 164H368M360 158l8 6-8 6" />
+      {[0, 1, 2, 3, 4].map((r) => [0, 1].map((c) => (
+        <rect x={380 + c * 32} y={112 + r * 24} width="26" height="14" rx="2" class={(r + c) % 3 === 0 ? 'accent' : 'line-fill'} />
+      )))}
+      <text x="40" y="320" class="result">Built once, used everywhere</text>
+    </g>
+  )}
+
+  {role === 'ux-designer' && (
+    <g>
+      <text x="40" y="56" class="label">USER FLOW · RESEARCH</text>
+      <path class="rule" d="M40 76H440" />
+      <g transform="rotate(-5 160 118)">
+        <rect x="100" y="94" width="132" height="42" class="note" />
+        <text x="112" y="121" class="code accent-text">"Stuck here"</text>
+      </g>
+      <circle cx="52" cy="196" r="8" class="accent" />
+      <path class="connector" d="M60 196H96" />
+      <rect x="96.5" y="174.5" width="104" height="44" class="frame" />
+      <text x="114" y="202" class="body">Sign in</text>
+      <path class="connector" d="M201 196H234" />
+      <path d="M262 168L290 196L262 224L234 196Z" class="frame" />
+      <text x="262" y="203" text-anchor="middle" class="body">?</text>
+      <path class="connector" d="M290 196H318M318 140V252M318 140H348M318 252H348" />
+      <rect x="348.5" y="120.5" width="92" height="40" class="frame" />
+      <text x="366" y="146" class="body">Done</text>
+      <rect x="348.5" y="232.5" width="92" height="40" class="frame" />
+      <text x="366" y="258" class="body">Help</text>
+      <text x="40" y="320" class="result">Shaped around people</text>
+    </g>
+  )}
+
+  {role === 'ui-designer' && (
+    <g>
+      <text x="40" y="56" class="label">TYPE · COLOR · SPACE</text>
+      <path class="rule" d="M40 76H440" />
+      <path class="rule" d="M40 157H196M40 216H196" />
+      <text x="40" y="216" class="giant">Aa</text>
+      <circle cx="252" cy="130" r="22" class="accent" />
+      <circle cx="306" cy="130" r="22" class="ink" />
+      <circle cx="360" cy="130" r="22" class="fade-2" />
+      <circle cx="414" cy="130" r="22" class="fade-4" />
+      <rect x="230" y="184" width="16" height="12" class="fade-3" />
+      <rect x="230" y="206" width="32" height="12" class="fade-3" />
+      <rect x="230" y="228" width="64" height="12" class="fade-2" />
+      <rect x="230" y="250" width="128" height="12" class="accent" />
+      <text x="40" y="320" class="result">The visual layer</text>
+    </g>
+  )}
+
+</svg>
+</span>
+</span>

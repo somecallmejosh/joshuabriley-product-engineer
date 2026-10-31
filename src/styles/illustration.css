@@ -54,7 +54,24 @@ a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) sca
 .illustration .fade-4 { fill: color-mix(in srgb, var(--ink) 14%, var(--paper)); }
 .illustration .fade-ball-1 { opacity: .25; }
 .illustration .fade-ball-2 { opacity: .5; }
-@media (max-width: 767px) { .illustration { --mat: 1.25rem; } }
+/* On ink (RoleIllustration in the footer): no mat, and a frame that reads as a
+   lifted ink panel. The outer span captures paper and ink so the frame can swap
+   them without a custom-property cycle, and --accent is re-resolved so it picks
+   up the ink surface's lighter --accent-rgb. */
+.illustration--on-ink { --mat: 0rem; background: none; --on-ink-paper: var(--paper); --on-ink-ink: var(--ink); }
+.illustration--on-ink .illustration-frame {
+  --paper: color-mix(in srgb, var(--on-ink-paper) 4%, var(--on-ink-ink));
+  --raised: color-mix(in srgb, var(--on-ink-paper) 8%, var(--on-ink-ink));
+  --ink: var(--on-ink-paper);
+  --ink-muted: color-mix(in srgb, var(--on-ink-paper) 72%, var(--on-ink-ink));
+  --ink-faint: color-mix(in srgb, var(--on-ink-paper) 40%, var(--on-ink-ink));
+  --line: color-mix(in srgb, var(--on-ink-paper) 12%, var(--on-ink-ink));
+  --line-strong: color-mix(in srgb, var(--on-ink-paper) 22%, var(--on-ink-ink));
+  --accent: rgb(var(--accent-rgb));
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+@media (max-width: 767px) { .illustration:not(.illustration--on-ink) { --mat: 1.25rem; } }
 @media (prefers-reduced-motion: reduce) {
   .illustration-drawing { transition: none; }
   a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(var(--tilt)); }
