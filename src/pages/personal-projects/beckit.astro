@@ -1,0 +1,571 @@
+---
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import Section from '~/components/layout/Section.astro';
+import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
+import Text from '~/components/primitives/Text.astro';
+import Icon from '~/components/primitives/Icon.astro';
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import Tldr from '~/components/patterns/Tldr.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
+import { beckitSummary as tldr } from '~/lib/project-summaries';
+import type { ImageMetadata } from 'astro';
+
+const title = 'beckit | Joshua Briley';
+const description =
+  'Case study: designing and building beckit, a private journal for CBT thought records, with a step-by-step entry, a library of thinking traps, and an Insights page.';
+
+// Copy throughout comes from notes/portfolio-writeup.md (Josh's write-up).
+const proof = [
+  { label: 'Design · owned', items: ['Heuristic and CBT-practice review', 'Entry flow and information architecture', 'Thinking trap library and illustrations', 'Insights data visualization', 'Landing page and plain-language copy'] },
+  { label: 'Front end · owned', items: ['Tailwind component system with light and dark themes', 'Stimulus controllers for one-question-at-a-time entry', 'Drafts kept in the browser tab, never in long-term storage', 'Keyboard and focus handling on every step'] },
+  { label: 'Back end · owned', items: ['Rails domain model and step validations', 'Insights aggregation', 'Privacy controls: export, soft delete, account deletion', 'Deployment with Kamal'] },
+];
+
+// The five steps of an entry. `art` is the drawing beckit shows on that step.
+const steps = [
+  { art: 'whats-on-your-mind', title: 'What’s on your mind', body: 'The thought, in the person’s own words, and a short name for the entry. It’s the only step that has to be done before anything saves.' },
+  { art: 'what-happened', title: 'What happened', body: 'When, where, who was there, what you felt and how strongly, and what you did. All optional.' },
+  { art: 'name-the-pattern', title: 'Name the pattern', body: 'Pick the thinking traps that seem to fit. The thought you wrote is shown back to you while you choose.' },
+  { art: 'weigh-it-up', title: 'Weigh it up', body: 'Evidence for and against. Each trap you picked offers its own questions, with “Try another question” if the first one doesn’t help.' },
+  { art: 'move-forward', title: 'Move forward', body: 'A more balanced thought, how strong the feeling is now, and what you might do next time.' },
+];
+
+const entryDetails = [
+  { icon: 'ph:cloud-sun', text: 'The intensity rating is a slider with a word and a weather icon that change as you drag' },
+  { icon: 'ph:sparkle', text: 'The step’s drawing gives a small hop when a question is answered (only when reduced motion is off)' },
+  { icon: 'ph:swap', text: 'A finished entry opens with the old thought fading into the balanced one' },
+  { icon: 'ph:note-pencil', text: '“Jot it down for now” lets someone save just the thought and come back later' },
+];
+
+const privacyControls = [
+  { icon: 'ph:globe-x', text: 'Fonts, images and the logo are self-hosted, so no outside service sees a visit' },
+  { icon: 'ph:sign-out', text: '“Keep me signed in” is a choice, and unchecked sessions end when the browser closes' },
+  { icon: 'ph:browser', text: 'Unsaved drafts live in the browser tab (sessionStorage), not on the device after it’s closed' },
+  { icon: 'ph:arrow-counter-clockwise', text: 'Deleted entries can be restored for 30 days, then they’re removed for good' },
+  { icon: 'ph:file-csv', text: 'Entries download as a spreadsheet, with formula characters escaped so a cell can’t run code' },
+  { icon: 'ph:trash', text: 'Deleting an account removes every entry, photo and sign-in straight away' },
+  { icon: 'ph:hard-drives', text: 'No service worker, on purpose: one could cache journal pages on the device' },
+  { icon: 'ph:lifebuoy', text: 'A plain-language privacy page and a “what beckit isn’t” disclaimer, with a crisis line in the footer' },
+];
+
+const insightsShows = [
+  'How often each trap comes up, with a weekly trend',
+  'A weekday-by-time-of-day heatmap (entries before 5am count as the previous night)',
+  'Places and people where a trap shows up more than usual',
+  'Traps that tend to appear together',
+  'How much the feeling changed between the first and second rating',
+];
+
+// In the order beckit lists them at /distortions.
+const traps = [
+  ['all-or-nothing-thinking', 'All-or-nothing thinking'],
+  ['overgeneralization', 'Overgeneralization'],
+  ['mental-filter', 'Mental filter'],
+  ['disqualifying-the-positive', 'Disqualifying the positive'],
+  ['mind-reading', 'Mind reading'],
+  ['fortune-telling', 'Fortune telling'],
+  ['catastrophizing', 'Catastrophizing'],
+  ['emotional-reasoning', 'Emotional reasoning'],
+  ['should-statements', 'Should statements'],
+  ['labeling', 'Labeling'],
+  ['personalization', 'Personalization'],
+];
+
+const stack = [
+  { name: 'Rails 8.1', role: 'Built-in authentication and rate limiting on sign-in and sign-up' },
+  { name: 'Hotwire', role: 'Turbo for page updates, Stimulus for the step-by-step entry, drafts, rating slider and tooltips' },
+  { name: 'Tailwind CSS v4', role: 'A small set of shared components and full dark mode' },
+  { name: 'PostgreSQL', role: 'Plus Solid Queue and Solid Cache for background jobs and caching' },
+  { name: 'Kamal', role: 'Deployment' },
+  { name: 'Minitest', role: '220 tests covering models, step rules, Insights math and key flows' },
+];
+
+const results = [
+  'Starting an entry went from a five-screen form with a required title, date, place and person to a single question',
+  'An entry can be left and finished later, and “Continue this entry” goes straight to the waiting step',
+  'Feelings are now named and rated twice, so every entry ends with a before and after',
+  'Entries are searchable, and the journal and Insights link to each other',
+  'The app no longer contacts any outside service while someone is writing',
+];
+
+const metricLenses = [
+  { lens: 'Getting started', items: ['Sign-up to first entry', 'Entries started vs. finished', 'Which optional questions are left blank'] },
+  { lens: 'Coming back', items: ['Entries per active person per week', 'Unfinished entries that get finished later'] },
+  { lens: 'Understanding', items: ['Insights visits', 'Whether people can explain what Insights is telling them'] },
+  { lens: 'Trust', items: ['Exports and account deletions', 'Answers to one question after the third entry: “How easy was it to write this entry?”'] },
+];
+
+const edges = [
+  {
+    icon: 'ph:users-three',
+    title: 'No observed user research yet',
+    body: 'Every finding so far comes from my own walkthroughs, browser measurements, and a review against usability heuristics, WCAG 2.2 and CBT practice. That catches broken things, but it can’t tell me whether someone in a hard moment actually finishes an entry. I’d run five moderated sessions using made-up scenarios, so no one has to share real distress.',
+  },
+  {
+    icon: 'ph:speaker-high',
+    title: 'Accessibility checked by me, not by assistive technology users',
+    body: 'The entry flow is built to work with a keyboard, with labeled fields and focus that moves to each new question. But I haven’t tested it with a screen reader user, and dark mode and phone widths were checked less carefully than the desktop light theme. One-question-at-a-time flows can hide context from screen reader users, so that’s the first path I’d test.',
+  },
+];
+
+const modelSnippet = `# app/models/situation.rb
+class Situation < ApplicationRecord
+  # The entry form's pages, in order, each with the answers it needs before it saves. The first creates the entry.
+  REQUIRED_ANSWERS = { "whats-on-your-mind" => %i[ thought_imagery title ], "what-happened" => [],
+    "name-the-pattern" => %i[ distortion_ids ], "weigh-it-up" => [], "move-forward" => %i[ balanced_thought ] }.freeze
+  STEPS = REQUIRED_ANSWERS.keys.freeze
+
+  REQUIRED_ANSWERS.each { |step, attributes| validates(*attributes, presence: true, on: step.underscore.to_sym) if attributes.any? }
+
+  # The first step still waiting for its answer, or nil once every step has one.
+  def next_step = STEPS.find { !answered?(it) }
+  def complete? = next_step.nil?
+
+  # Steps open in order: any up to the first one still waiting for its answer.
+  def reachable?(step) = complete? || STEPS.index(step) <= STEPS.index(next_step)
+end`;
+
+// Screenshots of the running app, cropped from the top at 1600px wide. Example
+// entries are test data; none of it is a real person's journal.
+const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/beckit/*.png', { eager: true });
+const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`].default;
+
+const otherScreens = [
+  { slug: 'journal', title: 'Journal', alt: 'The beckit journal: a greeting and the most common traps of the last 30 days beside a month-by-month list of entries, each with its place, title, thought, trap tags and feeling rating.' },
+  { slug: 'landing', title: 'Landing page', alt: 'The beckit landing page: the headline “Notice the thought. Name the pattern.”, then sections on getting a thought out of your head, giving the pattern a name, rating the feeling before and after, and privacy.' },
+  { slug: 'trap-library', title: 'Thinking traps', alt: 'The thinking traps index: eleven traps, each with its drawing, name and one-line definition.' },
+  { slug: 'trap-mind-reading', title: 'Thinking trap page', alt: 'The mind reading page: a definition, an example, a more balanced perspective, the trap’s drawing of two people on a bench, and a “Let yourself off the hook” message.' },
+  { slug: 'privacy', title: 'Privacy', alt: 'The beckit privacy page, written in plain language.' },
+];
+---
+
+<ProjectLayout title={title} description={description}>
+
+  <ProjectHero project="beckit" />
+
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#engineering', label: 'Engineering' }, { href: '#outcomes', label: 'Results' }, { href: '#edges', label: 'What I’d improve' }]} />
+
+  <Tldr
+    problem={tldr.problem}
+    alternativeA={tldr.alternativeA}
+    alternativeB={tldr.alternativeB}
+    decision={tldr.decision}
+    implementation={tldr.implementation}
+    evidence={tldr.evidence}
+    reflection={tldr.reflection}
+  />
+
+  <Section tone="paper" padding="tight" aria-label="Scope" class="project-scope">
+    <Container width="content">
+      <p class="mono-label mb-8">Scope</p>
+      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        {proof.map((group) => (
+          <div class="pt-4">
+            <dt class="mono-label mb-3">{group.label}</dt>
+            <dd>
+              <ul class="space-y-1.5">
+                {group.items.map((item) => (
+                  <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+                    <Icon name="ph:check" size={14} class="mt-0.5 shrink-0 text-accent" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Starting from the method</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              The name comes from Aaron Beck, the psychiatrist who developed cognitive
+              therapy and first described many of the thinking traps the app is built
+              around.
+            </p>
+            <p>
+              Before designing any screens, I went back to how a CBT thought record is
+              structured: the situation, the automatic thought, the feeling and how
+              strong it is, the thinking trap, the evidence on each side, a more
+              balanced thought, and a second rating of the feeling.
+            </p>
+            <p>
+              That last rating mattered more than I expected. My first version recorded
+              one unnamed number before the reframe and nothing after, so people would
+              never see “7 down to 4”, which is the moment that makes the exercise feel
+              worth repeating. I added named feelings and a second rating, and put the
+              two numbers side by side at the end of every entry.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">The five steps</p>
+            <ol class="space-y-8">
+              {steps.map((step) => (
+                <li class="flex items-start gap-5">
+                  <img src={`/images/projects/beckit/steps/${step.art}.svg`} alt="" width="64" height="64" loading="lazy" decoding="async" class="h-16 w-16 shrink-0" />
+                  <div>
+                    <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{step.title}</Heading>
+                    <Text size="sm" tone="muted">{step.body}</Text>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <figure class="my-12 border-l-2 border-accent pl-6">
+            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
+              Calling it mind reading is a reminder that a thought is a guess, not a fact.
+            </blockquote>
+            <figcaption class="mt-4 text-sm text-ink-muted">From the beckit landing page</figcaption>
+          </figure>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <li>
+          <Plate size="half" title="Name the pattern" caption="The thought comes back while you pick the traps that fit." src={shot('step-name-the-pattern')} alt="The Name the pattern step: the thought “I’m going to get fired.” quoted above a set of thinking trap chips, with catastrophizing and fortune telling selected." />
+        </li>
+        <li>
+          <Plate size="half" title="Weigh it up" caption="Evidence for and against, side by side." src={shot('step-weigh-it-up')} alt="The Weigh it up step: the same thought quoted above two columns, what’s backing the thought and what doesn’t quite fit the story, each with an answer filled in." />
+        </li>
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="activity" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Making an entry feel like an activity, not a form</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Splitting the form into steps fixed its length, but early feedback was
+              that it still felt like paperwork. So within each step, questions appear
+              one at a time. Continue reveals the next one, Skip is offered while a
+              field is empty, and Enter moves forward.
+            </p>
+            <p>
+              I also changed the wording. Questions are written the way a person would
+              ask them, placeholders are in the writer’s own voice, and earlier answers
+              come back on later steps, so “weigh it up” starts from the exact thought
+              being weighed.
+            </p>
+            <p>
+              One idea I tried and reversed: I restyled the text areas as borderless
+              ruled lines, like a notebook, so they’d feel less like a form. At a
+              glance they read as stray borders instead of places to type. Every field
+              now keeps a visible, enclosed surface. The softer feel comes from the
+              wording, pacing and type instead.
+            </p>
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-5">Small details in the entry flow</p>
+            <ul class="space-y-3">
+              {entryDetails.map((item) => (
+                <li class="flex items-start gap-3 text-ink">
+                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+                  {item.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <li>
+          <Plate size="half" title="A new entry" caption="One question at a time, with “Jot it down for now” beside Next." src={shot('new-entry')} alt="A new entry: only the first question, “What went through your mind?”, is showing, with Continue, “Jot it down for now” and Next." />
+        </li>
+        <li>
+          <Plate size="half" title="Move forward" caption="The second rating, with its word and weather icon." src={shot('step-move-forward')} alt="The Move forward step: a balanced thought written as a friend would say it, and an intensity slider set to 4 with the word Noticeable and a sun-and-cloud icon." />
+        </li>
+      </ul>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate title="A finished entry" caption="The balanced thought, with the feeling rated 7 before and 4 after." src={shot('entry')} alt="A finished entry titled Missed a deadline: the thought “I’m going to get fired.” rated 7 out of 10, the traps catastrophizing and fortune telling, evidence on each side, and a balanced thought card ending in a rating of 4, down 3 from 7." />
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="privacy" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Privacy as a design constraint</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              A journal only works if you can be honest in it. The landing page promised
+              that only your account could see your entries, but my review found the app
+              wasn’t keeping that promise. Every page loaded fonts from outside services,
+              which told those companies that this IP address was using a mental-health
+              journal. Sign-ins never expired, so on a shared family computer anyone
+              could open the journal.
+            </p>
+            <p>I treated each gap as a bug.</p>
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-5">Privacy and safety controls</p>
+            <ul class="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+              {privacyControls.map((item) => (
+                <li class="flex items-start gap-3 text-ink">
+                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+                  {item.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="insights" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Seeing your own patterns</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              After a few weeks of entries, the Insights page shows which traps come up
+              most, and when, where and with whom. It describes the entries. It doesn’t
+              interpret them.
+            </p>
+            <p>
+              The page compares each place, person and time of day against the person’s
+              own usual rate, rather than raw counts. Ten entries at work doesn’t mean
+              much if work is where most entries happen. A trap only counts as “more
+              often than usual” when it shows up at least a third more often than it
+              does overall, and comparisons wait until there are at least three entries
+              to compare.
+            </p>
+          </div>
+
+          <div class="mt-10">
+            <p class="mono-label mb-5">What Insights shows</p>
+            <ul class="space-y-2">
+              {insightsShows.map((item) => (
+                <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
+                  <Icon name="ph:dot-outline" size={18} class="mt-1 shrink-0 text-accent" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              My review found the first version was too dense: a bar chart, a heatmap, a
+              pairs list and two color-coded grids, with tooltips that only worked with a
+              mouse. I added plain-language summary sentences at the top, made every cell
+              reachable by keyboard, and replaced the sideways-scrolling trap picker on
+              phones.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <li>
+          <Plate size="half" title="Insights overview" caption="A summary sentence first, then entries per week and the weekday heatmap." src={shot('insights')} alt="The Insights overview: traps listed by count, a summary that catastrophizing, mind reading and labeling came up most across 58 entries, a weekly bar chart, and a weekday-by-time-of-day heatmap." />
+        </li>
+        <li>
+          <Plate size="half" title="One trap" caption="Mind reading, compared against the person’s own usual rate." src={shot('insights-trap')} alt="Insights for mind reading: 16 entries, 28 percent of all entries, average intensity 6.3, with notes on when, where and with whom it came up more than usual, and a weekly chart." />
+        </li>
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="traps" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">A drawing for every trap</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Each of the 11 thinking traps has its own page with a description,
+              questions for testing a thought, and an animated line drawing: gray line
+              art with one floating teal accent. The same drawing is used to build the
+              image people see when a trap’s page is shared.
+            </p>
+            <p>
+              Getting the set to look consistent was harder than drawing any one
+              picture. New drawings generated from a written style description drifted:
+              the character changed and the edges came out too clean. What worked was
+              generating every new drawing with the existing trap drawings as visual
+              references, then comparing zoomed-in crops side by side before adding it
+              to the app.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+        {traps.map(([slug, name]) => (
+          <li>
+            <figure>
+              <div class="rounded-lg border border-line p-4">
+                <img src={`/images/projects/beckit/traps/${slug}.svg`} alt="" width="1024" height="1536" loading="lazy" decoding="async" class="h-auto w-full" />
+              </div>
+              <figcaption class="mt-3 text-sm text-ink-muted">{name}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              I built the whole app, so the design decisions and the code were never far
+              apart. The rule at the center of the entry flow, which answer each step
+              needs, lives in one place in the model, and the step pages, navigation,
+              validations and “Continue” links all read from it.
+            </p>
+          </div>
+
+          <div class="mt-10">
+            <CodeBlock
+              filename="situation.rb"
+              lang="ruby"
+              code={modelSnippet}
+              caption="One list of steps and required answers drives validation, navigation and the “Continue this entry” link."
+            />
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-6">Stack</p>
+            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {stack.map((item) => (
+                <li>
+                  <p class="font-medium text-ink leading-snug">{item.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Results</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              beckit hasn’t been tested with outside users yet, so the results so far
+              are measured against my own review rather than user behavior.
+            </p>
+          </div>
+
+          <ul class="mt-8 space-y-3">
+            {results.map((item) => (
+              <li class="flex items-start gap-3 text-ink">
+                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">How success will be measured</p>
+            <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+              {metricLenses.map((m) => (
+                <div class="pt-4">
+                  <p class="mono-label mb-3">{m.lens}</p>
+                  <ul class="space-y-1.5">
+                    {m.items.map((item) => (
+                      <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+                        <Icon name="ph:dot-outline" size={16} class="mt-0.5 shrink-0 text-accent" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p class="mt-8 measure text-sm text-ink-muted leading-relaxed">
+              Any analytics would be self-hosted, cookie-less, and never record entry text.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" data-rest-of-system>
+    <Container width="wide">
+      <Heading level={2} visual="h2" tone="ink" class="mb-10">Other screens</Heading>
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        {otherScreens.map((s) => (
+          <li>
+            <Plate size="half" title={s.title} src={shot(s.slug)} alt={s.alt} />
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
+      <Text size="lg" tone="muted" class="measure mb-10">
+        Both of these come from building alone: I designed for people I haven’t
+        watched use the app.
+      </Text>
+      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
+        {edges.map((e) => (
+          <li class="pt-5">
+            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
+            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
+            <Text size="sm" tone="muted">{e.body}</Text>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <ProjectNext project="beckit" />
+</ProjectLayout>

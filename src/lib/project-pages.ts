@@ -79,6 +79,28 @@ export const projectPages = {
     image: '/images/projects/vmspark/wires-and-flows/02-job-listings.svg',
     alt: 'VMSpark job listings interface design with status tabs, filters, and a shared application shell',
     imageNote: 'Interface design · Job listings in the shared app shell',
+    next: { name: 'beckit', href: '/personal-projects/beckit/', description: 'A private journal for questioning a looping thought, one step at a time.' },
+  },
+  beckit: {
+    illustration: 'beckit',
+    name: 'beckit', kind: 'Personal project · Mental health journaling',
+    headline: 'Turning a looping thought into', emphasis: 'a few sentences you can question.',
+    intro: 'beckit is a private journal for thought records, a common exercise in cognitive behavioral therapy (CBT). I designed and built it end to end: a guided entry that asks one question at a time, a library of thinking traps, and an Insights page that shows when, where and with whom a pattern tends to show up.',
+    facts: [
+      { label: 'My role', value: 'Product design and full-stack development' },
+      { label: 'Owned', value: 'Research, product decisions, design, Rails app, illustrations' },
+      { label: 'Built with', value: 'Rails 8, Hotwire, Tailwind CSS, PostgreSQL, Kamal' },
+    ],
+    figures: [
+      { value: '5', label: 'short steps per entry', note: 'Each with one required answer' },
+      { value: '11', label: 'thinking traps', note: 'Each with its own drawing and test questions' },
+    ],
+    image: '/images/projects/beckit/beckit-entry-step.webp',
+    alt: 'The first step of a beckit entry, "What\'s on your mind", with a progress bar for the five steps, the thought "I\'m going to get fired." and the feelings and intensity questions',
+    secondaryImage: '/images/projects/beckit/beckit-insights.webp',
+    secondaryAlt: 'The beckit Insights page, with a list of thinking traps by count and a plain-language summary: catastrophizing, mind reading, and labeling came up most across 58 entries',
+    imageNote: 'Entry step and Insights overview',
+    actions: [{ href: 'https://beckit-production.up.railway.app/', label: 'Visit beckit' }],
     next: { name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/', description: 'A React component library with the architecture and decisions documented.' },
   },
   rudiment: {

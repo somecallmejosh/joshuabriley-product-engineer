@@ -13,6 +13,7 @@ const PAGES = [
   '/projects/ivfcryo/',
   '/projects/logatot/',
   '/projects/vmspark/',
+  '/personal-projects/beckit/',
   '/personal-projects/rudiment-ui/',
   '/personal-projects/token-galaga/',
   '/personal-projects/',

@@ -88,6 +88,27 @@ const { project, class: className } = Astro.props;
     </g>
   )}
 
+  {project === 'beckit' && (
+    <g>
+      <text x="40" y="56" class="label">THOUGHT RECORD · ONE ENTRY</text>
+      <path d="M48 80H432A8 8 0 0 1 440 88V140A8 8 0 0 1 432 148H88L64 164V148H48A8 8 0 0 1 40 140V88A8 8 0 0 1 48 80Z" class="note" />
+      <text x="240" y="122" text-anchor="middle" class="body--lg">“They think I’m not good enough”</text>
+      <rect x="276.75" y="174.75" width="162.5" height="30.5" rx="15.25" class="accent-stroke" stroke-width="1.5" />
+      <text x="358" y="195" text-anchor="middle" class="label accent-text">MIND READING</text>
+      <text x="40" y="195" class="small">Anxious</text>
+      <path class="rule" d="M40 222H440" />
+      <text x="40" y="254" class="small">Before</text>
+      <rect x="120" y="243" width="280" height="8" rx="4" class="ghost" />
+      <rect x="120" y="243" width="196" height="8" rx="4" class="fade-2" />
+      <text x="440" y="254" text-anchor="end" class="body">7</text>
+      <text x="40" y="288" class="small">After</text>
+      <rect x="120" y="277" width="280" height="8" rx="4" class="ghost" />
+      <rect x="120" y="277" width="112" height="8" rx="4" class="accent" />
+      <text x="440" y="288" text-anchor="end" class="body accent-text">4</text>
+      <text x="40" y="334" class="result result--sm">A guess, not a fact</text>
+    </g>
+  )}
+
   {project === 'rudiment-ui' && (
     <g>
       <text x="40" y="56" class="label">TOKENS · THREE TIERS</text>
