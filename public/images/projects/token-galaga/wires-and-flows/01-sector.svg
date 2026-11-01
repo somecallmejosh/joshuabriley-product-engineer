@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1100" viewBox="0 0 1400 1100">
+  <rect x="0" y="0" width="1400" height="1100" fill="#ffffff"/>
+  <text x="40" y="46" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#333333">A sector in progress</text>
+  <line x1="40" y1="68" x2="1360" y2="68" stroke="#cccccc" stroke-width="1"/>
+  <rect x="40" y="95" width="1320" height="965" rx="2" fill="#ffffff" stroke="#999999" stroke-width="1.5"/>
+  <rect x="40" y="95" width="1320" height="50" rx="2" fill="#f2f2f2" stroke="#999999" stroke-width="1.5"/>
+  <circle cx="66" cy="120" r="5" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <circle cx="84" cy="120" r="5" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <circle cx="102" cy="120" r="5" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <rect x="125" y="107" width="520" height="26" rx="13" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="141" y="124" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#666666">token-adventure — /quest/echoes-and-aliases</text>
+  <text x="70" y="182" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#333333">TOKEN ★ ADVENTURE</text>
+  <text x="1210" y="181" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333" text-anchor="end">STAR CHART</text>
+  <text x="1330" y="181" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333" text-anchor="end">PILOT LOG</text>
+  <line x1="40" y1="205" x2="1360" y2="205" stroke="#cccccc" stroke-width="1"/>
+  <rect x="70" y="225" width="1260" height="170" rx="2" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="92" y="254" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333333">SECTOR 08 / 20</text>
+  <text x="232" y="254" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333333">TIER INTERMEDIATE</text>
+  <text x="412" y="254" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333333">CONCEPT Aliases / token references</text>
+  <text x="1308" y="254" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333333" text-anchor="end">‹ STAR CHART</text>
+  <rect x="92" y="270" width="420" height="52" rx="2" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="110" y="305" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="bold" fill="#333333">[ Echoes &amp; Aliases ]</text>
+  <text x="118.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">01</text>
+  <rect x="92" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="179.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">02</text>
+  <rect x="153" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="240.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">03</text>
+  <rect x="214" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="301.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">04</text>
+  <rect x="275" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="362.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">05</text>
+  <rect x="336" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="423.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">06</text>
+  <rect x="397" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="484.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">07</text>
+  <rect x="458" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="545.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#333333" text-anchor="middle">08</text>
+  <rect x="519" y="362" width="52" height="6" rx="1" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="606.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">09</text>
+  <rect x="580" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="667.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">10</text>
+  <rect x="641" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="728.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">11</text>
+  <rect x="702" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="789.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">12</text>
+  <rect x="763" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="850.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">13</text>
+  <rect x="824" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="911.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">14</text>
+  <rect x="885" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="972.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">15</text>
+  <rect x="946" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="1033.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">16</text>
+  <rect x="1007" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="1094.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">17</text>
+  <rect x="1068" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="1155.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">18</text>
+  <rect x="1129" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="1216.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">19</text>
+  <rect x="1190" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <text x="1277.0" y="352" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#999999" text-anchor="middle">20</text>
+  <rect x="1251" y="362" width="52" height="6" fill="#e8e8e8"/>
+  <rect x="70" y="410" width="1260" height="140" rx="2" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <rect x="92" y="428" width="80" height="80" rx="2" fill="#ffffff" stroke="#999999" stroke-width="1.5"/>
+  <line x1="92" y1="428" x2="172" y2="508" stroke="#999999" stroke-width="1"/>
+  <line x1="172" y1="428" x2="92" y2="508" stroke="#999999" stroke-width="1"/>
+  <text x="132.0" y="526" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#999999" text-anchor="middle">pilot</text>
+  <text x="196" y="450" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333">LYRA KEEPER OF GATES  //  INCOMING TRANSMISSION</text>
+  <text x="196" y="480" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333">›</text>
+  <rect x="212" y="472" width="760" height="10" fill="#e8e8e8"/>
+  <text x="196" y="504" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333">›</text>
+  <rect x="212" y="496" width="980" height="10" fill="#e8e8e8"/>
+  <text x="196" y="528" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333">›</text>
+  <rect x="212" y="520" width="640" height="10" fill="#e8e8e8"/>
+  <rect x="70" y="565" width="620" height="300" rx="2" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="90" y="591" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333333">▸ CODE CONSOLE</text>
+  <rect x="486" y="576" width="104" height="24" rx="3" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="538" y="593" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">tokens.json</text>
+  <text x="616" y="593" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666666">HTML</text>
+  <line x1="70" y1="610" x2="690" y2="610" stroke="#cccccc" stroke-width="1"/>
+  <line x1="110" y1="610" x2="110" y2="865" stroke="#cccccc" stroke-width="1"/>
+  <text x="98" y="636" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">1</text>
+  <text x="124" y="636" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">{</text>
+  <text x="98" y="656" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">2</text>
+  <text x="140" y="656" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">"color": {</text>
+  <text x="98" y="676" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">3</text>
+  <text x="156" y="676" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">"brand": {</text>
+  <text x="98" y="696" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">4</text>
+  <rect x="172" y="687" width="300" height="10" fill="#e8e8e8"/>
+  <text x="98" y="716" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">5</text>
+  <rect x="172" y="707" width="320" height="10" fill="#e8e8e8"/>
+  <text x="98" y="736" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">6</text>
+  <text x="156" y="736" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">},</text>
+  <text x="98" y="756" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">7</text>
+  <text x="156" y="756" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">"action": {</text>
+  <text x="98" y="776" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">8</text>
+  <text x="172" y="776" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">"default": { "$value": "{color.brand.primary}" },</text>
+  <text x="98" y="796" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">9</text>
+  <text x="172" y="796" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">"hover": { "$value": "{color.brand.secondry}" }</text>
+  <text x="98" y="816" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">10</text>
+  <text x="156" y="816" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">}</text>
+  <text x="98" y="836" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#999999" text-anchor="end">11</text>
+  <text x="140" y="836" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333333">}</text>
+  <rect x="710" y="565" width="620" height="300" rx="2" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="730" y="591" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#333333">▸ VIEWPORT</text>
+  <text x="1310" y="591" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666666" text-anchor="end">// LIVE SECTOR</text>
+  <line x1="710" y1="610" x2="1330" y2="610" stroke="#cccccc" stroke-width="1"/>
+  <rect x="730" y="630" width="580" height="215" rx="2" fill="#ffffff" stroke="#999999" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <text x="1020" y="735" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#999999" text-anchor="middle">The player’s own code, running</text>
+  <text x="1020" y="757" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#999999" text-anchor="middle">in a sandboxed iframe</text>
+  <rect x="70" y="880" width="1260" height="165" rx="2" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <rect x="92" y="896" width="110" height="34" rx="3" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="147" y="918" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">▸ ENGAGE</text>
+  <rect x="214" y="896" width="140" height="34" rx="3" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="284" y="918" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#333333" text-anchor="middle">ABORT · RESET</text>
+  <text x="1308" y="918" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666666" text-anchor="end">DIAGNOSTICS · ECHOES &amp; ALIASES</text>
+  <circle cx="104" cy="953" r="9" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="126" y="958" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333333">tokens.json parses as JSON.</text>
+  <circle cx="104" cy="983" r="9" fill="#333333" stroke="#333333" stroke-width="1.5"/>
+  <text x="126" y="988" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333333">color.action.default resolves through the alias to the brand-primary color.</text>
+  <circle cx="104" cy="1013" r="9" fill="#ffffff" stroke="#333333" stroke-width="1.5"/>
+  <text x="104" y="1018" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#333333" text-anchor="middle">×</text>
+  <text x="126" y="1018" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333333">color.action.hover resolves through the alias to the brand-secondary color.</text>
+  <text x="126" y="1037" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666666">Path not found: color.brand.secondry</text>
+</svg>

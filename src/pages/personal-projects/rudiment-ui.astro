@@ -7,12 +7,92 @@ import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import Tldr from '~/components/patterns/Tldr.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
+import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
+import { rudimentSummary as tldr } from '~/lib/project-summaries';
+import type { ImageMetadata } from 'astro';
 
+const title = 'Rudiment UI | Joshua Briley';
 const description =
-  'Building Rudiment UI: a token-driven React component library with accessible interaction patterns, live Storybook documentation, and composed interface examples.';
+  'Case study: designing and building Rudiment UI, an accessible React component library on React Aria and three-tier design tokens, tested by building 26 pages across four example apps.';
 
+// Copy throughout comes from notes/rudiment-ui.md (Josh's write-up).
+const proof = [
+  { label: 'Design · owned', items: ['Component APIs and prop naming across the library', 'Three-tier token architecture and eight themes', 'Four example apps with their own data, layouts and brands', 'Do and don’t guidance for every component'] },
+  { label: 'Front end · owned', items: ['More than 50 exported components, layout primitives and charts on React Aria', 'BEM class names on token custom properties, with no Tailwind in the published package', 'An npm build that keeps React Aria as an external dependency and works in Next.js Server Components', 'Storybook docs with grouped controls and the full source for every example page'] },
+  { label: 'Quality · owned', items: ['Unit tests for rendering, keyboard and pointer use, and disabled, loading and error states', 'An axe accessibility check in every component’s test file', 'A second test run that renders every story in a real Chromium browser with the accessibility addon', 'A written gap analysis of the example apps, used as the backlog'] },
+];
+
+const auditLooksFor = [
+  { icon: 'ph:puzzle-piece', label: 'Missing components', text: 'raw HTML for something the library should provide, like a table or a breadcrumb' },
+  { icon: 'ph:wrench', label: 'API gaps', text: 'a component that exists but had to be styled around, like a heading that needs its margin removed every time' },
+  { icon: 'ph:drop', label: 'Leaky APIs', text: 'a Rudiment component that only works if you also import from React Aria or React Stately' },
+  { icon: 'ph:palette', label: 'Hardcoded values', text: 'colors and sizes written directly instead of read from tokens' },
+  { icon: 'ph:toolbox', label: 'Local helpers', text: 'components each app built for itself in <code>shared.tsx</code>, like <code>StoreHeader</code> or <code>StatusDot</code>' },
+];
+
+const findings = [
+  { title: 'Inline style was the only escape hatch anyone used.', body: 'About 476 inline <code>style</code> attributes, and no <code>className</code> overrides. The components needed more props, not more ways to override them.' },
+  { title: 'The typography components caused the most workarounds.', body: '<code>RudiText</code> had no weight, tone or alignment, and <code>RudiHeading</code> had no way to drop its margin. Every app redeclared the same font-weight objects and added <code>style={{ margin: 0 }}</code> to almost every heading.' },
+  { title: 'Every app rebuilt the page around the content.', body: 'Each app had its own header, footer, sidebar and page header. The <code>RudiSidebar</code> layout primitive existed, and both dashboards skipped it, because it lays out two columns of content and isn’t an app navigation rail.' },
+  { title: 'Some components only worked with a third-party import.', body: 'Filling a <code>RudiSelect</code> meant importing <code>Item</code> from <code>react-stately</code>, and building a menu meant importing from <code>react-aria-components</code> and typing internal class names like <code>rudi-menu__item-icon</code>. Those class names had become public API by accident.' },
+];
+
+// The rows of the priority matrix in src/stories/examples/DEPARTURES.md that all four
+// apps hit. Status follows notes/rudiment-ui.md, which is newer than parts of the matrix.
+const gaps = [
+  { gap: '<code>RudiText</code> missing weight, tone and alignment', type: 'API gap', status: 'Fixed in 0.3.0', done: true },
+  { gap: '<code>RudiHeading</code> missing a margin reset', type: 'API gap', status: 'Fixed in 0.3.0', done: true },
+  { gap: '<code>RudiSelect</code> needs <code>Item</code> from <code>react-stately</code>', type: 'Leaky API', status: 'Fixed in 0.3.0', done: true },
+  { gap: 'App chrome: header, footer, app shell, top bar', type: 'Missing component', status: 'Built, not yet exported', done: true },
+  { gap: 'Page header and section header', type: 'Missing component', status: 'Built, not yet exported', done: true },
+  { gap: 'Data table', type: 'Missing component', status: 'Open', done: false },
+  { gap: '<code>RudiBox</code> missing radius, surface and full-bleed props', type: 'API gap', status: 'Open', done: false },
+  { gap: 'Brand and logo lockup', type: 'Missing component', status: 'Open', done: false },
+  { gap: 'No class name or variant escape hatch', type: 'Systemic API gap', status: 'Open', done: false },
+];
+
+const fixes = [
+  { label: 'Typography', text: '<code>RudiText</code> and <code>RudiHeading</code> gained <code>weight</code>, <code>tone</code>, <code>align</code> and <code>noMargin</code>, each backed by semantic tokens.' },
+  { label: 'App chrome', text: '<code>RudiAppShell</code>, <code>RudiTopBar</code>, <code>RudiFooter</code>, <code>RudiPageHeader</code> and <code>RudiSectionHeader</code> replaced the headers, footers and shells each app had built for itself, including a stylesheet the CRM injected at runtime. They are tested and documented but deliberately not exported yet, until their APIs have been used outside the examples.' },
+  { label: 'Leaky APIs', text: '<code>RudiOption</code> and <code>RudiMenuSeparator</code> are exported, and <code>RudiMenuItem</code> takes <code>icon</code>, <code>label</code>, <code>description</code> and <code>shortcut</code> props. No example imports from React Aria or React Stately anymore.' },
+  { label: 'Nine new components', text: 'Breadcrumb, Divider, Dot, Image, Link, Pagination, Rating, Stepper and Textarea, each replacing a helper that at least one app had built by hand.' },
+  { label: 'Smaller API fixes', text: '<code>RudiProgressBar</code> takes <code>thresholds</code>, so a workload meter can change color once someone is overloaded, and the chart components accept <code>null</code> values so a burndown line can stop mid-sprint without a type cast.' },
+];
+
+const tokenTiers = [
+  { name: 'Primitive', role: 'Raw values', body: 'Colors, spacing, radii, fonts and motion, with no meaning attached.', example: 'color.neutral.900' },
+  { name: 'Semantic', role: 'Intent', body: 'Names that describe what a value is for. Most themes and rebrands only change this tier.', example: 'color.brand.primary → {color.neutral.900}' },
+  { name: 'Component', role: 'One component’s values', body: 'Values scoped to a single component, so it can be adjusted without touching the rest.', example: 'component.button.primary-bg → {color.brand.primary}' },
+];
+
+const stack = [
+  { name: 'React 19 and TypeScript', role: 'Components with closed prop interfaces. Layout and typography primitives are polymorphic and accept DOM props.' },
+  { name: 'React Aria', role: 'Keyboard, focus, ARIA semantics and pointer handling for every interactive component.' },
+  { name: 'Style Dictionary', role: 'Eight builds, one per theme, turn the token JSON into CSS custom properties.' },
+  { name: 'Storybook', role: 'Component docs, grouped controls, the four example apps, and pages on tokens, theming, accessibility and layout.' },
+  { name: 'Vitest, Testing Library and axe-core', role: 'Unit tests with an accessibility check per component, plus a browser run that renders every story.' },
+  { name: 'Vite', role: 'A single ES module build with generated types.' },
+  { name: 'Iconify', role: 'Icons are passed as name strings, so the package doesn’t bundle an icon set.' },
+];
+
+const results = [
+  '460 tests pass across 42 test files, and every story renders in a real browser with the accessibility addon',
+  'Four of the six fix steps from the gap analysis shipped in 0.3.0',
+  'No example imports from React Aria or React Stately, or uses an internal class name, to make a Rudiment component work',
+  'Eight themes ship as token overlays, with no theme-specific code in any component stylesheet',
+  'The published stylesheet can’t reset or restyle anything outside Rudiment’s own classes',
+];
+
+const metricLenses = [
+  { lens: 'API fit', items: ['Inline styles per example page', 'Local helpers in each app’s shared.tsx that a component could replace'] },
+  { lens: 'Accessibility', items: ['Axe violations across all stories, kept at zero', 'Screen reader passes on the example apps'] },
+  { lens: 'Adoption', items: ['A team other than me building a real screen with it', 'Questions and issues about theming and token overrides'] },
+  { lens: 'Stability', items: ['Breaking changes per release, now that the names are namespaced'] },
+];
 
 /**
  * The live Storybook stories, in order. `id` drives both URLs: the embed loads the
@@ -23,124 +103,100 @@ const liveStories = [
   {
     id: 'examples-project-management-board--board',
     title: 'Project board',
-    blurb:
-      'A Kanban board of draggable issue cards across four sprint columns, with WIP-limit warnings. Cards can be dragged with a keyboard as well as a mouse.',
+    blurb: 'A Kanban board of issue cards across four sprint columns, with WIP-limit warnings. Cards can be moved with a keyboard as well as a mouse.',
     poster: '/images/projects/rudiment-ui/rudiment-board.webp',
-    posterAlt:
-      'Rudiment UI project board story: a Kanban board with To Do, In Progress, In Review, and Done columns of issue cards showing priority and story points',
+    posterAlt: 'Rudiment UI project board story: a Kanban board with To Do, In Progress, In Review, and Done columns of issue cards showing priority and story points',
   },
   {
     id: 'examples-project-management-dashboard--dashboard',
     title: 'Sprint dashboard',
-    blurb:
-      'An analytics page with stat tiles, a burndown line chart, a work-by-status donut, and team workload meters.',
+    blurb: 'Stat tiles, a burndown chart, a work-by-status donut and team workload meters.',
     poster: '/images/projects/rudiment-ui/rudiment-dashboard.webp',
-    posterAlt:
-      'Rudiment UI sprint dashboard story: committed, completed, remaining, and velocity stat tiles above a sprint burndown chart, a work-by-status donut, and team workload meters',
+    posterAlt: 'Rudiment UI sprint dashboard story: committed, completed, remaining, and velocity stat tiles above a sprint burndown chart, a work-by-status donut, and team workload meters',
   },
   {
     id: 'examples-ecommerce-landing-page--landing-page',
     title: 'Ecommerce landing page',
-    blurb:
-      'A marketing storefront: sticky navigation, a full-bleed hero, and a shop-by-room product grid.',
+    blurb: 'A furniture storefront with sticky navigation, a full-bleed hero and a shop-by-room product grid.',
     poster: '/images/projects/rudiment-ui/rudiment-ecommerce-landing.webp',
-    posterAlt:
-      'Rudiment UI ecommerce landing page story: a furniture storefront with a navigation bar, full-bleed hero, and a shop-by-room product grid',
+    posterAlt: 'Rudiment UI ecommerce landing page story: a furniture storefront with a navigation bar, full-bleed hero, and a shop-by-room product grid',
   },
 ];
 
-const tokenTiers = [
+const edges = [
   {
-    icon: 'ph:paint-bucket',
-    title: 'Global tokens · raw palette',
-    desc: 'Raw values with no meaning attached.',
-    code: 'color.blue.500 = #3B82F6',
+    icon: 'ph:users-three',
+    title: 'The gap list only finds my gaps',
+    body: 'I wrote the library and the examples, so the audit only catches what I reach for. A team with different habits would hit different walls. The biggest known gap is a data table, which all four apps needed and built by hand, and <code>RudiBox</code> and <code>RudiGrid</code> still need surface and column-span props. The app chrome components are also unexported until someone besides me has used them.',
   },
   {
-    icon: 'ph:tag',
-    title: 'Semantic tokens · assigned meaning',
-    desc: 'Names that describe intent, such as brand or danger. A rebrand only changes this layer.',
-    code: 'color.brand.primary → color.blue.500',
+    icon: 'ph:paint-brush',
+    title: 'Theming has a sharp edge',
+    body: 'A theme and the default theme use selectors of the same specificity, so a brand color set on <code>:root</code> loses inside a themed section. Overrides have to be repeated for each theme, which the docs explain, but a consumer would reasonably expect one override to work everywhere. Automated checks also stop at axe: I haven’t run the example apps end to end with a screen reader.',
   },
+];
+
+const progressSnippet = `// src/stories/examples/project-management/Dashboard.stories.tsx
+// Before: a hand-built two-div meter, because ProgressBar had one fixed color.
+// After: warning fill once a team member reaches 16 points.
+<RudiProgressBar
+  label={w.member.name.split(' ')[0]}
+  value={w.points}
+  maxValue={maxWorkload}
+  showValueLabel
+  size="sm"
+  thresholds={[
+    { at: (16 / maxWorkload) * 100, variant: 'warning' },
+  ]}
+/>`;
+
+const themeSnippet = `// tokens/style-dictionary.config.compressed.mjs
+files: [
   {
-    icon: 'ph:puzzle-piece',
-    title: 'Component tokens · scoped values',
-    desc: 'Values for a single component, so it can be adjusted without affecting others.',
-    code: 'button.background.default → color.brand.primary',
+    destination: 'tokens-compressed.css',
+    format: 'css/variables',
+    options: { selector: '[data-theme="compressed"]', outputReferences: true },
+    filter: (token) => {
+      const category = token.path[0]
+      if (category === 'color' || category === 'font' || category === 'motion') return false
+      return true
+    },
   },
-];
+],`;
 
-const a11yList = [
-  { icon: 'ph:keyboard', text: 'Full keyboard operability via React Aria' },
-  { icon: 'ph:target', text: 'Focus traps & restoration in overlays' },
-  { icon: 'ph:megaphone', text: 'ARIA semantics on every component' },
-  { icon: 'ph:magnifying-glass', text: 'vitest-axe checks in every test run' },
-  { icon: 'ph:squares-four', text: 'Eight intrinsic layout primitives' },
-  { icon: 'ph:eye', text: 'Contrast verified against token values' },
-];
+// Screenshots of the local Storybook (0.3.0). Story canvases at 1600px wide; the docs
+// page and the workload card at 2x.
+const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/rudiment-ui/*.png', { eager: true });
+const shot = (slug: string) => shots[`../../assets/projects/rudiment-ui/${slug}.png`].default;
 
-const storybookChecks = [
-  'Live components built on React Aria & Tailwind CSS 4',
-  'Token-driven theming visible across every story',
-  'a11y & interaction addons wired in out of the box',
-];
-
-const proof = [
-  { label: 'Skills', items: ['Accessible component APIs', 'Front-end architecture', 'UI/UX design', 'Storybook documentation', 'Theming'] },
-  { label: 'Stack', items: ['React', 'React Aria', 'Storybook', 'Design tokens', 'Tailwind CSS 4'] },
-  { label: 'Quality', items: ['Keyboard operability', 'Focus management', 'ARIA semantics', 'Token contrast checks'] },
-  { label: 'Implementation', items: ['Three-tier token architecture', '3 featured pages composed from the library', 'Live component documentation in Storybook'] },
+const themeShots = [
+  { slug: 'theme-default', title: 'Default', alt: 'The CRM dashboard in the default theme.' },
+  { slug: 'theme-roomy', title: 'Roomy', alt: 'The same CRM dashboard in the Roomy theme, with more space and rounder corners.' },
+  { slug: 'theme-compressed', title: 'Compressed', alt: 'The same CRM dashboard in the Compressed theme, with tight spacing.' },
 ];
 ---
 
-<ProjectLayout title="Rudiment UI | Joshua Briley" description={description}>
+<ProjectLayout title={title} description={description}>
 
   <ProjectHero project="rudiment" />
 
-  <CaseReview links={[
-    { href: '#examples', label: 'Working examples' },
-    { href: '#tokens', label: 'Token architecture' },
-    { href: '#accessibility', label: 'Behavior and tests' },
-    { href: '#explore', label: 'Explore Storybook' },
-  ]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#engineering', label: 'Engineering' }, { href: '#outcomes', label: 'Results' }, { href: '#edges', label: 'What I’d improve' }]} />
 
-  <Section id="examples" tone="paper" padding="default" aria-label="Live Storybook examples">
-    <Container width="wide">
-      <Heading level={2} visual="h2" class="max-w-[24ch]">
-        Example pages built with the library
-      </Heading>
-      <Text tone="muted" class="mt-4 max-w-2xl">
-        A sprint board, an analytics dashboard, and a storefront, built entirely from
-        Rudiment components. These are live Storybook stories, so you can load one and
-        use it.
-      </Text>
+  <Tldr
+    problem={tldr.problem}
+    alternativeA={tldr.alternativeA}
+    alternativeB={tldr.alternativeB}
+    alternativeC={tldr.alternativeC}
+    decision={tldr.decision}
+    implementation={tldr.implementation}
+    evidence={tldr.evidence}
+    reflection={tldr.reflection}
+  />
 
-      <div class="mt-12 space-y-16">
-        {liveStories.map((story) => (
-          <div>
-            <div class="mb-6 flex items-baseline gap-3 pt-4">
-              <div>
-                <p class="font-medium text-ink">{story.title}</p>
-                <Text tone="muted" size="sm" class="mt-1 max-w-xl">{story.blurb}</Text>
-              </div>
-            </div>
-            <LiveEmbed
-              posterSrc={story.poster}
-              posterAlt={story.posterAlt}
-              href={`https://rudiment-ui.netlify.app/?path=/story/${story.id}`}
-              title={story.title}
-              embedSrc={`https://rudiment-ui.netlify.app/iframe.html?id=${story.id}&viewMode=story`}
-            />
-          </div>
-        ))}
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="tight" aria-label="Scope and results" class="project-scope">
+  <Section tone="paper" padding="tight" aria-label="Scope" class="project-scope">
     <Container width="content">
-      <p class="mono-label mb-8">Scope and results</p>
-      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <p class="mono-label mb-8">Scope</p>
+      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {proof.map((group) => (
           <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
@@ -160,135 +216,274 @@ const proof = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="tight" class="project-context">
-    <Container width="content">
-
-
-      <Text size="lg" tone="muted" class="mt-10 measure">
-        I designed and built Rudiment UI as a personal reference library for React
-        interfaces. Storybook brings the implementation together: component APIs,
-        visual variants, interaction states, and examples that show how the pieces
-        work in a complete interface.
-      </Text>
-    </Container>
-  </Section>
-
-  <Section id="problem" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">
-            Making components work together
-          </Heading>
+          <Heading level={2} visual="display-md" tone="ink">Building pages to find what’s missing</Heading>
         </div>
         <div class="case-layout__body">
-          <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              A component needs to hold up on its own and alongside the rest of the
-              library. A button can look right in isolation while its spacing,
-              focus behavior, or styling becomes awkward inside a form or toolbar.
+              The first versions of Rudiment were judged the usual way: does each component work, look
+              right in its story, and pass its accessibility checks? They did. That didn’t tell me
+              whether the library could carry a real product.
             </p>
             <p>
-              Rudiment UI combines component stories with composed interface
-              examples. The board, dashboard, and storefront show how the same
-              tokens, layout primitives, and controls work together across
-              different kinds of pages. Storybook gives readers a place to inspect
-              those details and try the interactions directly.
+              So I built four apps that need very different things from it. The biotech site is a
+              marketing site with a strong brand, gradients and long legal pages. The CRM and the
+              project tracker are dense dashboards with sidebars, tables and charts. The storefront
+              needs product grids, a cart and a checkout. Each one was built to look like a real
+              product, using the library wherever possible.
+            </p>
+            <p>Then I went through every page and recorded each place the code left the library.</p>
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-5">What the audit looked for</p>
+            <ul class="space-y-3">
+              {auditLooksFor.map((item) => (
+                <li class="flex items-start gap-3 text-ink-muted">
+                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+                  <span><strong class="font-medium text-ink">{item.label}:</strong> <Fragment set:html={item.text} /></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">What it found</p>
+            <ul class="space-y-6">
+              {findings.map((f) => (
+                <li>
+                  <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{f.title}</Heading>
+                  <Text size="sm" tone="muted"><Fragment set:html={f.body} /></Text>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <figure class="my-12 border-l-2 border-accent pl-6">
+            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
+              A gap that shows up in one app might be that app’s design. A gap that shows up in all four
+              belongs to the library.
+            </blockquote>
+          </figure>
+
+          <Heading level={3} visual="h3" tone="ink" class="mb-3">Ranked by how many apps hit it</Heading>
+          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Gaps were ranked by how many of the four apps ran into them, not by how interesting they
+              were to fix. That put typography props first: they were the cheapest fix and removed the
+              most workarounds. A data table, which all four apps needed, is the largest piece still open.
             </p>
           </div>
 
+          <figure class="mt-8">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-line">
+                  <th scope="col" class="mono-label py-3 pr-4 font-normal">Gap</th>
+                  <th scope="col" class="mono-label hidden py-3 pr-4 font-normal sm:table-cell">Type</th>
+                  <th scope="col" class="mono-label py-3 font-normal">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {gaps.map((g) => (
+                  <tr class="border-b border-line align-top">
+                    <td class="py-3 pr-4 text-ink"><Fragment set:html={g.gap} /></td>
+                    <td class="hidden py-3 pr-4 text-ink-muted sm:table-cell">{g.type}</td>
+                    <td class:list={['py-3', g.done ? 'text-ink' : 'text-ink-muted']}>{g.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <figcaption class="mt-4 text-sm text-ink-muted">
+              The gaps all four apps hit, from the gap analysis. Fourteen more were hit by one to three apps.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate title="Sketch: project board" caption="A rough sketch of the project board example, redrawn from the shipped story." src={shot('sketch-board')} alt="A hand-drawn sketch of the project board example: a sidebar with project navigation, a top bar with the sprint and search, a WIP-limit warning, and four columns of issue cards labeled To Do, In Progress, In Review and Done." />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate title="Example source" caption="Every example page shows its full source in the docs." src={shot('example-source')} alt="A Storybook docs page for the CRM dashboard example, with the rendered page above its full source code." />
+    </Container>
   </Section>
 
-  <Section id="tokens" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="fixes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">
-            A three-tier token system
-          </Heading>
+          <Heading level={2} visual="display-md" tone="ink">Fixing the API instead of the examples</Heading>
         </div>
         <div class="case-layout__body">
-          <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Most token systems collapse because they try to do two jobs in one
-              layer: hold raw values <em>and</em> express design intent.
-              Rudiment separates those jobs across three tiers, each referencing
-              the one beneath it, so a rebrand changes one file and a change to one
-              component doesn't affect the rest of the library.
+              Each fix changed the library first, and then the examples were moved onto it. A
+              workaround wasn’t counted as fixed until the example code that needed it was gone.
+            </p>
+          </div>
+
+          <ul class="mt-8 space-y-4">
+            {fixes.map((f) => (
+              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
+                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
+                <span><strong class="font-medium text-ink">{f.label}:</strong> <Fragment set:html={f.text} /></span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-10">
+            <CodeBlock
+              filename="Dashboard.stories.tsx"
+              lang="tsx"
+              code={progressSnippet}
+              caption="The project tracker’s workload meter now uses the library’s own progress bar, so it keeps an accessible name and value."
+            />
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <li>
+          <Plate size="half" title="Workload thresholds" caption="The fill color comes from the percentage." src={shot('workload-thresholds')} alt="Team workload meters on the sprint dashboard: Avery at 100% and Mei at 90% show the warning color, and the members below 16 points use the default fill." />
+        </li>
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="tokens" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Themes that only change tokens</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Every visual value in Rudiment is a <code>--rudi-</code> CSS custom property in one of
+              three tiers. Primitives hold raw values. Semantic tokens give them a job, like
+              <code>color.brand.primary</code>. Component tokens give each component its own values,
+              like <code>component.button.primary-bg</code>. Components read only the semantic and
+              component tiers, so a rebrand changes one tier and a change to one component doesn’t
+              affect the others.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">The three tiers</p>
+            <ol class="space-y-8">
+              {tokenTiers.map((tier, i) => (
+                <li class="flex items-start gap-5">
+                  <span class="mono-label mt-1 shrink-0 text-accent">{String(i + 1).padStart(2, '0')}</span>
+                  <div>
+                    <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{tier.name} · {tier.role}</Heading>
+                    <Text size="sm" tone="muted">{tier.body}</Text>
+                    <p class="mt-2 text-sm"><code>{tier.example}</code></p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div class="mt-12 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Rudiment ships eight themes: the default, dark, and three modifier themes called Roomy,
+              Soft and Compressed, each with a dark version. Earlier versions had two brand themes whose
+              look depended on overrides written into the component stylesheets. In 0.3.0 I removed
+              them and deleted every theme override from eleven component stylesheets, so a theme is now
+              nothing but a different set of token values.
+            </p>
+            <p>
+              Each theme is its own Style Dictionary build with a filter that decides which tokens it
+              re-emits. Anything it leaves out falls through to the default theme. Compressed, for
+              example, only changes spacing and radius:
             </p>
           </div>
 
           <div class="mt-10">
-            {tokenTiers.map((tier) => (
-              <div class="py-5">
-                <div class="flex items-start gap-4">
-                  <Icon name={tier.icon} size={26} class="mt-1 flex-shrink-0 text-ink-muted" />
-                  <div>
-                    <Heading level={3} visual="h4" tone="ink">{tier.title}</Heading>
-                    <p class="mb-3 mt-1 text-ink-muted leading-relaxed">{tier.desc}</p>
-                    <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 py-0.5 rounded-[4px]">{tier.code}</code>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <CodeBlock
+              filename="style-dictionary.config.compressed.mjs"
+              lang="js"
+              code={themeSnippet}
+              caption="Compressed re-emits spacing, radius and the tokens that reference them. Colors and fonts fall through to the default theme."
+            />
           </div>
 
-          <p class="mt-10 measure text-ink-muted leading-relaxed text-lg">
-            Token files use the Design Tokens Community Group format, flow
-            through Style Dictionary v4, and land in Tailwind CSS 4 via
-            <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 py-0.5 rounded-[4px]">@theme inline</code>, so changing one value updates every component that uses it.
-          </p>
+          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Themes are set with a <code>data-theme</code> attribute on any element, so a dark sidebar
+              can sit inside a light page. The charts read their colors from tokens too, and watch the
+              attribute so they update when the theme changes.
+            </p>
+          </div>
         </div>
       </div>
     </Container>
+
+    <Container width="wide" class="mt-16">
+      <Heading level={3} visual="h3" tone="ink" class="mb-8">Same components, different tokens</Heading>
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-3">
+        {themeShots.map((s) => (
+          <li>
+            <Plate size="half" title={s.title} src={shot(s.slug)} alt={s.alt} />
+          </li>
+        ))}
+      </ul>
+    </Container>
   </Section>
 
-  <Section id="accessibility" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">
-            Accessibility with React Aria
-          </Heading>
+          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
         </div>
         <div class="case-layout__body">
-          <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
+          <Heading level={3} visual="h3" tone="ink" class="mt-8 mb-3">Accessibility comes from React Aria, styling comes from tokens</Heading>
+          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Interactive components need a lot of accessibility behavior. A modal
-              alone needs focus trapping, scroll locking,
-              escape-key handling, focus restoration, and
-              <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 py-0.5 rounded-[4px]">aria-modal</code>
-              management. Instead of rebuilding that for each component, Rudiment
-              uses React Aria, maintained by Adobe's design system team, for the
-              behavior layer.
+              Interactive components are built on React Aria hooks, so keyboard navigation, focus
+              management, ARIA roles and pointer handling come from a library maintained by Adobe.
+              Rudiment owns the look and the API. That’s why buttons take <code>onPress</code> rather
+              than <code>onClick</code>, and why <code>onChange</code> hands back a value instead of an
+              event.
             </p>
             <p>
-              React Aria owns keyboard navigation, focus management, ARIA
-              semantics, pointer normalization, and i18n. Tailwind CSS 4 handles
-              the visuals. The two layers stay cleanly separated, which is what
-              lets the library re-skin without touching any behavior.
+              Every component has a test file that checks rendering, keyboard and pointer use, and its
+              disabled, loading and error states, and runs axe against the result. Tests find elements
+              by role and text, never by class name, so restyling a component can’t quietly break its
+              tests. A second test project renders every story in a real Chromium browser with the
+              Storybook accessibility addon.
             </p>
+          </div>
+
+          <Heading level={3} visual="h3" tone="ink" class="mt-12 mb-3">A package that doesn’t fight the app it’s installed in</Heading>
+          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Tests then lock in that separation. Layout primitives are verified
-              against the tokens and classes they emit. UI components are
-              verified against their
-              <em>accessibility contract</em>: keyboard activation, disabled and
-              error states, focus behavior, loading-state ARIA, and zero
-              axe-core violations. Tests query by role and text, never by class
-              name, so refactors don't silently break coverage.
+              Storybook uses Tailwind for its own pages, but the published package doesn’t include it.
+              Components use BEM class names like <code>rudi-button--primary</code>, and the stylesheet
+              has no reset and no bare element selectors, so installing Rudiment can’t restyle the rest
+              of an app. The build keeps React Aria as an external dependency, because two copies of it
+              break its context, and adds a <code>'use client'</code> banner so the package can be
+              imported straight into a Next.js Server Component.
             </p>
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Accessibility features</p>
-            <ul class="grid gap-x-8 gap-y-3 text-ink-muted sm:grid-cols-2">
-              {a11yList.map((item) => (
-                <li class="flex items-center gap-3">
-                  <Icon name={item.icon} size={20} class="flex-shrink-0 text-ink-muted" />
-                  {item.text}
+            <p class="mono-label mb-6">Stack</p>
+            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {stack.map((item) => (
+                <li>
+                  <p class="font-medium text-ink leading-snug">{item.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
                 </li>
               ))}
             </ul>
@@ -298,47 +493,99 @@ const proof = [
     </Container>
   </Section>
 
-  <Section id="explore" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">
-            Explore the implementation
-          </Heading>
+          <Heading level={2} visual="display-md" tone="ink">Results</Heading>
         </div>
         <div class="case-layout__body">
-          <div class="mt-6 measure space-y-5 text-ink-muted leading-relaxed text-lg">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Storybook is the live reference for the library. Browse layout
-              primitives, form controls, overlays, and visual variants, then open
-              the example pages to see them composed into interfaces.
+              Nobody outside this project has built with Rudiment yet, so these results come from my own
+              examples, tests and review.
             </p>
           </div>
-          <ul class="mt-8 space-y-3 text-ink-muted">
-            {storybookChecks.map((item) => (
-              <li class="flex items-start gap-3">
+
+          <ul class="mt-8 space-y-3">
+            {results.map((item) => (
+              <li class="flex items-start gap-3 text-ink">
                 <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
                 <span>{item}</span>
               </li>
             ))}
           </ul>
-          <a
-            href="https://rudiment-ui.netlify.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="action-link mt-8"
-          >
-            Explore Storybook <span aria-hidden="true" data-link-arrow="up-right">↗</span>
-          </a>
-          <p class="mt-10 measure text-sm text-ink-muted leading-relaxed">
-            I also wrote the separate <a href="https://rudiment-guide.netlify.app/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-accent">13-chapter Rudiment Guide</a>,
-            a walkthrough of component-library architecture.
-          </p>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">How success will be measured</p>
+            <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+              {metricLenses.map((m) => (
+                <div class="pt-4">
+                  <p class="mono-label mb-3">{m.lens}</p>
+                  <ul class="space-y-1.5">
+                    {m.items.map((item) => (
+                      <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+                        <Icon name="ph:dot-outline" size={16} class="mt-0.5 shrink-0 text-accent" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </Container>
   </Section>
 
-  <ProjectNext project="rudiment" />
+  <Section tone="paper" padding="default" aria-label="Live examples">
+    <Container width="wide">
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Live examples</Heading>
+      <Text tone="muted" class="max-w-2xl">These are live Storybook stories. Load one to use it.</Text>
 
+      <div class="mt-12 space-y-16">
+        {liveStories.map((story) => (
+          <div>
+            <div class="mb-6 pt-4">
+              <p class="font-medium text-ink">{story.title}</p>
+              <Text tone="muted" size="sm" class="mt-1 max-w-xl">{story.blurb}</Text>
+            </div>
+            <LiveEmbed
+              posterSrc={story.poster}
+              posterAlt={story.posterAlt}
+              href={`https://rudiment-ui.netlify.app/?path=/story/${story.id}`}
+              title={story.title}
+              embedSrc={`https://rudiment-ui.netlify.app/iframe.html?id=${story.id}&viewMode=story`}
+            />
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
+      <Text size="lg" tone="muted" class="measure mb-10">
+        Both of these come from building alone: the library has only been tested against the pages I
+        chose to build with it.
+      </Text>
+      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
+        {edges.map((e) => (
+          <li class="pt-5">
+            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
+            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
+            <Text size="sm" tone="muted"><Fragment set:html={e.body} /></Text>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-14 measure text-sm text-ink-muted leading-relaxed">
+        I also wrote the <a href="https://rudiment-guide.netlify.app/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-accent">13-chapter Rudiment Guide</a>,
+        a walkthrough of component library architecture.
+      </p>
+    </Container>
+  </Section>
+
+  <ProjectNext project="rudiment" />
 </ProjectLayout>

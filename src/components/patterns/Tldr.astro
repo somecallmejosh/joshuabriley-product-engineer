@@ -6,13 +6,15 @@ interface Props {
   problem: string;
   alternativeA: Alternative;
   alternativeB: Alternative;
+  /** Optional third option, e.g. when the chosen approach is listed alongside two rejected ones. */
+  alternativeC?: Alternative;
   decision: string;
   implementation: string;
   evidence: string;
   reflection: string;
   class?: string;
 }
-const { situation, problem, alternativeA, alternativeB, decision, implementation, evidence, reflection, class: className } = Astro.props;
+const { situation, problem, alternativeA, alternativeB, alternativeC, decision, implementation, evidence, reflection, class: className } = Astro.props;
 ---
 <section id="tldr" class:list={['project-summary', className]} aria-labelledby="project-summary-title">
   <Container width="wide">
@@ -28,7 +30,7 @@ const { situation, problem, alternativeA, alternativeB, decision, implementation
         <details class="summary-more">
           <summary>Alternatives, implementation, and lessons <span aria-hidden="true">+</span></summary>
           <div class="summary-expanded">
-            <div class="summary-alternatives">{[alternativeA, alternativeB].map(alternative => <div><h3>{alternative.name}</h3><p set:html={alternative.body} /></div>)}</div>
+            <div class="summary-alternatives">{[alternativeA, alternativeB, alternativeC].filter((a): a is Alternative => !!a).map(alternative => <div><h3>{alternative.name}</h3><p set:html={alternative.body} /></div>)}</div>
             <h3>How it was built</h3><p set:html={implementation} />
             <h3>What I would improve</h3><p set:html={reflection} />
           </div>

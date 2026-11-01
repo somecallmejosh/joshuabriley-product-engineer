@@ -65,6 +65,16 @@ const {
           <span class="live-embed-cta-note">{ctaNote}</span>
         </button>
 
+        <!-- Phones: a desktop app squeezed into a short frame needs scrolling inside
+             the frame and shows only a corner of the page, so small screens open the
+             story full screen in a new tab instead of embedding it. -->
+        <a class="live-embed-open-cta" href={href} target="_blank" rel="noopener noreferrer" aria-label={`Open the ${title} demo (new tab)`}>
+          <span class="live-embed-cta-pill">
+            Open live demo
+            <Icon name="ph:arrow-up-right" size={15} />
+          </span>
+        </a>
+
         <iframe
           class="live-embed-iframe"
           data-embed-frame
@@ -233,6 +243,24 @@ const {
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--ink-muted);
+  }
+
+  .live-embed-open-cta {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+
+  /* Small screens link out instead of embedding (see the markup comment). The LIVE
+     tag goes too, since nothing on the page is live there. */
+  @media (max-width: 767px) {
+    .live-embed-cta,
+    .live-embed-tag { display: none; }
+    .live-embed-open-cta { display: flex; }
   }
 
   /* Activated: poster + CTA bow out, live story fades in. */
