@@ -112,7 +112,7 @@
 .project-next-nav a { min-height: 44px; display: inline-flex; align-items: center; gap: .6rem; font-size: .85rem; color: var(--ink-muted); }
 .project-next-nav a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 5px; }
 @media (min-width: 640px) {
-  .project-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  .project-facts { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 2rem; }
   .summary-alternatives { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
 }
 @media (min-width: 1024px) {

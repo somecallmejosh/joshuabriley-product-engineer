@@ -15,11 +15,11 @@ export const selectedWork = [
     illustration: 'logatot' as const, result: '2+ hours', resultNote: 'saved daily, reported by one provider', action: 'Read the case study',
   },
   {
-    name: 'VMSpark', href: '/projects/vmspark/', kind: 'Client work · Recruiting operations',
-    title: 'Rebuilding an admin app without stopping the pipeline.',
-    summary: 'An admin interface for a system that sends thousands of job listings to more than a dozen hiring systems. I audited 350 templates and rebuilt the app in four stages, keeping the workflows operators already knew.',
-    ownership: 'Product design and UI engineering', evidence: 'Template audit, app shell, tokens, staged rollout',
-    illustration: 'vmspark' as const, result: '0', resultNote: 'pipeline regressions across four stages', action: 'Read the case study',
+    name: 'VMSpark', href: '/projects/vmspark/', kind: 'Client project · Healthcare staffing operations',
+    title: 'Giving a working data pipeline an interface that looks like it works.',
+    summary: 'VMSpark’s pipeline was reliable, but the admin app around it looked unfinished. I audited about 350 templates, then redesigned the app shell and the screens operators use most, in four phases, without changing how the pipeline works.',
+    ownership: 'Product design and front-end engineering', evidence: 'Design audit, app shell, design system, table tooling',
+    illustration: 'vmspark' as const, result: '~350', resultNote: 'templates audited before designing', action: 'Read the case study',
   },
   {
     name: 'Rudiment UI', href: '/personal-projects/rudiment-ui/',

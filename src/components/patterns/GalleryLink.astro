@@ -1,0 +1,29 @@
+---
+import Section from '~/components/layout/Section.astro';
+import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
+import Text from '~/components/primitives/Text.astro';
+import { galleryFor, galleryHref, galleryCount } from '~/lib/project-galleries';
+import type { ProjectKey } from '~/lib/project-pages';
+
+/**
+ * GalleryLink — the last stop on a case study before "Next project".
+ *
+ * Case studies keep only the images that support a point in the text. The
+ * rest live on the project's gallery page; this points readers who want
+ * everything to it. Renders nothing for a project without a gallery.
+ */
+interface Props { project: ProjectKey; }
+const gallery = galleryFor(Astro.props.project);
+---
+{gallery && (
+  <Section tone="paper" padding="default" aria-label="Gallery">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">More screens</Heading>
+      <Text size="lg" tone="muted" class="measure mb-6">{gallery.intro}</Text>
+      <a href={galleryHref(gallery)} class="editorial-link">
+        See all {galleryCount(gallery)} in the gallery <span aria-hidden="true" data-link-arrow="right">→</span>
+      </a>
+    </Container>
+  </Section>
+)}

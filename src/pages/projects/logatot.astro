@@ -2,6 +2,7 @@
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
@@ -174,15 +175,6 @@ const keyScreens = [
   },
 ];
 
-// The rest of the system, at a glance, without repeating the device.
-const restOfSystem = [
-  { slug: '02-children-roster', title: 'Children roster' },
-  { slug: '03-child-form', title: 'Child record' },
-  { slug: '07-cacfp-menu', title: 'CACFP menu planner' },
-  { slug: '08-calendar', title: 'Calendar and drills' },
-  { slug: '09-reports', title: 'Reports' },
-  { slug: '10-dashboard-lat5', title: 'Manual-entry dashboard' },
-];
 
 const flows = [
   {
@@ -217,6 +209,14 @@ const flows = [
   },
 ];
 
+// Screenshots of the shipped app, captured from the seeded demo account at
+// 1440×900 @2x in light mode. Captions say only what is on screen.
+const appShots = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/projects/logatot/app-*.png',
+  { eager: true },
+);
+const app = (slug: string) => appShots[`../../assets/projects/logatot/app-${slug}.png`].default;
+
 // Screens and flows are placed beside the argument they support rather than
 // collected into one gallery, so these look them up by slug at the point of use.
 const screen = (slug: string) => keyScreens.find((s) => s.slug === slug)!;
@@ -247,7 +247,7 @@ const tldr = {
 
   <ProjectHero project="logatot" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#research', label: 'Research' }, { href: '#failure', label: 'Interaction design' }, { href: '#pipeline', label: 'Implementation' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#research', label: 'Research' }, { href: '#failure', label: 'Interaction design' }, { href: '#outcomes', label: 'Results' }, { href: '#pipeline', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -281,7 +281,6 @@ const tldr = {
       </dl>
     </Container>
   </Section>
-
 
   <Section tone="paper" padding="default" id="hands" class="scroll-mt-24">
     <Container width="content">
@@ -473,6 +472,26 @@ const tldr = {
       />
     </Container>
 
+    <Container width="wide" class="mt-16">
+      <p class="mono-label mb-6">The Voiceboard in the app</p>
+      <div class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <Plate
+          size="half"
+          title="Ready to listen"
+          caption="The listening panel with an example phrase, and the day’s counts of children here, expected, picked up, and absent."
+          src={app('voiceboard')}
+          alt="The top of the Logatot Voiceboard: a Ready to listen panel with a microphone, the prompt “Say Logatot to record a moment,” the example “Logatot, Ava just checked in,” counts reading 11 here, 0 expected, 0 picked up, and 1 absent, and a date picker set to Sunday, November 1."
+        />
+        <Plate
+          size="half"
+          title="One card per child"
+          caption="Each child’s day so far, grouped by event type: health checks, diaper changes, naps, meals, and activities."
+          src={app('voiceboard-children')}
+          alt="Child cards on the Logatot Voiceboard. Each card shows a photo, the child’s name, their check-in time, and a list of the day’s events with times, such as a 7:08 am health check, a 12:29 pm wet diaper change, a 12:37 pm nap, lunch at 11:45 am, and outdoor play."
+        />
+      </div>
+    </Container>
+
     <Container width="content" class="mt-16">
       <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
         <p>
@@ -496,41 +515,6 @@ const tldr = {
       />
     </Container>
 
-    <Container width="content" class="mt-16">
-      <div class="case-layout-cont">
-        <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
-          <p>
-            Underneath both views, whether a child is checked in isn't stored as a
-            simple yes-or-no flag. It's worked out fresh each time from the full
-            history of check-ins and check-outs, so it can never drift out of sync
-            with what actually happened, no matter which of the ways a check gets
-            logged, voice, tablet, or the shared board. A wrong headcount is a
-            licensing problem, so it was worth the extra work.
-          </p>
-        </div>
-
-        <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-          <p class="mono-label mb-5">System-level decisions</p>
-          <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-            {structural.map((item) => (
-              <li class="flex items-center gap-3 text-ink">
-                <Icon name={item.icon} size={20} class="shrink-0 text-ink-muted" />
-                {item.label}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div class="mt-10">
-          <CodeBlock
-            filename="logged_event.rb"
-            lang="ruby"
-            code={modelSnippet}
-            caption="The event log as the one record every write path already agrees on, with the failure diagnostics that make repair possible."
-          />
-        </div>
-      </div>
-    </Container>
   </Section>
 
   <Section tone="paper" padding="default">
@@ -560,6 +544,15 @@ const tldr = {
         caption={screen('05-checkin-kiosk').note}
         src={sheet('05-checkin-kiosk')}
         alt={screen('05-checkin-kiosk').alt}
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="Check-in kiosk in the app"
+        caption="Once the provider has signed out, the tablet shows only the daycare’s name and a PIN field."
+        src={app('kiosk')}
+        alt="The Logatot check-in kiosk: a dark full-screen card with the Logatot logo, the heading Check In/Out, the prompt “Enter your PIN for Little Acorns Home Daycare,” and a large PIN field. There is no navigation."
       />
     </Container>
 
@@ -617,6 +610,15 @@ const tldr = {
       />
     </Container>
 
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="The review queue in the app"
+        caption="Two failed entries, each labeled with what went wrong: the name wasn’t heard, the event wasn’t recognized, or both. The provider picks the child and the event, then saves."
+        src={app('repair-queue')}
+        alt="The Failed tab of Logged events in Logatot, with a badge showing 2. Each failed entry shows the transcript, such as “Log a diaper change for, um, the little one in the blue shirt,” Name not heard and Event not recognized tags, the time, a hint to tap the word that was the child’s name, Child and Event Type dropdowns, a Delete link, and a Save event button."
+      />
+    </Container>
+
     <Container width="content" class="mt-16">
       <figure class="case-layout-cont border-l-2 border-accent pl-6">
         <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
@@ -626,80 +628,6 @@ const tldr = {
         </blockquote>
         <figcaption class="mono-label mt-5">Text from the repair screen</figcaption>
       </figure>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="pipeline" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">How voice recognition works</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              A wake-word detector runs directly on the device, always listening for
-              "log a tot", so no audio ever leaves the device just to hear that phrase.
-              With a live microphone in a room full of other people's children, that
-              was the first question every provider asked.
-            </p>
-            <p>
-              Turning speech into a saved record runs on a fixed set of rules, with no
-              AI guessing in that step. What's said is checked against a list of known
-              phrases, and names are matched against the class roster. An AI model
-              making that call live would be slower and could confidently guess wrong,
-              logging a nap that never happened. The rule-based system either finds a
-              match or sends it to a person to review, and a non-match is an expected
-              outcome.
-            </p>
-            <p>
-              AI is used earlier instead. When a child is added, it generates a list of
-              ways that name is likely to be mispronounced or misheard, and the app
-              checks new recordings against that list. Toddler names are short and
-              similar to each other, so getting them right is the app's hardest
-              problem. Corrections a provider makes in the review queue get added to
-              that same list, so the system keeps improving.
-            </p>
-            <p>
-              Spanish speech gets translated to English before the app tries to match
-              it, so one set of phrases covers both languages. A single child mentioned
-              updates the screen right away; several children at once take a moment
-              longer in the background, so the response never slows down.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      {flowSet('11-flow-voice-logging').map((flow) => (
-        <Plate
-          title={flow.title}
-          caption={flow.note}
-          src={sheet(flow.slug)}
-          alt={flow.alt}
-        />
-      ))}
-    </Container>
-
-    <Container width="content" class="mt-16">
-      <div class="case-layout-cont">
-        <div class="rounded-lg border border-line p-6 md:p-8">
-          <p class="mono-label mb-6">Services</p>
-          <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-            {integrations.map((svc) => (
-              <li class="flex gap-3.5">
-                <Icon name={svc.icon} size={22} class="mt-0.5 shrink-0 text-ink-muted" />
-                <div>
-                  <p class="font-medium text-ink leading-snug">{svc.name}</p>
-                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{svc.role}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
     </Container>
   </Section>
 
@@ -771,28 +699,24 @@ const tldr = {
         ))}
       </div>
     </Container>
-  </Section>
 
-  <Section tone="paper" padding="default">
-    <Container width="wide">
-      <Heading level={2} visual="h2" tone="ink" class="mb-3">Other screens</Heading>
-      <Text size="lg" tone="muted" class="measure mb-10">
-        Annotated wireframes for six more screens: the children roster, the child
-        record, the CACFP menu planner, the calendar and fire drills, printable reports,
-        and the dashboard for providers who enter events by hand.
-      </Text>
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        {restOfSystem.map((s) => (
-          <li>
-            <Plate
-              size="half"
-              title={s.title}
-              src={sheet(s.slug)}
-              alt={`Annotated wireframe of the ${s.title.toLowerCase()} screen.`}
-            />
-          </li>
-        ))}
-      </ul>
+    <Container width="wide" class="mt-16">
+      <div class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <Plate
+          size="half"
+          title="Menu calendar"
+          caption="The month’s planned meals and snacks, with tabs for saved meals and a shopping list."
+          src={app('menu-calendar')}
+          alt="The Logatot menu calendar for November 2026: a month grid where each day lists planned meals and snacks, such as toast and bananas for breakfast, apples and cheese for a snack, and chicken and rice for lunch. Tabs above read My Meals, Menu Calendar, and Shopping List."
+        />
+        <Plate
+          size="half"
+          title="Reports"
+          caption="Reports for children (allergies, attendance, daily activity, medications) and for the provider and facility (fire drills, provider time, timeclock, shelter in place)."
+          src={app('reports')}
+          alt="The Logatot Reports page, with Child Reports cards for Allergies, Attendance, Daily Activity, and Medications, and Provider/Facility Reports cards for Fire Drills, Provider Time, Timeclock, and Shelter in Place."
+        />
+      </div>
     </Container>
   </Section>
 
@@ -812,6 +736,116 @@ const tldr = {
             </figcaption>
           </figure>
         ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="pipeline" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">How it’s built</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              A wake-word detector runs directly on the device, always listening for
+              "log a tot", so no audio ever leaves the device just to hear that phrase.
+              With a live microphone in a room full of other people's children, that
+              was the first question every provider asked.
+            </p>
+            <p>
+              Turning speech into a saved record runs on a fixed set of rules, with no
+              AI guessing in that step. What's said is checked against a list of known
+              phrases, and names are matched against the class roster. An AI model
+              making that call live would be slower and could confidently guess wrong,
+              logging a nap that never happened. The rule-based system either finds a
+              match or sends it to a person to review, and a non-match is an expected
+              outcome.
+            </p>
+            <p>
+              AI is used earlier instead. When a child is added, it generates a list of
+              ways that name is likely to be mispronounced or misheard, and the app
+              checks new recordings against that list. Toddler names are short and
+              similar to each other, so getting them right is the app's hardest
+              problem. Corrections a provider makes in the review queue get added to
+              that same list, so the system keeps improving.
+            </p>
+            <p>
+              Spanish speech gets translated to English before the app tries to match
+              it, so one set of phrases covers both languages. A single child mentioned
+              updates the screen right away; several children at once take a moment
+              longer in the background, so the response never slows down.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      {flowSet('11-flow-voice-logging').map((flow) => (
+        <Plate
+          title={flow.title}
+          caption={flow.note}
+          src={sheet(flow.slug)}
+          alt={flow.alt}
+        />
+      ))}
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <div class="case-layout-cont">
+        <div class="rounded-lg border border-line p-6 md:p-8">
+          <p class="mono-label mb-6">Services</p>
+          <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            {integrations.map((svc) => (
+              <li class="flex gap-3.5">
+                <Icon name={svc.icon} size={22} class="mt-0.5 shrink-0 text-ink-muted" />
+                <div>
+                  <p class="font-medium text-ink leading-snug">{svc.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{svc.role}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <div class="case-layout-cont">
+        <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+          <p>
+            Underneath the provider and parent views, whether a child is checked in isn't stored as a
+            simple yes-or-no flag. It's worked out fresh each time from the full
+            history of check-ins and check-outs, so it can never drift out of sync
+            with what actually happened, no matter which of the ways a check gets
+            logged, voice, tablet, or the shared board. A wrong headcount is a
+            licensing problem, so it was worth the extra work.
+          </p>
+        </div>
+
+        <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+          <p class="mono-label mb-5">System-level decisions</p>
+          <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+            {structural.map((item) => (
+              <li class="flex items-center gap-3 text-ink">
+                <Icon name={item.icon} size={20} class="shrink-0 text-ink-muted" />
+                {item.label}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mt-10">
+          <CodeBlock
+            filename="logged_event.rb"
+            lang="ruby"
+            code={modelSnippet}
+            caption="The event log as the one record every write path already agrees on, with the failure diagnostics that make repair possible."
+          />
+        </div>
       </div>
     </Container>
   </Section>
@@ -836,5 +870,8 @@ const tldr = {
     </Container>
   </Section>
 
+  <GalleryLink project="logatot" />
+
   <ProjectNext project="logatot" />
+
 </ProjectLayout>

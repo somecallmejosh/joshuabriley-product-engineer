@@ -2,6 +2,7 @@
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
@@ -220,15 +221,6 @@ const plates = [
   },
 ];
 
-// The remaining screens round out the system without repeating the device.
-const restOfSystem = [
-  { slug: '01-landing', title: 'Landing' },
-  { slug: '02-auth-two-factor', title: 'Auth + two-factor' },
-  { slug: '07-address-book', title: 'Address book' },
-  { slug: '08-users-admin', title: 'Users admin' },
-  { slug: '09-equipment-inventory', title: 'Equipment inventory' },
-  { slug: '10-admin-settings-feedback', title: 'Admin settings' },
-];
 
 const flows = [
   {
@@ -261,7 +253,7 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 
   <ProjectHero project="ivfcryo" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#readiness', label: 'Design decisions' }, { href: '#architecture', label: 'Engineering partnership' }, { href: '#outcomes', label: 'Results' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#readiness', label: 'Design decisions' }, { href: '#outcomes', label: 'Results' }, { href: '#architecture', label: 'Engineering partnership' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -295,7 +287,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
       </dl>
     </Container>
   </Section>
-
 
   <Section tone="paper" padding="default" id="stakes" class="scroll-mt-24">
     <Container width="content">
@@ -619,6 +610,86 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 
   </Section>
 
+  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">What changed after launch</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              A patient could now see that both clinics had signed off instead of
+              calling to ask. The office team could open one case instead of piecing it
+              together from email, fax, and phone notes. And because scheduling waited
+              on readiness, fewer couriers were sent before a clinic had actually
+              released the specimens.
+            </p>
+          </div>
+
+          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+            <Metric value="75%" label="fewer support calls" caption="patients and clinics got answers without phoning in" />
+            <Metric value="55%" label="fewer shipping errors" caption="caught before they reached a patient's specimens" />
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">How success is measured</p>
+            <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+              {metricLenses.map((m) => (
+                <div class="pt-4">
+                  <p class="mono-label mb-3">{m.lens}</p>
+                  <ul class="space-y-1.5">
+                    {m.items.map((item) => (
+                      <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+                        <Icon name="ph:dot-outline" size={16} class="mt-0.5 shrink-0 text-accent" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default">
+    <Container width="content">
+      <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
+        <figcaption class="md:col-span-4">
+          <p class="mono-label mb-6">Testimonial</p>
+          <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
+            <img
+              src="/images/testimonials/don-fish.png"
+              alt="Don Fish"
+              class="h-14 w-14 rounded-full border border-line object-cover md:h-16 md:w-16"
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p class="font-display font-semibold text-ink">Don Fish</p>
+              <p class="mt-1 text-sm text-ink-muted leading-snug">Owner &middot; IVFCRYO</p>
+            </div>
+          </div>
+        </figcaption>
+        <blockquote class="md:col-span-8">
+          <Icon name="ph:quotes" size={48} class="mb-5 text-accent opacity-25" />
+          <p class="max-w-[46ch] font-display text-2xl md:text-3xl tracking-tight leading-snug text-ink">
+            Josh didn't just design screens. He sat with me, our COO, and our office
+            manager, and came back with the insight the whole rebuild turned on — the hard
+            part is getting everyone ready, not tracking the truck. He designed the product
+            and owned the front end, and worked shoulder-to-shoulder with our engineers on
+            the data model and the integrations underneath. Our team runs on it, and our
+            patients feel the difference: they finally know someone has the whole case.
+          </p>
+        </blockquote>
+      </figure>
+    </Container>
+  </Section>
+
   <Section tone="paper" padding="default" id="architecture" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
@@ -687,110 +758,6 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">What changed after launch</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              A patient could now see that both clinics had signed off instead of
-              calling to ask. The office team could open one case instead of piecing it
-              together from email, fax, and phone notes. And because scheduling waited
-              on readiness, fewer couriers were sent before a clinic had actually
-              released the specimens.
-            </p>
-          </div>
-
-          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
-            <Metric value="75%" label="fewer support calls" caption="patients and clinics got answers without phoning in" />
-            <Metric value="55%" label="fewer shipping errors" caption="caught before they reached a patient's specimens" />
-          </div>
-
-          <div class="mt-12">
-            <p class="mono-label mb-6">How success is measured</p>
-            <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {metricLenses.map((m) => (
-                <div class="pt-4">
-                  <p class="mono-label mb-3">{m.lens}</p>
-                  <ul class="space-y-1.5">
-                    {m.items.map((item) => (
-                      <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
-                        <Icon name="ph:dot-outline" size={16} class="mt-0.5 shrink-0 text-accent" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" data-rest-of-system>
-    <Container width="wide">
-      <div>
-        <Heading level={2} visual="h2" tone="ink" class="mb-3">Other screens</Heading>
-        <Text tone="muted" class="measure mb-10">
-          Annotated wireframes for six more screens, made with the same three-pass
-          process.
-        </Text>
-        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-          {restOfSystem.map((s) => (
-            <li>
-              <Plate
-                size="half"
-                title={s.title}
-                src={annotated(s.slug)}
-                alt={`Annotated wireframe of the ${s.title.toLowerCase()} screen.`}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
-    <Container width="content">
-      <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
-        <figcaption class="md:col-span-4">
-          <p class="mono-label mb-6">Testimonial</p>
-          <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
-            <img
-              src="/images/testimonials/don-fish.png"
-              alt="Don Fish"
-              class="h-14 w-14 rounded-full border border-line object-cover md:h-16 md:w-16"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <p class="font-display font-semibold text-ink">Don Fish</p>
-              <p class="mt-1 text-sm text-ink-muted leading-snug">Owner &middot; IVFCRYO</p>
-            </div>
-          </div>
-        </figcaption>
-        <blockquote class="md:col-span-8">
-          <Icon name="ph:quotes" size={48} class="mb-5 text-accent opacity-25" />
-          <p class="max-w-[46ch] font-display text-2xl md:text-3xl tracking-tight leading-snug text-ink">
-            Josh didn't just design screens. He sat with me, our COO, and our office
-            manager, and came back with the insight the whole rebuild turned on — the hard
-            part is getting everyone ready, not tracking the truck. He designed the product
-            and owned the front end, and worked shoulder-to-shoulder with our engineers on
-            the data model and the integrations underneath. Our team runs on it, and our
-            patients feel the difference: they finally know someone has the whole case.
-          </p>
-        </blockquote>
-      </figure>
-    </Container>
-  </Section>
-
   <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
     <Container width="content">
       <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
@@ -811,5 +778,8 @@ const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
     </Container>
   </Section>
 
+  <GalleryLink project="ivfcryo" />
+
   <ProjectNext project="ivfcryo" />
+
 </ProjectLayout>

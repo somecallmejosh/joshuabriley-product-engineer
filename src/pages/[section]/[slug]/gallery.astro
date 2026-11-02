@@ -1,0 +1,49 @@
+---
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
+import Text from '~/components/primitives/Text.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import { projectGalleries, type ProjectGallery } from '~/lib/project-galleries';
+import { projectPages } from '~/lib/project-pages';
+
+// One route serves every gallery: /projects/<slug>/gallery/ and
+// /personal-projects/<slug>/gallery/. Data lives in src/lib/project-galleries.ts.
+export function getStaticPaths() {
+  return projectGalleries.map((gallery) => ({
+    params: { section: gallery.section, slug: gallery.slug },
+    props: { gallery },
+  }));
+}
+
+interface Props { gallery: ProjectGallery; }
+const { gallery } = Astro.props;
+const name = projectPages[gallery.project].name;
+const caseStudy = `/${gallery.section}/${gallery.slug}/`;
+---
+
+<ProjectLayout title={`${name} gallery | Joshua Briley`} description={`${name}: ${gallery.intro}`}>
+  <section class="project-opening pb-24">
+    <Container width="wide">
+      <a href={caseStudy} class="project-back"><span aria-hidden="true" data-link-arrow="up-left">↖</span> {name} case study</a>
+      <Heading level={1} visual="display-md" tone="ink" class="mt-8 mb-4">{name} gallery</Heading>
+      <Text size="lg" tone="muted" class="measure">{gallery.intro}</Text>
+
+      {gallery.groups.map((group) => (
+        <div class="mt-20">
+          <Heading level={2} visual="h2" tone="ink" class="mb-3">{group.heading}</Heading>
+          {group.intro && <Text tone="muted" class="measure mb-10">{group.intro}</Text>}
+          <ul class:list={['grid gap-x-8 gap-y-14', group.intro ? '' : 'mt-10', group.items.every((i) => i.size === 'half') && 'md:grid-cols-2']}>
+            {group.items.map((item) => (
+              <li>
+                <Plate size={item.size} index={item.index} title={item.title} caption={item.caption} src={item.src} alt={item.alt} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <a href={caseStudy} class="editorial-link mt-20 inline-flex">Back to the {name} case study</a>
+    </Container>
+  </section>
+</ProjectLayout>

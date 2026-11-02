@@ -112,7 +112,7 @@ body {
   line-height: 0.99;
 }
 .hero-type {
-  font-size: clamp(3.6rem, 7.6vw, 7.15rem);
+  font-size: clamp(3.6rem, 6.4vw, 6rem);
 }
 .hero-type em,
 .page-type em,
@@ -626,9 +626,10 @@ body {
   }
 }
 @media (min-width: 1024px) {
+  /* Near-even columns so the headline and the portrait carry similar weight. */
   .home-hero-grid {
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr);
-    gap: 5rem;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 4rem;
     padding-top: 3.5rem;
   }
   .hero-portrait {
@@ -674,7 +675,7 @@ body {
   }
   .about-intro {
     grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-    gap: 7rem;
+    gap: 4rem;
   }
   .principle-row {
     grid-template-columns: 1fr 1.15fr;
@@ -682,7 +683,6 @@ body {
   }
 }
 @media (min-width: 1280px) {
-  .home-hero-grid,
   .current-work {
     gap: 7rem;
   }

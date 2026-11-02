@@ -180,7 +180,7 @@ const themeShots = [
 
   <ProjectHero project="rudiment" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#engineering', label: 'Engineering' }, { href: '#outcomes', label: 'Results' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -440,59 +440,6 @@ const themeShots = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Heading level={3} visual="h3" tone="ink" class="mt-8 mb-3">Accessibility comes from React Aria, styling comes from tokens</Heading>
-          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Interactive components are built on React Aria hooks, so keyboard navigation, focus
-              management, ARIA roles and pointer handling come from a library maintained by Adobe.
-              Rudiment owns the look and the API. That’s why buttons take <code>onPress</code> rather
-              than <code>onClick</code>, and why <code>onChange</code> hands back a value instead of an
-              event.
-            </p>
-            <p>
-              Every component has a test file that checks rendering, keyboard and pointer use, and its
-              disabled, loading and error states, and runs axe against the result. Tests find elements
-              by role and text, never by class name, so restyling a component can’t quietly break its
-              tests. A second test project renders every story in a real Chromium browser with the
-              Storybook accessibility addon.
-            </p>
-          </div>
-
-          <Heading level={3} visual="h3" tone="ink" class="mt-12 mb-3">A package that doesn’t fight the app it’s installed in</Heading>
-          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Storybook uses Tailwind for its own pages, but the published package doesn’t include it.
-              Components use BEM class names like <code>rudi-button--primary</code>, and the stylesheet
-              has no reset and no bare element selectors, so installing Rudiment can’t restyle the rest
-              of an app. The build keeps React Aria as an external dependency, because two copies of it
-              break its context, and adds a <code>'use client'</code> banner so the package can be
-              imported straight into a Next.js Server Component.
-            </p>
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-6">Stack</p>
-            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-              {stack.map((item) => (
-                <li>
-                  <p class="font-medium text-ink leading-snug">{item.name}</p>
-                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
   <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
@@ -564,6 +511,59 @@ const themeShots = [
     </Container>
   </Section>
 
+  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
+        </div>
+        <div class="case-layout__body">
+          <Heading level={3} visual="h3" tone="ink" class="mt-8 mb-3">Accessibility comes from React Aria, styling comes from tokens</Heading>
+          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Interactive components are built on React Aria hooks, so keyboard navigation, focus
+              management, ARIA roles and pointer handling come from a library maintained by Adobe.
+              Rudiment owns the look and the API. That’s why buttons take <code>onPress</code> rather
+              than <code>onClick</code>, and why <code>onChange</code> hands back a value instead of an
+              event.
+            </p>
+            <p>
+              Every component has a test file that checks rendering, keyboard and pointer use, and its
+              disabled, loading and error states, and runs axe against the result. Tests find elements
+              by role and text, never by class name, so restyling a component can’t quietly break its
+              tests. A second test project renders every story in a real Chromium browser with the
+              Storybook accessibility addon.
+            </p>
+          </div>
+
+          <Heading level={3} visual="h3" tone="ink" class="mt-12 mb-3">A package that doesn’t fight the app it’s installed in</Heading>
+          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Storybook uses Tailwind for its own pages, but the published package doesn’t include it.
+              Components use BEM class names like <code>rudi-button--primary</code>, and the stylesheet
+              has no reset and no bare element selectors, so installing Rudiment can’t restyle the rest
+              of an app. The build keeps React Aria as an external dependency, because two copies of it
+              break its context, and adds a <code>'use client'</code> banner so the package can be
+              imported straight into a Next.js Server Component.
+            </p>
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-6">Stack</p>
+            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {stack.map((item) => (
+                <li>
+                  <p class="font-medium text-ink leading-snug">{item.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
   <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
     <Container width="content">
       <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
@@ -588,4 +588,5 @@ const themeShots = [
   </Section>
 
   <ProjectNext project="rudiment" />
+
 </ProjectLayout>

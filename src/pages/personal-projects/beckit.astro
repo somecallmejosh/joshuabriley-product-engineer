@@ -2,6 +2,7 @@
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
@@ -134,20 +135,13 @@ end`;
 const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/beckit/*.png', { eager: true });
 const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`].default;
 
-const otherScreens = [
-  { slug: 'journal', title: 'Journal', alt: 'The beckit journal: a greeting and the most common traps of the last 30 days beside a month-by-month list of entries, each with its place, title, thought, trap tags and feeling rating.' },
-  { slug: 'landing', title: 'Landing page', alt: 'The beckit landing page: the headline “Notice the thought. Name the pattern.”, then sections on getting a thought out of your head, giving the pattern a name, rating the feeling before and after, and privacy.' },
-  { slug: 'trap-library', title: 'Thinking traps', alt: 'The thinking traps index: eleven traps, each with its drawing, name and one-line definition.' },
-  { slug: 'trap-mind-reading', title: 'Thinking trap page', alt: 'The mind reading page: a definition, an example, a more balanced perspective, the trap’s drawing of two people on a bench, and a “Let yourself off the hook” message.' },
-  { slug: 'privacy', title: 'Privacy', alt: 'The beckit privacy page, written in plain language.' },
-];
 ---
 
 <ProjectLayout title={title} description={description}>
 
   <ProjectHero project="beckit" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#engineering', label: 'Engineering' }, { href: '#outcomes', label: 'Results' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -449,47 +443,6 @@ const otherScreens = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              I built the whole app, so the design decisions and the code were never far
-              apart. The rule at the center of the entry flow, which answer each step
-              needs, lives in one place in the model, and the step pages, navigation,
-              validations and “Continue” links all read from it.
-            </p>
-          </div>
-
-          <div class="mt-10">
-            <CodeBlock
-              filename="situation.rb"
-              lang="ruby"
-              code={modelSnippet}
-              caption="One list of steps and required answers drives validation, navigation and the “Continue this entry” link."
-            />
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-6">Stack</p>
-            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-              {stack.map((item) => (
-                <li>
-                  <p class="font-medium text-ink leading-snug">{item.name}</p>
-                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
   <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
@@ -539,16 +492,44 @@ const otherScreens = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" data-rest-of-system>
-    <Container width="wide">
-      <Heading level={2} visual="h2" tone="ink" class="mb-10">Other screens</Heading>
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        {otherScreens.map((s) => (
-          <li>
-            <Plate size="half" title={s.title} src={shot(s.slug)} alt={s.alt} />
-          </li>
-        ))}
-      </ul>
+  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              I built the whole app, so the design decisions and the code were never far
+              apart. The rule at the center of the entry flow, which answer each step
+              needs, lives in one place in the model, and the step pages, navigation,
+              validations and “Continue” links all read from it.
+            </p>
+          </div>
+
+          <div class="mt-10">
+            <CodeBlock
+              filename="situation.rb"
+              lang="ruby"
+              code={modelSnippet}
+              caption="One list of steps and required answers drives validation, navigation and the “Continue this entry” link."
+            />
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-6">Stack</p>
+            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {stack.map((item) => (
+                <li>
+                  <p class="font-medium text-ink leading-snug">{item.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </Container>
   </Section>
 
@@ -571,5 +552,8 @@ const otherScreens = [
     </Container>
   </Section>
 
+  <GalleryLink project="beckit" />
+
   <ProjectNext project="beckit" />
+
 </ProjectLayout>

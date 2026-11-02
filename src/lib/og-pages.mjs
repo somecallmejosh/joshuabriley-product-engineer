@@ -18,8 +18,8 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Helping teams ship the right product', wink: 'right product' },
-  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet' },
+  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet' },
+  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'I design and build products with the teams that ship them', wink: 'with the teams that ship them' },
   { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop' },
   { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it' },
   { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built' },

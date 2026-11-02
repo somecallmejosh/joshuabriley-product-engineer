@@ -30,6 +30,7 @@ export const projectPages = {
       { label: 'My role', value: 'Product design and front end' },
       { label: 'Owned', value: 'Research, workflows, components' },
       { label: 'Partnered on', value: 'Rails backend and tracking' },
+      { label: 'Team', value: 'Three developers' },
     ],
     figures: [
       { value: '75%', label: 'fewer support calls' },
@@ -63,18 +64,19 @@ export const projectPages = {
   },
   vmspark: {
     illustration: 'vmspark',
-    name: 'VMSpark', kind: 'Client work · Recruiting operations',
-    headline: 'Rebuilding the interface', emphasis: 'without stopping the pipeline.',
-    intro: 'VMSpark processes thousands of job listings and sends them to more than a dozen hiring systems. I audited and rebuilt the admin interface in stages, preserving the pipeline and the workflows operators already knew.',
+    name: 'VMSpark', kind: 'Client project · Healthcare staffing operations',
+    headline: 'Giving a working data pipeline', emphasis: 'an interface that looks like it works.',
+    intro: 'VMSpark takes job feeds from the vendor management systems that hospitals use, cleans each listing up to match a staffing agency’s own vocabulary, runs it through rules the agency sets, and sends it to the agency’s applicant tracking system. The pipeline was reliable. The admin app around it looked unfinished, and the company was about to start showing it to investors. I redesigned the app shell and the screens operators use most, without changing how the pipeline works.',
     facts: [
-      { label: 'My role', value: 'Product design and UI engineering' },
-      { label: 'Owned', value: 'Audit, app shell, tokens, rollout' },
-      { label: 'Built with', value: 'Rails, Stimulus, modern CSS' },
+      { label: 'My role', value: 'Product design and front-end engineering' },
+      { label: 'Owned', value: 'Design audit, design direction, app shell, design system, table tooling, wireframes and flow diagrams' },
+      { label: 'Built with', value: 'Rails 7, Hotwire (Stimulus), HTMX, Bootstrap 5, SCSS, PostgreSQL' },
+      { label: 'Timeline', value: 'About six weeks, April–May 2026' },
     ],
     figures: [
-      { value: '350', label: 'page templates inventoried' },
-      { value: '4', label: 'stages of rollout' },
-      { value: '0', label: 'pipeline regressions' },
+      { value: '~350', label: 'templates audited before designing' },
+      { value: '11', label: 'screens wireframed' },
+      { value: '5', label: 'system and user flows mapped' },
     ],
     image: '/images/projects/vmspark/wires-and-flows/02-job-listings.svg',
     alt: 'VMSpark job listings interface design with status tabs, filters, and a shared application shell',
@@ -90,6 +92,7 @@ export const projectPages = {
       { label: 'My role', value: 'Product design and full-stack development' },
       { label: 'Owned', value: 'Research, product decisions, design, Rails app, illustrations' },
       { label: 'Built with', value: 'Rails 8, Hotwire, Tailwind CSS, PostgreSQL, Kamal' },
+      { label: 'Team', value: 'Solo project' },
     ],
     figures: [
       { value: '5', label: 'short steps per entry', note: 'Each with one required answer' },
@@ -112,6 +115,7 @@ export const projectPages = {
       { label: 'My role', value: 'Design and front-end development' },
       { label: 'Owned', value: 'Component APIs, token architecture, themes, tests, documentation, example apps' },
       { label: 'Built with', value: 'React 19, TypeScript, React Aria, Style Dictionary, Storybook, Vitest, axe-core' },
+      { label: 'Team', value: 'Solo project' },
     ],
     figures: [
       { value: '26', label: 'example pages', note: 'Across four apps, built to find where the library falls short' },
@@ -136,6 +140,7 @@ export const projectPages = {
       { label: 'My role', value: 'Product design, curriculum and front-end development' },
       { label: 'Owned', value: 'Curriculum, game design, visual design, test engine, copy' },
       { label: 'Built with', value: 'Astro 5, React, CodeMirror, axe-core, CSS custom properties, Netlify' },
+      { label: 'Team', value: 'Solo project' },
     ],
     figures: [
       { value: '20', label: 'sectors', note: 'Across three difficulty arcs, from first token to full audit' },

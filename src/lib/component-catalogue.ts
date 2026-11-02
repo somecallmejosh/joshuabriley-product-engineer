@@ -274,6 +274,13 @@ export const componentCatalogue = [
     "href": "/projects/ivfcryo/"
   },
   {
+    "name": "GalleryLink",
+    "path": "src/components/patterns/GalleryLink.astro",
+    "group": "patterns",
+    "note": "Points from a case study to its gallery of extra screens and wireframes.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
     "name": "ProjectNext",
     "path": "src/components/patterns/ProjectNext.astro",
     "group": "patterns",

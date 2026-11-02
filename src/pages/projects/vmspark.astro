@@ -2,288 +2,145 @@
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import Metric from '~/components/patterns/Metric.astro';
 import SiteShot from '~/components/patterns/SiteShot.astro';
 import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import FidelityBand from '~/components/patterns/FidelityBand.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
+import { vmsparkSummary as tldr } from '~/lib/project-summaries';
 import type { ImageMetadata } from 'astro';
 
 const title = 'VMSpark | Joshua Briley';
 const description =
-  "Case study: VMSpark's admin app hadn't kept up with the sophisticated system it ran on. I audited the interface, chose a design direction, and rebuilt it in four safe stages without touching what powered it.";
+  'Case study: redesigning the VMSpark admin app shell and the screens operators use most, after auditing about 350 templates, without changing how the data pipeline works.';
 
-interface Finding {
-  count: string;
-  title: string;
-  body: string; // raw HTML
-}
-
-const findings: Finding[] = [
-  {
-    count: '8+',
-    title: 'Button styles competing for attention',
-    body:
-      'Primary, secondary, danger, and ghost variants, each implemented two or three different ways. Some leaned on Bootstrap utility classes, others on per-view custom CSS, a few were inline-styled anchors pretending to be buttons. A <em>Save</em> on one screen didn’t match a <em>Save</em> two clicks away.',
-  },
-  {
-    count: '10+',
-    title: 'Form element styles, all at once',
-    body:
-      'Plain Rails helpers sat next to Bootstrap <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">form-control</code> inputs, Select2 widgets, and hand-rolled dropdowns. Border radius, padding, focus rings, and disabled treatments all diverged. The same concept (<em>pick one from a list</em>) rendered five different ways across the app.',
-  },
-  {
-    count: '5',
-    title: 'Form-rendering patterns, coexisting',
-    body:
-      '<code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">form_with(model:)</code>, legacy <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">form_for</code>, <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">form_with(url:)</code>, bare <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">&lt;form&gt;</code> + HTMX, and HTMX-only with <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">hx-include</code>.',
-  },
-  {
-    count: '6+',
-    title: 'Tables with no shared convention',
-    body:
-      'Row striping in some, not in others. Headers styled four ways: dark fill, light fill, borderless, and all-caps. Pagination rendered with Kaminari on one screen and a bespoke HTMX block on the next. Density jumped from compressed to roomy between adjacent views with no underlying logic.',
-  },
-  {
-    count: '4+',
-    title: 'Labeling strategies, all coexisting',
-    body:
-      'Sentence case, Title Case, ALL CAPS, and placeholder-as-label all appeared across the app. Required indicators were sometimes asterisks, sometimes parenthetical <em>(required)</em>, sometimes absent. The same field concept carried different names on different screens (<em>Bill Rate</em>, <em>Rate</em>, <em>Pay Rate</em>).',
-  },
-  {
-    count: '~40',
-    title: 'Views bypassing the token system',
-    body:
-      'A semantic color-token system already existed in <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">_color_tokens.scss</code>, but dozens of views bypassed it with inline styles, hardcoded hex literals, and raw colors in view-level <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">&lt;style&gt;</code> blocks.',
-  },
-  {
-    count: '☠',
-    title: 'Dead code in production',
-    body:
-      'A zero-byte <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">_empty.html.erb</code>, an <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">X</code>-prefixed dead index file (101 lines), an <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">ASDKAJSHDJHASD</code> debug string committed to production, and a sticky table header with hardcoded <code class="font-mono text-[0.85em] bg-ink/[0.04] text-ink px-1 rounded-[4px]">background-color: red</code> from an abandoned debug session.',
-  },
+// Copy throughout comes from notes/vm-spark.md (Josh's write-up).
+const proof = [
+  { label: 'Design · owned', items: ['Audit of roughly 350 ERB templates', 'Three written design directions and a recorded decision', 'Wireframes for 11 screens and diagrams for 5 flows'] },
+  { label: 'Front end · owned', items: ['New app shell: product rail, contextual side panel, page headers, ⌘K search', 'Job listing table tools: resizable, sticky, and reorderable columns, saved searches, and a row inspector', 'In-app style guide covering buttons, forms, tables, cards, popovers, tooltips, icons, and type'] },
+  { label: 'Not in scope', items: ['The ingestion pipeline', 'The rule engine', 'The ATS integrations', 'Account-level data access'] },
 ];
 
-interface SprawlImg {
-  src: string;
-  alt: string;
-  caption: string; // raw HTML
-}
+const findings = [
+  'Five different ways of rendering forms',
+  'Three modal conventions that didn’t coordinate with each other, so opening one modal from inside another was a bug waiting to happen',
+  'Three tooltip systems running at the same time, one of which used Bootstrap 4 attributes that do nothing in Bootstrap 5',
+  'A semantic color token file that already existed, but that about 40 views bypassed with inline colors and raw hex values',
+  'Leftover debug code and dead files that were still being shipped',
+];
 
-const sprawlImages: SprawlImg[] = [
+const sorting = [
+  { label: 'Cosmetic', text: 'fix during the redesign' },
+  { label: 'Structural', text: 'needs a decision first' },
+  { label: 'Out of scope', text: 'too close to the pipeline to touch' },
+];
+
+// Real screens from the app before the redesign.
+const beforeShots = [
   {
     src: '/images/projects/vmspark/before-manual-jobs.png',
-    alt: 'VMSpark Manual Jobs screen. Three buttons sit side by side in the top bar: a filled orange Add New, an outlined Edit Selected, and an outlined Copy Selected. Search inputs appear above the table with labels placed below each field.',
-    caption:
-      '<strong class="text-ink font-semibold">Manual Jobs.</strong> Three buttons in one row, three different treatments. Labels sit below inputs.',
+    alt: 'VMSpark Manual Jobs screen before the redesign. Three buttons sit side by side in the top bar: a filled orange Add New, an outlined Edit Selected, and an outlined Copy Selected. Labels sit below each search input.',
+    caption: '<strong class="text-ink font-semibold">Manual Jobs.</strong> Three buttons in one row, three different treatments. Labels sit below the inputs.',
   },
   {
     src: '/images/projects/vmspark/before-ats-professions.png',
-    alt: 'VMSpark ATS Professions screen. Five search inputs use their label text as placeholders inside the fields. A Sync with ATS outlined button sits at the top right.',
-    caption:
-      '<strong class="text-ink font-semibold">ATS Professions.</strong> Labels are now placeholders inside the inputs. Different page, different rule.',
-  },
-  {
-    src: '/images/projects/vmspark/before-announcements.png',
-    alt: 'VMSpark Announcements screen. Each row ends with a dark gray pencil edit icon next to a solid red trash icon. A filled orange New Announcement button sits in the top right.',
-    caption:
-      '<strong class="text-ink font-semibold">Announcements.</strong> Yet another icon-button pattern: dark gray paired with solid red, nothing like the blue outlines elsewhere.',
-  },
-  {
-    src: '/images/projects/vmspark/before-openai-usage.png',
-    alt: 'VMSpark OpenAI Usage dashboard. A data table with a solid dark-navy header bar, right-aligned numeric columns, and underlined orange account names.',
-    caption:
-      '<strong class="text-ink font-semibold">OpenAI Usage.</strong> A solid dark-navy table header. Every other table in the app uses a light gray one.',
+    alt: 'VMSpark ATS Professions screen before the redesign. Five search inputs use their label text as placeholders inside the fields.',
+    caption: '<strong class="text-ink font-semibold">ATS Professions.</strong> Here the labels are placeholders inside the inputs.',
   },
 ];
 
-const outcomeStats = [
-  {
-    icon: 'ph:shield-check',
-    title: 'Zero pipeline regressions',
-    body: 'No regressions reported against the ingest or fan-out paths after cutover.',
-  },
-  {
-    icon: 'ph:users',
-    title: 'Operator confidence',
-    body: 'Operators use a tool that looks like one product, not ten. The UI stopped fighting them at every screen.',
-  },
-  {
-    icon: 'ph:presentation-chart',
-    title: 'Investor confidence',
-    body: 'Demos open with the product, not with caveats about the surface it lives on.',
-  },
-  {
-    icon: 'ph:gauge',
-    title: 'No new JS on hot paths',
-    body: 'Palette and inspector load on demand. First paint got lighter, not heavier.',
-  },
+const directions = [
+  { name: 'Command Shell', from: 'Linear', body: 'A narrow icon rail, dense type, hairline borders, and a ⌘K palette at the center.', note: 'Built for power users, but it can feel stark.', icon: 'ph:terminal-window' },
+  { name: 'Atlassian Platform', from: 'Jira', body: 'A product rail plus a contextual project panel, breadcrumbed page headers, and a slide-over inspector.', note: 'Familiar to almost every enterprise user.', icon: 'ph:users-three', chosen: true },
+  { name: 'Modern Workspace', from: 'Notion', body: 'A soft sidebar, generous spacing, and no persistent top bar.', note: 'The calmest of the three, and the most likely to feel too light for a dense operations tool.', icon: 'ph:warning' },
 ];
 
-const proof = [
-  { label: 'Skills proven', items: ['Design-system audit', 'UI/UX design direction', 'Accessible component APIs', 'Frontend architecture', 'Style-guide documentation', 'Product decisions'] },
-  { label: 'Stack', items: ['Ruby on Rails', 'Stimulus.js', 'Design tokens', 'Modern CSS'] },
-  { label: 'Quality', items: ['Keyboard operability', 'Focus management', 'ARIA semantics', 'Token contrast checks'] },
-  { label: 'Outcomes', items: ['Zero pipeline regressions', 'No operator retraining', 'One token layer, app and brand', 'No new JS on hot paths'] },
+const phases = [
+  { label: 'Visual baseline', icon: 'ph:ruler', body: 'A shared page header with slots for metadata, tabs, and actions. I made the old heading partial call the new one, so about 30 pages picked up the new header without being edited.' },
+  { label: 'The shell', icon: 'ph:sidebar', body: 'A two-tier layout: a narrow product rail plus a contextual panel whose contents depend on where you are in the app. The server decides which section is open, so nothing shifts after the page loads.' },
+  { label: '⌘K search', icon: 'ph:magnifying-glass', body: 'A read-only search limited to the current account, with results grouped by type and opened in a native <code>&lt;dialog&gt;</code>. It doesn’t replace any page’s own filters. It’s another way to get around, not a new way to filter.' },
+  { label: 'Polish', icon: 'ph:sparkle', body: 'A comfortable/compact density setting saved on the user’s account, a <code>?</code> overlay that lists keyboard shortcuts (it ignores <code>?</code> while you’re typing in a field), an inspector that slides over the list, and skeleton loaders that respect reduced-motion settings.' },
 ];
 
-const docket = [
-  { href: '#inventory', icon: 'ph:clipboard-text', label: 'Taking stock before changing anything' },
-  { href: '#directions', icon: 'ph:signpost', label: 'Choosing a direction' },
-  { href: '#rollout', icon: 'ph:stack', label: 'Rolling it out in stages' },
-  { href: '#sheets', icon: 'ph:squares-four', label: 'Screens and flows' },
-  { href: '#outcome', icon: 'ph:trend-up', label: 'What changed after launch' },
+const reviewFixes = [
+  'Page header icons now match the navigation icons',
+  'Keyboard shortcuts work on both Mac and Windows (⌘K and Ctrl+K)',
+  'Density applies to the whole interface, not only the sidebar',
+  'The shortcut overlay is hidden on phones, which have no keyboard',
 ];
 
-// Sheets render from src/ so Astro can process them — anything under public/ is
-// copied verbatim and never optimized. Sources are 2x headless-Chromium PNGs.
-const sheetFiles = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/projects/vmspark/wires-and-flows/*.png',
-  { eager: true },
-);
-const sheet = (slug: string) =>
-  sheetFiles[`../../assets/projects/vmspark/wires-and-flows/${slug}.png`].default;
+const tableTools = [
+  'Columns can be resized, pinned in place, and reordered, and each user’s layout is remembered',
+  'Searches can be saved and reused',
+  'A row inspector opens a listing’s details without leaving the filtered list behind it',
+  'The inspector groups fields into position, description, dates, source sync, and raw VMS data, so operators can see where a value came from when something fails',
+];
 
+const stack = [
+  { name: 'Rails 7, Ruby 3.2, PostgreSQL', role: 'The existing app. The model changes only add columns.' },
+  { name: 'Stimulus and HTMX', role: 'Turbo is turned off in this app on purpose.' },
+  { name: 'Bootstrap 5 and SCSS', role: 'On a semantic color token layer.' },
+];
+
+const results = [
+  { label: 'For operators', items: ['On release day, data, filters, and workflows were all where operators left them', 'People who preferred the old sidebar can still switch back to it', 'Density, column layouts, and saved searches follow each user'] },
+  { label: 'For the team', items: ['One page header, one modal pattern, and one table toolkit instead of several', 'An in-app style guide that shows each component with dos and don’ts', 'Written records of the design directions and the sidebar variants that weren’t chosen, so the next designer has a starting point'] },
+  { label: 'For the business', items: ['An admin app the company can show investors without apologizing for it first', 'No changes to the pipeline, rule engine, or integrations, so the redesign didn’t put the product’s core at risk'] },
+];
+
+// Screenshots of the local app (1440px wide at 2x). The workspace name and the
+// signed-in email were replaced in the DOM before capture.
+const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/vmspark/*.png', { eager: true });
+const shot = (slug: string) => shots[`../../assets/projects/vmspark/${slug}.png`].default;
+
+// Wireframe and flow sheets render from src/ so Astro can process them.
+const sheetFiles = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/vmspark/wires-and-flows/*.png', { eager: true });
+const sheet = (slug: string) => sheetFiles[`../../assets/projects/vmspark/wires-and-flows/${slug}.png`].default;
 // The sketch and clean-wireframe passes are SVG and need no processing.
 const art = (file: string) => `/images/projects/vmspark/wires-and-flows/${file}`;
 
-// Four screens went through all three fidelities. The ladder ends in color
-// here rather than greyscale, because arriving at one coherent visual language
-// is what the project was.
-const keyScreens = [
-  {
-    slug: '01-app-shell',
-    index: '01',
-    title: 'App shell',
-    note: 'One shell applied to every authenticated screen. The sprawl came from every view having somewhere of its own to decide.',
-    alt: 'Annotated design sheet of the VMSpark app shell: icon rail, nav sidebar, workspace switcher, command palette and impersonation control, with callouts explaining why tenant identity lives in the chrome and why the token path had to be the shortest one.',
-  },
-  {
-    slug: '02-job-listings',
-    index: '02',
-    title: 'Job listings',
-    note: 'The primary triage surface. Status is a tab count, and a failed row stays in the list rather than being exiled to another screen.',
-    alt: 'Annotated design sheet of the job listings grid: per-column filter inputs, status tabs carrying queue depth, and a tinted failed row among the healthy ones, with callouts on queued reprocessing and per-user column persistence.',
-  },
-  {
-    slug: '03-inspector',
-    index: '03',
-    title: 'Inspector',
-    note: 'Why one listing ended up in the state it did. Raw payload beside mapped result, so a failure is self-explaining rather than a support ticket.',
-    alt: 'Annotated design sheet of the listing inspector: an overlay opening over the filtered grid, showing the mapped result beside the raw VMS payload with the unresolved facility field marked on both sides, plus a timestamped process history.',
-  },
-  {
-    slug: '04-data-mapping',
-    index: '04',
-    title: 'Data mapping',
-    note: 'The operational center. Unmapped values are a revenue problem, not a tidiness problem, so the queue is built to visibly empty.',
-    alt: 'Annotated design sheet of the data mapping screen: entity-type tabs carrying unmapped counts, and two-column resolution cards pairing each inbound VMS value with its ATS candidates, with callouts on auto-mapping, focus advance, and why Ignore is a real decision.',
-  },
-];
-
-const restOfSystem = [
-  { slug: '05-custom-rules', title: 'Custom rules' },
-  { slug: '06-candidate-profiles', title: 'Candidate profiles' },
-  { slug: '07-applications-matches', title: 'Applications & matches' },
-  { slug: '08-settings', title: 'Settings' },
-  { slug: '09-candidate-portal', title: 'Candidate portal' },
-  { slug: '10-ai-usage', title: 'AI usage' },
-  { slug: '11-design-system', title: 'The design system' },
-];
-
-// The edges — honest, not exhaustive. Both are gaps a manual, page-by-page
-// audit cannot reliably catch: patterns that only exist on interaction, not
-// on a screen you can scan or screenshot.
 const edges = [
   {
-    icon: 'ph:app-window',
-    title: 'Pop-up windows the inventory missed',
-    body: 'The audit counted button styles, forms, and tables because those repeat across screens you can scan by eye. Pop-up windows don’t: each one only appears when triggered. Every pop-up in the app turned out to be built a different way, with its own custom code. Tooltips had the same problem. Both got folded into the rebuild, but neither showed up in the original inventory.',
+    icon: 'ph:users-three',
+    title: 'Feedback came from review meetings, not observed sessions',
+    body: 'My feedback came from stakeholder and client review meetings. I didn’t watch operators work through real tasks in the new shell, so I can’t claim it’s faster to use. It looks more coherent, and the review fixes came from real complaints, but I haven’t measured whether it saves operators time.',
   },
   {
-    icon: 'ph:robot',
-    title: 'Finding the rest took a tool, not just eyes',
-    body: "A manual pass through 350 page templates finds the patterns that repeat often enough to notice, but misses a one-off pop-up or an abandoned approach hiding in a screen nobody opens often. I built a small tool that scans the app for what each piece of the interface is trying to do, rather than just its code, and that's what actually found the dialogs and tooltips the manual audit missed. Next audit, that tool runs first.",
+    icon: 'ph:ruler',
+    title: 'Results are judged by what didn’t break',
+    body: 'I didn’t set baseline metrics before the redesign, so the results above are about safety: nothing broke and nothing was taken away. I didn’t measure task time, errors, or satisfaction. If I did this again, I would record a few task timings on the old shell first so the new one had something to be compared against.',
   },
 ];
-
-const flows = [
-  {
-    slug: 'flow-01-ingestion',
-    title: 'Ingestion',
-    note: 'The pipeline the redesign was forbidden from touching. Processed, failed and skipped are all first-class outcomes.',
-  },
-  {
-    slug: 'flow-02-mapping-resolution',
-    title: 'Mapping resolution & fan-out',
-    note: 'What an operator does to clear one unmapped facility, and what that single save costs downstream.',
-  },
-  {
-    slug: 'flow-03-rule-engine',
-    title: 'Rule engine',
-    note: 'Per-account rules as the escape hatch that keeps client special cases out of a shared pipeline.',
-  },
-  {
-    slug: 'flow-04-candidate-match',
-    title: 'Candidate matching',
-    note: 'The system proposes, a recruiter disposes. Submission is the only externally visible step, so it is the only one that asks.',
-  },
-  {
-    slug: 'flow-05-journeys',
-    title: 'User journeys',
-    note: 'Three people with opposite needs, one shell, and a mapping queue upstream of all of them.',
-  },
-];
-
-// The TLDR digest. "Alternatives" and "Decision" restate the three-directions
-// call already argued in the #directions step (narrowed to the two most
-// credible); "Reflection" restates the edges section below rather than
-// inventing a new critique — see notes/interview-notes/tldr.md.
-const tldr = {
-  situation: `VMSpark pulls in thousands of job listings a day and sends them out to more than a dozen hiring systems. I owned the admin app operators used every day and investors saw in every demo, without touching the systems underneath it.`,
-  problem: `The app hadn't kept up with what it did. Buttons, forms, and tables were each built a different way on nearly every screen, so it looked more like an old prototype than the enterprise product it powered.`,
-  alternativeA: {
-    name: 'A dense, keyboard-first layout',
-    body: `Built for speed once you know it, but it asks operators to learn a pattern they'd never used before.`,
-  },
-  alternativeB: {
-    name: 'A familiar two-panel layout',
-    body: `The same kind of layout operators had already used at other companies, at the cost of feeling less original.`,
-  },
-  decision: `I chose <strong class="text-ink font-semibold">the familiar layout</strong> over the more original one, since the safest way to earn trust was a pattern operators already knew.`,
-  implementation: `The rebuild shipped in four separate stages, each one safe to release on its own, ending with the app's colors matched to the same five brand colors already used on the public website.`,
-  evidence: `No pipeline problems after launch. Operators stopped noticing visual inconsistencies between screens, and leadership stopped apologizing for the app during demos.`,
-  reflection: `A manual review caught anything visible on a still screen, but every pop-up window in the app turned out to be built a different way, and that only showed up once I built a small tool to scan for it. Next time, that tool runs first.`,
-};
 ---
 
 <ProjectLayout title={title} description={description}>
 
   <ProjectHero project="vmspark" />
-  <CaseReview links={[{ href: "#tldr", label: "Summary" }, ...docket]} />
+
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#sheets', label: 'Wireframes and flows' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
-    situation={tldr.situation}
     problem={tldr.problem}
     alternativeA={tldr.alternativeA}
     alternativeB={tldr.alternativeB}
+    alternativeC={tldr.alternativeC}
     decision={tldr.decision}
     implementation={tldr.implementation}
     evidence={tldr.evidence}
     reflection={tldr.reflection}
   />
 
-  <Section tone="paper" padding="tight" aria-label="Project receipts" class="project-scope">
+  <Section tone="paper" padding="tight" aria-label="Scope" class="project-scope">
     <Container width="content">
-      <p class="mono-label mb-8">Scope and contribution</p>
-      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <p class="mono-label mb-8">Scope</p>
+      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {proof.map((group) => (
           <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
@@ -291,7 +148,7 @@ const tldr = {
               <ul class="space-y-1.5">
                 {group.items.map((item) => (
                   <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
-                    <Icon name="ph:check" size={14} class="mt-0.5 shrink-0 text-accent" />
+                    <Icon name={group.label === 'Not in scope' ? 'ph:minus' : 'ph:check'} size={14} class="mt-0.5 shrink-0 text-accent" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -300,462 +157,309 @@ const tldr = {
           </div>
         ))}
       </dl>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="tight" class="project-context">
-    <Container width="content">
-
-
-      <Text size="lg" tone="muted" class="mt-10 measure">
-        My goal: make the admin app look like the modern, enterprise-grade product
-        it already was underneath, without touching the systems, the client-specific
-        rules, or anything an operator already knew by muscle memory. That meant
-        owning it end to end: the audit, the decisions about what to build and what
-        to drop, and the engineering to ship it.
+      <Text size="sm" tone="muted" class="mt-10 measure">
+        Other engineers own the pipeline, the rule engine, the ATS integrations, and account-level
+        data access, and I didn’t change them.
       </Text>
     </Container>
   </Section>
 
-  <Section id="inventory" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Taking stock before changing anything</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Inventory before invention</Heading>
         </div>
         <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5">
-            <Text size="lg" tone="muted">
-              Sprawl this wide can't be fixed one screen at a time. Restyle the buttons on
-              one screen and seven other button styles are still waiting elsewhere, with no
-              way to know you've found them all. So before changing a single style, I wrote
-              down everything I found: a full inventory covering every one of the 350 page
-              templates in the app.
-            </Text>
-            <Text size="lg" tone="muted">
-              That inventory worked as a map. It showed me which problems were easy fixes,
-              which needed a real architectural decision, and which were outside the scope
-              of the redesign entirely. Most of it was the same interaction built a dozen
-              different ways across the app.
-            </Text>
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              I wanted to know what already existed before deciding what to change. The audit turned
+              into a design inventory of about 700 lines, covering roughly 350 templates and 11,800
+              lines of view code.
+            </p>
+            <p>It turned up a lot of quiet duplication:</p>
           </div>
 
-          <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 py-8">
-            <Metric value="350" label="ERB templates inventoried" />
-            <Metric value="8+" label="button styles, one concept" />
-            <Metric value="10+" label="form-element styles" />
-            <Metric value="~40" label="views bypassing the tokens" />
-          </div>
+          <ul class="mt-6 space-y-3">
+            {findings.map((item) => (
+              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
+                <Icon name="ph:dot-outline" size={18} class="mt-1 shrink-0 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
 
-          <div class="mt-10 rounded-lg border border-line p-7">
-            <p class="mono-label mb-4">A few of the findings</p>
-            <div>
-              {findings.map((f) => (
-                <div class="flex items-start gap-4 py-4">
-                  <span class="font-mono text-sm text-accent shrink-0 w-12" aria-hidden="true">{f.count}</span>
-                  <div>
-                    <Heading level={3} visual="h4" tone="ink" class="mb-1">{f.title}</Heading>
-                    <Text size="sm" tone="muted" set:html={f.body} />
-                  </div>
-                </div>
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-5">Every finding went into one of three groups</p>
+            <ul class="space-y-3">
+              {sorting.map((s) => (
+                <li class="flex items-start gap-3 text-ink-muted">
+                  <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
+                  <span><strong class="font-medium text-ink">{s.label}:</strong> {s.text}</span>
+                </li>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-16">
-        <p class="mono-label mb-3">What the sprawl actually looked like</p>
-        <Text tone="muted" class="mb-10 max-w-2xl">
-          Four screens pulled from the same app, on the same day. Each one makes its own
-          decisions about buttons, inputs, labels, and tables. None of them agree with
-          the others.
-        </Text>
-
-        <div class="grid gap-8">
-          {sprawlImages.map((img) => (
-            <figure>
-              <div class="overflow-hidden rounded-lg border border-line">
-                <img src={img.src} alt={img.alt} class="w-full h-auto block" loading="lazy" />
-              </div>
-              <figcaption class="mt-4 text-sm text-ink-muted leading-relaxed" set:html={img.caption} />
-            </figure>
-          ))}
-        </div>
-      </div>
-
-      <Text size="lg" tone="muted" class="mt-12 measure">
-        The inventory is what made a real fix possible instead of a screen-by-screen
-        patch. Each finding above resolved to one decision, made once, and applied
-        everywhere it was needed.
-      </Text>
-    </Container>
-  </Section>
-
-  <Section id="directions" tone="paper" padding="default" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Choosing a direction</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            I wrote up three possible directions, each with its own honest tradeoffs,
-            instead of just picking one. Writing the options down made the choice easy
-            to question later, based on evidence rather than taste.
-          </Text>
-
-          <div class="mt-10 grid sm:grid-cols-2 gap-6 items-stretch">
-            <div class="rounded-lg border border-line p-6">
-              <div class="mb-2 flex items-center gap-2">
-                <span class="font-mono text-[0.75rem] text-accent">A</span>
-                <span class="font-heading text-xs font-semibold uppercase tracking-wider text-ink">Command Shell</span>
-              </div>
-              <Text size="sm" tone="muted" class="mb-3">Dense &middot; Keyboard-first</Text>
-              <Text size="sm" tone="muted">
-                56 px icon rail, tight 13/14 px type, hairline borders,
-                <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 rounded-[4px]">⌘K</code> palette as the centerpiece,
-                orange reserved for exactly one thing per screen.
-              </Text>
-              <p class="mt-4 flex items-start gap-2 text-sm text-ink-muted">
-                <Icon name="ph:target" size={15} class="mt-0.5 shrink-0 text-accent" />
-                <span>Signals &ldquo;scales to power users.&rdquo;</span>
-              </p>
-            </div>
-
-            <div class="relative rounded-lg border border-accent p-6">
-              <p class="mono-label !text-accent mb-2">Chosen</p>
-              <div class="mb-2 flex items-center gap-2">
-                <span class="font-mono text-[0.75rem] text-accent">B</span>
-                <span class="font-heading text-xs font-semibold uppercase tracking-wider text-ink">Two-Tier Platform</span>
-              </div>
-              <Text size="sm" tone="muted" class="mb-3">Enterprise-familiar</Text>
-              <Text size="sm" tone="muted">
-                48 px product rail plus 260 px project nav, the real two-tier pattern.
-                App-switcher waffle, breadcrumbed page headers, right-side inspector panel. Brand
-                orange on active rail state, soft navy-tinted elevation.
-              </Text>
-              <p class="mt-4 flex items-start gap-2 text-sm text-ink-muted">
-                <Icon name="ph:users-three" size={15} class="mt-0.5 shrink-0 text-accent" />
-                <span>Every enterprise buyer has used this pattern before.</span>
-              </p>
-            </div>
-
-            <div class="rounded-lg border border-line p-6">
-              <div class="mb-2 flex items-center gap-2">
-                <span class="font-mono text-[0.75rem] text-accent">C</span>
-                <span class="font-heading text-xs font-semibold uppercase tracking-wider text-ink">Modern Workspace</span>
-              </div>
-              <Text size="sm" tone="muted" class="mb-3">Spacious &middot; Document-forward</Text>
-              <Text size="sm" tone="muted">
-                270 px soft sidebar, no persistent top bar,
-                <code class="font-mono text-[0.82rem] bg-ink/[0.04] text-ink px-1.5 rounded-[4px]">⌘K</code> by shortcut only, generous spacing.
-              </Text>
-              <p class="mt-4 flex items-start gap-2 text-sm text-ink-muted">
-                <Icon name="ph:warning" size={15} class="mt-0.5 shrink-0 text-accent" />
-                <span>Risk: reads as lightweight for a dense ops tool.</span>
-              </p>
-            </div>
-          </div>
-
-          <div class="mt-10 measure space-y-5">
-            <Text size="lg" tone="muted">
-              I chose B. C looked nicer, and A was more sophisticated, but operators worked
-              across many client accounts every day, and the safest way to earn their trust
-              was a layout they'd already used at other jobs.
-            </Text>
-            <Text size="lg" tone="muted">
-              I also dropped a feature I'd originally planned: a global "Create" button.
-              Most listings arrive automatically from the incoming data feed, so people
-              rarely create one by hand. Adding the button would have copied a familiar
-              pattern that didn't actually fit here.
-            </Text>
+            </ul>
           </div>
 
           <figure class="my-12 border-l-2 border-accent pl-6">
             <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              Familiarity beat novelty here. Operators had already seen this layout, at other jobs.
+              That sorting did more to shape the project than any visual idea I started with.
             </blockquote>
           </figure>
         </div>
       </div>
     </Container>
+
+    <Container width="wide" class="mt-4">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        {beforeShots.map((img) => (
+          <li>
+            <figure>
+              <div class="overflow-hidden rounded-lg border border-line">
+                <img src={img.src} alt={img.alt} class="w-full h-auto block" loading="lazy" decoding="async" />
+              </div>
+              <figcaption class="mt-4 text-sm text-ink-muted leading-relaxed" set:html={img.caption} />
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </Container>
   </Section>
 
-  <Section id="rollout" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="directions" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Rolling it out in stages</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Three directions, one choice</Heading>
         </div>
         <div class="case-layout__body">
           <Text size="lg" tone="muted" class="mt-8 measure">
-            This was a live product with operators in it every working day, so an
-            all-at-once redesign that broke their muscle memory was never on the table.
-            Each phase below could ship on its own, and could be safely rolled back
-            without undoing the phase before it.
+            I wrote up three directions. Each one named the product it borrowed from and was honest
+            about the risks.
           </Text>
 
-          <div class="mt-12 grid md:grid-cols-2 gap-6">
-            <div class="pt-5">
-              <p class="mono-label">Phase 1 &middot; Baseline</p>
-              <div class="mt-3 mb-3 flex items-center gap-2">
-                <Icon name="ph:ruler" size={22} class="text-ink-muted" />
-                <Heading level={3} visual="h3" tone="ink">Visual baseline</Heading>
-              </div>
-              <Text tone="muted">
-                Built one reusable page-header component that every screen could use for
-                its title, tabs, and buttons, then quietly rolled it out across roughly 30
-                existing pages without anyone needing to touch each page by hand. Also
-                added a badge in the top bar showing which environment and which client
-                account you're in, so it's obvious at a glance.
-              </Text>
-            </div>
+          <ol class="mt-10 grid gap-6 sm:grid-cols-3 items-stretch">
+            {directions.map((d) => (
+              <li class:list={['rounded-lg border p-6', d.chosen ? 'border-accent' : 'border-line']}>
+                {d.chosen && <p class="mono-label !text-accent mb-2">Chosen</p>}
+                <p class="mono-label mb-1">{d.from}</p>
+                <Heading level={3} visual="h4" tone="ink" class="mb-3">{d.name}</Heading>
+                <Text size="sm" tone="muted">{d.body}</Text>
+                <p class="mt-4 flex items-start gap-2 text-sm text-ink-muted">
+                  <Icon name={d.icon} size={15} class="mt-0.5 shrink-0 text-accent" />
+                  <span>{d.note}</span>
+                </p>
+              </li>
+            ))}
+          </ol>
 
-            <div class="pt-5">
-              <p class="mono-label">Phase 2 &middot; The shell</p>
-              <div class="mt-3 mb-3 flex items-center gap-2">
-                <Icon name="ph:sidebar" size={22} class="text-ink-muted" />
-                <Heading level={3} visual="h3" tone="ink">Two-tier shell</Heading>
-              </div>
-              <Text tone="muted">
-                Replaced one large, always-open sidebar with a slim icon rail plus a second
-                panel that automatically shows the options relevant to whatever section
-                you're in. Crucially, the page already knows
-                <strong class="text-ink font-semibold">which section is highlighted the
-                instant it loads</strong>. There's no flash or delay while extra code
-                figures that out afterward.
-              </Text>
-            </div>
-
-            <div class="pt-5">
-              <p class="mono-label">Phase 3 &middot; ⌘K</p>
-              <div class="mt-3 mb-3 flex items-center gap-2">
-                <Icon name="ph:magnifying-glass" size={22} class="text-ink-muted" />
-                <Heading level={3} visual="h3" tone="ink">Command palette</Heading>
-              </div>
-              <Text tone="muted">
-                A search box you can summon from anywhere with a keyboard shortcut,
-                scoped to whichever client account you're currently working in, with
-                results grouped into categories (custom rules, rate plans, facilities,
-                accounts, jump-to) and updating smoothly as you type. Deliberate
-                constraint: the palette
-                <strong class="text-ink font-semibold">does not replace the search box
-                already on each page</strong>. It's an extra option, not a replacement.
-              </Text>
-            </div>
-
-            <div class="pt-5">
-              <p class="mono-label">Phase 4 &middot; Polish</p>
-              <div class="mt-3 mb-3 flex items-center gap-2">
-                <Icon name="ph:sparkle" size={22} class="text-ink-muted" />
-                <Heading level={3} visual="h3" tone="ink">Density, shortcuts, inspector</Heading>
-              </div>
-              <ul class="space-y-2">
-                <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
-                  <Icon name="ph:check-circle" size={18} class="mt-0.5 shrink-0 text-accent" />
-                  <span>A compact-or-roomy layout setting, saved to your account and applied
-                    before the page even finishes loading, so there's no visible jump.</span>
-                </li>
-                <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
-                  <Icon name="ph:check-circle" size={18} class="mt-0.5 shrink-0 text-accent" />
-                  <span>A shortcut cheat-sheet (press "?") that only appears when you're not
-                    currently typing in a form field.</span>
-                </li>
-                <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
-                  <Icon name="ph:check-circle" size={18} class="mt-0.5 shrink-0 text-accent" />
-                  <span>A slide-out detail panel built to match the look and feel of the rest
-                    of the app.</span>
-                </li>
-                <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
-                  <Icon name="ph:check-circle" size={18} class="mt-0.5 shrink-0 text-accent" />
-                  <span>Loading placeholders that respect a visitor's "reduce motion"
-                    setting, so they don't shimmer or pulse for anyone who's asked their
-                    device to limit animation.</span>
-                </li>
-              </ul>
-            </div>
+          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              I chose the Atlassian direction. Notion was prettier and Linear was sharper, but
+              operators run this tool all day, and a pattern they already know builds trust faster
+              than a new one. I wrote the reasoning down so the decision could be revisited on
+              evidence rather than taste.
+            </p>
+            <p>
+              I also dropped something I had planned. Jira has a global “Create” button, but in
+              VMSpark most records come in from feeds, not from people. Adding that button would have
+              copied the pattern without the reason behind it.
+            </p>
           </div>
         </div>
       </div>
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default">
+  <Section tone="paper" padding="default" id="phases" class="scroll-mt-24">
     <Container width="content">
-      <p class="mono-label mb-3">What it looks like now</p>
-      <Heading level={2} visual="display-md" tone="ink" class="mb-6">A style guide that ships with the app</Heading>
-      <Text size="lg" tone="muted" class="measure">
-        Buttons collapsed down to one consistent style instead of eight competing
-        ones. Forms, tables, and labels all moved onto the same shared building
-        blocks. All of it lives in a style guide that ships with the app, so the
-        next person to build a screen inherits those decisions instead of
-        reinventing them.
-      </Text>
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Shipping in phases</Heading>
+        </div>
+        <div class="case-layout__body">
+          <Text size="lg" tone="muted" class="mt-8 measure">
+            I split the work so each phase could ship and stand on its own.
+          </Text>
+
+          <ol class="mt-12 grid md:grid-cols-2 gap-x-8 gap-y-10">
+            {phases.map((ph, i) => (
+              <li class="pt-5">
+                <p class="mono-label">Phase {i + 1}</p>
+                <div class="mt-3 mb-3 flex items-center gap-2">
+                  <Icon name={ph.icon} size={22} class="text-ink-muted" />
+                  <Heading level={3} visual="h3" tone="ink">{ph.label}</Heading>
+                </div>
+                <Text tone="muted"><Fragment set:html={ph.body} /></Text>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </Container>
 
-    <Container width="wide" class="mt-14">
-      <div class="space-y-16">
-        <ScrollShot
-          src="/images/projects/vmspark/playground-overview.webp"
-          alt="VMSpark admin UI playground: the style-guide overview indexing every primitive"
-          label="Style guide: overview"
-          caption="The admin-only style guide: every building block, button, table, and form pattern documented in one place."
-          index="01"
-        />
-        <ScrollShot
-          src="/images/projects/vmspark/playground-primitives.webp"
-          alt="VMSpark UI primitives: color ramps, type scale, spacing, and elevation"
-          label="Primitives"
-          caption="Color, type, spacing, and shadow depth: the basic building blocks every screen now draws from."
-          index="02"
-        />
-        <ScrollShot
-          src="/images/projects/vmspark/playground-buttons.webp"
-          alt="VMSpark button system: variants, sizes, states, and density from one set of classes"
-          label="Buttons"
-          caption="The eight-plus button styles from the audit, resolved into one consistent set covering every type, size, and state."
-          index="03"
-        />
-        <ScrollShot
-          src="/images/projects/vmspark/playground-tables.webp"
-          alt="VMSpark table system: one header style, one density rule, one pagination component"
-          label="Tables"
-          caption="One header style, one spacing rule, one page-navigation control, standardized across every table."
-          index="04"
-        />
+    <Container width="wide" class="mt-16">
+      <Plate title="The two-tier shell" caption="The product rail and the job listings panel, with the shared page header above the table." src={shot('app-shell')} alt="The redesigned VMSpark admin app: a dark product rail and a Job Listings side panel on the left, a top bar with the workspace name and a ⌘K button, and the Job Listings page with its header, All, Processed and Skipped tabs, and the listings table." />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <li>
+          <Plate size="half" title="⌘K search" caption="Results for the current account, grouped by type." src={shot('command-search')} alt="The ⌘K search dialog over the job listings page, with the query “windsor” and a list of matching facilities with their city and state." />
+        </li>
+        <li>
+          <Plate size="half" title="Shortcut overlay" caption="Press ? anywhere outside a text field." src={shot('shortcuts')} alt="The keyboard shortcuts overlay, listing shortcuts for navigation, the view, the inspector, and the search palette." />
+        </li>
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="feedback" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Listening to the people who use it</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              At an April review, stakeholders pointed out that long-time users knew the old sidebar
+              by heart. Instead of arguing for the new one, I added a per-user setting to switch
+              between them. It took a preference column and a partial swap, which was a small price
+              for not forcing a change on people mid-workflow.
+            </p>
+            <p>The same review produced a short list of fixes, and I shipped all of them:</p>
+          </div>
+
+          <ul class="mt-6 space-y-3">
+            {reviewFixes.map((item) => (
+              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
+                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate title="The legacy sidebar, still available" caption="Each user picks the new or the old sidebar in their account menu." src={shot('legacy-sidebar')} alt="The legacy sidebar open over the job listings page, with grouped sections for job listings, data mapping with unmapped counts, and advanced customization." />
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="tables" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Tables operators can shape</Heading>
+        </div>
+        <div class="case-layout__body">
+          <Text size="lg" tone="muted" class="mt-8 measure">
+            Operators spend most of their time in the job listings table, so after two rounds of
+            client review I put most of the later work there:
+          </Text>
+
+          <ul class="mt-6 space-y-3">
+            {tableTools.map((item) => (
+              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
+                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <Text size="lg" tone="muted" class="mt-8 measure">
+            Every table in the app now uses the same column controls, so a habit learned on one
+            screen works on all of them.
+          </Text>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate title="Row inspector" caption="One listing’s details over the filtered list, grouped so an operator can see where each value came from." src={shot('row-inspector')} alt="The row inspector open over the job listings table, showing one listing’s title, status, facility, location, shift, rate and dates, a field filter, and the Position group of fields." />
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="brand" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Matching the marketing site</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Partway through, I noticed that the app and the public marketing site had drifted
+              apart. I took the marketing site’s brand colors and pointed five of the app’s existing
+              tokens at them, plus three new tokens. The token system kept its structure, and every
+              screen picked up the new look without touching its markup.
+            </p>
+            <p>
+              Two brand details carried over. Primary buttons shift from orange to steel blue on
+              hover instead of darkening, and links go near-black on hover. I added a quieter button
+              variant for dense tables, where thirty buttons changing color would feel jittery.
+            </p>
+          </div>
+
+          <div class="mt-10">
+            <SiteShot
+              src="/images/projects/vmspark/vmspark-live.webp"
+              alt="The VMSpark marketing site, the source of the brand colors the admin app’s tokens were pointed at"
+              href="https://vmspark.com/"
+              label="vmspark.com"
+              index="01"
+            />
+          </div>
+        </div>
       </div>
     </Container>
   </Section>
 
   <Section id="sheets" tone="paper" padding="default" class="scroll-mt-24">
     <Container width="content">
-      <p class="mono-label mb-3">Screens and flows</p>
-      <Heading level={2} visual="display-md" tone="ink" class="mb-6">What actually got built</Heading>
+      <Heading level={2} visual="display-md" tone="ink" class="mb-6">Wireframes and flows</Heading>
       <Text size="lg" tone="muted" class="measure">
-        Eleven screens and five flows, with the reasoning written onto each one.
-        These are reconstructions, drawn afterward to document the decisions.
+        To document the system for the team, I drew 11 screen wireframes and 5 flow diagrams. Each screen went
+        from a rough sketch to a wireframe to an annotated sheet, like the shell below. The rest are in
+        the <a href="/projects/vmspark/gallery/" class="hero-link">VMSpark gallery</a>.
       </Text>
     </Container>
 
     <Container width="wide" class="mt-14">
-      <p class="mono-label mb-6">How a screen got built</p>
       <FidelityBand
-        title={keyScreens[0].title}
-        sketch={art(`${keyScreens[0].slug}-sketch.svg`)}
-        wire={art(`${keyScreens[0].slug}.svg`)}
-        annotated={sheet(keyScreens[0].slug)}
-        annotatedAlt={keyScreens[0].alt}
-        caption="The passes run left to right: a rough sketch, a wireframe, then the real screen in color, since arriving at one visual language was the whole point of this project."
+        title="Application shell"
+        sketch={art('01-app-shell-sketch.svg')}
+        wire={art('01-app-shell.svg')}
+        annotated={sheet('01-app-shell')}
+        annotatedAlt="Annotated design sheet of the VMSpark application shell: a two-tier sidebar, workspace context, and global search."
+        caption="The application shell as a rough sketch, a wireframe, and an annotated sheet."
       />
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <div class="space-y-16">
-        {keyScreens.map((s) => (
-          <Plate
-            index={s.index}
-            title={s.title}
-            caption={s.note}
-            src={sheet(s.slug)}
-            alt={s.alt}
-          />
-        ))}
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-20">
-      <div class="pt-10">
-        <p class="mono-label mb-3">The rest of the system</p>
-        <Text tone="muted" class="measure mb-10">
-          Seven more screens, ending with the inventory that replaced eight button
-          styles, ten form styles, and six table conventions with one of each.
-        </Text>
-        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-          {restOfSystem.map((s) => (
-            <li>
-              <Plate
-                size="half"
-                title={s.title}
-                src={sheet(s.slug)}
-                alt={`Annotated design sheet of the ${s.title.toLowerCase()} screen.`}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-20">
-      <div class="pt-10">
-        <p class="mono-label mb-3">User flows</p>
-        <Text tone="muted" class="measure mb-10">
-          Five flows covering the paths the screens sit on, each one splitting what
-          a person does from what the system does with it.
-        </Text>
-        <div class="space-y-16">
-          {flows.map((f) => (
-            <Plate
-              title={f.title}
-              caption={f.note}
-              src={sheet(f.slug)}
-              alt={`User flow diagram: ${f.title.toLowerCase()}. ${f.note}`}
-            />
-          ))}
-        </div>
-      </div>
     </Container>
   </Section>
 
-  <Section id="outcome" tone="paper" padding="default" class="scroll-mt-24">
+  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">What changed after launch</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Results</Heading>
         </div>
         <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5">
-            <Text size="lg" tone="muted">
-              None of the systems underneath changed: the pipeline, the client-specific
-              rules, the connections to outside recruiting systems. A user who logged in
-              the day the new version went live saw their data and their workflows
-              intact, just inside a shell that finally looked current. Operators stopped
-              noticing visual inconsistency between screens, and leadership stopped
-              apologizing for the app in investor demos.
-            </Text>
-          </div>
-
-          <div class="mt-12 grid sm:grid-cols-2 gap-6">
-            {outcomeStats.map((s) => (
-              <div class="pt-5">
-                <Icon name={s.icon} size={24} class="mb-3 text-ink-muted" />
-                <Heading level={3} visual="h4" tone="ink" class="mb-1">{s.title}</Heading>
-                <Text size="sm" tone="muted">{s.body}</Text>
+          <div class="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-3">
+            {results.map((group) => (
+              <div class="pt-4">
+                <p class="mono-label mb-3">{group.label}</p>
+                <ul class="space-y-2">
+                  {group.items.map((item) => (
+                    <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+                      <Icon name="ph:check" size={14} class="mt-1 shrink-0 text-accent" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
-          </div>
-
-          <div class="mt-12">
-            <p class="mono-label mb-3">A detail worth calling out</p>
-            <Heading level={3} visual="h3" tone="ink" class="mb-4">Aligning the app with the marketing site</Heading>
-            <Text tone="muted" class="measure">
-              Partway through phase two, I pointed the admin app's color system at the
-              same five brand colors already used on the public website, instead of its
-              own separate set. Every screen that used that system picked up the new
-              look automatically. Two small details carried over on purpose: the main
-              button turns steel blue on hover instead of just getting darker, and a
-              link goes nearly black, matching how the website already behaved.
-            </Text>
-
-            <div class="mt-8">
-              <SiteShot
-                src="/images/projects/vmspark/vmspark-live.webp"
-                alt="The VMSpark marketing site, the source of the five pinned brand colors the admin app's token layer was re-pointed at"
-                href="https://vmspark.com/"
-                label="vmspark.com"
-                index="01"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -793,14 +497,80 @@ const tldr = {
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default">
+  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
     <Container width="content">
-      <p class="mono-label mb-3">The edges</p>
-      <Text size="lg" tone="muted" class="measure mb-10">
-        Both of these are the kind of problem a page-by-page review, done by hand,
-        is likely to miss: patterns that only show up when you interact with
-        something, not on a screen you can just look at.
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              All new behavior is in small Stimulus controllers or server-rendered HTMX. I added no
+              jQuery and no inline scripts. The new controllers only read data or save user
+              preferences, and the search is limited to the current account like the rest of the app.
+            </p>
+            <p>
+              The model changes only add things: three columns on the user record for density,
+              sidebar collapse, and sidebar choice. A small script in the page head reads the density
+              setting before the first paint, so the layout doesn’t jump when it applies.
+            </p>
+            <p>
+              A color audit script checks changed files for raw hex, RGB, or HSL values, so new
+              styles have to use the semantic tokens.
+            </p>
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-6">Stack</p>
+            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-3">
+              {stack.map((item) => (
+                <li>
+                  <p class="font-medium text-ink leading-snug">{item.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug">{item.role}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <Heading level={3} visual="h3" tone="ink" class="mb-3">The in-app style guide</Heading>
+      <Text tone="muted" class="measure">
+        Buttons, forms, tables, cards, popovers, tooltips, icons, and type, each shown with dos and
+        don’ts.
       </Text>
+    </Container>
+
+    <Container width="wide" class="mt-10">
+      <div class="space-y-16">
+        <ScrollShot
+          src="/images/projects/vmspark/playground-overview.webp"
+          alt="The VMSpark style guide overview, linking to each section of the guide"
+          label="Style guide: overview"
+          index="01"
+        />
+        <ScrollShot
+          src="/images/projects/vmspark/playground-buttons.webp"
+          alt="The VMSpark style guide’s buttons page: variants, sizes, and states"
+          label="Buttons"
+          index="02"
+        />
+        <ScrollShot
+          src="/images/projects/vmspark/playground-tables.webp"
+          alt="The VMSpark style guide’s tables page: header style, density, and pagination"
+          label="Tables"
+          index="03"
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-10">Limitations</Heading>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
           <li class="pt-5">
@@ -812,6 +582,8 @@ const tldr = {
       </ul>
     </Container>
   </Section>
+
+  <GalleryLink project="vmspark" />
 
   <ProjectNext project="vmspark" />
 

@@ -57,6 +57,28 @@ export const rudimentSummary = {
   reflection: `I wrote the library and the examples, so the audit only finds the gaps I run into. No outside team has built with Rudiment yet. The most-needed component, a data table, is still missing.`,
 };
 
+// Copy from notes/vm-spark.md (Josh's write-up). The three alternatives are the three
+// written design directions.
+export const vmsparkSummary = {
+  problem: `The admin app had grown one feature at a time. It mixed Bootstrap 4 and 5, used five icon sets, and had a dashboard copied from a Bootstrap example page, chart included, and the chart never loaded. Operators had learned their way around it, so any redesign also had to protect the habits they relied on.`,
+  alternativeA: {
+    name: 'Command Shell (Linear)',
+    body: `A narrow icon rail, dense type, hairline borders, and a ⌘K palette at the center. Built for power users, but it can feel stark.`,
+  },
+  alternativeB: {
+    name: 'Atlassian Platform (Jira)',
+    body: `A product rail plus a contextual project panel, breadcrumbed page headers, and a slide-over inspector. Familiar to almost every enterprise user.`,
+  },
+  alternativeC: {
+    name: 'Modern Workspace (Notion)',
+    body: `A soft sidebar, generous spacing, and no persistent top bar. The calmest of the three, and the most likely to feel too light for a dense operations tool.`,
+  },
+  decision: `I chose <strong class="text-ink font-semibold">the Atlassian direction</strong>. Notion was prettier and Linear was sharper, but operators run this tool all day, and a pattern they already know builds trust faster than a new one.`,
+  implementation: `Before writing new CSS, I cataloged every template in the app. Then I shipped the work in four phases. Each one could go to production by itself, and none needed a feature flag. All new styles use the app's existing color tokens, and new behavior lives in small Stimulus controllers.`,
+  evidence: `On release day, data, filters, and workflows were all where operators left them. People who preferred the old sidebar can still switch back to it, and the team has one page header, one modal pattern, and one table toolkit instead of several.`,
+  reflection: `I would test the new shell with operators doing their real work, not only with stakeholders in review meetings. I would also set a date to retire the legacy sidebar instead of supporting both indefinitely.`,
+};
+
 /** The same decision record is shown in the case study and style guide. */
 export const ivfcryoSummary = {
   problem: `Interviews with the owner, the COO, and the office manager showed the hard part wasn't the drive. It was getting five people, the patient, two clinics, a courier, and IVFCRYO, all confirmed and ready before a shipment could start.`,

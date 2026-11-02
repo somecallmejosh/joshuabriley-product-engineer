@@ -2,6 +2,7 @@
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
@@ -129,19 +130,13 @@ function resolveTokenValue(root, path) {
 const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/token-galaga/*.png', { eager: true });
 const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}.png`].default;
 
-const otherScreens = [
-  { slug: 'spellbook', title: 'Spellbook', alt: 'The Spellbook: a list of lessons learned, each with a short explanation and a reusable token snippet.' },
-  { slug: 'home', title: 'Home screen', alt: 'The Token Adventure arcade cabinet home screen with a glowing title and Press Start button.' },
-  { slug: 'story-panel', title: 'Story panel', alt: 'An NPC portrait beside a story panel explaining why a hardcoded brand color is a problem.' },
-  { slug: 'mobile-sector', title: 'On a phone', alt: 'A sector on a phone: the code editor and the live preview stacked in one column.' },
-];
 ---
 
 <ProjectLayout title={title} description={description}>
 
   <ProjectHero project="tokens" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#engineering', label: 'Engineering' }, { href: '#outcomes', label: 'Results' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -350,53 +345,6 @@ const otherScreens = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              The rule the whole game depends on, what counts as a valid token, lives inside the sandbox
-              runtime. Every token sector uses it. Here is the alias resolver: it follows references the
-              way a build tool would, and turns each failure into a message the player can act on.
-            </p>
-          </div>
-
-          <div class="mt-10">
-            <CodeBlock
-              filename="sandbox-runtime.ts"
-              lang="js"
-              code={resolverSnippet}
-              caption="One resolver follows every alias chain, and turns broken paths and loops into messages the player can fix."
-            />
-          </div>
-
-          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Adding a sector doesn’t need engine changes. A sector is one file that exports its story,
-              starter code, hint and checks. The star chart and routes pick it up on their own.
-            </p>
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-6">Stack</p>
-            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-              {stack.map((item) => (
-                <li>
-                  <p class="font-medium text-ink leading-snug">{item.name}</p>
-                  <p class="mt-0.5 text-sm text-ink-muted leading-snug"><Fragment set:html={item.role} /></p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
   <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
@@ -446,16 +394,50 @@ const otherScreens = [
     </Container>
   </Section>
 
-  <Section tone="paper" padding="default" data-rest-of-system>
-    <Container width="wide">
-      <Heading level={2} visual="h2" tone="ink" class="mb-10">Other screens</Heading>
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        {otherScreens.map((s) => (
-          <li>
-            <Plate size="half" title={s.title} src={shot(s.slug)} alt={s.alt} />
-          </li>
-        ))}
-      </ul>
+  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              The rule the whole game depends on, what counts as a valid token, lives inside the sandbox
+              runtime. Every token sector uses it. Here is the alias resolver: it follows references the
+              way a build tool would, and turns each failure into a message the player can act on.
+            </p>
+          </div>
+
+          <div class="mt-10">
+            <CodeBlock
+              filename="sandbox-runtime.ts"
+              lang="js"
+              code={resolverSnippet}
+              caption="One resolver follows every alias chain, and turns broken paths and loops into messages the player can fix."
+            />
+          </div>
+
+          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Adding a sector doesn’t need engine changes. A sector is one file that exports its story,
+              starter code, hint and checks. The star chart and routes pick it up on their own.
+            </p>
+          </div>
+
+          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+            <p class="mono-label mb-6">Stack</p>
+            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {stack.map((item) => (
+                <li>
+                  <p class="font-medium text-ink leading-snug">{item.name}</p>
+                  <p class="mt-0.5 text-sm text-ink-muted leading-snug"><Fragment set:html={item.role} /></p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </Container>
   </Section>
 
@@ -478,5 +460,8 @@ const otherScreens = [
     </Container>
   </Section>
 
+  <GalleryLink project="tokens" />
+
   <ProjectNext project="tokens" />
+
 </ProjectLayout>
