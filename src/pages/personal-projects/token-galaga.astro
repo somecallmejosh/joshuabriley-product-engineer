@@ -17,80 +17,56 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'Token Adventure | Joshua Briley';
 const description =
-  'Case study: designing and building Token Adventure, an in-browser coding game that teaches the W3C Design Tokens Format through 20 sectors of real code, graded in a sandbox.';
+  'Case study: Token Adventure, a browser coding game that teaches the W3C Design Tokens Format in 20 graded sectors.';
 
 // Copy throughout comes from notes/token-galaga.md (Josh's write-up).
-const proof = [
-  { label: 'Design · owned', items: ['Curriculum structure and sequencing across three arcs', 'Game framing: star chart, story panels, ranks and rewards', 'Arcade visual language and motion', 'Plain-language lesson copy and failure messages'] },
-  { label: 'Front end · owned', items: ['Astro site with one interactive React island per sector', 'CodeMirror editor with JSON, CSS, HTML and JS modes', 'Sandboxed preview built from the player’s code', 'Reduced-motion handling on every animated effect'] },
-  { label: 'Test engine · owned', items: ['A data-only check format that crosses the sandbox boundary', 'Token checks that follow aliases and $type inheritance like the spec does', 'Accessibility checks using axe-core and WCAG contrast math', 'Progress saved in the browser, no accounts and no server'] },
-];
-
 // The three arcs. `level` is the number of filled diamonds the game shows for that difficulty.
 const arcs = [
-  { level: 1, name: 'Arc I · Beginner', sectors: 'Sectors 1 to 7', title: 'The foundations', body: 'Why tokens exist, <code>$value</code> and <code>$type</code>, naming and path rules, the new object form for color, groups and <code>$type</code> inheritance, <code>$description</code>, and choosing the right semantic token when you use one.' },
-  { level: 2, name: 'Arc II · Intermediate', sectors: 'Sectors 8 to 14', title: 'Relationships and composites', body: 'Aliases, the split between primitive, semantic and component tokens, every token type’s value shape, and the typography, border, shadow, gradient and transition composites.' },
-  { level: 3, name: 'Arc III · Expert', sectors: 'Sectors 15 to 20', title: 'Production and audit', body: 'Turning <code>tokens.json</code> into CSS custom properties, catching broken and circular aliases, color spaces, theming and modes (clearly marked as a tooling convention, not part of the spec), migrating a legacy file, and the final audit.' },
+  { level: 1, name: 'Arc I · Beginner', sectors: 'Sectors 1 to 7', title: 'Foundations', body: '<code>$value</code>, <code>$type</code>, naming, the object form for color, group inheritance, and <code>$description</code>.' },
+  { level: 2, name: 'Arc II · Intermediate', sectors: 'Sectors 8 to 14', title: 'Aliases and composites', body: 'Aliases, primitive, semantic, and component tiers, each type’s value shape, and the composite types.' },
+  { level: 3, name: 'Arc III · Expert', sectors: 'Sectors 15 to 20', title: 'Production and audit', body: 'Tokens to CSS, broken and circular aliases, color spaces, theming (marked as a tooling convention), legacy migration, and the final audit.' },
 ];
 
 const loop = [
-  { title: 'A character frames the problem.', body: 'The story panel isn’t decoration. It describes the real failure the concept prevents, like a brand color hardcoded in five places, or a broken alias that locks a team out of a build.' },
-  { title: 'You write real code.', body: 'The editor shows only the tabs that sector needs.' },
-  { title: 'Your code runs in a preview.', body: 'What you see is your code, not a mock-up.' },
-  { title: 'The checks run.', body: 'Each one says what it expected and what it found, in plain language: “<code>size.small</code> resolved <code>$type</code> "size", expected "dimension".”' },
-  { title: 'You’re rewarded.', body: 'XP, a rank, and a Spellbook entry that sums up the lesson as a snippet you can reuse. Clearing a whole arc opens a celebration screen.' },
+  { title: 'A character frames the problem,', body: 'such as a brand color hardcoded in five places.' },
+  { title: 'You write real code', body: 'in an editor with only the tabs that sector needs.' },
+  { title: 'Your code runs', body: 'in a live preview.' },
+  { title: 'Checks report', body: 'what they expected and found: “<code>size.small</code> resolved <code>$type</code> "size", expected "dimension".”' },
+  { title: 'You earn', body: 'XP, a rank, and a reusable Spellbook snippet.' },
 ];
 
 const gameDetails = [
-  { icon: 'ph:rocket-launch', text: 'A scout ship flies the exact route between sectors on the star chart' },
-  { icon: 'ph:cursor', text: 'The star chart drifts slightly against the cursor, and turns that off on touch screens' },
-  { icon: 'ph:confetti', text: 'Each arc ends with a bigger celebration than the last, shown once and never replayed' },
-  { icon: 'ph:person-simple-walk', text: 'Every animation stops when the system asks for reduced motion' },
+  { icon: 'ph:rocket-launch', text: 'A scout ship flies the route between sectors' },
+  { icon: 'ph:cursor', text: 'The star chart drifts with the cursor, except on touch screens' },
+  { icon: 'ph:confetti', text: 'Each arc ends with a bigger celebration, shown once' },
+  { icon: 'ph:person-simple-walk', text: 'All animation stops for reduced motion' },
 ];
 
 const checkCoverage = [
-  { icon: 'ph:brackets-curly', label: 'Token structure', text: 'the JSON parses, a path exists, a field has the right value' },
-  { icon: 'ph:tree-structure', label: 'Spec meaning', text: 'a token’s <code>$type</code>, including one it inherits from its group, and the final value an alias chain points to' },
-  { icon: 'ph:plug', label: 'Wiring', text: 'a token actually reached the page as a CSS custom property' },
-  { icon: 'ph:browser', label: 'Rendered output', text: 'the right elements, styles and text' },
-  { icon: 'ph:eye', label: 'Accessibility', text: 'axe-core rules, WCAG contrast ratios and keyboard reach' },
-];
-
-const stack = [
-  { name: 'Astro 5', role: 'Static pages for the star chart, Spellbook and one route per sector. They ship no client JavaScript.' },
-  { name: 'React', role: 'One island for the sector runner (editor, preview and checks), loaded only on sector pages.' },
-  { name: 'CodeMirror 6', role: 'JSON, CSS, HTML and JavaScript editing.' },
-  { name: 'Sandboxed iframe', role: '<code>sandbox="allow-scripts"</code>, built from the player’s code, talking to the app over <code>postMessage</code> with request IDs and a timeout.' },
-  { name: 'axe-core', role: 'Real accessibility audits run against the player’s rendered output.' },
-  { name: 'CSS custom properties', role: 'The game’s own interface runs on primitive and semantic design tokens, so it uses the system it teaches.' },
-  { name: 'Netlify', role: 'Static hosting. Progress lives in <code>localStorage</code>, so there’s no backend and no account.' },
+  { icon: 'ph:brackets-curly', label: 'Structure', text: 'valid JSON, existing paths, correct values' },
+  { icon: 'ph:tree-structure', label: 'Spec meaning', text: 'inherited <code>$type</code> and resolved alias values' },
+  { icon: 'ph:plug', label: 'Wiring', text: 'tokens reach the page as CSS custom properties' },
+  { icon: 'ph:browser', label: 'Rendered output', text: 'elements, styles, and text' },
+  { icon: 'ph:eye', label: 'Accessibility', text: 'axe-core rules, WCAG contrast, and keyboard reach' },
 ];
 
 const results = [
-  'The curriculum went from 8 sectors written against a 2024 draft to 20 sectors on the stable 2025.10 spec',
-  'Every token value in the game uses the spec’s current object form, including in hints and Spellbook entries',
-  'Passing a sector means the player’s own tokens satisfy the spec, checked by following aliases and inherited types',
-  'Failure messages name the exact path and what was expected, so a player can fix the problem without a hint',
-  'The game runs entirely in the browser, with no sign-up and nothing sent to a server',
-];
-
-const metricLenses = [
-  { lens: 'Getting started', items: ['Visit to first sector cleared', 'Where players stop in Arc I'] },
-  { lens: 'Getting through it', items: ['Sectors started vs. cleared', 'Hints opened per sector', 'Failed runs before a sector clears'] },
-  { lens: 'Learning', items: ['Whether a player can spot the four faults in a new token file after finishing', 'Arc III completion'] },
-  { lens: 'Coming back', items: ['Players who return on a second day', 'Spellbook visits after the game is finished'] },
+  'Grew from 8 sectors on a 2024 draft to 20 on the stable 2025.10 spec',
+  'Every token value, hint, and Spellbook entry uses the current object form',
+  'Failure messages name the exact path and expected value',
+  'Runs entirely in the browser, with no sign-up and no server',
 ];
 
 const edges = [
   {
     icon: 'ph:users-three',
     title: 'No observed playtesting yet',
-    body: 'Every finding so far comes from my own playthroughs, a clean <code>astro check</code> and production build, and a review against the 2025.10 spec. That catches broken sectors, but it can’t tell me whether the jump from Arc I to Arc II is too steep, or whether the hints help. I’d run five moderated sessions with designers who use tokens through a tool but have never written the JSON by hand.',
+    body: 'My own playthroughs catch broken sectors, not whether Arc II is too steep or the hints help. Next I’d run five sessions with designers who have never written token JSON by hand.',
   },
   {
     icon: 'ph:speaker-high',
-    title: 'Accessibility checked by me, and taught in only one sector',
-    body: 'Every animation respects reduced motion, and the arc-clear screen is a proper modal with focus management. But I haven’t tested a full playthrough with a screen reader, and the code editor is the part most likely to cause trouble there. The accessibility checks also appear in only one sector so far. I’d like a later sector to use them on composite tokens, since contrast is where token choices matter most. The game has no automated tests of its own yet either; the checks it runs on players are better tested than the engine that runs them.',
+    title: 'Accessibility gaps',
+    body: 'I haven’t done a full screen-reader playthrough, and only one sector teaches accessibility checks. The engine itself has no automated tests yet.',
   },
 ];
 
@@ -136,63 +112,30 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
 
   <ProjectHero project="tokens" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Design decisions' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Curriculum' }, { href: '#activity', label: 'Game loop' }, { href: '#grading', label: 'Grading' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'Limitations' }]} />
 
   <Tldr
     problem={tldr.problem}
-    alternativeA={tldr.alternativeA}
-    alternativeB={tldr.alternativeB}
-    alternativeC={tldr.alternativeC}
     decision={tldr.decision}
-    implementation={tldr.implementation}
     evidence={tldr.evidence}
-    reflection={tldr.reflection}
   />
-
-  <Section tone="paper" padding="tight" aria-label="Scope" class="project-scope">
-    <Container width="content">
-      <p class="mono-label mb-8">Scope</p>
-      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-        {proof.map((group) => (
-          <div class="pt-4">
-            <dt class="mono-label mb-3">{group.label}</dt>
-            <dd>
-              <ul class="space-y-1.5">
-                {group.items.map((item) => (
-                  <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
-                    <Icon name="ph:check" size={14} class="mt-0.5 shrink-0 text-accent" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </dd>
-          </div>
-        ))}
-      </dl>
-    </Container>
-  </Section>
 
   <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Starting from the spec</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Curriculum</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Before designing any screens, I went back to the stable 2025.10 version of the spec and
-              listed what a person has to understand to write a correct token file: what a token is, how
-              names and paths work, how a group passes its <code>$type</code> down, how one token refers
-              to another, what each type’s value has to look like, and how all of that becomes CSS.
+              I listed what you need to write a correct token file under the stable 2025.10 spec, and
+              that order became the curriculum.
             </p>
             <p>
-              That order became the curriculum. The 2025.10 spec also changed what correct looks like.
-              Colors, sizes and durations are now objects rather than strings, so <code>"8px"</code>
-              becomes <code>{'{ "value": 8, "unit": "px" }'}</code>. Most tutorials still teach the older
-              string form. I rewrote every sector to the new shapes, and the rewrite turned up a real bug:
-              the final audit’s own example shadow used the old string form, which contradicted the
-              lesson it was testing.
+              The spec turned colors, sizes, and durations into objects, so <code>"8px"</code> becomes
+              <code>{'{ "value": 8, "unit": "px" }'}</code>. Most tutorials still teach strings, so I
+              rewrote every sector to the new shapes.
             </p>
           </div>
 
@@ -215,28 +158,21 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
               ))}
             </ol>
           </div>
-
-          <figure class="my-12 border-l-2 border-accent pl-6">
-            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
-              A spec read front to back gives you a reference. Clearing it sector by sector gives you the
-              judgment to use it.
-            </blockquote>
-          </figure>
         </div>
       </div>
     </Container>
 
     <Container width="wide" class="mt-16">
-      <Plate title="Sketch: a sector" caption="A rough sketch of a sector, redrawn from the shipped game." src={shot('sketch-sector')} alt="A hand-drawn sketch of a sector page: the sector header with a 20-step progress bar, a story panel with the character’s portrait, a code console beside the live viewport, and a diagnostics panel with two passing checks and one failing with “Path not found”." />
+      <Plate title="Sketch: a sector" caption="Redrawn from the shipped game." src={shot('sketch-sector')} alt="A hand-drawn sketch of a sector page: the sector header with a 20-step progress bar, a story panel with the character’s portrait, a code console beside the live viewport, and a diagnostics panel with two passing checks and one failing with “Path not found”." />
     </Container>
 
     <Container width="wide" class="mt-16">
       <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
         <li>
-          <Plate size="half" title="Color the 2025 Way" caption="The new object form for color, checked field by field." src={shot('color-the-2025-way')} alt="A tokens.json editor holding a color token written as an object with colorSpace, components and hex, next to a passing check list." />
+          <Plate size="half" title="Color the 2025 Way" caption="Color as an object, checked field by field." src={shot('color-the-2025-way')} alt="A tokens.json editor holding a color token written as an object with colorSpace, components and hex, next to a passing check list." />
         </li>
         <li>
-          <Plate size="half" title="Audit the Library" caption="Four real spec violations to find and fix." src={shot('audit-the-library')} alt="The final sector: a broken tokens.json with four faults and a check list showing which ones are still failing." />
+          <Plate size="half" title="Audit the Library" caption="Four spec violations to find and fix." src={shot('audit-the-library')} alt="The final sector: a broken tokens.json with four faults and a check list showing which ones are still failing." />
         </li>
       </ul>
     </Container>
@@ -246,11 +182,11 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Making a spec feel like a game, not a reading assignment</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Game loop</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>Each sector follows the same loop, so the player always knows what to do next:</p>
+            <p>Every sector follows the same loop:</p>
           </div>
 
           <ol class="mt-8 space-y-5">
@@ -266,14 +202,13 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
 
           <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              The arcade look is there to make a dry subject worth finishing, but I kept it out of the way
-              of the work. The editor, the preview and the checks always get the most space. Color does a
-              job: cyan, yellow and magenta mark beginner, intermediate and expert everywhere they appear.
+              The arcade look makes a dry subject worth finishing, but the editor, preview, and checks
+              always get the most space. Cyan, yellow, and magenta mark the three difficulty levels.
             </p>
           </div>
 
           <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Small details in the game</p>
+            <p class="mono-label mb-5">Details</p>
             <ul class="space-y-3">
               {gameDetails.map((item) => (
                 <li class="flex items-start gap-3 text-ink">
@@ -290,10 +225,10 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
     <Container width="wide" class="mt-16">
       <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
         <li>
-          <Plate size="half" title="Failure messages" caption="Each check says what it expected and what it found." src={shot('failing-checks')} alt="A check list from the final audit: four checks pass, and one fails with the message that an alias points at a path that doesn’t exist." />
+          <Plate size="half" title="Failure messages" caption="Expected versus found, in plain language." src={shot('failing-checks')} alt="A check list from the final audit: four checks pass, and one fails with the message that an alias points at a path that doesn’t exist." />
         </li>
         <li>
-          <Plate size="half" title="Arc clear" caption="The final celebration after sector 20." src={shot('arc-clear')} alt="The arc-clear screen: a magenta “Game Clear, Ace Pilot” message with light rays behind it, and the totals for sectors, XP and arcs." />
+          <Plate size="half" title="Arc clear" caption="Shown after sector 20." src={shot('arc-clear')} alt="The arc-clear screen: a magenta “Game Clear, Ace Pilot” message with light rays behind it, and the totals for sectors, XP and arcs." />
         </li>
       </ul>
     </Container>
@@ -303,20 +238,14 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
     <Container width="content">
       <div class="case-layout">
         <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Grading code you’re not allowed to touch</Heading>
+          <Heading level={2} visual="display-md" tone="ink">Grading inside a sandbox</Heading>
         </div>
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              To keep the player’s code from reaching the rest of the app, the preview runs in a sandboxed
-              <code>&lt;iframe&gt;</code> with no access to the page around it. That’s the right call for
-              safety, and it makes grading harder: the app can’t look inside the preview directly.
-            </p>
-            <p>
-              So every check is written as plain data. The app sends the list of checks into the sandbox,
-              a small runtime runs them against the live page and the parsed token file, and the results
-              come back as data. If the player’s script breaks or hangs, the run times out after five
-              seconds instead of freezing the game.
+              Player code runs in a sandboxed <code>&lt;iframe&gt;</code>, so the app can’t inspect the
+              preview directly. Checks are plain data sent into the sandbox, run there, and returned as
+              results, with a five-second timeout if the code hangs.
             </p>
           </div>
 
@@ -334,10 +263,8 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
 
           <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              The spec-meaning checks are what make the game accurate rather than spec-flavored. The alias
-              check doesn’t search your file for <code>{'{color.brand.primary}'}</code>. It follows the
-              chain to the final value, and fails with a clear message if a path is missing or two aliases
-              point at each other.
+              The alias check doesn’t search for <code>{'{color.brand.primary}'}</code>. It follows the
+              chain to the final value and reports missing paths and loops.
             </p>
           </div>
         </div>
@@ -354,8 +281,7 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Token Adventure hasn’t been played by outside testers yet, so these results are measured
-              against my own review, not player behavior.
+              No outside testers yet, so these come from my own review.
             </p>
           </div>
 
@@ -367,28 +293,6 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
               </li>
             ))}
           </ul>
-
-          <div class="mt-12">
-            <p class="mono-label mb-6">How success will be measured</p>
-            <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              {metricLenses.map((m) => (
-                <div class="pt-4">
-                  <p class="mono-label mb-3">{m.lens}</p>
-                  <ul class="space-y-1.5">
-                    {m.items.map((item) => (
-                      <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
-                        <Icon name="ph:dot-outline" size={16} class="mt-0.5 shrink-0 text-accent" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            <p class="mt-8 measure text-sm text-ink-muted leading-relaxed">
-              Any analytics would be self-hosted, cookie-less, and would never record the code players write.
-            </p>
-          </div>
         </div>
       </div>
     </Container>
@@ -403,9 +307,8 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
         <div class="case-layout__body">
           <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              The rule the whole game depends on, what counts as a valid token, lives inside the sandbox
-              runtime. Every token sector uses it. Here is the alias resolver: it follows references the
-              way a build tool would, and turns each failure into a message the player can act on.
+              Every token sector relies on this alias resolver in the sandbox runtime. It follows
+              references the way a build tool would.
             </p>
           </div>
 
@@ -414,27 +317,15 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
               filename="sandbox-runtime.ts"
               lang="js"
               code={resolverSnippet}
-              caption="One resolver follows every alias chain, and turns broken paths and loops into messages the player can fix."
+              caption="Broken paths and loops become messages the player can fix."
             />
           </div>
 
           <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
             <p>
-              Adding a sector doesn’t need engine changes. A sector is one file that exports its story,
-              starter code, hint and checks. The star chart and routes pick it up on their own.
+              Each sector is one file exporting its story, starter code, hint, and checks. New sectors
+              need no engine changes.
             </p>
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-6">Stack</p>
-            <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-              {stack.map((item) => (
-                <li>
-                  <p class="font-medium text-ink leading-snug">{item.name}</p>
-                  <p class="mt-0.5 text-sm text-ink-muted leading-snug"><Fragment set:html={item.role} /></p>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>
@@ -443,11 +334,7 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
 
   <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
     <Container width="content">
-      <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
-      <Text size="lg" tone="muted" class="measure mb-10">
-        Both of these come from building alone: I designed a teaching tool without watching anyone
-        learn from it.
-      </Text>
+      <Heading level={2} visual="h2" tone="ink" class="mb-10">Limitations</Heading>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
           <li class="pt-5">

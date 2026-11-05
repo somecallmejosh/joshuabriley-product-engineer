@@ -98,20 +98,6 @@ test('IVFCRYO readiness checks fit a narrow phone viewport', async ({ page }) =>
   expect(width.content).toBeLessThanOrEqual(width.viewport);
 });
 
-for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/projects/vmspark/']) {
-  test(`project summary expands with the keyboard: ${path}`, async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto(path, { waitUntil: 'networkidle' });
-    const summary = page.locator('.summary-more > summary');
-    await summary.focus();
-    await page.keyboard.press('Enter');
-    await expect(page.locator('.summary-more')).toHaveAttribute('open', '');
-    await expect(page.getByRole('heading', { name: 'What I would improve', exact: true })).toBeVisible();
-    await page.keyboard.press('Enter');
-    await expect(page.locator('.summary-more')).not.toHaveAttribute('open', '');
-  });
-}
-
 test('project artifact viewer returns focus after keyboard dismissal', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/projects/ivfcryo/', { waitUntil: 'networkidle' });

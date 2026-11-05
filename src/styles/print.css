@@ -206,7 +206,6 @@
   body[data-print-layout='site'] #main details::details-content { content-visibility: visible !important; }
   body[data-print-layout='site'] #main details > summary { font-size: 10pt !important; padding: 2mm 0 !important; }
   body[data-print-layout='site'] #main details > summary > span:last-child { display: none !important; }
-  body[data-print-layout='site'] #main .summary-expanded { padding: 0 !important; }
   body[data-print-layout='site'] #main :is(.recommendation figcaption img, .recommendation-initials) { width: 10mm !important; height: 10mm !important; }
   body[data-print-layout='site'] #main img[src*='/testimonials/'] { width: 10mm !important; height: 10mm !important; object-fit: cover !important; margin: 0 !important; }
   body[data-print-layout='site'] #main .recommendation blockquote p { font-size: 12pt !important; }

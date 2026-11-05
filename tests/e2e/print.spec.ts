@@ -73,24 +73,16 @@ test('printed sections use whitespace while table structure remains readable', a
   expect(await page.locator('.article-table th').first().evaluate(element => parseFloat(getComputedStyle(element).borderBottomWidth))).toBeGreaterThan(0);
 });
 
-test('printing expands case-study disclosures and restores their screen state', async ({ page }) => {
+test('printing a case study loads lazy images and restores the screen state', async ({ page }) => {
   await page.goto('/projects/ivfcryo/');
-  const details = page.locator('.summary-more');
-  await expect(details).not.toHaveAttribute('open');
   const lazyImages = await page.locator('#main img[loading="lazy"]').count();
   await page.emulateMedia({ media: 'print' });
-  await expect(details).toHaveAttribute('open');
   await expect(page.locator('#main img[loading="lazy"]')).toHaveCount(0);
   await expect(page.locator('.site-header')).toBeHidden();
   await expect(page.locator('.print-masthead')).toBeVisible();
   await page.emulateMedia({ media: 'screen' });
-  await expect(details).not.toHaveAttribute('open');
   await expect(page.locator('#main img[loading="lazy"]')).toHaveCount(lazyImages);
   await expect(page.locator('.print-masthead')).toBeHidden();
-  await details.locator('summary').click();
-  await page.emulateMedia({ media: 'print' });
-  await page.emulateMedia({ media: 'screen' });
-  await expect(details).toHaveAttribute('open');
 });
 
 test('printed reading lists retain unique numbered destinations without duplicating on repeated events', async ({ page }) => {
