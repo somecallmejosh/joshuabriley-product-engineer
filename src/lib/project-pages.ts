@@ -25,7 +25,7 @@ export const projectPages = {
     illustration: 'ivfcryo',
     name: 'IVFCRYO', kind: 'Client work · Fertility logistics',
     headline: 'Five parties working from', emphasis: 'one shipment record.',
-    intro: 'Shipping fertility specimens means coordinating a patient, two clinics, a courier, and IVFCRYO. I designed and built the shared interface that helps everyone confirm readiness before a shipment moves.',
+    intro: 'Shipping fertility specimens means coordinating a patient, two clinics, a courier, and IVFCRYO. I designed and built the shared interface that helps everyone confirm readiness before a shipment moves, then redesigned it and its public site in 2026.',
     facts: [
       { label: 'My role', value: 'Product design and front end' },
       { label: 'Owned', value: 'Research, workflows, components' },

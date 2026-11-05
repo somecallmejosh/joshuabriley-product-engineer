@@ -1,9 +1,14 @@
-# Interview Conversation with Yari
-
-**Participant:** Yari
-**Role:** Spanish-speaking home-based childcare provider
-**Interview format:** One-on-one conversation with Spanish language support
-**Primary topics:** Documentation, reporting, language access, after-hours administrative work, and funding
+---
+layout: ~/layouts/InterviewNotes.astro
+title: "Interview Conversation with Yari"
+description: "Interview with Yari, a Spanish-speaking home-based childcare provider, about documentation, reporting, language access, after-hours admin work, and funding."
+project: Logatot
+projectHref: /projects/logatot/
+---
+- **Participant:** Yari
+- **Role:** Spanish-speaking home-based childcare provider
+- **Interview format:** One-on-one conversation with Spanish language support
+- **Primary topics:** Documentation, reporting, language access, after-hours administrative work, and funding
 
 **Interviewer:** Thank you for speaking with me today, Yari. I am researching what it is like to manage a home-based childcare program.
 

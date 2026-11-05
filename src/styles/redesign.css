@@ -424,6 +424,27 @@ body {
   color: var(--paper);
   text-decoration-color: #787f88;
 }
+/* Denim & paper feature band (documented on /style-guide/ under Surfaces):
+   full-width denim with paper text and lighter supporting text. Links stay
+   underlined; hover and focus switch to paper so they don't vanish into the
+   accent, which is the same blue family as the band. */
+.surface-denim {
+  background: var(--portfolio-blue);
+  color: var(--paper);
+}
+.surface-denim p {
+  color: color-mix(in srgb, var(--paper) 82%, transparent);
+}
+.surface-denim .editorial-link--light {
+  text-decoration-color: color-mix(in srgb, var(--paper) 55%, transparent);
+}
+.surface-denim .editorial-link--light:hover {
+  color: var(--paper);
+  text-decoration-color: currentColor;
+}
+.surface-denim :focus-visible {
+  outline-color: var(--paper);
+}
 .page-opener {
   padding: clamp(2.5rem, 1.6rem + 3.5vw, 5rem) 0 var(--space-block);
 }

@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+// Current posts are short pieces without tables, reading lists, or outside
+// links, so those print treatments are checked on their style-guide specimens.
+const POST = '/blog/the-people-v-the-band-of-tumultuous-tooltips/';
+
 test('print content retains an inner gutter when named page margins are unavailable', async ({ page }) => {
-  await page.goto('/blog/where-to-learn-modern-front-end/');
+  await page.goto(POST);
   await page.setViewportSize({ width: 650, height: 950 });
   await page.emulateMedia({ media: 'print' });
   await page.addStyleTag({ content: '@media print { body { page: auto !important; } }' });
@@ -21,7 +25,7 @@ test('print headings and prose share one centered 70ch body measure', async ({ p
     ['/', '.hero-lede'],
     ['/about/', '.page-lede'],
     ['/projects/ivfcryo/', '.project-introduction > p'],
-    ['/blog/where-to-learn-modern-front-end/', '.article-prose .lede'],
+    [POST, '.article-prose .lede'],
     ['/resume/', '.experience-lead'],
     ['/tools/roi-calculator/', '.tool-instructions'],
   ];
@@ -51,19 +55,21 @@ test('print headings and prose share one centered 70ch body measure', async ({ p
 });
 
 test('printed sections use whitespace while table structure remains readable', async ({ page }) => {
-  await page.goto('/blog/where-to-learn-modern-front-end/');
+  await page.goto(POST);
   await page.emulateMedia({ media: 'print' });
-  for (const selector of ['.print-masthead', '#courses', '.reading-resources > li', '.print-colophon']) {
+  for (const selector of ['.print-masthead', '#the-charges', '.print-colophon']) {
     const borders = await page.locator(selector).first().evaluate(element => {
       const style = getComputedStyle(element);
       return [style.borderTopWidth, style.borderBottomWidth];
     });
     expect(borders).toEqual(['0px', '0px']);
   }
-  expect(await page.locator('#courses').evaluate(element => parseFloat(getComputedStyle(element).marginTop))).toBeGreaterThan(40);
-  expect(await page.locator('.reading-resources > li').first().evaluate(element => parseFloat(getComputedStyle(element).paddingTop))).toBeGreaterThan(10);
-  await page.goto('/blog/future-proofing-front-end-dev-roles/');
+  expect(await page.locator('#the-charges').evaluate(element => parseFloat(getComputedStyle(element).marginTop))).toBeGreaterThan(40);
+  await page.goto('/style-guide/');
   await page.emulateMedia({ media: 'print' });
+  const resource = page.locator('.reading-resources > li').first();
+  expect(await resource.evaluate(element => [getComputedStyle(element).borderTopWidth, getComputedStyle(element).borderBottomWidth])).toEqual(['0px', '0px']);
+  expect(await resource.evaluate(element => parseFloat(getComputedStyle(element).paddingTop))).toBeGreaterThan(10);
   expect(await page.locator('.article-table th').first().evaluate(element => parseFloat(getComputedStyle(element).borderBottomWidth))).toBeGreaterThan(0);
 });
 
@@ -88,15 +94,19 @@ test('printing expands case-study disclosures and restores their screen state', 
 });
 
 test('printed reading lists retain unique numbered destinations without duplicating on repeated events', async ({ page }) => {
-  await page.goto('/blog/where-to-learn-modern-front-end/');
+  await page.goto('/style-guide/');
+  const firstResource = await page.locator('.reading-resources a[href^="http"]').first().getAttribute('href');
   await page.emulateMedia({ media: 'print' });
   const references = page.locator('[data-print-references] li');
-  await expect(references).toHaveCount(40);
+  await expect(references.first()).toBeAttached();
+  const total = await references.count();
+  const hrefs = await page.locator('[data-print-references] a').evaluateAll(links => links.map(link => link.getAttribute('href')));
+  expect(new Set(hrefs).size).toBe(total);
+  expect(hrefs).toContain(new URL(firstResource!).href);
   const count = await page.locator('.print-link-marker').count();
   await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
-  await expect(references).toHaveCount(40);
+  await expect(references).toHaveCount(total);
   await expect(page.locator('.print-link-marker')).toHaveCount(count);
-  await expect(page.locator('[data-print-references] a').first()).toHaveAttribute('href', 'https://master.dev/');
   await page.emulateMedia({ media: 'screen' });
   await expect(references).toHaveCount(0);
   await expect(page.locator('.print-link-marker')).toHaveCount(0);
@@ -116,7 +126,7 @@ test('print keeps the current assessment answers and fits article tables to pape
   await page.emulateMedia({ media: 'screen' });
   await expect(answer).toBeChecked();
 
-  await page.goto('/blog/future-proofing-front-end-dev-roles/');
+  await page.goto('/style-guide/');
   await page.setViewportSize({ width: 650, height: 950 });
   await page.emulateMedia({ media: 'print' });
   const table = page.locator('.article-table').first();

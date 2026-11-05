@@ -3,6 +3,9 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
+  // Locally every worker shares one `astro dev` server, and more than four
+  // overloads it, so long game play-throughs and axe scans time out.
+  workers: process.env.CI ? undefined : 4,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: 'html',

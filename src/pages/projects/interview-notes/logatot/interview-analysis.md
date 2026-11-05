@@ -1,5 +1,10 @@
-# Logatot Interview Theme Analysis
-
+---
+layout: ~/layouts/InterviewNotes.astro
+title: "Logatot Interview Theme Analysis"
+description: "Themes across the Logatot interviews with three home-based childcare providers: Angie, Deborah, and Yari."
+project: Logatot
+projectHref: /projects/logatot/
+---
 **Interviews analyzed:** Angie (New York, ~11 years, 6 children), Deborah (~14 years, 6 children, one part-time assistant), Yari (Spanish-speaking provider, ~8 years, 5–6 children)
 
 **Method:** Cross-interview thematic synthesis. Themes are drawn from patterns that appear in two or more interviews, with participant-specific nuances noted where they diverge.

@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// The game test plays ten rounds and runs an axe scan along the way. Against
+// the dev server with parallel workers it runs past the default 30s.
+test.describe.configure({ timeout: 90_000 });
+
 // The 404 page hosts the "Pass or fail?" contrast game. Half its samples fail
 // contrast on purpose, so this checks they stay a picture of text (SVG with an
 // accessible name) and that every game state still scans clean.

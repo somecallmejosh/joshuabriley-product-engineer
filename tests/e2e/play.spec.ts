@@ -2,10 +2,14 @@ import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { GAMES } from '../../src/lib/games';
 
-const scan = async (page: Page) =>
-  (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(
-    (v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`,
-  );
+// The first scan in each test covers the whole page. Later scans cover only
+// the game, which is the only part that changes as it's played; full-page
+// scans at every step pushed the longer games past the test timeout.
+const scan = async (page: Page, root?: string) => {
+  const builder = new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']);
+  if (root) builder.include(root);
+  return (await builder.analyze()).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`);
+};
 
 test('the /play/ index lists every game and scans clean', async ({ page }) => {
   // Resting state: scroll-reveal fades entries in, which axe would read mid-fade.
@@ -35,7 +39,7 @@ for (const game of GAMES.filter((g) => g.kind === 'quiz')) {
       const question = quiz.locator(`[data-qz-question="${i}"]`);
       await expect(question).toBeVisible();
       if (i > 0) await expect(question.locator('.qz-prompt')).toBeFocused();
-      expect(await scan(page)).toEqual([]);
+      expect(await scan(page, i === 0 ? undefined : `[data-quiz="${game.slug}"]`)).toEqual([]);
 
       // Alternate between the first and last choice so both verdicts get exercised.
       const choices = question.locator('[data-choice]');
@@ -46,13 +50,13 @@ for (const game of GAMES.filter((g) => g.kind === 'quiz')) {
       await expect(question.locator('[data-qz-verdict]')).toHaveText(/^(Right\.|Not quite\. The answer is .+\.)$/);
       await expect(question.getByText('Correct answer')).toHaveCount(1);
       await expect(quiz.locator('[data-qz-next]')).toBeFocused();
-      expect(await scan(page)).toEqual([]);
+      expect(await scan(page, `[data-quiz="${game.slug}"]`)).toEqual([]);
       await page.keyboard.press('Enter');
     }
 
     await expect(quiz.locator('[data-qz-summary]')).toHaveText(new RegExp(`^You got \\d+ of ${total}\\.$`));
     await expect(quiz.locator('[data-qz-summary]')).toBeFocused();
-    expect(await scan(page)).toEqual([]);
+    expect(await scan(page, `[data-quiz="${game.slug}"]`)).toEqual([]);
 
     await quiz.getByRole('button', { name: 'Play again' }).click();
     await expect(quiz.locator('[data-qz-question="0"] .qz-prompt')).toBeFocused();
@@ -78,7 +82,7 @@ test('Tab order: reorder by keyboard, check, and finish all rounds', async ({ pa
   await round.getByRole('button', { name: 'Check the order' }).click();
   await expect(round.locator('[data-to-verdict]')).toHaveText('Right. Focus follows the layout.');
   await expect(game.locator('[data-to-next]')).toBeFocused();
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-tab-order]')).toEqual([]);
 
   for (let i = 1; i < 3; i++) {
     await page.keyboard.press('Enter');
@@ -90,7 +94,7 @@ test('Tab order: reorder by keyboard, check, and finish all rounds', async ({ pa
   }
   await page.keyboard.press('Enter');
   await expect(game.locator('[data-to-summary]')).toHaveText('You got 1 of 3 rounds right.');
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-tab-order]')).toEqual([]);
 });
 
 test('Fix the outline: live checks, verdict marks, finish', async ({ page }) => {
@@ -110,7 +114,7 @@ test('Fix the outline: live checks, verdict marks, finish', async ({ page }) => 
   await expect(round.locator('[data-ol-issues]')).toContainText('No structural problems');
   await round.getByRole('button', { name: 'Check the outline' }).click();
   await expect(round.locator('[data-ol-verdict]')).toHaveText('Right. That outline matches the page.');
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-outline-game]')).toEqual([]);
 
   for (let i = 1; i < 3; i++) {
     await game.locator('[data-ol-next]').click();
@@ -121,7 +125,7 @@ test('Fix the outline: live checks, verdict marks, finish', async ({ page }) => 
   }
   await game.locator('[data-ol-next]').click();
   await expect(game.locator('[data-ol-summary]')).toHaveText('You fixed 1 of 3 outlines.');
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-outline-game]')).toEqual([]);
 });
 
 test('Snap to grid: nudge every piece on with buttons and arrow keys', async ({ page }) => {
@@ -150,7 +154,7 @@ test('Snap to grid: nudge every piece on with buttons and arrow keys', async ({ 
 
   await expect(game.locator('[data-sg-summary]')).toHaveText('All three pieces are on the grid. That took 17 nudges.');
   await expect(game.locator('[data-sg-summary]')).toBeFocused();
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-snap-grid]')).toEqual([]);
 });
 
 test('Spot the drift: pick, check, and finish all rounds', async ({ page }) => {
@@ -162,13 +166,13 @@ test('Spot the drift: pick, check, and finish all rounds', async ({ page }) => {
   const round = game.locator('[data-dg-round="0"]');
   await round.getByText('Compare the specs in text').click();
   await expect(round.getByRole('table')).toBeVisible();
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-drift-game]')).toEqual([]);
   for (const name of ['Padding', 'Corner radius', 'Border color']) await round.getByRole('checkbox', { name }).check();
   await round.getByRole('button', { name: 'Check my picks' }).click();
   await expect(round.locator('[data-dg-verdict]')).toHaveText("You found 2 of 3, plus 1 that didn't drift. Each option is marked.");
   await expect(round.locator('[data-option="icon-size"] [data-tag]')).toHaveText('Drifted, missed');
   await expect(game.locator('[data-dg-next]')).toBeFocused();
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-drift-game]')).toEqual([]);
 
   for (let i = 1; i < 3; i++) {
     await page.keyboard.press('Enter');
@@ -176,7 +180,7 @@ test('Spot the drift: pick, check, and finish all rounds', async ({ page }) => {
   }
   await page.keyboard.press('Enter');
   await expect(game.locator('[data-dg-summary]')).toHaveText('You found 2 of 9 drifted properties.');
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-drift-game]')).toEqual([]);
 });
 
 test('Just enough contrast: slider by keyboard, lock in, score all rounds', async ({ page }) => {
@@ -192,7 +196,7 @@ test('Just enough contrast: slider by keyboard, lock in, score all rounds', asyn
   await expect(game.locator('[data-je-verdict]')).toContainText('fails, so no points');
   await expect(game.locator('[data-je-detail]')).toHaveText(/^You set 20%\. The lowest strength that passes here is \d+%\.$/);
   await expect(game.locator('[data-je-next]')).toBeFocused();
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-just-enough]')).toEqual([]);
 
   await page.keyboard.press('Enter');
   await expect(slider).toBeFocused();
@@ -205,7 +209,7 @@ test('Just enough contrast: slider by keyboard, lock in, score all rounds', asyn
   await game.getByRole('button', { name: 'Lock it in' }).click();
   await game.locator('[data-je-next]').click();
   await expect(game.locator('[data-je-summary]')).toHaveText(/^You scored \d+ of 300\.$/);
-  expect(await scan(page)).toEqual([]);
+  expect(await scan(page, '[data-just-enough]')).toEqual([]);
 });
 
 for (const game of GAMES.filter((g) => g.posts?.length)) {

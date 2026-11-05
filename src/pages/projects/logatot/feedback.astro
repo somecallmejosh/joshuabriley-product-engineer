@@ -1,0 +1,580 @@
+---
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import Section from '~/components/layout/Section.astro';
+import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
+import Text from '~/components/primitives/Text.astro';
+import Icon from '~/components/primitives/Icon.astro';
+import Metric from '~/components/patterns/Metric.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * Companion to /projects/logatot/: the post-launch round, where an open-ended
+ * questionnaire and a screen-by-screen audit turned into design rules.
+ * Source write-up: notes/logatot/logatot.md. Before/after pairs were captured
+ * with the same seed data at 1280–1440px.
+ *
+ * Respondent counts and quotes are deliberately absent until Josh supplies
+ * real ones; don't add placeholder numbers or invented quotes.
+ */
+
+const title = 'Logatot: changes from user feedback | Joshua Briley';
+const description =
+  'How an open-ended questionnaire sent to Logatot users led to a consistency pass, a rebuilt menu calendar, and a one-white-card-per-page hierarchy rule.';
+
+const shots = import.meta.glob<{ default: ImageMetadata }>(
+  '../../../assets/projects/logatot/feedback/*.png',
+  { eager: true },
+);
+const shot = (slug: string) => shots[`../../../assets/projects/logatot/feedback/${slug}.png`].default;
+
+// General questions on purpose: nothing names a screen, so people could raise
+// problems we didn't know to ask about.
+const questions = [
+  'What do you use Logatot for most in a typical week?',
+  'What’s the most frustrating part of using it?',
+  'Has anything on screen ever done something you didn’t expect?',
+  'Is there anything you still check on paper or somewhere else, even though Logatot has it?',
+  'If you could change one thing, what would it be?',
+];
+
+const themes = [
+  { icon: 'ph:calendar-dots', title: 'The menu calendar was hard to read', body: 'A provider couldn’t look at it and tell what was being served this week, or whether it met food-program rules.', href: '#menu' },
+  { icon: 'ph:stack', title: 'Pages had no clear focus', body: 'Every panel was a bright white card, so the main content, filters, quick-add forms, and details all carried the same weight.', href: '#surfaces' },
+  { icon: 'ph:shapes', title: 'The interface was inconsistent', body: 'We had a component library, but some screens had drifted from it. Filters looked like buttons, and each table and form had its own style.', href: '#components' },
+];
+
+const menuFound = [
+  'Every meal took three lines: name, meal type, and an award icon. A normal day filled most of the screen.',
+  'Every meal repeated its type and an “approved” badge, so the labels stopped carrying information.',
+  'A data quirk sorted morning snacks before breakfast, so no two days lined up.',
+  'Meals that didn’t meet CACFP rules looked the same as approved ones.',
+  'Thirty-five “…” buttons, one per day, were always visible.',
+];
+
+const menuChanged = [
+  { icon: 'ph:warning', title: 'Only problems get a marker', body: 'The approved badge moved into the meal detail. A meal that fails CACFP rules gets a red warning icon, so the calendar stays quiet when everything is fine.' },
+  { icon: 'ph:sort-ascending', title: 'Fixed meal-time order', body: 'Breakfast, morning snack, lunch, afternoon snack, dinner, evening. Every day lines up.' },
+  { icon: 'ph:grid-four', title: 'The week is a board', body: 'Meal times run down the side and days across the top, so comparing Tuesday’s lunch with Wednesday’s means scanning one row. On phones it becomes one list per day.' },
+  { icon: 'ph:squares-four', title: 'The month is one compact grid', body: 'One-line chips in meal-time order. Repeated meals collapse into “×3”, past days are dimmed, and today is tinted.' },
+  { icon: 'ph:egg', title: 'Meal type isn’t color alone', body: 'The first month view relied on a color legend, which review flagged. Each chip now carries a meal-type icon plus screen-reader text.' },
+  { icon: 'ph:cursor-click', title: 'Details in a dialog', body: 'Meal time, CACFP status with an “Edit meal” link when it isn’t approved, ingredients, and Remove. The per-day “…” buttons appear only on hover or focus.' },
+];
+
+const tiers = [
+  { name: 'Lifted', body: 'White with a soft shadow. The page’s main content, and only that.' },
+  { name: 'Recessed', body: 'A tinted panel set into the canvas, for filters, quick-add forms, metadata, and secondary settings.' },
+  { name: 'Canvas', body: 'The background. Section headings and light controls sit directly on it.' },
+];
+
+const pages = [
+  { page: 'Children', lifted: 'The roster', recessed: 'The quick-add form, now with a “Use the full form” link. The duplicate “Add child” button is gone.' },
+  { page: 'Expenses', lifted: 'The expense table', recessed: 'Three summary cards became one totals strip.' },
+  { page: 'Calendar', lifted: 'The selected day’s agenda', recessed: 'The month picker, and “Events this week” as one panel with day groups instead of a white card per day.' },
+  { page: 'Calendar event', lifted: 'One panel with date, time, repeat, and child', recessed: 'The title and Edit/Delete moved into the page header.' },
+  { page: 'Child profile', lifted: 'The header card, with health tiles inside it', recessed: 'Contacts, attendance, billing, and linked apps.' },
+  { page: 'Account', lifted: 'The header with contact info', recessed: 'Team, billing, reminders, and sharing.' },
+];
+
+const controls = [
+  { icon: 'ph:hand-pointing', name: 'Button', job: 'Does something', look: 'A filled pill.' },
+  { icon: 'ph:arrow-square-right', name: 'Navigation', job: 'Goes somewhere', look: 'A segmented control in a recessed groove, with the active segment raised white.' },
+  { icon: 'ph:funnel-simple', name: 'Filter', job: 'Narrows what you see', look: 'A checkbox chip: an empty box when off, a check mark when on.' },
+];
+
+const componentChanges = [
+  { icon: 'ph:rows', title: 'One page structure', body: 'Breadcrumb or back link, then the title and primary action, then section navigation, filters, and content. The shared layout component enforces the order, so new pages get it automatically.' },
+  { icon: 'ph:table', title: 'One table system', body: 'The sortable table now takes typed columns (person, date, time, duration, money, badge, actions) and does the formatting itself. Multi-day data is grouped under day headings, people read “First Last” with an avatar, and rows stack into cards on phones.' },
+  { icon: 'ph:textbox', title: 'One form field style', body: 'One soft, even border, a white fill, and a blue focus ring. A stricter two-tone border read as visual noise in review, so we chose the softer edge on purpose.' },
+];
+
+const a11y = [
+  'Meal types were shown by color only. They now have an icon and text everywhere color codes a category.',
+  'Gray-500 text passed on white but failed on the recessed tint (4.08:1). Text in recessed panels moved to gray-600 (6.37:1).',
+  'Off-state filter chips were slightly under AA on white (4.37:1) and moved to gray-600 everywhere.',
+  'Filter state comes from real checkboxes and aria-pressed, not class swaps.',
+  'In dark mode, the first recessed tint was hard to tell from lifted cards, so it got a darker value.',
+  'Text links get an underline on hover and keyboard focus, not just a color shift.',
+];
+
+const lessons = [
+  { title: 'Components aren’t a system until they’re the only option', body: 'Screens drifted because the drifted version was quicker to write at the time. What lasted was deleting the alternatives and writing down when to use each component.' },
+  { title: 'Open questions find problems a task test misses', body: 'We never asked about the menu calendar or the white cards. People raised them because they hit those problems every week. The answers showed where it hurt, and the audit showed why.' },
+  { title: 'Show exceptions, not every status', body: 'The calendar improved most by removing the approved badge from every meal. With less noise, the meal that won’t be reimbursed finally stands out.' },
+  { title: 'Hierarchy needs a rule people can follow', body: '“Make the important thing stand out” doesn’t help the next person building a page. “One white card per page” does.' },
+];
+
+const edges = [
+  { icon: 'ph:ruler', title: 'Not measured with users yet', body: 'The height savings are measured, but whether providers find things faster isn’t. The plan is to resend the same questionnaire after release, and to time “find the meal that won’t be reimbursed this week” before and after.' },
+  { icon: 'ph:selection', title: 'Softer field borders on purpose', body: 'Form field borders sit at about 1.5:1 instead of the 3:1 in WCAG 1.4.11. It’s documented, and checkboxes keep the 3:1 outline because their edge is the only cue for their state.' },
+  { icon: 'ph:cookie', title: 'Snacks saved with the wrong meal time', body: 'The add-meal flow still saves some snacks under the wrong meal time. The calendar sorts around it today; the fix belongs in the flow.' },
+  { icon: 'ph:layout', title: 'Not every page is on the new tiers', body: 'The parent dashboard and the expense location and category pages still use the old all-white panels.' },
+];
+---
+
+<ProjectLayout title={title} description={description}>
+
+  <section class="project-opening">
+    <Container width="wide">
+      <a href="/projects/logatot/" class="project-back"><span aria-hidden="true" data-link-arrow="up-left">↖</span> Logatot case study</a>
+      <div class="project-identity"><p>Logatot</p><span>Follow-up · Changes from user feedback</span></div>
+      <h1 class="project-title">What users told us after launch, <em>and what we changed.</em></h1>
+      <div class="project-introduction">
+        <p>
+          Once providers had used Logatot for a while, we sent them an open-ended
+          questionnaire. Without being asked, they pointed to a menu calendar they couldn’t
+          read at a glance, pages where everything had the same weight, and filters that
+          looked like buttons. I audited every screen involved and turned each fix into a
+          written rule backed by a shared component, so the problems can’t come back one
+          screen at a time.
+        </p>
+      </div>
+      <dl class="project-facts">
+        <div><dt>Method</dt><dd>Open-ended questionnaire, then a screen-by-screen audit</dd></div>
+        <div><dt>When</dt><dd>November 2026</dd></div>
+        <div><dt>My role</dt><dd>Design and front-end</dd></div>
+      </dl>
+      <dl class="project-figures">
+        <div><dt>⅓</dt><dd>less height for two weeks of menus<span>About 820px to 540px at 1440 wide</span></dd></div>
+        <div><dt>⅔</dt><dd>less scrolling on the voiceboard for a full day<span>3,849px to 1,318px at 1280 wide</span></dd></div>
+      </dl>
+    </Container>
+  </section>
+
+  <Section tone="paper" padding="default" id="questions" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">What we asked</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              The questionnaire asked for general feedback, not reactions to particular
+              screens. Open questions let people name problems we didn’t know to ask about.
+            </p>
+          </div>
+
+          <ol class="mt-10 space-y-4 measure">
+            {questions.map((q, i) => (
+              <li class="flex gap-4 text-lg leading-snug text-ink">
+                <span class="font-mono text-sm text-ink-muted pt-1" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span>{q}</span>
+              </li>
+            ))}
+          </ol>
+
+          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Answers tell you where something hurts, but rarely why. For each theme, I went
+              through every affected screen, took a before screenshot with the same seed data,
+              and listed what had gone wrong in the markup and design tokens. That turned
+              “it feels inconsistent” into a specific list of fixes.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">Three themes kept coming up</p>
+            <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+              {themes.map((t) => (
+                <li class="pt-5">
+                  <Icon name={t.icon} size={24} class="mb-3 text-ink-muted" />
+                  <Heading level={3} visual="h3" tone="ink" class="mb-1.5"><a href={t.href} class="hero-link">{t.title}</a></Heading>
+                  <Text size="sm" tone="muted">{t.body}</Text>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="menu" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Making the menu calendar readable</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Providers plan meals for the CACFP food program on the menu calendar. It has
+              to answer two questions at a glance: what are we serving, and is anything going
+              to fail reimbursement? It answered neither.
+            </p>
+            <p>
+              Now every meal takes one line instead of three, days line up by meal time, and
+              a meal that won’t be reimbursed is the only thing on the page with a red marker.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">What the audit found</p>
+            <ul class="measure space-y-3">
+              {menuFound.map((item) => (
+                <li class="flex items-start gap-3 text-ink-muted leading-relaxed">
+                  <Icon name="ph:minus" size={14} class="mt-1.5 shrink-0 text-ink-muted" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">What changed</p>
+            <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+              {menuChanged.map((c) => (
+                <li class="pt-5">
+                  <Icon name={c.icon} size={24} class="mb-3 text-ink-muted" />
+                  <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{c.title}</Heading>
+                  <Text size="sm" tone="muted">{c.body}</Text>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <Plate
+          size="half"
+          title="Week view, before"
+          caption="One card per day. Every meal takes three lines, and snacks sort ahead of breakfast."
+          src={shot('menu-week-before')}
+          alt="The old Logatot menu calendar week view: seven separate day cards, each listing meals in three lines with the name, the meal type such as Snack AM or Lunch, and a green award icon. Snacks appear above breakfast on most days."
+        />
+        <Plate
+          size="half"
+          title="Week view, after"
+          caption="Meal times down the side, days across the top. Breakfasts that fail CACFP rules carry a red warning icon."
+          src={shot('menu-week-after')}
+          alt="The new week view: one grid with Breakfast, Morning snack, Lunch, and Dinner rows and Sunday to Saturday columns. Each meal is a one-line chip, repeated snacks show ×2 or ×3, today’s column is tinted, and every breakfast chip has a red warning triangle."
+        />
+        <Plate
+          size="half"
+          title="Month view, before"
+          caption="Thirty-five separate cards, each with a “…” button."
+          src={shot('menu-month-before')}
+          alt="The old month view: a grid of separate white day cards, each listing meals in three lines with meal type and an award icon, and a “…” button on every day."
+        />
+        <Plate
+          size="half"
+          title="Month view, after"
+          caption="One grid of one-line chips in meal-time order, with a meal-type icon on each chip and in the legend."
+          src={shot('menu-month-after')}
+          alt="The new month view: a single grid where each day lists one-line meal chips in meal-time order, each with a small meal-type icon. A legend shows breakfast, snack, lunch, and dinner icons. Past days are dimmed, today is tinted, and breakfasts carry red warning triangles."
+        />
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <div class="grid gap-8 py-8 sm:grid-cols-2">
+        <Metric before="3 lines" value="1 line" label="per meal on the calendar" caption="Name only; status moved to the detail dialog" />
+        <Metric before="~820px" value="~540px" label="height of the same two weeks of menus" caption="Measured at 1440 wide" />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="surfaces" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Giving each page one clear focus</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              An earlier redesign gave the app a pastel blue canvas with white cards lifted by
+              soft shadows. The idea worked, but every panel became a white card. On the
+              Children page, the quick-add form had the same weight as the roster. On Expenses,
+              three summary cards competed with the table. When every surface looks equally
+              important, none of them reads as the most important.
+            </p>
+          </div>
+
+          <figure class="my-12 border-l-2 border-accent pl-6">
+            <blockquote class="font-display text-2xl md:text-3xl tracking-tight text-ink leading-snug">
+              Each page gets one white surface: the thing the page is for. Everything that
+              supports it goes on a recessed surface.
+            </blockquote>
+            <figcaption class="mt-3 font-mono text-xs uppercase tracking-widest text-ink-muted">
+              The rule for every page
+            </figcaption>
+          </figure>
+
+          <dl class="grid gap-x-8 gap-y-6 sm:grid-cols-3">
+            {tiers.map((t) => (
+              <div class="pt-4">
+                <dt class="font-medium text-ink">{t.name}</dt>
+                <dd class="mt-1 text-sm text-ink-muted leading-relaxed">{t.body}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">Applied page by page</p>
+            <ul class="divide-y divide-line">
+              {pages.map((p) => (
+                <li class="py-4 grid gap-1 sm:grid-cols-3 sm:gap-6">
+                  <p class="font-medium text-ink">{p.page}</p>
+                  <p class="text-sm text-ink-muted leading-relaxed sm:col-span-2"><span class="text-ink">White card:</span> {p.lifted}. <span class="text-ink">Recessed:</span> {p.recessed}</p>
+                </li>
+              ))}
+            </ul>
+            <Text size="sm" tone="muted" class="mt-6 measure">
+              Panels are grouped with fills and soft shadows instead of outline rings. Rings
+              were tried on the sidebar groups and rejected in review.
+            </Text>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+        <Plate
+          size="half"
+          title="Child profile, before"
+          caption="Six white cards of equal weight."
+          src={shot('child-profile-before')}
+          alt="The old child profile for Ava Johnson: a white header card, then separate white cards for Health, Attendance, Billing, Legal Guardians, and Authorized Pickups."
+        />
+        <Plate
+          size="half"
+          title="Child profile, after"
+          caption="Health moves into the one white header card. Contacts, attendance, and billing sit on recessed panels."
+          src={shot('child-profile-after')}
+          alt="The new child profile: one white header card holding the photo, name, and a row of four health tiles. Below it, Legal Guardians, Authorized Pickups, Attendance, and Billing sit on tinted recessed panels."
+        />
+        <Plate
+          size="half"
+          title="Expenses, before"
+          caption="Three white summary cards compete with the table."
+          src={shot('expenses-before')}
+          alt="The old Expenses page: three white cards for This month, This year, and Receipts above a white expense table."
+        />
+        <Plate
+          size="half"
+          title="Expenses, after"
+          caption="The three totals become one recessed strip, and the table is the only white surface."
+          src={shot('expenses-after')}
+          alt="The new Expenses page: This month, This year, and Receipts in a single tinted strip above the white expense table."
+        />
+        <Plate
+          size="half"
+          title="Calendar event, before"
+          caption="The event title is buried inside a card, with actions behind a “…” menu."
+          src={shot('calendar-event-before')}
+          alt="The old calendar event page: a back link, then a white card with the date and a row reading All Day, Sophia’s Birthday, Sophia Ramirez, and a “…” button."
+        />
+        <Plate
+          size="half"
+          title="Calendar event, after"
+          caption="The title and Edit/Delete move into the page header, above one panel with the date and child."
+          src={shot('calendar-event-after')}
+          alt="The new calendar event page: the title Sophia’s Birthday as the page heading with Edit and Delete buttons beside it, then one white panel showing Nov 23rd, 2026, All day, and Sophia Ramirez."
+        />
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+        <p>
+          The rule is simple enough to apply to new pages without a design review: what is
+          this page for? That gets the white card.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="voiceboard" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">A compact voiceboard</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Surface tiers gave the voiceboard a clear focus, but the focus itself was too
+              long. Each child card listed the day’s moments with a time and a note, so with
+              twelve children a full day ran to about four screens. The question providers ask
+              the voiceboard most is shorter: where is everyone, and has each child had the
+              basics today?
+            </p>
+            <p>
+              I added a Compact and Detailed switch next to the Children heading. It uses the
+              segmented navigation control, because it changes the view rather than doing
+              something.
+            </p>
+          </div>
+
+          <ul class="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+            <li class="pt-5">
+              <Icon name="ph:squares-four" size={24} class="mb-3 text-ink-muted" />
+              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Compact tiles</Heading>
+              <Text size="sm" tone="muted">Avatar, name, status such as “Picked up at 4:55 pm”, and one icon chip per type of moment logged today. Tapping a chip opens that moment’s latest entry.</Text>
+            </li>
+            <li class="pt-5">
+              <Icon name="ph:eye" size={24} class="mb-3 text-ink-muted" />
+              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Missing chips are the signal</Heading>
+              <Text size="sm" tone="muted">A child with no nap chip in the afternoon stands out because their row is shorter. It’s the same “show exceptions” idea as the menu calendar.</Text>
+            </li>
+            <li class="pt-5">
+              <Icon name="ph:columns" size={24} class="mb-3 text-ink-muted" />
+              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Three or four per row</Heading>
+              <Text size="sm" tone="muted">Instead of two tall cards. Absent children become a single recessed tile in the grid.</Text>
+            </li>
+            <li class="pt-5">
+              <Icon name="ph:toggle-left" size={24} class="mb-3 text-ink-muted" />
+              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Compact by default</Heading>
+              <Text size="sm" tone="muted">The choice is remembered per device. Detailed is one tap away for writing up the end-of-day report.</Text>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <p class="mono-label mb-6">Same day, same twelve children, same scale</p>
+      <div class="grid grid-cols-2 gap-x-6 sm:gap-x-10 items-start">
+        <Plate
+          size="half"
+          title="Detailed"
+          caption="3,849px tall at 1280 wide."
+          src={shot('voiceboard-detailed')}
+          alt="The detailed voiceboard for a full day: twelve tall child cards in two columns, each listing health check, diaper, nap, snack, and activity entries with times and notes, running about four screens long before Provider time and Employee shifts."
+        />
+        <Plate
+          size="half"
+          title="Compact"
+          caption="1,318px tall. Provider time and employee shifts are one short scroll away."
+          src={shot('voiceboard-compact')}
+          alt="The compact voiceboard for the same day: twelve short tiles in three columns, each with an avatar, name, pickup time, and a row of small colored icon chips for the moments logged. Noah Patel appears as a single absent tile, and Provider time and Employee shifts panels sit just below."
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="components" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Making the shared components the only option</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              The app already had ViewComponents and Tailwind helpers for buttons, forms,
+              tables, and filters. The feedback showed that having components doesn’t make a
+              product consistent; they only work when every screen uses them. Filters were
+              mistaken for navigation, section menus and actions shared one pill shape, and
+              each report built its own table.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">Each kind of control gets its own look</p>
+            <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
+              {controls.map((c) => (
+                <li class="pt-5">
+                  <Icon name={c.icon} size={24} class="mb-3 text-ink-muted" />
+                  <Heading level={3} visual="h3" tone="ink" class="mb-1">{c.name}</Heading>
+                  <p class="text-sm text-ink mb-1.5">{c.job}</p>
+                  <Text size="sm" tone="muted">{c.look}</Text>
+                </li>
+              ))}
+            </ul>
+            <Text size="sm" tone="muted" class="mt-6 measure">
+              Filter state now comes from the form control itself, not from JavaScript swapping
+              classes. That fixed chips that looked selected but weren’t, and screen readers now
+              announce the real state. Every filter screen moved to the one chip, and the old
+              variants were deleted so they can’t be used again.
+            </Text>
+          </div>
+
+          <ul class="mt-12 space-y-10">
+            {componentChanges.map((c) => (
+              <li class="pt-5">
+                <Icon name={c.icon} size={24} class="mb-3 text-ink-muted" />
+                <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{c.title}</Heading>
+                <Text size="sm" tone="muted" class="measure">{c.body}</Text>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-12 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Rebuilding the tables also exposed a real bug. The attendance report sometimes
+              attached an entry to the next child’s ID, showing the wrong name and link. A
+              hand-built table had hidden it; typed cells made it obvious.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="accessibility" class="scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Accessibility fixes from the same pass</Heading>
+      <Text size="lg" tone="muted" class="measure mb-10">
+        Nobody mentioned these in the questionnaire. The audit found them, mostly where the new
+        recessed surface changed the contrast math.
+      </Text>
+      <ul class="grid gap-x-10 gap-y-4 md:grid-cols-2">
+        {a11y.map((item) => (
+          <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+            <Icon name="ph:check" size={14} class="mt-0.5 shrink-0 text-accent" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="lessons" class="scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-10">What I learned</Heading>
+      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
+        {lessons.map((l) => (
+          <li class="pt-5">
+            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{l.title}</Heading>
+            <Text size="sm" tone="muted">{l.body}</Text>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations and next steps</Heading>
+      <Text size="lg" tone="muted" class="measure mb-10">
+        The design work is done, but it hasn’t been measured with users, and a few pages still need it.
+      </Text>
+      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
+        {edges.map((e) => (
+          <li class="pt-5">
+            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
+            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
+            <Text size="sm" tone="muted">{e.body}</Text>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-16 flex flex-wrap gap-x-10 gap-y-4">
+        <a href="/projects/logatot/" class="editorial-link">
+          Back to the Logatot case study <span aria-hidden="true" data-link-arrow="up-left">↖</span>
+        </a>
+        <a href="/projects/logatot/gallery/" class="editorial-link">
+          More before and after screens <span aria-hidden="true" data-link-arrow="right">→</span>
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+</ProjectLayout>

@@ -27,24 +27,24 @@ import SubmitButton from '~/components/form/SubmitButton.astro';
 
   <div class="grid sm:grid-cols-2 gap-5">
     <Field label="First name" name="first-name" required>
-      <Input name="first-name" autocomplete="given-name" required />
+      <Input name="first-name" describedBy="field-first-name-error" autocomplete="given-name" required />
     </Field>
     <Field label="Last name" name="last-name" required>
-      <Input name="last-name" autocomplete="family-name" required />
+      <Input name="last-name" describedBy="field-last-name-error" autocomplete="family-name" required />
     </Field>
   </div>
 
   <div class="grid sm:grid-cols-2 gap-5">
     <Field label="Email" name="email" required hint="I'll only use this to reply.">
-      <Input name="email" type="email" autocomplete="email" inputmode="email" required />
+      <Input name="email" describedBy="field-email-hint field-email-error" type="email" autocomplete="email" inputmode="email" required />
     </Field>
     <Field label="Phone (optional)" name="phone">
-      <Input name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+      <Input name="phone" describedBy="field-phone-error" type="tel" autocomplete="tel" inputmode="tel" />
     </Field>
   </div>
 
   <Field label="Message" name="message" required hint="What’s on your mind? For a meetup or event, include the date and location.">
-    <Textarea name="message" rows={5} required />
+    <Textarea name="message" describedBy="field-message-hint field-message-error" rows={5} required />
   </Field>
 
   <SubmitButton label="Send message" loadingLabel="Sending…" />

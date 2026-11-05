@@ -45,8 +45,10 @@ const pick = (files: Glob, dir: string) => (slug: string) => {
 };
 
 const ivfcryoSheet = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/ivfcryo/wires-and-flows/*.png', { eager: true }), 'ivfcryo/wires-and-flows');
+const ivfcryoApp = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/ivfcryo/app/*.png', { eager: true }), 'ivfcryo/app');
 const logatotSheet = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/logatot/wires-and-flows/*.png', { eager: true }), 'logatot/wires-and-flows');
-const logatotApp = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/logatot/*.png', { eager: true }), 'logatot');
+const logatotApp = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/logatot/app/*.png', { eager: true }), 'logatot/app');
+const logatotFeedback = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/logatot/feedback/*.png', { eager: true }), 'logatot/feedback');
 const vmsparkSheet = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/vmspark/wires-and-flows/*.png', { eager: true }), 'vmspark/wires-and-flows');
 const beckitShot = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/beckit/*.png', { eager: true }), 'beckit');
 const galagaShot = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/token-galaga/*.png', { eager: true }), 'token-galaga');
@@ -64,7 +66,7 @@ export const projectGalleries: ProjectGallery[] = [
     project: 'ivfcryo',
     section: 'projects',
     slug: 'ivfcryo',
-    intro: 'Annotated wireframes for the screens the case study doesn’t cover, made with the same three-pass process.',
+    intro: 'Annotated wireframes for the screens the case study doesn’t cover, plus more screens from the 2026 redesign of the shipped app.',
     groups: [
       {
         heading: 'Other screens',
@@ -77,13 +79,53 @@ export const projectGalleries: ProjectGallery[] = [
           ['10-admin-settings-feedback', 'Admin settings'],
         ].map(([slug, title]) => wireframe(ivfcryoSheet(slug), title)),
       },
+      {
+        heading: 'More of the redesigned app',
+        items: [
+          {
+            src: ivfcryoApp('app-trackers'),
+            title: 'SenseAware trackers',
+            size: 'half',
+            caption: 'Trackers use the same tile navigation and route strips as the shipments list. The Travelling tile warns that 4 trackers aren’t reporting.',
+            alt: 'The SenseAware trackers page: Travelling, Available, and All tiles, a search field, and a Travelling list of four trackers, each showing a route strip, probe temperature, sparkline, battery level, and how long ago it last reported.',
+          },
+          {
+            src: ivfcryoApp('app-feedback'),
+            title: 'Shipment feedback',
+            size: 'half',
+            caption: 'A review desk. Each comment is shown exactly as it would be published, next to the shipment it came from, with one Approve or Decline control.',
+            alt: 'The Shipment feedback page: Awaiting review, Published, Declined, and All tiles, then customer comments shown as pull quotes beside a route strip with delivered, received, and published dates and an Approved or Declined segmented control.',
+          },
+          {
+            src: ivfcryoApp('app-senseaware'),
+            title: 'SenseAware settings',
+            size: 'half',
+            caption: 'The default reading interval as an instrument: a large readout, readings per day, and a two-hour ruler with one tick per reading.',
+            alt: 'The SenseAware settings page: a 15 minute default reading interval with 96 readings a day, a ruler with a tick for every reading over two hours, interval chips from 5 to 90 minutes, and a side panel counting shipments in progress by interval.',
+          },
+          {
+            src: ivfcryoApp('app-clinic-new'),
+            title: 'New shipment, clinic view',
+            size: 'half',
+            caption: 'A clinic sees the same booking page with a shorter sidebar: New shipment first, then My shipments and Address book. Only staff can override the quote.',
+            alt: 'The new-shipment page signed in as a clinic user: a New shipment button above a short sidebar, Ships from and Ships to company pickers, and a Summary panel with the route, pickup time, and empty package and service rows.',
+          },
+          {
+            src: ivfcryoApp('app-public-about'),
+            title: 'About page',
+            size: 'band',
+            caption: 'The About hero is one sentence with the facts set inside it, next to a milestones timeline.',
+            alt: 'The IVFCRYO About page: the headline “The standard the industry was missing, built since 2018 by Don and Ed Fish in Fishers, Indiana,” a short introduction, a quote from Don Fish, and a timeline from 2018 to 2025.',
+          },
+        ],
+      },
     ],
   },
   {
     project: 'logatot',
     section: 'projects',
     slug: 'logatot',
-    intro: 'Annotated wireframes for six more screens, and screenshots of the same screens in the shipped app.',
+    intro: 'Annotated wireframes for six more screens, screenshots of the same screens in the shipped app, and more before-and-after pairs from the feedback round.',
     groups: [
       {
         heading: 'Annotated wireframes',
@@ -105,21 +147,21 @@ export const projectGalleries: ProjectGallery[] = [
             title: 'Children roster',
             size: 'half',
             caption: 'Every child with their status, filtered by active, inactive, or archived. A new child needs only a name and a date of birth to start.',
-            alt: 'The Children page in Logatot: Active, Inactive, All, and Archived tabs, a two-column list of child cards with a photo, name, and Active status, and an Add a child form asking for first name, last name, and date of birth.',
+            alt: 'The Children page in Logatot: Active, Inactive, All, and Archived tabs, a two-column list of white child cards with a photo, name, and age-group badge, and a tinted Add a child panel asking for first name, last name, and date of birth, with a Use the full form link.',
           },
           {
             src: logatotApp('app-child-record'),
             title: 'Child record',
             size: 'half',
-            caption: 'Health details, legal guardians, authorized pickups, and the weekly attendance schedule for one child.',
-            alt: 'A child’s record in Logatot: a photo and name with Active status, a Health panel for allergies, medications, diapers, and diet restrictions, a Legal Guardians panel listing the mother, an Authorized Pickups panel listing an aunt, and an Attendance panel showing Monday to Friday selected.',
+            caption: 'Health details, legal guardians, authorized pickups, the weekly attendance schedule, and billing for one child.',
+            alt: 'A child’s record in Logatot: a white header card with the photo, name, Active status, and a row of health tiles for allergies, medications, diapers, and diet restrictions. Below, tinted panels for Legal Guardians listing the mother, Attendance showing Monday to Friday selected, Authorized Pickups listing an aunt, and Billing.',
           },
           {
             src: logatotApp('app-calendar'),
             title: 'Calendar',
             size: 'half',
             caption: 'Today’s schedule, the events coming up this week, such as a fire drill, and a month view.',
-            alt: 'The Calendar page in Logatot: a Today card reading “Nothing scheduled,” an Events This Week row with a Tuesday fire drill and a Thursday picture day, and a November 2026 month picker.',
+            alt: 'The Calendar page in Logatot: a white Today card reading “Nothing scheduled,” a tinted Events This Week panel with a Tuesday fire drill and a Thursday picture day, and a tinted November 2026 month picker.',
           },
           {
             src: logatotApp('app-dashboard'),
@@ -127,6 +169,54 @@ export const projectGalleries: ProjectGallery[] = [
             size: 'half',
             caption: 'For providers who log events by hand: buttons for child activity, provider time, and employee shifts, beside a timeline of the day’s events.',
             alt: 'The Logatot dashboard: buttons for Log Child Activity, Log Provider Time, and Log Employee Shift, attendance counts for expected, present, checked out, and absent, and a Child Activity Timeline table of nap events with name, time, status, and description.',
+          },
+        ],
+      },
+      {
+        heading: 'Before and after the feedback round',
+        intro: 'More pages from the follow-up round, where each page got one white surface for its main content and recessed panels for everything else.',
+        items: [
+          {
+            src: logatotFeedback('children-before'),
+            title: 'Children, before',
+            size: 'half',
+            caption: 'The quick-add form is a white card with the same weight as the roster, and a second “Add child” button sits in the header.',
+            alt: 'The old Children page: a two-column roster of white child cards beside a white “Add a child” card with first name, last name, and date of birth fields, and an Add child button in the page header.',
+          },
+          {
+            src: logatotFeedback('children-after'),
+            title: 'Children, after',
+            size: 'half',
+            caption: 'The quick-add form moves to a recessed panel with a “Use the full form” link, and the duplicate header button is gone.',
+            alt: 'The new Children page: the same roster of white child cards beside a tinted “Add a child” panel with the same fields, an Add child button, and a “Use the full form” link. The header has no button.',
+          },
+          {
+            src: logatotFeedback('calendar-before'),
+            title: 'Calendar, before',
+            size: 'half',
+            caption: 'Today, each day of “Events this week”, and the month picker are all white cards.',
+            alt: 'The old Calendar page: a white Today card, separate white Tuesday and Thursday event cards under Events This Week, and a white November 2026 month picker.',
+          },
+          {
+            src: logatotFeedback('calendar-after'),
+            title: 'Calendar, after',
+            size: 'half',
+            caption: 'Today is the one white card. The week’s events become one recessed panel with day groups, and the month picker is recessed too.',
+            alt: 'The new Calendar page: a white Today card, then one tinted Events This Week panel with Tuesday’s fire drill and Thursday’s picture day side by side, and a tinted month picker.',
+          },
+          {
+            src: logatotFeedback('account-before'),
+            title: 'Account, before',
+            size: 'half',
+            caption: 'Contact info, employees, alerts, billing, and sharing each sit in their own white card.',
+            alt: 'The old account page for Little Acorns Home Daycare: separate white cards for Contact Info, Employees, Alerts and Notifications, Billing Details, and Share.',
+          },
+          {
+            src: logatotFeedback('account-after'),
+            title: 'Account, after',
+            size: 'half',
+            caption: 'One white header with contact info. Employees, billing, alerts, and sharing sit on recessed panels below.',
+            alt: 'The new account page: a white header card with the daycare name, address, time zone, phone, and billing email in one row, then tinted panels for Employees, Billing Details, Alerts and Notifications, and Share.',
           },
         ],
       },

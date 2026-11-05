@@ -1,8 +1,13 @@
-# Interview Conversation with Angie
-
-**Participant:** Angie
-**Role:** New York home-based childcare provider
-**Primary topics:** Constant supervision, delayed documentation, memory-based recordkeeping, exhaustion, compliance, and reporting accuracy
+---
+layout: ~/layouts/InterviewNotes.astro
+title: "Interview Conversation with Angie"
+description: "Interview with Angie, a New York home-based childcare provider, about constant supervision, delayed documentation, compliance, and reporting accuracy."
+project: Logatot
+projectHref: /projects/logatot/
+---
+- **Participant:** Angie
+- **Role:** New York home-based childcare provider
+- **Primary topics:** Constant supervision, delayed documentation, memory-based recordkeeping, exhaustion, compliance, and reporting accuracy
 
 **Interviewer:** Thank you for speaking with me today, Angie. I am researching the challenges home-based childcare providers face when managing daily care, documentation, reporting, and funding.
 

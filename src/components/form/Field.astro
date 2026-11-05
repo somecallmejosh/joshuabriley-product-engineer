@@ -43,8 +43,11 @@ const {
 } = Astro.props;
 
 const hintId = hint ? `${id}-hint` : undefined;
-const errorId = error ? `${id}-error` : undefined;
-const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
+// The error line is always rendered (hidden when empty) so client-side
+// validation can fill and reveal it; scoped styles don't reach DOM created
+// at runtime.
+const errorId = `${id}-error`;
+const describedBy = [hintId, errorId].filter(Boolean).join(' ');
 ---
 
 <div
@@ -70,10 +73,10 @@ const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
   {hint && (
     <p id={hintId} class="text-xs text-ink-muted leading-relaxed">{hint}</p>
   )}
-  {error && (
-    <p id={errorId} class="flex items-center gap-1.5 text-xs text-accent leading-relaxed" role="alert">
+  <p id={errorId} class="text-xs text-accent leading-relaxed" hidden={!error} data-field-error>
+    <span class="inline-flex items-center gap-1.5">
       <Icon name="ph:warning-circle" size={14} />
-      {error}
-    </p>
-  )}
+      <span data-field-error-text>{error}</span>
+    </span>
+  </p>
 </div>

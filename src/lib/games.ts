@@ -113,7 +113,6 @@ export const GAMES: Game[] = [
     summary: 'Compare a design system component with its production copy and find what changed.',
     teaches: 'What component drift looks like up close, and why small local tweaks add up.',
     outro: '',
-    posts: ['the-hidden-cost-of-component-inconsistency'],
   },
   {
     slug: 'just-enough-contrast',
@@ -146,7 +145,6 @@ export const GAMES: Game[] = [
     teaches: 'How a small, well-named token set carries a whole site, including the rules about where each token must not go.',
     outro: 'Good token names describe a job, not a color. That is what lets one change reach every page safely.',
     questions: nameThatToken,
-    posts: ['design-system-rules-for-ai-agents'],
   },
 ];
 

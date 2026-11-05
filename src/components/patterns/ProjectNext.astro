@@ -3,11 +3,14 @@ import Container from '~/components/layout/Container.astro';
 import { projectPages, type ProjectKey } from '~/lib/project-pages';
 interface Props { project: ProjectKey; }
 const { next } = projectPages[Astro.props.project];
+// "All" returns to whichever listing the page lives under.
+const isPersonal = Astro.url.pathname.startsWith('/personal-projects/');
+const back = isPersonal ? { href: '/personal-projects/', label: 'All personal projects' } : { href: '/projects/', label: 'All work' };
 ---
 <section class="project-next">
   <Container width="wide">
     <p class="project-next-label">Next project</p>
     <a class="project-next-link" href={next.href}><span><h2>{next.name}</h2><p>{next.description}</p></span><span class="project-next-arrow" aria-hidden="true" data-link-arrow="right">→</span></a>
-    <nav aria-label="Continue exploring" class="project-next-nav"><a href="/projects/">All work <span aria-hidden="true" data-link-arrow="up-left">↖</span></a><a href="/contact/">Talk shop <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></nav>
+    <nav aria-label="Continue exploring" class="project-next-nav"><a href={back.href}>{back.label} <span aria-hidden="true" data-link-arrow="up-left">↖</span></a><a href="/contact/">Talk shop <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></nav>
   </Container>
 </section>

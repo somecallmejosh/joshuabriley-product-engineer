@@ -10,9 +10,9 @@ interface Props {
 const { game, class: className } = Astro.props;
 ---
 
-<!-- Styles live in illustration.css, shared with the tool and article drawings.
+{/* Styles live in illustration.css, shared with the tool and article drawings.
      The game set tilts the other way and uses a few extra playful classes.
-     data-surface="light" keeps the accent navy inside dark sections. -->
+     data-surface="light" keeps the accent navy inside dark sections. */}
 <span class={cx('illustration illustration--play', className)} data-surface="light">
 <span class="illustration-frame">
 <svg

@@ -1,5 +1,10 @@
-# Interview Conversation with Deborah
-
+---
+layout: ~/layouts/InterviewNotes.astro
+title: "Interview Conversation with Deborah"
+description: "Interview with Deborah, a home-based childcare provider, about attendance, meals, reporting, reimbursements, licensing, and funding."
+project: Logatot
+projectHref: /projects/logatot/
+---
 **Interviewer:** Thank you for speaking with me today, Deborah. I am researching the experience of managing a home-based childcare program. I am especially interested in the administrative work that happens behind the scenes, including attendance, meals, reporting, reimbursements, licensing, and funding.
 
 There are no right or wrong answers. I am interested in what you actually experience, including what works well and what causes problems.

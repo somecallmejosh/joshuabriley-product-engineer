@@ -1,0 +1,52 @@
+---
+import ProjectLayout from './ProjectLayout.astro';
+import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
+import '~/styles/articles.css';
+
+/**
+ * Layout for the Markdown research notes under /projects/interview-notes/.
+ * Each note names its case study in frontmatter so the page links back to it,
+ * the same way a project gallery does.
+ */
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    project: string;
+    projectHref: string;
+  };
+}
+
+const { title, description, project, projectHref } = Astro.props.frontmatter;
+---
+
+<ProjectLayout title={`${title} | Joshua Briley`} description={description}>
+  <section class="project-opening pb-24">
+    <Container width="wide">
+      <a href={projectHref} class="project-back"><span aria-hidden="true" data-link-arrow="up-left">↖</span> {project} case study</a>
+      <Heading level={1} visual="display-md" tone="ink" class="mt-8 mb-12 measure">{title}</Heading>
+      <article class="prose-whimsy article-prose interview-notes measure">
+        <slot />
+      </article>
+      <a href={projectHref} class="editorial-link mt-20 inline-flex">Back to the {project} case study</a>
+    </Container>
+  </section>
+</ProjectLayout>
+
+<style>
+  /* The theme table in the analysis is four short columns. Prose tables stack
+     into rows on phones and hide the header, which would drop the Angie /
+     Deborah / Yari labels, so this one stays a real table at every width. */
+  .interview-notes :global(table) { display: table; width: 100%; font-size: .94rem; line-height: 1.5; }
+  .interview-notes :global(thead) { display: table-header-group; }
+  .interview-notes :global(tbody) { display: table-row-group; }
+  .interview-notes :global(tr) { display: table-row; margin: 0; padding: 0; }
+  .interview-notes :global(:is(td, th)) { display: table-cell; width: auto; padding: .65rem .75rem .65rem 0 !important; border-bottom: 1px solid var(--line) !important; text-align: left; vertical-align: top; }
+  .interview-notes :global(th) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: inherit; font-weight: 700; text-transform: none; letter-spacing: 0; border-bottom-color: var(--line-strong) !important; }
+  @media (max-width: 640px) {
+    .interview-notes :global(table) { font-size: .82rem; }
+    .interview-notes :global(td) { overflow-wrap: anywhere; }
+    .interview-notes :global(:is(td, th)) { padding: .5rem .5rem .5rem 0 !important; }
+  }
+</style>

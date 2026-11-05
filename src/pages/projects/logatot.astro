@@ -11,14 +11,16 @@ import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
+import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import FidelityBand from '~/components/patterns/FidelityBand.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
 import type { ImageMetadata } from 'astro';
 
+
 const title = 'Logatot | Joshua Briley';
 const description =
-  "Case study: designing a voice-controlled app for home-based childcare providers, so they can log a nap, a meal, or a diaper change hands-free, and the required paperwork is generated from those same records.";
+  "Case study: designing a voice-controlled app for home-based childcare providers, so they can log a nap, a meal, or a diaper change hands-free, and the required paperwork is generated from those same records. Plus the 2026 redesign: one design system across provider, family, and kiosk views, in English and Spanish, light and dark, on desktop and phone.";
 
 
 const proof = [
@@ -26,6 +28,7 @@ const proof = [
   { label: 'Engineering', items: ['21-module design-system helper layer', '21 ViewComponents, 9 namespaces', 'HTMX + 74 Alpine islands', 'Rails 7.1 domain, 51 tables', 'Deterministic voice parser'] },
   { label: 'Platform', items: ['Picovoice Porcupine (on-device)', 'Web Speech API', 'OpenAI phonetic aliases', 'Pusher real-time', 'Stripe + association billing'] },
   { label: 'Contribution', items: ['Lead front-end on a 3-dev team', '~1,100 of 1,939 commits', 'English + Spanish at parity', 'Shipped as a paid product', 'Sold direct and via associations'] },
+  { label: 'Redesign · 2026', items: ['Contrast-checked pastel tokens, light + dark', 'One icon set, one control vocabulary', 'Heuristic audit of 119 page captures', 'Provider, family, and kiosk views', 'Phone layouts at 390px'] },
 ];
 
 
@@ -210,17 +213,100 @@ const flows = [
 ];
 
 // Screenshots of the shipped app, captured from the seeded demo account at
-// 1440×900 @2x in light mode. Captions say only what is on screen.
+// 1440×900 @2x in light mode, recaptured 2026-11-02 after the feedback round.
+// Captions say only what is on screen.
 const appShots = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/projects/logatot/app-*.png',
+  '../../assets/projects/logatot/app/app-*.png',
   { eager: true },
 );
-const app = (slug: string) => appShots[`../../assets/projects/logatot/app-${slug}.png`].default;
+const app = (slug: string) => appShots[`../../assets/projects/logatot/app/app-${slug}.png`].default;
 
 // Screens and flows are placed beside the argument they support rather than
 // collected into one gallery, so these look them up by slug at the point of use.
 const screen = (slug: string) => keyScreens.find((s) => s.slug === slug)!;
 const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slug === s)!);
+
+// ── 2026 redesign ────────────────────────────────────────────────────────────
+// Captured from the seeded demo account on 2026-11-03 with headless Chrome:
+// desktop 1440×900 @2x, phone 390×844 @2x, kiosk 1180×820 @2x. Provider =
+// provider@example.com, family = a seeded parent signed in by email link.
+// Day views are set to Oct 30, the last full day in the seed data. Spanish
+// captures switch the user's language setting, which is how the app chooses.
+const redesignShots = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/projects/logatot/redesign/*.png',
+  { eager: true },
+);
+const rd = (slug: string) => redesignShots[`../../assets/projects/logatot/redesign/${slug}.png`].default;
+
+// What the front-end audit found before any screen was touched.
+// Source: log_a_tot tasks/heuristics-audit.md (2026-11-03).
+const systemAudit = [
+  { value: '0', label: 'forms guarded against double submits', note: 'Out of about fifty. A slow connection and a second tap could save the same record twice.' },
+  { value: '4', label: 'different ways to delete', note: 'htmx requests, Rails buttons, Alpine fetch calls, and inline form handlers, each behaving a little differently.' },
+  { value: '14', label: 'index pages with hand-built headers', note: 'Instead of the shared page header, so titles, actions, and spacing drifted from page to page.' },
+  { value: 'None', label: 'of the confirm prompts worked', note: 'Turbo and rails-ujs weren’t loaded, so every “Are you sure?” was skipped. “Cancel my account” deleted the account on the first click.' },
+];
+
+// The decisions that shaped the new look. Each is a rule the whole app follows,
+// written down in the project's lessons file so later screens keep to it.
+const redesignDecisions = [
+  { icon: 'ph:palette', title: 'Pastels that pass contrast', body: 'Each module has its own soft hue, generated with a script that checks WCAG AA contrast in light and dark mode. Text on a colored fill is always a dark ink of that hue, never white.' },
+  { icon: 'ph:cursor-click', title: 'Buttons, tabs, and filters look different', body: 'Actions are filled pills. Navigation is a segmented control. Filters are checkbox chips. Before, all three were similar rounded buttons, so it wasn’t clear which one did what.' },
+  { icon: 'ph:stack', title: 'One raised surface per page', body: 'The thing you came to the page for sits on a white card with a soft shadow. Filters, forms, and supporting details sit in recessed panels. Grouping comes from fills and spacing, not borders.' },
+  { icon: 'ph:shapes', title: 'Never color alone', body: 'Every color-coded category also has an icon or a label. The menu calendar’s meal colors got meal icons and a written legend after I caught that the first version relied on color.' },
+  { icon: 'ph:cube', title: 'The logo’s blocks do real work', body: 'The three toy blocks from the logo are the loading state (they drop and stack), the empty state (the top block is missing), and the error pages (the top block teeters).' },
+  { icon: 'ph:rows', title: 'A Voiceboard that fits on one screen', body: 'A new compact view shows one tile per child with a chip for each kind of moment. On a full day it took the page from 3,849 to 1,386 pixels tall, and the choice is remembered.' },
+];
+
+// Who sees what. Derived from the app's role checks (User#host?,
+// #admin_menu_access?, #caregiver?) and confirmed by signing in as each.
+const roles = [
+  { icon: 'ph:lifebuoy', name: 'Logatot staff', access: 'Everything a provider sees, plus the support list of every account, signing in as an account to help, and editing the blog.', signIn: 'Password' },
+  { icon: 'ph:user-focus', name: 'Provider and employees', access: 'The full app: Voiceboard, children, activity log, meals, calendar, chat, documents, expenses, photos, reports, and help.', signIn: 'Password' },
+  { icon: 'ph:users', name: 'Families', access: 'Their own children only. A family channel with the day’s timeline, child details, authorized pickups, and a message box. Any staff page redirects back to it.', signIn: 'Email link' },
+  { icon: 'ph:identification-badge', name: 'Authorized pickups', access: 'No account. A four-digit PIN at the kiosk shows only the children that person is allowed to check in or out, then asks for a signature.', signIn: 'Kiosk PIN' },
+];
+
+// Nielsen heuristics, scored 0–10 before the fixes. Source: tasks/heuristics-audit.md
+// (2026-11-03). The "fix" column lists changes that are in the redesign branch;
+// a re-score has not been done yet, so no "after" number is claimed here.
+const heuristics = [
+  { n: 1, name: 'Visibility of system status', before: 5, fix: 'Every form shows a busy state while saving. A failed background save shows a message instead of failing silently.' },
+  { n: 2, name: 'Match with the real world', before: 6, fix: '“Logged Events”, which opened on a tab called “Failed”, is now the Activity log, with tabs for Needs review, Logged, and Processing.' },
+  { n: 3, name: 'User control and freedom', before: 5, fix: 'Signing in lands on the Voiceboard instead of a dead-end “Switchboard” page. Deleted events have a Recently deleted tab and can be restored.' },
+  { n: 4, name: 'Consistency and standards', before: 6, fix: 'One confirm dialog for every destructive action, and the shared page header on every index page.' },
+  { n: 5, name: 'Error prevention', before: 3, fix: '“Cancel my account” asks first. Every form is guarded against a double submit.' },
+  { n: 6, name: 'Recognition over recall', before: 6, fix: 'Reports open with every active child selected instead of an empty result. The menu calendar’s warning icon has a written legend.' },
+  { n: 7, name: 'Flexibility and efficiency', before: 4, fix: 'Press / to search children, documents, and expenses from any page. CSV export on reports, and bulk actions on documents.' },
+  { n: 8, name: 'Aesthetic and minimalist', before: 7, fix: 'One raised surface per page, the compact Voiceboard, and recessed filters.' },
+  { n: 9, name: 'Recovering from errors', before: 3, fix: 'Errors appear next to the field that caused them and are announced to screen readers. A sidebar page that crashed now loads.' },
+  { n: 10, name: 'Help and documentation', before: 4, fix: 'An empty Voiceboard teaches the voice commands with real examples. Help moved into the sidebar.' },
+];
+
+// The phone set. Captions describe what is on screen.
+const phones = [
+  { slug: 'phone-provider-voiceboard', title: 'Voiceboard', note: 'Date, counts, and children stack in one column.', alt: 'The Voiceboard on a phone: the Ready to listen panel with the example “Logatot, Ava woke up,” a date control for Friday, October 30 with a Today button, count pills for 0 here, 12 expected, 11 picked up, and 1 absent, then the Children heading with the Compact and Detailed switch, an Add event button, and Ava Johnson’s tile.' },
+  { slug: 'phone-provider-voiceboard-dark', title: 'Voiceboard, dark', note: 'The same screen with the dark theme on.', alt: 'The same phone Voiceboard in dark mode: navy surfaces, light text, and the same counts and child tile.' },
+  { slug: 'es-phone-provider-voiceboard', title: 'Voiceboard, Spanish', note: 'Longer Spanish labels wrap without breaking the layout.', alt: 'The phone Voiceboard in Spanish: Lista para escuchar, Prueba a decir “Logatot, Ava se despertó,” Vie, Oct 30, Hoy, counts reading 0 presentes, 12 esperados, 11 recogidos, 1 ausentes, and the Niños heading with Compacto and Detallado.' },
+  { slug: 'phone-provider-nav', title: 'Provider menu', note: 'Twelve destinations in three groups.', alt: 'The provider’s navigation drawer on a phone: Voiceboard highlighted, Children, Activity log, Meals, a Modules group with Calendar, Chat, Documents, and Expenses, and a Resources group with Photo gallery, Reports, Video learning library, and Help.' },
+  { slug: 'phone-parent-nav', title: 'Family menu', note: 'A parent sees three links and the dark mode switch.', alt: 'A parent’s navigation drawer on a phone: Little Acorns Home Daycare, then only My children, Chat, Reports, and a Dark mode switch.' },
+  { slug: 'phone-provider-child', title: 'Child profile', note: 'Health details become full-width tiles.', alt: 'Liam Carter’s profile on a phone: a large photo, his name, pronoun, birth date and age, an Active badge, Archive child and Edit buttons, then Health tiles for allergies, medications, and diapers.' },
+  { slug: 'phone-provider-repair', title: 'Needs review', note: 'The misheard sentence first, then the fields to fix it.', alt: 'A failed voice entry on a phone: Name not heard and Event not recognized tags, the time, the quote “Log a diaper change for, um, the little one in the blue shirt,” a hint to tap the word that was the child’s name, and Child and What happened selects.' },
+  { slug: 'phone-provider-menu-calendar', title: 'Menu calendar', note: 'The month grid becomes a list by day and meal.', alt: 'The menu calendar on a phone: Month and Week controls, a legend item for a missing required food component, then Sunday the 1st and Monday the 2nd as lists of breakfast, morning snack, lunch, and dinner, with a warning icon on two breakfasts.' },
+  { slug: 'phone-parent-dashboard', title: 'Family channel', note: 'The provider’s welcome note, then the child’s day.', alt: 'The family channel on a phone: a Show filters button, the provider’s thank-you note, and October 30th activities for Liam Carter with a date filter and a timeline starting with Check-out and Activity.' },
+  { slug: 'phone-public-home', title: 'Home', note: 'The hero plays a live voice demo under the headline.', alt: 'The Logatot home page on a phone: the headline “Child Care’s Only Voice-Controlled Assistant,” Register and Request a demo buttons, and a live preview of the listening panel above Ava Johnson’s card of the day’s moments.' },
+  { slug: 'phone-public-home-es', title: 'Home, Spanish', note: 'The same page with the ES switch.', alt: 'The Spanish home page on a phone: “El único asistente de cuidado infantil controlado por voz,” Regístrate and Solicita una demostración buttons, and the listening panel reading Lista para escuchar.' },
+  { slug: 'phone-public-sign-in', title: 'Provider login', note: 'Families get their own link at the bottom.', alt: 'The provider login on a phone: email and password fields, Remember me, a Login button, Register and Forgot your password links, and a “Family member? Family login” button.' },
+];
+
+// What the redesign left open. Each was seen in the captures for this page
+// or is recorded in the project's task notes.
+const redesignEdges = [
+  { icon: 'ph:house-line', title: 'The family channel is behind', body: 'It got the new colors and fonts but not the new layout, so it still uses bordered cards. In dark mode, the provider’s welcome note is close to unreadable. It is the next page to redesign.' },
+  { icon: 'ph:arrows-clockwise', title: 'Family menu links loop back', body: 'A parent’s menu offers My children, Chat, and Reports, but each of those pages is staff-only and redirects to the family channel. The links should either go somewhere useful or not be there.' },
+  { icon: 'ph:translate', title: 'Spanish isn’t complete', body: 'The Spanish files are missing 67 of the 2,313 English entries. The home page’s demo cards also stay in English on the Spanish site, so a Spanish speaker sees “Ava played outside on the climber.”' },
+  { icon: 'ph:chart-line-up', title: 'No re-score yet', body: 'The fixes for every heuristic are in, but I haven’t scored the app again. Until I do, the 4.9 is the only number I can stand behind.' },
+];
 
 // The TLDR digest. "Alternatives" and "Decision" restate the AI-in-the-loop
 // call already argued in the #pipeline step; "Reflection" restates the edges
@@ -247,7 +333,7 @@ const tldr = {
 
   <ProjectHero project="logatot" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#research', label: 'Research' }, { href: '#failure', label: 'Interaction design' }, { href: '#outcomes', label: 'Results' }, { href: '#pipeline', label: 'Engineering' }, { href: '#edges', label: 'What I’d improve' }]} />
+  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#research', label: 'Research' }, { href: '#failure', label: 'Interaction design' }, { href: '#outcomes', label: 'Results' }, { href: '#pipeline', label: 'Engineering' }, { href: '#redesign', label: '2026 redesign' }, { href: '#roles', label: 'Provider vs. family' }, { href: '#spanish', label: 'Spanish' }, { href: '#dark-mode', label: 'Dark mode' }, { href: '#heuristics', label: 'Heuristic audit' }, { href: '#mobile', label: 'Mobile' }, { href: '#public-site', label: 'Public site' }, { href: '#edges', label: 'What I’d improve' }]} />
 
   <Tldr
     problem={tldr.problem}
@@ -262,7 +348,7 @@ const tldr = {
   <Section tone="paper" padding="tight" aria-label="Scope and results" class="project-scope">
     <Container width="content">
       <p class="mono-label mb-8">Scope and results</p>
-      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <dl class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {proof.map((group) => (
           <div class="pt-4">
             <dt class="mono-label mb-3">{group.label}</dt>
@@ -480,7 +566,7 @@ const tldr = {
           title="Ready to listen"
           caption="The listening panel with an example phrase, and the day’s counts of children here, expected, picked up, and absent."
           src={app('voiceboard')}
-          alt="The top of the Logatot Voiceboard: a Ready to listen panel with a microphone, the prompt “Say Logatot to record a moment,” the example “Logatot, Ava just checked in,” counts reading 11 here, 0 expected, 0 picked up, and 1 absent, and a date picker set to Sunday, November 1."
+          alt="The top of the Logatot Voiceboard: a Ready to listen panel with a microphone, the prompt “Say Logatot to record a moment,” the example “Logatot, Ava just checked in,” counts reading 11 here, 0 expected, 0 picked up, and 1 absent, and a date picker set to Sunday, November 1. Below, the Children heading with a Compact and Detailed switch, and the first rows of compact child tiles."
         />
         <Plate
           size="half"
@@ -552,7 +638,7 @@ const tldr = {
         title="Check-in kiosk in the app"
         caption="Once the provider has signed out, the tablet shows only the daycare’s name and a PIN field."
         src={app('kiosk')}
-        alt="The Logatot check-in kiosk: a dark full-screen card with the Logatot logo, the heading Check In/Out, the prompt “Enter your PIN for Little Acorns Home Daycare,” and a large PIN field. There is no navigation."
+        alt="The Logatot check-in kiosk: a single white card on a plain background with the Logatot logo, the heading Check In/Out, the prompt “Enter your PIN for Little Acorns Home Daycare,” and a large PIN field. There is no navigation."
       />
     </Container>
 
@@ -705,9 +791,9 @@ const tldr = {
         <Plate
           size="half"
           title="Menu calendar"
-          caption="The month’s planned meals and snacks, with tabs for saved meals and a shopping list."
+          caption="The month’s planned meals and snacks as one-line chips in meal-time order. A red warning marks a meal that doesn’t meet CACFP rules."
           src={app('menu-calendar')}
-          alt="The Logatot menu calendar for November 2026: a month grid where each day lists planned meals and snacks, such as toast and bananas for breakfast, apples and cheese for a snack, and chicken and rice for lunch. Tabs above read My Meals, Menu Calendar, and Shopping List."
+          alt="The Logatot menu calendar for November 2026: one month grid where each day lists one-line meal chips in meal-time order, such as toast and bananas, apples and cheese, turkey wraps, and pasta and meatballs, each with a meal-type icon. A legend shows breakfast, snack, lunch, and dinner icons, repeated snacks show ×2, today is tinted, and breakfast chips carry red warning triangles. Tabs above read My Meals, Menu Calendar, and Shopping List."
         />
         <Plate
           size="half"
@@ -739,6 +825,19 @@ const tldr = {
       </div>
     </Container>
   </Section>
+
+  <section id="feedback" class="surface-denim scroll-mt-24">
+    <Container width="content">
+      <Heading level={2} visual="h2" tone="paper" class="mb-3">What users asked us to fix after launch</Heading>
+      <p class="measure mb-6 text-lg leading-relaxed">
+        A follow-up questionnaire led to a readable menu calendar, one white card per page,
+        a compact voiceboard, and shared components that are the only option.
+      </p>
+      <a href="/projects/logatot/feedback/" class="editorial-link editorial-link--light">
+        Read the follow-up case study <span aria-hidden="true" data-link-arrow="right">→</span>
+      </a>
+    </Container>
+  </section>
 
   <Section tone="paper" padding="default" id="pipeline" class="scroll-mt-24">
     <Container width="content">
@@ -850,6 +949,523 @@ const tldr = {
     </Container>
   </Section>
 
+  <Section tone="paper" padding="default" id="redesign" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <p class="mono-label mb-4">2026 · Redesign</p>
+          <Heading level={2} visual="display-md" tone="ink">Redesigning the app it became</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              The voice workflow held up. The screens around it didn’t. Features had
+              been added one at a time by three developers, and each solved the same
+              problems a little differently: two icon sets plus a pile of one-off SVGs,
+              colors picked page by page, and controls that looked alike but did
+              different things.
+            </p>
+            <p>
+              So I started with an audit of the front end instead of a new mockup. The
+              goal was an app that feels calm and friendly to a provider at the end of a
+              long day, kept the brand and every route, and worked for every kind of
+              user: providers and staff, families, people picking up a child at the
+              kiosk, and the Logatot team supporting them.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">What the audit found</p>
+            <dl class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
+              {systemAudit.map((a) => (
+                <div class="border-t border-line pt-4">
+                  <dt class="flex items-baseline gap-3">
+                    <span class="font-display text-3xl tracking-tight text-ink">{a.value}</span>
+                    <span class="font-medium text-ink">{a.label}</span>
+                  </dt>
+                  <dd class="mt-2 text-sm text-ink-muted leading-relaxed">{a.note}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div class="mt-12 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              I fixed things at the source first: one icon set of 154 icons behind a
+              single helper, a pastel color system generated with contrast checks for
+              light and dark mode, and shared helpers for buttons, forms, surfaces,
+              tables, and filters. Most screens improved before I opened them. Then I
+              rebuilt the screens one at a time, starting with the ones providers use
+              most.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">Design decisions</p>
+            <ul class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
+              {redesignDecisions.map((d) => (
+                <li class="pt-5">
+                  <Icon name={d.icon} size={20} class="mb-3 text-ink-muted" />
+                  <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{d.title}</Heading>
+                  <Text size="sm" tone="muted">{d.body}</Text>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="Voiceboard"
+        caption="The listening panel is the one raised card at the top. Below it, the day’s counts, a date control, and one compact tile per child with a colored chip for each kind of moment logged."
+        src={rd('provider-voiceboard')}
+        alt="The redesigned Voiceboard for Friday, October 30, signed in as the provider: a sidebar with Voiceboard, Children, Activity log, and Meals, then Modules and Resources groups and a Dark mode switch. The main area has a Ready to listen panel with a microphone and the example “Logatot, Ava woke up,” count pills for 0 here, 12 expected, 11 picked up, and 1 absent, a date control, and a Children heading with a Compact and Detailed switch above a three-column grid of child tiles, each with a photo, the pickup time, and colored moment chips."
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="Activity log: needs review"
+        caption="The repair screen from the original build, renamed and redrawn. Each failed entry is split in two: what Logatot heard on a warm yellow panel, and the fields to fix it beside it."
+        src={rd('provider-repair')}
+        alt="The Activity log with the Needs review tab selected, showing 2, beside Logged 819, Processing, and Recently deleted. Two failed entries, each with Name not heard and Event not recognized tags and a time, a large quote such as “Log a diaper change for, um, the little one in the blue shirt,” a hint to tap the word that was the child’s name, and on the right Child and What happened selects, an Edit transcript or time link, a Delete link, and a Save event button."
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Children"
+          caption="The roster is the focus. Quick add sits beside it in a recessed panel, so adding a child never competes with finding one."
+          src={rd('provider-children')}
+          alt="The Children page: Active, Inactive, All, and Archived segments, a search field, and a two-column grid of child cards with photos, Active status, and labeled chips such as Diapers, Meds, and Diet. On the right, a recessed Add a child panel with first name, last name, and date of birth fields, an Add child button, and a Use the full form link."
+        />
+        <Plate
+          size="half"
+          title="Reports"
+          caption="Reports grouped by who they’re about, each with an icon tile in its module color and a one-line description."
+          src={rd('provider-reports')}
+          alt="The Reports page: Child reports for Allergies, Attendance, Daily activity, and Medications, then Provider and facility reports for Fire drills, Provider time, Timeclock, and Shelter in place, each a card with a tinted icon tile, a title, and a short description."
+        />
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="Menu calendar"
+        caption="One line per meal in meal-time order, with a meal icon and a written legend. The warning triangle marks a meal missing a required food component, and only those meals carry one."
+        src={rd('provider-menu-calendar')}
+        alt="The menu calendar for November 2026 in month view: My meals, Menu calendar, and Shopping list tabs, Today and month controls, a legend for Breakfast, Snack, Lunch, Dinner, and Missing a required food component, and a calendar grid where each day lists meals such as Toast and Bananas, Apples and Cheese ×2, and Pasta and Meatballs, with warning triangles on some breakfasts and today’s date highlighted."
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Expenses"
+          caption="Totals in a recessed strip, filters as checkbox chips, and the table as the one raised surface, with typed columns for date, place, category, amount, and mileage."
+          src={rd('provider-expenses')}
+          alt="The Expenses page: All expenses, Expense locations, and Expense categories segments, a recessed strip with This month $142.37, This year $600.40, and Receipts 8, a Find expenses panel with a search field and date chips, then a table of expenses with checkboxes, dates, places such as Costco and Target, category badges, amounts, mileage, and edit and delete buttons."
+        />
+        <Plate
+          size="half"
+          title="Account"
+          caption="The daycare’s details on the raised card. Employees, reminder settings, billing, and sharing sit in recessed panels below."
+          src={rd('provider-account')}
+          alt="The Account page for Little Acorns Home Daycare: address, time zone, phone, and billing email on a raised card with an Edit button, then recessed panels for Employees listing Heidi Parker and Marcus Reed, Alerts and notifications for diaper changes every 2 hours and health checks, Billing details marked Active with a Manage billing button, and a Share panel with a referral link and Copy button."
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="roles" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">What a provider sees, and what a family sees</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Logatot has four kinds of people with very different needs, and the
+              redesign had to work for all of them. The provider and their staff run
+              the app all day. A family checks in to see how their child’s day
+              went. A grandparent picking up a child uses a shared tablet
+              for thirty seconds. And the Logatot team needs to step into any account
+              to help.
+            </p>
+            <p>
+              Staff, families, and pickups each sign in a different way and see a
+              different app, built from the same parts. Families never see another family’s child, and a parent who
+              types a staff URL is sent back to their own page.
+            </p>
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">Who sees what</p>
+            <ul class="border-t border-line">
+              {roles.map((r) => (
+                <li class="flex gap-4 border-b border-line py-4">
+                  <Icon name={r.icon} size={22} class="mt-0.5 shrink-0 text-ink-muted" />
+                  <div class="min-w-0 flex-1">
+                    <p class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <span class="font-medium text-ink leading-snug">{r.name}</span>
+                      <span class="font-mono text-xs text-ink-muted">Sign-in: {r.signIn}</span>
+                    </p>
+                    <p class="mt-1 text-sm text-ink-muted leading-relaxed">{r.access}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Provider: a child’s profile"
+          caption="The provider sees the whole record: health, guardians, attendance, billing, and pickups, with Archive and Edit."
+          src={rd('provider-child')}
+          alt="Liam Carter’s profile signed in as the provider: the full sidebar, a raised header card with his photo, name, pronoun, birth date, age, an Active badge, Archive child and Edit buttons, and Health tiles for allergies, medications, diapers, and diet restrictions. Below, recessed panels list Legal guardians Megan and Ryan Carter with an Add legal guardian button, a Monday-to-Friday attendance strip, and Billing of $275.00 every two weeks."
+        />
+        <Plate
+          size="half"
+          title="Family: the same child"
+          caption="Liam’s mother sees no sidebar of tools: the provider’s note, Liam’s day as a timeline, his details, his pickups, and a way to send a message."
+          src={rd('parent-dashboard')}
+          alt="The family channel signed in as Megan Carter: a top bar with the daycare name and her name, a Family channel heading, a panel greeting her with Liam selected, the provider’s thank-you note, then October 30th activities for Liam Carter as a table of times and activities from Lunch to Check-out, and a Child details panel with tuition, allergies, medications, and Authorized pickups listing Tyler Carter."
+        />
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
+        <p>
+          The kiosk is the strictest view. When the provider hands over the tablet, the
+          app signs them out completely and keeps only the daycare’s ID. A parent or
+          authorized pickup types a four-digit PIN, and the screen lists only the
+          children that PIN is allowed to check in or out, followed by a signature pad.
+        </p>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Kiosk: enter a PIN"
+          caption="No navigation and nothing to tap except the PIN field."
+          src={rd('kiosk-pin')}
+          alt="The check-in kiosk on a tablet: a single white card with the Logatot logo, the heading Check In/Out, “Enter your PIN for Little Acorns Home Daycare,” and a large PIN field."
+        />
+        <Plate
+          size="half"
+          title="Kiosk: after the PIN"
+          caption="Only this person’s children appear, then a signature before Continue."
+          src={rd('kiosk-children')}
+          alt="The kiosk after the PIN 0317 is entered: Liam Carter with a Check In checkbox, a signature pad labeled Signature for Megan Carter, and Clear Signature and Continue buttons."
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="spanish" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">In Spanish</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Spanish was a requirement from the first interviews, so every new label,
+              hint, and error in the redesign was written in English and Spanish at the
+              same time. The app uses each person’s language setting, and the public
+              site has an EN/ES switch in its header.
+            </p>
+            <p>
+              The redesign also caught a few places where Spanish had quietly broken,
+              such as day names that were still in English. Spanish labels are often
+              longer, so layouts were checked in Spanish at phone width too.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="Tablero de voz"
+        caption="The Voiceboard with the provider’s language set to Spanish: the menu, the example phrase, the counts, and the date all change."
+        src={rd('es-provider-voiceboard')}
+        alt="The Voiceboard in Spanish: a sidebar with Tablero de voz, Niños, Registro de actividades, and Comidas, the panel Lista para escuchar with “Di ‘Logatot’ para registrar un momento” and the example “Logatot, Ava se despertó,” counts reading 0 presentes, 12 esperados, 11 recogidos, and 1 ausentes, the date Viernes, Octubre 30, and the Niños heading with Compacto and Detallado above child tiles reading “Recogido a las 4:55 pm.”"
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Registro de actividades"
+          caption="The repair screen in Spanish. The tags, hint, and buttons are translated; the quote stays exactly as it was heard."
+          src={rd('es-provider-repair')}
+          alt="The Needs review screen in Spanish: tabs Por revisar 2, Registrados 819, Procesando, and Eliminados recientemente, entries tagged No se escuchó el nombre and Evento no reconocido, the hint “Toque la palabra que era el nombre del niño,” Niño and Tipo de evento selects, and Eliminar and Guardar evento buttons."
+        />
+        <Plate
+          size="half"
+          title="El canal familiar"
+          caption="A Spanish-speaking parent sees the family channel, the provider’s note, and dates in Spanish."
+          src={rd('es-parent-dashboard')}
+          alt="The family channel in Spanish: El canal familiar, an Ocultar filtros control, the provider’s note beginning “Hola! Gracias por depositar tu confianza en mí,” activities dated 30 de octubre de 2026 with types such as Salida, Actividad, Merienda, Se despertó, and Se durmió, and a Detalles del niño panel with Recogidas autorizadas."
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="dark-mode" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Dark mode</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              Providers log naps in a darkened room, and many use the app before
+              sunrise and after the last pickup. Dark mode follows the device setting
+              until someone flips the switch at the bottom of the sidebar, and then it
+              remembers their choice.
+            </p>
+            <p>
+              Every color token was generated in a light and a dark version and checked
+              for contrast in both. The surface tiers needed their own tuning: the
+              first dark version of a recessed panel was so close to a raised card that
+              the two looked the same, so recessed panels got darker instead of
+              lighter. Printed reports always come out in black on white.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <Plate
+        title="Voiceboard, dark"
+        caption="The same day as the light Voiceboard above. Module hues keep their meaning on navy surfaces."
+        src={rd('provider-voiceboard-dark')}
+        alt="The Voiceboard for October 30 in dark mode: a near-black sidebar with the Dark mode switch turned on, a navy Ready to listen panel, dark count pills, and a grid of dark child tiles with photos, pickup times, and colored moment chips."
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Child profile, dark"
+          caption="The raised header card and recessed panels stay distinct in the dark."
+          src={rd('provider-child-dark')}
+          alt="Liam Carter’s profile in dark mode: a dark raised header card with his photo, name, Active badge, and Archive child and Edit buttons, health tiles, and darker recessed panels for Legal guardians, Attendance with checked weekdays, and Billing."
+        />
+        <Plate
+          size="half"
+          title="Menu calendar, dark"
+          caption="Meal rows keep their icon and tint, and warnings still read at a glance."
+          src={rd('provider-menu-calendar-dark')}
+          alt="The menu calendar in dark mode: a dark month grid with meal rows such as Toast and Bananas and Apples and Cheese, meal icons, ×2 counts, warning triangles on breakfasts, and the legend above."
+        />
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Not found, dark"
+          caption="The error pages are static files outside the app, so they carry their own light and dark styles."
+          src={rd('public-404-dark')}
+          alt="The 404 page in dark mode: a dark card with the three toy blocks, the top one tilted, the heading “We can’t find that page,” the line “The link may be old, or the page may have moved,” and a Go to home button."
+        />
+        <Plate
+          size="half"
+          title="Family channel, dark"
+          caption="Where dark mode still falls short: the provider’s welcome note is nearly unreadable. See what’s still open below."
+          src={rd('parent-dashboard-dark')}
+          alt="The family channel in dark mode: dark panels and a readable activity table, but the provider’s welcome note at the top shows very low-contrast text on its dark background."
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="heuristics" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">Scoring the app against Nielsen’s heuristics</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              A consistent look isn’t the same as a usable app, so I scored Logatot
+              against Nielsen’s ten usability heuristics, from 0 to 10. I captured
+              every public and signed-in page, 119 in all, at desktop width and the
+              core pages at phone width, and tied every finding to a file and line.
+            </p>
+            <p>
+              The lowest scores weren’t about looks. Error prevention and error
+              recovery both scored 3, mostly because of one hidden cause: the app
+              loads htmx instead of Turbo, so every Rails confirm prompt and
+              double-submit guard silently did nothing. Fixing that once, in a shared
+              layer, fixed it on every page.
+            </p>
+          </div>
+
+          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+            <Metric value="4.9" label="average score before" caption="across ten heuristics and 119 page captures" />
+            <Metric value="3" label="lowest scores" caption="error prevention and recovering from errors" />
+          </div>
+
+          <div class="mt-12">
+            <p class="mono-label mb-2">By heuristic</p>
+            <p class="mb-6 text-sm text-ink-muted">Score before the fixes, and what changed.</p>
+            <ol class="border-t border-line">
+              {heuristics.map((h) => (
+                <li class="border-b border-line py-4">
+                  <div class="flex items-baseline gap-4">
+                    <span class="w-8 shrink-0 font-mono text-xs text-ink-muted">H{h.n}</span>
+                    <span class="min-w-0 flex-1 font-medium text-ink">{h.name}</span>
+                    <span class="font-mono text-sm text-ink whitespace-nowrap" aria-label={`scored ${h.before} out of 10 before`}>
+                      {h.before}<span class="text-ink-muted">/10</span>
+                    </span>
+                  </div>
+                  <p class="mt-1 pl-12 text-sm text-ink-muted leading-relaxed">{h.fix}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="content" class="mt-16">
+      <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
+        <p>
+          One finding wasn’t about usability at all. Leftover scaffold pages from
+          early development could show data across accounts. Those routes were removed
+          first, before any usability work, and a test now visits every page to make
+          sure none of them returns a server error.
+        </p>
+        <p>
+          The fixes are in, but I haven’t re-scored the app yet, so this page only
+          shows the starting scores. The re-score is the next step.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="mobile" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">On a phone</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              A provider’s phone is usually the device in their hand, and families read
+              their child’s day on a phone at pickup. So every redesigned screen was
+              checked at 390 pixels wide in light and dark mode, and in Spanish where
+              the labels run longest.
+            </p>
+            <p>
+              On a phone, layouts change shape instead of shrinking. The menu calendar
+              becomes a list by day and meal, data tables turn into stacked cards, and
+              the sidebar becomes a drawer. The two drawers below show the role
+              difference most plainly: a provider has twelve destinations, and a
+              parent has three.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+        {phones.map((p) => (
+          <li>
+            <Plate size="half" title={p.title} caption={p.note} src={rd(p.slug)} alt={p.alt} />
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="paper" padding="default" id="public-site" class="scroll-mt-24">
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone="ink">The public site</Heading>
+        </div>
+        <div class="case-layout__body">
+          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              The marketing homepage doesn’t use screenshots of the app. The listening
+              panel, a child’s day, the Voiceboard tiles, a child profile, and the report
+              list are the app’s own components, rendered with demo data. When the product
+              changes, the site changes with it, so it can’t go out of date.
+            </p>
+            <p>
+              The hero plays a short voice demo when the page loads: the listening
+              panel warms up, “Logatot, Ava had lunch” types itself out, and the moment
+              slides into Ava’s card. Visitors can replay other phrases, a screen
+              reader hears the result announced, and with reduced motion turned on the
+              demo shows the result without animating.
+            </p>
+            <p>
+              Signing in splits by role on purpose. Providers and staff use a password.
+              Families, who use the app about a dozen times a year, get a link by email
+              from the “Family login” button below the form.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <ScrollShot
+        src="/images/projects/logatot/public-home.webp"
+        alt="The full Logatot homepage: a header with an EN/ES switch, the hero “Child Care’s Only Voice-Controlled Assistant” beside a live listening panel and Ava Johnson’s card of the day’s moments, Try it phrase chips, a Why Logatot section with four benefits, a Speak, record, comply section with live Voiceboard tiles, a Ready for anything section with Olivia Bennett’s profile, guardians, and pickups, a Simplified, effective management section with report cards, Pricing at $30 a month or $300 a year, testimonials, and a footer with a contact form."
+        label="Logatot homepage"
+        caption="Each product preview on the page is a live component with demo data, not an image."
+      />
+    </Container>
+
+    <Container width="wide" class="mt-16">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <Plate
+          size="half"
+          title="Página de inicio"
+          caption="The Spanish home page, through the EN/ES switch in the header."
+          src={rd('public-home-es')}
+          alt="The Logatot home page in Spanish: navigation reading Inicio, Sobre nosotros, Calendario, Aprender, Blog, and FAQs, the headline “El único asistente de cuidado infantil controlado por voz,” Regístrate and Solicita una demostración buttons, and the live listening panel reading Lista para escuchar."
+        />
+        <Plate
+          size="half"
+          title="Provider login"
+          caption="A password login for providers and staff, with the family email-link login one tap away."
+          src={rd('public-sign-in')}
+          alt="The Logatot login page: the toy-block mark, Provider login above a Login heading, email and password fields, Remember me, a Login button, Register and Forgot your password links, and a “Family member? Family login” button."
+        />
+      </div>
+    </Container>
+  </Section>
+
   <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
     <Container width="content">
       <Heading level={2} visual="h2" tone="ink" class="mb-3">Limitations</Heading>
@@ -860,6 +1476,17 @@ const tldr = {
       </Text>
       <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         {edges.map((e) => (
+          <li class="pt-5">
+            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
+            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
+            <Text size="sm" tone="muted">{e.body}</Text>
+          </li>
+        ))}
+      </ul>
+
+      <p class="mono-label mt-16 mb-6">Still open after the redesign</p>
+      <ul class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2">
+        {redesignEdges.map((e) => (
           <li class="pt-5">
             <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
             <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>

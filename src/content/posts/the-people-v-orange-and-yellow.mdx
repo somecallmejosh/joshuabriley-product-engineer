@@ -1,0 +1,108 @@
+---
+title: "The People v. Orange and Yellow"
+description: "Two of the brightest colors on the web stand trial for wearing white text on Buy Now buttons. A contrast checker testifies, and a warning banner wants its color back."
+date: 2026-11-03
+category: UI Court
+tags:
+  - Accessibility
+  - Color
+  - Design Systems
+readMinutes: 4
+---
+
+<p class="lede">All rise. UI Court is now in session, the Honorable Judge Patricia Semantics presiding. Today the court hears its first case with two defendants. They arrived together, they sat together, and the court could see both of them from across the room. It could not read a word either of them was wearing.</p>
+
+Orange and Yellow are charged as co-defendants. Between them they have been the primary call-to-action color on more landing pages than anyone could count. Each was found wearing a white "Buy now" label.
+
+## The charges
+
+The clerk read four counts into the record.
+
+1. **Hiding the label.** White text on a typical bright orange has a contrast ratio of about 2.3:1. On bright yellow, it's about 1.4:1. Body-size text needs 4.5:1. Large, bold text needs 3:1. Neither defendant clears either bar.
+2. **Hiding the button.** On a white page, a pale yellow button barely stands apart from its background. Visitors can't click what they can't find.
+3. **Impersonating a warning.** Most interfaces already use yellow and orange to mean "caution." When the most important button on the page wears the same color as the "Your session is about to expire" banner, people have to stop and work out which one it is.
+4. **Turning brown under questioning.** Every time a team darkens the defendants enough to pass contrast with white text, they stop looking like themselves. More on that below.
+
+Both defendants pleaded not guilty. Yellow asked whether it could be called "sunshine" for the record. The request was denied.
+
+## Opening statements
+
+**Defense:** My clients are warm. They're energetic. Everyone knows orange buttons convert.
+
+**Judge Semantics:** How does everyone know that?
+
+**Defense:** Someone at the company read a blog post about it in 2012.
+
+**Prosecution:** Your Honor, buttons convert when people can see them and understand them. Being bright is not the same as being clear.
+
+## The witnesses
+
+The prosecution called **a contrast checker**.
+
+**Prosecution:** You tested the "Get started" button on the defendant's homepage?
+
+**Contrast checker:** I did. White text, bright orange background. 2.3 to 1. I tested the yellow "Subscribe" button in the footer, too. 1.4 to 1.
+
+**Prosecution:** And what does 1.4 to 1 look like to a person?
+
+**Contrast checker:** Like a button that's thinking about having a label.
+
+Next, **a visitor reading her phone at a bus stop** testified. "It was sunny," she said. "I could see there was something yellow at the bottom of the screen. I assumed it was a sale banner. It turned out to be the only way to check out."
+
+The court reporter, a screen reader, noted for the record that it had read the button aloud without any trouble. "I don't see colors," it said. "I'm the only one in this room who had a good afternoon."
+
+The prosecution then called **the warning banner**, which has worn yellow for its entire career.
+
+**Warning banner:** I've been telling people "Your card expires soon" in this color for years. Now marketing puts it on "Start free trial." Last week a visitor ignored me because she thought I was an ad.
+
+**Prosecution:** And the red error message?
+
+**Warning banner:** Orange keeps borrowing her shade, too. She's filed her own complaint.
+
+## The darkening
+
+The defense tried to fix its clients during the trial. Counsel opened a color picker and dragged the orange darker, step by step, until white text passed 4.5:1.
+
+The court watched as the bright orange became a rust, then a burnt brick color. The yellow did worse. By the time white text passed on it, it had turned into a mustard brown that the prosecution described as "the color of a 1970s kitchen."
+
+**Defense:** That's not our brand color.
+
+**Prosecution:** No. That's the price of putting white text on it.
+
+The prosecution explained the problem for the jury. Yellow and orange are naturally light colors. Their brightness is what makes them yellow and orange. To make white text readable on them, you have to take that brightness away, and they turn brown when you do. Blue and purple don't have this problem, which is why they show up on so many buttons.
+
+The darkening caused a second problem. The button's hover state is usually a shade darker than its resting color. Darken the already-brown button, and the hover state is darker brown. The design team testified that it had never once been asked to make a button "more brown."
+
+## The expert witness
+
+The defense's best witness turned out to be one it hadn't planned to call: **dark text**.
+
+**Dark text:** Put me on orange and you get about 9 to 1. Put me on yellow and you get about 15 to 1. You can keep the bright colors exactly as they are.
+
+**Defense:** But dark text on yellow looks like a road sign.
+
+**Dark text:** A road sign is something people can read from a moving car. I'd consider that a compliment.
+
+On cross-examination, the prosecution asked whether the defendants also behave on dark backgrounds. Dark text admitted that they do. On a near-black page, a bright orange or yellow button stands out clearly and carries dark text well. "They're not bad colors," dark text said. "They just keep getting seated next to white."
+
+## The verdict
+
+On light pages, wearing white text: guilty on all four counts.
+
+On dark pages, or wearing dark text: acquitted. The court found that the defendants had been dressed by other people.
+
+## Sentencing
+
+Judge Semantics handed down the following sentence:
+
+- **Change the text, not the color.** Bright orange and yellow buttons carry dark text. If the brand guidelines say white, the brand guidelines need an update.
+- **Check the button against the page.** Test the button's background against the page behind it, not just the text against the button. A yellow button on a white page needs a border, a darker edge, or a different home.
+- **Keep warning colors for warnings.** If yellow and orange mean "caution" in your status messages, choose a different color for calls to action. Warnings only work when they look different from everything else.
+- **Test every state.** Check contrast for hover, focus, pressed, and disabled, not only the resting button. A pale disabled yellow and a pale enabled yellow are easy to mix up.
+- **Ship tokens as pairs.** The design system defines each button color together with the text color that passes on it, so nobody picks the background and then guesses the label.
+
+Yellow asked whether it could at least keep the highlighter job. The court allowed it, provided the text underneath stays dark.
+
+Court is adjourned. Orange and Yellow left together, both wearing dark text, and the bailiff, a focus ring, said it was the first time she'd been able to read their names.
+
+This case is part of the [UI Court series](/blog/#ui-court).

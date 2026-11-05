@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/', '/blog/design-system-rules-for-ai-agents/']) {
+for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/']) {
   test(`highlighted code preserves source, copy, and accessible layout: ${path}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addInitScript(() => {
@@ -42,9 +42,10 @@ for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/',
   });
 }
 
-test('project and article blocks share their theme and readable comment colors', async ({ page }) => {
+// No current post carries code, so the shared theme is checked against the style guide.
+test('project and style-guide blocks share their theme and readable comment colors', async ({ page }) => {
   const backgrounds: string[] = [];
-  for (const path of ['/projects/ivfcryo/', '/blog/design-system-rules-for-ai-agents/']) {
+  for (const path of ['/projects/ivfcryo/', '/style-guide/']) {
     await page.goto(path);
     const code = page.locator('#main pre.astro-code').first();
     await expect(code).toHaveClass(/github-dark/);

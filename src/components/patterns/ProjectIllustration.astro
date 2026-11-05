@@ -10,8 +10,8 @@ interface Props {
 const { project, class: className } = Astro.props;
 ---
 
-<!-- Styles live in illustration.css, shared with the tool, article and game drawings.
-     data-surface="light" keeps the accent navy inside dark sections. -->
+{/* Styles live in illustration.css, shared with the tool, article and game drawings.
+     data-surface="light" keeps the accent navy inside dark sections. */}
 <span class={cx('illustration', className)} data-surface="light">
 <span class="illustration-frame">
 <svg

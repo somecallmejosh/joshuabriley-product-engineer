@@ -39,6 +39,7 @@ if (form) {
   const showSuccess = () => {
     successAlert.hidden = false;
     successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    successAlert.focus({ preventScroll: true });
   };
 
   const showError = (reason: string) => {
@@ -98,12 +99,58 @@ if (form) {
 
   const networkErrorMessage = `Check your connection or email ${fallbackEmail} directly.`;
 
+  // Inline field errors: the same pattern the style guide documents. Each
+  // Field pre-renders a hidden error line; this fills and reveals it.
+  type Control = HTMLInputElement | HTMLTextAreaElement;
+  const controls = Array.from(form.querySelectorAll<Control>('input, textarea'));
+
+  const messageFor = (control: Control): string => {
+    const v = control.validity;
+    if (v.valid && (!control.required || control.value.trim())) return '';
+    switch (control.name) {
+      case 'first-name': return 'Enter your first name.';
+      case 'last-name': return 'Enter your last name.';
+      case 'email':
+        return control.value.trim() ? 'Enter a complete email address, like you@example.com.' : 'Enter your email address.';
+      case 'message': return 'Add a short message.';
+      default: return 'Check this field.';
+    }
+  };
+
+  const showFieldError = (control: Control, message: string) => {
+    const line = document.getElementById(`${control.id}-error`);
+    const text = line?.querySelector('[data-field-error-text]');
+    if (text) text.textContent = message;
+    if (line) line.hidden = !message;
+    if (message) control.setAttribute('aria-invalid', 'true');
+    else control.removeAttribute('aria-invalid');
+  };
+
+  /** Mark every invalid field and return the first, or null when all pass. */
+  const validateAll = (): Control | null => {
+    let first: Control | null = null;
+    for (const control of controls) {
+      const message = messageFor(control);
+      showFieldError(control, message);
+      if (message && !first) first = control;
+    }
+    return first;
+  };
+
+  // Once a field is flagged, re-check it as the visitor fixes it.
+  for (const control of controls) {
+    control.addEventListener('input', () => {
+      if (control.getAttribute('aria-invalid') === 'true') showFieldError(control, messageFor(control));
+    });
+  }
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     hideAlerts();
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+    const firstInvalid = validateAll();
+    if (firstInvalid) {
+      firstInvalid.focus();
       return;
     }
 

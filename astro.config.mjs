@@ -30,6 +30,11 @@ export default defineConfig({
     // Retired 2026-10-28 when the writing moved from guides to opinion pieces.
     '/blog/staff-level-ui-engineering-for-dummies': '/blog',
     '/blog/native-lit-or-stencil': '/blog',
+    // Archived to notes/old-posts/ in 2e0bd5e.
+    '/blog/future-proofing-front-end-dev-roles': '/blog',
+    '/blog/measuring-style-guide-adoption': '/blog',
+    '/blog/the-hidden-cost-of-component-inconsistency': '/blog',
+    '/blog/where-to-learn-modern-front-end': '/blog',
   },
   ...(isDev ? {} : { adapter: netlify() }),
   // Default (sharp) image service. The passthrough service was carried in at the

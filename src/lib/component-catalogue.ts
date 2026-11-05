@@ -393,17 +393,9 @@ export const componentCatalogue = [
     "href": "/privacy/"
   },
   {
-    "name": "ResourceList",
-    "path": "src/components/writing/ResourceList.astro",
-    "group": "writing",
-    "note": "Scannable article resources with clear links, optional descriptions, and responsive columns.",
-    "href": "/blog/where-to-learn-modern-front-end/"
-  },
-  {
     "name": "ArticleTable",
     "path": "src/components/writing/ArticleTable.astro",
     "group": "writing",
-    "note": "A labelled, keyboard-scrollable table region that preserves column headings.",
-    "href": "/blog/future-proofing-front-end-dev-roles/"
+    "note": "A labelled, keyboard-scrollable table region that preserves column headings. Renders any Markdown table in a post; no current post has one."
   }
 ] as const;

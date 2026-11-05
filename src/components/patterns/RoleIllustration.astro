@@ -21,8 +21,8 @@ const rowY = (i: number) => 92 + i * 32;
 const rows = layers.map((name, i) => ({ name, y: rowY(i), covered: !!span && i >= span[0] && i <= span[1] }));
 ---
 
-<!-- Decorative: the dictionary entry beside it carries the meaning. Styles live
-     in illustration.css; the on-ink variant blends into the footer's ink. -->
+{/* Decorative: the dictionary entry beside it carries the meaning. Styles live
+     in illustration.css; the on-ink variant blends into the footer's ink. */}
 <span class={cx('illustration illustration--on-ink', className)} aria-hidden="true">
 <span class="illustration-frame">
 <svg viewBox="0 0 480 360" fill="none" class={cx('illustration-drawing', `illustration-drawing--${role}`)}>
