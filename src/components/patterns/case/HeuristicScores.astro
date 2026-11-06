@@ -1,0 +1,47 @@
+---
+/**
+ * Nielsen's ten heuristics, scored 0–10, with the change that moved each one.
+ * `after` is optional: leave it out until a re-score has actually been done.
+ * `left` is what still keeps a heuristic from a 10.
+ */
+interface Row {
+  n: number;
+  name: string;
+  before: number;
+  after?: number;
+  fix: string;
+  left?: string;
+}
+interface Props {
+  items: Row[];
+  caption: string;
+}
+const { items, caption } = Astro.props;
+---
+<div class="mt-12">
+  <p class="mono-label mb-2">By heuristic</p>
+  <p class="mb-6 text-sm text-ink-muted">{caption}</p>
+  <ol class="border-t border-line">
+    {items.map((h) => (
+      <li class="flex items-baseline gap-x-4 border-b border-line py-4">
+        <span class="w-8 shrink-0 font-mono text-xs text-ink-muted">H{h.n}</span>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-baseline justify-between gap-x-4">
+            <span class="font-medium text-ink">{h.name}</span>
+            {h.after !== undefined ? (
+              <span class="font-mono text-sm text-ink whitespace-nowrap" aria-label={`from ${h.before} to ${h.after}`}>
+                <span class="text-ink-muted">{h.before}</span> → <strong class="font-semibold">{h.after}</strong>
+              </span>
+            ) : (
+              <span class="font-mono text-sm text-ink whitespace-nowrap" aria-label={`scored ${h.before} out of 10 before`}>
+                {h.before}<span class="text-ink-muted">/10</span>
+              </span>
+            )}
+          </div>
+          <span class="mt-1 block text-sm text-ink-muted leading-relaxed">{h.fix}</span>
+          {h.left && <span class="mt-1 block text-sm text-ink-muted leading-relaxed"><span class="text-ink">Still open:</span> {h.left}</span>}
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

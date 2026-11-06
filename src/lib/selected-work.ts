@@ -1,7 +1,7 @@
 /** Existing portfolio evidence; personal reference work stays explicitly labeled. */
 export const selectedWork = [
   {
-    name: 'IVFCRYO', href: '/projects/ivfcryo/', kind: 'Client work · Fertility logistics',
+    name: 'IVFCRYO', href: '/projects/ivfcryo/', kind: 'Client project · Fertility logistics',
     title: 'Getting five parties ready before a shipment moves.',
     summary: 'A shared workflow for patients and staff shipping fertility specimens between clinics. I owned design and front end, and partnered with engineers on the backend.',
     ownership: 'Product design and front end', evidence: 'Workflow modeling, readiness states, error recovery',
@@ -17,7 +17,7 @@ export const selectedWork = [
   {
     name: 'VMSpark', href: '/projects/vmspark/', kind: 'Client project · Healthcare staffing operations',
     title: 'Giving a working data pipeline an interface that looks like it works.',
-    summary: 'VMSpark’s pipeline was reliable, but the admin app around it looked unfinished. I audited about 350 templates, then redesigned the app shell and the screens operators use most, in four phases, without changing how the pipeline works.',
+    summary: 'VMSpark’s pipeline was reliable, but the admin app around it looked unfinished and scored 3.5 out of 10 in a heuristic audit. I rebuilt its interface on a from-scratch design system, in light, dark, and on phones, without changing how the pipeline works.',
     ownership: 'Product design and front-end engineering', evidence: 'Design audit, app shell, design system, table tooling',
     illustration: 'vmspark' as const, result: '~350', resultNote: 'templates audited before designing', action: 'Read the case study',
   },

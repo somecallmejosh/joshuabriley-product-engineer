@@ -1,0 +1,33 @@
+---
+import Section from '~/components/layout/Section.astro';
+import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
+
+/**
+ * One section of a case study: the heading on the left (sticky on wide
+ * screens), the argument on the right. Plates and screenshots go in the
+ * `media` slot, each in its own `<Container width="wide">`, so they sit
+ * outside `.case-layout` and the sticky heading can't paint over them.
+ *
+ * Section order and ids follow the portfolio skill
+ * (.claude/skills/portfolio/SKILL.md).
+ */
+interface Props {
+  id?: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+<Section tone="paper" padding="default" id={id} class={id ? 'scroll-mt-24' : undefined}>
+  <Container width="content">
+    <div class="case-layout">
+      <div class="case-layout__head">
+        <Heading level={2} visual="display-md" tone="ink">{title}</Heading>
+      </div>
+      <div class="case-layout__body">
+        <slot />
+      </div>
+    </div>
+  </Container>
+  <slot name="media" />
+</Section>

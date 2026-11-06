@@ -1,0 +1,41 @@
+---
+import Icon from '~/components/primitives/Icon.astro';
+import Metric from '~/components/patterns/Metric.astro';
+
+/**
+ * The Results block: up to two headline metrics, then what changed, grouped
+ * by who it changed for ("For operators", "For the team", "For the business").
+ * `note` says how the results were measured, and is required when they come
+ * from my own review rather than users or the client.
+ */
+interface Props {
+  metrics?: { value: string; label: string; caption?: string }[];
+  groups: { label: string; items: string[] }[];
+  note?: string;
+}
+const { metrics = [], groups, note } = Astro.props;
+const cols = groups.length >= 3 ? 'sm:grid-cols-3' : groups.length === 2 ? 'sm:grid-cols-2' : '';
+---
+{note && <p class="mt-8 measure text-lg leading-relaxed text-ink-muted">{note}</p>}
+
+{metrics.length > 0 && (
+  <div class="mt-8 grid grid-cols-2 gap-8 py-8">
+    {metrics.map((m) => <Metric value={m.value} label={m.label} caption={m.caption} />)}
+  </div>
+)}
+
+<div class:list={['mt-12 grid grid-cols-1 gap-x-8 gap-y-10', cols]}>
+  {groups.map((group) => (
+    <div class="pt-4">
+      <p class="mono-label mb-3">{group.label}</p>
+      <ul class="space-y-2">
+        {group.items.map((item) => (
+          <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
+            <Icon name="ph:check" size={14} class="mt-1 shrink-0 text-accent" />
+            <span set:html={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>

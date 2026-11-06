@@ -197,6 +197,55 @@ export const componentCatalogue = [
     "href": "/projects/ivfcryo/"
   },
   {
+    "name": "CaseSection",
+    "path": "src/components/patterns/case/CaseSection.astro",
+    "group": "patterns",
+    "note": "One case-study section: sticky heading, body column, and a media slot for full-width plates.",
+    "href": "/projects/vmspark/#context"
+  },
+  {
+    "name": "CaseProse",
+    "path": "src/components/patterns/case/CaseProse.astro",
+    "group": "patterns",
+    "note": "Case-study body paragraphs, in the body column or continued between plates.",
+    "href": "/projects/vmspark/#decision-inbox"
+  },
+  {
+    "name": "CaseCards",
+    "path": "src/components/patterns/case/CaseCards.astro",
+    "group": "patterns",
+    "note": "A grid of titled points with icons, with optional checklists for audience needs.",
+    "href": "/projects/vmspark/#context"
+  },
+  {
+    "name": "HeuristicScores",
+    "path": "src/components/patterns/case/HeuristicScores.astro",
+    "group": "patterns",
+    "note": "Nielsen heuristic scores before and after, with the fix and what's still open.",
+    "href": "/projects/vmspark/#research"
+  },
+  {
+    "name": "CaseResults",
+    "path": "src/components/patterns/case/CaseResults.astro",
+    "group": "patterns",
+    "note": "Headline metrics and results grouped by who they changed things for.",
+    "href": "/projects/vmspark/#outcomes"
+  },
+  {
+    "name": "CaseQuote",
+    "path": "src/components/patterns/case/CaseQuote.astro",
+    "group": "patterns",
+    "note": "A client or user testimonial with name, role, and optional photo.",
+    "href": "/projects/vmspark/"
+  },
+  {
+    "name": "CaseLimitations",
+    "path": "src/components/patterns/case/CaseLimitations.astro",
+    "group": "patterns",
+    "note": "The closing list of limitations and next steps, with an optional later group.",
+    "href": "/projects/vmspark/#edges"
+  },
+  {
     "name": "DriftSample",
     "path": "src/components/patterns/DriftSample.astro",
     "group": "patterns",
@@ -340,7 +389,14 @@ export const componentCatalogue = [
     "name": "ProjectIllustration",
     "path": "src/components/patterns/ProjectIllustration.astro",
     "group": "patterns",
-    "note": "An explanatory SVG for each project in WorkList, drawn in the same style as the tool illustrations.",
+    "note": "An explanatory SVG for each case-study hero, drawn in the same style as the tool illustrations.",
+    "href": "/projects/ivfcryo/"
+  },
+  {
+    "name": "ProjectScreenshot",
+    "path": "src/components/patterns/ProjectScreenshot.astro",
+    "group": "patterns",
+    "note": "A cropped app screen for each project in WorkList, in the same mat and frame as the illustrations.",
     "href": "/projects/"
   },
   {

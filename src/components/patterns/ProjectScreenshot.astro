@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { cx } from '~/lib/cx';
+import '~/styles/illustration.css';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** Rendered width times the 1.55 zoom in illustration.css, so browsers fetch a
+      file sharp enough for the close-up. Defaults to a half-page column. */
+  sizes?: string;
+  class?: string;
+}
+const { src, alt, sizes = '(min-width: 64em) 90vw, 175vw', class: className } = Astro.props;
+---
+
+{/* A close-up of one real app detail on a tilted plane, in the same mat and
+    frame as the drawings. It fills the frame, and the zoom is large enough
+    that the capture's own edges never show. Crops are centered on their subject, so the camera never
+    has to pan. Styles live in illustration.css next to the drawings. */}
+<span class={cx('illustration illustration--shot', className)} data-surface="light">
+  <span class="illustration-frame illustration-frame--shot">
+    <Image src={src} alt={alt} widths={[640, 1024, 1600, src.width]} sizes={sizes} class="illustration-shot" />
+  </span>
+</span>

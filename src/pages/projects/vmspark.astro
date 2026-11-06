@@ -4,106 +4,180 @@ import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
-import Section from '~/components/layout/Section.astro';
-import Container from '~/components/layout/Container.astro';
-import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
-import Icon from '~/components/primitives/Icon.astro';
-import SiteShot from '~/components/patterns/SiteShot.astro';
-import ScrollShot from '~/components/patterns/ScrollShot.astro';
-import Plate from '~/components/patterns/Plate.astro';
-import FidelityBand from '~/components/patterns/FidelityBand.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
+import Container from '~/components/layout/Container.astro';
+import Metric from '~/components/patterns/Metric.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import ScrollShot from '~/components/patterns/ScrollShot.astro';
+import SiteShot from '~/components/patterns/SiteShot.astro';
+import CaseSection from '~/components/patterns/case/CaseSection.astro';
+import CaseProse from '~/components/patterns/case/CaseProse.astro';
+import CaseCards from '~/components/patterns/case/CaseCards.astro';
+import CaseResults from '~/components/patterns/case/CaseResults.astro';
+import CaseQuote from '~/components/patterns/case/CaseQuote.astro';
+import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
+import HeuristicScores from '~/components/patterns/case/HeuristicScores.astro';
 import { vmsparkSummary as tldr } from '~/lib/project-summaries';
 import type { ImageMetadata } from 'astro';
 
+// Section order and ids follow .claude/skills/portfolio/SKILL.md.
+
 const title = 'VMSpark | Joshua Briley';
 const description =
-  'Case study: redesigning the VMSpark admin app after auditing about 350 templates, without changing the data pipeline.';
+  'Case study: rebuilding the VMSpark admin app on a from-scratch design system, so staffing operators can fix feeds faster and the business can show, maintain, and trust it.';
 
-// Copy throughout comes from notes/vm-spark.md (Josh's write-up).
-const findings = [
-  'Five ways of rendering forms',
-  'Three modal conventions that broke when one modal opened another',
-  'Three tooltip systems, one using Bootstrap 4 attributes that do nothing in Bootstrap 5',
-  'A semantic color token file that about 40 views bypassed with raw hex values',
-  'Dead files and debug code still being shipped',
+// Sources: tasks/heuristics-audit.md, tasks/redesign-plan.md and
+// tasks/ui-components.md in the vm_admin repo, plus notes/vm-spark.md.
+
+// Screenshots of the local app, captured 2026-11-05 from a production-copy
+// database with a temporary login. Desktop 1440×900 @2x, phone 390×844 @2x.
+// The workspace name and signed-in email were replaced before capture; pages
+// that list real people or customer accounts were left out.
+const appShots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/vmspark/app/*.png', { eager: true });
+const shot = (slug: string) => appShots[`../../assets/projects/vmspark/app/${slug}.png`].default;
+
+const jumpLinks = [
+  { href: '#tldr', label: 'Summary' },
+  { href: '#context', label: 'Who it’s for' },
+  { href: '#research', label: 'Research' },
+  { href: '#decisions', label: 'Design decisions' },
+  { href: '#outcomes', label: 'Results' },
+  { href: '#process', label: 'How it was built' },
+  { href: '#edges', label: 'Limitations' },
 ];
 
-const sorting = [
-  { label: 'Cosmetic', text: 'fix during the redesign' },
-  { label: 'Structural', text: 'decide first' },
-  { label: 'Out of scope', text: 'too close to the pipeline' },
-];
-
-// Real screens from the app before the redesign.
-const beforeShots = [
+// Who the product has to work for. The redesign only counts if a decision
+// holds up for both columns.
+const audiences = [
   {
-    src: '/images/projects/vmspark/before-manual-jobs.png',
-    alt: 'VMSpark Manual Jobs screen before the redesign. Three buttons sit side by side in the top bar: a filled orange Add New, an outlined Edit Selected, and an outlined Copy Selected. Labels sit below each search input.',
-    caption: '<strong class="text-ink font-semibold">Manual Jobs.</strong> Three buttons, three treatments, and labels below the inputs.',
+    icon: 'ph:users-three',
+    title: 'Operators at staffing agencies',
+    body: 'They live in the app all day. Their job is to make sure every hospital job from every feed maps correctly and reaches their applicant tracking system, so recruiters can fill it.',
+    needs: ['Know what needs fixing without hunting', 'See why a job failed, in words', 'Undo-proof actions that touch thousands of jobs', 'A screen they can read for eight hours'],
   },
   {
-    src: '/images/projects/vmspark/before-ats-professions.png',
-    alt: 'VMSpark ATS Professions screen before the redesign. Five search inputs use their label text as placeholders inside the fields.',
-    caption: '<strong class="text-ink font-semibold">ATS Professions.</strong> Labels used as placeholders.',
+    icon: 'ph:buildings',
+    title: 'VMSpark, the business',
+    body: 'The pipeline is the product. The interface decides whether customers trust it, whether support hears about it, and whether investors see a finished company.',
+    needs: ['Fewer “why didn’t this job sync?” tickets', 'No accidental reprocessing across a whole account', 'A demo that matches the marketing site', 'An interface the team can change without breaking'],
   },
 ];
 
-const directions = [
-  { name: 'Command Shell', from: 'Linear', body: 'Icon rail, dense type, and a ⌘K palette.', note: 'Fast for power users, but stark.', icon: 'ph:terminal-window' },
-  { name: 'Atlassian Platform', from: 'Jira', body: 'Product rail, contextual panel, page headers, and a slide-over inspector.', note: 'Familiar to most enterprise users.', icon: 'ph:users-three', chosen: true },
-  { name: 'Modern Workspace', from: 'Notion', body: 'Soft sidebar, generous spacing, and no top bar.', note: 'Calm, but too light for a dense operations tool.', icon: 'ph:warning' },
+// Nielsen heuristics, scored 0–10 from the code before the redesign. Each
+// row names the evidence and the change that answered it.
+const heuristics = [
+  { n: 1, name: 'Visibility of system status', before: 4, after: 8, fix: 'Every page gets its own title and a next-step line where there is work. “Sync with ATS” became “Import from Bullhorn”, disables while it runs, and confirms with a message.', left: 'Most HTMX failures still fail silently.' },
+  { n: 2, name: 'Match with the real world', before: 3, after: 8, fix: 'Titles like “AtsPayloads#show” and values like not_nil became plain words. Conditions read as sentences.', left: 'VMS and ATS are never spelled out.' },
+  { n: 3, name: 'User control and freedom', before: 3, after: 7, fix: 'Every confirm works, Esc and a click outside close every dialog, and a failed reorder rolls back with a message.', left: 'There is still no undo, only confirmation.' },
+  { n: 4, name: 'Consistency and standards', before: 3, after: 8, fix: 'Two sidebars, four variants, and three icon sets became one labeled sidebar, one icon family, and one table component.', left: 'A few “Sync” labels and scaffold flash messages remain.' },
+  { n: 5, name: 'Error prevention', before: 2, after: 8, fix: 'Deletes with a working confirmation went from 10 of 43 to all 28. Reprocess and feed rebuilds confirm too.', left: 'Reprocess all doesn’t state how many listings it touches.' },
+  { n: 6, name: 'Recognition over recall', before: 4, after: 8, fix: 'About 33 popovers and 65 hover titles went to zero. Failure reasons sit on the row.', left: 'Icon-only row buttons have no visible label.' },
+  { n: 7, name: 'Flexibility and efficiency', before: 7, after: 7, fix: 'Kept the command palette, shortcuts, saved views, and resizable columns, and added a keyboard step for resizing.', left: 'The density setting dropped out of the new menus. No bulk mapping yet.' },
+  { n: 8, name: 'Aesthetic and minimalist', before: 4, after: 7, fix: 'Tables holding two-row lists became simple lists. Popovers that repeated the cell were deleted.', left: 'Some dead scaffold views are still routed.' },
+  { n: 9, name: 'Recovering from errors', before: 3, after: 7, fix: '“Prohibited this record from being saved” went from 11 forms to none. Errors sit under their field and are linked to it.', left: 'Adding manual jobs can lose typed rows on failure.' },
+  { n: 10, name: 'Help and documentation', before: 2, after: 7, fix: 'Index pages without an empty state went from 35 to 2. Page subtitles went from 1 to 102.', left: 'No glossary or in-app docs.' },
 ];
 
-const phases = [
-  { label: 'Visual baseline', icon: 'ph:ruler', body: 'One shared page header. Pointing the old heading partial at it updated about 30 pages without editing them.' },
-  { label: 'The shell', icon: 'ph:sidebar', body: 'A product rail plus a panel that changes with each section. The server picks the open section, so nothing shifts after load.' },
-  { label: '⌘K search', icon: 'ph:magnifying-glass', body: 'Read-only search within the current account, grouped by type, in a native <code>&lt;dialog&gt;</code>. Page filters stay as they were.' },
-  { label: 'Polish', icon: 'ph:sparkle', body: 'A saved density setting, a <code>?</code> shortcut overlay, a slide-over inspector, and skeleton loaders that respect reduced motion.' },
+// Foundations: each one is a decision about the operator, not a style choice.
+const foundations = [
+  { icon: 'ph:text-aa', title: 'Type made for legibility', body: 'Atkinson Hyperlegible, designed with the Braille Institute, at a 16px base. A matching mono face sets IDs, dates, and rates so they line up.' },
+  { icon: 'ph:cursor-click', title: 'Color has a job', body: 'Navy is structure, brand blue is anything you can click, Spark orange is only the brand. Red, amber, and green appear only for state.' },
+  { icon: 'ph:shapes', title: 'State is a word and an icon', body: '“Processed”, “Failed”, “Skipped”: every status pairs a glyph with a word, so color is never the only signal.' },
+  { icon: 'ph:hand-pointing', title: 'Nothing important on hover', body: 'No tooltips for information. If an operator needs it, it is on the page, in a note, or in the details drawer.' },
+  { icon: 'ph:moon', title: 'Light and dark from one set of tokens', body: 'The theme follows the system setting and can be changed per person. Both themes pass the same contrast checks.' },
+  { icon: 'ph:signpost', title: 'One job per page, said first', body: 'Every page header has a title, one sentence of purpose, and at most one primary action. When there is work, a next-step line says what to do.' },
 ];
 
-const reviewFixes = [
-  'Header icons match the navigation icons',
-  'Shortcuts work on Mac and Windows (⌘K and Ctrl+K)',
-  'Density applies to the whole interface',
-  'The shortcut overlay is hidden on phones',
+// The three token tiers. The structure is what lets a brand change land
+// everywhere at once without anyone touching markup.
+const tiers = [
+  { icon: 'ph:circle', title: 'Primitive', body: 'Raw values with no meaning, such as <code>--blue-510</code>. Read only by the semantic tier.' },
+  { icon: 'ph:target', title: 'Semantic', body: 'What a value is for, such as <code>--color-accent</code>. Light, dark, and the navy chrome map it differently.' },
+  { icon: 'ph:puzzle-piece', title: 'Component', body: 'One component’s palette, such as <code>--button-bg</code>. Variants change tokens, never CSS.' },
 ];
 
-const tableTools = [
-  'Resizable, pinned, and reorderable columns, remembered per user',
-  'Saved searches',
-  'A row inspector that opens a listing without leaving the filtered list',
-  'Inspector fields grouped by source, so operators can trace a failed value',
+// Light and dark, the same screen side by side.
+const pairs = [
+  {
+    slug: 'desktop-needs-mapping',
+    title: 'Needs mapping',
+    note: 'A new page: one inbox for every unmapped value, sorted by how much work it holds.',
+    alt: 'The Needs mapping page: a header that reads “Values from your VMS feeds that aren’t mapped to your ATS yet. Job listings that use them can’t be fully processed until they’re mapped.”, the count 2,614 unmapped values across 8 lists, the next step “Start with facilities: 2,495 values need a value in your ATS.”, then a plain list of facilities, professions, specialties, shift details, departments, shift types, VMS sources, job types, and job statuses, each with its unmapped count and an arrow.',
+  },
+  {
+    slug: 'desktop-job-listings',
+    title: 'Job listings',
+    note: 'The busiest screen. One sentence of purpose, the last import time, and the table operators already knew.',
+    alt: 'The Job listings page: a header saying every job from the VMS feeds and manual jobs appears here after mapping and rules run, 1,976 listings and the last import time, Email CSV export and Reprocess all buttons, All, Processed, and Skipped tabs, and a table with view, reprocess, and open actions, notes, job status, start date, facility name, city, and state.',
+  },
+  {
+    slug: 'desktop-custom-rules',
+    title: 'Custom rules',
+    note: 'Conditions read as sentences, and order changes by drag or by the arrow buttons.',
+    alt: 'The Custom rules page: a filter bar for name, status, and changed field with a Search button, a note that says to drag a row or use the arrow buttons, and a table of numbered rules with drag handles, up and down buttons, an Active switch, conditions such as “Job: Title contains Caregiver”, the field each rule changes, and the date it was updated.',
+  },
+  {
+    slug: 'desktop-inspector',
+    title: 'Job details drawer',
+    note: 'Opens over the filtered list. The facts first, then every field, then the raw feed.',
+    alt: 'The job details drawer open over the job listings table: a Processed status, the title CNA Certified Nursing Assistant, facility, schedule, hours, bill rate of $37.60 an hour, dates and job ID, then Overview, All fields, and Raw data tabs above the job description, with Close and Reprocess buttons at the bottom.',
+  },
+];
+
+// The phone set, alternating themes. Captions describe what is on screen.
+const phones = [
+  { slug: 'phone-signin-light', title: 'Sign in', note: 'Labels above fields, password managers welcome.', alt: 'The sign-in page on a phone in light mode: the VMS Spark logo on a navy band, Sign in, email and password fields, Show password, Forgot your password, Keep me signed in, and a full-width Sign in button.' },
+  { slug: 'phone-nav-dark', title: 'Navigation', note: 'The same labeled sidebar, as a drawer.', alt: 'The navigation drawer on a phone in dark mode: Jobs, Candidates, and Mapping groups, with Needs mapping selected and unmapped counts beside Facilities, Professions, Specialties, and the other lists.' },
+  { slug: 'phone-needs-mapping-light', title: 'Needs mapping', note: 'Counts stay on the same line as each list.', alt: 'The Needs mapping page on a phone in light mode: the purpose sentence, 2,614 unmapped values across 8 lists, the next step to start with facilities, and the list of mapping areas with their unmapped counts.' },
+  { slug: 'phone-professions-dark', title: 'Professions', note: 'Each mapping row stacks into one column.', alt: 'The Professions mapping page on a phone in dark mode: “47 professions need a value in your ATS. Pick one and save each row.”, Unmapped and Mapped tabs, a search field with a Search button, and the first row stacked with a profession picker.' },
+  { slug: 'phone-job-listings-light', title: 'Job listings', note: 'The table scrolls inside its frame. The page never does.', alt: 'The Job listings page on a phone in light mode: the purpose sentence, listing count and last import, Email CSV export and Reprocess all buttons, tabs, and the start of the table with its action buttons.' },
+  { slug: 'phone-custom-rules-dark', title: 'Custom rules', note: 'Arrow buttons work where dragging doesn’t.', alt: 'The Custom rules page on a phone in dark mode: a New custom rule button, filter fields for name, status, and changed field, the drag-or-arrows note, and the first two rules with up and down buttons and Active switches.' },
+  { slug: 'phone-job-listings-dark', title: 'Job listings, dark', note: 'Same tokens, same contrast checks.', alt: 'The Job listings page on a phone in dark mode, matching the light version.' },
+  { slug: 'phone-signin-dark', title: 'Sign in, dark', note: 'The brand panel steps aside on small screens.', alt: 'The sign-in page on a phone in dark mode, matching the light version.' },
+];
+
+// Mistakes that cost both sides. Each one protects an operator and the business at once.
+const safety = [
+  { icon: 'ph:warning-circle', title: 'Confirmations that say what happens', body: 'Turbo and rails-ujs were off, so every confirm in the codebase silently did nothing. One shared dialog now handles them. Each message asks a specific question, which becomes the dialog’s title, then says what happens next. The written rules ban “Are you sure?”.' },
+  { icon: 'ph:arrows-clockwise', title: 'Reprocess all states its reach', body: 'One click re-runs mapping, rules, and the ATS sync for every open job in the account. The confirm now says so, including that it runs in the background and takes minutes, and the button disables while it posts. That protects the queue as much as the operator.' },
+  { icon: 'ph:download-simple', title: 'Buttons say which way data moves', body: '“Sync with ATS” actually imported values from the ATS. Renaming it “Import from Bullhorn” removed a question operators had been sending to support.' },
+  { icon: 'ph:shield-check', title: 'Security found by reading every view', body: 'The audit turned up a SQL injection in a search allowlist and feed text rendered unescaped in popovers and emails. Both were fixed before any styling work.' },
+];
+
+// What keeps the system honest after I leave.
+const checks = [
+  { icon: 'ph:list-checks', title: 'bin/ui_lint', body: 'Fails on unknown classes, inline styles and scripts, tooltips, Bootstrap leftovers, dashes in copy, and primitives read outside tier 2.' },
+  { icon: 'ph:palette', title: 'bin/color_audit', body: 'Fails on any hex, RGB, or HSL value outside the token file.' },
+  { icon: 'ph:circle-half', title: 'bin/contrast_check', body: 'Checks every text and control pairing against WCAG AA, in both themes.' },
+  { icon: 'ph:book-open', title: 'Style guide spec', body: 'Fails if a listed token, icon, or illustration stops rendering.' },
 ];
 
 const results = [
-  { label: 'For operators', items: ['Data, filters, and workflows unchanged on release day', 'The old sidebar is one setting away', 'Density, column layouts, and saved searches follow each user'] },
-  { label: 'For the team', items: ['One page header, modal pattern, and table toolkit', 'An in-app style guide with dos and don’ts', 'Written records of the rejected directions'] },
-  { label: 'For the business', items: ['An admin app ready to show investors', 'No changes to the pipeline, rule engine, or integrations'] },
+  { label: 'For operators', items: ['One inbox for everything that needs mapping', 'Failure reasons in words, on the row', 'Every destructive action confirms first', 'Light, dark, and phone layouts'] },
+  { label: 'For the team', items: ['One component library and one style guide', 'Checks that fail the build on drift', 'Bootstrap, jQuery, and page-level scripts removed', 'About 13,000 fewer lines of view code'] },
+  { label: 'For the business', items: ['A demo that matches vmspark.com', 'Fewer ways to reprocess an account by accident', 'Routes, params, and integrations unchanged', 'Two security holes closed'] },
 ];
-
-// Screenshots of the local app (1440px wide at 2x). The workspace name and the
-// signed-in email were replaced in the DOM before capture.
-const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/vmspark/*.png', { eager: true });
-const shot = (slug: string) => shots[`../../assets/projects/vmspark/${slug}.png`].default;
-
-// Wireframe and flow sheets render from src/ so Astro can process them.
-const sheetFiles = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/vmspark/wires-and-flows/*.png', { eager: true });
-const sheet = (slug: string) => sheetFiles[`../../assets/projects/vmspark/wires-and-flows/${slug}.png`].default;
-// The sketch and clean-wireframe passes are SVG and need no processing.
-const art = (file: string) => `/images/projects/vmspark/wires-and-flows/${file}`;
 
 const edges = [
   {
     icon: 'ph:users-three',
-    title: 'Feedback came from reviews, not observed use',
-    body: 'I didn’t watch operators use the new shell, so I can’t claim it’s faster.',
+    title: 'Not yet watched in real use',
+    body: 'Both scores come from the code and the reviews came from stakeholders. I haven’t watched operators work in the new interface, so I can’t claim it’s faster.',
   },
   {
-    icon: 'ph:ruler',
-    title: 'No baseline metrics',
-    body: 'The results show what didn’t break. Next time I’d time a few tasks on the old shell first.',
+    icon: 'ph:wifi-slash',
+    title: 'Failures that still go quiet',
+    body: 'When a save fails on the server, most inline actions show nothing. One shared listener that says “Couldn’t save. Try again.” would lift visibility and error recovery together.',
+  },
+  {
+    icon: 'ph:arrow-counter-clockwise',
+    title: 'Confirmation instead of undo',
+    body: 'Every delete asks first, but none can be undone. For mappings, where one change touches thousands of listings, undo is the next step.',
+  },
+  {
+    icon: 'ph:device-mobile',
+    title: 'Wide tables on phones',
+    body: 'Job listings keeps its full table on small screens and scrolls it sideways. A card view for phones needs a decision on which columns matter most.',
   },
 ];
 ---
@@ -112,377 +186,377 @@ const edges = [
 
   <ProjectHero project="vmspark" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Audit' }, { href: '#directions', label: 'Directions' }, { href: '#sheets', label: 'Wireframes and flows' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'Limitations' }]} />
+  <CaseReview links={jumpLinks} />
 
-  <Tldr
-    problem={tldr.problem}
-    decision={tldr.decision}
-    evidence={tldr.evidence}
+  <Tldr problem={tldr.problem} decision={tldr.decision} evidence={tldr.evidence} />
+
+  <CaseSection id="context" title="Who it’s for">
+    <CaseProse>
+      <p>
+        VMSpark takes job feeds from the vendor management systems hospitals use, maps each
+        listing to a staffing agency’s own vocabulary, runs the agency’s rules, and sends it to
+        their applicant tracking system. When a value doesn’t map, the job stalls, and a nurse
+        doesn’t hear about a shift.
+      </p>
+      <p>
+        So the people fixing those values and the company selling the pipeline want the same
+        thing from the interface. I held every decision to <strong class="text-ink font-semibold">both
+        columns below</strong>: if it helped one side and cost the other, it wasn’t done.
+      </p>
+    </CaseProse>
+
+    <CaseCards items={audiences} />
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+          <Plate
+            size="half"
+            title="Sign in, light"
+            caption="The first screen borrows the marketing site’s navy and its feeds-to-ATS drawing."
+            src={shot('desktop-signin-light')}
+            alt="The sign-in page in light mode: a navy brand panel on the left with the VMS Spark logo, the line “VMS to ATS workflow”, a sentence saying jobs from every VMS are cleaned up and sent to your ATS, and a line drawing of three feed cards flowing through a lightning bolt into a stack of cards. On the right, a Sign in card with email and password fields, Show password, Forgot your password, Keep me signed in, and a Sign in button."
+          />
+          <Plate
+            size="half"
+            title="Sign in, dark"
+            caption="Dark mode keeps the same structure, so nothing moves when the theme changes."
+            src={shot('desktop-signin-dark')}
+            alt="The same sign-in page in dark mode, with the form card on a dark slate surface and the button in a lighter brand blue."
+          />
+        </div>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="research" title="Research">
+    <CaseProse>
+      <p>
+        My first pass in the spring audited about 350 templates and gave the app a familiar
+        Jira-style shell on top of Bootstrap. Stakeholders liked it, but the problems underneath were
+        still there, so in November I scored the whole app against Nielsen’s ten heuristics, with
+        a file and line for every finding.
+      </p>
+      <p>
+        After the redesign the app was re-scored with the same rubric, from the code, by a
+        reviewer that hadn’t seen my notes: an AI agent given only the original audit and the
+        repo. It had to verify every fix in the code rather than take the plan’s word for it.
+      </p>
+    </CaseProse>
+
+    <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+      <Metric value="3.5 → 7.5" label="average score out of 10" caption="before and after, same rubric, scored from the code" />
+      <Metric value="2 → 8" label="error prevention" caption="the lowest score before the redesign" />
+    </div>
+
+    <HeuristicScores items={heuristics} caption="Before → after, the change that moved it, and what still keeps it from a 10." />
+
+    <CaseProse class="mt-12">
+      <p>
+        The pattern behind most of the low scores was the same: <strong class="text-ink font-semibold">the
+        information an operator needed existed, but only on hover</strong>. The app’s own old style
+        guide said “don’t hide required information behind a tooltip”. The app did it about a
+        hundred times. Flexibility was the one area that didn’t move: it was already the
+        strongest, and the redesign lost the density setting along the way.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
+  <CaseSection id="decisions" title="A design system built from scratch">
+      <CaseProse>
+        <p>
+          Re-theming Bootstrap would have kept five ways to render a form. I replaced it with a
+          small library in plain CSS: one partial or helper per component, one CSS block, and one
+          live entry in the style guide. If it isn’t in the library, a page can’t use it.
+        </p>
+      </CaseProse>
+
+      <CaseCards label="Foundations" items={foundations} />
+
+      <CaseCards label="Three tiers of tokens" items={tiers} />
+
+      <CaseProse class="mt-12">
+        <p>
+          Dark mode is a second mapping of the semantic tier, not a second stylesheet. Matching the
+          marketing site meant changing a handful of semantic tokens, and every screen followed.
+        </p>
+        <p>
+          I didn’t design or work on the marketing site. It already existed, and I borrowed its style.
+          Investors see the marketing site first and the app second, so they should feel like one
+          company. The app borrows its navy, its blue, the Spark bolt, and its two-tone line drawings,
+          and uses them only in those places. The personality comes from consistency, not decoration.
+        </p>
+      </CaseProse>
+
+      <Fragment slot="media">
+        <Container width="wide" class="mt-16">
+          <ScrollShot
+            src="/images/projects/vmspark/styleguide-tokens-light.webp"
+            alt="The style guide’s Foundations section: the three token tiers explained with an example of each, then the full primitive palette of slate, navy, blue, orange, green, amber, and red swatches, each labeled with its token name and hex value."
+            label="/admin/ui_playground"
+            kind="Style guide"
+            caption="Every primitive, named by lightness, so a darker step is always a higher number."
+          />
+        </Container>
+        <Container width="wide" class="mt-16">
+          <SiteShot
+            src="/images/projects/vmspark/vmspark-live.webp"
+            alt="The existing VMSpark marketing site, which I didn’t design or build. It’s the source of the app’s navy, brand blue, and Spark orange."
+            href="https://vmspark.com/"
+            label="vmspark.com"
+            kind="Existing site, not my work"
+            index="01"
+          />
+        </Container>
+      </Fragment>
+    </CaseSection>
+
+  <CaseSection id="decision-inbox" title="One inbox for work that needs mapping">
+    <CaseProse>
+      <p>
+        The old navigation listed 14 mapping pages with a count on each, and operators opened
+        them one by one to find work. I added <strong class="text-ink font-semibold">Needs
+        mapping</strong>, one inbox sorted by how much is waiting, with a next step at the top.
+      </p>
+      <p>
+        For the business this is the same list as “jobs that can’t reach a customer’s ATS”, so
+        clearing it is the most valuable thing an operator can do.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="Needs mapping"
+          caption="One sentence of purpose, the total, and where to start. Lists with nothing to do are dimmed, not hidden."
+          src={shot('desktop-needs-mapping-light')}
+          alt={pairs[0].alt}
+        />
+      </Container>
+
+      <CaseProse continued>
+        <p>
+          Each mapping page works like a ledger: what came in from the feed on the left, the value in
+          the ATS on the right, and a Save on every row. “Ignore” sits beside it with a hint that says
+          exactly what ignoring does.
+        </p>
+      </CaseProse>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="Professions"
+          caption="What came in, what it should be, and what Ignore does, on every row."
+          src={shot('desktop-professions-light')}
+          alt="The Professions mapping page: “47 professions need a value in your ATS. Pick one and save each row.”, Unmapped 47 and Mapped tabs, a search field with a Search button, a hint explaining what Ignore and new values do, then rows pairing a profession title from the VMS feeds with a profession picker, an optional new ATS value, an Ignore switch, a Save button, and a delete button."
+        />
+      </Container>
+
+      <CaseProse continued>
+        <p>
+          A failed job used to show its reason as a raw Ruby hash in a hover title. Now the reason is
+          a sentence on the row, and the details drawer opens over the filtered list, so an operator
+          doesn’t lose their place. Fields are grouped by where they came from, ending with the raw
+          feed, which is where a bad value is usually traced.
+        </p>
+      </CaseProse>
+
+      <Container width="wide" class="mt-16">
+        <Plate title="Job details drawer" caption={pairs[3].note} src={shot('desktop-inspector-light')} alt={pairs[3].alt} />
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+          <Plate
+            size="half"
+            title="Search or jump to a page"
+            caption="⌘K or Ctrl+K, limited to the current account, grouped by type."
+            src={shot('desktop-command-palette-light')}
+            alt="The search palette open over job listings with the query “rehab”: matching facilities such as Abbeyville Nursing and Rehab and Advanced Rehab at Autumn Lake, each with its city and state, and a footer showing arrow keys to move, Enter to open, and Esc to close."
+          />
+          <Plate
+            size="half"
+            title="Custom rules"
+            caption="“When Title contains Caregiver” instead of “Left hand side”."
+            src={shot('desktop-custom-rules-light')}
+            alt={pairs[2].alt}
+          />
+        </div>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-safety" title="Confirmations that say what will happen">
+    <CaseProse>
+      <p>
+        In this app a misclick doesn’t just annoy someone. Deleting a mapping can unmap
+        thousands of listings, and reprocessing an account queues work for every open job in it.
+        The operator loses their afternoon, and the business pays for the compute and the
+        support call.
+      </p>
+    </CaseProse>
+
+    <CaseCards items={safety} />
+
+    <CaseProse class="mt-12">
+      <p>
+        Forms follow the same idea: label above, hint under the label, and the error under the
+        field it belongs to, linked for screen readers. The heading over a failed form says how
+        many fields to fix, in plain words.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+          <Plate
+            size="half"
+            title="Reprocess all, light"
+            caption="The question is the title, the consequence is the body, and the button repeats the verb."
+            src={shot('desktop-confirm-reprocess-light')}
+            alt="The confirm dialog over the job listings page, titled “Reprocess every open job listing in this account?”, with the body “Mapping and rules run again on each one and changes sync to your ATS. This runs in the background and can take several minutes.” and Cancel and Reprocess buttons."
+          />
+          <Plate
+            size="half"
+            title="Reprocess all, dark"
+            caption="One dialog for every confirmation in the app, so they all read the same way."
+            src={shot('desktop-confirm-reprocess-dark')}
+            alt="The same Reprocess all confirm dialog in dark mode."
+          />
+        </div>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-themes" title="Light, dark, and phone layouts">
+    <CaseProse>
+      <p>
+        Operators keep this app open through a full shift, often beside other dark tools. The
+        theme follows their system setting, and each person can override it from the account
+        menu. A small script applies the choice before first paint, so pages never flash.
+      </p>
+      <p>
+        Dark mode isn’t an inverted light mode. Each semantic token gets its own dark value, and
+        brand blue steps up in lightness so links and buttons stay readable on navy. A script checks
+        all <strong class="text-ink font-semibold">178 text and control pairings</strong> in both
+        themes against WCAG AA.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      {pairs.slice(0, 3).map((p) => (
+        <Container width="wide" class="mt-16">
+          <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+            <Plate size="half" title={`${p.title}, light`} caption={p.note} src={shot(`${p.slug}-light`)} alt={p.alt} />
+            <Plate size="half" title={`${p.title}, dark`} caption="The same page, the same tokens, mapped for dark." src={shot(`${p.slug}-dark`)} alt={`${p.alt} Shown in dark mode.`} />
+          </div>
+        </Container>
+      ))}
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="Job details drawer, dark"
+          caption="The drawer, its tabs, and its status read the same in either theme."
+          src={shot('desktop-inspector-dark')}
+          alt={`${pairs[3].alt} Shown in dark mode.`}
+        />
+      </Container>
+
+      <CaseProse continued>
+        <p>
+          Most mapping happens at a desk, but failed-listing alerts arrive by email, and an
+          operator should be able to check one from a phone. The main screens were checked at 390
+          pixels wide with no sideways page scroll. Layouts collapse to one column below 640
+          pixels, and every target is at least 24 pixels, 40 for primary actions.
+        </p>
+        <p>
+          Drag-to-reorder doesn’t work well with a thumb or a keyboard, so rules and rate plans
+          also have up and down buttons.
+        </p>
+      </CaseProse>
+
+      <Container width="wide" class="mt-16">
+        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+          {phones.map((p) => (
+            <li>
+              <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="outcomes" title="Results">
+    <CaseResults
+      metrics={[
+        { value: '7.5', label: 'heuristic average after', caption: 'up from 3.5 across ten heuristics' },
+        { value: '28 of 28', label: 'deletes confirm first', caption: 'up from 10 of 43' },
+      ]}
+      groups={results}
+    />
+  </CaseSection>
+
+  <CaseQuote
+    label="What Jon said"
+    name="Jon Sturm"
+    role="Director of Product & Customer Success · VMSpark"
+    photo="/images/testimonials/jon-sturm.jpeg"
+    quote="Josh inventoried 350 ERB templates before writing a line of new CSS, then turned that audit into a phased rollout we could ship behind no flags. The shell finally reads like the enterprise product the pipeline always was, and operators didn't lose a single piece of muscle memory in the move."
   />
 
-  <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Template audit</Heading>
+  <CaseSection id="process" title="How it was built">
+    <CaseProse>
+      <p>
+        Routes, params, form field names, and HTMX targets stayed exactly the same, so the
+        pipeline and every integration were untouched.
+      </p>
+      <p>
+        The last redesign drifted because nothing stopped it. This time the style guide lives in
+        the app, renders every component live with the code to copy, and states its own rules:
+        where the system lives, how it changes, and what checks it has to pass.
+      </p>
+      <p>
+        It also has a section for AI coding agents. The team builds with them, so the same rules
+        sit in the repo’s agent instructions too. An agent asked to
+        build a page reads the system before it writes a class.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="Checks that fail on drift" items={checks} />
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <div class="space-y-16">
+          <ScrollShot
+            src="/images/projects/vmspark/styleguide-about-light.webp"
+            alt="The style guide’s About section: its purpose, five principles (calm over clever, same thing same component, space shows structure, color has a job, real before ideal), governance with where the system lives and the checks that enforce it, the steps for making a change, and a section of instructions for AI coding agents."
+            label="About"
+            kind="Style guide"
+            index="01"
+            caption="Purpose, principles, governance, and instructions for AI agents, before a single component."
+          />
+          <ScrollShot
+            src="/images/projects/vmspark/styleguide-components-dark.webp"
+            alt="The style guide’s Components section in dark mode: buttons, form fields with an inline error, statuses and badges each with an icon, notes and alerts, key-value details, tabs, an empty state with an illustration, and a code sample with a Copy button. Each entry has a Code disclosure."
+            label="Components"
+            kind="Style guide"
+            index="02"
+            caption="Shown in dark mode: the style guide follows the same theme setting as the app."
+          />
+          <ScrollShot
+            src="/images/projects/vmspark/styleguide-patterns-light.webp"
+            alt="The style guide’s Patterns section: a filter bar ending in a Search button, a data table, the mapping ledger used on every mapping page, a grouped list, and the details drawer."
+            label="Patterns"
+            kind="Style guide"
+            index="03"
+            caption="Whole page recipes, using real words from the app."
+          />
         </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            Before designing anything, I audited about 350 templates and 11,800 lines of view code.
-            The audit found:
-          </Text>
+      </Container>
+    </Fragment>
+  </CaseSection>
 
-          <ul class="mt-6 space-y-3">
-            {findings.map((item) => (
-              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
-                <Icon name="ph:dot-outline" size={18} class="mt-1 shrink-0 text-accent" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Each finding was sorted as</p>
-            <ul class="space-y-3">
-              {sorting.map((s) => (
-                <li class="flex items-start gap-3 text-ink-muted">
-                  <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
-                  <span><strong class="font-medium text-ink">{s.label}:</strong> {s.text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        {beforeShots.map((img) => (
-          <li>
-            <figure>
-              <div class="overflow-hidden rounded-lg border border-line">
-                <img src={img.src} alt={img.alt} class="w-full h-auto block" loading="lazy" decoding="async" />
-              </div>
-              <figcaption class="mt-4 text-sm text-ink-muted leading-relaxed" set:html={img.caption} />
-            </figure>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="directions" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Design directions</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            I wrote up three directions, each modeled on a product operators might already know.
-          </Text>
-
-          <ol class="mt-10 grid gap-6 sm:grid-cols-3 items-stretch">
-            {directions.map((d) => (
-              <li class:list={['rounded-lg border p-6', d.chosen ? 'border-accent' : 'border-line']}>
-                {d.chosen && <p class="mono-label !text-accent mb-2">Chosen</p>}
-                <p class="mono-label mb-1">{d.from}</p>
-                <Heading level={3} visual="h4" tone="ink" class="mb-3">{d.name}</Heading>
-                <Text size="sm" tone="muted">{d.body}</Text>
-                <p class="mt-4 flex items-start gap-2 text-sm text-ink-muted">
-                  <Icon name={d.icon} size={15} class="mt-0.5 shrink-0 text-accent" />
-                  <span>{d.note}</span>
-                </p>
-              </li>
-            ))}
-          </ol>
-
-          <Text size="lg" tone="muted" class="mt-10 measure">
-            Operators use this tool all day, and a familiar pattern earns trust faster than a new one.
-            I left out Jira’s global Create button, though: most VMSpark records come from feeds, not
-            people.
-          </Text>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="phases" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Four phases</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            Each phase shipped to production on its own.
-          </Text>
-
-          <ol class="mt-12 grid md:grid-cols-2 gap-x-8 gap-y-10">
-            {phases.map((ph, i) => (
-              <li class="pt-5">
-                <p class="mono-label">Phase {i + 1}</p>
-                <div class="mt-3 mb-3 flex items-center gap-2">
-                  <Icon name={ph.icon} size={22} class="text-ink-muted" />
-                  <Heading level={3} visual="h3" tone="ink">{ph.label}</Heading>
-                </div>
-                <Text tone="muted"><Fragment set:html={ph.body} /></Text>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <Plate title="The two-tier shell" caption="The product rail, job listings panel, and shared page header." src={shot('app-shell')} alt="The redesigned VMSpark admin app: a dark product rail and a Job Listings side panel on the left, a top bar with the workspace name and a ⌘K button, and the Job Listings page with its header, All, Processed and Skipped tabs, and the listings table." />
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <li>
-          <Plate size="half" title="⌘K search" caption="Results for the current account, grouped by type." src={shot('command-search')} alt="The ⌘K search dialog over the job listings page, with the query “windsor” and a list of matching facilities with their city and state." />
-        </li>
-        <li>
-          <Plate size="half" title="Shortcut overlay" caption="Press ? outside a text field." src={shot('shortcuts')} alt="The keyboard shortcuts overlay, listing shortcuts for navigation, the view, the inspector, and the search palette." />
-        </li>
-      </ul>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="feedback" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Review feedback</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            Stakeholders said long-time users knew the old sidebar by heart, so I added a per-user
-            setting to switch back. I also shipped every fix from that review:
-          </Text>
-
-          <ul class="mt-6 space-y-3">
-            {reviewFixes.map((item) => (
-              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
-                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <Plate title="The legacy sidebar" caption="Each user picks a sidebar in their account menu." src={shot('legacy-sidebar')} alt="The legacy sidebar open over the job listings page, with grouped sections for job listings, data mapping with unmapped counts, and advanced customization." />
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="tables" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Table tools</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            Operators spend most of their time in the job listings table, so later work focused there:
-          </Text>
-
-          <ul class="mt-6 space-y-3">
-            {tableTools.map((item) => (
-              <li class="flex items-start gap-3 leading-relaxed text-ink-muted">
-                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            Every table now uses the same column controls.
-          </Text>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <Plate title="Row inspector" caption="One listing’s details over the filtered list." src={shot('row-inspector')} alt="The row inspector open over the job listings table, showing one listing’s title, status, facility, location, shift, rate and dates, a field filter, and the Position group of fields." />
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="brand" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Matching the marketing site</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            The app had drifted from the marketing site’s brand. I pointed five existing tokens at its
-            colors and added three more, so every screen updated without markup changes.
-          </Text>
-
-          <div class="mt-10">
-            <SiteShot
-              src="/images/projects/vmspark/vmspark-live.webp"
-              alt="The VMSpark marketing site, the source of the brand colors the admin app’s tokens were pointed at"
-              href="https://vmspark.com/"
-              label="vmspark.com"
-              index="01"
-            />
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section id="sheets" tone="paper" padding="default" class="scroll-mt-24">
-    <Container width="content">
-      <Heading level={2} visual="display-md" tone="ink" class="mb-6">Wireframes and flows</Heading>
-      <Text size="lg" tone="muted" class="measure">
-        I documented 11 screens and 5 flows, each taken from sketch to wireframe to annotated sheet.
-        The rest are in the <a href="/projects/vmspark/gallery/" class="hero-link">VMSpark gallery</a>.
-      </Text>
-    </Container>
-
-    <Container width="wide" class="mt-14">
-      <FidelityBand
-        title="Application shell"
-        sketch={art('01-app-shell-sketch.svg')}
-        wire={art('01-app-shell.svg')}
-        annotated={sheet('01-app-shell')}
-        annotatedAlt="Annotated design sheet of the VMSpark application shell: a two-tier sidebar, workspace context, and global search."
-        caption="Sketch, wireframe, and annotated sheet."
-      />
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Results</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-3">
-            {results.map((group) => (
-              <div class="pt-4">
-                <p class="mono-label mb-3">{group.label}</p>
-                <ul class="space-y-2">
-                  {group.items.map((item) => (
-                    <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
-                      <Icon name="ph:check" size={14} class="mt-1 shrink-0 text-accent" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default">
-    <Container width="content">
-      <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
-        <figcaption class="md:col-span-4">
-          <p class="mono-label mb-6">What Jon said</p>
-          <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
-            <img
-              src="/images/testimonials/jon-sturm.jpeg"
-              alt="Jon Sturm"
-              class="h-14 w-14 rounded-full border border-line object-cover md:h-16 md:w-16"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <p class="font-display font-semibold text-ink">Jon Sturm</p>
-              <p class="mt-1 text-sm text-ink-muted leading-snug">Director of Product &amp; Customer Success &middot; VMSpark</p>
-            </div>
-          </div>
-        </figcaption>
-        <blockquote class="md:col-span-8">
-          <Icon name="ph:quotes" size={48} class="mb-5 text-accent opacity-25" />
-          <p class="max-w-[46ch] font-display text-2xl md:text-3xl tracking-tight leading-snug text-ink">
-            Josh inventoried 350 ERB templates before writing a line of new CSS, then turned that audit into a phased
-            rollout we could ship behind no flags. The shell finally reads like the enterprise product the pipeline always
-            was, and operators didn't lose a single piece of muscle memory in the move.
-          </p>
-        </blockquote>
-      </figure>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              New behavior lives in small Stimulus controllers or server-rendered HTMX, with no jQuery
-              or inline scripts. The only model change is three user columns for density and sidebar
-              preferences.
-            </p>
-            <p>
-              A color audit script rejects raw hex, RGB, and HSL values in changed files.
-            </p>
-          </div>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="content" class="mt-16">
-      <Heading level={3} visual="h3" tone="ink" class="mb-3">In-app style guide</Heading>
-      <Text tone="muted" class="measure">
-        Each component shown with dos and don’ts.
-      </Text>
-    </Container>
-
-    <Container width="wide" class="mt-10">
-      <div class="space-y-16">
-        <ScrollShot
-          src="/images/projects/vmspark/playground-overview.webp"
-          alt="The VMSpark style guide overview, linking to each section of the guide"
-          label="Style guide: overview"
-          index="01"
-        />
-        <ScrollShot
-          src="/images/projects/vmspark/playground-buttons.webp"
-          alt="The VMSpark style guide’s buttons page: variants, sizes, and states"
-          label="Buttons"
-          index="02"
-        />
-        <ScrollShot
-          src="/images/projects/vmspark/playground-tables.webp"
-          alt="The VMSpark style guide’s tables page: header style, density, and pagination"
-          label="Tables"
-          index="03"
-        />
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
-    <Container width="content">
-      <Heading level={2} visual="h2" tone="ink" class="mb-10">Limitations</Heading>
-      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
-        {edges.map((e) => (
-          <li class="pt-5">
-            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
-            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
-            <Text size="sm" tone="muted">{e.body}</Text>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </Section>
+  <CaseLimitations items={edges} />
 
   <GalleryLink project="vmspark" />
 

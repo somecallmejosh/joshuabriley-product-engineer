@@ -3,23 +3,70 @@ import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import GalleryLink from '~/components/patterns/GalleryLink.astro';
-import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import Metric from '~/components/patterns/Metric.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
+import CaseSection from '~/components/patterns/case/CaseSection.astro';
+import CaseProse from '~/components/patterns/case/CaseProse.astro';
+import CaseCards from '~/components/patterns/case/CaseCards.astro';
+import CaseResults from '~/components/patterns/case/CaseResults.astro';
+import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
 import { beckitSummary as tldr } from '~/lib/project-summaries';
 import type { ImageMetadata } from 'astro';
+
+// Section order and ids follow .claude/skills/portfolio/SKILL.md.
 
 const title = 'beckit | Joshua Briley';
 const description =
   'Case study: designing and building beckit, a private journal for CBT thought records.';
 
 // Copy throughout comes from notes/portfolio-writeup.md (Josh's write-up).
+
+const jumpLinks = [
+  { href: '#tldr', label: 'Summary' },
+  { href: '#context', label: 'Who it’s for' },
+  { href: '#research', label: 'Research' },
+  { href: '#decisions', label: 'Design decisions' },
+  { href: '#outcomes', label: 'Results' },
+  { href: '#process', label: 'How it was built' },
+  { href: '#edges', label: 'Limitations' },
+];
+
+// What my own walkthroughs and review of the first version found.
+const findings = [
+  {
+    icon: 'ph:scroll',
+    title: 'A five-screen form',
+    body: 'The new-entry form asked for the title, date, place and person before anyone had written what they were feeling.',
+  },
+  {
+    icon: 'ph:gauge',
+    title: 'One feeling rating',
+    body: 'The first version recorded one unnamed number before the reframe and nothing after, so people would never see “7 down to 4”.',
+  },
+  {
+    icon: 'ph:clipboard-text',
+    title: 'Still felt like paperwork',
+    body: 'Splitting the form into steps fixed its length, but early feedback was that it still felt like paperwork.',
+  },
+  {
+    icon: 'ph:lock-open',
+    title: 'A broken privacy promise',
+    body: 'Outside font services could see who used a mental-health journal, and sign-ins never expired on shared computers.',
+  },
+  {
+    icon: 'ph:chart-bar',
+    title: 'Insights too dense',
+    body: 'A bar chart, a heatmap, a pairs list and two color-coded grids, with tooltips that only worked with a mouse.',
+  },
+];
+
 // The five steps of an entry. `art` is the drawing beckit shows on that step.
 const steps = [
   { art: 'whats-on-your-mind', title: 'What’s on your mind', body: 'The thought and a short name. The only step required before anything saves.' },
@@ -27,6 +74,21 @@ const steps = [
   { art: 'name-the-pattern', title: 'Name the pattern', body: 'Pick the thinking traps that fit, with your thought shown above them.' },
   { art: 'weigh-it-up', title: 'Weigh it up', body: 'Evidence for and against, with questions from each trap you picked.' },
   { art: 'move-forward', title: 'Move forward', body: 'A balanced thought, a second feeling rating, and a plan for next time.' },
+];
+
+// In the order beckit lists them at /distortions.
+const traps = [
+  ['all-or-nothing-thinking', 'All-or-nothing thinking'],
+  ['overgeneralization', 'Overgeneralization'],
+  ['mental-filter', 'Mental filter'],
+  ['disqualifying-the-positive', 'Disqualifying the positive'],
+  ['mind-reading', 'Mind reading'],
+  ['fortune-telling', 'Fortune telling'],
+  ['catastrophizing', 'Catastrophizing'],
+  ['emotional-reasoning', 'Emotional reasoning'],
+  ['should-statements', 'Should statements'],
+  ['labeling', 'Labeling'],
+  ['personalization', 'Personalization'],
 ];
 
 const entryDetails = [
@@ -55,27 +117,25 @@ const insightsShows = [
   'How much the feeling changed between ratings',
 ];
 
-// In the order beckit lists them at /distortions.
-const traps = [
-  ['all-or-nothing-thinking', 'All-or-nothing thinking'],
-  ['overgeneralization', 'Overgeneralization'],
-  ['mental-filter', 'Mental filter'],
-  ['disqualifying-the-positive', 'Disqualifying the positive'],
-  ['mind-reading', 'Mind reading'],
-  ['fortune-telling', 'Fortune telling'],
-  ['catastrophizing', 'Catastrophizing'],
-  ['emotional-reasoning', 'Emotional reasoning'],
-  ['should-statements', 'Should statements'],
-  ['labeling', 'Labeling'],
-  ['personalization', 'Personalization'],
-];
-
 const results = [
-  'Starting an entry takes one question instead of a five-screen form',
-  'Unfinished entries resume at the waiting step',
-  'Every entry ends with a before-and-after feeling rating',
-  'Entries are searchable, and the journal and Insights link to each other',
-  'No outside service is contacted while someone writes',
+  {
+    label: 'For people writing entries',
+    items: [
+      'Starting an entry takes one question instead of a five-screen form',
+      'Unfinished entries resume at the waiting step',
+      'Every entry ends with a before-and-after feeling rating',
+      'Entries are searchable, and the journal and Insights link to each other',
+      'No outside service is contacted while someone writes',
+    ],
+  },
+  {
+    label: 'For the code',
+    items: [
+      'One list of steps and required answers drives validation, navigation and the “Continue this entry” link',
+      'Rate limiting on sign-in and sign-up',
+      'A small set of shared Tailwind components with full dark mode',
+    ],
+  },
 ];
 
 const edges = [
@@ -119,7 +179,7 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
 
   <ProjectHero project="beckit" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Entry steps' }, { href: '#privacy', label: 'Privacy' }, { href: '#insights', label: 'Insights' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'Limitations' }]} />
+  <CaseReview links={jumpLinks} />
 
   <Tldr
     problem={tldr.problem}
@@ -127,289 +187,254 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
     evidence={tldr.evidence}
   />
 
-  <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Five steps from the CBT method</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              The steps follow a CBT thought record, named for Aaron Beck, who developed
-              cognitive therapy.
-            </p>
-            <p>
-              My first version rated the feeling once, so people never saw “7 down to 4”,
-              the moment that makes the exercise worth repeating. Now every entry ends with
-              both ratings side by side.
-            </p>
-          </div>
+  <CaseSection id="context" title="Who it’s for">
+    <CaseProse>
+      <p>
+        beckit is for people keeping thought records, a common exercise in cognitive behavioral
+        therapy (CBT). Paper thought records work, but they’re easy to put off. The worksheet asks
+        for a lot at once, and a stressful moment is the worst time to face a form.
+      </p>
+      <p>
+        A journal only works if you can be honest in it, so beckit is private: only your account
+        can see your entries.
+      </p>
+      <p>
+        The name comes from Aaron Beck, the psychiatrist who developed cognitive therapy and
+        first described many of the thinking traps the app is built around.
+      </p>
+    </CaseProse>
+  </CaseSection>
 
-          <div class="mt-12">
-            <ol class="space-y-8">
-              {steps.map((step) => (
-                <li class="flex items-start gap-5">
-                  <img src={`/images/projects/beckit/steps/${step.art}.svg`} alt="" width="64" height="64" loading="lazy" decoding="async" class="h-16 w-16 shrink-0" />
-                  <div>
-                    <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{step.title}</Heading>
-                    <Text size="sm" tone="muted">{step.body}</Text>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </div>
-    </Container>
+  <CaseSection id="research" title="Research">
+    <CaseProse>
+      <p>
+        Every finding so far comes from my own walkthroughs, browser measurements, and a review
+        against usability heuristics, WCAG 2.2 and CBT practice. A walkthrough with sixty test
+        entries found that the new-entry form was nearly five phone screens tall.
+      </p>
+    </CaseProse>
 
-    <Container width="wide" class="mt-16">
-      <Plate title="Sketch: Name the pattern" caption="Redrawn from the shipped screen." src={shot('sketch-name-the-pattern')} alt="A hand-drawn sketch of the Name the pattern step: a five-step progress bar with the third step current, the quoted thought “I’m going to get fired.”, a set of thinking trap chips with Catastrophizing and Fortune telling ticked, and Back and Next buttons." />
-    </Container>
+    <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+      <Metric value="3,523 px" label="down the page to Save" caption="on the first new-entry form" />
+      <Metric value="60" label="test entries" caption="in the walkthrough that measured it" />
+    </div>
 
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <li>
-          <Plate size="half" title="Name the pattern" caption="Your thought stays in view while you pick traps." src={shot('step-name-the-pattern')} alt="The Name the pattern step: the thought “I’m going to get fired.” quoted above a set of thinking trap chips, with catastrophizing and fortune telling selected." />
-        </li>
-        <li>
-          <Plate size="half" title="Weigh it up" caption="Evidence for and against, side by side." src={shot('step-weigh-it-up')} alt="The Weigh it up step: the same thought quoted above two columns, what’s backing the thought and what doesn’t quite fit the story, each with an answer filled in." />
-        </li>
-      </ul>
-    </Container>
-  </Section>
+    <CaseCards items={findings} />
+  </CaseSection>
 
-  <Section tone="paper" padding="default" id="activity" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">One question at a time</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Steps fixed the length, but early feedback said it still felt like paperwork.
-              So questions now appear one at a time, worded the way a person would ask them.
-            </p>
-            <p>
-              I tried notebook-style ruled lines for the text areas, but they read as stray
-              borders, so every field kept a visible box.
-            </p>
-          </div>
+  <CaseSection id="decisions" title="Five short steps from the CBT method">
+    <CaseProse>
+      <p>
+        I chose to break the entry into small steps that each need only one answer and save as
+        you go, instead of one long form that saves at the end. Someone can write a single
+        sentence, close the app, and pick up where they left off later.
+      </p>
+      <p>
+        The steps follow how a CBT thought record is structured. My first version rated the
+        feeling once, so people never saw “7 down to 4”, the moment that makes the exercise
+        worth repeating. Now every entry ends with both ratings side by side.
+      </p>
+    </CaseProse>
 
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Details</p>
-            <ul class="space-y-3">
-              {entryDetails.map((item) => (
-                <li class="flex items-start gap-3 text-ink">
-                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
+    <div class="mt-12">
+      <ol class="space-y-8">
+        {steps.map((step) => (
+          <li class="flex items-start gap-5">
+            <img src={`/images/projects/beckit/steps/${step.art}.svg`} alt="" width="64" height="64" loading="lazy" decoding="async" class="h-16 w-16 shrink-0" />
+            <div>
+              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{step.title}</Heading>
+              <Text size="sm" tone="muted">{step.body}</Text>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
 
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <li>
-          <Plate size="half" title="A new entry" caption="Only the first question shows." src={shot('new-entry')} alt="A new entry: only the first question, “What went through your mind?”, is showing, with Continue, “Jot it down for now” and Next." />
-        </li>
-        <li>
-          <Plate size="half" title="Move forward" caption="The second feeling rating." src={shot('step-move-forward')} alt="The Move forward step: a balanced thought written as a friend would say it, and an intensity slider set to 4 with the word Noticeable and a sun-and-cloud icon." />
-        </li>
-      </ul>
-    </Container>
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <Plate title="Sketch: Name the pattern" caption="Redrawn from the shipped screen." src={shot('sketch-name-the-pattern')} alt="A hand-drawn sketch of the Name the pattern step: a five-step progress bar with the third step current, the quoted thought “I’m going to get fired.”, a set of thinking trap chips with Catastrophizing and Fortune telling ticked, and Back and Next buttons." />
+      </Container>
 
-    <Container width="wide" class="mt-16">
-      <Plate title="A finished entry" caption="The feeling rated 7 before and 4 after." src={shot('entry')} alt="A finished entry titled Missed a deadline: the thought “I’m going to get fired.” rated 7 out of 10, the traps catastrophizing and fortune telling, evidence on each side, and a balanced thought card ending in a rating of 4, down 3 from 7." />
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="privacy" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Privacy</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              My review found the app broke its privacy promise: outside font services could
-              see who used a mental-health journal, and sign-ins never expired on shared
-              computers. I fixed each gap as a bug.
-            </p>
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Controls</p>
-            <ul class="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-              {privacyControls.map((item) => (
-                <li class="flex items-start gap-3 text-ink">
-                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="insights" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Insights</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Insights describes which traps come up, and when, where and with whom, without
-              interpreting them. Each comparison is against the person’s own usual rate: a
-              trap counts as “more than usual” at a third above its overall rate, with at
-              least three entries.
-            </p>
-          </div>
-
-          <div class="mt-10">
-            <p class="mono-label mb-5">What Insights shows</p>
-            <ul class="space-y-2">
-              {insightsShows.map((item) => (
-                <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
-                  <Icon name="ph:dot-outline" size={18} class="mt-1 shrink-0 text-accent" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <Text size="lg" tone="muted" class="mt-10 measure">
-            The first version was too dense and mouse-only. I added summary sentences, made
-            every cell keyboard-reachable, and replaced the sideways-scrolling picker on phones.
-          </Text>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <li>
-          <Plate size="half" title="Insights overview" caption="A summary sentence, then weekly counts and the heatmap." src={shot('insights')} alt="The Insights overview: traps listed by count, a summary that catastrophizing, mind reading and labeling came up most across 58 entries, a weekly bar chart, and a weekday-by-time-of-day heatmap." />
-        </li>
-        <li>
-          <Plate size="half" title="One trap" caption="Mind reading against the person’s usual rate." src={shot('insights-trap')} alt="Insights for mind reading: 16 entries, 28 percent of all entries, average intensity 6.3, with notes on when, where and with whom it came up more than usual, and a weekly chart." />
-        </li>
-      </ul>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="traps" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Thinking trap drawings</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Each of the 11 traps has a page with a description, test questions, and an
-              animated line drawing that also becomes its share image.
-            </p>
-            <p>
-              Drawings generated from a written style description drifted, so I generated
-              each new one from the existing drawings and compared zoomed-in crops.
-            </p>
-          </div>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <ul class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
-        {traps.map(([slug, name]) => (
+      <Container width="wide" class="mt-16">
+        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
           <li>
-            <figure>
-              <div class="rounded-lg border border-line p-4">
-                <img src={`/images/projects/beckit/traps/${slug}.svg`} alt="" width="1024" height="1536" loading="lazy" decoding="async" class="h-auto w-full" />
-              </div>
-              <figcaption class="mt-3 text-sm text-ink-muted">{name}</figcaption>
-            </figure>
+            <Plate size="half" title="Name the pattern" caption="Your thought stays in view while you pick traps." src={shot('step-name-the-pattern')} alt="The Name the pattern step: the thought “I’m going to get fired.” quoted above a set of thinking trap chips, with catastrophizing and fortune telling selected." />
+          </li>
+          <li>
+            <Plate size="half" title="Weigh it up" caption="Evidence for and against, side by side." src={shot('step-weigh-it-up')} alt="The Weigh it up step: the same thought quoted above two columns, what’s backing the thought and what doesn’t quite fit the story, each with an answer filled in." />
+          </li>
+        </ul>
+      </Container>
+
+      <CaseProse continued>
+        <p>
+          Each of the 11 traps has a page with a description, test questions, and an
+          animated line drawing that also becomes its share image.
+        </p>
+        <p>
+          Drawings generated from a written style description drifted, so I generated
+          each new one from the existing drawings and compared zoomed-in crops.
+        </p>
+      </CaseProse>
+
+      <Container width="wide" class="mt-16">
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+          {traps.map(([slug, name]) => (
+            <li>
+              <figure>
+                <div class="rounded-lg border border-line p-4">
+                  <img src={`/images/projects/beckit/traps/${slug}.svg`} alt="" width="1024" height="1536" loading="lazy" decoding="async" class="h-auto w-full" />
+                </div>
+                <figcaption class="mt-3 text-sm text-ink-muted">{name}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-one-question" title="One question at a time">
+    <CaseProse>
+      <p>
+        Steps fixed the length, but early feedback said it still felt like paperwork.
+        So questions now appear one at a time, worded the way a person would ask them.
+      </p>
+      <p>
+        I tried notebook-style ruled lines for the text areas, but they read as stray
+        borders, so every field kept a visible box.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">Details</p>
+      <ul class="space-y-3">
+        {entryDetails.map((item) => (
+          <li class="flex items-start gap-3 text-ink">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            {item.text}
           </li>
         ))}
       </ul>
-    </Container>
-  </Section>
+    </div>
 
-  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Results</Heading>
-        </div>
-        <div class="case-layout__body">
-          <Text size="lg" tone="muted" class="mt-8 measure">
-            Measured against my own review, not outside users.
-          </Text>
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+          <li>
+            <Plate size="half" title="A new entry" caption="Only the first question shows." src={shot('new-entry')} alt="A new entry: only the first question, “What went through your mind?”, is showing, with Continue, “Jot it down for now” and Next." />
+          </li>
+          <li>
+            <Plate size="half" title="Move forward" caption="The second feeling rating." src={shot('step-move-forward')} alt="The Move forward step: a balanced thought written as a friend would say it, and an intensity slider set to 4 with the word Noticeable and a sun-and-cloud icon." />
+          </li>
+        </ul>
+      </Container>
 
-          <ul class="mt-8 space-y-3">
-            {results.map((item) => (
-              <li class="flex items-start gap-3 text-ink">
-                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Container>
-  </Section>
+      <Container width="wide" class="mt-16">
+        <Plate title="A finished entry" caption="The feeling rated 7 before and 4 after." src={shot('entry')} alt="A finished entry titled Missed a deadline: the thought “I’m going to get fired.” rated 7 out of 10, the traps catastrophizing and fortune telling, evidence on each side, and a balanced thought card ending in a rating of 4, down 3 from 7." />
+      </Container>
+    </Fragment>
+  </CaseSection>
 
-  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Which answer each step needs lives in one place in the model. Step pages,
-              navigation, validations and “Continue” links all read from it, and 220 tests
-              cover the models, step rules, Insights math and key flows.
-            </p>
-          </div>
+  <CaseSection id="decision-privacy" title="Privacy gaps fixed as bugs">
+    <CaseProse>
+      <p>
+        My review found the app broke its privacy promise: outside font services could
+        see who used a mental-health journal, and sign-ins never expired on shared
+        computers. I fixed each gap as a bug.
+      </p>
+    </CaseProse>
 
-          <div class="mt-10">
-            <CodeBlock
-              filename="situation.rb"
-              lang="ruby"
-              code={modelSnippet}
-              caption="One list drives validation, navigation and the “Continue this entry” link."
-            />
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
-    <Container width="content">
-      <Heading level={2} visual="h2" tone="ink" class="mb-10">Limitations</Heading>
-      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
-        {edges.map((e) => (
-          <li class="pt-5">
-            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
-            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
-            <Text size="sm" tone="muted">{e.body}</Text>
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">Controls</p>
+      <ul class="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+        {privacyControls.map((item) => (
+          <li class="flex items-start gap-3 text-ink">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            {item.text}
           </li>
         ))}
       </ul>
-    </Container>
-  </Section>
+    </div>
+  </CaseSection>
+
+  <CaseSection id="decision-insights" title="Insights that describe patterns without interpreting them">
+    <CaseProse>
+      <p>
+        Insights describes which traps come up, and when, where and with whom, without
+        interpreting them. Each comparison is against the person’s own usual rate: a
+        trap counts as “more than usual” at a third above its overall rate, with at
+        least three entries.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10">
+      <p class="mono-label mb-5">What Insights shows</p>
+      <ul class="space-y-2">
+        {insightsShows.map((item) => (
+          <li class="flex items-start gap-2 text-ink-muted leading-relaxed">
+            <Icon name="ph:dot-outline" size={18} class="mt-1 shrink-0 text-accent" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <CaseProse class="mt-10">
+      <p>
+        The first version was too dense and mouse-only. I added summary sentences, made
+        every cell keyboard-reachable, and replaced the sideways-scrolling picker on phones.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+          <li>
+            <Plate size="half" title="Insights overview" caption="A summary sentence, then weekly counts and the heatmap." src={shot('insights')} alt="The Insights overview: traps listed by count, a summary that catastrophizing, mind reading and labeling came up most across 58 entries, a weekly bar chart, and a weekday-by-time-of-day heatmap." />
+          </li>
+          <li>
+            <Plate size="half" title="One trap" caption="Mind reading against the person’s usual rate." src={shot('insights-trap')} alt="Insights for mind reading: 16 entries, 28 percent of all entries, average intensity 6.3, with notes on when, where and with whom it came up more than usual, and a weekly chart." />
+          </li>
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="outcomes" title="Results">
+    <CaseResults
+      note="Measured against my own review, not outside users."
+      metrics={[
+        { value: '1', label: 'required field to start an entry', caption: 'down from a five-screen form' },
+        { value: '220', label: 'automated tests', caption: 'models, step rules, Insights math and key flows' },
+      ]}
+      groups={results}
+    />
+  </CaseSection>
+
+  <CaseSection id="process" title="How it was built">
+    <CaseProse>
+      <p>
+        Which answer each step needs lives in one place in the model. Step pages,
+        navigation, validations and “Continue” links all read from it, and 220 tests
+        cover the models, step rules, Insights math and key flows.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10">
+      <CodeBlock
+        filename="situation.rb"
+        lang="ruby"
+        code={modelSnippet}
+        caption="One list drives validation, navigation and the “Continue this entry” link."
+      />
+    </div>
+  </CaseSection>
+
+  <CaseLimitations
+    lead="Both of these come from building alone: I designed for people I haven’t watched use the app."
+    items={edges}
+  />
 
   <GalleryLink project="beckit" />
 

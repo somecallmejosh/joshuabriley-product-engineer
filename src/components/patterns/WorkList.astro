@@ -1,5 +1,7 @@
 ---
 import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
+import ProjectScreenshot from '~/components/patterns/ProjectScreenshot.astro';
+import { projectTeasers } from '~/lib/project-teasers';
 import { selectedWork } from '~/lib/selected-work';
 interface Props { compact?: boolean; items?: typeof selectedWork; }
 const { compact = false, items = selectedWork } = Astro.props;
@@ -8,7 +10,9 @@ const { compact = false, items = selectedWork } = Astro.props;
   {items.map((work) => (
     <article class="work-entry" data-reveal>
       <a href={work.href} class="work-image" aria-label={`View ${work.name}`}>
-        <ProjectIllustration project={work.illustration} />
+        {projectTeasers[work.href]
+          ? <ProjectScreenshot {...projectTeasers[work.href]} sizes={compact ? '(min-width: 64em) 55vw, 175vw' : undefined} />
+          : <ProjectIllustration project={work.illustration} />}
         <span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span>
       </a>
       <div class="work-copy">

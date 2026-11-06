@@ -1,6 +1,8 @@
 ---
 import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
 import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
+import ProjectScreenshot from '~/components/patterns/ProjectScreenshot.astro';
+import { projectTeasers } from '~/lib/project-teasers';
 import { HEADER_MENUS } from '~/lib/nav';
 import { hasIllustration } from '~/lib/article-illustrations';
 import { currentMatcher, formatNavDate as formatDate, getNavFeatures } from '~/lib/nav-features';
@@ -40,7 +42,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
                 {caseStudies.map((work) => (
                   <li>
                     <a class="nav-case" href={work.href} aria-current={isCurrent(work.href) ? 'page' : undefined}>
-                      <span class="nav-case-thumb" aria-hidden="true"><ProjectIllustration project={work.illustration} /></span>
+                      <span class="nav-case-thumb" aria-hidden="true">{projectTeasers[work.href] ? <ProjectScreenshot src={projectTeasers[work.href].src} alt="" sizes="170px" /> : <ProjectIllustration project={work.illustration} />}</span>
                       <span class="nav-case-text">
                         <span class="nav-link-name">{work.name}</span>
                         <span class="nav-link-description">{work.title}</span>

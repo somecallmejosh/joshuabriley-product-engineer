@@ -89,8 +89,8 @@ test('mobile menu opens and restores focus after Escape', async ({ page }) => {
 test('IVFCRYO readiness checks fit a narrow phone viewport', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/projects/ivfcryo/#readiness');
-  await expect(page.locator('#readiness')).toBeVisible();
+  await page.goto('/projects/ivfcryo/#decisions');
+  await expect(page.locator('#decisions')).toBeVisible();
   const width = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
     content: document.documentElement.scrollWidth,

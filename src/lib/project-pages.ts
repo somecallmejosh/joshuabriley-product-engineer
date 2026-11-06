@@ -23,7 +23,7 @@ export interface ProjectPage {
 export const projectPages = {
   ivfcryo: {
     illustration: 'ivfcryo',
-    name: 'IVFCRYO', kind: 'Client work · Fertility logistics',
+    name: 'IVFCRYO', kind: 'Client project · Fertility logistics',
     headline: 'Five parties working from', emphasis: 'one shipment record.',
     intro: 'Shipping fertility specimens means coordinating a patient, two clinics, a courier, and IVFCRYO. I designed and built the shared interface where everyone confirms readiness before a shipment moves, then redesigned it and its public site in 2026.',
     facts: [
@@ -50,8 +50,9 @@ export const projectPages = {
     intro: 'Providers can record meals, naps, and attendance while caring for children. I led front-end work on a three-developer team, connecting voice interactions, recoverable errors, and shared components in a paid product.',
     facts: [
       { label: 'My role', value: 'Lead front end and interaction design' },
-      { label: 'Built with', value: 'Rails, ViewComponents, Alpine' },
+      { label: 'Owned', value: 'Provider research, voice interaction, repair flows, shared components' },
       { label: 'Team', value: 'Three developers' },
+      { label: 'Built with', value: 'Rails, ViewComponents, Alpine' },
     ],
     figures: [
       { value: '2+ hrs', label: 'saved on daily data entry', note: 'Reported by one provider' },
@@ -66,17 +67,16 @@ export const projectPages = {
     illustration: 'vmspark',
     name: 'VMSpark', kind: 'Client project · Healthcare staffing operations',
     headline: 'Giving a working data pipeline', emphasis: 'an interface that looks like it works.',
-    intro: 'VMSpark moves hospital job feeds into staffing agencies’ applicant tracking systems. The pipeline was reliable, but the admin app looked unfinished just as the company began showing it to investors. I redesigned the app shell and the screens operators use most.',
+    intro: 'VMSpark moves hospital job feeds into staffing agencies’ applicant tracking systems. The pipeline was reliable, but the admin app looked unfinished just as the company began showing it to investors. I audited it, then rebuilt its interface on a design system made for the people who use it all day.',
     facts: [
       { label: 'My role', value: 'Product design and front-end engineering' },
-      { label: 'Owned', value: 'Design audit, design direction, app shell, design system, table tooling, wireframes and flow diagrams' },
-      { label: 'Built with', value: 'Rails 7, Hotwire (Stimulus), HTMX, Bootstrap 5, SCSS, PostgreSQL' },
-      { label: 'Timeline', value: 'About six weeks, April–May 2026' },
+      { label: 'Owned', value: 'Usability audit, navigation, design system, style guide, every view' },
+      { label: 'Built with', value: 'Rails 7, Stimulus, HTMX, plain CSS on three-tier tokens, PostgreSQL' },
+      { label: 'Timeline', value: 'April–May 2026, then a full redesign in November 2026' },
     ],
     figures: [
-      { value: '~350', label: 'templates audited before designing' },
-      { value: '11', label: 'screens wireframed' },
-      { value: '5', label: 'system and user flows mapped' },
+      { value: '3.5 → 7.5', label: 'heuristic score, before and after' },
+      { value: '178', label: 'color pairings passing WCAG AA, light and dark' },
     ],
     image: '/images/projects/vmspark/wires-and-flows/02-job-listings.svg',
     alt: 'VMSpark job listings interface design with status tabs, filters, and a shared application shell',
@@ -91,8 +91,8 @@ export const projectPages = {
     facts: [
       { label: 'My role', value: 'Product design and full-stack development' },
       { label: 'Owned', value: 'Research, product decisions, design, Rails app, illustrations' },
-      { label: 'Built with', value: 'Rails 8, Hotwire, Tailwind CSS, PostgreSQL, Kamal' },
       { label: 'Team', value: 'Solo project' },
+      { label: 'Built with', value: 'Rails 8, Hotwire, Tailwind CSS, PostgreSQL, Kamal' },
     ],
     figures: [
       { value: '5', label: 'short steps per entry', note: 'Each with one required answer' },
@@ -114,8 +114,8 @@ export const projectPages = {
     facts: [
       { label: 'My role', value: 'Design and front-end development' },
       { label: 'Owned', value: 'Component APIs, token architecture, themes, tests, documentation, example apps' },
-      { label: 'Built with', value: 'React 19, TypeScript, React Aria, Style Dictionary, Storybook, Vitest, axe-core' },
       { label: 'Team', value: 'Solo project' },
+      { label: 'Built with', value: 'React 19, TypeScript, React Aria, Style Dictionary, Storybook, Vitest, axe-core' },
     ],
     figures: [
       { value: '26', label: 'example pages', note: 'Across four apps' },
@@ -139,8 +139,8 @@ export const projectPages = {
     facts: [
       { label: 'My role', value: 'Product design, curriculum and front-end development' },
       { label: 'Owned', value: 'Curriculum, game design, visual design, test engine, copy' },
-      { label: 'Built with', value: 'Astro 5, React, CodeMirror, axe-core, CSS custom properties, Netlify' },
       { label: 'Team', value: 'Solo project' },
+      { label: 'Built with', value: 'Astro 5, React, CodeMirror, axe-core, CSS custom properties, Netlify' },
     ],
     figures: [
       { value: '20', label: 'sectors', note: 'Across three difficulty arcs' },

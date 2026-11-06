@@ -1,0 +1,46 @@
+---
+import Section from '~/components/layout/Section.astro';
+import Container from '~/components/layout/Container.astro';
+import Icon from '~/components/primitives/Icon.astro';
+
+/**
+ * A client or user testimonial, placed right after Results. Quotes must come
+ * from the person, word for word; never draft one.
+ */
+interface Props {
+  quote: string;
+  name: string;
+  role: string;
+  photo?: string;
+  label?: string;
+}
+const { quote, name, role, photo, label = 'Testimonial' } = Astro.props;
+---
+<Section tone="paper" padding="default">
+  <Container width="content">
+    <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
+      <figcaption class="md:col-span-4">
+        {label && <p class="mono-label mb-6">{label}</p>}
+        <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
+          {photo && (
+            <img
+              src={photo}
+              alt={name}
+              class="h-14 w-14 rounded-full border border-line object-cover md:h-16 md:w-16"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <div>
+            <p class="font-display font-semibold text-ink">{name}</p>
+            <p class="mt-1 text-sm text-ink-muted leading-snug">{role}</p>
+          </div>
+        </div>
+      </figcaption>
+      <blockquote class="md:col-span-8">
+        <Icon name="ph:quotes" size={48} class="mb-5 text-accent opacity-25" />
+        <p class="max-w-2xl font-display text-2xl md:text-3xl tracking-tight leading-snug text-ink">{quote}</p>
+      </blockquote>
+    </figure>
+  </Container>
+</Section>

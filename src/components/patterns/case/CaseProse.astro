@@ -1,0 +1,25 @@
+---
+import Container from '~/components/layout/Container.astro';
+
+/**
+ * Body paragraphs in a case study. Inside a CaseSection body, use it bare.
+ * Between plates in the `media` slot, pass `continued` so the text lines up
+ * with the body column above it.
+ */
+interface Props {
+  continued?: boolean;
+  class?: string;
+}
+const { continued = false, class: className } = Astro.props;
+---
+{continued ? (
+  <Container width="content" class="mt-16">
+    <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
+      <slot />
+    </div>
+  </Container>
+) : (
+  <div class:list={['mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg', className]}>
+    <slot />
+  </div>
+)}

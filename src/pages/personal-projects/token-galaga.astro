@@ -3,23 +3,39 @@ import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import GalleryLink from '~/components/patterns/GalleryLink.astro';
-import Section from '~/components/layout/Section.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
+import Tldr from '~/components/patterns/Tldr.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
-import Tldr from '~/components/patterns/Tldr.astro';
-import CaseReview from '~/components/patterns/CaseReview.astro';
+import CaseSection from '~/components/patterns/case/CaseSection.astro';
+import CaseProse from '~/components/patterns/case/CaseProse.astro';
+import CaseResults from '~/components/patterns/case/CaseResults.astro';
+import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
 import { tokenAdventureSummary as tldr } from '~/lib/project-summaries';
 import type { ImageMetadata } from 'astro';
+
+// Section order and ids follow .claude/skills/portfolio/SKILL.md.
 
 const title = 'Token Adventure | Joshua Briley';
 const description =
   'Case study: Token Adventure, a browser coding game that teaches the W3C Design Tokens Format in 20 graded sectors.';
 
 // Copy throughout comes from notes/token-galaga.md (Josh's write-up).
+
+const jumpLinks = [
+  { href: '#tldr', label: 'Summary' },
+  { href: '#context', label: 'Who it’s for' },
+  { href: '#research', label: 'Research' },
+  { href: '#decisions', label: 'Design decisions' },
+  { href: '#outcomes', label: 'Results' },
+  { href: '#process', label: 'How it was built' },
+  { href: '#edges', label: 'Limitations' },
+];
+
 // The three arcs. `level` is the number of filled diamonds the game shows for that difficulty.
 const arcs = [
   { level: 1, name: 'Arc I · Beginner', sectors: 'Sectors 1 to 7', title: 'Foundations', body: '<code>$value</code>, <code>$type</code>, naming, the object form for color, group inheritance, and <code>$description</code>.' },
@@ -51,10 +67,23 @@ const checkCoverage = [
 ];
 
 const results = [
-  'Grew from 8 sectors on a 2024 draft to 20 on the stable 2025.10 spec',
-  'Every token value, hint, and Spellbook entry uses the current object form',
-  'Failure messages name the exact path and expected value',
-  'Runs entirely in the browser, with no sign-up and no server',
+  {
+    label: 'For players',
+    items: [
+      'Grew from 8 sectors on a 2024 draft to 20 on the stable 2025.10 spec',
+      'Every token value, hint, and Spellbook entry uses the current object form',
+      'Failure messages name the exact path and expected value',
+      'Runs entirely in the browser, with no sign-up and no server',
+    ],
+  },
+  {
+    label: 'For the code',
+    items: [
+      'Checks are plain data, so they cross the sandbox boundary',
+      'Token checks follow aliases and <code>$type</code> inheritance like the spec does',
+      'A five-second timeout if the player’s code hangs',
+    ],
+  },
 ];
 
 const edges = [
@@ -112,240 +141,208 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
 
   <ProjectHero project="tokens" />
 
-  <CaseReview links={[{ href: '#tldr', label: 'Summary' }, { href: '#method', label: 'Curriculum' }, { href: '#activity', label: 'Game loop' }, { href: '#grading', label: 'Grading' }, { href: '#outcomes', label: 'Results' }, { href: '#engineering', label: 'Engineering' }, { href: '#edges', label: 'Limitations' }]} />
+  <CaseReview links={jumpLinks} />
 
-  <Tldr
-    problem={tldr.problem}
-    decision={tldr.decision}
-    evidence={tldr.evidence}
-  />
+  <Tldr problem={tldr.problem} decision={tldr.decision} evidence={tldr.evidence} />
 
-  <Section tone="paper" padding="default" id="method" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Curriculum</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              I listed what you need to write a correct token file under the stable 2025.10 spec, and
-              that order became the curriculum.
-            </p>
-            <p>
-              The spec turned colors, sizes, and durations into objects, so <code>"8px"</code> becomes
-              <code>{'{ "value": 8, "unit": "px" }'}</code>. Most tutorials still teach strings, so I
-              rewrote every sector to the new shapes.
-            </p>
-          </div>
+  <CaseSection id="context" title="Who it’s for">
+    <CaseProse>
+      <p>
+        Token Adventure is for anyone who has to write a correct token file under the W3C Design
+        Tokens Format, the shared spec for storing color, spacing, type and other design decisions
+        as JSON.
+      </p>
+      <p>
+        Design tokens are now a normal part of any serious design system, but the spec is hard to
+        learn from. It’s precise because it has to be: <code>$value</code>, <code>$type</code>,
+        group inheritance, alias references, composite types and exact value shapes. That makes it
+        <strong class="text-ink font-semibold">a good reference and a poor teacher</strong>. You
+        finish reading it with the vocabulary, but you still can’t tell whether your own file is
+        correct.
+      </p>
+    </CaseProse>
+  </CaseSection>
 
-          <div class="mt-12">
-            <p class="mono-label mb-6">The three arcs</p>
-            <ol class="space-y-8">
-              {arcs.map((arc) => (
-                <li class="flex items-start gap-5">
-                  <span class="flex h-16 w-16 shrink-0 items-center justify-center gap-0.5 rounded-lg border border-line" aria-hidden="true">
-                    {[1, 2, 3].map((n) => (
-                      <Icon name={n <= arc.level ? 'ph:diamond-fill' : 'ph:diamond'} size={14} class={n <= arc.level ? 'text-accent' : 'text-ink-muted'} />
-                    ))}
-                  </span>
-                  <div>
-                    <p class="mono-label mb-1.5">{arc.name} · {arc.sectors}</p>
-                    <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{arc.title}</Heading>
-                    <Text size="sm" tone="muted"><Fragment set:html={arc.body} /></Text>
-                  </div>
-                </li>
+  <CaseSection id="research" title="Research">
+    <CaseProse>
+      <p>
+        I listed what you need to write a correct token file under the stable 2025.10 spec: what a
+        token is, how names and paths work, how a group passes its <code>$type</code> down, how one
+        token refers to another, what each type’s value has to look like, and how all of that
+        becomes CSS.
+      </p>
+      <p>
+        The spec turned colors, sizes, and durations into objects, so <code>"8px"</code> becomes
+        <code>{'{ "value": 8, "unit": "px" }'}</code>. <strong class="text-ink font-semibold">Most
+        tutorials still teach strings</strong>, so I rewrote every sector to the new shapes. The
+        rewrite turned up a real bug: the final audit’s own example shadow used the old string
+        form, which contradicted the lesson it was testing.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
+  <CaseSection id="decisions" title="A curriculum in three arcs, in the order you need it">
+    <CaseProse>
+      <p>
+        The list of what you need to know became the curriculum: 20 sectors across three
+        difficulty arcs, from first token to full audit.
+      </p>
+    </CaseProse>
+
+    <div class="mt-12">
+      <p class="mono-label mb-6">The three arcs</p>
+      <ol class="space-y-8">
+        {arcs.map((arc) => (
+          <li class="flex items-start gap-5">
+            <span class="flex h-16 w-16 shrink-0 items-center justify-center gap-0.5 rounded-lg border border-line" aria-hidden="true">
+              {[1, 2, 3].map((n) => (
+                <Icon name={n <= arc.level ? 'ph:diamond-fill' : 'ph:diamond'} size={14} class={n <= arc.level ? 'text-accent' : 'text-ink-muted'} />
               ))}
-            </ol>
-          </div>
-        </div>
-      </div>
-    </Container>
+            </span>
+            <div>
+              <p class="mono-label mb-1.5">{arc.name} · {arc.sectors}</p>
+              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{arc.title}</Heading>
+              <Text size="sm" tone="muted"><Fragment set:html={arc.body} /></Text>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
 
-    <Container width="wide" class="mt-16">
-      <Plate title="Sketch: a sector" caption="Redrawn from the shipped game." src={shot('sketch-sector')} alt="A hand-drawn sketch of a sector page: the sector header with a 20-step progress bar, a story panel with the character’s portrait, a code console beside the live viewport, and a diagnostics panel with two passing checks and one failing with “Path not found”." />
-    </Container>
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+          <li>
+            <Plate size="half" title="Color the 2025 Way" caption="Color as an object, checked field by field." src={shot('color-the-2025-way')} alt="A tokens.json editor holding a color token written as an object with colorSpace, components and hex, next to a passing check list." />
+          </li>
+          <li>
+            <Plate size="half" title="Audit the Library" caption="Four spec violations to find and fix." src={shot('audit-the-library')} alt="The final sector: a broken tokens.json with four faults and a check list showing which ones are still failing." />
+          </li>
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
 
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <li>
-          <Plate size="half" title="Color the 2025 Way" caption="Color as an object, checked field by field." src={shot('color-the-2025-way')} alt="A tokens.json editor holding a color token written as an object with colorSpace, components and hex, next to a passing check list." />
+  <CaseSection id="decision-loop" title="Every sector follows the same write, run, and check loop">
+    <CaseProse>
+      <p>
+        A written tutorial lets you read every page without writing a token that has to work, and a
+        quiz checks whether you recognize the right answer, not whether you can produce one. So
+        every sector follows the same loop, and the player always knows what to do next:
+      </p>
+    </CaseProse>
+
+    <ol class="mt-8 space-y-5">
+      {loop.map((step, i) => (
+        <li class="flex items-start gap-4">
+          <span class="mono-label mt-1 shrink-0 text-accent">{String(i + 1).padStart(2, '0')}</span>
+          <p class="leading-relaxed text-ink-muted">
+            <strong class="font-medium text-ink">{step.title}</strong> <Fragment set:html={step.body} />
+          </p>
         </li>
-        <li>
-          <Plate size="half" title="Audit the Library" caption="Four spec violations to find and fix." src={shot('audit-the-library')} alt="The final sector: a broken tokens.json with four faults and a check list showing which ones are still failing." />
-        </li>
-      </ul>
-    </Container>
-  </Section>
+      ))}
+    </ol>
 
-  <Section tone="paper" padding="default" id="activity" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Game loop</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>Every sector follows the same loop:</p>
-          </div>
+    <CaseProse class="mt-10">
+      <p>
+        The arcade look makes a dry subject worth finishing, but the editor, preview, and checks
+        always get the most space. Cyan, yellow, and magenta mark the three difficulty levels.
+      </p>
+    </CaseProse>
 
-          <ol class="mt-8 space-y-5">
-            {loop.map((step, i) => (
-              <li class="flex items-start gap-4">
-                <span class="mono-label mt-1 shrink-0 text-accent">{String(i + 1).padStart(2, '0')}</span>
-                <p class="leading-relaxed text-ink-muted">
-                  <strong class="font-medium text-ink">{step.title}</strong> <Fragment set:html={step.body} />
-                </p>
-              </li>
-            ))}
-          </ol>
-
-          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              The arcade look makes a dry subject worth finishing, but the editor, preview, and checks
-              always get the most space. Cyan, yellow, and magenta mark the three difficulty levels.
-            </p>
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">Details</p>
-            <ul class="space-y-3">
-              {gameDetails.map((item) => (
-                <li class="flex items-start gap-3 text-ink">
-                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </Container>
-
-    <Container width="wide" class="mt-16">
-      <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <li>
-          <Plate size="half" title="Failure messages" caption="Expected versus found, in plain language." src={shot('failing-checks')} alt="A check list from the final audit: four checks pass, and one fails with the message that an alias points at a path that doesn’t exist." />
-        </li>
-        <li>
-          <Plate size="half" title="Arc clear" caption="Shown after sector 20." src={shot('arc-clear')} alt="The arc-clear screen: a magenta “Game Clear, Ace Pilot” message with light rays behind it, and the totals for sectors, XP and arcs." />
-        </li>
-      </ul>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="grading" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Grading inside a sandbox</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Player code runs in a sandboxed <code>&lt;iframe&gt;</code>, so the app can’t inspect the
-              preview directly. Checks are plain data sent into the sandbox, run there, and returned as
-              results, with a five-second timeout if the code hangs.
-            </p>
-          </div>
-
-          <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-            <p class="mono-label mb-5">What the checks cover</p>
-            <ul class="space-y-3">
-              {checkCoverage.map((item) => (
-                <li class="flex items-start gap-3 text-ink-muted">
-                  <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
-                  <span><strong class="font-medium text-ink">{item.label}:</strong> <Fragment set:html={item.text} /></span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              The alias check doesn’t search for <code>{'{color.brand.primary}'}</code>. It follows the
-              chain to the final value and reports missing paths and loops.
-            </p>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="outcomes" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Results</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              No outside testers yet, so these come from my own review.
-            </p>
-          </div>
-
-          <ul class="mt-8 space-y-3">
-            {results.map((item) => (
-              <li class="flex items-start gap-3 text-ink">
-                <Icon name="ph:check" size={16} class="mt-1 shrink-0 text-accent" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="engineering" class="scroll-mt-24">
-    <Container width="content">
-      <div class="case-layout">
-        <div class="case-layout__head">
-          <Heading level={2} visual="display-md" tone="ink">Engineering</Heading>
-        </div>
-        <div class="case-layout__body">
-          <div class="mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Every token sector relies on this alias resolver in the sandbox runtime. It follows
-              references the way a build tool would.
-            </p>
-          </div>
-
-          <div class="mt-10">
-            <CodeBlock
-              filename="sandbox-runtime.ts"
-              lang="js"
-              code={resolverSnippet}
-              caption="Broken paths and loops become messages the player can fix."
-            />
-          </div>
-
-          <div class="mt-10 measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              Each sector is one file exporting its story, starter code, hint, and checks. New sectors
-              need no engine changes.
-            </p>
-          </div>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
-    <Container width="content">
-      <Heading level={2} visual="h2" tone="ink" class="mb-10">Limitations</Heading>
-      <ul class="grid gap-x-10 gap-y-10 md:grid-cols-2">
-        {edges.map((e) => (
-          <li class="pt-5">
-            <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
-            <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
-            <Text size="sm" tone="muted"><Fragment set:html={e.body} /></Text>
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">Details</p>
+      <ul class="space-y-3">
+        {gameDetails.map((item) => (
+          <li class="flex items-start gap-3 text-ink">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            {item.text}
           </li>
         ))}
       </ul>
-    </Container>
-  </Section>
+    </div>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <Plate title="Sketch: a sector" caption="Redrawn from the shipped game." src={shot('sketch-sector')} alt="A hand-drawn sketch of a sector page: the sector header with a 20-step progress bar, a story panel with the character’s portrait, a code console beside the live viewport, and a diagnostics panel with two passing checks and one failing with “Path not found”." />
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+          <li>
+            <Plate size="half" title="Failure messages" caption="Expected versus found, in plain language." src={shot('failing-checks')} alt="A check list from the final audit: four checks pass, and one fails with the message that an alias points at a path that doesn’t exist." />
+          </li>
+          <li>
+            <Plate size="half" title="Arc clear" caption="Shown after sector 20." src={shot('arc-clear')} alt="The arc-clear screen: a magenta “Game Clear, Ace Pilot” message with light rays behind it, and the totals for sectors, XP and arcs." />
+          </li>
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-grading" title="Checks that read tokens the way a build tool does">
+    <CaseProse>
+      <p>
+        A passing check has to mean your tokens are valid, not that you picked the right answer.
+        Player code runs in a sandboxed <code>&lt;iframe&gt;</code>, so the app can’t inspect the
+        preview directly. Checks are plain data sent into the sandbox, run there, and returned as
+        results, with a five-second timeout if the code hangs.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">What the checks cover</p>
+      <ul class="space-y-3">
+        {checkCoverage.map((item) => (
+          <li class="flex items-start gap-3 text-ink-muted">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            <span><strong class="font-medium text-ink">{item.label}:</strong> <Fragment set:html={item.text} /></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <CaseProse class="mt-10">
+      <p>
+        The alias check doesn’t search for <code>{'{color.brand.primary}'}</code>. It follows the
+        chain to the final value and reports missing paths and loops.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
+  <CaseSection id="outcomes" title="Results">
+    <CaseResults
+      note="No outside testers yet, so these come from my own review."
+      groups={results}
+    />
+  </CaseSection>
+
+  <CaseSection id="process" title="How it was built">
+    <CaseProse>
+      <p>
+        Every token sector relies on this alias resolver in the sandbox runtime. It follows
+        references the way a build tool would.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10">
+      <CodeBlock
+        filename="sandbox-runtime.ts"
+        lang="js"
+        code={resolverSnippet}
+        caption="Broken paths and loops become messages the player can fix."
+      />
+    </div>
+
+    <CaseProse class="mt-10">
+      <p>
+        Each sector is one file exporting its story, starter code, hint, and checks. New sectors
+        need no engine changes.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
+  <CaseLimitations items={edges} />
 
   <GalleryLink project="tokens" />
 
