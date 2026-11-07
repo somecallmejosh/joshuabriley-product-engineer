@@ -3,9 +3,21 @@
 // (not query strings) so it works under `output: 'static'`. noindex + excluded
 // from the sitemap; not linked anywhere. scripts/generate-og.mjs screenshots
 // each /og-render/<slug>/ into public/images/og/<slug>.png.
+//
+// Layout: text on the left, the page's own art on a tinted mat on the right.
+// The art is always something real from the site: a post's drawing, a
+// project's close-up teaser, or Josh's portrait. Pages without art get a
+// text-only card.
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import Logo from '~/components/primitives/Logo.astro';
+import ArticleIllustration from '~/components/patterns/ArticleIllustration.astro';
+import ProjectScreenshot from '~/components/patterns/ProjectScreenshot.astro';
 import { OG_PAGES, postToOgEntry } from '~/lib/og-pages.mjs';
+import { hasIllustration, type IllustratedPost } from '~/lib/article-illustrations';
+import { projectTeasers } from '~/lib/project-teasers';
+import portrait from '~/assets/og/portrait-cutout.png';
 
 export async function getStaticPaths() {
   // Only emit these render pages during `astro dev` (where the generator
@@ -24,9 +36,19 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { eyebrow, headline, wink } = entry;
-const disciplines = entry.path === '/'
-  ? ['Product design', 'Front-end engineering', 'Accessibility']
-  : ['Design systems', 'UI engineering', 'Accessibility'];
+
+// One drawing per series for the blog fan, and three client/personal close-ups
+// for each work listing (client or personal). Back to front.
+const BLOG_FAN: IllustratedPost[] = ['the-modal-in-its-natural-habitat', 'ted-lasso-ux-engineer', 'the-people-v-the-carousel'];
+const WORK_FAN = entry.path.startsWith('/personal-projects/')
+  ? ['/personal-projects/beckit/', '/personal-projects/token-galaga/', '/personal-projects/clempo/']
+  : ['/projects/logatot/', '/projects/vmspark/', '/projects/ivfcryo/'];
+
+const postId = entry.slug.startsWith('blog-') ? entry.slug.slice('blog-'.length) : '';
+const drawing = hasIllustration(postId) ? postId : null;
+const shot = projectTeasers[entry.path] ?? null;
+const pageArt: string | null = 'art' in entry && entry.art ? entry.art : null;
+const art: string | null = drawing ? 'drawing' : shot ? 'shot' : pageArt;
 
 // Split the headline around the wink word (last, case-insensitive occurrence),
 // so the card sets just that word in navy italic without markup in the data.
@@ -42,32 +64,37 @@ if (wink) {
   }
 }
 
-// Font scale planned around length so short titles read big and long lines fit.
+// Font scale planned around length and the column it has: half the card with
+// art, most of it without.
 const len = headline.length;
-const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 : 50;
+const size = art
+  ? (len <= 12 ? 104 : len <= 22 ? 80 : len <= 34 ? 66 : len <= 48 ? 58 : 50)
+  : (len <= 14 ? 120 : len <= 26 ? 96 : len <= 44 ? 80 : 64);
 ---
 
 <BaseLayout title="OG render" bare={true} noindex={true}>
-  <div class="og-card" style={`--og-headline-size:${size}px`}>
+  <div class:list={['og-card', { 'og-card--art': art }]} style={`--og-headline-size:${size}px`}>
 
-    <header class="og-top">
-      <div class="og-brand">
-        <span class="og-mono">JB</span>
-        <span class="og-wordmark">Joshua Briley<span class="og-dot">.</span></span>
-      </div>
+    <div class="og-copy">
       <p class="og-eyebrow">{eyebrow}</p>
-    </header>
+      <h1 class="og-headline">
+        {pre}{winkText && <em>{winkText}</em>}{post}<span class="og-dot">.</span>
+      </h1>
+      <footer class="og-sign">
+        <span class="og-logo"><Logo size="lg" /></span>
+        <span class="og-url">joshuabriley.com</span>
+      </footer>
+    </div>
 
-    <h1 class="og-headline">
-      {pre}{winkText && <em>{winkText}</em>}{post}<span class="og-dot">.</span>
-    </h1>
-
-    <footer class="og-bottom">
-      <span class="og-url">joshuabriley.com</span>
-      <ul class="og-tags">
-        {disciplines.map(discipline => <li><span class="og-tick" aria-hidden="true"></span>{discipline}</li>)}
-      </ul>
-    </footer>
+    {art && (
+      <div class:list={['og-art', `og-art--${art}`]} aria-hidden="true">
+        {art === 'drawing' && <ArticleIllustration post={drawing!} class="og-plate" />}
+        {art === 'shot' && <ProjectScreenshot {...shot!} sizes="1400px" class="og-plate" />}
+        {art === 'portrait' && <Image src={portrait} alt="" widths={[1800]} sizes="1800px" class="og-portrait" />}
+        {art === 'blog' && BLOG_FAN.map((id) => <ArticleIllustration post={id} class="og-plate og-fan" />)}
+        {art === 'work' && WORK_FAN.map((href) => <ProjectScreenshot {...projectTeasers[href]} sizes="1000px" class="og-plate og-fan" />)}
+      </div>
+    )}
   </div>
 
   <style>
@@ -75,7 +102,6 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
       --og-paper: #fafbfc;
       --og-ink: #1a1b1e;
       --og-muted: #565760;
-      --og-line: #e5e7eb;
       --og-accent: #2e5c8a; /* denim navy, the site's light-surface accent */
       position: relative;
       width: 1200px;
@@ -83,112 +109,142 @@ const size = len <= 14 ? 92 : len <= 26 ? 80 : len <= 44 ? 68 : len <= 60 ? 58 :
       overflow: hidden;
       background: var(--og-paper);
       color: var(--og-ink);
-      padding: 64px 72px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       box-sizing: border-box;
       font-family: var(--font-hanken), system-ui, sans-serif;
     }
 
-    .og-top,
-    .og-bottom {
+    /* Copy column: eyebrow on top, headline in the middle, signature below. */
+    .og-copy {
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 60px 72px 52px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
+      max-width: 1080px;
     }
-
-    .og-brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .og-mono {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      background: var(--og-ink);
-      color: var(--og-paper);
-      font-weight: 700;
-      font-size: 20px;
-      letter-spacing: 0.02em;
-    }
-    .og-wordmark {
-      font-weight: 600;
-      font-size: 31px;
-      letter-spacing: -0.02em;
-      color: var(--og-ink);
-    }
-    .og-dot {
-      color: var(--og-accent);
-    }
+    .og-card--art .og-copy { max-width: 640px; padding-right: 40px; }
 
     .og-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0;
       font-family: var(--font-geist-mono), ui-monospace, monospace;
       font-weight: 500;
-      font-size: 15px;
-      letter-spacing: 0.16em;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
       text-transform: uppercase;
-      color: var(--og-muted);
-      margin: 0;
-      text-align: right;
-      max-width: 44%;
+      color: var(--og-accent);
+    }
+    .og-eyebrow::before {
+      content: '';
+      width: 36px;
+      height: 3px;
+      background: var(--og-accent);
     }
 
     .og-headline {
-      position: relative;
-      z-index: 1;
-      font-family: var(--font-hanken), system-ui, sans-serif;
+      margin: 0;
       font-weight: 800;
       font-size: var(--og-headline-size, 76px);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
       color: var(--og-ink);
-      max-width: 1000px;
-      margin: 0;
       text-wrap: balance;
     }
     .og-headline em {
       font-family: var(--font-fraunces), Georgia, serif;
       font-style: italic;
       font-weight: 400;
+      letter-spacing: -0.01em;
       color: var(--og-accent);
+      padding-right: 0.04em;
     }
+    .og-dot { color: var(--og-accent); }
 
+    /* The header wordmark, set larger for a 1200px card. */
+    .og-sign {
+      display: flex;
+      align-items: baseline;
+      gap: 22px;
+    }
+    .og-logo :global([role='img']) { font-size: 54px; }
     .og-url {
       font-family: var(--font-geist-mono), ui-monospace, monospace;
       font-size: 17px;
-      letter-spacing: 0.01em;
       color: var(--og-muted);
     }
-    .og-tags {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-      margin: 0;
+
+    /* Art panel: the site's illustration mat, full height on the right, with
+       the art set large enough to run off the edges. */
+    .og-art {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 560px;
+      background: color-mix(in srgb, var(--og-accent) 14%, var(--og-paper));
+    }
+    .og-art::before {
+      /* A soft wash so the panel isn't a flat block of tint. */
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120% 90% at 30% 40%, color-mix(in srgb, var(--og-paper) 55%, transparent), transparent 60%);
+    }
+    .og-art :global(.og-plate) {
+      position: absolute;
       padding: 0;
+      background: none;
+      --tilt: 0deg;
     }
-    .og-tags li {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-family: var(--font-geist-mono), ui-monospace, monospace;
-      font-size: 13.5px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--og-muted);
+    .og-art :global(.og-plate .illustration-frame) {
+      box-shadow:
+        0 2px 4px color-mix(in srgb, var(--og-ink) 10%, transparent),
+        0 40px 70px -24px color-mix(in srgb, var(--og-ink) 45%, transparent);
     }
-    .og-tick {
-      width: 5px;
-      height: 5px;
-      border-radius: 1px;
-      background: var(--og-accent);
+
+    /* One drawing: large and tilted, its frame just kissing the right edge
+       so the drawing's own text stays whole. */
+    .og-art--drawing :global(.og-plate) {
+      width: 540px;
+      left: 44px;
+      top: 128px;
+      transform: rotate(-5deg);
+    }
+
+    /* One close-up: the teaser plane, sharp. The site's tilt-shift blur reads
+       as out of focus at thumbnail size, so it's off here. */
+    .og-art :global(.illustration-frame--shot::after) { display: none; }
+    .og-art :global(.illustration-shot) {
+      transform: rotateX(14deg) rotateZ(-5deg) scale(1.18);
+      filter: none;
+    }
+    .og-art--shot :global(.og-plate) {
+      width: 620px;
+      left: 52px;
+      top: 104px;
+      transform: rotate(-3deg);
+    }
+
+    /* Fans: three plates stacked back to front, the front one whole. */
+    .og-art :global(.og-fan) { width: 400px; }
+    .og-art :global(.og-fan:nth-child(1)) { left: 130px; top: 34px; transform: rotate(8deg); }
+    .og-art :global(.og-fan:nth-child(2)) { left: 92px; top: 150px; transform: rotate(-2deg); }
+    .og-art :global(.og-fan:nth-child(3)) { left: 54px; top: 290px; transform: rotate(-8deg); }
+
+    /* Portrait: the cut-out on the mat, cropped at the chest. */
+    .og-art :global(.og-portrait) {
+      position: absolute;
+      left: 50%;
+      bottom: -190px;
+      width: 720px;
+      height: auto;
+      transform: translateX(-50%);
     }
   </style>
 </BaseLayout>

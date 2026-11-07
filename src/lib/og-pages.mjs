@@ -11,6 +11,11 @@
  *   headline - Newsreader display line (a navy period is appended by the card)
  *   wink     - optional word inside `headline` set in navy italic (the site's
  *              ink-wink). Case-insensitive match on the last occurrence.
+ *   art      - optional visual for the right half of the card:
+ *              'portrait' (Josh), 'blog' (a fan of post drawings) or 'work'
+ *              (a fan of project close-ups). Project pages pick up their
+ *              teaser close-up and posts their drawing automatically, so they
+ *              need no `art`. No art at all → a text-only card.
  *
  * Adding a page: add an entry here, then `node scripts/generate-og.mjs`.
  * A route with no entry falls back to the site default (social/og-image-2026.png), so
@@ -18,14 +23,14 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet' },
-  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'I design and build products with the teams that ship them', wink: 'with the teams that ship them' },
-  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop' },
-  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it' },
-  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built' },
-  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build on my own time', wink: 'on my own time' },
-  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship' },
-  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Interface lessons, played for laughs', wink: 'played for laughs' },
+  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet', art: 'portrait' },
+  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'I design and build products with the teams that ship them', wink: 'with the teams that ship them', art: 'portrait' },
+  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop', art: 'portrait' },
+  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it', art: 'portrait' },
+  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built', art: 'work' },
+  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build on my own time', wink: 'on my own time', art: 'work' },
+  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship', art: 'portrait' },
+  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Interface lessons, played for laughs', wink: 'played for laughs', art: 'blog' },
   { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system', wink: null },
   { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy', wink: null },
   { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use', wink: null },

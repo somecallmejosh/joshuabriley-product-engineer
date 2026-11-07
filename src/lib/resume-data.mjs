@@ -11,7 +11,7 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  "Product design engineer with 20+ years taking products from an unclear problem to a shipped, accessible product. I work out what users actually need, design the flow, and build it myself, in settings from a child-care platform to a design system used by roughly 3,500 engineers and designers."
+  "Product design engineer with 20+ years helping teams take products from an unclear problem to a shipped, accessible product. I partner with product, design, and engineering to learn what users actually need, shape the flow, and build it in the team's codebase. I've done that work on products as different as a child-care platform and a design system used by roughly 3,500 engineers and designers."
 
 /**
  * The résumé's through-line. Each EXPERIENCE entry tags the threads it proves

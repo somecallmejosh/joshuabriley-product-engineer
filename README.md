@@ -90,6 +90,8 @@ Routes are file-based under `src/pages/`. Legacy paths (the old `/tools/*` and `
 
 Per-page Open Graph cards live in `public/images/og/` and are rendered from the manifest in `src/lib/og-pages.mjs`. A git pre-commit hook (`.githooks/pre-commit`, wired up by the `prepare` npm script) regenerates them only when an OG input is staged. Bypass with `git commit --no-verify`; regenerate manually with `npm run og:generate` (dev server on `:4321` required).
 
+Every card follows the `og-cards` guideline in `design-system/rules.json`: copy and the script wordmark on the left, the page's own art (post drawing, project close-up, portrait, or a fan of three) on a tinted mat on the right. Posts and projects get their art automatically; other pages set `art` in the manifest.
+
 ## Deployment
 
 Pushing to the default branch builds and deploys to Netlify. The Netlify adapter is applied for builds and skipped in `dev` (see `astro.config.mjs`).
