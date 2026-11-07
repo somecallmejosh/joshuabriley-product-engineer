@@ -16,6 +16,7 @@ a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) sca
 .illustration .check { stroke: var(--paper); }
 .illustration text { fill: var(--ink); }
 .illustration .label { font-family: var(--font-geist-mono), monospace; font-size: 12px; letter-spacing: 1px; fill: var(--ink-muted); }
+.illustration .believe { font-weight: 700; letter-spacing: 2px; fill: var(--ink); }
 .illustration .accent-text { fill: var(--accent); }
 .illustration .small { font-size: 16px; fill: var(--ink-muted); }
 .illustration .body { font-size: 18px; }

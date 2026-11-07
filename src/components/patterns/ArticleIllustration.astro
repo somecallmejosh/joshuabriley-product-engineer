@@ -49,6 +49,64 @@ const { post, class: className } = Astro.props;
     </g>
   )}
 
+  {post === 'bob-ross-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 214V226C80 230 58 242 56 276M124 214V226C150 230 172 242 174 276" />
+      <circle cx="115" cy="152" r="50" class="ink" />
+      <ellipse cx="115" cy="172" rx="30" ry="38" class="paper-fill ink-stroke" stroke-width="2" />
+      <path class="ink" d="M86 176C86 214 100 226 115 226S144 214 144 176C140 192 130 198 115 198S90 192 86 176Z" />
+      <path class="ink-stroke" stroke-width="2" d="M99 168Q104 164 109 168M121 168Q126 164 131 168M115 172L112 184H118" />
+      <path class="paper-stroke" stroke-width="2" d="M106 206Q115 213 124 206" />
+      <g transform="translate(-36 4)">
+        <path class="accent-stroke" stroke-width="2" d="M142 246C150 236 172 236 176 248C180 260 166 268 152 264C146 262 148 256 143 256C136 256 136 250 142 246Z" />
+        <circle cx="154" cy="246" r="2.5" class="accent" /><circle cx="164" cy="245" r="2.5" class="accent" /><circle cx="170" cy="254" r="2.5" class="accent" />
+      </g>
+      <text x="226" y="126" class="title">Bob Ross</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Building in layers</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Undo for everything</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Calm error messages</text>
+      <text x="40" y="324" class="result result--sm">Happy little accidents</text>
+    </g>
+  )}
+
+  {post === 'hermione-granger-ux-engineer' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <path class="ink-stroke" stroke-width="2" d="M106 212V226C80 230 58 242 56 276M124 212V226C150 230 172 242 174 276" />
+      <path class="ink" d="M115 108C104 102 88 102 84 112C72 108 62 118 66 130C54 134 54 150 62 156C50 164 54 180 62 184C52 194 56 210 66 212C58 224 64 240 76 238C76 248 90 250 92 238C94 228 90 216 90 206C88 186 92 160 115 150C138 160 142 186 140 206C140 218 136 230 140 240C146 250 160 246 158 234C170 236 176 222 168 212C180 206 178 190 168 186C178 178 176 162 166 158C176 150 172 134 162 132C166 118 154 106 144 112C138 102 124 100 115 108Z" />
+      <path class="ink-stroke" stroke-width="2" d="M64 128Q56 126 57 119Q58 114 63 116M59 160Q51 162 50 156Q50 151 55 152M60 206Q52 210 50 204Q49 199 54 199M168 128Q176 124 176 118Q175 114 171 116M172 182Q180 182 181 176Q181 171 176 172M168 226Q176 230 179 225Q181 220 176 219M98 104Q96 98 101 97Q105 97 104 101" />
+      <path class="paper-stroke" stroke-width="1.5" d="M76 146Q84 154 78 164M154 146Q146 154 152 164M72 198Q80 206 74 216M156 198Q148 206 154 216" />
+      <ellipse cx="115" cy="176" rx="25" ry="34" class="paper-fill ink-stroke" stroke-width="2" />
+      <path class="ink" d="M92 160C96 140 106 136 115 136C112 146 102 154 92 160ZM138 160C134 140 124 136 115 136C118 146 128 154 138 160Z" />
+      <path class="ink-stroke" stroke-width="2" d="M101 170Q105 167 109 170M121 170Q125 167 129 170" />
+      <circle cx="105" cy="175" r="2.5" class="ink" /><circle cx="125" cy="175" r="2.5" class="ink" />
+      <path class="ink-stroke" stroke-width="2" d="M115 180L113 190H117M107 198Q115 204 123 198" />
+      <path class="accent" d="M96 218H134L138 232H92Z" />
+      <path class="paper-stroke" stroke-width="2.5" d="M104 219L101 231M116 219V231M128 219L131 231" />
+      <path class="accent" d="M120 232H130L132 256H122Z" />
+      <text x="226" y="126" class="title">Hermione Granger</text>
+      <text x="226" y="152" class="small">UX Engineer</text>
+      <text x="226" y="194" class="label">KNOWN FOR</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Reading the whole spec</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Precise ARIA</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Standing up for users</text>
+      <text x="40" y="324" class="result result--sm">It's Levi-O-sa</text>
+    </g>
+  )}
+
   {post === 'dwight-schrute-ux-engineer' && (
     <g stroke-linecap="round" stroke-linejoin="round">
       <text x="40" y="56" class="label">PRODUCT TEAM · UX ENGINEER</text>
@@ -91,8 +149,9 @@ const { post, class: className } = Astro.props;
       <circle cx="104" cy="170" r="2.2" class="ink" /><circle cx="126" cy="170" r="2.2" class="ink" />
       <path class="ink-stroke" stroke-width="2" d="M115 174L112 188H118M102 197Q115 211 128 197" />
       <path class="ink-stroke" stroke-width="2" d="M106 226L112 252M124 226L118 252M112 234H118" />
-      <path class="accent" d="M152 142C158 126 170 114 182 106C180 122 170 136 152 142Z" />
-      <path class="accent-stroke" stroke-width="1.5" d="M146 150L176 114" />
+      <path class="accent" d="M52 118C62 108 76 104 90 105C82 115 68 120 52 118Z" />
+      <path class="accent-stroke" stroke-width="1.5" d="M46 122L88 106" />
+      <path class="accent-stroke" stroke-width="1.5" stroke-dasharray="2 5" d="M52 132Q64 140 56 152" />
       <text x="226" y="126" class="title">Forrest Gump</text>
       <text x="226" y="152" class="small">UX Engineer</text>
       <text x="226" y="194" class="label">KNOWN FOR</text>
@@ -149,6 +208,7 @@ const { post, class: className } = Astro.props;
       <path class="ink-stroke" stroke-width="2" d="M106 209Q115 215 124 209" />
       <path class="ink-stroke" stroke-width="1.5" d="M106 226L112 248M124 226L118 248" />
       <rect x="109" y="247" width="12" height="7" rx="3" class="accent" />
+      <text x="115" y="271" text-anchor="middle" class="label believe">BELIEVE</text>
       <text x="226" y="126" class="title">Ted Lasso</text>
       <text x="226" y="152" class="small">UX Engineer</text>
       <text x="226" y="194" class="label">KNOWN FOR</text>
@@ -429,6 +489,69 @@ const { post, class: className } = Astro.props;
     </g>
   )}
 
+  {post === 'the-people-v-the-giant-logo' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. THE GIANT LOGO</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANT</text>
+      <rect x="62.5" y="132.5" width="106" height="128" class="frame" />
+      <path class="ink-stroke" stroke-width="1.5" d="M62 146H168" />
+      <circle cx="71" cy="139.5" r="2" class="ink" /><circle cx="78" cy="139.5" r="2" class="ink" /><circle cx="85" cy="139.5" r="2" class="ink" />
+      <circle cx="115" cy="196" r="38" class="accent-stroke" stroke-width="3" />
+      <path class="ink" d="M91 214L106 184L115 198L126 176L140 214Z" />
+      <path class="ink-stroke" stroke-width="1.5" d="M76 248H104M76 255H96M118 248H154" />
+      <text x="226" y="126" class="title">The Giant Logo</text>
+      <text x="226" y="152" class="small">Charged on three counts</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Filling the first screen</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Burying the phone number</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Not linking home</text>
+      <text x="40" y="324" class="result result--sm">Sentenced to the header</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
+  {post === 'the-people-v-the-sneaky-opt-in' && (
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. THE SNEAKY OPT-IN</text>
+      <path class="rule" d="M40 76H440" />
+      <rect x="40.5" y="96.5" width="150" height="180" class="frame" />
+      <text x="54" y="118" class="label">DEFENDANT</text>
+      <rect x="62.5" y="134.5" width="106" height="22" rx="3" class="frame" />
+      <rect x="62.5" y="166.5" width="106" height="22" rx="3" class="frame" />
+      <rect x="62" y="202" width="18" height="18" rx="3" class="accent" />
+      <path class="paper-stroke" stroke-width="2.5" d="M66 211L70 215L77 206" />
+      <path class="ink-stroke" stroke-width="1" d="M88 205H164M88 210H160M88 215H164M88 220H140" />
+      <rect x="62" y="236" width="106" height="26" rx="6" class="ink" />
+      <path class="paper-stroke" stroke-width="2" d="M96 249H134" />
+      <text x="226" y="126" class="title">The Sneaky Opt-In</text>
+      <text x="226" y="152" class="small">Charged with three associates</text>
+      <text x="226" y="194" class="label">COUNTS</text>
+      <circle cx="240" cy="216" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="222" class="small">Pre-checking the box</text>
+      <circle cx="240" cy="244" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="250" class="small">Shaming the decline</text>
+      <circle cx="240" cy="272" r="4.5" class="accent-stroke" stroke-width="1.5" />
+      <text x="256" y="278" class="small">Hiding the cancel button</text>
+      <text x="40" y="324" class="result result--sm">Ordered to ask first</text>
+      <g transform="translate(0 12) rotate(-30 412 300)">
+        <rect x="390" y="290" width="44" height="20" rx="4" class="accent" />
+        <path class="paper-stroke" stroke-width="2" d="M398 290V310M426 290V310" />
+        <path class="ink-stroke" stroke-width="4" d="M412 310V346" />
+      </g>
+      <path class="accent-stroke" stroke-width="2" d="M378 312L368 306M376 326H364M380 338L371 345" />
+    </g>
+  )}
+
   {post === 'the-people-v-orange-and-yellow' && (
     <g stroke-linecap="round" stroke-linejoin="round">
       <text x="40" y="56" class="label">UI COURT · THE PEOPLE V. ORANGE AND YELLOW</text>
@@ -668,6 +791,10 @@ const { post, class: className } = Astro.props;
       <circle cx="104" cy="172" r="2.2" class="ink" /><circle cx="126" cy="172" r="2.2" class="ink" />
       <path class="ink-stroke" stroke-width="2" d="M115 176L112 189H118M105 199Q116 205 126 197M104 226L115 236L126 226" />
       <circle cx="103" cy="208" r="1" class="ink" /><circle cx="110" cy="211" r="1" class="ink" /><circle cx="120" cy="211" r="1" class="ink" /><circle cx="127" cy="208" r="1" class="ink" />
+      <circle cx="115" cy="254" r="14" class="ink" />
+      <circle cx="115" cy="254" r="10.5" class="paper-fill" />
+      <path class="ink-stroke" stroke-width="1.5" d="M115 243.5V247M115 261V264.5M104.5 254H108M122 254H125.5M107.6 246.6L110 249M120 259L122.4 261.4M122.4 246.6L120 249M110 259L107.6 261.4" />
+      <path class="ink" d="M111 247.5H116.5C119.5 247.5 121 249 121 250.7C121 252 120.2 253 119 253.5C120.6 254 121.6 255.2 121.6 256.8C121.6 259 119.8 260.5 116.8 260.5H111ZM113.6 249.6V252.8H116.2C117.6 252.8 118.4 252.2 118.4 251.2S117.6 249.6 116.2 249.6ZM113.6 254.8V258.4H116.5C118 258.4 118.9 257.7 118.9 256.6S118 254.8 116.5 254.8Z" fill-rule="evenodd" />
       <text x="226" y="126" class="title">Happy Gilmore</text>
       <text x="226" y="152" class="small">UX Engineer</text>
       <text x="226" y="194" class="label">KNOWN FOR</text>
