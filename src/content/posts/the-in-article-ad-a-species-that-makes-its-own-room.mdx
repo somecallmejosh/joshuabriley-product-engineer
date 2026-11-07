@@ -1,0 +1,57 @@
+---
+title: "The in-article ad, a species that makes its own room"
+description: "It nests between paragraphs, waits for the reader to arrive, then unfolds and shoves the story down the page. A look at the in-article ad and the reader it leaves behind."
+date: 2026-11-07
+category: Wild Interfaces
+tags:
+  - Advertising
+  - Performance
+  - Accessibility
+readMinutes: 3
+---
+
+<p class="lede">The visitor is three paragraphs into an article about lasagna, or mortgages, or last night's city council meeting. Their eyes are halfway through a sentence. Then, without a sound, the sentence moves down the screen, and in the space where it used to be, an ad unfolds.</p>
+
+Watch closely, because it happens fast.
+
+## A nest in the middle of the path
+
+Most ads live at the edges of a page, in a banner across the top or a column down the side. The in-article ad prefers the middle. It nests between paragraphs, right where the reader is headed, and it doesn't finish building its nest until the reader gets there.
+
+When the page first loads, the gap between paragraphs two and three is empty, or only a few pixels tall. A moment later, the ad arrives and takes all the room it needs. Everything below it, including the sentence the visitor was reading, gets pushed down the page.
+
+## The lost reader
+
+The visitor's eyes land on a different line. Sometimes it's an ad for the shoes they looked at last week. Sometimes it's the middle of a paragraph they've already read. They scroll back up and search for their place, like a bird returning to a branch that someone has moved.
+
+On a phone, the effect is stronger. One ad can fill the whole screen, and a visitor who was about to tap a link taps the ad instead. The ad counts this as a click. The visitor counts it as a good reason to leave.
+
+## The unfolding display
+
+Some members of the species have developed a more elaborate routine. The outstream video ad lies folded flat until the visitor scrolls it into view. Then it opens to the size of a small television and starts playing, usually muted. When the video ends, it folds itself back up, and the article lurches upward again.
+
+A close relative waits until the visitor scrolls past, then detaches from the page and follows them down the screen in a small box in the corner, like a gull trailing a fishing boat.
+
+## Effects on the wider ecosystem
+
+Screen reader users meet the ad as a block of unexpected content in the middle of the story, often full of links that don't say where they go. Keyboard users have to tab through every one of those links to get back to the article. People who get dizzy from motion on screen have no way to stop the page from shifting under them.
+
+Visitors on slow connections have it worst. Their ads take the longest to arrive, so by the time one does, they've read the furthest and have the most to lose.
+
+## Measuring the damage
+
+This behavior has been studied. Google calls it Cumulative Layout Shift, one of the Core Web Vitals it uses to judge how a page feels to use. The score adds up every time something on the page moves without the visitor asking it to, and anything under 0.1 is considered good. Pages crowded with expanding ads often score far worse, and Google can take that into account in search results.
+
+The Coalition for Better Ads keeps its own list of the most disruptive species, including ads that cover the content, video that autoplays with sound, and large ads that stick to the screen. Chrome has been known to block every ad on sites that keep breaking those standards.
+
+## A healthier habitat
+
+The fix is surprisingly simple: the ad's space should exist before the ad does. When a page reserves a slot at the right size, with a set height or aspect ratio, the ad can load whenever it likes and nothing around it moves. If no ad shows up, a small labeled placeholder holds the space so the article stays put.
+
+Well-behaved ads also carry an "Advertisement" label, so readers can tell where the story stops and starts again. They don't play sound, they don't follow anyone down the page, and they stay the size they were when they arrived.
+
+Some publishers go further and keep ads out of the reading column altogether, placing them before or after the article, or in the margins, where readers can ignore them in peace.
+
+The visitor finds their sentence again, two screens lower than where they left it. They read it, and just below, a gap between paragraphs begins to open.
+
+This episode is part of the [Wild Interfaces series](/blog/#wild-interfaces).

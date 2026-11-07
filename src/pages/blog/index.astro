@@ -19,15 +19,12 @@ const groups = [
   ...topics.map((topic) => ({ ...topic, label: topic.category, posts: rest.filter((post) => post.data.category === topic.category) })),
   { id: 'more-writing', title: 'More', emphasis: 'writing.', label: 'More writing', description: 'Further notes on interfaces and the teams building them.', posts: rest.filter((post) => !known.has(post.data.category)) },
 ].filter((group) => group.posts.length > 0);
-// The hero lineup: one entry per series, shown with a recent illustration
-// (not the lead post's, which appears again right below).
+// The series lineup: a compact index of the series, linking to their sections below.
 const countNoun: Record<string, string> = { 'wild-interfaces': 'episodes', 'ui-court': 'cases', 'fictional-ux-engineers': 'profiles' };
 const lineup = topics
   .map((topic) => ({ ...topic, posts: posts.filter((post) => post.data.category === topic.category) }))
   .filter((series) => series.posts.length > 0)
-  .map((series) => ({ ...series, cover: series.posts.find((post) => post.id !== lead?.id && hasIllustration(post.id)), unit: countNoun[series.id] ?? 'articles' }));
-const formatDate =(date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-const isoDate = (date: Date) => date.toISOString().slice(0, 10);
+  .map((series) => ({ ...series, unit: countNoun[series.id] ?? 'articles' }));
 ---
 
 <BaseLayout title="Writing: interface lessons, played for laughs | Joshua Briley" description="Bad interface patterns stand trial, everyday components get the nature-documentary treatment, and famous characters join product teams. Each story hides a real lesson about building better UI.">
@@ -36,19 +33,6 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
       <p class="role-line hero-in hero-in-1">Writing</p>
       <h1 class="page-type hero-in hero-in-2">Interface lessons, <em>played for laughs.</em></h1>
       <p class="page-lede hero-in hero-in-3">Bad patterns stand trial, everyday components get the nature-documentary treatment, and famous characters join product teams. Each story hides a real lesson about building better UI.</p>
-      <nav class="series-lineup hero-in hero-in-4" aria-label="Browse the series">
-        <ul role="list">
-          {lineup.map((series) => (
-            <li>
-              <a href={`#${series.id}`}>
-                {series.cover && hasIllustration(series.cover.id) && <span class="series-cover" aria-hidden="true"><ArticleIllustration post={series.cover.id} /></span>}
-                <span class="series-name">{series.category} <span aria-hidden="true" data-link-arrow="down">↓</span></span>
-                <span class="series-description">{series.description}</span>
-                <span class="series-count">{series.posts.length} {series.unit}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
     </Container>
   </section>
 
@@ -60,7 +44,6 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
             <p class="latest-context">Latest {writing[lead.id]?.format?.toLowerCase() ?? 'article'}</p>
             <h2 id="latest-title"><a href={`/blog/${lead.id}/`}>{lead.data.title}</a></h2>
             <p class="latest-description">{lead.data.description}</p>
-            <p class="post-meta latest-meta"><time datetime={isoDate(lead.data.date)}>{formatDate(lead.data.date)}</time><span>{lead.data.readMinutes} min read</span></p>
             <a class="action-link latest-action" href={`/blog/${lead.id}/`}>Read the article <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
           {hasIllustration(lead.id) && (
@@ -70,6 +53,23 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
       </Container>
     </section>
   )}
+
+  <nav class="editorial-section series-lineup" aria-labelledby="series-lineup-title">
+    <Container width="wide">
+      <h2 id="series-lineup-title" class="mono-label series-lineup-title">Browse by series</h2>
+      <ul role="list">
+        {lineup.map((series) => (
+          <li>
+            <a href={`#${series.id}`}>
+              <span class="series-name">{series.category}</span>
+              <span class="series-description">{series.description}</span>
+              <span class="series-count">{series.posts.length} {series.unit} <span aria-hidden="true" data-link-arrow="down">↓</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </nav>
 
   {groups.map((group) => (
     <section id={group.id} class="editorial-section writing-section" aria-labelledby={`${group.id}-title`}>
@@ -82,10 +82,10 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
           <ul class="writing-list" role="list" data-reveal-stagger>
             {group.posts.map((post) => (
               <li>
-                <a class="post-link article-preview-link" href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`}>
+                <a class="post-link article-preview-link" href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`} aria-describedby={`desc-${post.id}`}>
                   {hasIllustration(post.id) && <ArticleIllustration post={post.id} class="post-illustration" />}
                   <h3 id={`title-${post.id}`}>{post.data.title}</h3>
-                  <p class="post-meta"><time datetime={isoDate(post.data.date)}>{formatDate(post.data.date)}</time><span>{post.data.readMinutes} min read</span></p>
+                  <p id={`desc-${post.id}`} class="post-description">{post.data.description}</p>
                 </a>
               </li>
             ))}
@@ -98,20 +98,24 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 
 <style>
   .writing-opener .page-type { max-width: 19ch; }
-  /* The series lineup: each series' latest illustration, name, and a one-line pitch. */
-  .series-lineup { margin-top: 3.5rem; }
-  .series-lineup ul { display: grid; gap: 2.5rem; margin: 0; padding: 0; list-style: none; }
-  .series-lineup a { display: grid; gap: .5rem; align-content: start; }
-  .series-cover { display: none; margin-bottom: .75rem; }
-  .series-cover :global(.illustration) { --mat: .75rem; }
-  .series-name { display: inline-flex; align-items: center; gap: .6rem; font-size: 1.125rem; font-weight: 600; letter-spacing: -.015em; color: var(--ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
-  .series-description { max-width: 34ch; font-size: .9375rem; line-height: 1.55; color: var(--ink-muted); }
-  .series-count { font-size: .8125rem; color: var(--ink-muted); }
+  /* The series lineup: a hairline index of the series, kept plain so it doesn't read as another set of post cards. */
+  /* The first series section supplies the space below the lineup. */
+  .series-lineup { padding-bottom: 0; }
+  .series-lineup-title { margin-bottom: 1.25rem; }
+  .series-lineup ul { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+  .series-lineup li { border-bottom: 1px solid var(--line); }
+  .series-lineup a { display: grid; gap: .5rem; align-content: start; height: 100%; padding: 1.5rem 0; }
+  .series-name { font-size: 1.375rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; color: var(--ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .series-description { max-width: 36ch; font-size: .9375rem; line-height: 1.55; color: var(--ink-muted); }
+  .series-count { display: inline-flex; align-items: center; gap: .5rem; margin-top: .5rem; font-size: .8125rem; color: var(--ink-muted); }
   .series-lineup a:is(:hover, :focus-visible) .series-name { color: var(--accent); text-decoration-color: currentColor; }
   .series-lineup a:focus-visible { outline: 3px solid var(--accent); outline-offset: 6px; }
   @media (min-width: 768px) {
-    .series-lineup ul { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; }
-    .series-cover { display: block; }
+    .series-lineup ul { grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+    .series-lineup li { border-bottom: 0; }
+    .series-lineup li + li { border-left: 1px solid var(--line); }
+    .series-lineup a { padding: 1.75rem 2rem 2rem; }
+    .series-lineup li:first-child a { padding-left: 0; }
     .writing-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -124,8 +128,6 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   .latest-copy h2 { max-width: 17ch; font-size: clamp(2.65rem, 5.3vw, 4.8rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.03; }
   .latest-copy h2 a:hover, .latest-copy h2 a:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
   .latest-description { margin-top: 1.6rem; max-width: 49ch; font-size: 1.1rem; line-height: 1.65; color: #e0e8ef; }
-  .post-meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; color: var(--ink-muted); font-size: .82rem; line-height: 1.5; }
-  .latest-meta { color: #c6d8e8; margin-top: 1.4rem; }
   .latest-action { background: white; color: var(--portfolio-blue); margin-top: 1.7rem; }
   .latest-action:hover { background: #e0e8ef; }
   .writing-group { display: grid; gap: 2.5rem; }
@@ -137,12 +139,21 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
   .post-link { display: grid; gap: .75rem; align-content: start; }
   .post-link :global(.post-illustration) { --mat: .75rem; min-width: 0; margin-bottom: .5rem; }
   .post-link h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.25; letter-spacing: -.02em; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .post-description { max-width: 57ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
   .post-link:is(:hover, :focus-visible) h3 { color: var(--accent); text-decoration-color: currentColor; }
   .post-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 6px; }
   .latest-illustration { display: block; min-width: 0; }
   @media (min-width: 1024px) {
     .latest-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 6rem; align-items: center; }
     .writing-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  /* Stacked layout: eyebrow, then the drawing, then the copy, like the post cards and other page teasers. */
+  @media (max-width: 1023px) {
+    .latest-layout { gap: 0; }
+    .latest-copy { display: contents; }
+    .latest-context { order: -2; }
+    .latest-illustration { order: -1; margin-bottom: 2.5rem; }
+    .latest-action { justify-self: start; }
   }
   @media (max-width: 639px) {
     .latest-writing { padding: 3.5rem 0; }

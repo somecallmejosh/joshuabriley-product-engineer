@@ -35,6 +35,8 @@ export default defineConfig({
     '/blog/measuring-style-guide-adoption': '/blog',
     '/blog/the-hidden-cost-of-component-inconsistency': '/blog',
     '/blog/where-to-learn-modern-front-end': '/blog',
+    // Rewritten as a UI Court case 2026-11-07.
+    '/blog/the-municipal-website-a-species-that-never-stops-growing': '/blog/the-people-v-the-municipal-website',
   },
   ...(isDev ? {} : { adapter: netlify() }),
   // Default (sharp) image service. The passthrough service was carried in at the
