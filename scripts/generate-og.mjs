@@ -84,3 +84,14 @@ for (const entry of JOBS) {
 
 await browser.close();
 console.log(`\nGenerated ${ok}/${JOBS.length} OG cards → public/images/og/`);
+
+// Project pages need a manifest entry or they share the generic site card.
+// Flag any that were added without one.
+const known = new Set(OG_PAGES.map((e) => e.path));
+for (const dir of ['projects', 'personal-projects']) {
+  for (const f of readdirSync(resolve(ROOT, 'src/pages', dir))) {
+    if (!f.endsWith('.astro') || f === 'index.astro') continue;
+    const path = `/${dir}/${f.replace(/\.astro$/, '')}/`;
+    if (!known.has(path)) console.warn(`  WARN  ${path} has no entry in src/lib/og-pages.mjs`);
+  }
+}

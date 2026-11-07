@@ -37,6 +37,7 @@ export const OG_PAGES = [
 
   // Case studies (client work)
   { slug: 'project-ivfcryo', path: '/projects/ivfcryo/', eyebrow: 'Case Study · Design & Front-End', headline: 'IVFCRYO', wink: null },
+  { slug: 'project-logatot', path: '/projects/logatot/', eyebrow: 'Case Study · Design & Front-End', headline: 'Logatot', wink: null },
   { slug: 'project-vmspark', path: '/projects/vmspark/', eyebrow: 'Case Study · Design & Front-End', headline: 'VMSpark', wink: null },
 
   // Personal projects
