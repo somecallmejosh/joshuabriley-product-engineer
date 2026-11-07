@@ -43,12 +43,12 @@ const contactLines = [
 ];
 ---
 
-<BaseLayout title="Joshua K. Briley — Resume" bare noindex>
+<BaseLayout title={`${CONTACT.name} · Résumé`} bare noindex>
   <article class="doc">
 
     <header class="masthead">
       <div class="masthead__id">
-        <h1>{CONTACT.name}<span class="dot">.</span></h1>
+        <h1>{CONTACT.name}</h1>
         <p class="masthead__title">{CONTACT.title}</p>
       </div>
       <ul class="masthead__contact">
@@ -125,20 +125,21 @@ const contactLines = [
      the end of the last sheet. Nothing outside the article belongs on paper. */
   :global(body > *:not(main)) { display: none !important; }
 
-  /* The only "background" left, and it is paper, not decoration. It has to be
-     stated: the site's surface tokens invert under prefers-color-scheme: dark,
-     and a resume that prints white-on-black is a lost application. */
+  /* Sheet white, not the site's off-white page: --raised is the token for a
+     white surface, and paper is white. Stated here because BaseLayout paints
+     <html> with --paper. */
   :global(html),
-  :global(body) { background: #fff; }
+  :global(body) { background: var(--raised); }
 
   .doc {
-    /* The site's three faces, same roles they play everywhere else:
-       Hanken Grotesk for body, Newsreader (--font-fraunces) for display,
-       Geist Mono for the small uppercase labels. */
+    /* Same type and color system as the site: Hanken Grotesk for display and
+       body, Geist Mono for the small uppercase labels, ink / ink-muted for
+       text, the denim accent for section labels. Colors are the site tokens,
+       not copies, so the PDF follows any palette change on the next print. */
     font-family: var(--font-hanken), system-ui, sans-serif;
     font-size: 9.2pt;
     line-height: 1.45;
-    color: #33302b;
+    color: var(--ink);
     max-width: 7.14in;
     margin: 0 auto;
   }
@@ -154,22 +155,23 @@ const contactLines = [
     gap: 0.4in;
   }
 
+  /* The site's page-heading treatment (.page-type): heavy grotesk, tight
+     tracking. Eased off the screen value because -0.065em is tuned for 60px+
+     and closes up at 22pt. */
   .masthead__id h1 {
-    font-family: var(--font-fraunces), Georgia, serif;
-    font-size: 21pt;
-    font-weight: 600;
-    letter-spacing: -0.018em;
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-size: 22pt;
+    font-weight: 800;
+    letter-spacing: -0.045em;
     line-height: 1.05;
-    color: #1b1a17;
+    color: var(--ink);
   }
-  /* The trailing period is the site's wordmark, carried onto paper. */
-  .masthead__id h1 .dot { color: #a8412a; }
 
   .masthead__title {
     margin-top: 0.05in !important;
     max-width: 4.75in;
     font-size: 8.6pt;
-    color: #5b574f;
+    color: var(--ink-muted);
   }
 
   .masthead__contact {
@@ -178,7 +180,7 @@ const contactLines = [
     font-size: 7pt;
     letter-spacing: 0.055em;
     text-transform: uppercase;
-    color: #5b574f;
+    color: var(--ink-muted);
     line-height: 1.65;
   }
 
@@ -189,12 +191,12 @@ const contactLines = [
     margin-top: 0.2in !important;
     font-size: 9.8pt;
     line-height: 1.52;
-    color: #1b1a17;
+    color: var(--ink);
     max-width: 6.4in;
   }
 
   /* ── Section headings ─────────────────────────────────────────────────── */
-  /* The site's .mono-label, in accent. These were hairline-ruled; with the rule
+  /* The site's .mono-label, in the denim accent. These were hairline-ruled; with the rule
      gone, the label carries the break on its own, so it gets wider tracking and
      a lot more air above than below. That asymmetry is what groups it with the
      content beneath instead of floating between two blocks.
@@ -209,7 +211,7 @@ const contactLines = [
     font-weight: 500;
     letter-spacing: 0.185em;
     text-transform: uppercase;
-    color: #a8412a;
+    color: var(--accent);
     /* A heading stranded at the foot of a sheet is the classic print bug. */
     break-after: avoid;
     page-break-after: avoid;
@@ -225,13 +227,13 @@ const contactLines = [
   .strength__title {
     font-size: 8.7pt;
     font-weight: 600;
-    color: #1b1a17;
+    color: var(--ink);
   }
   .strength__body {
     margin-top: 0.015in !important;
     font-size: 8.3pt;
     line-height: 1.4;
-    color: #5b574f;
+    color: var(--ink-muted);
   }
 
   /* ── Experience ───────────────────────────────────────────────────────── */
@@ -253,10 +255,10 @@ const contactLines = [
     font-size: 10.1pt;
     font-weight: 600;
     letter-spacing: -0.01em;
-    color: #1b1a17;
+    color: var(--ink);
   }
-  .job__co { font-weight: 400; color: #5b574f; }
-  .sep { color: #a09a90; }
+  .job__co { font-weight: 400; color: var(--ink-muted); }
+  .sep { color: var(--ink-faint); }
 
   .job__period,
   .job__stack {
@@ -267,13 +269,13 @@ const contactLines = [
   .job__period {
     flex-shrink: 0;
     font-size: 7pt;
-    color: #5b574f;
+    color: var(--ink-muted);
     white-space: nowrap;
   }
   .job__stack {
     margin-top: 0.022in !important;
     font-size: 6.9pt;
-    color: #8a847a;
+    color: var(--ink-muted);
   }
 
   /* Real list markers rather than the colored squares that were here before:
@@ -288,10 +290,10 @@ const contactLines = [
   .job__bullets li {
     font-size: 8.8pt;
     line-height: 1.46;
-    color: #33302b;
+    color: var(--ink);
     padding-left: 0.015in;
   }
-  .job__bullets li::marker { color: #b3ada2; font-size: 0.8em; }
+  .job__bullets li::marker { color: var(--ink-faint); font-size: 0.8em; }
 
   /* ── Toolkit ──────────────────────────────────────────────────────────── */
   .toolkit { display: grid; gap: 0.07in; }
@@ -307,13 +309,13 @@ const contactLines = [
     font-size: 7pt;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #5b574f;
+    color: var(--ink-muted);
     padding-top: 0.015in;
   }
   .toolkit dd {
     font-size: 8.6pt;
     line-height: 1.44;
-    color: #33302b;
+    color: var(--ink);
   }
 
   /* ── Education ────────────────────────────────────────────────────────── */
@@ -321,7 +323,7 @@ const contactLines = [
     display: grid;
     gap: 0.04in;
     font-size: 8.7pt;
-    color: #33302b;
+    color: var(--ink);
   }
-  .ed__title { font-weight: 600; color: #1b1a17; }
+  .ed__title { font-weight: 600; color: var(--ink); }
 </style>
