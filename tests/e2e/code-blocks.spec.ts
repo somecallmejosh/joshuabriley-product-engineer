@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/']) {
+for (const path of ['/style-guide/']) {
   test(`highlighted code preserves source, copy, and accessible layout: ${path}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addInitScript(() => {
@@ -42,17 +42,17 @@ for (const path of ['/projects/ivfcryo/', '/projects/logatot/', '/style-guide/']
   });
 }
 
-// No current post carries code, so the shared theme is checked against the style guide.
-test('project and style-guide blocks share their theme and readable comment colors', async ({ page }) => {
-  const backgrounds: string[] = [];
-  for (const path of ['/projects/ivfcryo/', '/style-guide/']) {
-    await page.goto(path);
-    const code = page.locator('#main pre.astro-code').first();
-    await expect(code).toHaveClass(/github-dark/);
-    backgrounds.push(await code.evaluate(el => getComputedStyle(el).backgroundColor));
-  }
-  expect(backgrounds[0]).toEqual(backgrounds[1]);
-  await page.goto('/projects/ivfcryo/');
-  const comment = page.locator('#main pre.astro-code span[style*="color:#6A737D" i]').first();
-  expect(await comment.evaluate(el => getComputedStyle(el).color)).toBe('rgb(163, 178, 191)');
+// No current post or case study carries code, so the theme is checked against the style guide.
+test('code blocks use the shared theme with readable comment colors', async ({ page }) => {
+  await page.goto('/style-guide/');
+  const code = page.locator('#main pre.astro-code').first();
+  await expect(code).toHaveClass(/github-dark/);
+  // The style-guide snippets have no comments, so add a span the way Shiki styles one.
+  const color = await code.evaluate(pre => {
+    const span = document.createElement('span');
+    span.setAttribute('style', 'color:#6A737D');
+    pre.append(span);
+    return getComputedStyle(span).color;
+  });
+  expect(color).toBe('rgb(163, 178, 191)');
 });

@@ -109,6 +109,28 @@ const { project, class: className } = Astro.props;
     </g>
   )}
 
+  {project === 'clempo' && (
+    <g>
+      <text x="40" y="56" class="label">LOG A PURCHASE · THREE TAPS</text>
+      <rect x="40.5" y="84.5" width="121" height="72" rx="6" class="frame" />
+      <text x="56" y="112" class="label">1 · CATEGORY</text>
+      <text x="56" y="140" class="body">Groceries</text>
+      <rect x="179.5" y="84.5" width="121" height="72" rx="6" class="frame" />
+      <text x="195" y="112" class="label">2 · AMOUNT</text>
+      <text x="195" y="140" class="body">$42.50</text>
+      <rect x="318" y="84" width="122" height="73" rx="6" class="accent" />
+      <text x="334" y="112" class="label on-accent">3 · SAVE</text>
+      <text x="334" y="140" class="button">Save $42.50</text>
+      <path class="rule" d="M40 190H440" />
+      <text x="40" y="228" class="small">Groceries</text>
+      <text x="440" y="228" text-anchor="end" class="body accent-text">$272.51 left</text>
+      <rect x="40" y="242" width="400" height="8" rx="4" class="ghost" />
+      <rect x="40" y="242" width="244" height="8" rx="4" class="accent" />
+      <text x="40" y="280" class="small">$427.49 spent of $700</text>
+      <text x="40" y="330" class="result result--sm">Saved, with an Undo</text>
+    </g>
+  )}
+
   {project === 'rudiment-ui' && (
     <g>
       <text x="40" y="56" class="label">TOKENS · THREE TIERS</text>

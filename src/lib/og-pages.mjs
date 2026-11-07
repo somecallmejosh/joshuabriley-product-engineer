@@ -38,6 +38,7 @@ export const OG_PAGES = [
   // Moved back from the client case studies; the eyebrow (baked into the PNG)
   // had to change with it, so this card is regenerated under its old slug.
   { slug: 'pp-beckit', path: '/personal-projects/beckit/', eyebrow: 'Personal Project · Design & Full Stack', headline: 'beckit', wink: null },
+  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Personal Project · Design & Full Stack', headline: 'Clempo', wink: null },
   { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Rudiment UI', wink: null },
   { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Token Adventure', wink: null },
 

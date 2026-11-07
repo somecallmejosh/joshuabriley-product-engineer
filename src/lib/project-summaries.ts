@@ -5,6 +5,13 @@ export const beckitSummary = {
   evidence: `Starting an entry takes one required field, unfinished entries resume where you stopped, and every entry ends with the feeling rated before and after.`,
 };
 
+/** The Clempo decision record, taken from the Clempo repo's tasks/heuristics-audit.md and tasks/todo.md, and notes/clempo.astro. */
+export const clempoSummary = {
+  problem: `Clempo has to feel trustworthy to people who range from very technical to barely online. A heuristic audit of every screen scored it 4.9 out of 10: “envelope” on one page and “category” on the next, deletes with no way back, and two places where one household could reach another’s data.`,
+  decision: `I rebuilt the core task first: <strong class="text-ink font-semibold">logging a purchase in three taps</strong> from a sheet that opens in place, instead of a card button that loaded a form from the server. Then I fixed the rest of the audit through shared components rather than page by page.`,
+  evidence: `Logging is now category, amount, Save, with an Undo. Both data leaks are closed with tests, and a re-score of every page with the same rubric went from 4.9 to 8.8 out of 10.`,
+};
+
 /** The Token Adventure decision record, taken from Josh's write-up in notes/token-galaga.md. */
 export const tokenAdventureSummary = {
   problem: `The W3C Design Tokens spec is a precise reference but a poor teacher. You finish it knowing the vocabulary and still can't tell whether your own token file is correct.`,

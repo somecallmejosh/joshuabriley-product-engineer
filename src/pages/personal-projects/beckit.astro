@@ -7,7 +7,6 @@ import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
@@ -150,23 +149,6 @@ const edges = [
     body: 'One-question-at-a-time flows can hide context from screen readers, so that’s the first path I’d test. Dark mode and phone widths also got less checking.',
   },
 ];
-
-const modelSnippet = `# app/models/situation.rb
-class Situation < ApplicationRecord
-  # The entry form's pages, in order, each with the answers it needs before it saves. The first creates the entry.
-  REQUIRED_ANSWERS = { "whats-on-your-mind" => %i[ thought_imagery title ], "what-happened" => [],
-    "name-the-pattern" => %i[ distortion_ids ], "weigh-it-up" => [], "move-forward" => %i[ balanced_thought ] }.freeze
-  STEPS = REQUIRED_ANSWERS.keys.freeze
-
-  REQUIRED_ANSWERS.each { |step, attributes| validates(*attributes, presence: true, on: step.underscore.to_sym) if attributes.any? }
-
-  # The first step still waiting for its answer, or nil once every step has one.
-  def next_step = STEPS.find { !answered?(it) }
-  def complete? = next_step.nil?
-
-  # Steps open in order: any up to the first one still waiting for its answer.
-  def reachable?(step) = complete? || STEPS.index(step) <= STEPS.index(next_step)
-end`;
 
 // Screenshots of the running app, cropped from the top at 1600px wide. Example
 // entries are test data; none of it is a real person's journal.
@@ -421,14 +403,6 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
       </p>
     </CaseProse>
 
-    <div class="mt-10">
-      <CodeBlock
-        filename="situation.rb"
-        lang="ruby"
-        code={modelSnippet}
-        caption="One list drives validation, navigation and the “Continue this entry” link."
-      />
-    </div>
   </CaseSection>
 
   <CaseLimitations

@@ -9,7 +9,6 @@ import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
@@ -98,37 +97,6 @@ const edges = [
     body: 'I haven’t done a full screen-reader playthrough, and only one sector teaches accessibility checks. The engine itself has no automated tests yet.',
   },
 ];
-
-const resolverSnippet = `// src/lib/sandbox-runtime.ts (runs inside the sandboxed preview)
-function resolveTokenValue(root, path) {
-  var seen = {}
-  var current = path
-  var hops = 0
-  while (true) {
-    if (hops++ > 16)
-      return {
-        ok: false,
-        error: 'Alias chain too long (possible cycle) at ' + current,
-      }
-    if (seen[current])
-      return { ok: false, error: 'Alias cycle detected at ' + current }
-    seen[current] = true
-    var node = getNodeAtPath(root, current)
-    if (node === undefined)
-      return { ok: false, error: 'Path not found: ' + current }
-    if (!isToken(node))
-      return { ok: false, error: 'Path is a group, not a token: ' + current }
-    var v = node.$value
-    if (typeof v === 'string') {
-      var m = v.trim().match(/^\\{([^{}]+)\\}$/)
-      if (m) {
-        current = m[1].trim()
-        continue
-      }
-    }
-    return { ok: true, value: v }
-  }
-}`;
 
 // Screenshots of the running game at 1600px wide (the phone view at 390px, 2x).
 // Progress was seeded in the browser so later sectors and the final screen could be shown.
@@ -320,21 +288,10 @@ const shot = (slug: string) => shots[`../../assets/projects/token-galaga/${slug}
   <CaseSection id="process" title="How it was built">
     <CaseProse>
       <p>
-        Every token sector relies on this alias resolver in the sandbox runtime. It follows
-        references the way a build tool would.
+        Every token sector relies on an alias resolver in the sandbox runtime. It follows
+        references the way a build tool would, and turns broken paths and loops into messages
+        the player can fix.
       </p>
-    </CaseProse>
-
-    <div class="mt-10">
-      <CodeBlock
-        filename="sandbox-runtime.ts"
-        lang="js"
-        code={resolverSnippet}
-        caption="Broken paths and loops become messages the player can fix."
-      />
-    </div>
-
-    <CaseProse class="mt-10">
       <p>
         Each sector is one file exporting its story, starter code, hint, and checks. New sectors
         need no engine changes.

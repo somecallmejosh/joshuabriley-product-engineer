@@ -10,7 +10,6 @@ import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
-import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import FidelityBand from '~/components/patterns/FidelityBand.astro';
@@ -103,33 +102,6 @@ const edges = [
   { icon: 'ph:globe-hemisphere-west', title: 'Recurring time zone bugs', body: 'Most recent updates were time zone fixes. The problem is contained, not solved.' },
   { icon: 'ph:cloud-slash', title: 'No offline mode', body: 'The pieces exist but were never finished. For homes with unreliable WiFi, it’s the most valuable missing feature.' },
 ];
-
-// The event log as the thing every write path already agrees on: voice, kiosk,
-// board, and API. Attendance is read from it rather than stored beside it, and a
-// failed parse is written with its diagnostics rather than dropped.
-const modelSnippet = `# app/models/logged_event.rb
-# Voice, kiosk, board, and API all write here, so this is the only
-# record all four already agree on. Attendance is read, not stored.
-class LoggedEvent < ApplicationRecord
-  enum status: { processed: 0, pending: 1, failed: 2, unknown: 3 }
-
-  belongs_to :child, optional: true   # a failed parse may match no one
-  has_one_attached :audio             # kept, so a human can repair it
-
-  # A parse that fails is written, not dropped. The diagnostics say
-  # which half broke; the raw utterance is what the repair screen
-  # renders as tappable word chips.
-  scope :needs_repair, -> { where(status: :failed) }
-
-  # occurred_at is the SPOKEN time, not the processed time, so a
-  # batch logged at 3pm still reads accurately in a parent's feed.
-  def self.attendance_for(child, date)
-    where(child:, occurred_on: date)
-      .where(event_type: %i[check_in check_out absent])
-      .order(:occurred_at)
-      .last&.event_type || :expected
-  end
-end`;
 
 // The sheets render from src/ so Astro can actually process them (anything under
 // public/ is copied verbatim, never optimized). Sources are 2x headless-Chrome
@@ -636,15 +608,6 @@ const results = [
           </li>
         ))}
       </ul>
-    </div>
-
-    <div class="mt-12">
-      <CodeBlock
-        filename="logged_event.rb"
-        lang="ruby"
-        code={modelSnippet}
-        caption="Every write path shares the event log, including failure diagnostics for repair."
-      />
     </div>
 
     <Fragment slot="media">

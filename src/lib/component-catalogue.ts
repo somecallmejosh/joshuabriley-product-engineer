@@ -270,8 +270,7 @@ export const componentCatalogue = [
     "name": "CodeBlock",
     "path": "src/components/patterns/CodeBlock.astro",
     "group": "patterns",
-    "note": "A captioned code artifact with article-matched syntax highlighting, line numbers, and a copy action.",
-    "href": "/projects/ivfcryo/"
+    "note": "A captioned code artifact with article-matched syntax highlighting, line numbers, and a copy action. Renders fenced code in posts and tool essays."
   },
   {
     "name": "FidelityBand",

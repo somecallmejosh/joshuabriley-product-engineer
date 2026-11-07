@@ -7,16 +7,17 @@ import { projectTeasers } from '~/lib/project-teasers';
 import { projectPages } from '~/lib/project-pages';
 const projects = [
   { ...projectPages.beckit, href: '/personal-projects/beckit/' },
+  { ...projectPages.clempo, href: '/personal-projects/clempo/' },
   { ...projectPages.rudiment, href: '/personal-projects/rudiment-ui/' },
   { ...projectPages.tokens, href: '/personal-projects/token-galaga/' },
 ];
 ---
-<BaseLayout title="Personal projects | Joshua Briley" description="Products and reference projects I build on my own time: beckit, a private journal for thought records, plus Rudiment UI and Token Adventure.">
+<BaseLayout title="Personal projects | Joshua Briley" description="Products and reference projects I build on my own time: beckit, a private journal for thought records, Clempo, a shared household budget, plus Rudiment UI and Token Adventure.">
   <section class="page-opener">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">Personal projects</p>
       <h1 class="page-type hero-in hero-in-2">Things I build <em>on my own time.</em></h1>
-      <p class="page-lede hero-in hero-in-3">A journaling app, plus reference implementations and experiments in components and design tokens. Read the decisions, try the interfaces, and see how they work.</p>
+      <p class="page-lede hero-in hero-in-3">A journaling app and a household budget, plus reference implementations and experiments in components and design tokens. Read the decisions, try the interfaces, and see how they work.</p>
     </Container>
   </section>
   <section class="editorial-section work-section" aria-label="Personal project details">

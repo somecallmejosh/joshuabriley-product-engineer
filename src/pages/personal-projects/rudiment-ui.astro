@@ -7,7 +7,6 @@ import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
-import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
 import CaseReview from '~/components/patterns/CaseReview.astro';
@@ -144,34 +143,6 @@ const edges = [
   },
 ];
 
-const progressSnippet = `// src/stories/examples/project-management/Dashboard.stories.tsx
-// Before: a hand-built two-div meter, because ProgressBar had one fixed color.
-// After: warning fill once a team member reaches 16 points.
-<RudiProgressBar
-  label={w.member.name.split(' ')[0]}
-  value={w.points}
-  maxValue={maxWorkload}
-  showValueLabel
-  size="sm"
-  thresholds={[
-    { at: (16 / maxWorkload) * 100, variant: 'warning' },
-  ]}
-/>`;
-
-const themeSnippet = `// tokens/style-dictionary.config.compressed.mjs
-files: [
-  {
-    destination: 'tokens-compressed.css',
-    format: 'css/variables',
-    options: { selector: '[data-theme="compressed"]', outputReferences: true },
-    filter: (token) => {
-      const category = token.path[0]
-      if (category === 'color' || category === 'font' || category === 'motion') return false
-      return true
-    },
-  },
-],`;
-
 // Screenshots of the local Storybook (0.3.0). Story canvases at 1600px wide; the docs
 // page and the workload card at 2x.
 const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/rudiment-ui/*.png', { eager: true });
@@ -298,15 +269,6 @@ const themeShots = [
       ))}
     </ul>
 
-    <div class="mt-10">
-      <CodeBlock
-        filename="Dashboard.stories.tsx"
-        lang="tsx"
-        code={progressSnippet}
-        caption="The workload meter now uses the library’s progress bar, so it keeps an accessible name and value."
-      />
-    </div>
-
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
         <ul class="grid gap-x-8 gap-y-14 md:grid-cols-2">
@@ -347,20 +309,8 @@ const themeShots = [
       </p>
       <p>
         Each theme is a Style Dictionary build that re-emits only the tokens it changes.
-        Compressed changes spacing and radius:
+        Compressed changes spacing and radius; colors and fonts fall through to the default theme.
       </p>
-    </CaseProse>
-
-    <div class="mt-10">
-      <CodeBlock
-        filename="style-dictionary.config.compressed.mjs"
-        lang="js"
-        code={themeSnippet}
-        caption="Colors and fonts fall through to the default theme."
-      />
-    </div>
-
-    <CaseProse class="mt-10">
       <p>
         A <code>data-theme</code> attribute works on any element, so a dark sidebar can sit in a
         light page. Charts read tokens too and update when the theme changes.

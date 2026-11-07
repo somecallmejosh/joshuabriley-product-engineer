@@ -51,6 +51,7 @@ const logatotApp = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/
 const logatotFeedback = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/logatot/feedback/*.png', { eager: true }), 'logatot/feedback');
 const vmsparkSheet = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/vmspark/wires-and-flows/*.png', { eager: true }), 'vmspark/wires-and-flows');
 const beckitShot = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/beckit/*.png', { eager: true }), 'beckit');
+const clempoShot = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/clempo/*.png', { eager: true }), 'clempo');
 const galagaShot = pick(import.meta.glob<{ default: ImageMetadata }>('../assets/projects/token-galaga/*.png', { eager: true }), 'token-galaga');
 
 const wireframe = (src: ImageMetadata, title: string, caption?: string): GalleryItem => ({
@@ -283,6 +284,21 @@ export const projectGalleries: ProjectGallery[] = [
           { src: beckitShot('trap-library'), title: 'Thinking traps', size: 'half', alt: 'The thinking traps index: eleven traps, each with its drawing, name and one-line definition.' },
           { src: beckitShot('trap-mind-reading'), title: 'Thinking trap page', size: 'half', alt: 'The mind reading page: a definition, an example, a more balanced perspective, the trap’s drawing of two people on a bench, and a “Let yourself off the hook” message.' },
           { src: beckitShot('privacy'), title: 'Privacy', size: 'half', alt: 'The beckit privacy page, written in plain language.' },
+        ],
+      },
+    ],
+  },
+  {
+    project: 'clempo',
+    section: 'personal-projects',
+    slug: 'clempo',
+    intro: 'More of Clempo on a phone: signing in and starting an AI meal plan.',
+    groups: [
+      {
+        heading: 'Other screens',
+        items: [
+          { src: clempoShot('sign-in'), title: 'Sign in', size: 'half', alt: 'The Clempo sign-in screen on a phone: the Clempo logo, email and password fields with a Show button, a Sign in button, and links to reset a password or create an account.' },
+          { src: clempoShot('meal-plan-new'), title: 'New meal plan', size: 'half', alt: 'The Plan this week screen on a phone: a box for describing the week, an optional upload for pantry or freezer photos in any format up to 3.75 MB each, and a Generate meal plan button.' },
         ],
       },
     ],

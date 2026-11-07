@@ -16,6 +16,8 @@ const PAGES = [
   '/projects/logatot/gallery/',
   '/projects/logatot/feedback/',
   '/personal-projects/beckit/',
+  '/personal-projects/clempo/',
+  '/personal-projects/clempo/gallery/',
   '/personal-projects/rudiment-ui/',
   '/personal-projects/token-galaga/',
   '/personal-projects/',

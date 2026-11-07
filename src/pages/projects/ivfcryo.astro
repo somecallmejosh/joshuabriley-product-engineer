@@ -8,7 +8,6 @@ import Tldr from '~/components/patterns/Tldr.astro';
 import Container from '~/components/layout/Container.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
-import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import FidelityBand from '~/components/patterns/FidelityBand.astro';
 import ScrollShot from '~/components/patterns/ScrollShot.astro';
@@ -176,44 +175,6 @@ const edges = [
     body: 'With two carriers, both were announced the same way, so a screen reader user couldn’t tell which had the shipment. I’d name each carrier explicitly.',
   },
 ];
-
-// The lifecycle model I specced with engineering. I defined the states, the
-// readiness gate, and the alert severities the design required; engineering owned
-// the Rails implementation. Showing it here is a record of that collaboration, not
-// a claim that I wrote the backend.
-const modelSnippet = `# app/models/shipment.rb  —  states + requirements I specced with engineering
-# A shipment can't be scheduled until every party acknowledges readiness.
-# That gate was the single change all three interviewees said they'd make first.
-class Shipment < ApplicationRecord
-  # "Requested" and "provisional" are NOT "confirmed." Conflating them is what
-  # put couriers on the road before a clinic had released.
-  enum status: { draft: 0, awaiting_readiness: 1, ready: 2,
-                 scheduled: 3, in_transit: 4, delivered: 5,
-                 accepted: 6, closed: 7, canceled: 8 }
-
-  has_many :readiness_checks     # one per responsible party
-  has_one  :cryo_shield_coverage # declared value + protection tier
-  has_one  :shipment_tracker     # IVFCRYO-Sense: temp, GPS, humidity
-  has_many :sensor_readings
-  has_many :custody_events       # named contact + acknowledgment
-  has_many :incidents
-  has_many :notifications
-
-  # Scheduling is gated, not assumed. "Sent" is not "approved."
-  def schedulable?
-    readiness_checks.all?(&:acknowledged?)
-  end
-
-  # Alerts are tiered so a normal fluctuation never pages like a critical
-  # excursion — the office team stops trusting a channel that cries wolf.
-  def record(reading)
-    sensor_readings << reading
-    case reading.severity          # :normal, :warning, :critical
-    when :warning  then CryoAlertJob.perform_async(id, :warning)
-    when :critical then CryoAlertJob.perform_async(id, :critical)
-    end
-  end
-end`;
 
 // The annotated wireframes render live in src/ so Astro can process them
 // (anything under public/ is copied verbatim, never optimized). Source files are
@@ -672,14 +633,6 @@ const phones = [
       </p>
     </div>
 
-    <div class="mt-10">
-      <CodeBlock
-        filename="shipment.rb"
-        lang="ruby"
-        code={modelSnippet}
-        caption="The lifecycle spec I defined: scheduling gated on readiness, alerts tiered by severity. Engineering owned the Rails implementation."
-      />
-    </div>
   </CaseSection>
 
   <CaseSection id="redesign" title="The 2026 redesign">

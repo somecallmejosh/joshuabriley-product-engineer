@@ -1,0 +1,427 @@
+---
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
+import Container from '~/components/layout/Container.astro';
+import Icon from '~/components/primitives/Icon.astro';
+import Metric from '~/components/patterns/Metric.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import Tldr from '~/components/patterns/Tldr.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
+import CaseSection from '~/components/patterns/case/CaseSection.astro';
+import CaseProse from '~/components/patterns/case/CaseProse.astro';
+import CaseCards from '~/components/patterns/case/CaseCards.astro';
+import CaseResults from '~/components/patterns/case/CaseResults.astro';
+import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
+import HeuristicScores from '~/components/patterns/case/HeuristicScores.astro';
+import { clempoSummary as tldr } from '~/lib/project-summaries';
+import type { ImageMetadata } from 'astro';
+
+// Section order and ids follow .claude/skills/portfolio/SKILL.md.
+
+const title = 'Clempo | Joshua Briley';
+const description =
+  'Case study: auditing and redesigning Clempo, a shared household budget, so logging a purchase takes three taps.';
+
+// Copy comes from the Clempo repo's tasks/heuristics-audit.md and tasks/todo.md
+// (both 2026-11-05 to 2026-11-06), plus notes/clempo.astro (Josh's earlier write-up).
+
+const jumpLinks = [
+  { href: '#tldr', label: 'Summary' },
+  { href: '#context', label: 'Who it’s for' },
+  { href: '#research', label: 'Research' },
+  { href: '#decisions', label: 'Design decisions' },
+  { href: '#outcomes', label: 'Results' },
+  { href: '#process', label: 'How it was built' },
+  { href: '#edges', label: 'Limitations' },
+];
+
+const audiences = [
+  {
+    icon: 'ph:receipt',
+    title: 'Everyone logging purchases',
+    body: 'Members record what they spend as they spend it, usually on a phone. Before the redesign that meant finding the category’s card, opening a form, and waiting for it to load.',
+    needs: ['Log a purchase in seconds', 'See what’s left before buying', 'Take back a mistake'],
+  },
+  {
+    icon: 'ph:house-line',
+    title: 'The household owner',
+    body: 'The owner sets the monthly budgets, invites the rest of the household, and keeps the debt payoff plan in order. Owners and members have different permissions.',
+    needs: ['Set budgets for every category', 'Invite and remove people', 'Track debts to zero'],
+  },
+];
+
+// Before: 2026-11-05, after the dashboard redesign. After: re-scored 2026-11-07 with the same rubric,
+// once two rounds of fixes were in (Clempo repo, tasks/heuristics-audit.md; a middle score of 7.1 on 2026-11-06).
+const heuristics = [
+  { n: 1, name: 'Visibility of system status', before: 5, after: 9, fix: 'The nav and Settings mark where you are, a failed save says why and keeps the amount, and a meal plan that stalls is marked failed after ten minutes.', left: 'Not checked on a slow connection with a real phone.' },
+  { n: 2, name: 'Match with the real world', before: 5, after: 9, fix: '“Category” everywhere, people’s real names, “Paying off now” on every screen, and a “Used for” setting instead of matching category names.', left: 'Budgeting terms are explained only in one-line hints.' },
+  { n: 3, name: 'User control and freedom', before: 4, after: 9, fix: 'Undo on purchases, debt payments and shopping items, owners can remove people, and a confirmed meal plan can be started over.', left: 'A restored purchase deleted a second time can be restored again within 15 minutes.' },
+  { n: 4, name: 'Consistency and standards', before: 4, after: 9, fix: 'One page title pattern, one remove icon with Undo, and the theme colors in the debt chart and error pages.', left: 'Consistency comes from shared parts, not a written guide.' },
+  { n: 5, name: 'Error prevention', before: 4, after: 9, fix: 'Past months are read-only, overpaying a debt is flagged before saving, and unsaved budgets aren’t lost when leaving the page.', left: 'A new category named “Groceries” takes that role even when None is chosen.' },
+  { n: 6, name: 'Recognition rather than recall', before: 6, after: 9, fix: 'A plan waiting for review is shown on Meals, a retry offers last time’s photos, and every error sits under its field.', left: 'Photos picked before a failed submit have to be added again.' },
+  { n: 7, name: 'Flexibility and efficiency', before: 6, after: 8, fix: 'Focus returns to the row after a save, purchases can be logged from a category’s history, and the shopping list keeps focus between items.', left: 'No search across purchases, and no quick way to repeat a common one.' },
+  { n: 8, name: 'Aesthetic and minimalist design', before: 6, after: 9, fix: 'Debt cards lost their repeated percentage and extra lines, and history leads with the purchases.', left: 'Visual hierarchy was judged by me, not tested with people.' },
+  { n: 9, name: 'Error recovery', before: 4, after: 9, fix: 'Plain error messages that keep what was typed, and an invitee who already has a login is told how to get in.', left: 'Picked photos can’t be refilled after an error; the form says so.' },
+  { n: 10, name: 'Help and documentation', before: 5, after: 8, fix: 'Empty states that point to the next step, like “Log the first payment” and “Set budgets”.', left: 'No first-run checklist for a new household, and no help page.' },
+];
+
+const loggerDetails = [
+  { icon: 'ph:plus-circle', text: 'A separate “+” on each category row opens the sheet, with no page load' },
+  { icon: 'ph:calculator', text: 'A number keypad, with Enter to save on a computer' },
+  { icon: 'ph:wallet', text: 'A live “left after this” line while the amount is typed' },
+  { icon: 'ph:calendar-blank', text: 'Today, Yesterday or Earlier for the date' },
+  { icon: 'ph:arrow-counter-clockwise', text: 'A confirmation with Undo after every save' },
+  { icon: 'ph:sign-in', text: 'Sign-ins last 60 days instead of 24 hours' },
+];
+
+const vocabulary = [
+  { before: 'Envelope (on edit pages)', after: 'Category, everywhere' },
+  { before: 'Debt Snowball', after: 'Debts' },
+  { before: 'Target', after: 'Paying off now' },
+  { before: 'Deactivate', after: 'Hide' },
+  { before: 'Cancel account', after: 'Delete household' },
+  { before: '22.990%% APR', after: '22.99% APR' },
+];
+
+const recoveries = [
+  { icon: 'ph:arrow-counter-clockwise', text: 'Deleted purchases and shopping items come back with Undo, with the same person, date and note' },
+  { icon: 'ph:scales', text: 'Logging or deleting a debt payment can be undone, and the balance follows' },
+  { icon: 'ph:user-minus', text: 'Owners can remove someone, and that person’s purchases and payments stay in the budget' },
+  { icon: 'ph:warning', text: '“Start over” on a meal plan asks before it deletes anything, even once the plan is confirmed' },
+  { icon: 'ph:keyboard', text: 'Deleting a household means typing its name first' },
+  { icon: 'ph:user-circle', text: 'Members can remove their own purchase or payment for 15 minutes; owners can remove any' },
+];
+
+// From the Clempo repo, commit f0e80da (2026-11-06): ExpenseNotification,
+// NotifyAccountMembersJob, push_notifications_controller.js, the service worker.
+const notifications = [
+  { icon: 'ph:bell', text: 'Everyone else in the household hears about each purchase, with what’s left in that category' },
+  { icon: 'ph:warning', text: 'When a purchase leaves a category nearly spent or over budget, the person who logged it hears too' },
+  { icon: 'ph:hand-tap', text: 'Tapping a notification opens that category’s purchases for the month' },
+  { icon: 'ph:timer', text: 'Notifications wait 15 seconds, so undoing a purchase means nobody hears about it' },
+  { icon: 'ph:device-mobile', text: 'On iPhone, the app explains how to add it to the Home Screen, because Apple only allows web push from there' },
+  { icon: 'ph:clock', text: '“Not now” waits two weeks before asking again, and each person can turn notifications off in Settings' },
+];
+
+const results = [
+  {
+    label: 'For households',
+    items: [
+      'Logging a purchase is category, amount, Save, from Budget or from a category’s history',
+      'Purchases, debt payments and shopping items come back with Undo',
+      'The same words on every screen: “category”, “Debts”, “Paying off now”',
+      'Errors appear next to the field and keep what was typed',
+      'Owners can invite, remove and promote people, who now go by their own names',
+    ],
+  },
+  {
+    label: 'For the code',
+    items: [
+      '555 automated tests, up from 231, all passing',
+      'One error component and one text field partial shared across the forms',
+      'One month switcher shared by Budget, History and Lunch',
+      'Shopping items and grocery totals scoped to the household, with request specs',
+      'Linting clean, and the security scan’s only warning is the Ruby version',
+    ],
+  },
+];
+
+const edges = [
+  {
+    icon: 'ph:clipboard-text',
+    title: 'Still short of a 10',
+    body: 'Frequent users can’t search across purchases or repeat a common one quickly, and a new household gets empty states but no first-run checklist or help page. Those are the open items from the last audit.',
+  },  {
+    icon: 'ph:device-mobile',
+    title: 'Not tested on real phones with assistive tech',
+    body: 'The audit didn’t cover VoiceOver or TalkBack, installing the app to a home screen, or slow networks. I’d log a purchase on a throttled connection with VoiceOver on.',
+  },
+  {
+    icon: 'ph:warning-circle',
+    title: 'An old Ruby version',
+    body: 'Clempo runs on Ruby 3.2, which is past end of life. Upgrading it is the next maintenance task.',
+  },
+];
+
+// Captured 2026-11-06 from the local Rails app at 390×844 @2x (Playwright,
+// reduced motion) with seed data. Household and people names were replaced
+// in the page before capture (Alex, Sam, Carter Household).
+const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/clempo/*.png', { eager: true });
+const shot = (slug: string) => shots[`../../assets/projects/clempo/${slug}.png`].default;
+---
+
+<ProjectLayout title={title} description={description}>
+
+  <ProjectHero project="clempo" />
+
+  <CaseReview links={jumpLinks} />
+
+  <Tldr
+    problem={tldr.problem}
+    decision={tldr.decision}
+    evidence={tldr.evidence}
+  />
+
+  <CaseSection id="context" title="Who it’s for">
+    <CaseProse>
+      <p>
+        Clempo is for households that budget together. Polished budgeting apps tend to assume one
+        person owns the money, so a couple ends up stitching two views together by hand. In Clempo,
+        everyone in a household shares one budget, one debt plan and one meal plan, and each person can track the lunches they pack.
+      </p>
+      <p>
+        The people using it range from very technical to barely online, and it holds their real
+        money, so it has to feel trustworthy every day, not just on the happy path.
+      </p>
+    </CaseProse>
+
+    <CaseCards items={audiences} />
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+          <li>
+            <Plate size="half" title="Meals" caption="This week’s plan first, with tonight marked." src={shot('meal-plans')} alt="The Meals screen on a phone: a This week card for the week of November 1 listing a dinner for each day from Sunday to Saturday, with Saturday’s grilled burgers marked Tonight, and an Open plan and shopping list button." />
+          </li>
+          <li>
+            <Plate size="half" title="A meal plan" caption="AI-planned dinners, with leftovers as the next day’s lunch." src={shot('meal-plan')} alt="A week’s meal plan on a phone: each day’s dinner with its estimated cost, the lunch made from leftovers, and prep notes such as “Start slow cooker by 9am”." />
+          </li>
+          <li>
+            <Plate size="half" title="Lunch" caption="Tap each workday you brought lunch from home." src={shot('lunch')} alt="The Lunch screen on a phone: $40.00 saved by packing lunch this month from 2 packed days, and a weekday calendar with Monday and Wednesday marked Packed and today outlined." />
+          </li>
+          <li>
+            <Plate size="half" title="Settings" caption="Owners invite and remove people; everyone sets their own notifications." src={shot('settings')} alt="The Settings screen on a phone: a Your name field, the account’s password, household notifications turned on, and a People list with Alex and Sam, both owners, with Make member and Remove buttons under Sam, beside an Invite someone button." />
+          </li>
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="research" title="Research">
+    <CaseProse>
+      <p>
+        I ran two heuristic audits against Nielsen’s ten heuristics, scoring every route from the
+        code and in the running app at phone width. The first covered the Budget screen and logging
+        a purchase. I redesigned those, then audited every page, from sign-in to Settings.
+      </p>
+    </CaseProse>
+
+    <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+      <Metric value="4.6/10" label="Budget and logging" caption="first audit, before the redesign" />
+      <Metric value="4.9/10" label="every page" caption="second audit, before the fixes" />
+    </div>
+
+    <HeuristicScores
+      items={heuristics}
+      caption="Every page, scored with the same rubric before the fixes (2026-11-05) and after them (2026-11-07), from the code and the running app."
+    />
+
+    <CaseProse class="mt-10">
+      <p>
+        The redesigned Budget screen had caught up, but the rest of the app hadn’t. Most findings
+        were the same few gaps repeated across pages: no shared way to show form errors, no undo,
+        and words that changed from one screen to the next. Two were more serious: shopping items
+        and the grocery total could be read across households.
+      </p>
+      <p>
+        After the first round of fixes, the same rubric scored 7.1. A second review of the code,
+        done without the earlier findings, turned up 22 more issues, three of them serious. One was a
+        shopping list that warned every household without a “Groceries” category that it had $0
+        left for groceries. After those fixes, every page scores 8.8.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
+  <CaseSection id="decisions" title="Logging a purchase in three taps">
+    <CaseProse>
+      <p>
+        The goal of the redesign was that logging a purchase takes three taps for every kind of
+        user. Each category used to be a full card with a “Log expense” button that loaded a form into a
+        modal from the server.
+      </p>
+      <p>
+        I replaced the cards with compact rows and a sheet that’s already on the page: tap a
+        category’s “+”, type the amount, and save. People using it told me spending was only
+        reachable through the logging sheet, so the row itself now opens the category’s purchases,
+        and the “+” is a separate button.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">Details</p>
+      <ul class="space-y-3">
+        {loggerDetails.map((item) => (
+          <li class="flex items-start gap-3 text-ink">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            {item.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3">
+          <li>
+            <Plate size="half" title="Budget" caption="What’s left this month, then each category with a ring and a “+”." src={shot('budget')} alt="The Budget screen on a phone: a November 2026 month bar, $571.50 left to spend with a 63 percent ring, $978.50 spent of $1,550.00, and category rows for Groceries, Restaurants and Work meals, each with a ring around its icon, the amount left or over, and a gray plus button." />
+          </li>
+          <li>
+            <Plate size="half" title="Logging sheet" caption="The amount, what’s left after it, and Save." src={shot('logger')} alt="The logging sheet for Groceries over the dimmed Budget screen: $42.50 typed, “$272.51 left after this”, Today selected over Yesterday and Earlier, a note field, a number keypad, and a Save $42.50 button." />
+          </li>
+          <li>
+            <Plate size="half" title="Category history" caption="Purchases first, each with who logged it." src={shot('category-history')} alt="The Groceries page on a phone: a breadcrumb back to Budget, the month bar, $315.01 left to spend of $700.00 with a ring, a Log a purchase button, and a list of 7 purchases with the store, person, day, amount and a delete button." />
+          </li>
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-plain-words" title="Everyday words instead of budgeting jargon">
+    <CaseProse>
+      <p>
+        The app used the vocabulary of a specific budgeting method: “envelopes”, a “Debt Snowball”,
+        “Baby Step 2”, a “Target”. That’s fine for someone who follows the method and confusing for
+        everyone else, and the same thing was called an envelope on one page and a category on the
+        next.
+      </p>
+      <p>
+        I picked the plain word for each idea and used it everywhere. The Debts page explains the
+        method in one line, “Pay off the smallest debt first. When it’s gone, add its payment to the
+        next one,” and debts move up and down with buttons instead of a typed order number.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">Renamed</p>
+      <dl class="space-y-3">
+        {vocabulary.map((row) => (
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <dt class="text-ink-muted line-through">{row.before}</dt>
+            <dd class="text-ink"><span class="sr-only">became </span>{row.after}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3">
+          <li>
+            <Plate size="half" title="Debts" caption="One line explains the method; the debt being paid off is labeled." src={shot('debts')} alt="The Debts screen on a phone: the explanation “Pay off the smallest debt first. When it’s gone, add its payment to the next one,” then the Furniture loan under Smallest first: Personal Loan at 9.5% APR with a Paying off now badge, $4,097.97 left to pay, a progress bar with “$1,302.03 of $5,400.00 paid · $180.00/mo minimum” beneath it, a Log payment button, and Move down, History and Edit links." />
+          </li>
+          <li>
+            <Plate size="half" title="One debt" caption="The balance, the ring, and its history." src={shot('debt-detail')} alt="The Furniture loan page on a phone: $4,097.97 left to pay of $5,400.00 with a 24 percent ring, the minimum and APR, a Log payment button, and a balance history chart going from $5,400.00 in June to $4,097.97 in November." />
+          </li>
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-take-back" title="Mistakes that can be taken back">
+    <CaseProse>
+      <p>
+        The audit found deletes with no way back: a purchase, a shopping item, a whole meal plan.
+        Deleting a debt payment also left the balance where it was, so the numbers drifted from the
+        bank statement.
+      </p>
+      <p>
+        Everyday deletes now get an Undo instead of a confirmation dialog. Confirmations are kept
+        for the few actions that can’t be undone, like starting a meal plan over or deleting the
+        household.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">What changed</p>
+      <ul class="space-y-3">
+        {recoveries.map((item) => (
+          <li class="flex items-start gap-3 text-ink">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            {item.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </CaseSection>
+
+  <CaseSection id="decision-notifications" title="Notifications that keep the household logging">
+    <CaseProse>
+      <p>
+        A shared budget only works when everyone logs what they spend. Before notifications, people
+        used Clempo less and less. Nothing outside the app reminded anyone it was there, and a
+        budget that isn’t kept up soon stops matching the bank account.
+      </p>
+      <p>
+        I made Clempo a progressive web app that installs to the home screen and sends push
+        notifications. When someone logs a purchase, everyone else in the household gets a
+        notification such as “Sam logged $42.50 to Groceries”, with what’s left in that category.
+        Seeing someone else log a purchase is a reminder to log your own. Packed lunches send one
+        too.
+      </p>
+      <p>
+        The person who logged the purchase doesn’t get a notification about their own entry. The
+        exception is when it leaves a category nearly spent or over budget, because that’s worth
+        knowing before the next purchase.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-5">How notifications work</p>
+      <ul class="space-y-3">
+        {notifications.map((item) => (
+          <li class="flex items-start gap-3 text-ink">
+            <Icon name={item.icon} size={20} class="mt-0.5 shrink-0 text-ink-muted" />
+            {item.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </CaseSection>
+
+  <CaseSection id="outcomes" title="Results">
+    <CaseResults
+      note="Measured against my own review, not outside users."
+      metrics={[
+        { value: '4.9 → 8.8', label: 'heuristic score, every page', caption: 'same rubric, before and after the fixes' },
+        { value: '3', label: 'taps to log a purchase', caption: 'category, amount, Save' },
+      ]}
+      groups={results}
+    />
+  </CaseSection>
+
+  <CaseSection id="process" title="How it was built">
+    <CaseProse>
+      <p>
+        Clempo is a Rails 8 app with Hotwire, ViewComponent and Tailwind CSS v4. A single
+        presenter returns the class names for buttons, cards, inputs and badges, so they look the
+        same on every page without repeated class strings.
+      </p>
+      <p>
+        Every query starts from the signed-in household, so another household’s records are never
+        in reach. The audit found two places that skipped that rule, shopping items and the grocery
+        total. I fixed both and added request specs that try to change another household’s shopping items.
+      </p>
+      <p>
+        The meal planner sends pantry photos and the week’s notes to Claude in a background job,
+        and the page shows each state: working, ready, or failed with a retry. A plan that takes
+        longer than ten minutes is marked failed, and the retry can reuse the photos already sent.
+      </p>
+      <p>
+        The service worker never caches pages, because balances have to be current. It keeps only
+        an offline screen for when there’s no connection. Notifications go out from a background
+        job, and an expired subscription is removed so the job doesn’t retry and notify everyone
+        twice.
+      </p>
+    </CaseProse>
+
+  </CaseSection>
+
+  <CaseLimitations items={edges} />
+
+  <GalleryLink project="clempo" />
+
+  <ProjectNext project="clempo" />
+
+</ProjectLayout>
