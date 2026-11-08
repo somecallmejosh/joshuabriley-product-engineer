@@ -15,6 +15,7 @@ import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
 import CaseCards from '~/components/patterns/case/CaseCards.astro';
 import CaseResults from '~/components/patterns/case/CaseResults.astro';
+import HeuristicScores from '~/components/patterns/case/HeuristicScores.astro';
 import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
 import { beckitSummary as tldr } from '~/lib/project-summaries';
 import type { ImageMetadata } from 'astro';
@@ -64,6 +65,21 @@ const findings = [
     title: 'Insights too dense',
     body: 'A bar chart, a heatmap, a pairs list and two color-coded grids, with tooltips that only worked with a mouse.',
   },
+];
+
+// Same rubric, before the fixes (2026-11-03) and in a retest after them (2026-11-08).
+// Source: the beckit repo's tasks/heuristics-audit.md.
+const heuristics = [
+  { n: 1, name: 'Visibility of system status', before: 8, after: 8, fix: 'Busy forms dim their buttons and say “Saving…”, confirmed on a slow connection.', left: 'A save that fails when the connection drops shows no message.' },
+  { n: 2, name: 'Match between system and the real world', before: 9, after: 9, fix: 'Sign-in and password reset copy rewritten in the app’s voice.', left: 'One default error remains: “Password confirmation doesn’t match Password”.' },
+  { n: 3, name: 'User control and freedom', before: 8, after: 9, fix: 'Each part of a finished entry opens its own step.', left: 'Discard draft has no undo.' },
+  { n: 4, name: 'Consistency and standards', before: 8, after: 9, fix: 'Every password form now shows errors next to the field.', left: 'In dark mode, the Insights drawing sits on a whiter card than the journal’s.' },
+  { n: 5, name: 'Error prevention', before: 8, after: 9, fix: 'A blank password on reset no longer counts as a success.', left: 'No way to show a password while typing it.' },
+  { n: 6, name: 'Recognition rather than recall', before: 8, after: 9, fix: 'A failed sign-in keeps the email address and moves to the password field.' },
+  { n: 7, name: 'Flexibility and efficiency', before: 7, after: 8, fix: 'A When filter in journal search, and an Edit link on each part of an entry.', left: 'No way to jump to a month in a long journal.' },
+  { n: 8, name: 'Aesthetic and minimalist design', before: 8, after: 8, fix: 'A simpler step bar on phones and a smaller drawing above Insights.', left: 'Up to seven Edit links on one entry, and a large drawing above the journal on phones.' },
+  { n: 9, name: 'Error recovery', before: 7, after: 7, fix: 'Password errors sit under their fields, and the rate-limit message says how long to wait.', left: 'A failed save keeps the words but never says it failed.' },
+  { n: 10, name: 'Help and documentation', before: 8, after: 8, fix: 'No change. The first-run intro and trap reference were already in place.', left: 'The intro can’t be reopened after the first entry.' },
 ];
 
 // The five steps of an entry. `art` is the drawing beckit shows on that step.
@@ -123,7 +139,9 @@ const results = [
       'Starting an entry takes one question instead of a five-screen form',
       'Unfinished entries resume at the waiting step',
       'Every entry ends with a before-and-after feeling rating',
-      'Entries are searchable, and the journal and Insights link to each other',
+      'Entries are searchable by words, thinking trap and time, and the journal and Insights link to each other',
+      'Each part of a finished entry opens its own step to edit',
+      'A slow save says “Saving…” instead of looking frozen',
       'No outside service is contacted while someone writes',
     ],
   },
@@ -146,12 +164,18 @@ const edges = [
   {
     icon: 'ph:speaker-high',
     title: 'Not tested with screen reader users',
-    body: 'One-question-at-a-time flows can hide context from screen readers, so that’s the first path I’d test. Dark mode and phone widths also got less checking.',
+    body: 'One-question-at-a-time flows can hide context from screen readers, so that’s the first path I’d test.',
+  },
+  {
+    icon: 'ph:wifi-slash',
+    title: 'A failed save is silent',
+    body: 'If the connection drops during a save, the words stay on screen but nothing says it didn’t save. I’d add a message beside the form that says to try again.',
   },
 ];
 
-// Screenshots of the running app, cropped from the top at 1600px wide. Example
-// entries are test data; none of it is a real person's journal.
+// Screenshots of the running app, captured 2026-11-08 at a 1280×900 viewport,
+// 1.25x (1600px wide), and cropped from the top. Example entries are test data
+// from a demo account; none of it is a real person's journal.
 const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/beckit/*.png', { eager: true });
 const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`].default;
 
@@ -202,6 +226,21 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
     </div>
 
     <CaseCards items={findings} />
+
+    <CaseProse class="mt-10">
+      <p>
+        I then scored the whole app against Nielsen’s ten heuristics, at 7.9 out of 10, and fixed
+        all eight findings. A retest five days later, in the running app at desktop and phone
+        widths, in dark mode and on a slow connection, confirmed the fixes and scored 8.4. It also
+        found a gap the first audit missed: if the connection drops during a save, the words stay
+        on screen but nothing says the save failed.
+      </p>
+    </CaseProse>
+
+    <HeuristicScores
+      items={heuristics}
+      caption="Scored with the same rubric before the fixes (2026-11-03) and in a retest after them (2026-11-08), from the code and the running app."
+    />
   </CaseSection>
 
   <CaseSection id="decisions" title="Five short steps from the CBT method">
@@ -313,7 +352,7 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
       </Container>
 
       <Container width="wide" class="mt-16">
-        <Plate title="A finished entry" caption="The feeling rated 7 before and 4 after." src={shot('entry')} alt="A finished entry titled Missed a deadline: the thought “I’m going to get fired.” rated 7 out of 10, the traps catastrophizing and fortune telling, evidence on each side, and a balanced thought card ending in a rating of 4, down 3 from 7." />
+        <Plate title="A finished entry" caption="The feeling rated 7 before and 4 after." src={shot('entry')} alt="A finished entry titled Missed a deadline: the thought “I’m going to get fired.” rated 7 out of 10, the traps catastrophizing and fortune telling, evidence on each side, and a balanced thought card ending in a rating of 4, down 3 from 7. Each part has its own Edit link." />
       </Container>
     </Fragment>
   </CaseSection>
@@ -388,7 +427,7 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
       note="Measured against my own review, not outside users."
       metrics={[
         { value: '1', label: 'required field to start an entry', caption: 'down from a five-screen form' },
-        { value: '220', label: 'automated tests', caption: 'models, step rules, Insights math and key flows' },
+        { value: '7.9 → 8.4', label: 'heuristic score, whole app', caption: 'same rubric, before the fixes and in a retest' },
       ]}
       groups={results}
     />
@@ -398,7 +437,7 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
     <CaseProse>
       <p>
         Which answer each step needs lives in one place in the model. Step pages,
-        navigation, validations and “Continue” links all read from it, and 220 tests
+        navigation, validations and “Continue” links all read from it, and 224 tests
         cover the models, step rules, Insights math and key flows.
       </p>
     </CaseProse>
@@ -406,7 +445,7 @@ const shot = (slug: string) => shots[`../../assets/projects/beckit/${slug}.png`]
   </CaseSection>
 
   <CaseLimitations
-    lead="Both of these come from building alone: I designed for people I haven’t watched use the app."
+    lead="The first two come from building alone: I designed for people I haven’t watched use the app."
     items={edges}
   />
 
