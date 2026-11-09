@@ -1,0 +1,90 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Container from '~/components/layout/Container.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
+import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
+import ScrapPiece from '~/components/patterns/scrapbook/ScrapPiece.astro';
+import { personalProjects, personalProjectOrder, type PersonalProject, type PersonalProjectKey } from '~/lib/personal-projects';
+import '~/styles/scrapbook.css';
+
+export function getStaticPaths() {
+  return personalProjectOrder.map((key) => ({ params: { slug: personalProjects[key].slug }, props: { projectKey: key } }));
+}
+
+interface Props { projectKey: PersonalProjectKey; }
+const { projectKey } = Astro.props;
+const project: PersonalProject = personalProjects[projectKey];
+const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf(projectKey) + 1) % personalProjectOrder.length]];
+---
+<BaseLayout title={`${project.name} | Joshua Briley`} description={project.note} mainClass="scrap-page">
+  <section class="page-opener">
+    <Container width="wide">
+      <a href="/personal-projects/" class="scrap-back hero-in hero-in-1"><span aria-hidden="true" data-link-arrow="up-left">↖</span> Back to the wall</a>
+      <div class="scrap-hero">
+        <div>
+          <h1 class="page-type hero-in hero-in-1">{project.name}</h1>
+          <p class="scrap-note hero-in hero-in-2">{project.note}</p>
+          <p class="scrap-intro hero-in hero-in-3">{project.intro}</p>
+          {project.actions.length > 0 && (
+            <div class="scrap-actions hero-in hero-in-3">
+              {project.actions.map((action) => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}
+            </div>
+          )}
+        </div>
+        <div class="hero-in hero-in-3"><ScrapPiece art={project.cover} eager /></div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="scrap-section" aria-labelledby="played-with">
+    <Container width="wide">
+      <h2 id="played-with" class="scrap-heading">What I got <em>to play with</em></h2>
+      <ul class="scrap-play">{project.playedWith.map((item) => <li>{item}</li>)}</ul>
+    </Container>
+  </section>
+
+  <section class="scrap-section" aria-labelledby="good-bits">
+    <Container width="wide">
+      <h2 id="good-bits" class="scrap-heading mb-14">The <em>good bits</em></h2>
+      <div class:list={['scrap-screens', { 'scrap-screens--3': project.columns === 3 }]}>
+        {project.goodBits.map((bit) => (
+          <figure data-reveal>
+            <ScrapPiece art={bit.art} tall={project.columns === 3} />
+            <figcaption class="scrap-caption">{bit.note}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  {project.live && (
+    <section class="scrap-section" aria-labelledby="poke-at-it">
+      <Container width="wide">
+        <h2 id="poke-at-it" class="scrap-heading">Go ahead, <em>poke at it</em></h2>
+        <p class="scrap-intro mb-10">{project.live.blurb}</p>
+        <LiveEmbed
+          posterSrc={project.live.poster}
+          posterAlt={project.live.posterAlt}
+          href={`https://rudiment-ui.netlify.app/?path=/story/${project.live.id}`}
+          title={project.live.title}
+          embedSrc={`https://rudiment-ui.netlify.app/iframe.html?id=${project.live.id}&viewMode=story`}
+        />
+      </Container>
+    </section>
+  )}
+
+  <section class="scrap-section" aria-labelledby="learned">
+    <Container width="wide">
+      <h2 id="learned" class="scrap-heading">What I <em>learned</em></h2>
+      <div class="scrap-learned">{project.learned.map((item) => <p>{item}</p>)}</div>
+    </Container>
+  </section>
+
+  <GalleryLink project={projectKey} />
+
+  <section class="scrap-next" aria-label="Next project">
+    <Container width="wide">
+      <a class="scrap-next-link" href={next.href}><span>Next on the wall</span><strong>{next.name} <span aria-hidden="true" data-link-arrow="right">→</span></strong></a>
+    </Container>
+  </section>
+</BaseLayout>

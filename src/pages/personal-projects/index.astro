@@ -1,34 +1,38 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
-import ProjectScreenshot from '~/components/patterns/ProjectScreenshot.astro';
-import { projectTeasers } from '~/lib/project-teasers';
-import { projectPages } from '~/lib/project-pages';
-const projects = [
-  { ...projectPages.beckit, href: '/personal-projects/beckit/' },
-  { ...projectPages.clempo, href: '/personal-projects/clempo/' },
-  { ...projectPages.rudiment, href: '/personal-projects/rudiment-ui/' },
-  { ...projectPages.tokens, href: '/personal-projects/token-galaga/' },
-];
+import ScrapMosaic from '~/components/patterns/scrapbook/ScrapMosaic.astro';
+import PersonalProjectsIllustration from '~/components/patterns/PersonalProjectsIllustration.astro';
+import { personalProjects, personalProjectOrder, type PersonalProject } from '~/lib/personal-projects';
+import '~/styles/scrapbook.css';
+
+const projects: PersonalProject[] = personalProjectOrder.map((key) => personalProjects[key]);
 ---
-<BaseLayout title="Personal projects | Joshua Briley" description="Products and reference projects I build on my own time: beckit, a private journal for thought records, Clempo, a shared household budget, plus Rudiment UI and Token Adventure.">
+<BaseLayout title="Personal projects | Joshua Briley" description="Things Joshua Briley makes for the fun of it: a journal with a drawing for every thinking trap, a household budget, a React component library, and an arcade game about design tokens." mainClass="scrap-page">
   <section class="page-opener">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Personal projects</p>
-      <h1 class="page-type hero-in hero-in-2">Things I build <em>on my own time.</em></h1>
-      <p class="page-lede hero-in hero-in-3">A journaling app and a household budget, plus reference implementations and experiments in components and design tokens. Read the decisions, try the interfaces, and see how they work.</p>
+      <div class="scrap-opener hero-split">
+        <div class="hero-split-copy">
+          <h1 class="page-type hero-in hero-in-1">Things I make <em>for the fun of it.</em></h1>
+          <p class="page-lede hero-in hero-in-2">These are for my own enjoyment, and for keeping up with things I can’t do in a typical job.</p>
+        </div>
+        <div class="scrap-opener-art hero-split-media hero-in hero-in-3"><PersonalProjectsIllustration /></div>
+      </div>
     </Container>
   </section>
-  <section class="editorial-section work-section" aria-label="Personal project details">
+  <section aria-label="Personal projects" class="scrap-section">
     <Container width="wide">
-      <div class="work-list">
-        {projects.map(project => <article class="work-entry" data-reveal>
-          <a href={project.href} class="work-image" aria-label={`Explore ${project.name}`}>{projectTeasers[project.href] ? <ProjectScreenshot {...projectTeasers[project.href]} /> : <ProjectIllustration project={project.illustration} />}<span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
-          <div class="work-copy"><p class="work-kind">{project.kind}</p><h2 class="project-index-name"><a href={project.href}>{project.name}</a></h2><p class="work-title">{project.headline} {project.emphasis}</p><p class="work-summary">{project.intro}</p><a class="editorial-link mt-5" href={project.href}>Explore the project <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        </article>)}
+      <div class="scrap-wall">
+        {projects.map(({ wall, name, note, href }, i) => (
+          <article class="scrap-piece" data-reveal>
+            <a class="scrap-link" href={href}>
+              <ScrapMosaic tiles={wall} eager={i < 2} />
+              <h2 class="scrap-name">{name}</h2>
+              <p class="scrap-note">{note}</p>
+            </a>
+          </article>
+        ))}
       </div>
     </Container>
   </section>
 </BaseLayout>
-<style>.project-index-name { margin-top: .75rem; font-size: clamp(2.2rem, 3.5vw, 3.3rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; } .project-index-name a:hover { color: var(--accent); }</style>

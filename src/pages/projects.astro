@@ -3,17 +3,16 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
 ---
-<BaseLayout title="Work | Joshua Briley" description="Explore Joshua Briley’s product design and engineering work: IVFCRYO, Logatot, VMSpark, and Rudiment UI, with contribution, decisions, and outcomes explained.">
+<BaseLayout title="Work | Joshua Briley" description="Explore Joshua Briley’s product design and engineering work: VMSpark, IVFCRYO, and Logatot, with contribution, decisions, and outcomes explained.">
   <section class="page-opener">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">Selected work</p>
       <h1 class="page-type hero-in hero-in-2">Projects I’ve designed <em>and built.</em></h1>
       <p class="page-lede hero-in hero-in-3">Explore the architecture, the interaction decisions, and the work I owned. Each project gives you a different part of the picture.</p>
       <nav class="evidence-nav" aria-label="Find relevant work">
+        <a href="/projects/vmspark/">Design system rollout <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         <a href="/projects/ivfcryo/">Workflow design <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         <a href="/projects/logatot/">Application behavior <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        <a href="/projects/vmspark/">Design system rollout <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        <a href="/personal-projects/rudiment-ui/">Component architecture <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       </nav>
     </Container>
   </section>
@@ -26,7 +25,7 @@ import WorkList from '~/components/patterns/WorkList.astro';
         <h2 class="section-type">Still <em>curious?</em></h2>
         <div class="resource-list">
           <a href="/resume/"><span><strong>Enterprise systems experience</strong><span>Shared UI for enterprise insurance platforms and consumer products.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/personal-projects/"><span><strong>Personal projects</strong><span>Experiments in design tokens, component systems, and learning by building.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/personal-projects/"><span><strong>Personal projects</strong><span>Things I make for the fun of it.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           <a href="/blog/"><span><strong>Writing about the work</strong><span>Component architecture, adoption, and the decisions that keep UI maintainable.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
       </div>

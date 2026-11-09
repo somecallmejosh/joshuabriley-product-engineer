@@ -1,0 +1,59 @@
+---
+import Heading from '~/components/primitives/Heading.astro';
+import type { JourneyStage } from '~/lib/case-research';
+
+/**
+ * A journey map as live text, so it stays readable at any width. Stages sit
+ * side by side on large screens, with rows aligned by subgrid, and stack on
+ * small ones. Each stage repeats its row labels so it can be read alone.
+ */
+interface Props {
+  title: string;
+  stages: JourneyStage[];
+}
+const { title, stages } = Astro.props;
+---
+<h3 class="mono-label mb-6">{title}</h3>
+<ol class="journey" style={`--stages: ${stages.length}`}>
+  {stages.map((s) => (
+    <li id={`journey-${s.id}`} class="journey-stage scroll-mt-32 border-t border-line pt-5">
+      <Heading level={4} visual="h3" tone="ink">{s.stage}</Heading>
+      <div>
+        <p class="mono-label mb-2">What happens</p>
+        <p class="text-sm leading-relaxed text-ink-muted">{s.doing}</p>
+      </div>
+      <div>
+        <p class="mono-label mb-2">What goes wrong</p>
+        <p class="text-sm leading-relaxed text-ink-muted">{s.problem}</p>
+      </div>
+      <div>
+        <p class="mono-label mb-2">What the design does</p>
+        <p class="text-sm leading-relaxed text-ink"><a href={s.href} class="hero-link">{s.design}</a></p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .journey {
+    display: grid;
+    row-gap: 3rem;
+  }
+  .journey-stage {
+    display: grid;
+    row-gap: 1.25rem;
+    align-content: start;
+  }
+  @media (min-width: 1024px) {
+    .journey {
+      grid-template-columns: repeat(var(--stages), minmax(0, 1fr));
+      grid-template-rows: repeat(4, auto);
+      column-gap: 2rem;
+      row-gap: 0;
+    }
+    .journey-stage {
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+    }
+  }
+</style>

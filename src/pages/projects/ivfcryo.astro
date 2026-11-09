@@ -17,6 +17,10 @@ import CaseCards from '~/components/patterns/case/CaseCards.astro';
 import CaseResults from '~/components/patterns/case/CaseResults.astro';
 import CaseQuote from '~/components/patterns/case/CaseQuote.astro';
 import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
+import CasePersonas from '~/components/patterns/case/CasePersonas.astro';
+import CaseFor from '~/components/patterns/case/CaseFor.astro';
+import CaseJourney from '~/components/patterns/case/CaseJourney.astro';
+import { ivfcryoPersonas, ivfcryoJourney } from '~/lib/case-research';
 import HeuristicScores from '~/components/patterns/case/HeuristicScores.astro';
 import { ivfcryoSummary as tldr } from '~/lib/project-summaries';
 import type { ImageMetadata } from 'astro';
@@ -25,7 +29,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'IVFCRYO | Joshua Briley';
 const description =
-  "Case study: designing the app IVFCRYO uses to ship frozen embryos between clinics, so five parties confirm they're ready before a shipment starts, plus its 2026 redesign.";
+  "Case study: designing the app IVFCRYO uses to ship frozen embryos between clinics, so five parties confirm they're ready before a shipment starts.";
 
 const jumpLinks = [
   { href: '#tldr', label: 'Summary' },
@@ -34,15 +38,23 @@ const jumpLinks = [
   { href: '#decisions', label: 'Design decisions' },
   { href: '#outcomes', label: 'Results' },
   { href: '#process', label: 'How it was built' },
-  { href: '#redesign', label: '2026 redesign' },
   { href: '#edges', label: 'Limitations' },
 ];
 
 // What changed, grouped by who it changed for. Every line restates something
 // the page already says (readiness check, flows, forms, alerts, custody).
+// Timed with customers on the one-click prototype. Josh's own measurements;
+// keep these apart from the post-launch support and shipping-error results.
+const oneClickTimings = [
+  { task: 'Setting up all the defaults', time: 'About 10 minutes' },
+  { task: 'A shipment with no defaults set', time: 'About 30 seconds' },
+  { task: 'A shipment where the defaults matched', time: 'About 10 seconds' },
+  { task: 'A shipment where a default had to change', time: 'Over 2 minutes' },
+];
+
 const results = [
   {
-    label: 'For patients and clinics',
+    label: 'For patients like Priya and clinics like Lauren’s',
     items: [
       'See that both clinics have signed off, instead of calling',
       'A readiness view of what each party still owes',
@@ -51,7 +63,7 @@ const results = [
     ],
   },
   {
-    label: 'For IVFCRYO staff',
+    label: 'For IVFCRYO staff like Tessa',
     items: [
       'One case instead of email, fax, and phone notes',
       'Every client’s shipments, by readiness state',
@@ -103,7 +115,7 @@ const readinessGate = [
 // The information architecture, forked by role off one shared home.
 const customerFlow = [
   { label: 'Shipping list', note: 'Active and past shipments, with readiness and overdue alerts.' },
-  { label: 'New shipment', note: 'Route, specimen, live pricing, and CRYO Shield tier.' },
+  { label: 'New shipment', note: 'Route, specimen, live pricing, and CRYO Shield shipping guarantee tier.' },
   { label: 'Readiness view', note: 'What each party still owes before it can be scheduled.' },
   { label: 'Active shipment', note: 'Read-only tracking and sensor telemetry.' },
   { label: 'Receiving customers', note: 'Saved delivery contacts.' },
@@ -197,7 +209,7 @@ const plates = [
     slug: '03-shipments-index',
     index: '03',
     title: 'Shipments index',
-    note: 'Staff’s main workspace, filtered by readiness.',
+    note: 'Staff’s main workspace, filtered by status.',
     alt: 'Annotated wireframe of the shipments index: a filter bar, status tabs, and a list of shipment cards, with six numbered callouts explaining why status lives in the URL and why cards replaced table rows.',
   },
   {
@@ -214,13 +226,6 @@ const plates = [
     note: 'Shows where the shipment is and whether it is still at the right temperature.',
     alt: 'Annotated wireframe of the shipment detail page: a live position map above sensor readings for temperature, humidity, and battery, then two parallel tracking timelines, with callouts explaining why telemetry outranks logistics and why the two legs stay unmerged.',
   },
-  {
-    slug: '06-public-tracking',
-    index: '06',
-    title: 'Public tracking',
-    note: 'The view recipients get by email or text. No account, no raw telemetry.',
-    alt: 'Annotated wireframe of the public tracking page: a plain-language status line, a four-step progress track, a live position map, and a staffed phone number in the footer, with callouts explaining why there is no login and why raw telemetry is withheld.',
-  },
 ];
 
 
@@ -234,7 +239,7 @@ const flows = [
   {
     slug: '12-flow-create-shipment',
     title: 'Creating a shipment',
-    note: 'The highest-risk path: nine sections, one submit, and validation that blocks bookings that can’t be fulfilled.',
+    note: 'The highest-risk path: one submit, with validation that blocks bookings that can’t be fulfilled.',
     alt: 'Flow diagram of the shipment creation path. Service selection resolves a live price quote or a contact-for-quote branch, then runs through date, package, pickup and delivery contacts, notification preferences, insurance, and agreement. Failed validation returns to the offending field with form state preserved, and a successful submit forks into a confirmation email and the admin fulfillment queue. Six numbered design notes sit alongside.',
   },
 ];
@@ -244,9 +249,8 @@ const flows = [
 const plate = (slug: string) => plates.find((p) => p.slug === slug)!;
 const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
 
-// ── 2026 redesign ────────────────────────────────────────────────────────────
-// Screenshots of the redesigned app, captured from the seeded demo accounts
-// (admin and clinic) on 2026-11-03. Desktop at 1440×900 @2x, phone at 390×844
+// Screenshots of the app, captured from the seeded demo accounts
+// (admin and clinic). Desktop at 1440×900 @2x, phone at 390×844
 // @2x. Long pages are cropped from the top; captions say only what is on screen.
 const appShots = import.meta.glob<{ default: ImageMetadata }>(
   '../../assets/projects/ivfcryo/app/*.png',
@@ -284,7 +288,7 @@ const heuristics = [
   { n: 5, name: 'Error prevention', before: 2, after: 9, fix: '“Delete” needs confirmation, package types in use can’t be deleted, and forms block double-submits.' },
   { n: 6, name: 'Recognition over recall', before: 6, after: 8, fix: 'Hidden filters show a count. Contacts added in a dialog can be picked right away.' },
   { n: 7, name: 'Flexibility and efficiency', before: 4, after: 8, fix: 'Press / to search any list. The in-transit list makes one query instead of one per row.' },
-  { n: 8, name: 'Aesthetic and minimalist', before: 3, after: 8, fix: 'Public tracking shows status only: no names, addresses, or printable labels.' },
+  { n: 8, name: 'Aesthetic and minimalist', before: 3, after: 8, fix: 'Public tracking shows no names, addresses, or printable labels.' },
   { n: 9, name: 'Recovering from errors', before: 2, after: 9, fix: 'Failed bookings keep what was typed, errors appear inline, and bad tracking links get a recovery page.' },
   { n: 10, name: 'Help and documentation', before: 5, after: 8, fix: 'Empty states explain how shipments reach each stage, with hints under fields that need them.' },
 ];
@@ -324,13 +328,9 @@ const redesignEdges = [
 
 // The phone set. Captions describe what is on screen and why it is laid out that way.
 const phones = [
-  { slug: 'phone-public-home', title: 'Home', note: 'The headline shows a live sample temperature.', alt: 'The IVFCRYO home page on a phone: a 24/7 shipment desk phone bar, the headline “Your embryos are holding at −192.9 °C, 3h 05m into a trip we watch every minute,” two buttons, and a small live temperature chart.' },
-  { slug: 'phone-public-tracking', title: 'Public tracking', note: 'Status only, with a vertical timeline.', alt: 'The public tracking page on a phone: shipment title, an In transit chip and reference number, then a vertical custody timeline from Created to Delivered, followed by From and To clinic names and cities.' },
-  { slug: 'phone-sign-in', title: 'Sign in', note: 'Full-width fields, support number up front.', alt: 'The sign-in page on a phone: Welcome back, a note with the support phone number, email and password fields, a Forgot password link, Keep me signed in, and a full-width Log in button.' },
-  { slug: 'phone-nav-drawer', title: 'Navigation', note: 'Focus moves in on open and back on close.', alt: 'The signed-in app on a phone with the navigation drawer open: Shipments highlighted, Users, Shipment feedback, an Inventory group, and Settings pinned at the bottom.' },
+  { slug: 'phone-public-tracking', title: 'Public tracking', note: 'A vertical timeline, then the two clinics.', alt: 'The public tracking page on a phone: shipment title, an In transit chip and reference number, then a vertical custody timeline from Created to Delivered, followed by From and To clinic names and cities.' },
   { slug: 'phone-list-active', title: 'Shipments', note: 'Stage tiles two by two, filters full width.', alt: 'The shipments list on a phone: Export and New Shipment buttons, four stage tiles in a two-by-two grid with In transit selected, and stacked search and company filters.' },
   { slug: 'phone-detail', title: 'Shipment detail', note: 'Vertical timeline, then key facts in pairs.', alt: 'Shipment detail on a phone: breadcrumb, title, invoice and Edit buttons, a vertical custody timeline, then pickup, delivery, service, and quoted price in a two-column grid.' },
-  { slug: 'phone-new-shipment', title: 'New shipment', note: 'Company pickers stack into one column.', alt: 'The new-shipment form on a phone: the Route section with a Ships from company picker, a selected company marked with an accent bar, local time zone, and pickup instructions.' },
   { slug: 'phone-clinic-list', title: 'Clinic view', note: 'A clinic sees only its own shipments.', alt: 'The My shipments page for a clinic user on a phone: stage tiles with the clinic’s own counts and the same search and filter controls as staff.' },
 ];
 
@@ -347,9 +347,9 @@ const phones = [
   <CaseSection id="context" title="Who it’s for">
     <CaseProse>
       <p>
-        A missed temperature drop can cost someone their only remaining embryo. As Don, the
+        IVFCRYO ships frozen embryos between clinics, and a missed temperature drop can cost someone their only remaining embryo. As Don, the
         owner, put it, a shipment “looks like one transaction to the patient, but it is actually
-        a chain of separate responsibilities,” so I mapped each party and handoff first.
+        a chain of separate responsibilities,” so I mapped each party and handoff first. <a href="#persona-priya" class="hero-link">Priya, Lauren, Tessa, and Martin</a> are the people on either side of those handoffs.
       </p>
     </CaseProse>
 
@@ -359,13 +359,11 @@ const phones = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        <FidelityBand
-          title={plate('05-shipment-detail').title}
-          sketch={art('05-shipment-detail-sketch.svg')}
-          wire={art('05-shipment-detail.svg')}
-          annotated={annotated('05-shipment-detail')}
-          annotatedAlt={plate('05-shipment-detail').alt}
-          caption="Sketch, wireframe, and annotated sheet. The annotations gave the team a record to check the build against."
+        <Plate
+          title="Shipment detail"
+          caption="Who has the shipment comes first, then key facts, the temperature trace, and the map."
+          src={shot('app-detail')}
+          alt="The shipment detail page: the title Hudson Valley Reproductive to IVFCRYO Lab, a four-step custody timeline with In transit current, a key-facts strip for pickup, delivery, service, and quoted price, then sensor data with a large −192.9 °C probe readout, a temperature chart below a dashed set-point line marked “All 12 below set-point”, ambient readings, and a live map. A side panel lists shipment details and staff comments."
         />
       </Container>
     </Fragment>
@@ -373,9 +371,16 @@ const phones = [
 
   <CaseSection id="research" title="Research">
     <CaseProse>
+      <h3 class="mono-label">How requirements were gathered</h3>
       <p>
-        I sat with IVFCRYO’s owner, COO, and office manager. All three interviewees named the
-        same first fix: a readiness check both clinics confirm before a courier is scheduled.
+        IVFCRYO’s requirements reached me as photographs: printed Word pages listing everything
+        they had to collect for a single shipment, and sample labels from their two couriers.
+        They talked me through the process, then had me interview an existing customer so I could
+        learn it from the customer’s side.
+      </p>
+      <p>
+        I also sat down with the owner, COO, and office manager, and all three named the same
+        first fix: a readiness check both clinics confirm before a courier is scheduled.
       </p>
     </CaseProse>
 
@@ -389,13 +394,101 @@ const phones = [
 
     <CaseProse>
       <p>
+        From there I moved from notebook sketches to Figma designs and reviewed them with
+        customers. Once we agreed on how it should work, we built high-clarity mocks in code
+        instead of a design program. Tasks lived in GitHub Projects, where IVFCRYO could check
+        status between our scheduled touchpoints.
+      </p>
+    </CaseProse>
+
+    <CaseProse class="mt-12">
+      <p>
+        The app had grown to 226 views with no shared rules for buttons, inputs, or status, so I
+        ran a front-end audit. I kept the brand, every route, and every form field name.
+      </p>
+    </CaseProse>
+
+    <div class="mt-12">
+      <p class="mono-label mb-6">What the audit found</p>
+      <dl class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
+        {systemAudit.map((a) => (
+          <div class="border-t border-line pt-4">
+            <dt class="flex items-baseline gap-3">
+              <span class="font-display text-3xl tracking-tight text-ink">{a.value}</span>
+              <span class="font-medium text-ink">{a.label}</span>
+            </dt>
+            <dd class="mt-2 text-sm text-ink-muted leading-relaxed">{a.note}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <CaseProse class="mt-12">
+      <p>
+        The audit also found security holes: 14 leftover pages let any signed-in clinic edit
+        every company and user, shipments opened by guessing an ID, and the list filter built
+        queries from raw URL text. I fixed those first, with request specs to keep them closed.
+      </p>
+    </CaseProse>
+
+    <div class="mt-16">
+          <h3 class="mono-label mb-6">Heuristic audit</h3>
+          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+            <p>
+              I scored every flow 0–10 against Nielsen’s ten usability heuristics, citing a file and
+              line for each finding. The bar was <strong class="text-ink font-semibold">8 or above
+              everywhere</strong>, and fixes went into shared components first.
+            </p>
+          </div>
+
+          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+            <Metric value="8.8" label="average score after" caption="up from 5.3 across 8 flows and 10 heuristics" />
+            <Metric value="2 → 9" label="lowest error-recovery score" caption="the weakest heuristic on three flows" />
+          </div>
+
+          <HeuristicScores items={heuristics} caption="Lowest score on any flow, before → after, and the change that moved it most." />
+
+          <div class="mt-12">
+            <p class="mono-label mb-6">By flow · average of ten</p>
+            <ul class="space-y-3">
+              {flowScores.map((f) => (
+                <li class="flex flex-col gap-y-1.5 sm:flex-row sm:items-center sm:gap-x-4">
+                  <span class="text-sm text-ink sm:w-56 sm:shrink-0">{f.flow}</span>
+                  <span class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="relative h-2 flex-1 rounded-full bg-line" aria-hidden="true">
+                      <span class="absolute inset-y-0 left-0 rounded-full bg-ink-muted/40" style={`width:${f.before * 10}%`}></span>
+                      <span class="absolute inset-y-0 left-0 rounded-full bg-accent mix-blend-multiply" style={`width:${f.after * 10}%; opacity:.85`}></span>
+                    </span>
+                    <span class="w-24 shrink-0 text-right font-mono text-xs text-ink-muted">
+                      {f.before.toFixed(1)} → <span class="text-ink">{f.after.toFixed(1)}</span>
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+    </div>
+
+    <CaseProse class="mt-12">
+      <p>
         The pattern behind the interviews was the same: <strong class="text-ink font-semibold">the
         hard part is getting everyone ready, not tracking the truck</strong>.
       </p>
     </CaseProse>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <CasePersonas items={ivfcryoPersonas} />
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <CaseJourney title="Journey map: one shipment" stages={ivfcryoJourney} />
+      </Container>
+    </Fragment>
   </CaseSection>
 
   <CaseSection id="decisions" title="A readiness check before a courier is scheduled">
+    <CaseFor project="ivfcryo" personas={["tessa","lauren"]} stage="readiness" />
     <CaseProse>
       <p>
         To stop scheduling first and hoping, I made readiness
@@ -425,6 +518,7 @@ const phones = [
   </CaseSection>
 
   <CaseSection id="decision-shared-record" title="One shipment record for customers and staff">
+    <CaseFor project="ivfcryo" personas={["priya","tessa"]} stage="pickup" />
     <CaseProse>
       <p>
         Customers need a short path from request to tracking, and staff need every shipment at
@@ -470,6 +564,17 @@ const phones = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
+        <FidelityBand
+          title={plate('05-shipment-detail').title}
+          sketch={art('05-shipment-detail-sketch.svg')}
+          wire={art('05-shipment-detail.svg')}
+          annotated={annotated('05-shipment-detail')}
+          annotatedAlt={plate('05-shipment-detail').alt}
+          caption="Sketch, wireframe, and annotated sheet for the shipment page."
+        />
+      </Container>
+
+      <Container width="wide" class="mt-16">
         <Plate
           title={plate('03-shipments-index').title}
           caption={plate('03-shipments-index').note}
@@ -478,36 +583,90 @@ const phones = [
         />
       </Container>
 
-      <Container width="wide" class="mt-16">
-        <Plate
-          title={flow('11-flow-authentication').title}
-          caption={flow('11-flow-authentication').note}
-          src={annotated('11-flow-authentication')}
-          alt={flow('11-flow-authentication').alt}
-        />
-      </Container>
 
       <CaseProse continued>
         <p>
           Recipients never sign in. They get a link by email or text and only need to know the
-          shipment is on its way, so the first public page swapped the temperature graph for a
-          staffed phone number. The <a href="#redesign" class="hero-link">2026 redesign</a>
-          brought the graph back with a plain-language verdict.
+          shipment is on its way. The public tracking page had been showing names, addresses, and
+          shipping labels to anyone with the link, so with the owner’s approval it now shows no
+          personal details, and the temperature chart opens with a plain verdict such as “All 12
+          below set-point”.
         </p>
       </CaseProse>
 
       <Container width="wide" class="mt-16">
         <Plate
-          title={plate('06-public-tracking').title}
-          caption={plate('06-public-tracking').note}
-          src={annotated('06-public-tracking')}
-          alt={plate('06-public-tracking').alt}
+          title="Public tracking"
+          caption="No account and no personal details: status, latest readings, and a staffed phone number."
+          src={shot('app-public-tracking')}
+          alt="The public tracking page: Hudson Valley Reproductive to IVFCRYO Lab with an In transit chip, a four-step custody timeline, From and To cities with the requested delivery time, latest sensor readings for probe and ambient temperature, humidity, and pressure, a probe temperature chart marked “All 12 below set-point”, and a line with the support email and phone number."
+        />
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="A tracking link that doesn’t work"
+          caption="Bad links used to crash. Now the page explains and gives an email and phone number."
+          src={shot('app-public-tracking-missing')}
+          alt="The public tracking page for an unknown shipment: “We couldn’t find this shipment. The link may be old or mistyped. Check the link in your email or text, or contact IVFCRYO and we’ll look it up for you,” with Email IVFCRYO and Call 800.430.9830 buttons."
         />
       </Container>
     </Fragment>
   </CaseSection>
 
+  <CaseSection id="decision-shipment-choices" title="A few choices per shipment instead of one-click setup">
+    <CaseFor project="ivfcryo" personas={["lauren"]} stage="request" />
+    <CaseProse>
+      <p>
+        There was a strong push for one-click shipping. Customers would set defaults for
+        container size, departure and receiving facilities, and courier instructions, and
+        each shipment after that would take one click. That asked for a lot of foresight and
+        time customers didn’t have, and a default that didn’t fit would have to be undone.
+      </p>
+      <p>
+        I prototyped the workflow with several customers and timed it. Their first reaction
+        to the idea was highly supportive, but once they tried it, one-click shipping turned
+        out to be more of a hassle.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+      <p class="mono-label mb-6">Prototype timings</p>
+      <ul>
+        {oneClickTimings.map((row) => (
+          <li class="flex items-baseline justify-between gap-6 border-b border-line py-3.5 last:border-b-0">
+            <span class="text-ink-muted leading-snug">{row.task}</span>
+            <span class="shrink-0 font-medium text-ink">{row.time}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <CaseProse class="mt-10">
+      <p>
+        A matching shipment saved about 20 seconds, so customers needed
+        <strong class="text-ink font-semibold">about 30 matching shipments to earn back the
+        setup time</strong>, and most didn’t come close to that in a year. Every changed
+        default pushed that point further out.
+      </p>
+      <p>
+        It took a lot of persuading, but stakeholders agreed to drop the upfront defaults.
+        Customers chose the departure and receiving facilities, container type, and personnel
+        for each shipment, and reused instructions saved for each facility. That took four or
+        five clicks, and because each shipment still had the customer’s attention, it was
+        less prone to error.
+      </p>
+      <p>
+        After launch, we reviewed the workflow in Hotjar every week and talked through any
+        sticking points. There was a push to get every shipment done in 30 seconds, but people
+        start a shipment, get pulled away, and come back to it later, so we decided that
+        optimizing beyond that point would be overkill.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
   <CaseSection id="decision-forms" title="Forms that prevent mistakes and let people fix them">
+    <CaseFor project="ivfcryo" personas={["lauren","martin"]} stage="delivery" />
     <CaseProse>
       <p>
         Every form lets people fix mistakes without calling support. Addresses are checked
@@ -518,8 +677,11 @@ const phones = [
         orders capture declared value and receiving captures a temperature reading and photos.
       </p>
       <p>
-        A legally blind customer tested with a screen reader before and after launch, which
-        is how the labeling issue in <a href="#edges" class="hero-link">Limitations</a> was found.
+        A legally blind customer, the basis for Martin’s persona, had trouble with the older
+        shipping form on IVFCRYO’s website and tested with a screen reader before and after launch. Those sessions turned up
+        form errors that weren’t tied to their fields, keyboard problems, and missed
+        <span class="font-mono text-sm text-ink">aria-live</span> announcements, as well as the
+        labeling issue in <a href="#edges" class="hero-link">Limitations</a>.
       </p>
     </CaseProse>
 
@@ -553,14 +715,137 @@ const phones = [
           alt={flow('12-flow-create-shipment').alt}
         />
       </Container>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title={flow('11-flow-authentication').title}
+          caption={flow('11-flow-authentication').note}
+          src={annotated('11-flow-authentication')}
+          alt={flow('11-flow-authentication').alt}
+        />
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-interface" title="An interface that reads like a lab instrument">
+    <CaseFor project="ivfcryo" personas={["priya","tessa"]} stage="transit" />
+    <CaseProse>
+      <p>
+        To give 226 views one set of rules, I fixed the source first: tokens, then shared Rails components for buttons, fields,
+        cards, headers, badges, alerts, tables, and empty states. Most views improved before I
+        touched them, and then I rebuilt screens in order of importance, without a rewrite.
+      </p>
+      <p>
+        The visual direction, <strong class="text-ink font-semibold">clinical
+        instrument</strong>, sets data like readouts on a lab device.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="Design decisions" items={redesignDecisions} />
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ScrollShot
+          src="/images/projects/ivfcryo/styleguide.webp"
+          alt="The app’s development-only style guide: color tokens with their roles, the type scale, a page header with breadcrumbs, buttons in four variants and four sizes, form fields including an inline error, status badges, alerts for info, success, warning, and error, an empty state, and a data table."
+          label="/styleguide"
+          kind="Style guide"
+          caption="Every shared component in every state. When a token changes, this page shows everything it touched."
+        />
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="Shipments, in transit"
+          caption="Stage tiles double as navigation, and each row reads like a route: clinics, probe temperature, and time since pickup."
+          src={shot('app-list-active')}
+          alt="The shipments list, signed in as staff: a sidebar, four stage tiles (Awaiting pickup 6, In transit 4 selected, Delivered 8, All shipments 18), a filter row, and shipments grouped under Today and Yesterday. Each row shows pickup time and zone, a route such as NY to CA with both clinic names, a probe readout of −192.9 °C with a sparkline, hours since pickup, and the quoted price."
+        />
+      </Container>
+
+      <CaseProse continued>
+        <p>
+          As someone books, the sidebar builds a live summary of the route, package, service, and
+          quote, with one sentence saying what’s still missing.
+        </p>
+      </CaseProse>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="New shipment"
+          caption="Company pickers side by side, package cards with drawings, and the live summary."
+          src={shot('app-new-shipment')}
+          alt="The new-shipment page: Ships from and Ships to company pickers with search, the selected companies marked with an orange bar, prefilled pickup and delivery instructions, three package cards with line drawings and dimensions, and a sticky Summary panel showing the route, pickup date, unselected package and service, an empty quote, a terms checkbox, and a disabled Book shipment button with the hint “To submit, choose a package and a service, then agree to the terms.”"
+        />
+      </Container>
+
+      <CaseProse continued>
+        <p>
+          Once a shipment is delivered it locks, and the page says why.
+        </p>
+      </CaseProse>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="Delivered and locked"
+          caption="A completed shipment explains why it can’t change: it is the record of custody."
+          src={shot('app-edit-complete')}
+          alt="The edit page for a completed shipment, titled Shipment complete: a lock panel reading “Delivered and locked. This shipment is complete and can no longer be edited. Its details stay exactly as they were at delivery, as the record of custody,” with the delivery time, door-to-door duration, a View shipment button, and the full custody timeline below."
+        />
+      </Container>
+
+      <Container width="content" class="mt-16">
+        <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
+          <h3 class="mono-label">Mobile</h3>
+          <p>
+            Patients, embryologists, and couriers check shipments away from a desk, so every main
+            screen was checked at 390 pixels wide with no sideways scrolling. Layouts change shape
+            instead of shrinking.
+          </p>
+        </div>
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+          {phones.map((p) => (
+            <li>
+              <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />
+            </li>
+          ))}
+        </ul>
+      </Container>
+
+      <Container width="content" class="mt-16">
+        <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
+          <h3 class="mono-label">Public site</h3>
+          <p>
+            The public site now shares the app’s domain, and its product previews are the app’s
+            own components rendering a labeled sample shipment. When the app changes, the site
+            changes with it.
+          </p>
+          <p>
+            Nothing on it is made up: press links to sources, reviews are ones IVFCRYO already
+            published, and the legal pages moved over word for word.
+          </p>
+        </div>
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <ScrollShot
+          src="/images/projects/ivfcryo/public-home.webp"
+          alt="The full IVFCRYO home page: a 24/7 desk phone bar, the hero sentence “Your embryos are holding at −192.9 °C, 3h 05m into a trip we watch every minute” beside a US map with the sample route, key figures, press and partner logos, sections for patients and for clinics, a live tracking card from the app, a five-step booking-to-delivery timeline, coverage and support cards, a founder quote from Don Fish, customer reviews, a services list, and a closing call to action."
+          label="ivfcryo.com"
+          caption="The tracking card, temperature trace, and timeline are live app components."
+        />
+      </Container>
     </Fragment>
   </CaseSection>
 
   <CaseSection id="outcomes" title="Results">
     <CaseResults
       metrics={[
-        { value: '75%', label: 'fewer support calls', caption: 'answers without phoning in' },
-        { value: '55%', label: 'fewer shipping errors', caption: 'caught before reaching specimens' },
+        { value: '75%', label: 'fewer support calls', caption: 'Client data, 90 days after launch' },
+        { value: '55%', label: 'fewer shipping errors', caption: 'Client data, 90 days after launch' },
       ]}
       groups={results}
     />
@@ -635,252 +920,10 @@ const phones = [
 
   </CaseSection>
 
-  <CaseSection id="redesign" title="The 2026 redesign">
-    <CaseProse>
-      <p>
-        The workflow held up after launch, but the app grew to 226 views with no shared rules
-        for buttons, inputs, or status. I started with a front-end audit, and kept the brand,
-        every route, and every form field name.
-      </p>
-    </CaseProse>
-
-    <div class="mt-12">
-      <p class="mono-label mb-6">What the audit found</p>
-      <dl class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
-        {systemAudit.map((a) => (
-          <div class="border-t border-line pt-4">
-            <dt class="flex items-baseline gap-3">
-              <span class="font-display text-3xl tracking-tight text-ink">{a.value}</span>
-              <span class="font-medium text-ink">{a.label}</span>
-            </dt>
-            <dd class="mt-2 text-sm text-ink-muted leading-relaxed">{a.note}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-
-    <CaseProse class="mt-12">
-      <p>
-        I fixed the source first: tokens, then shared Rails components for buttons, fields,
-        cards, headers, badges, alerts, tables, and empty states. Most views improved before I
-        touched them, and then I rebuilt screens in order of importance, without a rewrite.
-      </p>
-      <p>
-        The visual direction, <strong class="text-ink font-semibold">clinical
-        instrument</strong>, sets data like readouts on a lab device.
-      </p>
-    </CaseProse>
-
-    <CaseCards label="Design decisions" items={redesignDecisions} />
-
-    <Fragment slot="media">
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Shipments, in transit"
-          caption="Stage tiles double as navigation, and each row reads like a route: clinics, probe temperature, and time since pickup."
-          src={shot('app-list-active')}
-          alt="The redesigned shipments list, signed in as staff: a sidebar, four stage tiles (Awaiting pickup 6, In transit 4 selected, Delivered 8, All shipments 18), a filter row, and shipments grouped under Today and Yesterday. Each row shows pickup time and zone, a route such as NY to CA with both clinic names, a probe readout of −192.9 °C with a sparkline, hours since pickup, and the quoted price."
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Shipment detail"
-          caption="Who has the shipment comes first, then key facts, the temperature trace, and the map."
-          src={shot('app-detail')}
-          alt="The redesigned shipment detail page: the title Hudson Valley Reproductive to IVFCRYO Lab, a four-step custody timeline with In transit current, a key-facts strip for pickup, delivery, service, and quoted price, then sensor data with a large −192.9 °C probe readout, a temperature chart below a dashed set-point line marked “All 12 below set-point”, ambient readings, and a live map. A side panel lists shipment details and staff comments."
-        />
-      </Container>
-
-      <CaseProse continued>
-        <p>
-          As someone books, the sidebar builds a live summary of the route, package, service, and
-          quote, with one sentence saying what’s still missing.
-        </p>
-      </CaseProse>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="New shipment"
-          caption="Company pickers side by side, package cards with drawings, and the live summary."
-          src={shot('app-new-shipment')}
-          alt="The new-shipment page: Ships from and Ships to company pickers with search, the selected companies marked with an orange bar, prefilled pickup and delivery instructions, three package cards with line drawings and dimensions, and a sticky Summary panel showing the route, pickup date, unselected package and service, an empty quote, a terms checkbox, and a disabled Book shipment button with the hint “To submit, choose a package and a service, then agree to the terms.”"
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
-          <Plate
-            size="half"
-            title="Package types"
-            caption="Every shipper drawn to one shared scale, so sizes compare honestly."
-            src={shot('app-package-types')}
-            alt="The Package types page: three shipper cards, CryoPort Standard, CryoPort Plus, and Vapor Shipper Mini, each with a to-scale line drawing, size, weight, max containers, declared value, and number of active shipments, labeled “Drawn to the same scale.”"
-          />
-          <Plate
-            size="half"
-            title="Settings"
-            caption="Notifications laid out as the five shipment stages, with email and text for each."
-            src={shot('app-settings')}
-            alt="The Settings page: Shipment notifications shown as five numbered stages (Created, Pickup reminder, Picked up, Delivered, Review request), each with Email and Text checks, then Temperature alert readouts for set-point, check interval, and grace period, and a Pickup and delivery contacts email preview."
-          />
-        </div>
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Delivered and locked"
-          caption="A completed shipment explains why it can’t change: it is the record of custody."
-          src={shot('app-edit-complete')}
-          alt="The edit page for a completed shipment, titled Shipment complete: a lock panel reading “Delivered and locked. This shipment is complete and can no longer be edited. Its details stay exactly as they were at delivery, as the record of custody,” with the delivery time, door-to-door duration, a View shipment button, and the full custody timeline below."
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <ScrollShot
-          src="/images/projects/ivfcryo/styleguide.webp"
-          alt="The app’s development-only style guide: color tokens with their roles, the type scale, a page header with breadcrumbs, buttons in four variants and four sizes, form fields including an inline error, status badges, alerts for info, success, warning, and error, an empty state, and a data table."
-          label="/styleguide"
-          kind="Style guide"
-          caption="Every shared component in every state. When a token changes, this page shows everything it touched."
-        />
-      </Container>
-
-      <Container width="content" class="mt-16">
-        <div class="case-layout-cont">
-          <h3 class="mono-label mb-6">Heuristic audit</h3>
-          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
-            <p>
-              I scored every flow 0–10 against Nielsen’s ten usability heuristics, citing a file and
-              line for each finding. The bar was <strong class="text-ink font-semibold">8 or above
-              everywhere</strong>, and fixes went into shared components first.
-            </p>
-          </div>
-
-          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
-            <Metric value="8.8" label="average score after" caption="up from 5.3 across 8 flows and 10 heuristics" />
-            <Metric value="2 → 9" label="lowest error-recovery score" caption="the weakest heuristic on three flows" />
-          </div>
-
-          <HeuristicScores items={heuristics} caption="Lowest score on any flow, before → after, and the change that moved it most." />
-
-          <div class="mt-12">
-            <p class="mono-label mb-6">By flow · average of ten</p>
-            <ul class="space-y-3">
-              {flowScores.map((f) => (
-                <li class="flex flex-col gap-y-1.5 sm:flex-row sm:items-center sm:gap-x-4">
-                  <span class="text-sm text-ink sm:w-56 sm:shrink-0">{f.flow}</span>
-                  <span class="flex min-w-0 flex-1 items-center gap-3">
-                    <span class="relative h-2 flex-1 rounded-full bg-line" aria-hidden="true">
-                      <span class="absolute inset-y-0 left-0 rounded-full bg-ink-muted/40" style={`width:${f.before * 10}%`}></span>
-                      <span class="absolute inset-y-0 left-0 rounded-full bg-accent mix-blend-multiply" style={`width:${f.after * 10}%; opacity:.85`}></span>
-                    </span>
-                    <span class="w-24 shrink-0 text-right font-mono text-xs text-ink-muted">
-                      {f.before.toFixed(1)} → <span class="text-ink">{f.after.toFixed(1)}</span>
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
-          <Plate
-            size="half"
-            title="A search with no results"
-            caption="It now says what was searched and offers to clear filters or search every stage."
-            src={shot('app-list-empty-filtered')}
-            alt="The shipments list after searching for “zzzz” in Awaiting pickup: an empty state reading “No shipments match these filters. Searched Awaiting pickup only. Clear the filters, or search every stage,” with Clear filters and Search every stage buttons."
-          />
-          <Plate
-            size="half"
-            title="A tracking link that doesn’t work"
-            caption="Bad links used to crash. Now the page explains and gives an email and phone number."
-            src={shot('app-public-tracking-missing')}
-            alt="The public tracking page for an unknown shipment: “We couldn’t find this shipment. The link may be old or mistyped. Check the link in your email or text, or contact IVFCRYO and we’ll look it up for you,” with Email IVFCRYO and Call 800.430.9830 buttons."
-          />
-        </div>
-      </Container>
-
-      <CaseProse continued>
-        <p>
-          The audit also found security holes: 14 leftover pages let any signed-in clinic edit
-          every company and user, shipments opened by guessing an ID, and the list filter built
-          queries from raw URL text. I fixed those first, with request specs to keep them closed.
-        </p>
-      </CaseProse>
-
-      <Container width="content" class="mt-16">
-        <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
-          <h3 class="mono-label">Mobile</h3>
-          <p>
-            Patients, embryologists, and couriers check shipments away from a desk, so every main
-            screen was checked at 390 pixels wide with no sideways scrolling. Layouts change shape
-            instead of shrinking.
-          </p>
-        </div>
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
-          {phones.map((p) => (
-            <li>
-              <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />
-            </li>
-          ))}
-        </ul>
-      </Container>
-
-      <Container width="content" class="mt-16">
-        <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
-          <h3 class="mono-label">Public site</h3>
-          <p>
-            The public site now shares the app’s domain, and its product previews are the app’s
-            own components rendering a labeled sample shipment. When the app changes, the site
-            changes with it.
-          </p>
-          <p>
-            Nothing on it is made up: press links to sources, reviews are ones IVFCRYO already
-            published, and the legal pages moved over word for word.
-          </p>
-        </div>
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <ScrollShot
-          src="/images/projects/ivfcryo/public-home.webp"
-          alt="The full IVFCRYO home page: a 24/7 desk phone bar, the hero sentence “Your embryos are holding at −192.9 °C, 3h 05m into a trip we watch every minute” beside a US map with the sample route, key figures, press and partner logos, sections for patients and for clinics, a live tracking card from the app, a five-step booking-to-delivery timeline, coverage and support cards, a founder quote from Don Fish, customer reviews, a services list, and a closing call to action."
-          label="ivfcryo.com"
-          caption="The tracking card, temperature trace, and timeline are live app components."
-        />
-      </Container>
-
-      <CaseProse continued>
-        <p>
-          The public tracking page had been showing names, addresses, and shipping labels to anyone
-          with the link. With the owner’s approval it now shows status only, and the temperature
-          chart opens with a plain verdict such as “All 12 below set-point”.
-        </p>
-      </CaseProse>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Public tracking"
-          caption="No account and no personal details: status, latest readings, and a staffed phone number."
-          src={shot('app-public-tracking')}
-          alt="The redesigned public tracking page: Hudson Valley Reproductive to IVFCRYO Lab with an In transit chip, a four-step custody timeline, From and To cities with the requested delivery time, latest sensor readings for probe and ambient temperature, humidity, and pressure, a probe temperature chart marked “All 12 below set-point”, and a line with the support email and phone number."
-        />
-      </Container>
-    </Fragment>
-  </CaseSection>
-
   <CaseLimitations
     items={edges}
     lead="Both come from live data arriving from several sources, with no early rule for timing or wording."
-    later={{ label: 'Still open after the redesign', items: redesignEdges }}
+    later={{ label: 'Still open', items: redesignEdges }}
   />
 
   <GalleryLink project="ivfcryo" />

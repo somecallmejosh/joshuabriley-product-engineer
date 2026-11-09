@@ -5,7 +5,7 @@ The personal site and portfolio of **Joshua Briley**, a Product Design Engineer 
 ## Highlights
 
 - **Editorial-Technical design system** — one warm grotesk (Hanken), a display serif for character (Newsreader), and a mono for technical moments (Geist Mono). Monochrome neutrals with a single surface-aware accent that shifts between light and ink surfaces.
-- **Case studies & projects** — client work (IVFCRYO, VMSpark, Logatot) and personal projects (Rudiment UI, Token Adventure, West Baton Rouge Presbyterian).
+- **Case studies & projects** — client work (VMSpark, IVFCRYO, Logatot) and personal projects (Rudiment UI, Token Adventure, West Baton Rouge Presbyterian).
 - **Content collections** — blog posts (`.mdx`), tools (`.mdx`), and testimonials (`.json`) are type-checked via Zod schemas in `src/content.config.ts`.
 - **Interactive tools** — four live islands (scorecard, ROI calculator, token playground, audit inspector) render above their essays under `/tools/`.
 - **Accessibility-first** — WCAG AA contrast is enforced by live audit scripts and Playwright + axe-core e2e coverage.

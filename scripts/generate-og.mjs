@@ -90,7 +90,7 @@ console.log(`\nGenerated ${ok}/${JOBS.length} OG cards → public/images/og/`);
 const known = new Set(OG_PAGES.map((e) => e.path));
 for (const dir of ['projects', 'personal-projects']) {
   for (const f of readdirSync(resolve(ROOT, 'src/pages', dir))) {
-    if (!f.endsWith('.astro') || f === 'index.astro') continue;
+    if (!f.endsWith('.astro') || f === 'index.astro' || f.startsWith('[')) continue;
     const path = `/${dir}/${f.replace(/\.astro$/, '')}/`;
     if (!known.has(path)) console.warn(`  WARN  ${path} has no entry in src/lib/og-pages.mjs`);
   }

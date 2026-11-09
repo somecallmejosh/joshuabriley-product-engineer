@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import type { WallTile } from '~/lib/personal-projects';
+
+/**
+ * ScrapMosaic: details cut from a project's real screens, in a tidy 6 by 4
+ * grid of hairline panels. Always inside a link that names the project, so
+ * the images are decorative.
+ */
+interface Props { tiles: WallTile[]; eager?: boolean; }
+const { tiles, eager = false } = Astro.props;
+const loading = eager ? 'eager' : 'lazy';
+---
+<div class="scrap-mosaic">
+  {tiles.map(({ src, area: [column, columnSpan, row, rowSpan], flat, ink, fill }) => (
+    <span class:list={['scrap-tile', { 'scrap-tile--flat': flat, 'scrap-tile--ink': ink, 'scrap-tile--fill': fill }]} style={`grid-area: ${row} / ${column} / span ${rowSpan} / span ${columnSpan}`}>
+      {typeof src === 'string'
+        ? <img src={src} alt="" loading={loading} decoding="async" width="1024" height="1536" />
+        : <Image src={src} alt="" widths={[320, 640, 960]} sizes="(min-width: 768px) 25vw, 60vw" loading={loading} />}
+    </span>
+  ))}
+</div>

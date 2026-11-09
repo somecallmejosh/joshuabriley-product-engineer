@@ -5,6 +5,7 @@ import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import { galleryFor, galleryHref, galleryCount } from '~/lib/project-galleries';
 import type { ProjectKey } from '~/lib/project-pages';
+import type { PersonalProjectKey } from '~/lib/personal-projects';
 
 /**
  * GalleryLink — the last stop on a case study before "Next project".
@@ -13,7 +14,7 @@ import type { ProjectKey } from '~/lib/project-pages';
  * rest live on the project's gallery page; this points readers who want
  * everything to it. Renders nothing for a project without a gallery.
  */
-interface Props { project: ProjectKey; }
+interface Props { project: ProjectKey | PersonalProjectKey; }
 const gallery = galleryFor(Astro.props.project);
 ---
 {gallery && (

@@ -1,0 +1,57 @@
+---
+import Heading from '~/components/primitives/Heading.astro';
+import Icon from '~/components/primitives/Icon.astro';
+import type { Persona } from '~/lib/case-research';
+
+/**
+ * The people a case study designed for. `basis` says where each persona came
+ * from, so a working persona is never mistaken for one built from interviews.
+ * Quotes come from the transcripts, word for word.
+ */
+interface Props {
+  items: Persona[];
+}
+const { items } = Astro.props;
+const cols = items.length === 3 ? 'lg:grid-cols-3' : '';
+---
+<h3 class="mono-label mb-6">Personas</h3>
+<ul class:list={['grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2', cols]}>
+  {items.map((p) => (
+    <li id={`persona-${p.id}`} class="flex scroll-mt-32 flex-col border-t border-line pt-5">
+      <div class="mb-4 flex items-center gap-4">
+        <img src={`/images/personas/${p.id}.jpg`} alt="" width="80" height="80" loading="lazy" decoding="async" class="h-20 w-20 shrink-0 rounded-full border border-line object-cover" />
+        <div>
+          <Heading level={4} visual="h3" tone="ink">{p.name}</Heading>
+          <p class="mt-1 text-sm font-medium text-ink">{p.role}</p>
+        </div>
+      </div>
+      <p class="text-sm leading-relaxed text-ink-muted">{p.context}</p>
+      {p.quote && (
+        <figure class="mt-5 border-l-2 border-accent pl-4">
+          <blockquote class="leading-snug text-ink">“{p.quote}”</blockquote>
+          <figcaption class="mt-2 text-xs text-ink-muted">{p.quoteBy}</figcaption>
+        </figure>
+      )}
+      <p class="mono-label mb-3 mt-6">Needs</p>
+      <ul class="space-y-2">
+        {p.needs.map((n) => (
+          <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
+            <Icon name="ph:check" size={14} class="mt-1 shrink-0 text-accent" />
+            <span>{n}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="mono-label mb-3 mt-6">Frustrations</p>
+      <ul class="space-y-2">
+        {p.frustrations.map((f) => (
+          <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
+            <Icon name="ph:minus" size={14} class="mt-1 shrink-0 text-ink-muted" />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-xs leading-relaxed text-ink-muted">{p.basis}</p>
+    </li>
+  ))}
+</ul>
+<p class="mt-10 text-xs leading-relaxed text-ink-muted">Persona names and photos are illustrative.</p>

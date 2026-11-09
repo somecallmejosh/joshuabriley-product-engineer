@@ -1,0 +1,26 @@
+---
+import { caseResearch, type CaseProject } from '~/lib/case-research';
+
+/**
+ * Ties a design decision back to the personas and journey stage it serves,
+ * with links to both. Ids that don't exist fail the build.
+ */
+interface Props {
+  project: CaseProject;
+  personas: string[];
+  stage: string;
+}
+const { project, personas: ids, stage: stageId } = Astro.props;
+const { personas, journey } = caseResearch[project];
+const people = ids.map((id) => {
+  const person = personas.find((p) => p.id === id);
+  if (!person) throw new Error(`CaseFor: no persona "${id}" in ${project}`);
+  return person;
+});
+const stage = journey.find((s) => s.id === stageId);
+if (!stage) throw new Error(`CaseFor: no journey stage "${stageId}" in ${project}`);
+const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.length - 2 ? ' and ' : ', ');
+---
+<p class="mb-6 text-sm leading-relaxed text-ink-muted">
+  For {people.map((p, i) => (<Fragment><a href={`#persona-${p.id}`} class="hero-link">{p.name.split(' ')[0]}</a>{joiner(i)}</Fragment>))} at the <a href={`#journey-${stage.id}`} class="hero-link">{stage.stage}</a> stage.
+</p>

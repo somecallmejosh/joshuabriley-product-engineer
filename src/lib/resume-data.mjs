@@ -57,7 +57,7 @@ export const EXPERIENCE = [
     stack: 'Rails · ViewComponents',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
-      'Moved documentation from evening paperwork to hands-free capture during the day; one provider reported saving more than two hours daily.',
+      'Moved documentation from evening paperwork to hands-free capture during the day; numerous providers reported saving more than two hours daily.',
       'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events already captured.',
       'Reworked the flows and forms where Hotjar, Google Analytics, and HubSpot data showed people getting stuck.',
       'Shipped to market as a paid product sold direct and through child care associations, with English and Spanish at full parity.',

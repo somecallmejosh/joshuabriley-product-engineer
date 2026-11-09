@@ -28,7 +28,7 @@ export const OG_PAGES = [
   { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop', art: 'portrait' },
   { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it', art: 'portrait' },
   { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built', art: 'work' },
-  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I build on my own time', wink: 'on my own time', art: 'work' },
+  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I make for the fun of it', wink: 'for the fun of it', art: 'work' },
   { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship', art: 'portrait' },
   { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Interface lessons, played for laughs', wink: 'played for laughs', art: 'blog' },
   { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system', wink: null },
@@ -43,10 +43,10 @@ export const OG_PAGES = [
   // Personal projects
   // Moved back from the client case studies; the eyebrow (baked into the PNG)
   // had to change with it, so this card is regenerated under its old slug.
-  { slug: 'pp-beckit', path: '/personal-projects/beckit/', eyebrow: 'Personal Project · Design & Full Stack', headline: 'beckit', wink: null },
-  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Personal Project · Design & Full Stack', headline: 'Clempo', wink: null },
-  { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Rudiment UI', wink: null },
-  { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Personal Project · Design & Front-End', headline: 'Token Adventure', wink: null },
+  { slug: 'pp-beckit', path: '/personal-projects/beckit/', eyebrow: 'Made for fun', headline: 'beckit', wink: null },
+  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Made for fun', headline: 'Clempo', wink: null },
+  { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Made for fun', headline: 'Rudiment UI', wink: null },
+  { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Made for fun', headline: 'Token Adventure', wink: null },
 
   // Blog posts are NOT listed here. They are derived from the posts collection
   // via postToOgEntry() below, so a new post gets a card automatically (just

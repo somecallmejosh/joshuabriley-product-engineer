@@ -1,6 +1,41 @@
 /** Components reached by public pages, excluding style-guide-only examples. */
 export const componentCatalogue = [
   {
+    "name": "LiveEmbed",
+    "path": "src/components/patterns/LiveEmbed.astro",
+    "group": "patterns",
+    "note": "An optional, explicitly loaded live website preview.",
+    "href": "/personal-projects/rudiment-ui/"
+  },
+  {
+    "name": "PersonalProjectsIllustration",
+    "path": "src/components/patterns/PersonalProjectsIllustration.astro",
+    "group": "patterns",
+    "note": "The playful ticket drawing in the personal projects hero.",
+    "href": "/personal-projects/"
+  },
+  {
+    "name": "ScrapPiece",
+    "path": "src/components/patterns/scrapbook/ScrapPiece.astro",
+    "group": "patterns",
+    "note": "One or more screenshots in a hairline panel on personal project pages.",
+    "href": "/personal-projects/beckit/"
+  },
+  {
+    "name": "ScrapMosaic",
+    "path": "src/components/patterns/scrapbook/ScrapMosaic.astro",
+    "group": "patterns",
+    "note": "A tidy grid of details cut from a personal project's real screens.",
+    "href": "/personal-projects/"
+  },
+  {
+    "name": "Analytics",
+    "path": "src/components/chrome/Analytics.astro",
+    "group": "chrome",
+    "note": "The site analytics snippet in the document head.",
+    "href": "/"
+  },
+  {
     "name": "DesktopNav",
     "path": "src/components/chrome/DesktopNav.astro",
     "group": "chrome",
@@ -225,6 +260,27 @@ export const componentCatalogue = [
     "href": "/projects/vmspark/#research"
   },
   {
+    "name": "CasePersonas",
+    "path": "src/components/patterns/case/CasePersonas.astro",
+    "group": "patterns",
+    "note": "Personas with needs, frustrations, and a line saying what each one is based on.",
+    "href": "/projects/vmspark/#research"
+  },
+  {
+    "name": "CaseJourney",
+    "path": "src/components/patterns/case/CaseJourney.astro",
+    "group": "patterns",
+    "note": "A journey map as live text: stages side by side on large screens, stacked on small ones.",
+    "href": "/projects/vmspark/#research"
+  },
+  {
+    "name": "CaseFor",
+    "path": "src/components/patterns/case/CaseFor.astro",
+    "group": "patterns",
+    "note": "A line tying a design decision to its personas and journey stage, with links to both.",
+    "href": "/projects/vmspark/#decisions"
+  },
+  {
     "name": "CaseResults",
     "path": "src/components/patterns/case/CaseResults.astro",
     "group": "patterns",
@@ -285,13 +341,6 @@ export const componentCatalogue = [
     "group": "patterns",
     "note": "The shared artifact viewer, with zoom and keyboard dismissal.",
     "href": "/projects/ivfcryo/"
-  },
-  {
-    "name": "LiveEmbed",
-    "path": "src/components/patterns/LiveEmbed.astro",
-    "group": "patterns",
-    "note": "An optional, explicitly loaded live website preview.",
-    "href": "/personal-projects/rudiment-ui/"
   },
   {
     "name": "Metric",

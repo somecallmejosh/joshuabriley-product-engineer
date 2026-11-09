@@ -13,11 +13,13 @@ interface Props {
   role: string;
   photo?: string;
   label?: string;
+  /** The homepage sets this to `wide` to line up with its other sections. */
+  width?: 'content' | 'wide';
 }
-const { quote, name, role, photo, label = 'Testimonial' } = Astro.props;
+const { quote, name, role, photo, label = 'Testimonial', width = 'content' } = Astro.props;
 ---
 <Section tone="paper" padding="default">
-  <Container width="content">
+  <Container width={width}>
     <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
       <figcaption class="md:col-span-4">
         {label && <p class="mono-label mb-6">{label}</p>}

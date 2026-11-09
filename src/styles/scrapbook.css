@@ -1,0 +1,273 @@
+/* The personal-projects scrapbook. Deliberately unlike the client work's rows:
+   details cut from the real screens, set in tidy mosaics of hairline panels,
+   with short notes, on the same paper and single accent. */
+
+.scrap-page {
+  --scrap-shadow: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.scrap-opener { display: grid; gap: 3.5rem; align-items: center; }
+
+.scrap-opener .page-type { margin-top: 0; }
+
+/* Two equal columns of mosaics, one on phones. */
+.scrap-wall {
+  display: grid;
+  gap: 3.5rem;
+}
+
+.scrap-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+/* Each mosaic uses every cell of a 6 by 4 grid, so edges and gaps line up. */
+.scrap-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  aspect-ratio: 1 / 1;
+}
+
+.scrap-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.1vw, 1rem);
+  overflow: hidden;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  transition: border-color 200ms var(--ease-out);
+}
+
+.scrap-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0.25rem 0.5rem var(--scrap-shadow));
+  transition: transform 320ms var(--ease-out);
+}
+
+.scrap-tile--flat img,
+.scrap-tile--ink img { filter: none; }
+
+.scrap-tile--ink {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.scrap-tile--fill { padding: 0; }
+
+.scrap-tile--fill img { object-fit: cover; }
+
+.scrap-link:is(:hover, :focus-visible) .scrap-tile:not(.scrap-tile--ink) { border-color: var(--accent); }
+
+.scrap-link:is(:hover, :focus-visible) .scrap-tile img { transform: scale(1.04); }
+
+.scrap-name {
+  margin-top: 1.5rem;
+  font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.15em;
+  transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out);
+}
+
+.scrap-link:is(:hover, :focus-visible) .scrap-name {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+.scrap-note {
+  margin-top: 0.5rem;
+  max-width: 38ch;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+/* Screens on a project page, in panels of one shape. */
+.scrap-screens {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.scrap-panel {
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  aspect-ratio: 4 / 3;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  background: var(--raised);
+  border: 1px solid var(--line);
+}
+
+.scrap-panel--tall { aspect-ratio: 3 / 4; }
+
+.scrap-panel img {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Project page */
+.scrap-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+}
+
+.scrap-back:hover { color: var(--accent); }
+
+.scrap-hero {
+  display: grid;
+  gap: 3.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.scrap-hero .page-type { margin-top: 0; }
+
+.scrap-hero .scrap-note {
+  margin-top: 1.5rem;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.scrap-intro {
+  margin-top: 1.5rem;
+  max-width: 52ch;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink-muted);
+}
+
+.scrap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  margin-top: 1.5rem;
+}
+
+.scrap-section { padding-block: var(--space-block); }
+
+.scrap-heading {
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+}
+
+.scrap-heading em {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.scrap-play {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.scrap-play li {
+  max-width: 34ch;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.scrap-caption {
+  margin-top: 0.85rem;
+  max-width: 40ch;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+.scrap-learned {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.scrap-learned p {
+  max-width: 44ch;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.scrap-next {
+  padding-block: var(--space-block) 3rem;
+}
+
+.scrap-next-link {
+  display: inline-block;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.scrap-next-link > span { display: block; font-size: 0.9rem; color: var(--ink-muted); }
+
+.scrap-next-link strong {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+}
+
+.scrap-next-link:is(:hover, :focus-visible) strong { color: var(--accent); }
+
+@media (min-width: 768px) {
+  .scrap-wall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4.5rem 2.5rem;
+  }
+
+  .scrap-mosaic { aspect-ratio: 6 / 5; }
+
+  .scrap-opener { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+
+  .scrap-hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+
+  .scrap-play,
+  .scrap-learned { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .scrap-screens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .scrap-screens--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1100px) {
+  .scrap-learned { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrap-tile,
+  .scrap-tile img,
+  .scrap-name { transition: none; }
+  .scrap-link:is(:hover, :focus-visible) .scrap-tile img { transform: none; }
+}

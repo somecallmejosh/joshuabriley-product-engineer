@@ -3,9 +3,7 @@ import Container from '~/components/layout/Container.astro';
 import { projectPages, type ProjectKey } from '~/lib/project-pages';
 interface Props { project: ProjectKey; }
 const { next } = projectPages[Astro.props.project];
-// "All" returns to whichever listing the page lives under.
-const isPersonal = Astro.url.pathname.startsWith('/personal-projects/');
-const back = isPersonal ? { href: '/personal-projects/', label: 'All personal projects' } : { href: '/projects/', label: 'All work' };
+const back = { href: '/projects/', label: 'All work' };
 ---
 <section class="project-next">
   <Container width="wide">

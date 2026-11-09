@@ -34,7 +34,7 @@ export const HEADER_MENUS: NavMenu[] = [
     feature: 'work',
     linksLabel: 'More',
     links: [
-      { href: '/personal-projects/', label: 'Personal projects', description: 'Things I build on my own time.' },
+      { href: '/personal-projects/', label: 'Personal projects', description: 'Things I make for the fun of it.' },
       { href: '/tools/', label: 'Tools', description: 'Free design system tools, no signup.' },
       { href: '/play/', label: 'Play', description: 'Short games about accessible interfaces.' },
     ],

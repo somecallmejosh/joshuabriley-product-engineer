@@ -11,9 +11,12 @@ const scan = async (page: Page, root?: string) => {
   return (await builder.analyze()).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`);
 };
 
-test('the /play/ index lists every game and scans clean', async ({ page }) => {
-  // Resting state: scroll-reveal fades entries in, which axe would read mid-fade.
+// Resting state: entrance animations fade text in, which axe would read mid-fade.
+test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
+});
+
+test('the /play/ index lists every game and scans clean', async ({ page }) => {
   await page.goto('/play/');
   for (const game of GAMES) {
     await expect(page.getByRole('link', { name: game.title, exact: true })).toHaveAttribute('href', `/play/${game.slug}/`);

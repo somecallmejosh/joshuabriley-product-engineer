@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import type { ScrapArt } from '~/lib/personal-projects';
+
+/** ScrapPiece: one or more screenshots side by side in a hairline panel. */
+interface Props {
+  art: ScrapArt[];
+  /** Portrait panel, for phone screens. */
+  tall?: boolean;
+  eager?: boolean;
+}
+const { art, tall = false, eager = false } = Astro.props;
+const loading = eager ? 'eager' : 'lazy';
+---
+<div class:list={['scrap-panel', { 'scrap-panel--tall': tall }]}>
+  {art.map((item) => (
+    typeof item.src === 'string'
+      ? <img src={item.src} width={item.width} height={item.height} alt={item.alt} loading={loading} decoding="async" />
+      : <Image src={item.src} alt={item.alt} widths={[480, 800, 1200]} sizes="(min-width: 768px) 50vw, 100vw" loading={loading} />
+  ))}
+</div>

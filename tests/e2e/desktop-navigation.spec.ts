@@ -20,7 +20,7 @@ test('menus open from the keyboard, follow reading order, and close on Escape', 
   await expect(panel).toBeVisible();
   await expect(panel.getByRole('link', { name: /^Tools/ })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Tab');
-  await expect(panel.getByRole('link', { name: /^IVFCRYO/ })).toBeFocused();
+  await expect(panel.getByRole('link', { name: /^VMSpark/ })).toBeFocused();
   const violations = (await new AxeBuilder({ page }).include('.desktop-nav').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()).violations;
   expect(violations).toEqual([]);
   await page.keyboard.press('Escape');

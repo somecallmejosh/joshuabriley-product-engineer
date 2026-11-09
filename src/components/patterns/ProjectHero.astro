@@ -4,9 +4,7 @@ import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro
 import { projectPages, type ProjectKey, type ProjectPage } from '~/lib/project-pages';
 interface Props { project: ProjectKey; }
 const data: ProjectPage = projectPages[Astro.props.project];
-// The back link returns to whichever listing the page lives under.
-const isPersonal = Astro.url.pathname.startsWith('/personal-projects/');
-const back = isPersonal ? { href: '/personal-projects/', label: 'All personal projects' } : { href: '/projects/', label: 'All work' };
+const back = { href: '/projects/', label: 'All work' };
 ---
 <section class="project-opening">
   <Container width="wide">

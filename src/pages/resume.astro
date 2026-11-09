@@ -113,7 +113,6 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
       <ol class="approach-list" role="list" data-reveal-stagger>
         {threads.map((thread, i) => (
           <li class="approach-entry">
-            <p class="approach-index">{String(i + 1).padStart(2, '0')}</p>
             <h3>{thread.title}</h3>
             <p>{thread.body}</p>
           </li>
