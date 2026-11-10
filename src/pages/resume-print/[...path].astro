@@ -77,7 +77,6 @@ const contactLines = [
           </h3>
           <p class="job__period">{job.period}</p>
         </div>
-        <p class="job__stack">{job.stack}</p>
         <ul class="job__bullets">
           {job.bullets.map((b) => <li>{b}</li>)}
         </ul>
@@ -97,7 +96,7 @@ const contactLines = [
     <h2 class="section-label">Education</h2>
     <ul class="education">
       {EDUCATION.map((e) => (
-        <li><span class="ed__title">{e.title}</span><span class="sep"> · </span>{e.org}</li>
+        <li><span class="ed__title">{[e.title, e.major, e.minor && `minor in ${e.minor}`].filter(Boolean).join(', ')}</span><span class="sep"> · </span>{e.org}</li>
       ))}
       <li>
         <span class="ed__title">Continuing education</span><span class="sep"> · </span>
@@ -260,8 +259,7 @@ const contactLines = [
   .job__co { font-weight: 400; color: var(--ink-muted); }
   .sep { color: var(--ink-faint); }
 
-  .job__period,
-  .job__stack {
+  .job__period {
     font-family: var(--font-geist-mono), ui-monospace, monospace;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -271,11 +269,6 @@ const contactLines = [
     font-size: 7pt;
     color: var(--ink-muted);
     white-space: nowrap;
-  }
-  .job__stack {
-    margin-top: 0.022in !important;
-    font-size: 6.9pt;
-    color: var(--ink-muted);
   }
 
   /* Real list markers rather than the colored squares that were here before:

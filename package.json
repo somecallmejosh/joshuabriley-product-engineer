@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "npm run audit:design && npm run audit:components && npm run design:context:check",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -21,7 +22,9 @@
     "test:e2e": "playwright test",
     "images:portrait": "node scripts/generate-portrait.mjs",
     "audit:components": "node scripts/audit-component-usage.mjs",
-    "audit:design": "node scripts/audit-design-system.mjs"
+    "audit:design": "node scripts/audit-design-system.mjs",
+    "design:context": "vite-node -c vitest.config.ts scripts/generate-design-context.ts",
+    "design:context:check": "vite-node -c vitest.config.ts scripts/generate-design-context.ts -- --check"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.0.0",

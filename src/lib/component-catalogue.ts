@@ -67,7 +67,7 @@ export const componentCatalogue = [
     "name": "Field",
     "path": "src/components/form/Field.astro",
     "group": "form",
-    "note": "A visible label with optional hint, required marker, and error text.",
+    "note": "A visible label with optional hint, required marker, and a speech-bubble error.",
     "href": "/contact/"
   },
   {

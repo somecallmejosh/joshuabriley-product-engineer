@@ -1,13 +1,20 @@
 ---
 import Container from '~/components/layout/Container.astro';
-interface Props { links: { href: string; label: string }[]; }
-const { links } = Astro.props;
+interface Props {
+  /** Section links, e.g. `{ href: '#context', label: 'Context' }`. */
+  links: { href: string; label: string }[];
+  /** Accessible name for the navigation landmark. */
+  label?: string;
+  /** Visible lead-in before the links; hidden on phones. */
+  intro?: string;
+}
+const { links, label = 'Review this project', intro = 'Jump to the details' } = Astro.props;
 ---
-<nav class="case-review" aria-label="Review this project">
+<nav class="case-review" aria-label={label}>
   <Container width="wide">
     <div class="scroll-fade" data-scroll-fade>
       <div class="case-review-links">
-        <p>Jump to the details</p>
+        <p>{intro}</p>
         {links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
       </div>
     </div>

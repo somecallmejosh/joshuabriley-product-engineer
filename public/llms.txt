@@ -1,0 +1,8 @@
+# Joshua Briley
+
+> Personal site and portfolio of Joshua Briley, Product Design Engineer.
+
+## Design system
+
+- [Design system data](https://joshuabriley.com/style-guide/system.json): tokens, rules, and every component with its props, as JSON.
+- [Style guide](https://joshuabriley.com/style-guide/): the same system with live examples and usage notes.

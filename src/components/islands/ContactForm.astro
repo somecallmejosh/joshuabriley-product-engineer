@@ -17,11 +17,11 @@ import SubmitButton from '~/components/form/SubmitButton.astro';
   data-fallback-email="josh@thebrileys.com"
 >
   <FormAlert variant="success" id="form-alert-success">
-    <p class="font-heading font-semibold text-navy">Thanks. Your message is on its way.</p>
-    <p class="mt-1 text-charcoal/75">I’ll get back to you by email.</p>
+    <p class="font-heading font-semibold text-navy">It worked. This form has been waiting a long time for this.</p>
+    <p class="mt-1 text-charcoal/75">Your message is important to me, and unlike most forms, I mean it. I’ll reply by email.</p>
   </FormAlert>
   <FormAlert variant="error" id="form-alert-error">
-    <p class="font-heading font-semibold text-navy">Your message didn’t send.</p>
+    <p class="font-heading font-semibold text-navy">Your message didn’t send. The form got stage fright.</p>
     <p class="mt-1 text-charcoal/75"><span id="form-alert-error-reason"></span></p>
   </FormAlert>
 
@@ -35,19 +35,19 @@ import SubmitButton from '~/components/form/SubmitButton.astro';
   </div>
 
   <div class="grid sm:grid-cols-2 gap-5">
-    <Field label="Email" name="email" required hint="I'll only use this to reply.">
+    <Field label="Email" name="email" required hint="I’ll only use it to reply. No newsletter, and no “just circling back.”">
       <Input name="email" describedBy="field-email-hint field-email-error" type="email" autocomplete="email" inputmode="email" required />
     </Field>
-    <Field label="Phone (optional)" name="phone">
-      <Input name="phone" describedBy="field-phone-error" type="tel" autocomplete="tel" inputmode="tel" />
+    <Field label="Phone (optional)" name="phone" hint="I won’t call to ask how you’d rate this form.">
+      <Input name="phone" describedBy="field-phone-hint field-phone-error" type="tel" autocomplete="tel" inputmode="tel" />
     </Field>
   </div>
 
-  <Field label="Message" name="message" required hint="What’s on your mind? For a meetup or event, include the date and location.">
+  <Field label="Message" name="message" required hint="Write your own or use a starter. There’s no CAPTCHA and no department to pick.">
     <Textarea name="message" describedBy="field-message-hint field-message-error" rows={5} required />
   </Field>
 
-  <SubmitButton label="Send message" loadingLabel="Sending…" />
+  <SubmitButton label="Send it" loadingLabel="Waking up the form…" />
 </form>
 
 <script>

@@ -4,22 +4,30 @@ import Container from '~/components/layout/Container.astro';
 import ContactForm from '~/components/islands/ContactForm.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import Icon from '~/components/primitives/Icon.astro';
-const reasons = [
-  { icon: 'ph:chats-circle-light', text: 'Compare notes on design systems or UI engineering' },
-  { icon: 'ph:users-three-light', text: 'Organize a group meetup' },
-  { icon: 'ph:confetti-light', text: 'Invite me to a social event' },
+// Each starter writes its opening line into the message box (see the script below).
+const starters = [
+  { icon: 'ph:gavel-light', text: 'Appeal a UI Court verdict', message: 'I’d like to appeal the verdict in The People v. ___. My argument: ' },
+  { icon: 'ph:binoculars-light', text: 'Report an interface spotted in the wild', message: 'I spotted an interface in the wild that deserves its own Wild Interfaces episode: ' },
+  { icon: 'ph:film-slate-light', text: 'Cast the next Fictional UX Engineer', message: 'Your next Fictional UX Engineer should be ___, because ' },
+  { icon: 'ph:chats-circle-light', text: 'Compare notes on design systems', message: 'I’d like to compare notes on ' },
 ];
 ---
-<BaseLayout title="Contact | Joshua Briley" description="Talk shop with Joshua Briley about design systems and UI engineering, plan a group meetup, or share an invitation to a social event.">
+<BaseLayout title="Contact | Joshua Briley" description="Write to Joshua Briley to appeal a UI Court verdict, suggest the next Fictional UX Engineer, or compare notes on design systems.">
   <section class="page-opener contact-opener">
     <Container width="wide">
       <div class="contact-layout">
         <div class="contact-invite">
           <p class="role-line hero-in hero-in-1">Contact</p>
-          <h1 class="page-type hero-in hero-in-2">Let’s talk <em>shop.</em></h1>
-          <p class="page-lede hero-in hero-in-3">Send me a note if you’d like to:</p>
+          <h1 class="page-type hero-in hero-in-2">You could be the first person to <em>use this form.</em></h1>
+          <p class="page-lede hero-in hero-in-3">If you need a reason to write, pick one and it’ll start your message.</p>
           <ul class="contact-reasons hero-in hero-in-3">
-            {reasons.map((reason) => <li><Icon name={reason.icon} size={28} class="text-accent" /><span>{reason.text}</span></li>)}
+            {starters.map((starter) => (
+              <li>
+                <button type="button" class="contact-starter" data-starter={starter.message} aria-controls="field-message">
+                  <Icon name={starter.icon} size={28} class="text-accent" /><span>{starter.text}</span>
+                </button>
+              </li>
+            ))}
           </ul>
           <div class="contact-card hero-in hero-in-4">
             <Portrait class="contact-avatar" />
@@ -34,7 +42,7 @@ const reasons = [
           </div>
         </div>
         <div class="contact-stage hero-in hero-in-4">
-          <h2 class="contact-stage-title">Send a message</h2>
+          <h2 class="contact-stage-title">Contact form <span class="contact-stage-note">(lightly used)</span></h2>
           <ContactForm />
         </div>
       </div>
@@ -42,13 +50,34 @@ const reasons = [
   </section>
 </BaseLayout>
 
+<script>
+  // A starter fills an empty message (or swaps out another untouched starter),
+  // and adds itself below anything the visitor has already written.
+  const message = document.getElementById('field-message') as HTMLTextAreaElement | null;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.contact-starter');
+  const starterText = new Set(Array.from(buttons, (button) => button.dataset.starter ?? ''));
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!message) return;
+      const starter = button.dataset.starter ?? '';
+      const current = message.value.trim();
+      message.value = !current || starterText.has(message.value) ? starter : `${message.value.trimEnd()}\n\n${starter}`;
+      message.focus();
+      message.setSelectionRange(message.value.length, message.value.length);
+    });
+  });
+</script>
+
 <style>
   .contact-opener { padding-bottom: var(--space-section); }
   .contact-layout { display: grid; gap: var(--space-block); align-items: start; }
   .contact-invite .page-type { max-width: none; }
   .contact-reasons { display: grid; gap: 1.1rem; margin-top: 1.5rem; }
-  .contact-reasons li {
+  .contact-starter {
     display: grid;
+    width: 100%;
+    text-align: left;
     grid-template-columns: 1.75rem 1fr;
     gap: 1rem;
     align-items: start;
@@ -57,7 +86,17 @@ const reasons = [
     letter-spacing: -0.015em;
     line-height: 1.35;
     color: var(--ink);
+    cursor: pointer;
+    transition: color 160ms ease;
   }
+  .contact-starter span {
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+  .contact-starter:hover { color: var(--accent); }
+  .contact-starter:hover span { text-decoration-color: currentColor; }
   .contact-reasons :global(iconify-icon) { margin-top: -0.1rem; }
   .contact-card {
     display: flex;
@@ -72,6 +111,7 @@ const reasons = [
   .contact-direct { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1rem; }
   .contact-stage { padding: clamp(1.5rem, 1rem + 2.5vw, 3rem); background: var(--portfolio-tint); }
   .contact-stage-title { margin-bottom: 2rem; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.025em; }
+  .contact-stage-note { font-weight: 400; color: var(--ink-muted); }
   @media (min-width: 1024px) {
     .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 6rem; }
     .contact-invite .page-type { font-size: clamp(3.5rem, 5.6vw, 5.5rem); }

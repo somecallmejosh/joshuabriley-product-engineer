@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import Portrait from '~/components/patterns/Portrait.astro';
 const principles = [
   { title: 'Treat internal tools as products', body: 'Engineers are users, too. I give component APIs, defaults, documentation, and automation the same care as type and spacing, and I judge them by whether teams choose them over building their own version.' },
   { title: 'Start with accessibility', body: 'Keyboard order, labels, contrast, and recoverable errors shape the design from the first sketch. When that behavior lives in shared components, every team that uses them gets it by default. I test that behavior and say where it still falls short, including in the Limitations section of each case study.' },
@@ -27,14 +26,10 @@ const personal = [
   <section class="page-opener">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">About Joshua Briley</p>
-      <div class="about-intro hero-split">
-        <div class="hero-split-copy">
-          <h1 class="page-type hero-in hero-in-2">I design and build products <em>with the teams that ship them.</em></h1>
-          <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
-          <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        </div>
-        <figure class="about-portrait hero-split-media hero-in hero-in-5"><Portrait eager /><figcaption>Connecticut now. Louisiana always.</figcaption></figure>
-      </div>
+      <h1 class="page-type hero-in hero-in-2">I design and build products <em>with the teams that ship them.</em></h1>
+      <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
+      <p class="quiet-aside hero-in hero-in-3">Connecticut now. Louisiana always.</p>
+      <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
     </Container>
   </section>
   <section class="editorial-section">

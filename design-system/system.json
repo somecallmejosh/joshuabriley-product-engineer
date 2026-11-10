@@ -1,0 +1,2406 @@
+{
+  "$description": "Design system for joshuabriley.com, generated from design-system/tokens.json, design-system/rules.json, src/lib/component-catalogue.ts, and each component’s Props. Do not edit by hand: run `npm run design:context`. Human-readable version: /style-guide/.",
+  "styleGuide": "/style-guide/",
+  "workflow": [
+    "Read tokens and rules (including rules.guidelines) before UI work.",
+    "Build from the listed components and token utilities; a new pattern is not part of the system until it appears in /style-guide/ and src/lib/component-catalogue.ts.",
+    "When an audit fails, fix the code. Adding tokens, exceptions, or baseline entries needs the site owner’s approval."
+  ],
+  "audits": [
+    {
+      "command": "npm run audit:design",
+      "checks": "Hardcoded or off-palette colors, arbitrary values, literal font stacks, deprecated or forbidden prop values, token sync."
+    },
+    {
+      "command": "npm run audit:components",
+      "checks": "Component reachability vs. the catalogue."
+    },
+    {
+      "command": "npm run audit:contrast",
+      "checks": "WCAG contrast of token pairs."
+    },
+    {
+      "command": "npm run audit:style-guide",
+      "checks": "Live WCAG audit of /style-guide/ (needs the dev server)."
+    }
+  ],
+  "tokens": {
+    "$description": "Editorial-Technical design tokens for joshuabriley.com, in W3C Design Tokens (DTCG) format. This file is the contract: src/styles/site.css (:root custom properties) and tailwind.config.mjs (theme.extend) implement it, and `npm run audit:design` fails if either drifts from it. A value that is not here is not part of the system. Extension keys under $extensions.site: cssVar = the custom property in site.css :root; tailwind = theme paths that must resolve to this token; deprecated/replaceWith = legacy aliases kept only so old markup renders; restrictedTo = the only files allowed to use the token.",
+    "color": {
+      "paper": {
+        "$type": "color",
+        "$value": "#FAFBFC",
+        "$description": "Page background. Near-white with a faint cool cast.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--paper",
+            "tailwind": [
+              "colors.paper"
+            ]
+          }
+        }
+      },
+      "raised": {
+        "$type": "color",
+        "$value": "#FFFFFF",
+        "$description": "Raised surfaces that lift off paper. Use sparingly: white cards on paper are the main sign that a page was generated rather than designed (see rules.json guidelines).",
+        "$extensions": {
+          "site": {
+            "cssVar": "--raised",
+            "tailwind": [
+              "colors.raised"
+            ]
+          }
+        }
+      },
+      "surface-warm": {
+        "$type": "color",
+        "$value": "#F7F5F0",
+        "$description": "Warm tint for small inline callouts only (e.g. the blog author card). Never a full-width section wash.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--surface-warm",
+            "tailwind": [
+              "colors.surface-warm"
+            ]
+          }
+        }
+      },
+      "ink": {
+        "$type": "color",
+        "$value": "#1A1B1E",
+        "$description": "Primary text and dark (ink) surfaces.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--ink",
+            "tailwind": [
+              "colors.ink.DEFAULT"
+            ]
+          }
+        }
+      },
+      "ink-soft": {
+        "$type": "color",
+        "$value": "#292A2E",
+        "$description": "Slightly lifted ink for layered dark surfaces.",
+        "$extensions": {
+          "site": {
+            "tailwind": [
+              "colors.ink.soft"
+            ]
+          }
+        }
+      },
+      "ink-muted": {
+        "$type": "color",
+        "$value": "#565760",
+        "$description": "Secondary text. About 6:1 on paper, so it passes AA.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--ink-muted",
+            "tailwind": [
+              "colors.ink.muted"
+            ]
+          }
+        }
+      },
+      "ink-faint": {
+        "$type": "color",
+        "$value": "#9A9AA1",
+        "$description": "Decoration only: separator dots, arrow glyphs, empty-state rings. At 2.8:1 it can't carry readable text at any size; use ink-muted for anything a reader has to read.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--ink-faint",
+            "tailwind": [
+              "colors.ink.faint"
+            ]
+          }
+        }
+      },
+      "line": {
+        "$type": "color",
+        "$value": "#E5E7EB",
+        "$description": "Hairline rules and borders.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--line",
+            "tailwind": [
+              "colors.line.DEFAULT"
+            ]
+          }
+        }
+      },
+      "line-strong": {
+        "$type": "color",
+        "$value": "#D4D7DD",
+        "$description": "Emphasised rules and input borders.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--line-strong",
+            "tailwind": [
+              "colors.line.strong"
+            ]
+          }
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "#2E5C8A",
+        "$description": "The single accent: deep denim navy on light surfaces (6.7:1). It follows the surface: site.css swaps --accent-rgb to accent-on-ink inside .bg-ink / [data-surface='dark']. Always reference it as `accent` / var(--accent), never as a literal, or it won't follow the surface.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--accent-rgb",
+            "tailwind": [
+              "colors.accent.DEFAULT"
+            ]
+          }
+        }
+      },
+      "accent-on-ink": {
+        "$type": "color",
+        "$value": "#6BA6D8",
+        "$description": "Accent value on dark ink surfaces (6.6:1). Applied automatically by the surface rules in site.css; you never select it directly."
+      },
+      "accent-pressed": {
+        "$type": "color",
+        "$value": "#234A70",
+        "$description": "Pressed / darker accent on light surfaces.",
+        "$extensions": {
+          "site": {
+            "tailwind": [
+              "colors.accent.ink"
+            ]
+          }
+        }
+      },
+      "legacy": {
+        "$description": "Pre-rebrand Tailwind color names remapped onto the monochrome system so old markup still renders. Do not use them in new code; the audit fails on any new use.",
+        "cream": {
+          "$type": "color",
+          "$value": "#FFFFFF",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "paper",
+              "tailwind": [
+                "colors.cream"
+              ]
+            }
+          }
+        },
+        "coral": {
+          "$type": "color",
+          "$value": "{color.accent}",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "accent",
+              "tailwind": [
+                "colors.coral"
+              ]
+            }
+          }
+        },
+        "plum": {
+          "$type": "color",
+          "$value": "#1A1B1E",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "ink",
+              "tailwind": [
+                "colors.plum"
+              ]
+            }
+          }
+        },
+        "navy": {
+          "$type": "color",
+          "$value": "#1A1B1E",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "ink",
+              "tailwind": [
+                "colors.navy"
+              ]
+            }
+          }
+        },
+        "charcoal": {
+          "$type": "color",
+          "$value": "#1A1B1E",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "ink",
+              "tailwind": [
+                "colors.charcoal"
+              ]
+            }
+          }
+        },
+        "sage": {
+          "$type": "color",
+          "$value": "#565760",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "ink-muted",
+              "tailwind": [
+                "colors.sage"
+              ]
+            }
+          }
+        },
+        "sky": {
+          "$type": "color",
+          "$value": "#565760",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": "ink-muted",
+              "tailwind": [
+                "colors.sky"
+              ]
+            }
+          }
+        },
+        "sage-deep": {
+          "$type": "color",
+          "$value": "#45464C",
+          "$description": "Former Choice checked-state fill. Unused.",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": null,
+              "tailwind": [
+                "colors.sage-deep"
+              ]
+            }
+          }
+        },
+        "sunset": {
+          "$type": "color",
+          "$value": "#8A4B2E",
+          "$description": "Former decorative gradient stop. Unused.",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": null,
+              "tailwind": [
+                "colors.sunset"
+              ]
+            }
+          }
+        },
+        "lemon": {
+          "$type": "color",
+          "$value": "#EAE7DD",
+          "$description": "Former decorative gradient stop. Unused.",
+          "$extensions": {
+            "site": {
+              "deprecated": true,
+              "replaceWith": null,
+              "tailwind": [
+                "colors.lemon"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "font": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": [
+          "Hanken Grotesk",
+          "system-ui",
+          "sans-serif"
+        ],
+        "$description": "Does almost all the work: body, UI, headings.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--font-hanken",
+            "tailwind": [
+              "fontFamily.sans",
+              "fontFamily.display",
+              "fontFamily.heading",
+              "fontFamily.body"
+            ]
+          }
+        }
+      },
+      "serif": {
+        "$type": "fontFamily",
+        "$value": [
+          "Newsreader",
+          "Georgia",
+          "Times New Roman",
+          "serif"
+        ],
+        "$description": "Display serif for character: headlines, oversized numerals, the editorial italic. Never small functional text. The CSS var keeps its historic name.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--font-fraunces",
+            "tailwind": [
+              "fontFamily.serif"
+            ]
+          }
+        }
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": [
+          "Geist Mono",
+          "ui-monospace",
+          "monospace"
+        ],
+        "$description": "Technical and metadata moments: eyebrows, labels, code, indices.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--font-geist-mono",
+            "tailwind": [
+              "fontFamily.mono"
+            ]
+          }
+        }
+      },
+      "script": {
+        "$type": "fontFamily",
+        "$value": [
+          "Style Script",
+          "Snell Roundhand",
+          "cursive"
+        ],
+        "$description": "Signature wordmark only. One weight, no tabular figures, unreadable below about 20px.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--font-script",
+            "tailwind": [
+              "fontFamily.script"
+            ],
+            "restrictedTo": [
+              "src/components/primitives/Logo.astro",
+              "src/layouts/BaseLayout.astro"
+            ]
+          }
+        }
+      }
+    },
+    "motion": {
+      "ease-out": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.22,
+          1,
+          0.36,
+          1
+        ],
+        "$description": "Default easing for entrances and state changes.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--ease-out"
+          }
+        }
+      },
+      "ease-inout": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.65,
+          0,
+          0.35,
+          1
+        ],
+        "$description": "Movement between two resting states.",
+        "$extensions": {
+          "site": {
+            "cssVar": "--ease-inout"
+          }
+        }
+      }
+    }
+  },
+  "rules": {
+    "rules": {
+      "hardcoded-token-color": {
+        "why": "A literal copy of a token value doesn't change when the token does, and a literal accent won't follow the surface onto ink.",
+        "fix": "Use the token: a Tailwind class (text-ink, bg-paper, border-line, text-accent) or the custom property (var(--ink), rgb(var(--accent-rgb) / .2)). SVG presentation attributes can't take var(); use a class (fill-ink) or currentColor."
+      },
+      "off-palette-color": {
+        "why": "Colors outside tokens.json are how second navies and warm near-blacks crept in.",
+        "fix": "Pick the nearest token. If the design really needs a new color, that is a design-system change: ask Josh, then add it to tokens.json, site.css and tailwind.config.mjs together."
+      },
+      "default-palette-class": {
+        "why": "Tailwind's default palette (blue-500, gray-200, white, black) is still compiled because the config uses theme.extend, so these classes work but sit outside the system.",
+        "fix": "Use system colors: white → paper or raised, black → ink, gray-* → ink-muted / line, blue-* → accent."
+      },
+      "legacy-color-class": {
+        "why": "Pre-rebrand names (navy, plum, coral, cream, sage, sky, charcoal, sunset, lemon) are aliases kept so old markup renders. New uses spread the confusion.",
+        "fix": "Use the token named by replaceWith in tokens.json (navy/plum/charcoal → ink, coral → accent, cream → paper, sage/sky → ink-muted)."
+      },
+      "arbitrary-value": {
+        "why": "One-off Tailwind values (text-[0.6875rem], tracking-[-0.055em], rounded-[4px]) bypass the type scale and spacing that the primitives encode.",
+        "fix": "Use the Heading / Text primitives or a standard Tailwind step (rounded-[4px] is just `rounded`). Arbitrary values belong only in the primitives listed in allowArbitraryValuesIn."
+      },
+      "font-family": {
+        "why": "Font stacks are tokens. A literal family name skips the Astro font loader and its fallbacks.",
+        "fix": "Use a font utility (font-sans, font-serif, font-mono) or var(--font-hanken) / var(--font-fraunces) / var(--font-geist-mono), or `inherit`."
+      },
+      "restricted-font": {
+        "why": "The script face is the wordmark only (see restrictedTo in tokens.json).",
+        "fix": "Use the Logo component; set any other text in font-sans or font-serif."
+      },
+      "legacy-prop-value": {
+        "why": "Component props still accept pre-rebrand tone names for back-compat. They all map to the same few colors, which makes the intent unreadable.",
+        "fix": "Use the canonical value given in the message."
+      },
+      "forbidden-prop-value": {
+        "why": "The prop value is valid TypeScript but a confirmed design decision rules it out.",
+        "fix": "See the reason in the message."
+      },
+      "token-sync": {
+        "why": "site.css and tailwind.config.mjs both implement tokens.json. If they disagree, the same token renders two ways depending on whether CSS or a utility class is used.",
+        "fix": "Change all three in one commit. Every Tailwind color/font key must map to a token, and every token's cssVar / tailwind value must match. Never baselined."
+      }
+    },
+    "guidelines": [
+      {
+        "id": "og-cards",
+        "rule": "Social share (OG) cards are rendered only by src/pages/og-render/[slug].astro, never hand-made. Layout: copy column on the left (accent mono eyebrow with a short rule, Hanken 800 headline with the serif-italic wink and the accent period, then the header's script <Logo> plus the joshuabriley.com URL), and a full-height accent-tinted mat on the right holding real art from the site, tilted, large, and shadowed. The art is the page's own: a post's ArticleIllustration, a project's ProjectScreenshot teaser (with the tilt-shift blur off so it stays sharp), Josh's cut-out portrait (src/assets/og/portrait-cutout.png) for personal pages, or a fan of three for listings. Never the old 'JB' tile, and never a text-only card for a page that has art; text-only is for pages with nothing to show (legal, style guide). A new post or project gets its art automatically; for a new page, set `art` in src/lib/og-pages.mjs. Check the rendered PNG: drawing text must not be cut off by the card edge."
+      },
+      {
+        "id": "one-accent",
+        "rule": "There is exactly one accent hue. Don't add a second highlight color, gradient, or 'candy' palette for variety; hierarchy comes from type weight, size and the serif italic."
+      },
+      {
+        "id": "no-default-cards",
+        "rule": "Don't reach for bg-raised white cards with shadows to group content. Case studies use hairline columns and panels (border-line) on paper; the small Berxi-style testimonial is the model."
+      },
+      {
+        "id": "surface-warm-callout-only",
+        "rule": "surface-warm appears only on small inline callouts, never as a Section tone or full-width wash."
+      },
+      {
+        "id": "tools-stay-on-brand",
+        "rule": "Interactive islands must look like the site, not third-party widgets: navy accent plus in-key editorial hues, the site's type and controls."
+      },
+      {
+        "id": "case-study-plates",
+        "rule": "Case-study artwork goes in a sibling <Container width=\"wide\">, never inside .case-layout (the sticky rail paints over it). No nested scroll regions anywhere."
+      },
+      {
+        "id": "no-client-logo-strip",
+        "rule": "The homepage carries no 'Shipped at' client-logo or client-name band. Don't propose one."
+      },
+      {
+        "id": "faint-is-decoration",
+        "rule": "ink-faint (text-ink-faint, Text tone=\"faint\") is for glyphs and separators only, never words a reader has to read."
+      },
+      {
+        "id": "global-classes",
+        "rule": "site.css owns global classes (.rule, .measure, .mono-label, …). Don't redefine them in a scoped <style>; scoped styles also don't reach DOM created at runtime, so pre-render and toggle instead."
+      },
+      {
+        "id": "style-guide-is-the-reference",
+        "rule": "/style-guide/ renders the system. A new pattern isn't part of the system until it appears there and in src/lib/component-catalogue.ts."
+      }
+    ],
+    "exceptions": [
+      {
+        "path": "src/components/islands/TokenPlayground.astro",
+        "rules": [
+          "off-palette-color",
+          "hardcoded-token-color"
+        ],
+        "reason": "The demo palette is content: visitors swap accent hues to watch a token propagate."
+      },
+      {
+        "path": "src/assets/wireframe-kit/**",
+        "rules": [
+          "off-palette-color",
+          "hardcoded-token-color",
+          "font-family"
+        ],
+        "reason": "Build-time generator for hand-drawn wireframe SVGs. Its colors and type are artwork, not interface."
+      },
+      {
+        "path": "src/assets/projects/**/wires-and-flows/_src/**",
+        "rules": [
+          "off-palette-color",
+          "hardcoded-token-color",
+          "font-family"
+        ],
+        "reason": "Source sheets for case-study wireframe artwork, which depict client products in their own palette."
+      },
+      {
+        "path": "src/styles/syntax-highlighting.css",
+        "rules": [
+          "off-palette-color",
+          "hardcoded-token-color"
+        ],
+        "reason": "Overrides specific colors emitted by the Shiki code theme, so it has to match those literals."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "LiveEmbed",
+      "path": "src/components/patterns/LiveEmbed.astro",
+      "group": "patterns",
+      "note": "An optional, explicitly loaded live website preview.",
+      "href": "/personal-projects/rudiment-ui/",
+      "props": [
+        {
+          "name": "posterSrc",
+          "type": "string",
+          "required": true,
+          "description": "Poster screenshot, root-relative."
+        },
+        {
+          "name": "posterAlt",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "embedSrc",
+          "type": "string",
+          "required": true,
+          "description": "The iframe URL — loaded only on activation."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": true,
+          "description": "Full URL for the \"open\" affordance (opens in a new tab)."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Short title shown in the spec rail + used for the iframe a11y title."
+        },
+        {
+          "name": "ratio",
+          "type": "string",
+          "required": false,
+          "default": "'1600 / 1039'",
+          "description": "CSS aspect-ratio for the stage, matching the poster."
+        },
+        {
+          "name": "ctaNote",
+          "type": "string",
+          "required": false,
+          "default": "'the real Storybook story'",
+          "description": "Small caps note under the load pill, e.g. \"the real Storybook story\"."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ScrapPiece",
+      "path": "src/components/patterns/scrapbook/ScrapPiece.astro",
+      "group": "patterns",
+      "note": "One or more screenshots in a hairline panel on personal project pages.",
+      "href": "/personal-projects/beckit/",
+      "props": [
+        {
+          "name": "art",
+          "type": "ScrapArt[]",
+          "required": true
+        },
+        {
+          "name": "tall",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Portrait panel, for phone screens."
+        },
+        {
+          "name": "eager",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "ScrapMosaic",
+      "path": "src/components/patterns/scrapbook/ScrapMosaic.astro",
+      "group": "patterns",
+      "note": "A tidy grid of details cut from a personal project's real screens.",
+      "href": "/personal-projects/",
+      "props": [
+        {
+          "name": "tiles",
+          "type": "WallTile[]",
+          "required": true
+        },
+        {
+          "name": "eager",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "path": "src/components/chrome/Analytics.astro",
+      "group": "chrome",
+      "note": "The site analytics snippet in the document head.",
+      "href": "/",
+      "props": []
+    },
+    {
+      "name": "DesktopNav",
+      "path": "src/components/chrome/DesktopNav.astro",
+      "group": "chrome",
+      "note": "Desktop primary navigation: Work and About disclosure panels on one shared surface that resizes between them.",
+      "href": "/",
+      "props": []
+    },
+    {
+      "name": "Footer",
+      "path": "src/components/chrome/Footer.astro",
+      "group": "chrome",
+      "note": "Site navigation, contact information, and supporting links.",
+      "href": "/",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Header",
+      "path": "src/components/chrome/Header.astro",
+      "group": "chrome",
+      "note": "The shared wordmark, primary navigation, and contact link.",
+      "href": "/",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "MobileNav",
+      "path": "src/components/chrome/MobileNav.astro",
+      "group": "chrome",
+      "note": "The mobile navigation modal with outside-click and Escape dismissal, focus containment, and scroll locking.",
+      "href": "/",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "SkipLink",
+      "path": "src/components/chrome/SkipLink.astro",
+      "group": "chrome",
+      "note": "The first keyboard stop, taking readers directly to main content.",
+      "href": "/",
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "default": "'#main'"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "'Skip to main content'"
+        }
+      ]
+    },
+    {
+      "name": "Field",
+      "path": "src/components/form/Field.astro",
+      "group": "form",
+      "note": "A visible label with optional hint, required marker, and a speech-bubble error.",
+      "href": "/contact/",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "default": "`field-${name}`",
+          "description": "Stable id; auto-generated if omitted."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Visually hide the label (still announced)."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "FormAlert",
+      "path": "src/components/form/FormAlert.astro",
+      "group": "form",
+      "note": "Polite success status or assertive error feedback.",
+      "href": "/contact/",
+      "props": [
+        {
+          "name": "variant",
+          "type": "'success' | 'error'",
+          "required": true
+        },
+        {
+          "name": "hidden",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Hidden by default; flip to false to render initially shown."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Input",
+      "path": "src/components/form/Input.astro",
+      "group": "form",
+      "note": "Text, email, and phone inputs used by the contact form.",
+      "href": "/contact/",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Must match the parent <Field name>."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Override; defaults to `field-{name}` to match Field's auto id."
+        },
+        {
+          "name": "type",
+          "type": "'text' | 'email' | 'tel' | 'url' | 'number' | 'password' | 'search'",
+          "required": false,
+          "default": "'text'"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Set by the consumer (Field) when an error is shown."
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "required": false,
+          "description": "Comma-joined ids of hint/error elements."
+        },
+        {
+          "name": "autocomplete",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "inputmode",
+          "type": "'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search'",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "SubmitButton",
+      "path": "src/components/form/SubmitButton.astro",
+      "group": "form",
+      "note": "Primary action with ready, busy, and disabled states.",
+      "href": "/contact/",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Also used for the server-rendered disabled and busy examples."
+        },
+        {
+          "name": "busy",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "loadingLabel",
+          "type": "string",
+          "required": false,
+          "default": "'Sending…'"
+        },
+        {
+          "name": "iconLeft",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "iconRight",
+          "type": "string",
+          "required": false,
+          "default": "'ph:arrow-up-right'"
+        },
+        {
+          "name": "size",
+          "type": "'md' | 'lg'",
+          "required": false,
+          "default": "'lg'"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Textarea",
+      "path": "src/components/form/Textarea.astro",
+      "group": "form",
+      "note": "Multiline input with explicit label and description references.",
+      "href": "/contact/",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false,
+          "default": "5"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContactForm",
+      "path": "src/components/islands/ContactForm.astro",
+      "group": "islands",
+      "note": "Client-side validation, submission, and status handling for contact messages.",
+      "href": "/contact/",
+      "props": []
+    },
+    {
+      "name": "ContrastGame",
+      "path": "src/components/islands/ContrastGame.astro",
+      "group": "islands",
+      "note": "A ten-round WCAG contrast guessing game built from faded site tokens.",
+      "href": "/404/",
+      "props": [
+        {
+          "name": "title",
+          "type": "string | null",
+          "required": false,
+          "default": "\"While you're here: pass or fail?\"",
+          "description": "Visible h2. Pass `null` on pages where the h1 already names the game."
+        }
+      ]
+    },
+    {
+      "name": "CopyButton",
+      "path": "src/components/islands/CopyButton.astro",
+      "group": "islands",
+      "note": "A clipboard action with visible and announced feedback.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "required": true,
+          "description": "The exact text to copy."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Visible label. Defaults to the text itself when not provided."
+        },
+        {
+          "name": "tone",
+          "type": "'light' | 'onDark'",
+          "required": false,
+          "default": "'light'",
+          "description": "Surface the button sits on. `onDark` for navy/code windows."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Diagnostic",
+      "path": "src/components/islands/Diagnostic.astro",
+      "group": "islands",
+      "note": "An interactive sample audit with review findings and proposed fixes.",
+      "href": "/tools/audit-findings/",
+      "props": []
+    },
+    {
+      "name": "InspectorMode",
+      "path": "src/components/islands/InspectorMode.astro",
+      "group": "islands",
+      "note": "A keyboard-activated layout overlay for inspecting the site.",
+      "href": "/",
+      "props": []
+    },
+    {
+      "name": "DriftGame",
+      "path": "src/components/islands/DriftGame.astro",
+      "group": "islands",
+      "note": "Compare two copies of a component and pick the properties that drifted.",
+      "href": "/play/spot-the-drift/",
+      "props": []
+    },
+    {
+      "name": "JustEnoughGame",
+      "path": "src/components/islands/JustEnoughGame.astro",
+      "group": "islands",
+      "note": "Slide faded text down to the edge of WCAG AA and score how close you land.",
+      "href": "/play/just-enough-contrast/",
+      "props": []
+    },
+    {
+      "name": "OutlineGame",
+      "path": "src/components/islands/OutlineGame.astro",
+      "group": "islands",
+      "note": "Raise and lower heading levels with a live outline check.",
+      "href": "/play/fix-the-outline/",
+      "props": []
+    },
+    {
+      "name": "QuizGame",
+      "path": "src/components/islands/QuizGame.astro",
+      "group": "islands",
+      "note": "A multiple-choice game with explanations, used by the /play/ games.",
+      "href": "/play/alt-or-not/",
+      "props": [
+        {
+          "name": "slug",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "questions",
+          "type": "QuizQuestion[]",
+          "required": true
+        },
+        {
+          "name": "outro",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "RoiCalculator",
+      "path": "src/components/islands/RoiCalculator.astro",
+      "group": "islands",
+      "note": "A rework estimate that recalculates from the reader’s inputs.",
+      "href": "/tools/roi-calculator/",
+      "props": []
+    },
+    {
+      "name": "ScorecardEngine",
+      "path": "src/components/islands/ScorecardEngine.astro",
+      "group": "islands",
+      "note": "A design-system self-assessment with local progress and report output.",
+      "href": "/tools/scorecard/",
+      "props": []
+    },
+    {
+      "name": "SnapGridGame",
+      "path": "src/components/islands/SnapGridGame.astro",
+      "group": "islands",
+      "note": "Nudge pieces onto an 8px grid with buttons, arrow keys or dragging.",
+      "href": "/play/snap-to-grid/",
+      "props": []
+    },
+    {
+      "name": "TabOrderGame",
+      "path": "src/components/islands/TabOrderGame.astro",
+      "group": "islands",
+      "note": "Reorder form controls and replay the focus order across the layout.",
+      "href": "/play/tab-order/",
+      "props": []
+    },
+    {
+      "name": "ToolBench",
+      "path": "src/components/islands/ToolBench.astro",
+      "group": "islands",
+      "note": "The tools page's list: a small working piece of each tool on tiles that share radius and spacing values.",
+      "href": "/tools/",
+      "props": [
+        {
+          "name": "tools",
+          "type": "CollectionEntry<'tools'>[]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "TokenPlayground",
+      "path": "src/components/islands/TokenPlayground.astro",
+      "group": "islands",
+      "note": "Live controls showing how shared tokens change several UI elements.",
+      "href": "/tools/token-playground/",
+      "props": []
+    },
+    {
+      "name": "ViewSource",
+      "path": "src/components/islands/ViewSource.astro",
+      "group": "islands",
+      "note": "An optional Alt/Option-hover overlay for elements carrying source metadata.",
+      "href": "/projects/ivfcryo/",
+      "props": []
+    },
+    {
+      "name": "Container",
+      "path": "src/components/layout/Container.astro",
+      "group": "layout",
+      "note": "Content widths with a shared 24px horizontal gutter.",
+      "href": "/",
+      "props": [
+        {
+          "name": "width",
+          "type": "'narrow' | 'content' | 'default' | 'wide'",
+          "required": false,
+          "default": "'default'"
+        },
+        {
+          "name": "as",
+          "type": "'div' | 'section' | 'article' | 'main' | 'header' | 'footer' | 'nav'",
+          "required": false,
+          "default": "'div'"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Section",
+      "path": "src/components/layout/Section.astro",
+      "group": "layout",
+      "note": "Surface and spacing wrapper used by case studies and supporting pages.",
+      "href": "/privacy/",
+      "props": [
+        {
+          "name": "tone",
+          "type": "'paper' | 'ink' | 'raised'",
+          "required": false,
+          "default": "'paper'",
+          "policy": {
+            "canonical": [
+              "paper",
+              "ink",
+              "raised"
+            ],
+            "deprecated": {
+              "cream": "paper",
+              "white": "raised",
+              "navy": "ink",
+              "plum": "ink",
+              "charcoal": "ink"
+            },
+            "forbidden": {
+              "surface-warm": "surface-warm is for small inline callouts only. Full-section tan washes were retired on 2026-08-25."
+            }
+          }
+        },
+        {
+          "name": "padding",
+          "type": "'tight' | 'default' | 'loose'",
+          "required": false,
+          "default": "'default'",
+          "policy": {
+            "canonical": [
+              "tight",
+              "default",
+              "loose"
+            ]
+          }
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "decorated",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Apply `relative overflow-hidden` so absolutely-positioned blobs clip safely."
+        }
+      ]
+    },
+    {
+      "name": "CaseReview",
+      "path": "src/components/patterns/CaseReview.astro",
+      "group": "patterns",
+      "note": "Case-study shortcuts to the summary, interface, and outcomes.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "links",
+          "type": "{ href: string; label: string }[]",
+          "required": true,
+          "description": "Section links, e.g. `{ href: '#context', label: 'Context' }`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "'Review this project'",
+          "description": "Accessible name for the navigation landmark."
+        },
+        {
+          "name": "intro",
+          "type": "string",
+          "required": false,
+          "default": "'Jump to the details'",
+          "description": "Visible lead-in before the links; hidden on phones."
+        }
+      ]
+    },
+    {
+      "name": "CaseSection",
+      "path": "src/components/patterns/case/CaseSection.astro",
+      "group": "patterns",
+      "note": "One case-study section: sticky heading, body column, and a media slot for full-width plates.",
+      "href": "/projects/vmspark/#context",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CaseProse",
+      "path": "src/components/patterns/case/CaseProse.astro",
+      "group": "patterns",
+      "note": "Case-study body paragraphs, in the body column or continued between plates.",
+      "href": "/projects/vmspark/#decision-inbox",
+      "props": [
+        {
+          "name": "continued",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "CaseCards",
+      "path": "src/components/patterns/case/CaseCards.astro",
+      "group": "patterns",
+      "note": "A grid of titled points with icons, with optional checklists for audience needs.",
+      "href": "/projects/vmspark/#context",
+      "props": [
+        {
+          "name": "items",
+          "type": "{ icon?: string; title: string; body: string; needs?: string[]; }[]",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Small label above the grid, e.g. \"Foundations\". Omit when the section heading is enough."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "HeuristicScores",
+      "path": "src/components/patterns/case/HeuristicScores.astro",
+      "group": "patterns",
+      "note": "Nielsen heuristic scores before and after, with the fix and what's still open.",
+      "href": "/projects/vmspark/#research",
+      "props": [
+        {
+          "name": "items",
+          "type": "{ n: number; name: string; before: number; after?: number; fix: string; left?: string; }[]",
+          "required": true
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CasePersonas",
+      "path": "src/components/patterns/case/CasePersonas.astro",
+      "group": "patterns",
+      "note": "Personas with needs, frustrations, and a line saying what each one is based on.",
+      "href": "/projects/vmspark/#research",
+      "props": [
+        {
+          "name": "items",
+          "type": "Persona[]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CaseJourney",
+      "path": "src/components/patterns/case/CaseJourney.astro",
+      "group": "patterns",
+      "note": "A journey map as live text: stages side by side on large screens, stacked on small ones.",
+      "href": "/projects/vmspark/#research",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "stages",
+          "type": "JourneyStage[]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CaseFor",
+      "path": "src/components/patterns/case/CaseFor.astro",
+      "group": "patterns",
+      "note": "A line tying a design decision to its personas and journey stage, with links to both.",
+      "href": "/projects/vmspark/#decisions",
+      "props": [
+        {
+          "name": "project",
+          "type": "CaseProject",
+          "required": true
+        },
+        {
+          "name": "personas",
+          "type": "string[]",
+          "required": true
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CaseResults",
+      "path": "src/components/patterns/case/CaseResults.astro",
+      "group": "patterns",
+      "note": "Headline metrics and results grouped by who they changed things for.",
+      "href": "/projects/vmspark/#outcomes",
+      "props": [
+        {
+          "name": "metrics",
+          "type": "{ value: string; label: string; caption?: string }[]",
+          "required": false,
+          "default": "[]"
+        },
+        {
+          "name": "groups",
+          "type": "{ label: string; items: string[] }[]",
+          "required": true
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "CaseQuote",
+      "path": "src/components/patterns/case/CaseQuote.astro",
+      "group": "patterns",
+      "note": "A client or user testimonial with name, role, and optional photo.",
+      "href": "/projects/vmspark/",
+      "props": [
+        {
+          "name": "quote",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "photo",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "'Testimonial'"
+        }
+      ]
+    },
+    {
+      "name": "CaseLimitations",
+      "path": "src/components/patterns/case/CaseLimitations.astro",
+      "group": "patterns",
+      "note": "The closing list of limitations and next steps, with an optional later group.",
+      "href": "/projects/vmspark/#edges",
+      "props": [
+        {
+          "name": "items",
+          "type": "{ icon: string; title: string; body: string; }[]",
+          "required": true
+        },
+        {
+          "name": "lead",
+          "type": "string",
+          "required": false,
+          "description": "One sentence tying the items together, when they share a cause."
+        },
+        {
+          "name": "later",
+          "type": "{ label: string; items: Item[] }",
+          "required": false,
+          "description": "A second group, e.g. what a later redesign left open."
+        }
+      ]
+    },
+    {
+      "name": "DriftSample",
+      "path": "src/components/patterns/DriftSample.astro",
+      "group": "patterns",
+      "note": "A component drawn as designed or with drifted properties, for Spot the drift.",
+      "href": "/play/spot-the-drift/",
+      "props": [
+        {
+          "name": "component",
+          "type": "DriftRound['component']",
+          "required": true
+        },
+        {
+          "name": "drift",
+          "type": "DriftProperty[]",
+          "required": false,
+          "default": "[]"
+        }
+      ]
+    },
+    {
+      "name": "GameStage",
+      "path": "src/components/patterns/GameStage.astro",
+      "group": "patterns",
+      "note": "Picks the right game island for a game page or a post embed.",
+      "href": "/play/tab-order/",
+      "props": [
+        {
+          "name": "game",
+          "type": "Game",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "QuizVisual",
+      "path": "src/components/patterns/QuizVisual.astro",
+      "group": "patterns",
+      "note": "The image or interface scene shown above a game question.",
+      "href": "/play/alt-or-not/",
+      "props": [
+        {
+          "name": "visual",
+          "type": "QuizVisual",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CodeBlock",
+      "path": "src/components/patterns/CodeBlock.astro",
+      "group": "patterns",
+      "note": "A captioned code artifact with article-matched syntax highlighting, line numbers, and a copy action. Renders fenced code in posts and tool essays.",
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "required": true,
+          "description": "The code. Passed as a prop (not a slot) so it can be copied verbatim."
+        },
+        {
+          "name": "filename",
+          "type": "string",
+          "required": false,
+          "description": "Filename shown in the header, e.g. \"Modal.tsx\"."
+        },
+        {
+          "name": "lang",
+          "type": "ComponentProps<typeof Code>['lang']",
+          "required": false,
+          "description": "Language label, e.g. \"tsx\", \"ts\", \"bash\"."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "required": false,
+          "description": "Caption rendered under the artifact in muted text."
+        },
+        {
+          "name": "copy",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Show the copy-to-clipboard button (default true)."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "FidelityBand",
+      "path": "src/components/patterns/FidelityBand.astro",
+      "group": "patterns",
+      "note": "A case-study comparison of design fidelity and implementation.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Screen name the three artifacts share, e.g. \"Shipments index\"."
+        },
+        {
+          "name": "sketch",
+          "type": "string",
+          "required": true,
+          "description": "Crude-sketch SVG (public URL)."
+        },
+        {
+          "name": "wire",
+          "type": "string",
+          "required": true,
+          "description": "Clean-wireframe SVG (public URL)."
+        },
+        {
+          "name": "annotated",
+          "type": "ImageMetadata",
+          "required": true,
+          "description": "Annotated wireframe, imported so Astro can process it."
+        },
+        {
+          "name": "annotatedAlt",
+          "type": "string",
+          "required": true,
+          "description": "Real description of the annotated sheet, for screen readers."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "required": false,
+          "description": "Optional note under the band."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Lightbox",
+      "path": "src/components/patterns/Lightbox.astro",
+      "group": "patterns",
+      "note": "The shared artifact viewer, with zoom and keyboard dismissal.",
+      "href": "/projects/ivfcryo/",
+      "props": []
+    },
+    {
+      "name": "Metric",
+      "path": "src/components/patterns/Metric.astro",
+      "group": "patterns",
+      "note": "A measured result with a label and supporting context.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "before",
+          "type": "string",
+          "required": false,
+          "description": "Optional \"before\" value, struck through ahead of an arrow."
+        },
+        {
+          "name": "trend",
+          "type": "'up' | 'down'",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Plate",
+      "path": "src/components/patterns/Plate.astro",
+      "group": "patterns",
+      "note": "A full design sheet with a caption and keyboard-accessible zoom.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "src",
+          "type": "ImageMetadata",
+          "required": true,
+          "description": "The sheet, imported so Astro can process it."
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true,
+          "description": "Real description of the sheet, for screen readers."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Screen name, e.g. \"Shipment detail\"."
+        },
+        {
+          "name": "index",
+          "type": "string",
+          "required": false,
+          "description": "Optional plate index, e.g. \"05\" — renders a \"Plate / 05\" tag above."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "required": false,
+          "description": "Optional note under the caption rail."
+        },
+        {
+          "name": "size",
+          "type": "'band' | 'half'",
+          "required": false,
+          "default": "'band'",
+          "description": "`band` fills a wide container; `half` fills a two-up grid cell."
+        },
+        {
+          "name": "zoom",
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Set false to omit the lightbox wiring entirely."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Portrait",
+      "path": "src/components/patterns/Portrait.astro",
+      "group": "patterns",
+      "note": "The responsive photograph used on the home and about pages.",
+      "href": "/about/",
+      "props": [
+        {
+          "name": "eager",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ProjectHero",
+      "path": "src/components/patterns/ProjectHero.astro",
+      "group": "patterns",
+      "note": "A project title, ownership details, evidence, and interface preview.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "project",
+          "type": "ProjectKey",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "GalleryLink",
+      "path": "src/components/patterns/GalleryLink.astro",
+      "group": "patterns",
+      "note": "Points from a case study to its gallery of extra screens and wireframes.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "project",
+          "type": "ProjectKey | PersonalProjectKey",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ProjectNext",
+      "path": "src/components/patterns/ProjectNext.astro",
+      "group": "patterns",
+      "note": "A large link to the next project, using the shared project data.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "project",
+          "type": "ProjectKey",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Recommendation",
+      "path": "src/components/patterns/Recommendation.astro",
+      "group": "patterns",
+      "note": "A quotation attributed to a named colleague; regular and featured layouts.",
+      "href": "/testimonials/",
+      "props": [
+        {
+          "name": "testimonial",
+          "type": "CollectionEntry<'testimonials'>",
+          "required": true
+        },
+        {
+          "name": "featured",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "ScrollShot",
+      "path": "src/components/patterns/ScrollShot.astro",
+      "group": "patterns",
+      "note": "A scrollable long-page screenshot with an inspection control.",
+      "href": "/projects/vmspark/",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Source label in the caption rail, e.g. \"berxi.com\" or \"Buttons\"."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "required": false,
+          "description": "Optional caption under the plate."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Optional outbound link — turns the source label into a link to the live site."
+        },
+        {
+          "name": "index",
+          "type": "string",
+          "required": false,
+          "description": "Optional plate index, e.g. \"01\" — renders a \"Plate / 01\" figure tag above."
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "required": false,
+          "default": "'Full page'",
+          "description": "Kind label shown at the caption rail's left."
+        },
+        {
+          "name": "maxH",
+          "type": "string",
+          "required": false,
+          "default": "'70vh'",
+          "description": "Visible height while collapsed."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "SiteShot",
+      "path": "src/components/patterns/SiteShot.astro",
+      "group": "patterns",
+      "note": "A website screenshot with a caption and optional image viewer.",
+      "href": "/personal-projects/rudiment-ui/",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "Root-relative screenshot path, e.g. /images/projects/americas-test-kitchen/atk-live.webp"
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": true,
+          "description": "Live URL the frame links to."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Display URL shown in the caption rail, e.g. americastestkitchen.com"
+        },
+        {
+          "name": "index",
+          "type": "string",
+          "required": false,
+          "description": "Optional plate index, e.g. \"01\" — renders a \"Plate / 01\" figure tag above."
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "required": false,
+          "default": "'Live site'",
+          "description": "Kind label shown at the caption rail's left, e.g. \"Live site\"."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Tldr",
+      "path": "src/components/patterns/Tldr.astro",
+      "group": "patterns",
+      "note": "A project summary with expandable decisions, evidence, and reflection.",
+      "href": "/projects/ivfcryo/#tldr",
+      "props": [
+        {
+          "name": "situation",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "problem",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "decision",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "evidence",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ToolIllustration",
+      "path": "src/components/patterns/ToolIllustration.astro",
+      "group": "patterns",
+      "note": "An explanatory SVG for each of the four tools.",
+      "href": "/tools/",
+      "props": [
+        {
+          "name": "tool",
+          "type": "'ScorecardEngine' | 'RoiCalculator' | 'TokenPlayground' | 'Diagnostic'",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "GameIllustration",
+      "path": "src/components/patterns/GameIllustration.astro",
+      "group": "patterns",
+      "note": "A playful explanatory SVG for each /play/ game.",
+      "href": "/play/",
+      "props": [
+        {
+          "name": "game",
+          "type": "IllustratedGame",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ProjectIllustration",
+      "path": "src/components/patterns/ProjectIllustration.astro",
+      "group": "patterns",
+      "note": "An explanatory SVG for each case-study hero, drawn in the same style as the tool illustrations.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "project",
+          "type": "IllustratedProject",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ProjectScreenshot",
+      "path": "src/components/patterns/ProjectScreenshot.astro",
+      "group": "patterns",
+      "note": "A cropped app screen for each project in WorkList, in the same mat and frame as the illustrations.",
+      "href": "/projects/",
+      "props": [
+        {
+          "name": "src",
+          "type": "ImageMetadata",
+          "required": true
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "sizes",
+          "type": "string",
+          "required": false,
+          "default": "'(min-width: 64em) 90vw, 175vw'",
+          "description": "Rendered width times the 1.55 zoom in illustration.css, so browsers fetch a file sharp enough for the close-up. Defaults to a half-page column."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ArticleIllustration",
+      "path": "src/components/patterns/ArticleIllustration.astro",
+      "group": "patterns",
+      "note": "An explanatory SVG for each article, drawn in the same style as the tool illustrations.",
+      "href": "/blog/",
+      "props": [
+        {
+          "name": "post",
+          "type": "IllustratedPost",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "WorkList",
+      "path": "src/components/patterns/WorkList.astro",
+      "group": "patterns",
+      "note": "Selected case studies with interface images, roles, and results.",
+      "href": "/projects/",
+      "props": [
+        {
+          "name": "compact",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "items",
+          "type": "typeof selectedWork",
+          "required": false,
+          "default": "selectedWork"
+        }
+      ]
+    },
+    {
+      "name": "Heading",
+      "path": "src/components/primitives/Heading.astro",
+      "group": "primitives",
+      "note": "Heading semantics and visual size controlled independently.",
+      "href": "/projects/ivfcryo/",
+      "props": [
+        {
+          "name": "level",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": true
+        },
+        {
+          "name": "visual",
+          "type": "'display-xl' | 'display-lg' | 'display-md' | 'h1' | 'h2' | 'h3' | 'h4' | 'eyebrow'",
+          "required": false,
+          "policy": {
+            "canonical": [
+              "display-xl",
+              "display-lg",
+              "display-md",
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "eyebrow"
+            ]
+          }
+        },
+        {
+          "name": "tone",
+          "type": "'ink' | 'paper' | 'accent' | 'muted'",
+          "required": false,
+          "default": "'ink'",
+          "policy": {
+            "canonical": [
+              "ink",
+              "paper",
+              "accent",
+              "muted"
+            ],
+            "deprecated": {
+              "navy": "ink",
+              "plum": "ink",
+              "white": "paper",
+              "coral": "accent"
+            }
+          }
+        },
+        {
+          "name": "align",
+          "type": "'left' | 'center'",
+          "required": false,
+          "default": "'left'"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Icon",
+      "path": "src/components/primitives/Icon.astro",
+      "group": "primitives",
+      "note": "Iconify icons with decorative or explicitly labelled semantics.",
+      "href": "/contact/",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Iconify name, e.g. \"ph:arrow-right\" or \"ph:check-circle-duotone\"."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "default": "24",
+          "description": "Pixel size for width/height. Defaults to 24."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label. If omitted, icon is treated as decorative."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false,
+          "description": "Tailwind text-* color class controlling stroke/fill."
+        }
+      ]
+    },
+    {
+      "name": "Link",
+      "path": "src/components/primitives/Link.astro",
+      "group": "primitives",
+      "note": "Navigation, inline, and arrow links used by the site chrome and legal pages.",
+      "href": "/privacy/",
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "variant",
+          "type": "'inline' | 'arrow' | 'nav' | 'unstyled'",
+          "required": false,
+          "default": "'inline'"
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "description": "Override active matching for the `nav` variant."
+        },
+        {
+          "name": "iconRight",
+          "type": "string",
+          "required": false,
+          "description": "Icon shown after the label (default for `arrow` is ph:arrow-right)."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Logo",
+      "path": "src/components/primitives/Logo.astro",
+      "group": "primitives",
+      "note": "The Style Script wordmark used in the header and footer.",
+      "href": "/",
+      "props": [
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "required": false,
+          "default": "'md'"
+        },
+        {
+          "name": "tone",
+          "type": "'default' | 'inverse'",
+          "required": false,
+          "default": "'default'",
+          "description": "Color treatment — paper surfaces vs. ink (dark) surfaces."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": "'Joshua Briley'"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Text",
+      "path": "src/components/primitives/Text.astro",
+      "group": "primitives",
+      "note": "Body, caption, and supporting text used by case studies and supporting pages.",
+      "href": "/privacy/",
+      "props": [
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'base' | 'lg' | 'xl'",
+          "required": false,
+          "default": "'base'",
+          "policy": {
+            "canonical": [
+              "xs",
+              "sm",
+              "base",
+              "lg",
+              "xl"
+            ]
+          }
+        },
+        {
+          "name": "tone",
+          "type": "'ink' | 'muted' | 'paper' | 'whiteMuted' | 'faint' | 'accent'",
+          "required": false,
+          "default": "'ink'",
+          "policy": {
+            "canonical": [
+              "ink",
+              "muted",
+              "paper",
+              "whiteMuted",
+              "accent",
+              "faint"
+            ],
+            "deprecated": {
+              "navy": "ink",
+              "white": "paper",
+              "coral": "accent"
+            }
+          }
+        },
+        {
+          "name": "weight",
+          "type": "'normal' | 'medium' | 'semibold'",
+          "required": false,
+          "default": "'normal'"
+        },
+        {
+          "name": "align",
+          "type": "'left' | 'center'",
+          "required": false,
+          "default": "'left'"
+        },
+        {
+          "name": "as",
+          "type": "'p' | 'span' | 'div'",
+          "required": false,
+          "default": "'p'"
+        },
+        {
+          "name": "leading",
+          "type": "'tight' | 'snug' | 'normal' | 'relaxed'",
+          "required": false,
+          "default": "'relaxed'"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ArticleTable",
+      "path": "src/components/writing/ArticleTable.astro",
+      "group": "writing",
+      "note": "A labelled, keyboard-scrollable table region that preserves column headings. Renders any Markdown table in a post; no current post has one.",
+      "props": []
+    }
+  ]
+}

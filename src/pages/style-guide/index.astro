@@ -2,17 +2,18 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import Specimen from '~/components/style-guide/Specimen.astro';
+import ComponentDoc from '~/components/style-guide/ComponentDoc.astro';
 import Logo from '~/components/primitives/Logo.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Link from '~/components/primitives/Link.astro';
-import Portrait from '~/components/patterns/Portrait.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import CopyButton from '~/components/islands/CopyButton.astro';
 import Recommendation from '~/components/patterns/Recommendation.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import Tldr from '~/components/patterns/Tldr.astro';
-import { ivfcryoSummary } from '~/lib/project-summaries';
 import Plate from '~/components/patterns/Plate.astro';
 import ToolIllustration from '~/components/patterns/ToolIllustration.astro';
 import Field from '~/components/form/Field.astro';
@@ -21,10 +22,10 @@ import Textarea from '~/components/form/Textarea.astro';
 import FormAlert from '~/components/form/FormAlert.astro';
 import SubmitButton from '~/components/form/SubmitButton.astro';
 import ArticleTable from '~/components/writing/ArticleTable.astro';
-import ResourceList from '~/components/writing/ResourceList.astro';
+import { ivfcryoSummary } from '~/lib/project-summaries';
 import { componentCatalogue } from '~/lib/component-catalogue';
 import { projectPages } from '~/lib/project-pages';
-import baseStyles from '~/styles/site.css?raw';
+import tokens from '../../../design-system/tokens.json';
 import portfolioStyles from '~/styles/redesign.css?raw';
 import shipmentSheet from '~/assets/projects/ivfcryo/wires-and-flows/05-shipment-detail.png';
 import '~/styles/articles.css';
@@ -32,30 +33,60 @@ import '~/styles/projects.css';
 import '~/styles/style-guide.css';
 
 const sections = [
-  ['foundations', 'Colors & surfaces'], ['typography', 'Typography'], ['actions', 'Actions'], ['forms', 'Forms'],
-  ['patterns', 'Content & media'], ['tools', 'Tools'], ['interaction', 'Layout & interaction'], ['components', 'Component index'],
-];
-const colors = [
-  { name: 'Paper', token: '--paper', note: 'Default page surface.' },
-  { name: 'Raised', token: '--raised', note: 'Inputs and selected content panels.' },
-  { name: 'Ink', token: '--ink', note: 'Primary text, the footer, and dark feature surfaces.' },
-  { name: 'Muted ink', token: '--ink-muted', note: 'Descriptions, captions, and supporting text.' },
-  { name: 'Denim', token: '--portfolio-blue', note: 'Primary actions, editorial italics, and feature bands.' },
-  { name: 'Denim tint', token: '--portfolio-tint', note: 'Tool workspaces, related content, and quiet emphasis.' },
-  { name: 'Accent', token: '--accent', note: 'Surface-aware icons, links, and focus indicators.' },
-  { name: 'Line', token: '--line', note: 'Quiet dividers; not a sufficient input boundary on its own.' },
-  { name: 'Strong line', token: '--line-strong', note: 'Stronger rules and panel outlines.' },
-  { name: 'Faint ink', token: '--ink-faint', note: 'Decoration only. Use muted ink for readable text.' },
-];
-const css = baseStyles + '\n' + portfolioStyles;
-const tokenValue = (token: string) => {
-  const raw = css.match(new RegExp(`${token}:\\s*([^;]+);`))?.[1]?.trim() ?? '';
-  if (token === '--accent') {
-    const channels = css.match(/--accent-rgb:\s*([\d\s]+);/)?.[1].trim().split(/\s+/).map(Number);
-    return channels ? '#' + channels.map((channel) => channel.toString(16).padStart(2, '0')).join('').toUpperCase() : raw;
-  }
-  return raw.toUpperCase();
+  ['color', 'Color'], ['typography', 'Typography'], ['layout', 'Layout'], ['motion', 'Motion'],
+  ['actions', 'Actions'], ['forms', 'Forms'], ['content', 'Content'], ['navigation', 'Navigation'],
+  ['tools', 'Tools'], ['index', 'Index'], ['agents', 'For agents'],
+].map(([id, label]) => ({ href: `#${id}`, label }));
+
+/* ── Color: every token comes from design-system/tokens.json ── */
+type Token = { $value: unknown; $description?: string; $extensions?: { site?: { cssVar?: string; tailwind?: string[] } } };
+const luminance = (hex: string) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
+const contrast = (a: string, b: string) => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+const paper = tokens.color.paper.$value;
+const colorTokens = Object.entries(tokens.color as unknown as Record<string, Token>)
+  .filter(([name, token]) => !name.startsWith('$') && name !== 'legacy' && typeof token.$value === 'string')
+  .map(([name, token]) => {
+    const hex = String(token.$value);
+    const ratio = contrast(hex, paper);
+    const site = token.$extensions?.site;
+    return {
+      name, hex: hex.toUpperCase(), description: token.$description ?? '',
+      cssVar: site?.cssVar === '--accent-rgb' ? '--accent' : site?.cssVar,
+      tailwind: site?.tailwind?.[0]?.replace(/^colors\./, '').replace(/\.DEFAULT$/, ''),
+      ratio: ratio.toFixed(1),
+      use: ratio >= 4.5 ? 'Text on paper' : ratio >= 3 ? 'Large text and controls' : 'Surfaces and decoration',
+    };
+  });
+const cssValue = (name: string) => portfolioStyles.match(new RegExp(`${name}:\\s*([^;]+);`))?.[1]?.trim() ?? '';
+const pageFamily = [
+  { cssVar: '--portfolio-blue', note: 'Primary actions, editorial italics, and feature bands. Close to accent; new work should use accent.' },
+  { cssVar: '--portfolio-tint', note: 'Tool workspaces, related content, and example stages.' },
+].map((item) => ({ ...item, hex: cssValue(item.cssVar).toUpperCase() }));
+const spacing = ['--space-section', '--space-block', '--space-item'].map((name) => ({ name, value: cssValue(name) }));
+
+/* ── Type and motion, also from tokens.json ── */
+const fonts = Object.entries(tokens.font).map(([key, token]) => ({ key, family: token.$value[0], stack: token.$value.join(', '), description: token.$description, cssVar: token.$extensions.site.cssVar }));
+const easings = Object.entries(tokens.motion).map(([key, token]) => {
+  const [x1, y1, x2, y2] = token.$value;
+  return { key, value: `cubic-bezier(${token.$value.join(', ')})`, description: token.$description, cssVar: token.$extensions.site.cssVar, path: `M0 100 C${x1 * 100} ${100 - y1 * 100} ${x2 * 100} ${100 - y2 * 100} 100 0` };
+});
+const durations = [
+  ['200ms', 'Link arrows nudge 3px toward where they point, on hover and keyboard focus.'],
+  ['320ms', 'Page content fades in on navigation.'],
+  ['700ms', 'Hero content rises 12px with a small stagger between lines.'],
+];
+const widths = [
+  ['narrow', 48, 'Supporting copy and narrow page content'], ['content', 64, 'Case-study reading layouts'],
+  ['default', 72, 'General page content'], ['wide', 80, 'Main page grids and full design sheets'],
+] as const;
+
 const [recommendation] = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
 const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 const groups = [
@@ -63,132 +94,296 @@ const groups = [
   { id: 'form', label: 'Form controls' }, { id: 'patterns', label: 'Content & media patterns' },
   { id: 'islands', label: 'Interactive features' }, { id: 'writing', label: 'Article components' },
 ];
-const primaryMarkup = `<a class="action-link" href="/projects/">\n  Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span>\n</a>\n<a class="editorial-link" href="/resume/">\n  View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span>\n</a>`;
-const typeMarkup = `<h1 class="page-type">How this site <em>is designed.</em></h1>\n<p class="page-lede">A short introduction with a clear purpose.</p>\n<h2 class="section-type">Section <em>heading.</em></h2>`;
-const formMarkup = `<Field label="Email" name="email" required hint="Only used to reply.">\n  <Input name="email" type="email" required\n    describedBy="field-email-hint" />\n</Field>\n<SubmitButton label="Send message" loadingLabel="Sending…" />`;
-const widths = [
-  ['narrow', '48rem', 'Supporting copy and narrow page content'], ['content', '64rem', 'Case-study reading layouts'],
-  ['default', '72rem', 'General page content'], ['wide', '80rem', 'Main page grids and full design sheets'],
-];
+
+const markup = {
+  action: `<a class="action-link" href="/projects/">\n  Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span>\n</a>`,
+  editorial: `<a class="editorial-link" href="/resume/">\n  View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span>\n</a>\n\n<!-- On ink or denim -->\n<a class="editorial-link editorial-link--light" href="/contact/">…</a>`,
+  heading: `<Heading level={2} visual="h2">Decisions need context.</Heading>\n<Text size="lg" tone="muted">Explain the situation and the reason.</Text>`,
+  field: `<Field label="Email" name="email" required hint="Only used to reply.">\n  <Input name="email" type="email" required\n    describedBy="field-email-hint" />\n</Field>\n<SubmitButton label="Send message" loadingLabel="Sending…" />`,
+  caseReview: `<CaseReview\n  label="Style guide sections"\n  intro="Jump to a section"\n  links={[{ href: '#color', label: 'Color' }]}\n/>`,
+  pager: `<nav class="article-pager" aria-label="More articles">\n  <a class="article-pager-link" href="/blog/older/">\n    <span class="article-pager-label"><span aria-hidden="true" data-link-arrow="left">←</span> Older article</span>\n    <span class="article-pager-title">Older title</span>\n  </a>\n  <a class="article-pager-link article-pager-link--newer" href="/blog/newer/">…</a>\n</nav>`,
+  agent: `# In the repo (regenerated on commit)\ncat design-system/system.json\nnpm run design:context\n\n# From anywhere\ncurl https://joshuabriley.com/style-guide/system.json\n\n# Before calling UI work done\nnpm run audit:design\nnpm run audit:components\nnpm run audit:contrast`,
+};
 ---
 
-<BaseLayout title="Style guide | Joshua Briley" description="The typography, colors, components, and interactions currently used across this portfolio, with live examples and usage notes." mainClass="style-guide">
-  <header class="page-opener">
+<BaseLayout title="Style guide | Joshua Briley" description="The tokens, components, and patterns used across this portfolio, with live examples, props, usage rules, and a JSON version for coding agents." mainClass="style-guide">
+  <link slot="head" rel="alternate" type="application/json" href="/style-guide/system.json" title="Design system data" />
+
+  <header class="page-opener sg-opener">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Style guide <span aria-hidden="true">/</span> The portfolio’s working design system</p>
-      <h1 class="page-type hero-in hero-in-2">How this site <em>is designed.</em></h1>
-      <p class="page-lede hero-in hero-in-3">The colors, type, components, and interactions used across this portfolio. Live examples, usage notes, and links to the pages where they do the work.</p>
-      <nav class="evidence-nav hero-in hero-in-4" aria-label="Style guide sections">{sections.map(([id, label]) => <a href={`#${id}`}>{label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}</nav>
+      <p class="role-line hero-in hero-in-1">Design system</p>
+      <h1 class="page-type hero-in hero-in-2">Style <em>guide.</em></h1>
+      <p class="page-lede hero-in hero-in-3">The tokens, components, and patterns behind this site, with live examples, props, and usage rules.</p>
+      <p class="sg-opener-agents hero-in hero-in-4">Working with a coding agent? <a class="editorial-link" href="/style-guide/system.json">Give it system.json <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></p>
     </Container>
   </header>
 
-  <section id="foundations" class="editorial-section" aria-labelledby="foundations-title">
+  <CaseReview label="Style guide sections" intro="Jump to a section" links={sections} />
+
+  <!-- ─────────────── Foundations ─────────────── -->
+  <section id="color" class="editorial-section" aria-labelledby="color-title">
     <Container width="wide">
-      <div class="section-heading"><h2 id="foundations-title" class="section-type">Colors & <em>surfaces.</em></h2><p>Cool paper, charcoal, and denim. The palette stays in tune with the photograph on the home and about pages.</p></div>
-      <div class="sg-palette-intro" data-reveal><div class="sg-portrait"><Portrait /></div><div><h3>A photograph sets the tone.</h3><p>The navy suit and throw, dark shelves, and daylight give the site its color direction. Strong typography provides the emphasis; blue connects the actions, feature sections, and editorial details.</p><p>Use paper for reading, denim tint to group related content, and ink or denim for a deliberate change of pace.</p><a class="editorial-link" href="/about/">See the portrait in context <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div></div>
-      <ul class="sg-swatches">{colors.map((color) => <li><div class="sg-swatch" style={`background: var(${color.token})`} aria-hidden="true"></div><h3>{color.name}</h3><p class="sg-color-value">{tokenValue(color.token)}</p><code>{color.token}</code><p>{color.note}</p></li>)}</ul>
-      <div class="sg-surface-grid"><div class="sg-surface bg-paper"><h3>Paper & ink</h3><p>Primary text stays dark. Descriptions use muted ink; readable text never uses faint ink.</p><a class="editorial-link" href="/blog/">Browse writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div><div class="sg-surface sg-surface--denim"><h3>Denim & paper</h3><p>Feature bands use white text and lighter blue supporting text. Keep links underlined or otherwise explicit.</p><a class="editorial-link editorial-link--light" href="/testimonials/">Read recommendations <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div><div class="sg-surface bg-ink"><h3>Ink & paper</h3><p>The footer, project navigation, and code artifacts use light text on ink. Links, icons, and focus styles need enough contrast against the dark surface.</p><a class="editorial-link editorial-link--light" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div></div>
-      <p class="sg-note">Swatch values are read from the site’s CSS at build time. Decorative borders and colors are separate from the contrast required for text, focus indicators, and controls.</p>
+      <div class="section-heading"><h2 id="color-title" class="section-type">Color <em>tokens.</em></h2><p>Cool paper, charcoal ink, and one denim accent. Values and descriptions are read from <code>design-system/tokens.json</code> at build time.</p></div>
+      <ul class="sg-tokens">{colorTokens.map((token) => (
+        <li>
+          <div class="sg-swatch" style={`background: ${token.hex}`} aria-hidden="true"></div>
+          <h3>{token.name}</h3>
+          <p class="sg-token-value">{token.hex}</p>
+          <dl class="sg-token-meta">
+            {token.cssVar && <div><dt>CSS</dt><dd><code>var({token.cssVar})</code></dd></div>}
+            {token.tailwind && <div><dt>Tailwind</dt><dd><code>{token.tailwind}</code></dd></div>}
+            <div><dt>On paper</dt><dd>{token.ratio}:1, {token.use.toLowerCase()}</dd></div>
+          </dl>
+          <p>{token.description}</p>
+          {token.cssVar && <CopyButton text={`var(${token.cssVar})`} label="Copy variable" class="sg-token-copy" />}
+        </li>
+      ))}</ul>
+      <h3 class="sg-subhead">Page-family values</h3>
+      <p class="sg-note">Defined in <code>redesign.css</code> for the portfolio pages. They sit outside <code>tokens.json</code>, so prefer the tokens above in new work.</p>
+      <ul class="sg-tokens sg-tokens--compact">{pageFamily.map((item) => <li><div class="sg-swatch" style={`background: var(${item.cssVar})`} aria-hidden="true"></div><h3><code>{item.cssVar}</code></h3><p class="sg-token-value">{item.hex}</p><p>{item.note}</p></li>)}</ul>
+      <h3 class="sg-subhead">Surfaces</h3>
+      <div class="sg-surface-grid">
+        <div class="sg-surface bg-paper"><h4>Paper & ink</h4><p>Primary text stays dark. Descriptions use muted ink; readable text never uses faint ink.</p><a class="editorial-link" href="/blog/">Browse writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+        <div class="sg-surface sg-surface--denim"><h4>Denim & paper</h4><p>Feature bands use white text and lighter blue supporting text. Keep links underlined.</p><a class="editorial-link editorial-link--light" href="/testimonials/">Read recommendations <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+        <div class="sg-surface bg-ink"><h4>Ink & paper</h4><p>The footer, project navigation, and code use light text on ink. The accent brightens automatically on this surface.</p><a class="editorial-link editorial-link--light" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+      </div>
     </Container>
   </section>
 
-  <section id="typography" class="editorial-section sg-tint" aria-labelledby="typography-title">
+  <section id="typography" class="editorial-section" aria-labelledby="typography-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="typography-title">Type <em>and hierarchy.</em></h2><p>Four typefaces, with distinct jobs. Bold headings carry the message; italics add a little character.</p></div>
-      <div class="sg-fonts"><article><p class="sg-font-label">Hanken Grotesk</p><p class="sg-hanken">Built to be used.</p><p>Headlines, paragraphs, navigation, form labels, and most metadata. Display type is heavy and tightly tracked; reading text has a more relaxed rhythm.</p></article><article><p class="sg-font-label">Newsreader</p><p class="sg-newsreader">A little character.</p><p>Editorial italics within large headings and occasional pull quotes. It adds contrast without taking over the reading experience.</p></article><article><p class="sg-font-label">Geist Mono</p><p class="sg-mono">const shared = true;</p><p>Code and selected technical metadata. It identifies technical detail rather than serving as a label on every section.</p></article><article><p class="sg-font-label">Style Script</p><div class="sg-logo"><Logo /></div><p>The wordmark in the header and footer. Keep it out of body copy, buttons, and interface labels.</p></article></div>
-      <Specimen title="Page and section headings" note="Use the shared page-type and section-type classes for the main editorial hierarchy. Semantic heading levels still follow the document outline." href="/" code={typeMarkup} filename="Shared heading styles">
-        <p class="page-type sg-type-page">Shared UI. <em>Clear intent.</em></p><p class="page-lede">Accessible components and product interfaces, built for the teams using them.</p><p class="section-type sg-type-section">Section <em>heading.</em></p>
-      </Specimen>
-      <Specimen title="Supporting headings and body copy" note="Heading and Text remain in use for case studies and supporting pages. Visual size is independent of the heading’s semantic level." href="/projects/ivfcryo/">
-        <Heading level={4} visual="h2">Decisions need context.</Heading><Text size="lg" tone="muted" class="mt-4">Explain the situation, the alternatives, and the reason for a decision. Keep the reading column comfortable rather than stretching every paragraph across the page.</Text><Text size="sm" tone="muted" class="mt-4">Captions describe what the reader is seeing and why it matters.</Text>
-      </Specimen>
+      <div class="section-heading"><h2 class="section-type" id="typography-title">Type <em>and hierarchy.</em></h2><p>Four families, each with one job. Bold headings carry the message; the serif italic adds a little character.</p></div>
+      <ul class="sg-fonts">{fonts.map((font) => (
+        <li>
+          {font.key === 'sans' && <p class="sg-font-sample sg-hanken">Built to be used.</p>}
+          {font.key === 'serif' && <p class="sg-font-sample sg-newsreader">A little character.</p>}
+          {font.key === 'mono' && <p class="sg-font-sample sg-mono">const shared = true;</p>}
+          {font.key === 'script' && <div class="sg-font-sample sg-logo"><Logo /></div>}
+          <h3>{font.family}</h3>
+          <p>{font.description}</p>
+          <code>var({font.cssVar})</code>
+        </li>
+      ))}</ul>
+      <h3 class="sg-subhead">Type scale</h3>
+      <ol class="sg-ladder">
+        <li><code>.page-type</code><p class="page-type sg-ladder-page">Shared UI. <em>Clear intent.</em></p></li>
+        <li><code>.section-type</code><p class="section-type sg-ladder-section">Section <em>heading.</em></p></li>
+        <li><code>{'<Heading visual="h2">'}</code><Heading level={4} visual="h2">Decisions need context.</Heading></li>
+        <li><code>.page-lede</code><p class="page-lede sg-ladder-lede">A short introduction with a clear purpose.</p></li>
+        <li><code>{'<Text size="lg" tone="muted">'}</code><Text size="lg" tone="muted">Explain the situation, the alternatives, and the reason for a decision.</Text></li>
+        <li><code>{'<Text size="sm" tone="muted">'}</code><Text size="sm" tone="muted">Captions describe what the reader is seeing and why it matters.</Text></li>
+      </ol>
+      <ComponentDoc id="heading" name="<Heading>" path="src/components/primitives/Heading.astro" purpose="Every heading. level sets the tag, visual sets the size, so the look never breaks the document outline." code={markup.heading}
+        dos={['Pick level from the outline and visual from the design.', 'Use the serif italic (<em>) for one phrase at most.']}
+        donts={['Skip heading levels to get a smaller size.', 'Use tone="faint" or deprecated tones such as navy and coral.']} />
+      <ComponentDoc id="text" name="<Text>" path="src/components/primitives/Text.astro" purpose="Body copy on the type scale for case studies and supporting pages."
+        dos={['Use tone="muted" for descriptions and captions.']}
+        donts={['Use tone="faint" for words a reader needs; it is for glyphs and separators only.']}
+        a11y={['Muted ink is about 6:1 on paper; faint ink is 2.8:1 and fails for text at any size.']} />
     </Container>
   </section>
 
+  <section id="layout" class="editorial-section" aria-labelledby="layout-title">
+    <Container width="wide">
+      <div class="section-heading"><h2 class="section-type" id="layout-title">Layout <em>and spacing.</em></h2><p>Four content widths and three spacing steps keep pages coherent.</p></div>
+      <h3 class="sg-subhead">Container widths</h3>
+      <ul class="sg-widths">{widths.map(([name, rem, note]) => <li><div class="sg-width-bar" style={`width: ${(rem / 80) * 100}%`} aria-hidden="true"></div><p><code>width="{name}"</code> <span>{rem}rem</span></p><p>{note}</p></li>)}</ul>
+      <h3 class="sg-subhead">Spacing</h3>
+      <ul class="sg-spacing">{spacing.map((item) => <li><code>var({item.name})</code><p>{item.value}</p></li>)}</ul>
+      <p class="sg-note">Section padding uses <code>--space-section</code>, heading-to-content gaps use <code>--space-block</code>, and gaps between items use <code>--space-item</code>. All three scale fluidly between phone and desktop.</p>
+      <ComponentDoc id="container" name="<Container>" path="src/components/layout/Container.astro" purpose="Caps content width and adds a 24px gutter on each side. The width caps include the gutters."
+        donts={['Put case-study artwork inside .case-layout; give it a sibling <Container width="wide">.']} />
+      <ComponentDoc id="section" name="<Section>" path="src/components/layout/Section.astro" purpose="A full-width page band that sets the surface. The accent follows the surface automatically."
+        donts={['Use surface-warm as a section tone; it is for small inline callouts only.']} />
+    </Container>
+  </section>
+
+  <section id="motion" class="editorial-section" aria-labelledby="motion-title">
+    <Container width="wide">
+      <div class="section-heading"><h2 class="section-type" id="motion-title">Motion.</h2><p>Motion explains a change of state or makes an available action easier to notice. It stops when reduced motion is requested.</p></div>
+      <ul class="sg-easings">{easings.map((easing) => (
+        <li>
+          <svg viewBox="-4 -4 108 108" class="sg-curve" aria-hidden="true"><path d="M0 100 L100 0" class="sg-curve-guide" /><path d={easing.path} class="sg-curve-line" /></svg>
+          <h3><code>var({easing.cssVar})</code></h3>
+          <p class="sg-token-value">{easing.value}</p>
+          <p>{easing.description}</p>
+        </li>
+      ))}</ul>
+      <h3 class="sg-subhead">Durations</h3>
+      <ul class="sg-durations">{durations.map(([time, note]) => <li><code>{time}</code><p>{note}</p></li>)}</ul>
+      <div class="sg-motion-demo">
+        <button type="button" class="editorial-link" data-guide-replay>Replay entry motion <span aria-hidden="true" data-link-arrow="up-right">↗</span></button>
+        <div class="sg-motion-sample" data-guide-motion><strong>Clear, then a little character.</strong><span>Heading entrance and restrained movement.</span></div>
+        <p role="status" class="sg-motion-status" data-guide-motion-status></p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ─────────────── Components ─────────────── -->
   <section id="actions" class="editorial-section" aria-labelledby="actions-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="actions-title">Buttons <em>and links.</em></h2><p>Use a filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
-      <Specimen title="Primary action and editorial link" note="The same styles appear on the home page, résumé, articles, and tools. Arrow glyphs are decorative; the visible words name the destination." href="/resume/" code={primaryMarkup} filename="Shared actions">
-        <div class="sg-actions"><a class="action-link" href="/projects/">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a><a class="editorial-link" href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-      </Specimen>
-      <Specimen title="Links on ink" note="Use the light editorial-link variant on dark surfaces. The underline remains visible before hover." href="/contact/" dark><a class="editorial-link editorial-link--light" href="/contact/">Talk shop <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></Specimen>
-      <Specimen title="Navigation links and icons" note="The Link component still supplies site navigation and inline legal-page links. Decorative icons stay out of the accessible name; standalone controls need a label." href="/privacy/">
-        <div class="sg-actions"><Link href="/privacy/" variant="inline">Privacy policy</Link><Link href="/projects/" variant="arrow" iconRight="ph:arrow-right">View projects</Link><span class="sg-icon-caption"><Icon name="ph:keyboard" size={24} /> Keyboard access</span></div>
-      </Specimen>
-      <p class="sg-note">Try hovering and tabbing through the examples. Hover changes the fill, underline, or border. Keyboard focus adds a visible outline. The primary action is at least 52px tall; editorial links provide a 44px minimum target.</p>
+      <div class="section-heading"><h2 class="section-type" id="actions-title">Actions <em>and links.</em></h2><p>A filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
+      <ComponentDoc id="action-link" name=".action-link" purpose="The primary action. One per view, for the step that matters most." href="/" code={markup.action} filename="Primary action"
+        classes={[{ name: 'action-link', description: 'Filled denim action with an arrow that points where the link goes.' }]}
+        dos={['Name the destination in the visible words.']}
+        donts={['Use two primary actions side by side; make the second an editorial link.']}
+        a11y={['At least 52px tall.', 'Arrow glyphs are aria-hidden; the words carry the meaning.']}>
+        <a class="action-link" href="/projects/">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
+      </ComponentDoc>
+      <ComponentDoc id="editorial-link" name=".editorial-link" purpose="The supporting link: underlined at rest, accent on hover." href="/resume/" code={markup.editorial} filename="Editorial link"
+        classes={[{ name: 'editorial-link', description: 'Default, for paper surfaces.' }, { name: 'editorial-link--light', description: 'For ink and denim surfaces.' }]}
+        dos={['Keep the underline visible before hover.']}
+        donts={['Invent a one-off bordered or boxed link to make one stand out; change its placement or wording instead.']}
+        a11y={['Provides a 44px minimum target.', 'Keyboard focus adds a visible outline.']}>
+        <div class="sg-actions"><a class="editorial-link" href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+      </ComponentDoc>
+      <ComponentDoc id="editorial-link-dark" name=".editorial-link--light" purpose="The same link on ink. The underline stays visible before hover." href="/contact/" dark>
+        <a class="editorial-link editorial-link--light" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      </ComponentDoc>
+      <ComponentDoc id="link" name="<Link>" path="src/components/primitives/Link.astro" purpose="Navigation, inline, and arrow links for the site chrome and legal pages. The nav variant marks the current page with aria-current.">
+        <div class="sg-actions"><Link href="/privacy/" variant="inline">Privacy policy</Link><Link href="/projects/" variant="arrow" iconRight="ph:arrow-right">View projects</Link></div>
+      </ComponentDoc>
+      <ComponentDoc id="icon" name="<Icon>" path="src/components/primitives/Icon.astro" purpose="Phosphor icons through Iconify, decorative unless given a label."
+        a11y={['Without label the icon is hidden from assistive tech.', 'A standalone icon control needs a label.']}>
+        <span class="sg-icon-caption"><Icon name="ph:keyboard" size={24} /> Keyboard access</span>
+      </ComponentDoc>
     </Container>
   </section>
 
-  <section id="forms" class="editorial-section sg-tint" aria-labelledby="forms-title">
+  <section id="forms" class="editorial-section" aria-labelledby="forms-title">
     <Container width="wide">
       <div class="section-heading"><h2 class="section-type" id="forms-title">Forms <em>and feedback.</em></h2><p>Visible labels, useful hints, specific errors, and feedback while sending. The contact page uses these same components.</p></div>
-      <Specimen title="Fields, validation, and submission" note="Try the validation and sending state. This demonstration stays in your browser and does not send a message." href="/contact/" code={formMarkup} filename="Contact field pattern">
+      <ComponentDoc id="field" name="<Field>" path="src/components/form/Field.astro" purpose="Wraps a control with its label, hint, required marker, and error, and wires the ids between them." code={markup.field} filename="Contact field pattern"
+        dos={['Put the label above the control. The error appears as a speech bubble right under it, above the hint.', 'Write errors that say how to fix the value. A little personality is welcome; blame is not.']}
+        donts={['Use a placeholder as the label.']}
+        a11y={['Hint and error are joined to the control with aria-describedby.', 'Invalid fields get aria-invalid; on submit, focus moves to the first one.', 'The bubble pops in and the control shakes once, unless the reader prefers reduced motion.']}>
         <form id="sg-form" class="sg-demo-form" novalidate>
-          <Field label="Email" name="sg-email" required hint="Use an address like you@example.com."><Input name="sg-email" type="email" required autocomplete="email" describedBy="field-sg-email-hint sg-email-error" /></Field>
-          <p id="sg-email-error" class="sg-field-error" hidden></p>
-          <Field label="Message" name="sg-message" required hint="A few sentences is plenty."><Textarea name="sg-message" rows={3} required describedBy="field-sg-message-hint sg-message-error" /></Field>
-          <p id="sg-message-error" class="sg-field-error" hidden></p>
+          <Field label="Email" name="sg-email" required hint="Use an address like you@example.com."><Input name="sg-email" type="email" required autocomplete="email" describedBy="field-sg-email-hint field-sg-email-error" /></Field>
+          <Field label="Message" name="sg-message" required hint="A few sentences is plenty."><Textarea name="sg-message" rows={3} required describedBy="field-sg-message-hint field-sg-message-error" /></Field>
           <SubmitButton label="Try sending state" loadingLabel="Sending…" disabled />
           <FormAlert variant="success" id="sg-success"><p>Example complete. Nothing was sent.</p></FormAlert>
           <FormAlert variant="error" id="sg-error"><p>Please check the highlighted fields.</p></FormAlert>
         </form>
-      </Specimen>
-      <div class="sg-two-up"><Specimen title="Busy and disabled" note="The busy state changes the label, shows a spinner, and prevents repeat submission. A disabled action keeps its label and uses reduced opacity."><div class="sg-actions"><SubmitButton label="Send message" busy /><SubmitButton label="Send message" disabled /></div></Specimen><Specimen title="Inline error" note="Match label and input IDs. Connect the hint and error with describedBy, and apply aria-invalid when a field needs attention."><Field label="Email" name="sg-invalid" error="Enter a complete email address."><Input name="sg-invalid" type="email" value="you@" invalid describedBy="field-sg-invalid-error" /></Field></Specimen></div>
+        <p class="sg-stage-note">Try the validation and sending state. This example stays in your browser and sends nothing.</p>
+      </ComponentDoc>
+      <ComponentDoc id="input" name="<Input>" path="src/components/form/Input.astro" purpose="Single-line text, email, phone, and URL input. Its name must match the parent Field."
+        a11y={['Set invalid and describedBy to match the Field so the error is announced.']}>
+        <Field label="Email" name="sg-invalid" error="Enter a complete email address."><Input name="sg-invalid" type="email" value="you@" invalid describedBy="field-sg-invalid-error" /></Field>
+      </ComponentDoc>
+      <ComponentDoc id="textarea" name="<Textarea>" path="src/components/form/Textarea.astro" purpose="Multiline input with the same label and description wiring as Input. See it in the Field example above." />
+      <ComponentDoc id="submit-button" name="<SubmitButton>" path="src/components/form/SubmitButton.astro" purpose="The form's primary action, with ready, busy, and disabled states."
+        a11y={['Busy swaps the label, shows a spinner, sets aria-busy, and blocks repeat submission.', 'Disabled keeps its label and lowers opacity.']}>
+        <div class="sg-actions"><SubmitButton label="Send message" busy /><SubmitButton label="Send message" disabled /></div>
+      </ComponentDoc>
+      <ComponentDoc id="form-alert" name="<FormAlert>" path="src/components/form/FormAlert.astro" purpose="Form-level feedback after submission. Hidden until the handler shows it."
+        a11y={['Success is a polite status; error is an assertive alert.']}>
+        <div class="sg-alerts"><FormAlert variant="success" hidden={false}><p>Message sent.</p></FormAlert><FormAlert variant="error" hidden={false}><p>Please check the highlighted fields.</p></FormAlert></div>
+      </ComponentDoc>
     </Container>
   </section>
 
-  <section id="patterns" class="editorial-section" aria-labelledby="patterns-title">
+  <section id="content" class="editorial-section" aria-labelledby="content-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="patterns-title">Content <em>patterns.</em></h2><p>Case studies make ownership and evidence clear. Articles support long reading. Recommendations keep the words and their author together.</p></div>
-      <Specimen title="Project summaries and evidence" note="ProjectHero establishes context and ownership. Tldr expands the decision record. WorkList and ProjectNext connect related work; CaseReview provides page shortcuts." href="/projects/ivfcryo/">
-        <div class="project-page"><div class="sg-metrics">{projectPages.ivfcryo.figures.map((metric) => <Metric value={metric.value} label={metric.label} />)}</div>
-        <p class="sg-note">Reported outcomes from the IVFCRYO case study. Keep a metric’s source, scope, and explanation close to the number.</p>
-        <Tldr {...ivfcryoSummary} /></div>
-      </Specimen>
-      <div class="sg-two-up"><Specimen title="Design sheets and the artifact viewer" note="Plate shows the full design sheet at its natural aspect ratio. Open the viewer to inspect details; Escape closes it and returns focus." href="/projects/ivfcryo/"><Plate src={shipmentSheet} title="Shipment detail" alt="IVFCRYO shipment detail design sheet, showing readiness, shipment status, and tracking" caption="A real interface artifact from the IVFCRYO case study." size="half" /></Specimen><Specimen title="Recommendations" note="Use Recommendation for a named, attributed quote. The testimonials page also has a larger featured treatment on denim with a small Newsreader quotation mark." href="/testimonials/">{recommendation && <Recommendation testimonial={recommendation} />}</Specimen></div>
-      <Specimen title="Article prose and comparison tables" note="Articles use a focused reading measure, strong chapter headings, underlined links, and a section index. Tables keep their column headings and scroll horizontally when needed.">
-        <div class="article-page"><article class="article-prose prose-whimsy"><h4>Make the contract visible</h4><p>Component APIs, examples, and tests describe how shared UI behaves. A reader should be able to find the decision behind the interface.</p><p class="pullquote">Shared interfaces need shared contracts.</p><ArticleTable><thead><tr><th>Pattern</th><th>Purpose</th><th>Where it appears</th></tr></thead><tbody><tr><td>Contents navigation</td><td>Jump between sections and track reading position</td><td>Blog articles</td></tr><tr><td>Expandable summary</td><td>Read the decision record without extending the opening summary</td><td>Project pages</td></tr></tbody></ArticleTable></article></div>
-      </Specimen>
-      <Specimen title="Article pager" note="Older and newer links close each article. Keep it to a hairline, a small direction label, and the title; arrows point the way the reader travels: left for older, right for newer. Hover brings the title into the accent color." href="/blog/the-people-v-the-clickable-div/">
+      <div class="section-heading"><h2 class="section-type" id="content-title">Content <em>patterns.</em></h2><p>Case studies make ownership and evidence clear. Articles support long reading. Recommendations keep the words with their author.</p></div>
+      <ComponentDoc id="metric" name="<Metric>" path="src/components/patterns/Metric.astro" purpose="A measured result with a label and supporting context."
+        dos={['Keep the source, scope, and explanation close to the number.']}
+        donts={['Show a figure that the project owner hasn’t confirmed.']}>
+        <div class="project-page"><div class="sg-metrics">{projectPages.ivfcryo.figures.map((metric) => <Metric value={metric.value} label={metric.label} />)}</div></div>
+      </ComponentDoc>
+      <ComponentDoc id="tldr" name="<Tldr>" path="src/components/patterns/Tldr.astro" purpose="A case-study summary that expands into the problem, decision, and evidence.">
+        <div class="project-page"><Tldr {...ivfcryoSummary} /></div>
+      </ComponentDoc>
+      <ComponentDoc id="plate" name="<Plate>" path="src/components/patterns/Plate.astro" purpose="A full design sheet at its natural aspect ratio, with a caption and a zoom viewer."
+        dos={['Place plates in a sibling wide Container, next to the text that uses them.']}
+        a11y={['The viewer closes on Escape and returns focus to the trigger.']}>
+        <Plate src={shipmentSheet} title="Shipment detail" alt="IVFCRYO shipment detail design sheet, showing readiness, shipment status, and tracking" caption="A real interface artifact from the IVFCRYO case study." size="half" />
+      </ComponentDoc>
+      <ComponentDoc id="recommendation" name="<Recommendation>" path="src/components/patterns/Recommendation.astro" purpose="A named, attributed quote. The testimonials page also uses a larger featured layout on denim."
+        donts={['Edit or invent quotes; they come from the person quoted.']}>
+        {recommendation && <Recommendation testimonial={recommendation} />}
+      </ComponentDoc>
+      <ComponentDoc id="article-table" name="<ArticleTable>" path="src/components/writing/ArticleTable.astro" purpose="Wraps any table in a labelled, keyboard-scrollable region that keeps its column headings."
+        a11y={['Scrolls sideways on phones instead of dropping headers.']}>
+        <div class="article-page"><article class="article-prose"><ArticleTable><thead><tr><th>Pattern</th><th>Purpose</th><th>Where it appears</th></tr></thead><tbody><tr><td>Contents navigation</td><td>Jump between sections and track reading position</td><td>Blog articles</td></tr><tr><td>Expandable summary</td><td>Read the decision record without lengthening the opening</td><td>Project pages</td></tr></tbody></ArticleTable></article></div>
+      </ComponentDoc>
+      <ComponentDoc id="article-pager" name=".article-pager" purpose="Older and newer links at the end of each article." href="/blog/the-people-v-the-clickable-div/" code={markup.pager} filename="Article pager"
+        classes={[{ name: 'article-pager', description: 'The nav wrapper; give it an aria-label.' }, { name: 'article-pager-link', description: 'One direction. Add article-pager-link--newer for the right-hand link.' }, { name: 'article-pager-label / article-pager-title', description: 'Small direction label, then the title, which turns accent on hover.' }]}
+        dos={['Point arrows the way the reader travels: left for older, right for newer.']}>
         <nav class="article-pager" aria-label="Article pager example">
           <a class="article-pager-link" href="/blog/the-people-v-the-carousel/"><span class="article-pager-label"><span aria-hidden="true" data-link-arrow="left">←</span> Older article</span><span class="article-pager-title">The People v. the Carousel</span></a>
           <a class="article-pager-link article-pager-link--newer" href="/blog/the-people-v-the-clickable-div/"><span class="article-pager-label">Newer article <span aria-hidden="true" data-link-arrow="right">→</span></span><span class="article-pager-title">The People v. the Clickable Div</span></a>
         </nav>
-      </Specimen>
-      <Specimen title="Article resource lists" note="Give each resource its own linked name and a short description when it helps readers choose. Simple link collections can use two columns on wider screens; phones keep a single reading column.">
-        <ResourceList items={[
-          { name: 'CSS for JS Developers', href: 'https://css-for-js.dev/', description: 'Josh Comeau · CSS fundamentals and layout for JavaScript developers.' },
-          { name: 'Total TypeScript', href: 'https://www.totaltypescript.com/', description: 'Matt Pocock · TypeScript and the types behind application APIs.' },
-        ]} />
-      </Specimen>
-      <p class="sg-note">Visual details need a content purpose. The résumé timeline connects employment dates; a small quotation mark identifies the featured recommendation. Keep project previews on plain stages, and reserve numbering for content where sequence matters.</p>
-      <p class="sg-note">SiteShot, ScrollShot, and LiveEmbed support personal-project and case-study media. FidelityBand compares design stages. CodeBlock uses the same GitHub Dark syntax highlighting as articles, with readable comment colors, line numbers, wrapped lines, and a copy action; open any “View markup” example here to try it.</p>
+      </ComponentDoc>
+      <ComponentDoc id="code-block" name="<CodeBlock>" path="src/components/patterns/CodeBlock.astro" purpose="Highlighted code with line numbers and a copy action. Renders fenced code in posts and tool essays."
+        a11y={['Copy announces success or failure.', 'Comment colors meet contrast on the dark theme.']}>
+        <div class="project-page"><CodeBlock code={`const shared = true;\n// Shared interfaces need shared contracts.`} filename="example.ts" lang="ts" /></div>
+      </ComponentDoc>
     </Container>
   </section>
 
-  <section id="tools" class="editorial-section sg-tint" aria-labelledby="tools-title">
+  <section id="navigation" class="editorial-section" aria-labelledby="navigation-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive <em>tools.</em></h2><p>Four explanatory illustrations, each tied to a working tool. Their controls and results share the portfolio’s type, surfaces, and action styles.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="navigation-title">Navigation <em>and behavior.</em></h2><p>Ways through a page and the site, and the behaviors every page shares.</p></div>
+      <ComponentDoc id="case-review" name="<CaseReview>" path="src/components/patterns/CaseReview.astro" purpose="A sticky strip of section shortcuts under the site header. The strip at the top of this page is a live example." code={markup.caseReview} filename="Section shortcuts"
+        dos={['Link to the sections a reviewer is most likely to want, in page order.']}
+        a11y={['A labelled nav landmark. On phones the intro hides and the links scroll sideways with edge fades.']} />
+      <ComponentDoc id="skip-link" name="<SkipLink>" path="src/components/chrome/SkipLink.astro" purpose="The first keyboard stop on every page. It takes readers straight to the main content." />
+      <ComponentDoc id="mobile-nav" name="<MobileNav>" path="src/components/chrome/MobileNav.astro" purpose="Phone navigation in a native modal dialog."
+        a11y={['Contains focus, locks background scrolling, and closes on Escape or an outside click.', 'Returns focus to the menu button when it closes.']} />
+      <h3 class="sg-subhead">Shared behaviors</h3>
+      <ul class="sg-behaviors">
+        <li><h4>Print</h4><p>One centered 70ch measure, white surfaces, and a source line. Disclosures expand, external links get numbered references, and screen navigation is omitted.</p></li>
+        <li><h4>Reading progress</h4><p>A thin bar at the top of the page tracks scrolling where the browser supports scroll timelines.</p></li>
+        <li><h4>Source inspection</h4><p>Hold Alt or Option and hover an element with <code>data-source</code> to see where it comes from.</p></li>
+        <li><h4>Layout inspector</h4><p>Type <kbd>↑ ↑ ↓ ↓ ← → ← → B A</kbd> to show the layout grid. Escape closes it.</p></li>
+      </ul>
+    </Container>
+  </section>
+
+  <section id="tools" class="editorial-section" aria-labelledby="tools-title">
+    <Container width="wide">
+      <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive <em>tools.</em></h2><p>Each tool has an illustration and a working interface built from the same type, surfaces, and actions as the rest of the site.</p></div>
       <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action} <span data-link-arrow="up-right">↗</span></span></a></li>)}</ul>
-      <div class="sg-guidance-grid"><article><h3>Inputs and choices</h3><p>The calculator and token playground use labelled sliders and numeric inputs. The Scorecard uses grouped choices with a visible selected state. Preserve the label, value, and keyboard behavior.</p></article><article><h3>Results and state</h3><p>The calculator recalculates estimates from its inputs. The Scorecard preserves progress locally and opens a report. The audit tool pairs findings with fixes; it is a sample interface, not a scan of the reader’s website.</p></article></div>
+      <p class="sg-note">The calculator and token playground use labelled sliders and number inputs. The Scorecard uses grouped choices with a visible selected state and keeps progress in the browser. The audit tool is a sample interface, not a scan of the reader’s website.</p>
     </Container>
   </section>
 
-  <section id="interaction" class="editorial-section" aria-labelledby="interaction-title">
+  <!-- ─────────────── Reference ─────────────── -->
+  <section id="index" class="editorial-section" aria-labelledby="index-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="interaction-title">Spacing, layout, <em>and motion.</em></h2><p>Shared widths and spacing keep pages coherent. Motion helps explain a state change or makes an available action easier to notice.</p></div>
-      <div class="sg-guidance-grid"><article><h3>Containers and spacing</h3><p>Container provides a 24px gutter on each side. Its width caps include those gutters. Editorial sections use 5.5rem vertical padding on larger screens and 3.75rem on phones.</p><dl class="sg-widths">{widths.map(([name, width, note]) => <div><dt><code>{name}</code> <span>{width}</span></dt><dd>{note}</dd></div>)}</dl></article><article><h3>Reading and responsive layout</h3><p>Article text is capped at 48rem, with a separate contents rail on desktop and an expandable index on smaller screens. Project pages combine narrower reading columns with wider interface artifacts.</p><p>Headings use fluid sizes. Section shortcut navigation becomes a full-width list below 768px, with labels on the left and arrows on the right. Multi-column content stacks when its reading space gets too tight; data tables keep a horizontal scroller rather than dropping their headers.</p></article></div>
-      <div class="sg-guidance-grid"><article><h3>Entry and scroll reveal</h3><p>Hero content rises 12px over 0.7 seconds with a small stagger. Sections reveal once as they enter the viewport. Content stays visible when reduced motion is requested.</p><button type="button" class="editorial-link" data-guide-replay>Replay entry motion <span aria-hidden="true" data-link-arrow="up-right">↗</span></button><div class="sg-motion-sample" data-guide-motion><strong>Clear, then a little character.</strong><span>Heading entrance and restrained movement.</span></div><p role="status" class="sg-motion-status" data-guide-motion-status></p></article><article><h3>Hover, focus, and reading progress</h3><p>Link arrows move 3px in their pointing direction over 200ms with the shared ease-out curve, on hover and keyboard focus. Reduced motion keeps arrows still. Article previews fade in a title underline and accent color on hover, with no enclosing hover border. Keyboard focus adds the enclosing border and outline. Other related-content links may also change their background or underline. A visible focus outline supports keyboard navigation. The thin page-top progress bar tracks scrolling where the browser supports scroll timelines.</p><a class="editorial-link" href="/tools/scorecard/#related-title">Try the related-tool links <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></article></div>
-      <div class="sg-guidance-grid"><article><h3>Designed for paper</h3><p>Print uses one centered 70ch measure for body content and headings, with no narrower text limits inside it. Hanken headings with Newsreader emphasis, generous page margins and spacing, white surfaces, and a small identity and source line keep the document coherent. Whitespace separates sections; horizontal section rules are omitted. Screen navigation, share controls, and decorative effects are omitted. Headings stay with their content; tables repeat their column headings and code wraps to the page width.</p></article><article><h3>Complete, readable snapshots</h3><p>Disclosures expand for print and return to their previous state afterward. Case-study artwork fits within a sheet, live demos use their poster images, and external links receive numbered references. Tools retain current answers, values, and results. The downloadable résumé keeps its separate document layout.</p></article></div>
-      <div class="sg-guidance-grid"><article><h3>Navigation, dialogs, and clipboard</h3><p>The skip link is the first keyboard stop. Mobile navigation uses a native modal dialog with bold primary links, supporting destinations, and a Contact me link. It contains keyboard focus, locks background scrolling, closes on an outside click or Escape, and returns focus to the menu button. Artifact dialogs also support Escape dismissal. The artifact viewer restores focus to its trigger. Code and article-share actions announce clipboard success or failure.</p></article><article><h3>Optional inspection features</h3><p>Alt/Option plus hover reveals source information on elements with <code>data-source</code>. The layout inspector is activated with <kbd>↑ ↑ ↓ ↓ ← → ← → B A</kbd>; Escape dismisses it. These are optional inspection aids, separate from normal site navigation.</p></article></div>
+      <div class="section-heading"><h2 class="section-type" id="index-title">Component <em>index.</em></h2><p>All {componentCatalogue.length} components the site’s pages use, each linked to a page where you can see it. <code>npm run audit:components</code> keeps this list honest.</p></div>
+      <div class="sg-filter">
+        <label for="sg-filter-input">Filter components</label>
+        <input id="sg-filter-input" type="search" autocomplete="off" placeholder="Name, path, or purpose" aria-describedby="sg-filter-count" data-catalogue-filter />
+        <p id="sg-filter-count" class="sg-filter-count" role="status" data-catalogue-count>{componentCatalogue.length} components</p>
+      </div>
+      <div class="sg-catalogue">{groups.map((group) => <details class="sg-catalogue-group" data-catalogue-group><summary>{group.label}<span><span data-catalogue-group-count>{componentCatalogue.filter((component) => component.group === group.id).length}</span> <span aria-hidden="true">+</span></span></summary><ul>{componentCatalogue.filter((component) => component.group === group.id).map((component) => <li data-catalogue-item={`${component.name} ${component.path} ${component.note}`.toLowerCase()}><div><h3>{component.name}</h3><p>{component.note}</p><code>{component.path}</code></div>{'href' in component && <a class="editorial-link" href={component.href} aria-label={`See ${component.name} in use`}>See in use <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}</li>)}</ul></details>)}</div>
+      <p class="sg-empty" data-catalogue-empty hidden>No components match. Try a shorter word, or a folder such as <code>form</code> or <code>patterns</code>.</p>
     </Container>
   </section>
 
-  <section id="components" class="editorial-section sg-tint" aria-labelledby="components-title">
+  <section id="agents" class="editorial-section" aria-labelledby="agents-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="components-title">The component <em>index.</em></h2><p>{componentCatalogue.length} components reached by the site’s pages. Each entry links to a page that uses it; examples created only for this guide are excluded.</p></div>
-      <p class="sg-note">Shared CSS patterns such as <code>action-link</code>, <code>page-type</code>, and <code>editorial-section</code> are documented above. Run <code>npm run audit:components</code> to check production usage and this index.</p>
-      <div class="sg-catalogue">{groups.map((group) => <details class="sg-catalogue-group"><summary>{group.label}<span>{componentCatalogue.filter((component) => component.group === group.id).length} <span aria-hidden="true">+</span></span></summary><ul>{componentCatalogue.filter((component) => component.group === group.id).map((component) => <li><div><h3>{component.name}</h3><p>{component.note}</p><code>{component.path}</code></div>{'href' in component && <a class="editorial-link" href={component.href} aria-label={`See ${component.name} in use`}>See in use <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}</li>)}</ul></details>)}</div>
+      <div class="section-heading"><h2 class="section-type" id="agents-title">For coding <em>agents.</em></h2><p>Everything on this page is also available as one JSON file, built from the same sources. In the repository it lives at <code>design-system/system.json</code>.</p></div>
+      <div class="sg-agents">
+        <div>
+          <h3>What <code>system.json</code> contains</h3>
+          <ul>
+            <li><strong>tokens</strong>: every color, font, and easing from <code>design-system/tokens.json</code>, with its CSS variable and Tailwind key.</li>
+            <li><strong>rules</strong>: the enforced rules, prop-value policy, and the guidelines a script can’t check, from <code>rules.json</code>.</li>
+            <li><strong>components</strong>: each component’s path, purpose, an example page, and its props read from the source.</li>
+            <li><strong>audits</strong>: the commands to run before calling UI work done.</li>
+          </ul>
+          <h3>Rules for changes</h3>
+          <ul>
+            <li>Build from existing components and token utilities. A new pattern isn’t part of the system until it appears here and in the component catalogue.</li>
+            <li>When <code>audit:design</code> fails, fix the code. Adding tokens, exceptions, or baseline entries is a design-system decision that needs approval.</li>
+            <li>Use <code>accent</code>, never a hard-coded accent hex, so it follows the surface.</li>
+          </ul>
+          <a class="editorial-link" href="/style-guide/system.json">Open system.json <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        </div>
+        <div class="project-page"><CodeBlock code={markup.agent} filename="Terminal" lang="bash" /></div>
+      </div>
     </Container>
   </section>
 </BaseLayout>
@@ -208,11 +403,12 @@ const widths = [
       error.hidden = true;
       let invalid: HTMLInputElement | HTMLTextAreaElement | undefined;
       for (const field of fields) {
-        const message = document.getElementById(`${field.name}-error`)!;
+        const message = document.getElementById(`${field.id}-error`)!;
         const valid = field.checkValidity() && field.value.trim().length > 0;
-        field.setAttribute('aria-invalid', String(!valid));
+        if (valid) field.removeAttribute('aria-invalid');
+        else field.setAttribute('aria-invalid', 'true');
         message.hidden = valid;
-        message.textContent = valid ? '' : field.type === 'email' ? 'Enter a complete email address.' : 'Add a short message.';
+        message.querySelector('[data-field-error-text]')!.textContent = valid ? '' : field.type === 'email' ? 'Enter a complete email address.' : 'Add a short message.';
         if (!valid && !invalid) invalid = field;
       }
       if (invalid) { error.hidden = false; invalid.focus(); return; }
@@ -226,6 +422,7 @@ const widths = [
       }, 1000);
     });
   }
+
   const replay = document.querySelector<HTMLButtonElement>('[data-guide-replay]');
   const motion = document.querySelector<HTMLElement>('[data-guide-motion]');
   const motionStatus = document.querySelector<HTMLElement>('[data-guide-motion-status]');
@@ -236,5 +433,33 @@ const widths = [
     if (reduced) return;
     motion.classList.remove('sg-motion-replay');
     requestAnimationFrame(() => requestAnimationFrame(() => motion.classList.add('sg-motion-replay')));
+  });
+
+  // Catalogue filter: matches name, path, and purpose; opens groups with hits.
+  const filter = document.querySelector<HTMLInputElement>('[data-catalogue-filter]');
+  const count = document.querySelector<HTMLElement>('[data-catalogue-count]');
+  const empty = document.querySelector<HTMLElement>('[data-catalogue-empty]');
+  const catalogueGroups = [...document.querySelectorAll<HTMLDetailsElement>('[data-catalogue-group]')];
+  let announce: number | undefined;
+  filter?.addEventListener('input', () => {
+    const query = filter.value.trim().toLowerCase();
+    let total = 0;
+    for (const group of catalogueGroups) {
+      const items = [...group.querySelectorAll<HTMLElement>('[data-catalogue-item]')];
+      let shown = 0;
+      for (const item of items) {
+        const match = !query || item.dataset.catalogueItem!.includes(query);
+        item.hidden = !match;
+        if (match) shown += 1;
+      }
+      group.hidden = shown === 0;
+      group.open = Boolean(query) && shown > 0;
+      group.querySelector('[data-catalogue-group-count]')!.textContent = String(shown);
+      total += shown;
+    }
+    if (empty) empty.hidden = total > 0;
+    // Wait for typing to pause so screen readers hear one count, not every keystroke.
+    window.clearTimeout(announce);
+    announce = window.setTimeout(() => { if (count) count.textContent = `${total} ${total === 1 ? 'component' : 'components'}${query ? ` match “${filter.value.trim()}”` : ''}`; }, 400);
   });
 </script>

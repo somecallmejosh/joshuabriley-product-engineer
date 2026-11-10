@@ -1,5 +1,6 @@
 #!/bin/sh
 # 1. Block design-system drift (design-system/README.md) when UI code is staged.
+#    Regenerate design-system/system.json (agent context) when its inputs change.
 # 2. Regenerate per-page OG cards when their inputs change, then stage the results.
 #
 # Runs ONLY when OG-affecting files are staged (the manifest, the render route,
@@ -16,6 +17,13 @@ STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
 # Design-system audit: fast (no server), runs when anything it reads is staged.
 if printf '%s\n' "$STAGED" | grep -qE '^(src/|design-system/|tailwind\.config\.mjs|scripts/(lib/design-rules|audit-design-system)\.mjs)'; then
   node scripts/audit-design-system.mjs
+fi
+
+# Agent design context: keep design-system/system.json in step with what it
+# is generated from (tokens, rules, the catalogue, component Props).
+if printf '%s\n' "$STAGED" | grep -qE '^(design-system/(tokens|rules)\.json|src/components/|src/lib/(component-catalogue|component-api|design-context)\.ts)'; then
+  npm run --silent design:context
+  git add design-system/system.json
 fi
 
 # 1. Skip fast unless an OG input is staged.

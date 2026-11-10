@@ -135,7 +135,6 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
               <p class="experience-period">{job.period.replace(' - ', ' – ')}</p>
               <h3 class="experience-company">{job.company}</h3>
               <p class="experience-role">{job.role}</p>
-              <p class="experience-stack"><span class="sr-only">Tools and context: </span>{job.stack}</p>
               <ul class="experience-threads" role="list" aria-label="How this role shows the approach">
                 {job.threads.map((key) => <li>{threadTitle[key]}</li>)}
               </ul>
@@ -189,20 +188,24 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <p>A foundation in science, with continued study in product design and accessibility.</p>
       </div>
       <div class="education-layout" data-reveal>
-        <div class="education-degrees">
-          {education.map((degree) => (
-            <article class="education-degree">
-              <h3>{degree.title}</h3>
+        {education.map((degree) => (
+          <article class="education-degree">
+            <h3>{degree.title}</h3>
+            <div class="education-degree-details">
               <p class="education-institution">{degree.org}</p>
               <p class="education-note">{degree.note}</p>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
         <div class="education-learning">
           <h3>Continuing education</h3>
           <ul class="education-courses" role="list">
             {continuingEd.map((course) => (
-              <li><h4>{course.title}</h4><p><a class="editorial-link" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p></li>
+              <li>
+                <h4>{course.title}</h4>
+                {course.note && <p class="education-course-note">{course.note}</p>}
+                <p class="education-course-link"><a class="editorial-link" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
+              </li>
             ))}
           </ul>
         </div>
@@ -245,12 +248,6 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: -.015em;
-  }
-  .experience-stack {
-    margin-top: .65rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    color: var(--ink-muted);
   }
   .experience-lead {
     max-width: 45ch;
@@ -299,18 +296,16 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .skill-context a { margin-top: 1rem; }
   .skill-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: .7rem 1.5rem; list-style: none; padding: 0; margin: 0; }
   .skill-tools li { font-size: .98rem; line-height: 1.5; color: var(--ink); }
-  .education-layout { display: grid; gap: 3rem; }
-  .education-degree { padding-top: 1.75rem; }
-  .education-degree + .education-degree { margin-top: 2rem; }
-  .education-degree h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; }
-  .education-institution { margin-top: 1rem; font-size: 1.2rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
-  .education-note { margin-top: 1rem; max-width: 39ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.7; }
-  .education-learning > h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.25; letter-spacing: -.03em; }
-  .education-learning { padding-top: 1.75rem; }
-  .education-courses { list-style: none; padding: 0; margin: 1.5rem 0 0; }
-  .education-courses li { padding: 1.25rem 0; }
-  .education-courses h4 { max-width: 35ch; font-size: 1.15rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.4; }
-  .education-courses p { margin-top: .5rem; font-size: .95rem; line-height: 1.6; color: var(--ink-muted); }
+  .education-layout { display: grid; gap: 4.5rem; }
+  .education-degree h3, .education-learning > h3 { font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; }
+  .education-degree-details { margin-top: 1rem; }
+  .education-institution { font-size: 1.2rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
+  .education-note { max-width: 52ch; margin-top: .75rem; color: var(--ink-muted); font-size: 1.05rem; line-height: 1.7; }
+  .education-courses { display: grid; gap: 3rem; list-style: none; padding: 0; margin: 2rem 0 0; }
+  .education-courses li { display: flex; flex-direction: column; }
+  .education-courses h4 { max-width: 32ch; font-size: 1.2rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; }
+  .education-courses .education-course-note { max-width: 44ch; margin-top: .85rem; font-size: .98rem; line-height: 1.65; color: var(--ink-muted); }
+  .education-courses .education-course-link { margin-top: auto; padding-top: 1.25rem; font-size: .95rem; }
   #approach, #skills, #education { scroll-margin-top: 6rem; }
   @media (min-width: 1024px) {
     .approach-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; }
@@ -318,7 +313,8 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   }
   @media (min-width: 640px) { .skill-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1024px) {
-    .skill-entry, .education-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 6rem; }
+    .skill-entry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 6rem; }
+    .education-courses { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6rem; }
     .skill-entry { padding: 3rem 0; }
     .skill-tools { padding-top: .4rem; }
   }

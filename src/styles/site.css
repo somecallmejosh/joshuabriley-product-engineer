@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────────────────────────────────
    EDITORIAL TECHNICAL — base layer (2026 redesign)
    Cool slate page, near-black ink, one denim-navy accent, Hanken Grotesk +
-   Geist Mono. Palette pulled from josh-suit.png: the bright cool room reads
+   Geist Mono. Palette pulled from josh-casual.png: the bright cool room reads
    as light grey paper and near-black ink, and the one saturated colour in the
    frame — the navy knit throw and book spines — becomes the accent. The neutral
    stays a cool light grey so the navy sits in-key with the page rather than
@@ -301,7 +301,7 @@ html {
    No Tailwind Typography plugin here; this is the complete reading hierarchy
    for blog-post bodies. Structural rules are wrapped in :where() (zero
    specificity) and excluded from `.not-prose` subtrees, so embedded
-   components (ResourceList, games) keep their own styling.
+   components (such as the games) keep their own styling.
    ───────────────────────────────────────────────────────────────────────── */
 .prose-whimsy {
   color: var(--ink);

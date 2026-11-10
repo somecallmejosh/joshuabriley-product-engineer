@@ -1,0 +1,93 @@
+---
+/**
+ * One component's reference entry on /style-guide/: name and source, a live
+ * example, the API (read from the component's own Props), usage, and
+ * accessibility notes. Everything stacks; nothing sits label-left.
+ */
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import { componentApiWithPolicy } from '~/lib/component-api';
+import { componentCatalogue } from '~/lib/component-catalogue';
+
+interface ClassDoc { name: string; description: string }
+interface Props {
+  /** Anchor id for deep links, e.g. `field`. */
+  id: string;
+  /** Display name: `<Field>` for components, `.action-link` for CSS patterns. */
+  name: string;
+  purpose: string;
+  /** Component file. Its Props become the API table. */
+  path?: string;
+  /** For CSS patterns: the classes and modifiers. */
+  classes?: ClassDoc[];
+  /** Where to see it in use. Defaults to the catalogue entry's page. */
+  href?: string;
+  dos?: string[];
+  donts?: string[];
+  a11y?: string[];
+  code?: string;
+  filename?: string;
+  dark?: boolean;
+}
+const { id, name, purpose, path, classes, dos = [], donts = [], a11y = [], code, filename = 'Example.astro', dark = false } = Astro.props;
+const entry = path ? componentCatalogue.find((component) => component.path === path) : undefined;
+const href = Astro.props.href ?? (entry && 'href' in entry ? entry.href : undefined);
+const api = path ? componentApiWithPolicy(path) : [];
+const hasExample = Astro.slots.has('default');
+const policyNote = (prop: (typeof api)[number]) => {
+  const parts: string[] = [];
+  if (prop.policy?.deprecated) parts.push(`Deprecated: ${Object.entries(prop.policy.deprecated).map(([from, to]) => `${from} → ${to}`).join(', ')}.`);
+  if (prop.policy?.forbidden) parts.push(`Not allowed: ${Object.keys(prop.policy.forbidden).join(', ')}.`);
+  return parts.join(' ');
+};
+---
+<article class="sg-doc" id={id} aria-labelledby={`${id}-name`}>
+  <header class="sg-doc-header">
+    <h3 id={`${id}-name`}><code>{name}</code></h3>
+    <p>{purpose}</p>
+    <div class="sg-doc-meta">
+      {path && <code class="sg-doc-path">{path}</code>}
+      {href && <a class="editorial-link" href={href} aria-label={`See ${name} in use`}>See it in use <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}
+    </div>
+  </header>
+
+  {hasExample && <div class:list={['sg-stage', { 'sg-stage--dark bg-ink': dark }]}><slot /></div>}
+
+  {api.length > 0 && (
+    <div class="sg-api">
+      <h4>Props</h4>
+      <div class="sg-api-frame scroll-fade" data-scroll-fade>
+        <div class="sg-api-scroll" tabindex="0" role="region" aria-label={`${name} props`}>
+          <table>
+            <thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>{api.map((prop) => (
+              <tr>
+                <th scope="row"><code>{prop.name}</code>{prop.required && <span class="sg-required">Required</span>}</th>
+                <td><code>{prop.type}</code></td>
+                <td>{prop.default ? <code>{prop.default}</code> : <span class="sg-none">None</span>}</td>
+                <td>{[prop.description, policyNote(prop)].filter(Boolean).join(' ') || <span class="sg-none">None</span>}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {classes && (
+    <div class="sg-api">
+      <h4>Classes</h4>
+      <ul class="sg-classes">{classes.map((item) => <li><code>{item.name}</code><p>{item.description}</p></li>)}</ul>
+    </div>
+  )}
+
+  {(dos.length > 0 || donts.length > 0) && (
+    <div class="sg-usage">
+      {dos.length > 0 && <div><h4>Do</h4><ul>{dos.map((item) => <li>{item}</li>)}</ul></div>}
+      {donts.length > 0 && <div><h4>Don’t</h4><ul>{donts.map((item) => <li>{item}</li>)}</ul></div>}
+    </div>
+  )}
+
+  {a11y.length > 0 && <div class="sg-a11y"><h4>Accessibility</h4><ul>{a11y.map((item) => <li>{item}</li>)}</ul></div>}
+
+  {code && <details class="sg-markup"><summary>View markup <span aria-hidden="true">+</span></summary><div class="project-page"><CodeBlock code={code} filename={filename} lang="astro" /></div></details>}
+</article>

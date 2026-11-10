@@ -70,13 +70,60 @@ const describedBy = [hintId, errorId].filter(Boolean).join(' ');
     {required && <span aria-hidden="true" class="text-accent ml-1">*</span>}
   </label>
   <slot />
-  {hint && (
-    <p id={hintId} class="text-xs text-ink-muted leading-relaxed">{hint}</p>
-  )}
-  <p id={errorId} class="text-xs text-accent leading-relaxed" hidden={!error} data-field-error>
+  <p id={errorId} class="field-error" hidden={!error} data-field-error>
     <span class="inline-flex items-center gap-1.5">
       <Icon name="ph:warning-circle" size={14} />
       <span data-field-error-text>{error}</span>
     </span>
   </p>
+  {hint && (
+    <p id={hintId} class="text-xs text-ink-muted leading-relaxed">{hint}</p>
+  )}
 </div>
+
+<style>
+  /* Errors read as the form talking back: an accent speech bubble directly
+     under the control, its tail pointing up at it. It pops in when revealed
+     and the control gives a small shake as it turns invalid. */
+  .field-error {
+    position: relative;
+    align-self: flex-start;
+    margin-top: 0.55rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.85rem;
+    background: var(--accent);
+    color: var(--paper);
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.4;
+    transform-origin: 1.4rem 0;
+    animation: field-error-pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .field-error[hidden] { display: none; }
+  .field-error::before {
+    content: '';
+    position: absolute;
+    top: -0.3rem;
+    left: 1.1rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 0.15rem;
+    background: inherit;
+    transform: rotate(45deg);
+  }
+  [data-field] :global([aria-invalid='true']) { animation: field-error-shake 320ms ease-in-out; }
+  @keyframes field-error-pop {
+    from { opacity: 0; transform: translateY(-0.35rem) scale(0.85); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes field-error-shake {
+    0%, 100% { transform: none; }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-2px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .field-error,
+    [data-field] :global([aria-invalid='true']) { animation: none; }
+  }
+</style>

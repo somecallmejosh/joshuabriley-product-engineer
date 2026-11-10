@@ -35,11 +35,6 @@
 .project-cover-stage--pair { grid-template-columns: 1fr 1.3fr; align-items: center; }
 .project-cover-stage--pair > img { max-height: 560px; }
 .project-cover figcaption { margin-top: .9rem; font-size: .78rem; line-height: 1.5; color: var(--ink-muted); }
-.project-page > .case-review { position: sticky; top: 76px; z-index: 30; padding: .5rem 0; background: rgb(250 251 252 / .97); border-block: 1px solid var(--line); backdrop-filter: blur(10px); }
-.project-page .case-review-links { flex-wrap: nowrap; overflow-x: auto; gap: 2rem; scrollbar-width: thin; }
-.project-page .case-review p, .project-page .case-review a { flex-shrink: 0; }
-.project-page .case-review p { font-size: .78rem; }
-.project-page .case-review a { font-size: .83rem; }
 .project-page > section:not(.project-opening, .project-showcase, .project-summary, .project-next) { padding-block: var(--space-section); }
 .project-page .case-layout { gap: 2.5rem; }
 .project-page .case-layout__head h2 { font-size: clamp(2rem, 3.7vw, 3.45rem); font-weight: 800; letter-spacing: -.05em; line-height: 1.06; max-width: 18ch; }
@@ -111,9 +106,6 @@
   .project-summary h2 { position: sticky; top: 11rem; align-self: start; }
 }
 @media (max-width: 767px) {
-  .project-page > .case-review { top: 70px; }
-  .project-page .case-review-links { gap: 1.4rem; }
-  .project-page .case-review p { display: none; }
   .project-opening { padding-top: 1.25rem; }
   .project-identity { margin-top: 1.5rem; }
   .project-title { font-size: clamp(2.7rem, 10vw, 4.5rem); }

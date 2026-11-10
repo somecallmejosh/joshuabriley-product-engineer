@@ -67,9 +67,6 @@ test('printed sections use whitespace while table structure remains readable', a
   expect(await page.locator('#the-charges').evaluate(element => parseFloat(getComputedStyle(element).marginTop))).toBeGreaterThan(40);
   await page.goto('/style-guide/');
   await page.emulateMedia({ media: 'print' });
-  const resource = page.locator('.reading-resources > li').first();
-  expect(await resource.evaluate(element => [getComputedStyle(element).borderTopWidth, getComputedStyle(element).borderBottomWidth])).toEqual(['0px', '0px']);
-  expect(await resource.evaluate(element => parseFloat(getComputedStyle(element).paddingTop))).toBeGreaterThan(10);
   expect(await page.locator('.article-table th').first().evaluate(element => parseFloat(getComputedStyle(element).borderBottomWidth))).toBeGreaterThan(0);
 });
 
@@ -85,9 +82,10 @@ test('printing a case study loads lazy images and restores the screen state', as
   await expect(page.locator('.print-masthead')).toBeHidden();
 });
 
-test('printed reading lists retain unique numbered destinations without duplicating on repeated events', async ({ page }) => {
-  await page.goto('/style-guide/');
-  const firstResource = await page.locator('.reading-resources a[href^="http"]').first().getAttribute('href');
+test('printed external links retain unique numbered destinations without duplicating on repeated events', async ({ page }) => {
+  await page.goto('/personal-projects/rudiment-ui/');
+  const firstResource = await page.evaluate(() => [...document.querySelectorAll<HTMLAnchorElement>('#main a[href^="http"]')]
+    .find(link => new URL(link.href).origin !== location.origin && !link.closest('nav') && link.getClientRects().length)?.href);
   await page.emulateMedia({ media: 'print' });
   const references = page.locator('[data-print-references] li');
   await expect(references.first()).toBeAttached();

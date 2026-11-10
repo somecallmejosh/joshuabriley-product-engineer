@@ -50,3 +50,43 @@ test('style guide examples, catalogue, and media viewer work with the keyboard',
   await expect(page.locator('[data-guide-motion-status]')).toContainText('Reduced motion is enabled');
   expect(await page.locator('[data-guide-motion]').evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
 });
+
+test('style guide jump strip stays pinned and lands each section below it', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/style-guide/');
+  const strip = page.getByRole('navigation', { name: 'Style guide sections' });
+  await expect(strip).toHaveCSS('position', 'sticky');
+  const link = strip.getByRole('link', { name: /^Index/ });
+  await link.scrollIntoViewIfNeeded();
+  await link.click();
+  await expect(page).toHaveURL(/#index$/);
+  const heading = page.locator('#index-title');
+  await expect(heading).toBeInViewport();
+  const stripBox = await strip.boundingBox();
+  const headingBox = await heading.boundingBox();
+  expect(headingBox!.y).toBeGreaterThanOrEqual(stripBox!.y + stripBox!.height);
+});
+
+test('component index filter narrows results and shows an empty state', async ({ page }) => {
+  await page.goto('/style-guide/');
+  const filter = page.getByLabel('Filter components');
+  await filter.fill('submitbutton');
+  const visible = page.locator('[data-catalogue-item]:visible');
+  await expect(visible).toHaveCount(1);
+  await expect(visible.getByRole('heading', { name: 'SubmitButton' })).toBeVisible();
+  await expect(page.locator('[data-catalogue-count]')).toContainText('1 component match');
+  await filter.fill('zzzz');
+  await expect(page.locator('[data-catalogue-empty]')).toBeVisible();
+  await filter.fill('');
+  await expect(page.locator('[data-catalogue-empty]')).toBeHidden();
+});
+
+test('system.json exposes tokens, rules, and component props', async ({ request }) => {
+  const response = await request.get('/style-guide/system.json');
+  expect(response.ok()).toBe(true);
+  const data = await response.json();
+  expect(data.tokens.color.accent.$value).toBe('#2E5C8A');
+  expect(data.rules.guidelines.length).toBeGreaterThan(0);
+  const field = data.components.find((component: { name: string }) => component.name === 'Field');
+  expect(field.props.find((prop: { name: string }) => prop.name === 'label')).toMatchObject({ required: true, type: 'string' });
+});

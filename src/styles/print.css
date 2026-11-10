@@ -80,7 +80,7 @@
     .article-opener > div > a, .article-rail, .article-share, .article-pager, .tool-share,
     .related-tools, .project-next, .work-more, .work-image-arrow,
     .live-embed-cta, .live-embed-tag, .live-embed-corner, .scroll-shot-fade,
-    .sg-markup, .sg-motion-sample, [data-guide-replay], [role='tablist'],
+    .sg-markup, .sg-motion-sample, .sg-filter, .sg-token-copy, [data-guide-replay], [role='tablist'],
     .dx-controls, .tp-preview-live, .tool-hero-illustration, .article-hero-illustration, .project-hero-illustration,
     button:not(.tp-btn, .dx-price-cta, .dx-hero-cta), input[type='range'],
     input[type='hidden'], [data-link-arrow], .status-mark, .recommendation-quote-mark) {
@@ -115,19 +115,19 @@
     padding-block: 0 !important; margin-block: 0 10mm !important;
   }
   body[data-print-layout='site'] #main :is(.grid, .home-hero-grid, .work-list, .work-entry,
-    .approach-layout, .about-intro, .section-heading,
+    .approach-layout, .section-heading,
     .article-grid, .article-overview-grid, .case-layout, .project-summary-grid,
     .project-facts, .project-figures, .project-cover-stage,
     .writing-group, .latest-layout, .testimonial-theme, .testimonial-collection,
     .recommendation--featured, .tool-hero-layout, .article-hero, .tool-workspace-heading, .tool-reading,
     .related-list, .experience-entry, .skill-entry, .education-layout,
-    .rc-grid, .tp-grid, .dx-panel, .verdict-grid, .sg-two-up, .sg-guidance-grid) {
+    .rc-grid, .tp-grid, .dx-panel, .verdict-grid, .sg-usage, .sg-agents) {
     display: block !important;
   }
   body[data-print-layout='site'] #main .project-scope dl { display: block !important; }
   body[data-print-layout='site'] #main :is(.article-column, .measure, .case-layout__body,
     .case-layout-cont, .tool-reading > div, .latest-copy h2) { max-width: none !important; width: auto !important; }
-  body[data-print-layout='site'] #main :is(.home-hero-grid, .about-intro, .current-work,
+  body[data-print-layout='site'] #main :is(.home-hero-grid, .current-work,
     .project-identity, .project-introduction, .project-facts, .project-figures,
     .project-summary-grid, .article-overview-grid, .latest-layout,
     .tool-workspace-heading, .tool-reading, .education-layout) {
@@ -163,28 +163,25 @@
   body[data-print-layout='site'] #main :is(.page-lede, .hero-lede, .project-introduction > p, .lede) { font-size: 12pt !important; max-width: none !important; }
   body[data-print-layout='site'] #main :is(.role-line, .post-meta, figcaption, .mono-label, .experience-period) { font-size: 8.5pt !important; }
   body[data-print-layout='site'] #main :is(.section-heading, .case-layout__head, .writing-topic, .tool-workspace-heading) { margin-bottom: 5mm !important; break-after: avoid; }
-  body[data-print-layout='site'] #main :is(.work-entry, .skill-entry, .education-degree, .post-link, .related-tool-link, .recommendation, .sg-specimen) { margin-block: 6mm !important; padding-block: 4mm !important; }
-  body[data-print-layout='site'] #main :is(.experience-entry, .skill-entry, .education-degree, .recommendation, .q-row, .reading-resources > li) { break-inside: avoid; }
+  body[data-print-layout='site'] #main :is(.work-entry, .skill-entry, .education-degree, .post-link, .related-tool-link, .recommendation, .sg-doc) { margin-block: 6mm !important; padding-block: 4mm !important; }
+  body[data-print-layout='site'] #main :is(.experience-entry, .skill-entry, .education-degree, .recommendation, .q-row) { break-inside: avoid; }
   body[data-print-layout='site'] #main :is(.experience-company, .experience-role, .experience-lead) { margin-top: 1mm !important; }
   body[data-print-layout='site'] #main :is(.experience-company, .experience-lead, .experience-details) { max-width: none !important; }
   body[data-print-layout='site'] #main .experience-entry::before,
   body[data-print-layout='site'] #main .experience-entry::after,
-  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait)::before,
-  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait)::after { display: none !important; }
+  body[data-print-layout='site'] #main .hero-portrait::before,
+  body[data-print-layout='site'] #main .hero-portrait::after { display: none !important; }
   body[data-print-layout='site'] #main .experience-list { padding-left: 0 !important; border: 0 !important; }
   body[data-print-layout='site'] #main .experience-entry { padding: 4mm 0 !important; margin: 5mm 0 !important; }
   body[data-print-layout='site'] #main :is(.experience-details, .experience-links, .skill-tools) { margin-top: 3mm !important; gap: 3mm !important; }
   body[data-print-layout='site'] #main a { text-decoration: underline !important; text-decoration-color: var(--line-strong) !important; text-underline-offset: 2pt !important; min-height: 0 !important; overflow-wrap: anywhere; }
   body[data-print-layout='site'] #main :is(.editorial-link, .action-link) { padding: 0 !important; gap: 1mm !important; font-size: 10pt !important; }
-  body[data-print-layout='site'] #main :is(.reading-resource-name, .reading-resource-label) { min-height: 0 !important; font-size: 11pt !important; }
-  body[data-print-layout='site'] #main .reading-resources { margin-block: 3mm 6mm !important; grid-template-columns: minmax(0, 1fr) !important; }
-  body[data-print-layout='site'] #main .reading-resources > li { padding-block: 3.5mm !important; }
   body[data-print-layout='site'] #main img { max-width: 100% !important; height: auto !important; object-fit: contain !important; }
   body[data-print-layout='site'] #main svg { max-width: 100% !important; max-height: 65mm !important; }
   body[data-print-layout='site'] #main :is(figure, .project-cover) { break-inside: avoid; margin-block: 7mm !important; }
   body[data-print-layout='site'] #main figure img { max-height: 185mm !important; width: auto !important; margin-inline: auto; }
-  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait) { max-width: 36mm !important; margin: 4mm 0 !important; }
-  body[data-print-layout='site'] #main :is(.hero-portrait, .about-portrait) img { max-height: 48mm !important; }
+  body[data-print-layout='site'] #main .hero-portrait { max-width: 36mm !important; margin: 4mm 0 !important; }
+  body[data-print-layout='site'] #main .hero-portrait img { max-height: 48mm !important; }
   body[data-print-layout='site'] #main :is(.project-cover-stage, .plate__frame, .fband__frame, .scroll-shot-mount, .site-shot-mount, .live-embed-frame) { padding: 0 !important; aspect-ratio: auto !important; height: auto !important; }
   body[data-print-layout='site'] #main :is(.scroll-shot-stage, .live-embed-stage, .live-embed-viewport, .site-shot-stage) { height: auto !important; aspect-ratio: auto !important; }
   body[data-print-layout='site'] #main .live-embed-poster { display: block !important; opacity: 1 !important; visibility: visible !important; }

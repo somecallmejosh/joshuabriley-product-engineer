@@ -25,7 +25,7 @@ export const OG_PAGES = [
   // Marketing / core
   { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet', art: 'portrait' },
   { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'I design and build products with the teams that ship them', wink: 'with the teams that ship them', art: 'portrait' },
-  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Let’s talk shop', wink: 'shop', art: 'portrait' },
+  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Drop me a line', wink: 'a line', art: 'portrait' },
   { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it', art: 'portrait' },
   { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built', art: 'work' },
   { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I make for the fun of it', wink: 'for the fun of it', art: 'work' },

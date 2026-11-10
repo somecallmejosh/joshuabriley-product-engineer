@@ -6,11 +6,11 @@ export const altOrNot: QuizQuestion[] = [
     id: 'bio-portrait',
     prompt:
       'A profile card shows a portrait, with the name "Joshua Briley" and the role "Product design engineer" printed right next to it. What should the portrait\'s alt text be?',
-    visual: { kind: 'bio', src: '/images/about/josh-suit-avatar-192.webp', name: 'Joshua Briley', role: 'Product design engineer' },
+    visual: { kind: 'bio', src: '/images/about/josh-casual-avatar-192.webp', name: 'Joshua Briley', role: 'Product design engineer' },
     choices: [
       { id: 'name', label: 'alt="Joshua Briley"', code: true },
       { id: 'empty', label: 'alt=""', code: true },
-      { id: 'detail', label: 'alt="Photo of a smiling man in a suit"', code: true },
+      { id: 'detail', label: 'alt="Photo of a smiling man in a T-shirt"', code: true },
     ],
     answer: 'empty',
     explanation:
