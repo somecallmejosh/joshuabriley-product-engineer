@@ -6,21 +6,35 @@
   --scrap-shadow: color-mix(in srgb, var(--ink) 16%, transparent);
 }
 
-.scrap-opener { display: grid; gap: 3.5rem; align-items: center; }
+/* The wall uses the tiles from /tools/ and /play/: one tinted tile per project,
+   1rem apart, alternating wide and narrow on a 12-column grid like the tools bench. */
+.scrap-wall-section { padding: 0 0 var(--space-section); }
 
-.scrap-opener .page-type { margin-top: 0; }
-
-/* Two equal columns of mosaics, one on phones. */
 .scrap-wall {
   display: grid;
-  gap: 3.5rem;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scrap-piece {
+  min-width: 0;
+  background: var(--portfolio-tint);
 }
 
 .scrap-link {
-  display: block;
-  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem;
+  color: var(--ink);
   text-decoration: none;
-  border-radius: 2px;
+}
+
+.scrap-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Each mosaic uses every cell of a 6 by 4 grid, so edges and gaps line up. */
@@ -30,6 +44,8 @@
   grid-template-rows: repeat(4, minmax(0, 1fr));
   gap: 0.5rem;
   aspect-ratio: 1 / 1;
+  /* As a flex item it would otherwise grow to the images' natural height. */
+  min-height: 0;
 }
 
 .scrap-tile {
@@ -42,7 +58,6 @@
   overflow: hidden;
   background: var(--raised);
   border: 1px solid var(--line);
-  transition: border-color 200ms var(--ease-out);
 }
 
 .scrap-tile img {
@@ -66,8 +81,6 @@
 
 .scrap-tile--fill img { object-fit: cover; }
 
-.scrap-link:is(:hover, :focus-visible) .scrap-tile:not(.scrap-tile--ink) { border-color: var(--accent); }
-
 .scrap-link:is(:hover, :focus-visible) .scrap-tile img { transform: scale(1.04); }
 
 .scrap-name {
@@ -75,17 +88,30 @@
   font-size: clamp(1.75rem, 2.6vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.045em;
-  line-height: 1.05;
+  line-height: 1.1;
+}
+
+.scrap-name > span:first-child {
   text-decoration: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.15em;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
   transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out);
 }
 
-.scrap-link:is(:hover, :focus-visible) .scrap-name {
+.scrap-name [data-link-arrow] { color: var(--accent); }
+
+.scrap-link:is(:hover, :focus-visible) .scrap-name > span:first-child {
   color: var(--accent);
   text-decoration-color: currentColor;
+}
+
+.scrap-summary {
+  margin-top: 0.6rem;
+  max-width: 44ch;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
 }
 
 .scrap-note {
@@ -125,16 +151,15 @@
 }
 
 /* Project page */
-.scrap-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  min-height: 44px;
-  font-size: 0.88rem;
-  color: var(--ink-muted);
+/* Breadcrumb, as on the play and tool pages. */
+.scrap-page .role-line a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
 }
 
-.scrap-back:hover { color: var(--accent); }
+.scrap-page .role-line a:hover { color: var(--accent); }
 
 .scrap-hero {
   display: grid;
@@ -241,15 +266,13 @@
 
 .scrap-next-link:is(:hover, :focus-visible) strong { color: var(--accent); }
 
+@media (min-width: 640px) {
+  .scrap-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .scrap-link { padding: 2rem; }
+}
+
 @media (min-width: 768px) {
-  .scrap-wall {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4.5rem 2.5rem;
-  }
-
   .scrap-mosaic { aspect-ratio: 6 / 5; }
-
-  .scrap-opener { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
 
   .scrap-hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
 
@@ -261,13 +284,24 @@
   .scrap-screens--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
+/* Wide and narrow tiles alternate by row. Each mosaic's shape follows its tile
+   so the two mosaics in a row come out about the same height. */
+@media (min-width: 1024px) {
+  .scrap-wall { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .scrap-piece:nth-child(4n + 1),
+  .scrap-piece:nth-child(4n + 4) { grid-column: span 7; }
+  .scrap-piece:nth-child(4n + 2),
+  .scrap-piece:nth-child(4n + 3) { grid-column: span 5; }
+  .scrap-piece:is(:nth-child(4n + 1), :nth-child(4n + 4)) .scrap-mosaic { aspect-ratio: 3 / 2; }
+  .scrap-piece:is(:nth-child(4n + 2), :nth-child(4n + 3)) .scrap-mosaic { aspect-ratio: 1 / 1; }
+}
+
 @media (min-width: 1100px) {
   .scrap-learned { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scrap-tile,
   .scrap-tile img,
-  .scrap-name { transition: none; }
+  .scrap-name > span:first-child { transition: none; }
   .scrap-link:is(:hover, :focus-visible) .scrap-tile img { transform: none; }
 }

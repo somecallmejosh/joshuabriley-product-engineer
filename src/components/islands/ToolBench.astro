@@ -1,0 +1,307 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { SECTIONS, TOTAL_ITEMS } from '~/lib/scorecard';
+import { DEFAULTS, WEEKS_PER_YEAR, formatCurrency } from '~/lib/roi';
+
+/**
+ * The tools page's list: a small working piece of each tool, on tiles that all
+ * read the same radius and spacing values, so the token tile restyles the bench.
+ * Prompts, the rework formula, and the findings come from the full tools.
+ * Without script the live parts are hidden and each tile is a title and a link.
+ */
+interface Props { tools: CollectionEntry<'tools'>[]; }
+const { tools } = Astro.props;
+const action = (id: string) => tools.find((tool) => tool.id === id)?.data.action;
+
+const OPTIONS = [{ value: 0, label: 'No' }, { value: 1, label: 'Partial' }, { value: 2, label: 'Yes' }];
+// One prompt from each of three sections, starting with a gap to find.
+const prompts = [['s2', 's2-2', 2], ['s4', 's4-1', 1], ['s5', 's5-3', 0]].map(([sectionId, itemId, start]) => {
+  const section = SECTIONS.find((s) => s.id === sectionId)!;
+  return { id: itemId as string, area: section.title, label: section.items.find((i) => i.id === itemId)!.label, start: start as number };
+});
+const startTotal = prompts.reduce((sum, p) => sum + p.start, 0);
+const startArea = prompts.reduce((low, p) => (p.start < low.start ? p : low)).area;
+const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
+---
+
+<div class="bench" data-bench data-reveal-stagger data-weeks={WEEKS_PER_YEAR} data-rate={DEFAULTS.rate}>
+  <article class="tile tile--scorecard surface-denim">
+    <div class="tile-copy">
+      <p class="tile-question">Not sure where to start?</p>
+      <h2>Design system <em>scorecard.</em></h2>
+      <p class="tile-note">Try three of the {TOTAL_ITEMS} prompts here. The full assessment takes about ten minutes and suggests priorities for your team.</p>
+      <a class="action-link" href="/tools/scorecard/">{action('scorecard')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    </div>
+    <div class="tile-live" data-bench-live>
+      {prompts.map((prompt) => (
+        <fieldset class="prompt" data-prompt data-area={prompt.area}>
+          <legend>{prompt.label}</legend>
+          <div class="prompt-options">
+            {OPTIONS.map((option) => (
+              <label><input type="radio" name={`bench-${prompt.id}`} value={option.value} checked={option.value === prompt.start} /><span>{option.label}</span></label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+      <p class="readout">
+        <span class="readout-score"><span data-score>{startTotal}</span> of {prompts.length * 2}</span>
+        <output class="readout-area" data-area-out>Start with <em>{startArea}.</em></output>
+      </p>
+    </div>
+  </article>
+
+  <article class="tile tile--token">
+    <div class="tile-copy">
+      <p class="tile-question">Explaining how tokens work?</p>
+      <h2>Design token <em>playground.</em></h2>
+    </div>
+    <div class="tile-live" data-bench-live>
+      <p class="tile-note">Every tile on this page shares these two values, so moving one changes them all.</p>
+      <div class="sample" aria-hidden="true">
+        <span class="sample-button">Save</span>
+        <span class="sample-tab">Overview</span>
+        <span class="sample-check"><i></i>Selected</span>
+      </div>
+      <div class="slider">
+        <label for="bench-radius">Corner radius</label>
+        <output for="bench-radius" aria-live="off" data-radius-out>0px</output>
+        <input id="bench-radius" type="range" min="0" max="28" step="1" value="0" data-radius />
+      </div>
+      <div class="slider">
+        <label for="bench-space">Spacing</label>
+        <output for="bench-space" aria-live="off" data-space-out>1.00×</output>
+        <input id="bench-space" type="range" min="0.75" max="1.5" step="0.05" value="1" data-space />
+      </div>
+    </div>
+    <div class="tile-actions">
+      <a class="editorial-link" href="/tools/token-playground/">{action('token-playground')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <button type="button" class="bench-text-button" data-reset hidden>Reset values</button>
+    </div>
+  </article>
+
+  <article class="tile tile--calculator">
+    <div class="tile-copy">
+      <p class="tile-question">Making the case for shared UI?</p>
+      <h2>Inconsistency cost <em>calculator.</em></h2>
+    </div>
+    <div class="tile-live" data-bench-live>
+      <p class="result"><output data-hours>{hours.toLocaleString('en-US')}</output> <em>hours</em></p>
+      <p class="result-cost">of UI rework a year, or <output data-cost>{formatCurrency(hours * DEFAULTS.rate)}</output> at ${DEFAULTS.rate} an hour</p>
+      <div class="slider">
+        <label for="bench-team">People building UI</label>
+        <output for="bench-team" aria-live="off" data-team-out>{DEFAULTS.team}</output>
+        <input id="bench-team" type="range" min="1" max="40" step="1" value={DEFAULTS.team} data-team />
+      </div>
+      <div class="slider">
+        <label for="bench-rework">Rework hours per person, per week</label>
+        <output for="bench-rework" aria-live="off" data-rework-out>{DEFAULTS.reworkHours}</output>
+        <input id="bench-rework" type="range" min="0" max="20" step="1" value={DEFAULTS.reworkHours} data-rework />
+      </div>
+    </div>
+    <div class="tile-actions">
+      <a class="editorial-link" href="/tools/roi-calculator/">{action('roi-calculator')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    </div>
+  </article>
+
+  <article class="tile tile--audit" data-audit>
+    <div class="tile-copy">
+      <p class="tile-question">Deciding what to fix first?</p>
+      <h2>Sample audit <em>findings.</em></h2>
+    </div>
+    <div class="tile-live" data-bench-live>
+      <div class="audit">
+        <div class="audit-sample">
+          <div class="specimen" aria-hidden="true">
+            <div class="specimen-card"><b>Starter</b><i></i></div>
+            <div class="specimen-card"><b>Team</b><i></i></div>
+            <div class="specimen-card specimen-card--radius"><b>Scale</b><i></i></div>
+            <div class="specimen-row"><i></i><span>Unlimited projects</span></div>
+            <div class="specimen-row specimen-row--spacing"><i></i><span>Priority support</span></div>
+          </div>
+          <button type="button" class="bench-text-button" aria-pressed="false" data-show-issues>Show the issues</button>
+        </div>
+        <div class="audit-swap">
+          <p class="tile-note audit-prompt">This sample interface has drifted from its system in two places. See if you can spot them.</p>
+          <ul class="findings" role="list">
+            <li><span>Low priority</span><strong>Mismatched radius</strong> Card 3 uses 4px. The others use 16px.</li>
+            <li><span>Low priority</span><strong>Off-grid spacing</strong> The last row uses an 18px margin. The system uses an 8px grid.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="tile-actions">
+      <a class="editorial-link" href="/tools/audit-findings/">{action('audit-findings')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+    </div>
+  </article>
+</div>
+
+<style>
+  /* The two values the token tile drives. Spacing moves vertical rhythm and the
+     gaps only, so a slider's width stays put while it's being dragged. */
+  .bench { --bench-radius: 0px; --bench-space: 1; display: grid; gap: calc(1rem * var(--bench-space)); }
+  .tile {
+    display: flex; flex-direction: column; gap: calc(1.75rem * var(--bench-space)); min-width: 0;
+    padding: calc(2rem * var(--bench-space)) 1.5rem;
+    border: 1px solid var(--line); border-radius: var(--bench-radius);
+  }
+  .tile--calculator, .tile--audit { background: var(--portfolio-tint); border-color: transparent; }
+  .tile--scorecard { border-color: transparent; }
+
+  .tile-question { margin-bottom: .75rem; font-size: .86rem; color: var(--ink-muted); }
+  .tile h2 { font-size: clamp(2rem, 3.2vw, 3.1rem); font-weight: 800; line-height: 1.08; letter-spacing: -.05em; }
+  .tile h2 em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; letter-spacing: -.045em; color: var(--portfolio-blue); }
+  .tile--scorecard h2 em, .readout-area em { color: color-mix(in srgb, var(--paper) 80%, var(--portfolio-blue)); }
+  .tile-note { max-width: 46ch; font-size: 1rem; line-height: 1.6; color: var(--ink-muted); }
+  .tile--scorecard :is(.tile-question, .tile-note) { color: color-mix(in srgb, var(--paper) 82%, transparent); }
+  .tile-copy .tile-note { margin-top: 1.25rem; }
+  .tile-live { display: flex; flex-direction: column; gap: calc(1.25rem * var(--bench-space)); min-width: 0; flex: 1; }
+  .tile-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
+  .tile--scorecard .action-link { margin-top: 1.75rem; background: var(--paper); color: var(--portfolio-blue); border-radius: var(--bench-radius); }
+  .tile--scorecard .action-link:hover { background: var(--portfolio-tint); }
+
+  .prompt { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .prompt legend { padding: 0; font-size: .95rem; line-height: 1.45; color: var(--paper); }
+  .prompt-options { display: flex; gap: .25rem; margin-top: .6rem; }
+  .prompt-options label { position: relative; cursor: pointer; }
+  .prompt-options input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .prompt-options span {
+    display: grid; place-items: center; min-width: 4.5rem; min-height: 2.75rem; padding: 0 .9rem;
+    border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent); border-radius: var(--bench-radius);
+    font-size: .875rem; font-weight: 600; color: var(--paper); transition: background-color .2s, color .2s;
+  }
+  .prompt-options label:hover span { border-color: var(--paper); }
+  .prompt-options input:checked + span { background: var(--paper); border-color: var(--paper); color: var(--portfolio-blue); }
+  .prompt-options input:focus-visible + span { outline: 3px solid var(--paper); outline-offset: 2px; }
+  .readout { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1.5rem; padding-top: .5rem; }
+  .readout-score { font-size: .9rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .readout-area { font-size: clamp(1.3rem, 2vw, 1.75rem); font-weight: 650; letter-spacing: -.025em; }
+  .readout-area em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; }
+
+  .slider { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: .15rem 1rem; }
+  .slider label { font-size: .9rem; font-weight: 600; }
+  .slider output { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .85rem; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+  .slider input { grid-column: 1 / -1; width: 100%; height: 2.75rem; margin: 0; accent-color: var(--accent); cursor: pointer; }
+
+  .sample { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; padding: calc(1.25rem * var(--bench-space)) 0; }
+  .sample-button { padding: .55rem 1.3rem; border-radius: var(--bench-radius); background: var(--accent); color: var(--paper); font-size: .9rem; font-weight: 600; }
+  .sample-tab { padding-bottom: .3rem; border-bottom: 2px solid var(--accent); font-size: .9rem; font-weight: 600; }
+  .sample-check { display: inline-flex; align-items: center; gap: .5rem; font-size: .9rem; }
+  .sample-check i { width: 1.1rem; height: 1.1rem; border-radius: min(var(--bench-radius), .55rem); background: var(--accent); }
+
+  .result { font-size: clamp(3.4rem, 7vw, 5.75rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .result em { margin-left: .1em; font-family: var(--font-fraunces), Georgia, serif; font-size: .5em; font-weight: 400; letter-spacing: -.03em; color: var(--portfolio-blue); }
+  .result-cost { margin-top: -.5rem; font-size: .95rem; color: var(--ink-muted); }
+
+  .audit { display: grid; gap: 1.5rem; }
+  /* The specimen is deliberately off-system, so it ignores the bench's values. */
+  .specimen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; align-content: start; }
+  .specimen-card { display: grid; gap: 1.25rem; padding: 1rem; border-radius: 16px; background: var(--raised); transition: outline-color .25s; outline: 2px dashed transparent; outline-offset: 2px; }
+  .specimen-card b { font-size: .85rem; }
+  .specimen-card i { height: .4rem; border-radius: 2px; background: var(--line-strong); }
+  .specimen-card--radius { border-radius: 4px; }
+  .specimen-row { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; font-size: .85rem; outline: 2px dashed transparent; outline-offset: 2px; transition: outline-color .25s; }
+  .specimen-row i { width: .4rem; height: .4rem; background: var(--ink-muted); }
+  .specimen-row--spacing { gap: 18px; }
+  /* The prompt and the findings share one cell, so revealing never moves the tile. */
+  .audit-sample { display: flex; flex-direction: column; gap: .75rem; }
+  .audit-swap { display: grid; }
+  .audit-swap > * { grid-area: 1 / 1; }
+  .audit-prompt { transition: opacity .25s; }
+  [data-audit][data-open] .audit-prompt { visibility: hidden; opacity: 0; }
+  .findings { display: grid; gap: .75rem; align-content: start; margin: 0; padding: 0; list-style: none; font-size: .9rem; line-height: 1.5; color: var(--ink-muted); visibility: hidden; opacity: 0; transition: opacity .25s; }
+  .findings span { display: block; font-size: .8rem; color: var(--accent); }
+  .findings strong { color: var(--ink); font-weight: 650; }
+  [data-audit][data-open] .findings { visibility: visible; opacity: 1; }
+  [data-audit][data-open] :is(.specimen-card--radius, .specimen-row--spacing) { outline-color: var(--accent); }
+
+  .bench-text-button { align-self: flex-start; min-height: 44px; font-size: .93rem; font-weight: 600; color: var(--accent); text-decoration: underline; text-decoration-color: currentColor; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+
+  @media (min-width: 640px) { .tile { padding-inline: 2.25rem; } .audit { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) {
+    .bench { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .tile--scorecard { grid-column: span 7; }
+    .tile--token { grid-column: span 5; }
+    .tile--calculator { grid-column: span 5; }
+    .tile--audit { grid-column: span 7; }
+    .tile--scorecard { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.5rem; }
+    /* The assessment link and the score line up along the tile's bottom edge. */
+    .tile--scorecard .tile-copy { display: flex; flex-direction: column; align-items: flex-start; }
+    .tile--scorecard .action-link { margin-top: auto; }
+    .tile--scorecard .tile-note { margin-bottom: 1.75rem; }
+    .tile--scorecard .tile-live { justify-content: space-between; }
+    .tile-actions { margin-top: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .prompt-options span, .findings, .audit-prompt, .specimen-card, .specimen-row { transition: none; }
+  }
+  @media print { [data-bench-live], .tile-actions button { display: none; } }
+  /* The live parts need script, so without it each tile is a title and a link. */
+  @media (scripting: none) { [data-bench-live] { display: none; } }
+</style>
+
+<script>
+  import { formatCurrency } from '~/lib/roi';
+
+  const bench = document.querySelector<HTMLElement>('[data-bench]');
+  if (bench) {
+    const $ = <T extends Element>(selector: string) => bench.querySelector<T>(selector)!;
+
+    // Scorecard: the lowest answer names the area to start with.
+    const prompts = Array.from(bench.querySelectorAll<HTMLFieldSetElement>('[data-prompt]'));
+    const score = $<HTMLElement>('[data-score]');
+    const area = $<HTMLOutputElement>('[data-area-out]');
+    const renderScore = () => {
+      const answers = prompts.map((p) => ({ area: p.dataset.area!, value: Number(p.querySelector<HTMLInputElement>('input:checked')!.value) }));
+      score.textContent = String(answers.reduce((sum, a) => sum + a.value, 0));
+      const lowest = answers.reduce((low, a) => (a.value < low.value ? a : low));
+      if (lowest.value === 2) area.textContent = 'No gaps in these three.';
+      else area.innerHTML = `Start with <em>${lowest.area}.</em>`;
+    };
+    prompts.forEach((p) => p.addEventListener('change', renderScore));
+
+    // Tokens: written once on the bench, read by every tile.
+    const radius = $<HTMLInputElement>('[data-radius]');
+    const space = $<HTMLInputElement>('[data-space]');
+    const reset = $<HTMLButtonElement>('[data-reset]');
+    const renderTokens = () => {
+      bench.style.setProperty('--bench-radius', `${radius.value}px`);
+      bench.style.setProperty('--bench-space', space.value);
+      $('[data-radius-out]').textContent = `${radius.value}px`;
+      $('[data-space-out]').textContent = `${Number(space.value).toFixed(2)}×`;
+      reset.hidden = radius.value === radius.defaultValue && space.value === space.defaultValue;
+    };
+    radius.addEventListener('input', renderTokens);
+    space.addEventListener('input', renderTokens);
+    reset.addEventListener('click', () => {
+      radius.value = radius.defaultValue;
+      space.value = space.defaultValue;
+      renderTokens();
+      radius.focus();
+    });
+
+    // Calculator: same formula as the full tool's headline figure.
+    const weeks = Number(bench.dataset.weeks);
+    const rate = Number(bench.dataset.rate);
+    const team = $<HTMLInputElement>('[data-team]');
+    const rework = $<HTMLInputElement>('[data-rework]');
+    const renderCost = () => {
+      const hours = Number(team.value) * Number(rework.value) * weeks;
+      $('[data-hours]').textContent = hours.toLocaleString('en-US');
+      $('[data-cost]').textContent = formatCurrency(hours * rate);
+      $('[data-team-out]').textContent = team.value;
+      $('[data-rework-out]').textContent = rework.value;
+    };
+    team.addEventListener('input', renderCost);
+    rework.addEventListener('input', renderCost);
+
+    // Audit: reveal the two planted issues.
+    const audit = $<HTMLElement>('[data-audit]');
+    const show = $<HTMLButtonElement>('[data-show-issues]');
+    show.addEventListener('click', () => {
+      const open = show.getAttribute('aria-pressed') !== 'true';
+      show.setAttribute('aria-pressed', String(open));
+      show.textContent = open ? 'Hide the issues' : 'Show the issues';
+      audit.toggleAttribute('data-open', open);
+    });
+  }
+</script>

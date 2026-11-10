@@ -19,7 +19,7 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
 <BaseLayout title={`${project.name} | Joshua Briley`} description={project.note} mainClass="scrap-page">
   <section class="page-opener">
     <Container width="wide">
-      <a href="/personal-projects/" class="scrap-back hero-in hero-in-1"><span aria-hidden="true" data-link-arrow="up-left">↖</span> Back to the wall</a>
+      <nav class="role-line hero-in hero-in-1" aria-label="Breadcrumb"><a href="/personal-projects/">Personal projects</a><span aria-hidden="true">/</span>{project.name}</nav>
       <div class="scrap-hero">
         <div>
           <h1 class="page-type hero-in hero-in-1">{project.name}</h1>

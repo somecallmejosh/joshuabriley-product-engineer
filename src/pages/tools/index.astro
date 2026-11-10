@@ -2,72 +2,27 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import ToolIllustration from '~/components/patterns/ToolIllustration.astro';
-import { TOTAL_ITEMS } from '~/lib/scorecard';
+import ToolBench from '~/components/islands/ToolBench.astro';
 
 const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
-const featured = tools.find((tool) => tool.id === 'scorecard');
-const rest = tools.filter((tool) => tool.id !== 'scorecard');
-const uses: Record<string, { question: string; outcome: string }> = {
-  'roi-calculator': { question: 'Making the case for shared UI?', outcome: 'A starting estimate for a planning or budget conversation. Every assumption is shown.' },
-  'token-playground': { question: 'Explaining how tokens work?', outcome: 'A live example you can use to discuss shared decisions with designers and engineers.' },
-  'audit-findings': { question: 'Deciding what to fix first?', outcome: 'Example findings with severity, the affected interface, and a specific fix.' },
-};
 ---
 <BaseLayout title="Free design system tools | Joshua Briley" description="Assess your design system, estimate UI rework costs, explore design tokens, and inspect sample audit findings. Four free browser tools, no signup required.">
   <section class="page-opener tools-opener">
     <Container width="wide">
       <p class="role-line hero-in hero-in-1">Design system tools <span aria-hidden="true">/</span> Free to use</p>
       <h1 class="page-type hero-in hero-in-2">Tools for planning <em>design system work.</em></h1>
-      <div class="tools-intro hero-in hero-in-3">
-        <p class="page-lede">Shared UI should make your team’s work easier. These four tools help you assess what’s working, understand the cost of rework, and make the next decision.</p>
-        <p class="tools-note">No signup or installation. Tool inputs stay in your browser; shared scorecard results and calculator settings are included in their links.</p>
-        <p class="tools-note">Want something lighter? <a class="editorial-link" href="/play/">Try the accessibility games <span aria-hidden="true" data-link-arrow="right">→</span></a></p>
-      </div>
-      <nav class="evidence-nav hero-in hero-in-4" aria-label="Choose a tool">
-        {tools.map((tool) => <a href={`/tools/${tool.id}/`}>{tool.data.kind} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}
-      </nav>
+      <p class="page-lede hero-in hero-in-3">Four free tools to assess your shared UI, estimate what its rework costs, and decide what to fix next. You can try a small piece of each one right here.</p>
     </Container>
   </section>
 
-  {featured && (
-    <section class="scorecard-feature" aria-labelledby="scorecard-title">
-      <Container width="wide">
-        <div class="scorecard-layout" data-reveal>
-          <div class="scorecard-copy">
-            <p class="feature-context">Not sure where to start?</p>
-            <h2 id="scorecard-title" class="section-type">Design system <em>scorecard.</em></h2>
-            <p>Take a structured look at your shared UI. Answer {TOTAL_ITEMS} prompts and get a breakdown of strengths, gaps, and suggested priorities for your team.</p>
-            <a class="action-link" href="/tools/scorecard/">Take the assessment <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <p class="assessment-note">About ten minutes. Based on your answers; a starting point for review.</p>
-          </div>
-          <a class="scorecard-illustration" href="/tools/scorecard/" aria-label="Take the design system scorecard"><ToolIllustration tool="ScorecardEngine" /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
-        </div>
-      </Container>
-    </section>
-  )}
-
-  <section class="editorial-section tools-directory" aria-labelledby="other-tools-title">
+  <section class="tools-bench" aria-label="The tools">
     <Container width="wide">
-      <div class="section-heading">
-        <h2 id="other-tools-title" class="section-type">Have a specific <em>question?</em></h2>
-        <p>Estimate the effort, try a shared design decision, or see how an issue becomes an actionable finding.</p>
-      </div>
-      <div class="tool-list" data-reveal-stagger>
-        {rest.map((tool) => (
-          <article class="tool-entry">
-            <a class="tool-visual" href={`/tools/${tool.id}/`} aria-label={`Open the ${tool.data.title}`}><ToolIllustration tool={tool.data.tool} /><span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span></a>
-            <div class="tool-details">
-              <p class="tool-question">{uses[tool.id]?.question ?? tool.data.kind}</p>
-              <h3><a href={`/tools/${tool.id}/`}>{tool.data.title}</a></h3>
-              <p>{tool.data.description}</p>
-              <p class="tool-outcome">{uses[tool.id]?.outcome ?? tool.data.takeaway}</p>
-              <a class="editorial-link" href={`/tools/${tool.id}/`}>{tool.data.action} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            </div>
-          </article>
-        ))}
+      <ToolBench tools={tools} />
+      <div class="tools-notes">
+        <p>No signup or installation. Tool inputs stay in your browser; shared scorecard results and calculator settings are included in their links.</p>
+        <p>Want something lighter? <a class="editorial-link" href="/play/">Try the accessibility games <span aria-hidden="true" data-link-arrow="right">→</span></a></p>
       </div>
     </Container>
   </section>
@@ -77,7 +32,7 @@ const uses: Record<string, { question: string; outcome: string }> = {
       <div class="approach-layout">
         <div>
           <h2 id="tools-evidence-title" class="section-type">See how I <em>apply this.</em></h2>
-          <p class="section-intro">These tools make parts of my approach tangible. The work shows the context: what I owned, the tradeoffs, and the result.</p>
+          <p class="section-intro">These tools come from how I approach design system work. The case studies show that approach on real projects: what I owned, the tradeoffs, and the result.</p>
         </div>
         <div class="resource-list">
           <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system</strong><span>Rudiment UI: a personal reference project with tokens, component APIs, and live Storybook examples.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -91,39 +46,12 @@ const uses: Record<string, { question: string; outcome: string }> = {
 
 <style>
   .tools-opener .page-type { max-width: 19ch; }
-  .tools-intro { display: grid; gap: 1.5rem; align-items: end; margin-top: 2rem; }
-  .tools-intro .page-lede { margin: 0; max-width: 53ch; }
-  .tools-note { max-width: 34ch; font-size: .85rem; line-height: 1.65; color: var(--ink-muted); }
-  .scorecard-feature { padding: 4.5rem 0; color: white; background: var(--portfolio-blue); }
-  .scorecard-layout { display: grid; gap: 3rem; }
-  .feature-context { margin-bottom: 1.5rem; color: #c6d8e8; font-size: .86rem; }
-  .scorecard-copy .section-type { font-size: clamp(2.65rem, 5.4vw, 4.8rem); }
-  .scorecard-copy .section-type em { color: #c6d8e8; }
-  .scorecard-copy > p:not([class]) { max-width: 44ch; font-size: 1.08rem; line-height: 1.65; color: #e0e8ef; margin-top: 1.8rem; }
-  .scorecard-copy .action-link { margin-top: 2rem; background: white; color: var(--portfolio-blue); }
-  .scorecard-copy .action-link:hover { background: #e0e8ef; }
-  .assessment-note { max-width: 43ch; margin-top: 1rem; font-size: .8rem; line-height: 1.6; color: #c6d8e8; }
-  .scorecard-illustration { display: block; position: relative; min-width: 0; }
-  .tool-entry { display: grid; gap: 1.5rem; padding: 2.5rem 0 3rem; }
-  .tool-entry:last-child { padding-bottom: 0; }
-  .tool-question { color: var(--ink-muted); font-size: .85rem; margin-bottom: 1rem; }
-  .tool-details h3 { max-width: 18ch; font-size: clamp(2.1rem, 3.4vw, 3.2rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.08; }
-  .tool-details h3 a:hover { color: var(--portfolio-blue); }
-  .tool-visual { display: block; position: relative; min-width: 0; }
-  .tool-details { max-width: 49ch; align-self: center; }
-  .tool-details h3 { margin-bottom: 1.5rem; }
-  .tool-details > p:not(.tool-question) { font-size: 1.08rem; line-height: 1.65; }
-  .tool-details .tool-outcome { margin-top: .85rem; font-size: .94rem; color: var(--ink-muted); }
-  .tool-details .editorial-link { margin-top: 1.2rem; }
+  .tools-opener .page-lede { max-width: 53ch; }
+  .tools-bench { padding-bottom: var(--space-section); }
+  .tools-notes { display: grid; gap: 1rem; margin-top: 2rem; font-size: .85rem; line-height: 1.65; color: var(--ink-muted); }
+  .tools-notes p { max-width: 58ch; }
   .tools-evidence { background: var(--portfolio-tint); }
   @media (min-width: 1024px) {
-    .tools-intro { grid-template-columns: 1.7fr 1fr; gap: 5rem; }
-    .tools-note { justify-self: end; }
-    .scorecard-layout { grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: center; }
-    .tool-entry { grid-template-columns: 1.1fr 1fr; gap: 4.5rem; }
-  }
-  @media (max-width: 639px) {
-    .scorecard-feature { padding: 3.5rem 0; }
-    .tool-entry { padding: 2rem 0 2.5rem; }
+    .tools-notes { grid-template-columns: 1fr auto; gap: 4rem; align-items: center; }
   }
 </style>

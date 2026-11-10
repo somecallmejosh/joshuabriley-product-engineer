@@ -21,18 +21,18 @@ export const SUMMARY =
 export const STRENGTHS = [
   {
     key: 'frame',
-    title: 'Frame the problem',
-    body: "Use analytics, experiments, and time with real users to decide what's worth building, then cut scope to the useful path.",
+    title: 'Research the problem',
+    body: "Use interviews, audits, analytics, and experiments to decide what's worth building, then cut scope to the useful path.",
   },
   {
     key: 'build',
-    title: 'Design and build in one pass',
-    body: 'Prototype, validate, and ship directly in product codebases, so design decisions are tested in working software instead of static handoffs.',
+    title: 'Design it with the team',
+    body: "Prototype and validate with product, design, and engineering in the team's codebase, so decisions get tested in working software.",
   },
   {
     key: 'everyone',
     title: 'Make it work for everyone',
-    body: 'Accessibility, performance, language parity, and recoverable flows, treated as part of the product rather than a final pass.',
+    body: 'Accessibility, performance, translated content, and errors people can recover from, treated as part of the product rather than a final pass.',
   },
 ]
 
@@ -57,10 +57,10 @@ export const EXPERIENCE = [
     stack: 'Rails · ViewComponents',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
-      'Moved documentation from evening paperwork to hands-free capture during the day; numerous providers reported saving more than two hours daily.',
-      'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events already captured.',
-      'Reworked the flows and forms where Hotjar, Google Analytics, and HubSpot data showed people getting stuck.',
-      'Shipped to market as a paid product sold direct and through child care associations, with English and Spanish at full parity.',
+      'Moved documentation from evening paperwork to hands-free voice capture after interviews showed providers were filling in records from memory at night; numerous providers reported saving more than two hours daily.',
+      "Matched speech against a known list, using AI only to predict likely mishearings when a child is added, because a compliance record can't afford a confident guess.",
+      'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events providers log during the day.',
+      'Shipped to market as a paid product in English and Spanish, sold direct and through child care associations.',
     ],
   },
   {
@@ -68,21 +68,23 @@ export const EXPERIENCE = [
     company: "America's Test Kitchen",
     role: 'Senior Software Engineer (UI)',
     stack: 'React · Next.js',
-    threads: ['frame', 'everyone'],
+    threads: ['frame', 'build', 'everyone'],
     bullets: [
-      'Moved consumer-facing experiences off a legacy Rails platform onto documented React and Next.js components the team could reuse.',
+      'Moved consumer-facing experiences off a legacy Rails platform onto one documented React and Next.js component library that serves multiple editorial brands without separate implementations.',
+      'Kept behavior in components and brand differences in tokens, so every brand gets the same keyboard and focus handling.',
       "Settled design questions with Optimizely A/B tests and the site's analytics stack.",
       'Protected performance, accessibility, and security by weighing every third-party script against what it cost the page.',
-      'Came back to formalize the accessibility team and mission the company had never had, closing the gap to WCAG 2.2 across every platform.',
+      "Returned to formalize the company's first accessibility team and mission, closing the gap to WCAG 2.2 on every platform.",
     ],
   },
   {
     period: '2018 - 2022',
     company: 'Berkshire Hathaway Specialty Insurance',
     role: 'Principal Design Engineer',
-    stack: 'Vue.js · Nuxt.js',
+    stack: 'Vue.js · Nuxt.js · Tailwind',
     threads: ['frame', 'build'],
     bullets: [
+      "Gave Berxi, the company's direct-to-consumer insurance platform, a design system with two-tier tokens, so marketing could launch campaigns and landing pages without waiting on engineering for visual changes, and brand updates reached every component automatically.",
       'Focused the roadmap on the screens underwriters and agents used most, based on Segment and Heap data from the portals.',
       'Made underwriting, administration, customer service, and agent workflows usable at scale through data-heavy tables, filters, forms, and dashboards.',
       'Standardized front-end work across internal, agent, and customer portals with one shared UI library, so teams stopped rebuilding the same patterns.',
@@ -107,8 +109,8 @@ export const EXPERIENCE = [
     stack: 'Contract',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
-      "Cut IVFCRYO's support calls 75% and shipping errors 55% with recoverable, accessible flows for high-stakes fertility logistics.",
-      "Rebuilt VMSpark's multi-tenant admin app in four phases with zero pipeline regressions and no operator retraining.",
+      "Rebuilt VMSpark's admin app on a design system made for its operators after a heuristic audit scored it 3.5 out of 10; a re-score with the same rubric reached 7.5, and every delete now asks for confirmation.",
+      "Gave five parties one shipment record at IVFCRYO after interviews showed the hard part was getting everyone ready before a shipment could start, cutting support calls 75% and shipping errors 55%.",
       'Deliver full-stack prototypes and production applications for clients when building is faster than specifying.',
     ],
   },
@@ -122,8 +124,11 @@ export const SKILLS = [
       'Adobe CS',
       'Design-to-code',
       'Figma',
+      'Heuristic evaluation',
+      'Journey mapping',
       'Prototyping',
       'Responsive design',
+      'User interviews',
       'WCAG 2.1 / 2.2',
       'Workflow design',
     ],
@@ -207,4 +212,4 @@ export const CONTINUING_ED = [
 
 export const CERT_FOCUS = 'IAAP CPACC and WAS accessibility exams'
 
-export const UPDATED = 'October 2026'
+export const UPDATED = 'November 2026'

@@ -115,7 +115,7 @@
     padding-block: 0 !important; margin-block: 0 10mm !important;
   }
   body[data-print-layout='site'] #main :is(.grid, .home-hero-grid, .work-list, .work-entry,
-    .approach-layout, .about-intro, .principle-row, .personal-grid, .section-heading,
+    .approach-layout, .about-intro, .section-heading,
     .article-grid, .article-overview-grid, .case-layout, .project-summary-grid,
     .project-facts, .project-figures, .project-cover-stage,
     .writing-group, .latest-layout, .testimonial-theme, .testimonial-collection,
@@ -129,8 +129,8 @@
     .case-layout-cont, .tool-reading > div, .latest-copy h2) { max-width: none !important; width: auto !important; }
   body[data-print-layout='site'] #main :is(.home-hero-grid, .about-intro, .current-work,
     .project-identity, .project-introduction, .project-facts, .project-figures,
-    .project-summary-grid, .article-overview-grid, .latest-layout, .scorecard-layout,
-    .tool-entry, .tool-workspace-heading, .tool-reading, .education-layout, .principle-row) {
+    .project-summary-grid, .article-overview-grid, .latest-layout,
+    .tool-workspace-heading, .tool-reading, .education-layout) {
     padding: 0 !important; margin-block: 5mm !important; gap: 5mm !important;
   }
   body[data-print-layout='site'] #main .work-entry { break-inside: avoid; }
@@ -163,7 +163,7 @@
   body[data-print-layout='site'] #main :is(.page-lede, .hero-lede, .project-introduction > p, .lede) { font-size: 12pt !important; max-width: none !important; }
   body[data-print-layout='site'] #main :is(.role-line, .post-meta, figcaption, .mono-label, .experience-period) { font-size: 8.5pt !important; }
   body[data-print-layout='site'] #main :is(.section-heading, .case-layout__head, .writing-topic, .tool-workspace-heading) { margin-bottom: 5mm !important; break-after: avoid; }
-  body[data-print-layout='site'] #main :is(.work-entry, .principle-row, .skill-entry, .education-degree, .post-link, .related-tool-link, .recommendation, .sg-specimen) { margin-block: 6mm !important; padding-block: 4mm !important; }
+  body[data-print-layout='site'] #main :is(.work-entry, .skill-entry, .education-degree, .post-link, .related-tool-link, .recommendation, .sg-specimen) { margin-block: 6mm !important; padding-block: 4mm !important; }
   body[data-print-layout='site'] #main :is(.experience-entry, .skill-entry, .education-degree, .recommendation, .q-row, .reading-resources > li) { break-inside: avoid; }
   body[data-print-layout='site'] #main :is(.experience-company, .experience-role, .experience-lead) { margin-top: 1mm !important; }
   body[data-print-layout='site'] #main :is(.experience-company, .experience-lead, .experience-details) { max-width: none !important; }

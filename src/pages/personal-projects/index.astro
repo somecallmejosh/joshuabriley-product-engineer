@@ -2,7 +2,6 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import ScrapMosaic from '~/components/patterns/scrapbook/ScrapMosaic.astro';
-import PersonalProjectsIllustration from '~/components/patterns/PersonalProjectsIllustration.astro';
 import { personalProjects, personalProjectOrder, type PersonalProject } from '~/lib/personal-projects';
 import '~/styles/scrapbook.css';
 
@@ -11,28 +10,24 @@ const projects: PersonalProject[] = personalProjectOrder.map((key) => personalPr
 <BaseLayout title="Personal projects | Joshua Briley" description="Things Joshua Briley makes for the fun of it: a journal with a drawing for every thinking trap, a household budget, a React component library, and an arcade game about design tokens." mainClass="scrap-page">
   <section class="page-opener">
     <Container width="wide">
-      <div class="scrap-opener hero-split">
-        <div class="hero-split-copy">
-          <h1 class="page-type hero-in hero-in-1">Things I make <em>for the fun of it.</em></h1>
-          <p class="page-lede hero-in hero-in-2">These are for my own enjoyment, and for keeping up with things I can’t do in a typical job.</p>
-        </div>
-        <div class="scrap-opener-art hero-split-media hero-in hero-in-3"><PersonalProjectsIllustration /></div>
-      </div>
+      <p class="role-line hero-in hero-in-1">Personal projects <span aria-hidden="true">/</span> {projects.length} so far</p>
+      <h1 class="page-type hero-in hero-in-2">Things I make <em>for the fun of it.</em></h1>
+      <p class="page-lede hero-in hero-in-3">These are for my own enjoyment, and for keeping up with things I can’t do in a typical job.</p>
     </Container>
   </section>
-  <section aria-label="Personal projects" class="scrap-section">
+  <section aria-label="Personal projects" class="scrap-wall-section">
     <Container width="wide">
-      <div class="scrap-wall">
+      <ul class="scrap-wall" role="list" data-reveal-stagger>
         {projects.map(({ wall, name, note, href }, i) => (
-          <article class="scrap-piece" data-reveal>
+          <li class="scrap-piece">
             <a class="scrap-link" href={href}>
               <ScrapMosaic tiles={wall} eager={i < 2} />
-              <h2 class="scrap-name">{name}</h2>
-              <p class="scrap-note">{note}</p>
+              <h2 class="scrap-name"><span>{name}</span> <span aria-hidden="true" data-link-arrow="right">→</span></h2>
+              <p class="scrap-summary">{note}</p>
             </a>
-          </article>
+          </li>
         ))}
-      </div>
+      </ul>
     </Container>
   </section>
 </BaseLayout>

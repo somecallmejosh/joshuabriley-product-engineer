@@ -3,14 +3,14 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
-import CaseQuote from '~/components/patterns/case/CaseQuote.astro';
-import { getEntry } from 'astro:content';
+import Recommendation from '~/components/patterns/Recommendation.astro';
+import { getNavFeatures } from '~/lib/nav-features';
 
-const testimonial = (await getEntry('testimonials', '14-michael-peritore'))?.data;
+const { testimonials, defaultTestimonial } = await getNavFeatures();
 const needs = [
   { title: 'Product decisions you can trace', body: 'I map the workflow before designing screens, then check the result after launch. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO decision' },
-  { title: 'Interfaces built the way they were designed', body: 'I build what I design, including the loading, error, and recovery states that mockups leave open. In Logatot, speech the app can’t understand becomes a quick fix for the provider instead of a wrong record.', href: '/projects/logatot/', link: 'See the voice repair flow' },
-  { title: 'Systems that save teams repeated work', body: 'In my current role, that means automating Storybook and Figma setup so teams spend their time on features. That work isn’t public, so Rudiment UI shows the same approach: accessible components, tokens, and documented APIs you can inspect.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
+  { title: 'Interfaces built the way they were designed', body: 'I build what I design, including the loading, error, and recovery states that mockups leave open. When Logatot can’t understand what a provider said, it asks for a quick fix instead of saving a wrong record.', href: '/projects/logatot/', link: 'See the voice repair flow' },
+  { title: 'Systems that save teams repeated work', body: 'In my current role, that means automating Storybook and Figma setup so teams spend their time on features. That work isn’t public, so my personal component library, Rudiment UI, shows the same approach: accessible components, tokens, and documented APIs you can inspect.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
 ];
 ---
 <BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years taking products from problem to production: working with product teams to frame what to build, design the workflow, and ship it accessible. Case studies with clear ownership.">
@@ -37,22 +37,12 @@ const needs = [
     <Container width="wide">
       <div class="section-heading">
         <h2 class="section-type">Selected <em>work.</em></h2>
-        <p>See how I designed and built interfaces for complex workflows, with clear ownership and outcomes.</p>
+        <p>See how I designed and built interfaces for complex workflows, what I owned on each one, and how it turned out.</p>
       </div>
       <WorkList compact />
       <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </Container>
   </section>
-  {testimonial && (
-    <CaseQuote
-      label=""
-      width="wide"
-      quote={testimonial.quote}
-      name={testimonial.name}
-      role={`${testimonial.role} · ${testimonial.company}`}
-      photo={testimonial.image}
-    />
-  )}
   <section class="editorial-section approach-section">
     <Container width="wide">
       <div class="approach-layout">
@@ -73,4 +63,33 @@ const needs = [
       </div>
     </Container>
   </section>
+  {testimonials.length > 0 && (
+    <section class="editorial-section surface-denim home-testimonial" data-surface="dark" aria-label="What clients and colleagues say">
+      <Container width="wide">
+        {testimonials.map((entry) => (
+          <div data-home-quote hidden={entry.id !== defaultTestimonial.id}>
+            <Recommendation testimonial={entry} featured />
+          </div>
+        ))}
+        <p class="home-testimonial-more">
+          <a href="/testimonials/" class="editorial-link editorial-link--light">Read all the testimonials <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        </p>
+      </Container>
+    </section>
+  )}
 </BaseLayout>
+
+<script>
+  // Same behavior as the header menus: without script, the featured quote shows.
+  const quotes = Array.from(document.querySelectorAll<HTMLElement>('[data-home-quote]'));
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  quotes.forEach((item) => { item.hidden = item !== quote; });
+</script>
+
+<style>
+  .home-testimonial-more { margin-top: 2.5rem; }
+  /* Lines up under the quote, on the featured recommendation's column grid. */
+  @media (min-width: 1024px) {
+    .home-testimonial-more { margin-left: calc((100% - 5rem) * .325 + 5rem); }
+  }
+</style>

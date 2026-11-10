@@ -3,10 +3,18 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 const principles = [
-  { title: 'Treat internal tools as products.', body: 'Engineers are users, too. I give component APIs, defaults, documentation, and automation the same care as type and spacing, and I judge them by whether teams choose them over building their own version.' },
-  { title: 'Start with accessibility.', body: 'Keyboard order, labels, contrast, and recoverable errors shape the design from the first sketch. When that behavior lives in shared components, every team that uses them gets it by default. I test it and publish the gaps, including the ones in my own case studies.' },
-  { title: 'Decide what success looks like first.', body: 'Before building, I name the result that would show a change worked, then check it. At America’s Test Kitchen that meant Optimizely tests instead of debates. At Logatot it meant reworking the forms where Hotjar and analytics showed people getting stuck.' },
-  { title: 'Work through the awkward states.', body: 'Empty lists, failed requests, long labels, and first-run screens are part of the experience. I use working interfaces to resolve those details with design and engineering before they become late surprises.' },
+  { title: 'Treat internal tools as products', body: 'Engineers are users, too. I give component APIs, defaults, documentation, and automation the same care as type and spacing, and I judge them by whether teams choose them over building their own version.' },
+  { title: 'Start with accessibility', body: 'Keyboard order, labels, contrast, and recoverable errors shape the design from the first sketch. When that behavior lives in shared components, every team that uses them gets it by default. I test that behavior and say where it still falls short, including in the Limitations section of each case study.' },
+  { title: 'Decide what success looks like first', body: 'Before building, I name the result that would show a change worked, then check it. At America’s Test Kitchen, that meant settling design questions with Optimizely A/B tests instead of debating them. At Logatot it meant reworking the forms where Hotjar and analytics showed people getting stuck.' },
+  { title: 'Work through the awkward states', body: 'Empty lists, failed requests, long labels, and first-run screens are part of the experience. I use working interfaces to resolve those details with design and engineering before they become late surprises.' },
+];
+// Each role says where I've done that work; facts come from the résumé and case studies.
+const roles = [
+  { title: 'Front-end developer', body: 'Someone who builds what runs in the browser: the markup, the styles, and the scripts that make an interface respond. That’s been part of every job I’ve had.' },
+  { title: 'UI engineer', body: 'Someone who turns visual design into the components and code of an interface, often as part of a design system. That’s my current job, on a system roughly 3,500 engineers and designers use.' },
+  { title: 'UX engineer', body: 'Someone who turns interaction design into working prototypes and front-end code, so a design behaves the way it was meant to. At Logatot, that was voice input and the flows for fixing what the app misheard.' },
+  { title: 'UI designer', body: 'Someone who designs how an interface looks: its layout, type, color, and the components it is built from. For VMSpark’s admin app, that meant a design system built from scratch.' },
+  { title: 'UX designer', body: 'Someone who studies how people use a product and shapes its flows, structure, and behavior around what they need. At IVFCRYO, interviews with the team led to one shared record for everyone involved in a shipment.' },
 ];
 const personal = [
   { title: 'Louisiana roots', body: "I grew up on Cajun food and music. My grandmother’s chicken and sausage gumbo remains the standard. There has been no successful migration." },
@@ -32,11 +40,11 @@ const personal = [
   <section class="editorial-section">
     <Container width="wide">
       <div class="approach-layout">
-        <h2 class="section-type">Why design <em>and build.</em></h2>
+        <div><h2 class="section-type">Why design <em>and build.</em></h2></div>
         <div class="prose-lede">
-          <p>I’ve worked on both sides of the handoff for more than twenty years. The most useful work has usually happened in between: working out what a workflow actually needs, then testing that answer in working software instead of a static mockup.</p>
-          <p>The industries have changed, from insurance portals to recipes, child care, and an enterprise design system used by roughly 3,500 engineers and designers.</p>
-          <p>Across those roles, the useful work has often been connecting disciplines: making design intent concrete, giving engineers usable patterns, and staying involved when real data makes things complicated.</p>
+          <p>I’ve worked on both the design and engineering sides of products for more than twenty years. The most useful work has usually happened between the two: working out what a workflow actually needs, then testing that answer in working software instead of a static mockup.</p>
+          <p>I’ve done that work on insurance portals, recipe sites, and child care software, and most recently on an enterprise design system used by roughly 3,500 engineers and designers.</p>
+          <p>In each of those jobs, much of what I’ve contributed has been connecting design and engineering: turning a design into something engineers can build from, giving them components they can reuse, and staying on the work when real data doesn’t fit the design.</p>
           <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
       </div>
@@ -44,8 +52,18 @@ const personal = [
   </section>
   <section class="editorial-section">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type">What I <em>care about.</em></h2></div>
-      <div data-reveal-stagger>{principles.map((principle) => <article class="principle-row"><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
+      <div class="approach-layout">
+        <div><h2 class="section-type">What my title <em>means.</em></h2><p class="section-intro">A product design engineer does a little of every role listed here and is most useful where product, design, and engineering meet.</p></div>
+        <div class="approach-list" data-reveal-stagger>{roles.map((role) => <article><h3>{role.title}</h3><p>{role.body}</p></article>)}</div>
+      </div>
+    </Container>
+  </section>
+  <section class="editorial-section">
+    <Container width="wide">
+      <div class="approach-layout">
+        <div><h2 class="section-type">What I <em>care about.</em></h2></div>
+        <div class="approach-list" data-reveal-stagger>{principles.map((principle) => <article><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
+      </div>
     </Container>
   </section>
   <section class="editorial-section work-section">
@@ -54,23 +72,22 @@ const personal = [
         <div><h2 class="section-type">Let’s look at <em>the work.</em></h2><p class="section-intro">If you lead engineering, start with VMSpark and Rudiment UI. If you lead design, start with IVFCRYO and Logatot.</p></div>
         <div>
           <div class="resource-list">
-            <a href="/projects/vmspark/"><span><strong>Design system rollout</strong><span>VMSpark: a 350-template audit and a four-stage rebuild with no pipeline regressions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a href="/projects/vmspark/"><span><strong>Design system rollout</strong><span>VMSpark: a 350-template audit and a design system that took the app’s heuristic score from 3.5 to 7.5.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, repair flows, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, flows for fixing misheard entries, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
-          <p class="experience-note"><strong>Frameworks and fit.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks, and web components let all of them use the same accessible components instead of rebuilding them for each one. Rudiment UI shows my React component work.</p>
+          <p class="experience-note"><strong>Frameworks.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks, and web components let all of them use the same accessible components instead of rebuilding them for each one. Rudiment UI shows my React component work.</p>
         </div>
       </div>
     </Container>
   </section>
   <section class="editorial-section">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type">Away from <em>the keyboard.</em></h2><p>Family, music, travel, and strong opinions about gumbo.</p></div>
-      <div class="personal-grid" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+      <div class="approach-layout">
+        <div><h2 class="section-type">Away from <em>the keyboard.</em></h2><p class="section-intro">Family, music, travel, and strong opinions about gumbo.</p></div>
+        <div class="approach-list" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+      </div>
     </Container>
   </section>
 </BaseLayout>
-
-<style>
-</style>

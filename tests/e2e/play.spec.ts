@@ -19,7 +19,8 @@ test.beforeEach(async ({ page }) => {
 test('the /play/ index lists every game and scans clean', async ({ page }) => {
   await page.goto('/play/');
   for (const game of GAMES) {
-    await expect(page.getByRole('link', { name: game.title, exact: true })).toHaveAttribute('href', `/play/${game.slug}/`);
+    // The featured game's link reads "Play all 10 rounds of Pass or fail?", so match on the title.
+    await expect(page.getByRole('link', { name: game.title })).toHaveAttribute('href', `/play/${game.slug}/`);
   }
   expect(await scan(page)).toEqual([]);
 });

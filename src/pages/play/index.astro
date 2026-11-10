@@ -4,6 +4,10 @@ import Container from '~/components/layout/Container.astro';
 import GameIllustration from '~/components/patterns/GameIllustration.astro';
 import { GAMES } from '~/lib/games';
 import { hasGameIllustration } from '~/lib/game-illustrations';
+
+// "Pass or fail?" gets the featured tile with one playable round; the rest are
+// illustrated tiles, three to a row, like the tools page's bench.
+const [featured, ...rest] = GAMES;
 ---
 
 <BaseLayout
@@ -21,109 +25,180 @@ import { hasGameIllustration } from '~/lib/game-illustrations';
     </Container>
   </section>
 
-  <section class="editorial-section play-directory" aria-labelledby="play-list-title">
+  <section class="play-list-section" aria-labelledby="play-list-title">
     <Container width="wide">
       <h2 id="play-list-title" class="sr-only">Games</h2>
-      <ul class="play-list" data-reveal-stagger>
-        {GAMES.map((game) => (
-          <li class="play-entry">
-            {hasGameIllustration(game.slug) && (
-              <a class="play-visual" href={`/play/${game.slug}/`} aria-hidden="true" tabindex="-1"><GameIllustration game={game.slug} /></a>
-            )}
-            <p class="play-topic">{game.topic}</p>
-            <h3><a href={`/play/${game.slug}/`}>{game.title}</a></h3>
-            <p>{game.summary}</p>
-            <a class="editorial-link" href={`/play/${game.slug}/`} aria-hidden="true" tabindex="-1">Play <span data-link-arrow="right">→</span></a>
+      <ul class="arcade" role="list" data-reveal-stagger>
+        <li class="tile tile--featured surface-denim">
+          <div class="tile-copy">
+            <p class="tile-topic">{featured.topic}</p>
+            <h3 class="featured-title">Pass or <em>fail?</em></h3>
+            <p class="tile-summary">{featured.summary}</p>
+            <dl class="featured-facts">
+              <div><dt>What you’ll learn</dt><dd>{featured.teaches}</dd></div>
+              <div><dt>How long</dt><dd>10 rounds, about a minute or two</dd></div>
+            </dl>
+            <a class="action-link" href={`/play/${featured.slug}/`}>Play all 10 rounds<span class="sr-only"> of {featured.title}</span> <span aria-hidden="true" data-link-arrow="right">→</span></a>
+          </div>
+          <div class="round" data-round>
+            {hasGameIllustration(featured.slug) && <span class="featured-art" aria-hidden="true"><GameIllustration game={featured.slug} /></span>}
+            <div class="round-sample">
+              <svg viewBox="0 0 400 110" role="img" aria-label="Sample text" data-round-art>
+                <text x="24" y="70" data-round-text>Does this pass?</text>
+              </svg>
+            </div>
+            <div class="round-choices" data-round-choices>
+              <button type="button" class="round-button" data-answer="pass">Passes</button>
+              <button type="button" class="round-button" data-answer="fail">Fails</button>
+              <button type="button" class="round-next" data-round-next hidden>Try another</button>
+            </div>
+            <p class="round-result" aria-live="polite" data-round-result></p>
+          </div>
+        </li>
+        {rest.map((game) => (
+          <li class="tile">
+            <a class="tile-link" href={`/play/${game.slug}/`} aria-labelledby={`game-${game.slug}`} aria-describedby={`game-${game.slug}-summary`}>
+              {hasGameIllustration(game.slug) && <span class="tile-art" aria-hidden="true"><GameIllustration game={game.slug} /></span>}
+              <span class="tile-topic">{game.topic}</span>
+              <h3 class="tile-title"><span id={`game-${game.slug}`}>{game.title}</span> <span aria-hidden="true" data-link-arrow="right">→</span></h3>
+              <span class="tile-summary" id={`game-${game.slug}-summary`}>{game.summary}</span>
+            </a>
           </li>
         ))}
       </ul>
+    </Container>
+  </section>
 
-      <aside class="play-bigger" aria-labelledby="play-bigger-title">
-        <h2 id="play-bigger-title" class="play-bigger-title">Want something bigger?</h2>
-        <p>
-          Token Adventure was my first attempt at a much larger learning tool. You write design tokens in a
-          code editor across 20 levels, and the game checks your code against the W3C Design Tokens spec.
-        </p>
-        <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure <span aria-hidden="true" data-link-arrow="right">→</span></a>
-      </aside>
+  <section class="editorial-section play-bigger" aria-labelledby="play-bigger-title">
+    <Container width="wide">
+      <div class="approach-layout">
+        <div><h2 id="play-bigger-title" class="section-type">Want something <em>bigger?</em></h2></div>
+        <div class="prose-lede">
+          <p>Token Adventure was my first attempt at a much larger learning tool. You write design tokens in a code editor across 20 levels, and the game checks your code against the W3C Design Tokens spec.</p>
+          <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure <span aria-hidden="true" data-link-arrow="right">→</span></a>
+        </div>
+      </div>
     </Container>
   </section>
 </BaseLayout>
 
 <style>
-  .play-directory {
-    padding-top: 0;
+  .play-list-section { padding-bottom: var(--space-section); }
+  .play-bigger { background: var(--portfolio-tint); }
+  .play-bigger .prose-lede .editorial-link { margin-top: 1.25rem; }
+  .arcade { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+  .tile { min-width: 0; background: var(--portfolio-tint); }
+  .tile-link { height: 100%; padding: 1.25rem; color: var(--ink); }
+  /* Phones: a small drawing beside the title, so eleven games stay a short list. */
+  .tile-link { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 1.25rem; align-content: start; }
+  .tile-link > :not(.tile-art) { grid-column: 2; }
+  .tile-art { grid-column: 1; grid-row: 1 / span 3; display: block; }
+  /* The tile is the mat, so the drawing's own mat is dropped. */
+  .tile-art :global(.illustration) { --mat: 0rem; background: none; }
+  .tile-topic { font-size: .86rem; color: var(--ink-muted); }
+  .tile-title { margin-top: .4rem; font-size: clamp(1.4rem, 1.2rem + .6vw, 1.75rem); font-weight: 800; line-height: 1.15; letter-spacing: -.04em; }
+  .tile-title > span:first-child { text-decoration: underline; text-decoration-color: var(--line-strong); text-decoration-thickness: 1px; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .tile-title [data-link-arrow] { color: var(--accent); }
+  .tile-summary { display: block; margin-top: .6rem; max-width: 44ch; font-size: .98rem; line-height: 1.55; color: var(--ink-muted); }
+  /* Color and transform only, so nothing moves around the tile. */
+  .tile-link:is(:hover, :focus-visible) .tile-title > span:first-child { color: var(--accent); text-decoration-color: currentColor; }
+  .tile-link:is(:hover, :focus-visible) :global(.illustration-drawing) { transform: rotate(0deg) scale(1.03); }
+  .tile-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+
+  .tile--featured { display: grid; gap: 2rem; padding: 2rem 1.5rem; background: var(--portfolio-blue); }
+  .tile--featured .tile-topic, .tile--featured .tile-summary { color: color-mix(in srgb, var(--paper) 82%, transparent); }
+  .featured-title { margin-top: .4rem; font-size: clamp(2.4rem, 4vw, 3.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; }
+  .featured-title em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; color: color-mix(in srgb, var(--paper) 80%, var(--portfolio-blue)); }
+  .featured-facts { display: grid; gap: 1.25rem; margin: 2rem 0 0; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
+  .featured-facts dt { font-size: .86rem; color: color-mix(in srgb, var(--paper) 82%, transparent); }
+  .featured-facts dd { margin: .3rem 0 0; max-width: 40ch; font-size: 1rem; line-height: 1.55; color: var(--paper); }
+  .featured-art { display: block; width: 100%; margin-bottom: 1rem; }
+  .featured-art :global(.illustration) { --mat: 0rem; background: none; }
+  .tile--featured .action-link { margin-top: 1.75rem; background: var(--paper); color: var(--portfolio-blue); }
+  .tile--featured .action-link:hover { background: var(--portfolio-tint); }
+
+  .round { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+  /* A picture of text to judge, so its low contrast is the point. */
+  .round-sample { margin-top: auto; background: var(--paper); }
+  .round-sample svg { display: block; width: 100%; height: auto; }
+  .round-sample text { font-family: var(--font-hanken), sans-serif; font-size: 40px; font-weight: 600; letter-spacing: -1px; }
+  .round-choices { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .round-button, .round-next { min-height: 2.75rem; padding: 0 1.25rem; border: 1px solid color-mix(in srgb, var(--paper) 45%, transparent); font-size: .92rem; font-weight: 600; color: var(--paper); }
+  .round-button:hover, .round-next:hover { border-color: var(--paper); }
+  .round-button[aria-pressed='true'] { background: var(--paper); color: var(--portfolio-blue); }
+  .round-button:disabled { cursor: default; }
+  .round-next { margin-left: auto; border-color: transparent; text-decoration: underline; text-underline-offset: 5px; }
+  .round-result { min-height: 3em; margin: 0; font-size: 1rem; line-height: 1.5; }
+  .round-result strong { font-weight: 650; }
+  :is(.round-button, .round-next):focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
+
+  @media (min-width: 640px) {
+    .tile-link { display: flex; flex-direction: column; }
+    .tile-art { margin-bottom: 1.5rem; }
+    .arcade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile--featured { grid-column: 1 / -1; }
+    .tile-link, .tile--featured { padding: 2rem; }
   }
-  .play-list {
-    display: grid;
-    gap: var(--space-block) 4rem;
+  @media (min-width: 1024px) {
+    .arcade { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .tile { grid-column: span 4; }
+    .tile--featured { grid-column: span 8; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.5rem; }
+    .tile--featured .tile-copy { display: flex; flex-direction: column; align-items: flex-start; }
+    .tile--featured .action-link { margin-top: auto; }
+    .tile--featured .tile-summary { margin-bottom: 1.75rem; }
   }
-  @media (min-width: 768px) {
-    .play-list {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .play-entry {
-    display: grid;
-    align-content: start;
-    gap: 0.6rem;
-    max-width: 34rem;
-  }
-  .play-visual {
-    display: block;
-    margin-bottom: 1rem;
-  }
-  .play-entry:has(a:hover, a:focus-visible) :global(.illustration-drawing) {
-    transform: rotate(0deg) scale(1.03);
-  }
+  @media (scripting: none) { .round { display: none; } }
+  @media print { .round { display: none; } }
   @media (prefers-reduced-motion: reduce) {
-    .play-entry:has(a:hover, a:focus-visible) :global(.illustration-drawing) {
-      transform: rotate(var(--tilt));
-    }
-  }
-  .play-topic {
-    font-size: 0.83rem;
-    font-weight: 500;
-    color: var(--ink-muted);
-  }
-  .play-entry h3 {
-    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
-    font-weight: 800;
-    letter-spacing: -0.045em;
-    line-height: 1.1;
-  }
-  .play-entry h3 a {
-    color: var(--ink);
-    transition: color 200ms var(--ease-out);
-  }
-  .play-entry h3 a:hover {
-    color: var(--accent);
-  }
-  .play-entry > p:not(.play-topic) {
-    font-size: 1.02rem;
-    line-height: 1.6;
-    color: var(--ink-muted);
-  }
-  .play-entry .editorial-link {
-    justify-self: start;
-  }
-  .play-bigger {
-    display: grid;
-    justify-items: start;
-    gap: 0.75rem;
-    max-width: 40rem;
-    margin-top: var(--space-block);
-  }
-  .play-bigger-title {
-    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
-    font-weight: 800;
-    letter-spacing: -0.045em;
-    line-height: 1.1;
-    color: var(--ink);
-  }
-  .play-bigger p {
-    font-size: 1.02rem;
-    line-height: 1.6;
-    color: var(--ink-muted);
+    .tile-title > span:first-child { transition: none; }
+    .tile-link:is(:hover, :focus-visible) :global(.illustration-drawing) { transform: rotate(var(--tilt)); }
   }
 </style>
+
+<script>
+  import { AA_NORMAL, formatRatio, makeRound, parseRgb, type Pairing, type Round } from '~/lib/contrast-game';
+
+  // One round of the real game: ink faded toward paper, judged against AA.
+  const root = document.querySelector<HTMLElement>('[data-round]');
+  if (root) {
+    const $ = <T extends Element>(selector: string) => root.querySelector<T>(selector)!;
+    const tokenRgb = (token: string) => {
+      const probe = document.createElement('span');
+      probe.style.color = `var(${token})`;
+      document.body.append(probe);
+      const rgb = parseRgb(getComputedStyle(probe).color);
+      probe.remove();
+      return rgb;
+    };
+    const ink = tokenRgb('--ink');
+    const paper = tokenRgb('--paper');
+    if (!ink || !paper) root.hidden = true;
+    const pairings: Pairing[] = [{ fg: { token: '--ink', label: 'ink', rgb: ink! }, bg: { token: '--paper', label: 'paper', rgb: paper! } }];
+    const art = $<SVGElement>('[data-round-art]');
+    const text = $<SVGTextElement>('[data-round-text]');
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-answer]'));
+    const result = $<HTMLElement>('[data-round-result]');
+    const next = $<HTMLButtonElement>('[data-round-next]');
+    let round: Round;
+
+    const deal = () => {
+      round = makeRound(pairings);
+      text.style.fill = `color-mix(in srgb, var(--ink) ${round.strength}%, transparent)`;
+      art.setAttribute('aria-label', `Sample text in ink at ${round.strength}% strength on a paper background.`);
+      buttons.forEach((button) => { button.disabled = false; button.setAttribute('aria-pressed', 'false'); });
+      result.textContent = '';
+      next.hidden = true;
+    };
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      const saysPass = button.dataset.answer === 'pass';
+      buttons.forEach((b) => { b.disabled = true; b.setAttribute('aria-pressed', String(b === button)); });
+      const verdict = round.passes ? 'passes' : 'fails';
+      result.innerHTML = `<strong>${saysPass === round.passes ? 'Right.' : 'Not quite.'}</strong> It ${verdict} at ${formatRatio(round.ratio)}. AA needs ${AA_NORMAL}:1.`;
+      next.hidden = false;
+      next.focus();
+    }));
+    next.addEventListener('click', () => { deal(); buttons[0].focus(); });
+    if (ink && paper) deal();
+  }
+</script>

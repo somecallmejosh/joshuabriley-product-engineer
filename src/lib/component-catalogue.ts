@@ -8,13 +8,6 @@ export const componentCatalogue = [
     "href": "/personal-projects/rudiment-ui/"
   },
   {
-    "name": "PersonalProjectsIllustration",
-    "path": "src/components/patterns/PersonalProjectsIllustration.astro",
-    "group": "patterns",
-    "note": "The playful ticket drawing in the personal projects hero.",
-    "href": "/personal-projects/"
-  },
-  {
     "name": "ScrapPiece",
     "path": "src/components/patterns/scrapbook/ScrapPiece.astro",
     "group": "patterns",
@@ -195,6 +188,13 @@ export const componentCatalogue = [
     "group": "islands",
     "note": "Reorder form controls and replay the focus order across the layout.",
     "href": "/play/tab-order/"
+  },
+  {
+    "name": "ToolBench",
+    "path": "src/components/islands/ToolBench.astro",
+    "group": "islands",
+    "note": "The tools page's list: a small working piece of each tool on tiles that share radius and spacing values.",
+    "href": "/tools/"
   },
   {
     "name": "TokenPlayground",
@@ -425,13 +425,6 @@ export const componentCatalogue = [
     "group": "patterns",
     "note": "A playful explanatory SVG for each /play/ game.",
     "href": "/play/"
-  },
-  {
-    "name": "RoleIllustration",
-    "path": "src/components/patterns/RoleIllustration.astro",
-    "group": "patterns",
-    "note": "A decorative SVG for each job title in the footer's dictionary entry.",
-    "href": "/"
   },
   {
     "name": "ProjectIllustration",
