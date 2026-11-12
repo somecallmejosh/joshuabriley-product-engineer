@@ -211,6 +211,31 @@ body {
   height: calc(100% - 1.7rem);
   border: 1px solid #aebfce;
 }
+/* Square headshot with the hero portrait's offset outline, scaled to the avatar.
+   Set --frame-size and --frame-offset per use. */
+.offset-frame {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  flex-shrink: 0;
+  width: var(--frame-size, 48px);
+  height: var(--frame-size, 48px);
+}
+.offset-frame::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  transform: translate(var(--frame-offset, 5px), calc(var(--frame-offset, 5px) * -1));
+  /* A shade fainter than the hero portrait's outline; follows the surface accent. */
+  border: 1px solid rgb(var(--accent-rgb) / 0.28);
+}
+.offset-frame > * {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 /* Current role under the hero: statement on the headline column, figures under the portrait. */
 .current-work {
   display: grid;
@@ -307,26 +332,16 @@ body {
   color: var(--ink);
 }
 .work-kind {
+  margin-top: 0.5rem;
   color: var(--ink-muted);
   font-size: 0.78rem;
   line-height: 1.6;
 }
 .work-copy h3 {
-  margin-top: 0.75rem;
   font-size: clamp(2.2rem, 3.5vw, 3.3rem);
   font-weight: 750;
   line-height: 1.05;
   letter-spacing: -0.045em;
-}
-.work-copy h3 a:hover {
-  color: var(--accent);
-}
-.work-copy h3 span {
-  display: inline-block;
-  font-weight: 400;
-  font-size: 0.6em;
-  vertical-align: 0.15em;
-  color: var(--accent);
 }
 .work-title {
   margin-top: 1rem;

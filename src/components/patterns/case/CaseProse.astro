@@ -5,21 +5,26 @@ import Container from '~/components/layout/Container.astro';
  * Body paragraphs in a case study. Inside a CaseSection body, use it bare.
  * Between plates in the `media` slot, pass `continued` so the text lines up
  * with the body column above it.
+ *
+ * Paragraphs are body text. Pass `lede` to set the first paragraph as the
+ * section's lede. A lede is optional, and a section gets at most one
+ * (tests/e2e/case-studies.spec.ts checks this).
  */
 interface Props {
   continued?: boolean;
+  lede?: boolean;
   class?: string;
 }
-const { continued = false, class: className } = Astro.props;
+const { continued = false, lede = false, class: className } = Astro.props;
 ---
 {continued ? (
   <Container width="content" class="mt-16">
-    <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
+    <div class:list={['case-layout-cont case-prose measure space-y-5', lede && 'case-prose--lede']}>
       <slot />
     </div>
   </Container>
 ) : (
-  <div class:list={['mt-8 measure space-y-5 leading-relaxed text-ink-muted text-lg', className]}>
+  <div class:list={['case-prose mt-8 measure space-y-5', lede && 'case-prose--lede', className]}>
     <slot />
   </div>
 )}

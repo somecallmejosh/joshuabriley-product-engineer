@@ -179,7 +179,7 @@ export const componentCatalogue = [
     "name": "SnapGridGame",
     "path": "src/components/islands/SnapGridGame.astro",
     "group": "islands",
-    "note": "Nudge pieces onto an 8px grid with buttons, arrow keys or dragging.",
+    "note": "Nudge pieces onto an 8px grid with buttons, arrow keys, or dragging.",
     "href": "/play/snap-to-grid/"
   },
   {
@@ -239,6 +239,13 @@ export const componentCatalogue = [
     "href": "/projects/vmspark/#context"
   },
   {
+    "name": "CaseFindings",
+    "path": "src/components/patterns/case/CaseFindings.astro",
+    "group": "patterns",
+    "note": "Counted audit findings: a large figure, what it counts, and one line of detail.",
+    "href": "/projects/logatot/#research"
+  },
+  {
     "name": "CaseProse",
     "path": "src/components/patterns/case/CaseProse.astro",
     "group": "patterns",
@@ -270,7 +277,7 @@ export const componentCatalogue = [
     "name": "CaseJourney",
     "path": "src/components/patterns/case/CaseJourney.astro",
     "group": "patterns",
-    "note": "A journey map as live text: stages side by side on large screens, stacked on small ones.",
+    "note": "A journey map as live text on a route of stage icons that draws in on scroll: stages side by side on large screens, a vertical timeline on small ones, with design responses in one accent-tinted band.",
     "href": "/projects/vmspark/#research"
   },
   {
@@ -364,6 +371,13 @@ export const componentCatalogue = [
     "href": "/about/"
   },
   {
+    "name": "Breadcrumbs",
+    "path": "src/components/patterns/Breadcrumbs.astro",
+    "group": "patterns",
+    "note": "The trail at the top of every page below a section index.",
+    "href": "/projects/logatot/gallery/"
+  },
+  {
     "name": "ProjectHero",
     "path": "src/components/patterns/ProjectHero.astro",
     "group": "patterns",
@@ -388,7 +402,7 @@ export const componentCatalogue = [
     "name": "Recommendation",
     "path": "src/components/patterns/Recommendation.astro",
     "group": "patterns",
-    "note": "A quotation attributed to a named colleague; regular and featured layouts.",
+    "note": "A quotation attributed to a named colleague, in regular and featured layouts.",
     "href": "/testimonials/"
   },
   {
@@ -465,7 +479,7 @@ export const componentCatalogue = [
     "name": "Icon",
     "path": "src/components/primitives/Icon.astro",
     "group": "primitives",
-    "note": "Iconify icons with decorative or explicitly labelled semantics.",
+    "note": "Iconify icons with decorative or explicitly labeled semantics.",
     "href": "/contact/"
   },
   {
@@ -493,6 +507,6 @@ export const componentCatalogue = [
     "name": "ArticleTable",
     "path": "src/components/writing/ArticleTable.astro",
     "group": "writing",
-    "note": "A labelled, keyboard-scrollable table region that preserves column headings. Renders any Markdown table in a post; no current post has one."
+    "note": "A labeled, keyboard-scrollable table region that preserves column headings. Renders any Markdown table in a post. No current post has one."
   }
 ] as const;

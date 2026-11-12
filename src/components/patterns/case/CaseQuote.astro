@@ -1,6 +1,7 @@
 ---
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
+import Heading from '~/components/primitives/Heading.astro';
 import Icon from '~/components/primitives/Icon.astro';
 
 /**
@@ -20,16 +21,12 @@ const { quote, name, role, photo, label = 'Testimonial' } = Astro.props;
   <Container width="content">
     <figure class="grid gap-x-10 gap-y-10 md:grid-cols-12 md:items-start lg:gap-x-16">
       <figcaption class="md:col-span-4">
-        {label && <p class="mono-label mb-6">{label}</p>}
+        {label && <Heading level={2} visual="h3" class="mb-6">{label}</Heading>}
         <div class="flex items-center gap-4 md:flex-col md:items-start md:gap-5">
           {photo && (
-            <img
-              src={photo}
-              alt={name}
-              class="h-14 w-14 rounded-full border border-line object-cover md:h-16 md:w-16"
-              loading="lazy"
-              decoding="async"
-            />
+            <span class="offset-frame case-quote-avatar">
+              <img src={photo} alt={name} loading="lazy" decoding="async" />
+            </span>
           )}
           <div>
             <p class="font-display font-semibold text-ink">{name}</p>
@@ -44,3 +41,9 @@ const { quote, name, role, photo, label = 'Testimonial' } = Astro.props;
     </figure>
   </Container>
 </Section>
+<style>
+  .case-quote-avatar { --frame-size: 56px; --frame-offset: 6px; }
+  @media (min-width: 768px) {
+    .case-quote-avatar { --frame-size: 64px; --frame-offset: 7px; }
+  }
+</style>

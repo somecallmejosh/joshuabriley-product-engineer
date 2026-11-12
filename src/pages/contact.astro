@@ -17,9 +17,8 @@ const starters = [
     <Container width="wide">
       <div class="contact-layout">
         <div class="contact-invite">
-          <p class="role-line hero-in hero-in-1">Contact</p>
-          <h1 class="page-type hero-in hero-in-2">You could be the first person to <em>use this form.</em></h1>
-          <p class="page-lede hero-in hero-in-3">If you need a reason to write, pick one and it’ll start your message.</p>
+          <h1 class="page-type hero-in hero-in-2">Contact <em>Joshua Briley</em></h1>
+          <p class="page-lede hero-in hero-in-3">Choose a topic to start your message, or write your own.</p>
           <ul class="contact-reasons hero-in hero-in-3">
             {starters.map((starter) => (
               <li>
@@ -30,7 +29,7 @@ const starters = [
             ))}
           </ul>
           <div class="contact-card hero-in hero-in-4">
-            <Portrait class="contact-avatar" />
+            <span class="offset-frame contact-avatar-frame"><Portrait class="contact-avatar" /></span>
             <div>
               <p class="contact-name">Joshua Briley</p>
               <p class="contact-place">Barkhamsted, Connecticut</p>
@@ -42,7 +41,7 @@ const starters = [
           </div>
         </div>
         <div class="contact-stage hero-in hero-in-4">
-          <h2 class="contact-stage-title">Contact form <span class="contact-stage-note">(lightly used)</span></h2>
+          <h2 class="contact-stage-title">Contact form</h2>
           <ContactForm />
         </div>
       </div>
@@ -104,14 +103,14 @@ const starters = [
     align-items: flex-start;
     margin-top: var(--space-block);
   }
-  .contact-card :global(.contact-avatar) { flex: none; display: block; width: 4.5rem; height: 4.5rem; overflow: hidden; border-radius: 50%; background: var(--portfolio-tint); }
+  .contact-avatar-frame { --frame-size: 72px; --frame-offset: 7px; }
+  .contact-card :global(.contact-avatar) { overflow: hidden; background: var(--portfolio-tint); }
   .contact-card :global(.contact-avatar img) { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
   .contact-name { font-weight: 650; letter-spacing: -0.015em; }
   .contact-place { margin-top: 0.15rem; font-size: 0.9rem; color: var(--ink-muted); }
   .contact-direct { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1rem; }
   .contact-stage { padding: clamp(1.5rem, 1rem + 2.5vw, 3rem); background: var(--portfolio-tint); }
   .contact-stage-title { margin-bottom: 2rem; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.025em; }
-  .contact-stage-note { font-weight: 400; color: var(--ink-muted); }
   @media (min-width: 1024px) {
     .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 6rem; }
     .contact-invite .page-type { font-size: clamp(3.5rem, 5.6vw, 5.5rem); }

@@ -21,7 +21,7 @@ import Icon from '~/components/primitives/Icon.astro';
 interface Props {
   label: string;
   name: string;
-  /** Stable id; auto-generated if omitted. */
+  /** Stable id. Generated from name if omitted. */
   id?: string;
   required?: boolean;
   hint?: string;

@@ -6,52 +6,103 @@ import type { Persona } from '~/lib/case-research';
 /**
  * The people a case study designed for. `basis` says where each persona came
  * from, so a working persona is never mistaken for one built from interviews.
- * Quotes come from the transcripts, word for word.
+ * A quote with `quoteBy` comes from the transcripts, word for word; one
+ * without is illustrative and shows no attribution.
+ *
+ * Each persona leads with a framed portrait and a large display quote, so the
+ * voice reads before the lists. Needs sit in the same tinted
+ * band the journey map uses for design responses. On wide screens the rows
+ * align by subgrid, so the needs and frustrations line up across personas.
  */
 interface Props {
   items: Persona[];
 }
 const { items } = Astro.props;
 const cols = items.length === 3 ? 'lg:grid-cols-3' : '';
+// A quote row only exists when some persona has a quote; the others hold an
+// empty slot so their rows still line up.
+const hasQuotes = items.some((p) => p.quote);
 ---
-<h3 class="mono-label mb-6">Personas</h3>
-<ul class:list={['grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2', cols]}>
+<Heading level={3} visual="h2" class="mb-10">Personas</Heading>
+<ul style={`--rows: ${hasQuotes ? 6 : 5}`} class:list={['personas grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2', cols]} data-reveal-stagger>
   {items.map((p) => (
-    <li id={`persona-${p.id}`} class="flex scroll-mt-32 flex-col border-t border-line pt-5">
-      <div class="mb-4 flex items-center gap-4">
-        <img src={`/images/personas/${p.id}.jpg`} alt="" width="80" height="80" loading="lazy" decoding="async" class="h-20 w-20 shrink-0 rounded-full border border-line object-cover" />
-        <div>
+    <li id={`persona-${p.id}`} class="persona scroll-mt-32">
+      <div class="flex items-end gap-5">
+        <span class="offset-frame persona-avatar">
+          <img src={`/images/personas/${p.id}.jpg`} alt="" width="128" height="128" loading="lazy" decoding="async" />
+        </span>
+        <div class="pb-1">
           <Heading level={4} visual="h3" tone="ink">{p.name}</Heading>
-          <p class="mt-1 text-sm font-medium text-ink">{p.role}</p>
+          <p class="mt-1 text-sm font-medium text-accent">{p.role}</p>
         </div>
       </div>
-      <p class="text-sm leading-relaxed text-ink-muted">{p.context}</p>
-      {p.quote && (
-        <figure class="mt-5 border-l-2 border-accent pl-4">
-          <blockquote class="leading-snug text-ink">“{p.quote}”</blockquote>
-          <figcaption class="mt-2 text-xs text-ink-muted">{p.quoteBy}</figcaption>
+
+      {p.quote ? (
+        <figure>
+          <Icon name="ph:quotes-fill" size={28} class="mb-3 text-accent opacity-30" />
+          <blockquote class="font-display text-xl leading-snug tracking-tight text-ink md:text-2xl">“{p.quote}”</blockquote>
+          {p.quoteBy && <figcaption class="mt-3 text-xs text-ink-muted">{p.quoteBy}</figcaption>}
         </figure>
-      )}
-      <p class="mono-label mb-3 mt-6">Needs</p>
-      <ul class="space-y-2">
-        {p.needs.map((n) => (
-          <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
-            <Icon name="ph:check" size={14} class="mt-1 shrink-0 text-accent" />
-            <span>{n}</span>
-          </li>
-        ))}
-      </ul>
-      <p class="mono-label mb-3 mt-6">Frustrations</p>
-      <ul class="space-y-2">
-        {p.frustrations.map((f) => (
-          <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
-            <Icon name="ph:minus" size={14} class="mt-1 shrink-0 text-ink-muted" />
-            <span>{f}</span>
-          </li>
-        ))}
-      </ul>
-      <p class="mt-6 text-xs leading-relaxed text-ink-muted">{p.basis}</p>
+      ) : hasQuotes && <div aria-hidden="true"></div>}
+
+      <p class="text-sm leading-relaxed text-ink-muted">{p.context}</p>
+
+      <div class="persona-needs">
+        <Heading level={5} visual="h4" class="mb-3">Needs</Heading>
+        <ul class="space-y-2">
+          {p.needs.map((n) => (
+            <li class="flex items-start gap-2 text-sm leading-relaxed text-ink">
+              <Icon name="ph:check-bold" size={14} class="mt-1 shrink-0 text-accent" />
+              <span>{n}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <Heading level={5} visual="h4" class="mb-3">Frustrations</Heading>
+        <ul class="space-y-2">
+          {p.frustrations.map((f) => (
+            <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
+              <Icon name="ph:x" size={14} class="mt-1 shrink-0 text-ink-muted" />
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p class="border-t border-line pt-4 text-xs leading-relaxed text-ink-muted">{p.basis}</p>
     </li>
   ))}
 </ul>
-<p class="mt-10 text-xs leading-relaxed text-ink-muted">Persona names and photos are illustrative.</p>
+<p class="mt-12 text-xs leading-relaxed text-ink-muted">Persona names and photos are illustrative, as are quotes without a named source.</p>
+
+<style>
+  .persona {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.75rem;
+    align-content: start;
+  }
+  .persona-avatar {
+    --frame-size: 104px;
+    --frame-offset: 10px;
+    margin-top: var(--frame-offset);
+  }
+  .persona-needs {
+    padding: 1rem 1.125rem 1.125rem;
+    background: rgb(var(--accent-rgb) / 0.06);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+
+  @media (min-width: 768px) {
+    .persona-avatar { --frame-size: 128px; --frame-offset: 12px; }
+
+    /* Rows line up across personas: portrait, quote (when any), context,
+       needs, frustrations, basis. */
+    .persona {
+      grid-row: span var(--rows);
+      grid-template-rows: subgrid;
+    }
+  }
+</style>

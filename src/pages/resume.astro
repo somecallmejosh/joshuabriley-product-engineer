@@ -19,10 +19,10 @@ import {
 } from '~/lib/resume-data.mjs';
 
 const description =
-  'Product design engineer with 20+ years taking products from an unclear problem to a shipped, accessible product: framing what to build, designing the flow, and building it.';
+  'Product design engineer with 20+ years of taking products from an unclear problem to a shipped, accessible product.';
 
 const workLinks: Record<string, { href: string; label: string }[]> = {
-  'Logatot, Inc.': [{ href: '/projects/logatot/', label: 'Read the Logatot case study' }],
+  'Logatot, Inc.': [{ href: '/projects/logatot/', label: 'Logatot case study' }],
   Independent: [
     { href: '/projects/ivfcryo/', label: 'IVFCRYO case study' },
     { href: '/projects/vmspark/', label: 'VMSpark case study' },
@@ -32,9 +32,9 @@ const workLinks: Record<string, { href: string; label: string }[]> = {
 const skillContext: Record<string, { title: string; description: string; href?: string; link?: string }> = {
   'Design & craft': {
     title: 'Product design & accessibility',
-    description: 'Framing workflows, then working through interaction states, prototypes, and accessibility behavior with product, design, and engineering.',
+    description: 'Workflow framing, interaction states, prototypes, and accessibility behavior, worked out with product, design, and engineering.',
     href: '/projects/ivfcryo/',
-    link: 'Follow a design decision',
+    link: 'IVFCRYO case study',
   },
   'Data & experimentation': {
     title: 'Data & experimentation',
@@ -48,7 +48,7 @@ const skillContext: Record<string, { title: string; description: string; href?: 
     title: 'Design systems & testing',
     description: 'Shared components, tokens, documentation, and the tests and tooling that support their use across product teams.',
     href: '/personal-projects/rudiment-ui/',
-    link: 'Inspect a component library',
+    link: 'Rudiment UI component library',
   },
   'Back end & hosting': {
     title: 'Application delivery',
@@ -74,8 +74,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
             <p><strong>{CONTACT.title}</strong></p>
             <p>{CONTACT.location} · <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phone}</p>
           </div>
-          <p class="role-line hero-in hero-in-1" data-print-screen>Résumé · Joshua Briley</p>
-          <h1 class="page-type hero-in hero-in-2" data-print-screen>I find what's worth building, <em>design it, and ship it.</em></h1>
+          <h1 class="page-type hero-in hero-in-2" data-print-screen>Joshua Briley, <em>Product Design Engineer</em></h1>
           <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
             {summary}
           </Text>
@@ -94,8 +93,8 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         </div>
       </div>
       <nav class="evidence-nav" aria-label="Résumé sections and work samples">
-        <a href="#approach">How I work <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-        <a href="#experience">Employment history <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+        <a href="#approach">Approach <span aria-hidden="true" data-link-arrow="down">↓</span></a>
+        <a href="#experience">Experience <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#skills">Skills <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="#education">Education <span aria-hidden="true" data-link-arrow="down">↓</span></a>
         <a href="/personal-projects/rudiment-ui/">Public component work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -107,8 +106,8 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   <section id="approach" class="editorial-section resume-approach" aria-labelledby="approach-title">
     <Container width="wide">
       <div class="section-heading">
-        <h2 id="approach-title" class="section-type">How I work</h2>
-        <p>The same three things in every role below, whatever the industry.</p>
+        <h2 id="approach-title" class="section-type">Approach</h2>
+        <p>Each role below applies some or all of these three practices.</p>
       </div>
       <ol class="approach-list" role="list" data-reveal-stagger>
         {threads.map((thread, i) => (
@@ -125,7 +124,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     <Container width="wide">
       <div class="section-heading">
         <h2 class="section-type">Experience</h2>
-        <p>Different industries, the same job: figure out the right problem, then design and build the answer.</p>
+        <p>Roles are listed from most recent to oldest.</p>
       </div>
 
       <ul class="experience-list" role="list" data-reveal-stagger>
@@ -135,7 +134,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
               <p class="experience-period">{job.period.replace(' - ', ' – ')}</p>
               <h3 class="experience-company">{job.company}</h3>
               <p class="experience-role">{job.role}</p>
-              <ul class="experience-threads" role="list" aria-label="How this role shows the approach">
+              <ul class="experience-threads" role="list" aria-label="Practices applied">
                 {job.threads.map((key) => <li>{threadTitle[key]}</li>)}
               </ul>
             </div>
@@ -185,7 +184,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     <Container width="wide">
       <div class="section-heading">
         <h2 id="education-title" class="section-type">Education</h2>
-        <p>A foundation in science, with continued study in product design and accessibility.</p>
+        <p>A biology degree and continuing coursework in product design and accessibility.</p>
       </div>
       <div class="education-layout" data-reveal>
         {education.map((degree) => (

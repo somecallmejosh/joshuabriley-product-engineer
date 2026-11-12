@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import ProjectLayout from './ProjectLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
@@ -24,7 +25,7 @@ const { title, description, project, projectHref } = Astro.props.frontmatter;
 <ProjectLayout title={`${title} | Joshua Briley`} description={description}>
   <section class="project-opening pb-24">
     <Container width="wide">
-      <a href={projectHref} class="project-back"><span aria-hidden="true" data-link-arrow="up-left">↖</span> {project} case study</a>
+      <Breadcrumbs items={[{ href: '/projects/', label: 'Projects' }, { href: projectHref, label: project }]} current={title} />
       <Heading level={1} visual="display-md" tone="ink" class="mt-8 mb-12 measure">{title}</Heading>
       <article class="prose-whimsy article-prose interview-notes measure">
         <slot />

@@ -19,6 +19,29 @@
   transform: translate(var(--link-arrow-x), var(--link-arrow-y));
 }
 
+/* The arrow after a card or project title: accent ↗, lighter and smaller than
+   the title it follows. One treatment site-wide (home work list is the model). */
+.title-arrow {
+  font-weight: 400;
+  font-size: 0.6em;
+  vertical-align: 0.15em;
+  color: var(--accent);
+}
+
+/* The title text beside a .title-arrow: underlined in the accent on hover and
+   focus. Wrapping only the words keeps the underline off the space and arrow. */
+.title-text {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out);
+}
+a:is(:hover, :focus-visible) .title-text {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
 /* Article previews respond through their typography; the frame is for focus. */
 .article-preview-link h3 {
   text-decoration: underline;

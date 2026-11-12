@@ -2,44 +2,43 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 const principles = [
-  { title: 'Treat internal tools as products', body: 'Engineers are users, too. I give component APIs, defaults, documentation, and automation the same care as type and spacing, and I judge them by whether teams choose them over building their own version.' },
+  { title: 'Treat internal tools as products', body: 'I give component APIs, defaults, documentation, and automation the same care as type and spacing. I judge them by whether teams choose them over building their own version.' },
   { title: 'Start with accessibility', body: 'Keyboard order, labels, contrast, and recoverable errors shape the design from the first sketch. When that behavior lives in shared components, every team that uses them gets it by default. I test that behavior and say where it still falls short, including in the Limitations section of each case study.' },
-  { title: 'Decide what success looks like first', body: 'Before building, I name the result that would show a change worked, then check it. At America’s Test Kitchen, that meant settling design questions with Optimizely A/B tests instead of debating them. At Logatot it meant reworking the forms where Hotjar and analytics showed people getting stuck.' },
-  { title: 'Work through the awkward states', body: 'Empty lists, failed requests, long labels, and first-run screens are part of the experience. I use working interfaces to resolve those details with design and engineering before they become late surprises.' },
+  { title: 'Define success before building', body: 'Before building I name the result that would show a change worked. After release I check it. At America’s Test Kitchen I settled design questions with Optimizely A/B tests. At Logatot I reworked the forms where Hotjar and analytics showed people getting stuck.' },
+  { title: 'Work through the awkward states', body: 'Empty lists, failed requests, long labels, and first-run screens are part of the experience. I resolve those details with design and engineering in working interfaces early in the project.' },
 ];
 // Each role says where I've done that work; facts come from the résumé and case studies.
 const roles = [
-  { title: 'Front-end developer', body: 'Someone who builds what runs in the browser: the markup, the styles, and the scripts that make an interface respond. That’s been part of every job I’ve had.' },
-  { title: 'UI engineer', body: 'Someone who turns visual design into the components and code of an interface, often as part of a design system. That’s my current job, on a system roughly 3,500 engineers and designers use.' },
-  { title: 'UX engineer', body: 'Someone who turns interaction design into working prototypes and front-end code, so a design behaves the way it was meant to. At Logatot, that was voice input and the flows for fixing what the app misheard.' },
-  { title: 'UI designer', body: 'Someone who designs how an interface looks: its layout, type, color, and the components it is built from. For VMSpark’s admin app, that meant a design system built from scratch.' },
-  { title: 'UX designer', body: 'Someone who studies how people use a product and shapes its flows, structure, and behavior around what they need. At IVFCRYO, interviews with the team led to one shared record for everyone involved in a shipment.' },
+  { title: 'Front-end developer', body: 'A front-end developer builds what runs in the browser. That includes the markup, the styles, and the scripts that make an interface respond. That’s been part of every job I’ve had.' },
+  { title: 'UI engineer', body: 'A UI engineer turns visual design into the components and code of an interface, often as part of a design system. That’s my current job, on a system roughly 3,500 engineers and designers use.' },
+  { title: 'UX engineer', body: 'A UX engineer turns interaction design into working prototypes and front-end code. At Logatot that was voice input and the flows for fixing what the app misheard.' },
+  { title: 'UI designer', body: 'A UI designer decides an interface’s layout, type, color, and the components it is built from. For VMSpark’s admin app that meant a design system built from scratch.' },
+  { title: 'UX designer', body: 'A UX designer studies how people use a product and shapes its flows, structure, and behavior around their needs. At IVFCRYO interviews with the team led to one shared record for everyone involved in a shipment.' },
 ];
 const personal = [
-  { title: 'Louisiana roots', body: "I grew up on Cajun food and music. My grandmother’s chicken and sausage gumbo remains the standard. There has been no successful migration." },
-  { title: 'An Army beginning', body: 'My wife and I met at our first duty station in Hohenfels, Germany. We lived in the nearby village of Seubersdorf and had our first child there.' },
+  { title: 'Louisiana roots', body: "I grew up on Cajun food and music. My grandmother’s chicken and sausage gumbo remains the standard." },
+  { title: 'Army service', body: 'My wife and I met at our first duty station in Hohenfels, Germany. We lived in the nearby village of Seubersdorf and had our first child there.' },
   { title: 'Bass and drums', body: 'I’ve played for more than thirty years, from college clubs across the Southeast to Bourbon Street and Frenchmen Street in New Orleans. These days I play locally.' },
-  { title: 'A family that travels', body: 'We travel with our kids whenever we can. Iceland is still our favorite, and closer to home we look for places off the beaten path.' },
+  { title: 'Family travel', body: 'We travel with our kids whenever we can. Iceland is still our favorite. Closer to home we look for less-visited places.' },
 ];
 ---
-<BaseLayout title="About | Joshua Briley | Product Design Engineer" description="Meet Joshua Briley, a product design engineer with 20+ years framing, designing, and building accessible products, from insurance platforms to consumer apps.">
+<BaseLayout title="About | Joshua Briley | Product Design Engineer" description="Joshua Briley is a product design engineer with 20+ years of designing and building accessible products, from insurance platforms to consumer apps.">
   <section class="page-opener">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">About Joshua Briley</p>
-      <h1 class="page-type hero-in hero-in-2">I design and build products <em>with the teams that ship them.</em></h1>
-      <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces, from insurance platforms to consumer products. I care about how an interface feels and how it holds up in code.</p>
-      <p class="quiet-aside hero-in hero-in-3">Connecticut now. Louisiana always.</p>
-      <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View my experience <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+      <h1 class="page-type hero-in hero-in-2">About <em>Joshua Briley</em></h1>
+      <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces with product teams, from insurance platforms to consumer products. I design the interface and build it in front-end code.</p>
+      <p class="quiet-aside hero-in hero-in-3">I live in Connecticut. My roots are in Louisiana.</p>
+      <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
     </Container>
   </section>
   <section class="editorial-section">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 class="section-type">Why design <em>and build.</em></h2></div>
+        <div><h2 class="section-type">Design <em>and engineering</em></h2></div>
         <div class="prose-lede">
-          <p>I’ve worked on both the design and engineering sides of products for more than twenty years. The most useful work has usually happened between the two: working out what a workflow actually needs, then testing that answer in working software instead of a static mockup.</p>
+          <p>My most useful work has combined design and engineering. I work out what a workflow needs. Then I test that answer in working software.</p>
           <p>I’ve done that work on insurance portals, recipe sites, and child care software, and most recently on an enterprise design system used by roughly 3,500 engineers and designers.</p>
-          <p>In each of those jobs, much of what I’ve contributed has been connecting design and engineering: turning a design into something engineers can build from, giving them components they can reuse, and staying on the work when real data doesn’t fit the design.</p>
+          <p>In each job I turned designs into something engineers could build from. I gave them reusable components. I stayed on the work when real data didn’t fit the design.</p>
           <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
       </div>
@@ -48,7 +47,7 @@ const personal = [
   <section class="editorial-section">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 class="section-type">What my title <em>means.</em></h2><p class="section-intro">A product design engineer does a little of every role listed here and is most useful where product, design, and engineering meet.</p></div>
+        <div><h2 class="section-type">Roles in <em>the title</em></h2><p class="section-intro">A product design engineer does a little of every role listed here.</p></div>
         <div class="approach-list" data-reveal-stagger>{roles.map((role) => <article><h3>{role.title}</h3><p>{role.body}</p></article>)}</div>
       </div>
     </Container>
@@ -56,7 +55,7 @@ const personal = [
   <section class="editorial-section">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 class="section-type">What I <em>care about.</em></h2></div>
+        <div><h2 class="section-type">Working <em>principles</em></h2></div>
         <div class="approach-list" data-reveal-stagger>{principles.map((principle) => <article><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
       </div>
     </Container>
@@ -64,7 +63,7 @@ const personal = [
   <section class="editorial-section work-section">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 class="section-type">Let’s look at <em>the work.</em></h2><p class="section-intro">If you lead engineering, start with VMSpark and Rudiment UI. If you lead design, start with IVFCRYO and Logatot.</p></div>
+        <div><h2 class="section-type">Case <em>studies</em></h2><p class="section-intro">If you lead engineering, start with VMSpark and Rudiment UI. If you lead design, start with IVFCRYO and Logatot.</p></div>
         <div>
           <div class="resource-list">
             <a href="/projects/vmspark/"><span><strong>Design system rollout</strong><span>VMSpark: a 350-template audit and a design system that took the app’s heuristic score from 3.5 to 7.5.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -72,7 +71,7 @@ const personal = [
             <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, flows for fixing misheard entries, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
             <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
           </div>
-          <p class="experience-note"><strong>Frameworks.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks, and web components let all of them use the same accessible components instead of rebuilding them for each one. Rudiment UI shows my React component work.</p>
+          <p class="experience-note"><strong>Frameworks.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks. Web components let all of them use the same accessible components. Rudiment UI shows my React component work.</p>
         </div>
       </div>
     </Container>
@@ -80,7 +79,7 @@ const personal = [
   <section class="editorial-section">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 class="section-type">Away from <em>the keyboard.</em></h2><p class="section-intro">Family, music, travel, and strong opinions about gumbo.</p></div>
+        <div><h2 class="section-type">Outside <em>work</em></h2></div>
         <div class="approach-list" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
       </div>
     </Container>

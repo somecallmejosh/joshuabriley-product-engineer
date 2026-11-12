@@ -17,7 +17,7 @@ const known = new Set(topics.map((topic) => topic.category));
 // Posts with an unlisted category remain visible without requiring an index edit.
 const groups = [
   ...topics.map((topic) => ({ ...topic, label: topic.category, posts: rest.filter((post) => post.data.category === topic.category) })),
-  { id: 'more-writing', title: 'More', emphasis: 'writing.', label: 'More writing', description: 'Further notes on interfaces and the teams building them.', posts: rest.filter((post) => !known.has(post.data.category)) },
+  { id: 'more-writing', title: 'More', emphasis: 'writing', label: 'More writing', description: 'Notes on interfaces and the teams that build them.', posts: rest.filter((post) => !known.has(post.data.category)) },
 ].filter((group) => group.posts.length > 0);
 // The series lineup: a compact index of the series, linking to their sections below.
 const countNoun: Record<string, string> = { 'wild-interfaces': 'episodes', 'ui-court': 'cases', 'fictional-ux-engineers': 'profiles' };
@@ -27,12 +27,11 @@ const lineup = topics
   .map((series) => ({ ...series, unit: countNoun[series.id] ?? 'articles' }));
 ---
 
-<BaseLayout title="Writing: interface lessons, played for laughs | Joshua Briley" description="Bad interface patterns stand trial, everyday components get the nature-documentary treatment, and famous characters join product teams. Each story hides a real lesson about building better UI.">
+<BaseLayout title="Writing about interfaces | Joshua Briley" description="Three comedy series about interface design. In UI Court, bad patterns stand trial. Wild Interfaces narrates common components like a nature documentary. In Fictional UX Engineers, famous characters join product teams. Each story covers a real interface lesson.">
   <section class="page-opener writing-opener">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Writing</p>
-      <h1 class="page-type hero-in hero-in-2">Interface lessons, <em>played for laughs.</em></h1>
-      <p class="page-lede hero-in hero-in-3">Bad patterns stand trial, everyday components get the nature-documentary treatment, and famous characters join product teams. Each story hides a real lesson about building better UI.</p>
+      <h1 class="page-type hero-in hero-in-2">Writing about <em>interfaces</em></h1>
+      <p class="page-lede hero-in hero-in-3">Three comedy series about interface design. In UI Court, bad patterns stand trial. Wild Interfaces narrates common components like a nature documentary. In Fictional UX Engineers, famous characters join product teams. Each story covers a real interface lesson.</p>
     </Container>
   </section>
 
@@ -56,7 +55,7 @@ const lineup = topics
 
   <nav class="editorial-section series-lineup" aria-labelledby="series-lineup-title">
     <Container width="wide">
-      <h2 id="series-lineup-title" class="mono-label series-lineup-title">Browse by series</h2>
+      <h2 id="series-lineup-title" class="mono-label series-lineup-title">Series</h2>
       <ul role="list">
         {lineup.map((series) => (
           <li>

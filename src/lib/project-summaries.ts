@@ -7,14 +7,14 @@ export const vmsparkSummary = {
 
 /** The same decision record is shown in the case study and style guide. */
 export const ivfcryoSummary = {
-  problem: `Interviews with the owner, COO, and office manager showed the hard part wasn't the drive. It was getting the patient, two clinics, a courier, and IVFCRYO confirmed and ready before a shipment could start.`,
+  problem: `Interviews with the owner, COO, and office manager showed that the hardest part was getting the patient, two clinics, a courier, and IVFCRYO confirmed and ready before a shipment could start.`,
   decision: `I chose <strong class="text-ink font-semibold">one shared record</strong> over two separate apps, so patients and staff always see the same status.`,
   evidence: `Support calls dropped 75% and shipping errors 55% once patients could see that both clinics had signed off.`,
 };
 
 /** The Logatot decision record, from notes/interview-notes/tldr.md. */
 export const logatotSummary = {
-  problem: `Three providers, interviewed separately, described the same problem: the job leaves no time for paperwork, so they filled it in from memory at night, and those were the records inspectors and auditors cared about most.`,
-  decision: `I chose <strong class="text-ink font-semibold">matching speech against a known list</strong>, with AI used only ahead of time, because a compliance record can't afford a confident guess.`,
+  problem: `Three providers, interviewed separately, described the same problem. The job leaves no time for paperwork, so they filled it in from memory at night. Inspectors and auditors care most about those records.`,
+  decision: `I chose <strong class="text-ink font-semibold">matching speech against a known list</strong>, with AI used only ahead of time, because compliance records can't contain guessed entries.`,
   evidence: `Attendance, meal, and safety records now come from entries logged during the day, so reviewing them takes minutes instead of an evening.`,
 };

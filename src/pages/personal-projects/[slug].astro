@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import GalleryLink from '~/components/patterns/GalleryLink.astro';
@@ -19,7 +20,7 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
 <BaseLayout title={`${project.name} | Joshua Briley`} description={project.note} mainClass="scrap-page">
   <section class="page-opener">
     <Container width="wide">
-      <nav class="role-line hero-in hero-in-1" aria-label="Breadcrumb"><a href="/personal-projects/">Personal projects</a><span aria-hidden="true">/</span>{project.name}</nav>
+      <Breadcrumbs class="hero-in hero-in-1" items={[{ href: '/personal-projects/', label: 'Personal projects' }]} current={project.name} />
       <div class="scrap-hero">
         <div>
           <h1 class="page-type hero-in hero-in-1">{project.name}</h1>
@@ -84,7 +85,7 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
 
   <section class="scrap-next" aria-label="Next project">
     <Container width="wide">
-      <a class="scrap-next-link" href={next.href}><span>Next on the wall</span><strong>{next.name} <span aria-hidden="true" data-link-arrow="right">→</span></strong></a>
+      <a class="scrap-next-link" href={next.href}><span>Next on the wall</span><strong><span class="title-text">{next.name}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></strong></a>
     </Container>
   </section>
 </BaseLayout>

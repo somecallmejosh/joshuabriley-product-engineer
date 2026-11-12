@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import '~/styles/tools.css';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
@@ -33,7 +34,6 @@ interface Props {
 const {
   title,
   description,
-  kind,
   tool,
   props: toolProps = [],
   instructions,
@@ -73,7 +73,7 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
 >
   <section class="page-opener tool-opener">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1"><a href="/tools/">Tools</a><span aria-hidden="true">/</span>{kind}</p>
+      <Breadcrumbs class="hero-in hero-in-1" items={[{ href: '/tools/', label: 'Tools' }]} current={title} />
       <div class="tool-hero-layout hero-split">
         <div class="tool-hero-copy hero-split-copy">
           <h1 class="page-type hero-in hero-in-2">{titleWords.join(' ')} <em>{titleEnd}.</em></h1>
@@ -140,7 +140,6 @@ const liShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURI
 </BaseLayout>
 
 <style>
-  .tool-opener .role-line a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .tool-hero-layout { display: grid; gap: 2.5rem; align-items: center; margin-top: 2rem; }
   .tool-opener .page-type { max-width: 19ch; margin-top: 0; font-size: clamp(2.6rem, 5.7vw, 5.5rem); }
   .tool-hero-illustration { min-width: 0; max-width: 40rem; }

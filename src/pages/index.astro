@@ -8,19 +8,18 @@ import { getNavFeatures } from '~/lib/nav-features';
 
 const { testimonials, defaultTestimonial } = await getNavFeatures();
 const needs = [
-  { title: 'Product decisions you can trace', body: 'I map the workflow before designing screens, then check the result after launch. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO decision' },
-  { title: 'Interfaces built the way they were designed', body: 'I build what I design, including the loading, error, and recovery states that mockups leave open. When Logatot can’t understand what a provider said, it asks for a quick fix instead of saving a wrong record.', href: '/projects/logatot/', link: 'See the voice repair flow' },
-  { title: 'Systems that save teams repeated work', body: 'In my current role, that means automating Storybook and Figma setup so teams spend their time on features. That work isn’t public, so my personal component library, Rudiment UI, shows the same approach: accessible components, tokens, and documented APIs you can inspect.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
+  { title: 'Workflow research and measured outcomes', body: 'I map the workflow before designing screens. After launch I measure the result. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO case study' },
+  { title: 'Complete interface states', body: 'I build the interfaces I design. That includes the loading, error, and recovery states that mockups often omit. When Logatot can’t understand what a provider said, it asks the provider to correct it before saving.', href: '/projects/logatot/', link: 'See the voice repair flow' },
+  { title: 'Design system automation', body: 'In my current role I automate Storybook and Figma setup so teams can spend their time on features. That work isn’t public. Rudiment UI, my personal component library, uses the same approach. It has accessible components, tokens, and documented APIs.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
 ];
 ---
-<BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years taking products from problem to production: working with product teams to frame what to build, design the workflow, and ship it accessible. Case studies with clear ownership.">
+<BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years of experience. I work with product teams to decide what to build, design the workflow, and ship accessible interfaces. Each case study states what I owned.">
   <section class="home-hero">
     <Container width="wide">
-      <p class="role-line hero-in hero-in-1">Product design engineer</p>
       <div class="home-hero-grid hero-split">
         <div class="home-hero-copy hero-split-copy">
-          <h1 class="hero-type hero-in hero-in-2">Where product, design, and <em>engineering meet.</em></h1>
-          <p class="hero-lede hero-in hero-in-3">I work with product managers, designers, and engineers to design the workflow, build the interface in code, and make sure it’s accessible when it ships.</p>
+          <h1 class="hero-type hero-in hero-in-2">Product design <em>engineer</em></h1>
+          <p class="hero-lede hero-in hero-in-3">I work with product managers, designers, and engineers. I design the workflow, build the interface in code, and test it for accessibility before release.</p>
           <div class="hero-actions hero-in hero-in-4">
             <a href="#selected-work" class="action-link">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
             <a href="/resume/" class="editorial-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -36,20 +35,18 @@ const needs = [
   <section id="selected-work" class="editorial-section work-section">
     <Container width="wide">
       <div class="section-heading">
-        <h2 class="section-type">Selected <em>work.</em></h2>
-        <p>See how I designed and built interfaces for complex workflows, what I owned on each one, and how it turned out.</p>
+        <h2 class="section-type">Selected <em>work</em></h2>
+        <p>These case studies cover healthcare staffing, fertility logistics, and home child care. Each one states what I owned and the measured result.</p>
       </div>
       <WorkList compact />
-      <a href="/projects/" class="editorial-link work-more">Explore all work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a href="/projects/" class="editorial-link work-more">View all case studies <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </Container>
   </section>
   <section class="editorial-section approach-section">
     <Container width="wide">
       <div class="approach-layout">
         <div>
-          <h2 class="section-type">Where I <em>can help.</em></h2>
-          <p class="section-intro">As a product design engineer, I work across the product decision, the design, and the code that ships it. The case studies show which parts I owned.</p>
-          <p class="quiet-aside">The button is usually the easy part.</p>
+          <h2 class="section-type">Areas of <em>work</em></h2>
         </div>
         <div class="approach-list" data-reveal-stagger>
           {needs.map((need) => (
@@ -64,7 +61,7 @@ const needs = [
     </Container>
   </section>
   {testimonials.length > 0 && (
-    <section class="editorial-section surface-denim home-testimonial" data-surface="dark" aria-label="What clients and colleagues say">
+    <section class="editorial-section surface-denim home-testimonial" data-surface="dark" aria-label="Testimonials">
       <Container width="wide">
         {testimonials.map((entry) => (
           <div data-home-quote hidden={entry.id !== defaultTestimonial.id}>
@@ -72,7 +69,7 @@ const needs = [
           </div>
         ))}
         <p class="home-testimonial-more">
-          <a href="/testimonials/" class="editorial-link editorial-link--light">Read all the testimonials <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/testimonials/" class="editorial-link editorial-link--light">Read all testimonials <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </p>
       </Container>
     </section>

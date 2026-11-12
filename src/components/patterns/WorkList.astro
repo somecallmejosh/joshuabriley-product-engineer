@@ -16,15 +16,15 @@ const { compact = false, items = selectedWork } = Astro.props;
         <span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span>
       </a>
       <div class="work-copy">
+        <h3><a href={work.href}><span class="title-text">{work.name}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></a></h3>
         <p class="work-kind">{work.kind}</p>
-        <h3><a href={work.href}>{work.name}<span aria-hidden="true" data-link-arrow="up-right"> ↗</span></a></h3>
         <p class="work-title">{work.title}</p>
         {/* Compact lists show the headline and result only; the image and name already link through. */}
         {!compact && <p class="work-summary">{work.summary}</p>}
         {!compact && (
           <dl class="work-facts">
             <div><dt>My role</dt><dd>{work.ownership}</dd></div>
-            <div><dt>Look for</dt><dd>{work.evidence}</dd></div>
+            <div><dt>Topics</dt><dd>{work.evidence}</dd></div>
           </dl>
         )}
         <p class="work-result"><strong>{work.result}</strong><span>{work.resultNote}</span></p>

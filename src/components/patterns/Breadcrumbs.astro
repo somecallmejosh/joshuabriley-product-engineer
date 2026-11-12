@@ -1,0 +1,64 @@
+---
+/**
+ * Breadcrumbs: the trail at the top of every page below a section index
+ * (case studies, galleries, posts, tools, games, personal projects).
+ *
+ * Pass the parents as `items`; `current` names this page and is not linked.
+ * Labels match the header menu: Projects, Personal projects, Tools, Play, Writing.
+ */
+interface Crumb { href: string; label: string; }
+interface Props {
+  /** Parent pages, outermost first. Each is linked. */
+  items: Crumb[];
+  /** This page's short name. Shown last, not linked. */
+  current: string;
+  /** Extra classes, such as the hero-in entrance step. */
+  class?: string;
+}
+const { items, current, class: className } = Astro.props;
+---
+<nav class:list={['breadcrumbs', className]} aria-label="Breadcrumb">
+  <ol>
+    {items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    <li><span aria-current="page">{current}</span></li>
+  </ol>
+</nav>
+
+<style>
+  /* Inline items, so a long current title wraps like a sentence instead of
+     dropping to its own line with an orphaned separator. */
+  .breadcrumbs ol {
+    font-size: 0.83rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+  .breadcrumbs li {
+    display: inline;
+  }
+  .breadcrumbs li + li::before {
+    content: '/' / '';
+    margin: 0 0.6rem;
+    color: var(--accent);
+  }
+  .breadcrumbs a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 4px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .breadcrumbs a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+  .breadcrumbs [aria-current='page'] {
+    color: var(--ink);
+  }
+  @media (max-width: 640px) {
+    .breadcrumbs ol { font-size: 0.76rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .breadcrumbs a { transition: none; }
+  }
+</style>

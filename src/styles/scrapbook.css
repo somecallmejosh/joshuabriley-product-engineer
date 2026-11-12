@@ -99,7 +99,6 @@
   transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out);
 }
 
-.scrap-name [data-link-arrow] { color: var(--accent); }
 
 .scrap-link:is(:hover, :focus-visible) .scrap-name > span:first-child {
   color: var(--accent);
@@ -151,15 +150,6 @@
 }
 
 /* Project page */
-/* Breadcrumb, as on the play and tool pages. */
-.scrap-page .role-line a {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: var(--line-strong);
-  text-underline-offset: 4px;
-}
-
-.scrap-page .role-line a:hover { color: var(--accent); }
 
 .scrap-hero {
   display: grid;
@@ -264,7 +254,6 @@
   line-height: 1.1;
 }
 
-.scrap-next-link:is(:hover, :focus-visible) strong { color: var(--accent); }
 
 @media (min-width: 640px) {
   .scrap-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import Section from '~/components/layout/Section.astro';
 import Container from '~/components/layout/Container.astro';
@@ -117,7 +118,7 @@ const edges = [
 
   <section class="project-opening">
     <Container width="wide">
-      <a href="/projects/logatot/" class="project-back"><span aria-hidden="true" data-link-arrow="up-left">↖</span> Logatot case study</a>
+      <Breadcrumbs items={[{ href: '/projects/', label: 'Projects' }, { href: '/projects/logatot/', label: 'Logatot' }]} current="User feedback" />
       <div class="project-identity"><p>Logatot</p><span>Follow-up · Changes from user feedback</span></div>
       <h1 class="project-title">What users told us after launch, <em>and what we changed.</em></h1>
       <div class="project-introduction">
@@ -168,12 +169,12 @@ const edges = [
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Themes</p>
+            <Heading level={3} visual="h2" class="mb-6">Themes</Heading>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {themes.map((t) => (
                 <li class="pt-5">
                   <Icon name={t.icon} size={24} class="mb-3 text-ink-muted" />
-                  <Heading level={3} visual="h3" tone="ink" class="mb-1.5"><a href={t.href} class="hero-link">{t.title}</a></Heading>
+                  <Heading level={4} visual="h3" tone="ink" class="mb-1.5"><a href={t.href} class="hero-link">{t.title}</a></Heading>
                   <Text size="sm" tone="muted">{t.body}</Text>
                 </li>
               ))}
@@ -199,7 +200,7 @@ const edges = [
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">What the audit found</p>
+            <Heading level={3} visual="h2" class="mb-6">What the audit found</Heading>
             <ul class="measure space-y-3">
               {menuFound.map((item) => (
                 <li class="flex items-start gap-3 text-ink-muted leading-relaxed">
@@ -211,12 +212,12 @@ const edges = [
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">What changed</p>
+            <Heading level={3} visual="h2" class="mb-6">What changed</Heading>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
               {menuChanged.map((c) => (
                 <li class="pt-5">
                   <Icon name={c.icon} size={24} class="mb-3 text-ink-muted" />
-                  <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{c.title}</Heading>
+                  <Heading level={4} visual="h3" tone="ink" class="mb-1.5">{c.title}</Heading>
                   <Text size="sm" tone="muted">{c.body}</Text>
                 </li>
               ))}
@@ -291,7 +292,7 @@ const edges = [
           </dl>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Applied page by page</p>
+            <Heading level={3} visual="h2" class="mb-6">Applied page by page</Heading>
             <ul class="divide-y divide-line">
               {pages.map((p) => (
                 <li class="py-4 grid gap-1 sm:grid-cols-3 sm:gap-6">
@@ -396,7 +397,7 @@ const edges = [
     </Container>
 
     <Container width="content" class="mt-16">
-      <p class="mono-label mb-6">Same day, same twelve children, same scale</p>
+      <Heading level={3} visual="h2" class="mb-6">Same day, same twelve children, same scale</Heading>
       <div class="grid grid-cols-2 gap-x-6 sm:gap-x-10 items-start">
         <Plate
           size="half"
@@ -431,12 +432,12 @@ const edges = [
           </div>
 
           <div class="mt-12">
-            <p class="mono-label mb-6">Control types</p>
+            <Heading level={3} visual="h2" class="mb-6">Control types</Heading>
             <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-3">
               {controls.map((c) => (
                 <li class="pt-5">
                   <Icon name={c.icon} size={24} class="mb-3 text-ink-muted" />
-                  <Heading level={3} visual="h3" tone="ink" class="mb-1">{c.name}</Heading>
+                  <Heading level={4} visual="h3" tone="ink" class="mb-1">{c.name}</Heading>
                   <p class="text-sm text-ink mb-1.5">{c.job}</p>
                   <Text size="sm" tone="muted">{c.look}</Text>
                 </li>

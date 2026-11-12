@@ -24,15 +24,15 @@ const groups = [{ label: undefined as string | undefined, items }, ...(later ? [
 <Section tone="paper" padding="default" id="edges" class="scroll-mt-24">
   <Container width="content">
     <Heading level={2} visual="h2" tone="ink" class={lead ? 'mb-3' : 'mb-10'}>Limitations</Heading>
-    {lead && <Text size="lg" tone="muted" class="measure mb-10">{lead}</Text>}
+    {lead && <p class="case-lede measure mb-10">{lead}</p>}
     {groups.map((group, i) => (
       <>
-        {group.label && <p class:list={['mono-label mb-6', i > 0 && 'mt-16']}>{group.label}</p>}
+        {group.label && <Heading level={3} visual="h2" tone="ink" class={i > 0 ? 'mb-6 mt-16' : 'mb-6'}>{group.label}</Heading>}
         <ul class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2">
           {group.items.map((e) => (
             <li class="pt-5">
               <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />
-              <Heading level={3} visual="h3" tone="ink" class="mb-1.5">{e.title}</Heading>
+              <Heading level={group.label ? 4 : 3} visual="h3" tone="ink" class="mb-2">{e.title}</Heading>
               <Text size="sm" tone="muted"><Fragment set:html={e.body} /></Text>
             </li>
           ))}

@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
@@ -21,12 +22,15 @@ interface Props { gallery: ProjectGallery; }
 const { gallery } = Astro.props;
 const name = { ...projectPages, ...personalProjects }[gallery.project].name;
 const caseStudy = `/${gallery.section}/${gallery.slug}/`;
+const sectionCrumb = gallery.section === 'personal-projects'
+  ? { href: '/personal-projects/', label: 'Personal projects' }
+  : { href: '/projects/', label: 'Projects' };
 ---
 
 <ProjectLayout title={`${name} gallery | Joshua Briley`} description={`${name}: ${gallery.intro}`}>
   <section class="project-opening pb-24">
     <Container width="wide">
-      <a href={caseStudy} class="project-back"><span aria-hidden="true" data-link-arrow="up-left">↖</span> {name} case study</a>
+      <Breadcrumbs items={[sectionCrumb, { href: caseStudy, label: name }]} current="Gallery" />
       <Heading level={1} visual="display-md" tone="ink" class="mt-8 mb-4">{name} gallery</Heading>
       <Text size="lg" tone="muted" class="measure">{gallery.intro}</Text>
 

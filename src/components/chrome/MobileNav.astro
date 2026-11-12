@@ -110,7 +110,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
                               <figure class="mobile-quote" data-mobile-quote hidden={id !== defaultTestimonial.id}>
                                 <blockquote><p>“{testimonial.quote}”</p></blockquote>
                                 <figcaption>
-                                  {testimonial.image ? <img src={testimonial.image} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="mobile-quote-initials" aria-hidden="true">{testimonial.initials}</span>}
+                                  <span class="offset-frame mobile-quote-avatar">{testimonial.image ? <img src={testimonial.image} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="mobile-quote-initials" aria-hidden="true">{testimonial.initials}</span>}</span>
                                   <span class="mobile-link-text">
                                     <span class="mobile-quote-name">{testimonial.name}</span>
                                     <span class="mobile-link-description">{testimonial.role}, {testimonial.company}</span>
@@ -206,7 +206,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
   .mobile-quote { margin: 0; padding: 1.25rem; background: rgb(var(--accent-rgb) / .04); }
   .mobile-quote blockquote p { font-size: 1rem; font-weight: 600; line-height: 1.5; letter-spacing: -.015em; color: var(--ink); text-wrap: pretty; }
   .mobile-quote figcaption { display: flex; align-items: center; gap: .75rem; margin-top: 1rem; }
-  .mobile-quote img, .mobile-quote-initials { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .mobile-quote-avatar { --frame-size: 40px; --frame-offset: 4px; }
   .mobile-quote-initials { display: grid; place-items: center; background: rgb(var(--accent-rgb) / .08); color: var(--accent); font-size: .8rem; font-weight: 600; }
   .mobile-quote-name { font-size: .9375rem; font-weight: 600; color: var(--ink); }
 

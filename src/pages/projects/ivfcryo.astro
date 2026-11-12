@@ -1,5 +1,6 @@
 ---
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import Heading from '~/components/primitives/Heading.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import GalleryLink from '~/components/patterns/GalleryLink.astro';
@@ -14,6 +15,7 @@ import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
 import CaseCards from '~/components/patterns/case/CaseCards.astro';
+import CaseFindings from '~/components/patterns/case/CaseFindings.astro';
 import CaseResults from '~/components/patterns/case/CaseResults.astro';
 import CaseQuote from '~/components/patterns/case/CaseQuote.astro';
 import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
@@ -33,11 +35,11 @@ const description =
 
 const jumpLinks = [
   { href: '#tldr', label: 'Summary' },
-  { href: '#context', label: 'Who it’s for' },
+  { href: '#context', label: 'Shipment parties' },
   { href: '#research', label: 'Research' },
   { href: '#decisions', label: 'Design decisions' },
   { href: '#outcomes', label: 'Results' },
-  { href: '#process', label: 'How it was built' },
+  { href: '#process', label: 'Build and integrations' },
   { href: '#edges', label: 'Limitations' },
 ];
 
@@ -56,7 +58,7 @@ const results = [
   {
     label: 'For patients like Priya and clinics like Lauren’s',
     items: [
-      'See that both clinics have signed off, instead of calling',
+      'See when both clinics have signed off',
       'A readiness view of what each party still owes',
       'Tracking by email or text, with no account',
       'Forms that let them fix mistakes without calling support',
@@ -65,7 +67,7 @@ const results = [
   {
     label: 'For IVFCRYO staff like Tessa',
     items: [
-      'One case instead of email, fax, and phone notes',
+      'Email, fax, and phone notes gathered into one case',
       'Every client’s shipments, by readiness state',
       'Alert levels, each with an assigned responder',
       'A named contact acknowledges every handoff',
@@ -76,7 +78,7 @@ const results = [
     items: [
       'No courier scheduled until every party confirms readiness',
       'Orders capture declared value for CRYO Shield claims',
-      'Custody closes on staff acceptance, not a delivery scan',
+      'Custody closes when staff accept the specimens',
       'Patients and staff always see the same status',
     ],
   },
@@ -99,7 +101,7 @@ const custody = [
   { icon: 'ph:package', title: 'Prepare & release', body: 'The sending lab loads the tracked unit, and a named contact releases it.' },
   { icon: 'ph:airplane-tilt', title: 'Courier pickup', body: 'The courier takes custody, and both sides confirm the handoff.' },
   { icon: 'ph:thermometer', title: 'Delivery & inspection', body: 'The receiving lab records a calibrated temperature before taking custody.' },
-  { icon: 'ph:seal-check', title: 'Accept & close', body: 'The record closes when staff accept the specimens, not on a delivery scan.' },
+  { icon: 'ph:seal-check', title: 'Accept & close', body: 'The record closes when staff accept the specimens.' },
 ];
 
 // The readiness gate: each responsible party clears a checkpoint before a courier
@@ -133,10 +135,10 @@ const adminFlow = [
 
 // Front-end design decisions that made the correct path easier than the wrong one.
 const recovery = [
-  { icon: 'ph:list-checks', label: 'Structured records over free text' },
+  { icon: 'ph:list-checks', label: 'Structured specimen records' },
   { icon: 'ph:map-pin', label: 'Geocoded address validation' },
   { icon: 'ph:warning-circle', label: 'Inline validation, recoverable errors' },
-  { icon: 'ph:eye', label: 'Text, icon, and shape, never color alone' },
+  { icon: 'ph:eye', label: 'Status shown by text, icon, and shape' },
   { icon: 'ph:target', label: 'Focus managed on visibility change' },
   { icon: 'ph:megaphone', label: 'Live-region status announcements' },
   { icon: 'ph:handshake', label: 'Explicit acknowledgment at every handoff' },
@@ -146,28 +148,28 @@ const recovery = [
 // The tiered alert model — a design requirement I handed engineering, and the fix
 // for the alert fatigue Daryl and Sasha both named.
 const alertTiers = [
-  { level: 'Normal', tone: 'ok', body: 'Within expected range. Logged, surfaced quietly, no one paged.' },
-  { level: 'Early warning', tone: 'warn', body: 'A trend moving toward a threshold. Closer monitoring, a call to the courier.' },
-  { level: 'Required action', tone: 'warn', body: 'A defined threshold crossed. The owner is notified and must respond.' },
-  { level: 'Emergency', tone: 'crit', body: 'A critical excursion. The pre-assigned escalation path fires.' },
+  { level: 'Normal', tone: 'ok', body: 'The reading is within the expected range. It is logged and shown quietly, and no one is paged.' },
+  { level: 'Early warning', tone: 'warn', body: 'A reading is trending toward a threshold. Staff monitor it more closely and call the courier.' },
+  { level: 'Required action', tone: 'warn', body: 'A reading crosses a defined threshold. The owner is notified and must respond.' },
+  { level: 'Emergency', tone: 'crit', body: 'A reading shows a critical excursion. The pre-assigned escalation path starts.' },
 ];
 
 // The integration boundaries we drew together, each isolated behind its own
 // service object so vendor quirks never leaked into the interface I owned.
 const integrations = [
-  { icon: 'ph:thermometer-cold', name: 'IVFCRYO-Sense', role: 'GPS, internal + ambient temp, humidity, pressure' },
+  { icon: 'ph:thermometer-cold', name: 'IVFCRYO-Sense', role: 'GPS, internal and ambient temperature, humidity, and pressure' },
   { icon: 'ph:barcode', name: 'ShipEngine', role: 'Multi-carrier rates and labels' },
   { icon: 'ph:airplane-tilt', name: 'Dedicated courier', role: 'Direct medical hand-carry, no sorting hubs' },
   { icon: 'ph:envelope-simple', name: 'SendGrid', role: 'Tiered email notifications' },
-  { icon: 'ph:device-mobile', name: 'Twilio', role: 'SMS alerts, off-screen' },
-  { icon: 'ph:lock-key', name: 'Devise + 2FA', role: 'Auth for medical logistics' },
+  { icon: 'ph:device-mobile', name: 'Twilio', role: 'SMS alerts' },
+  { icon: 'ph:lock-key', name: 'Devise + 2FA', role: 'Sign-in with two-factor authentication' },
 ];
 
 // The four-lens measurement frame Don and Daryl both described — the design's
 // definition of success, not just a headline number.
 const metricLenses = [
   { lens: 'Safety', items: ['Temperature excursions', 'Monitoring gaps', 'Chain-of-custody exceptions', 'Incomplete receiving records'] },
-  { lens: 'Reliability', items: ['On-time pickups + deliveries', 'Rescheduled shipments', 'Shipments started without full readiness'] },
+  { lens: 'Reliability', items: ['On-time pickups and deliveries', 'Rescheduled shipments', 'Shipments started without full readiness'] },
   { lens: 'Efficiency', items: ['Order-to-readiness time', 'Manual follow-ups per case', 'Exception resolution time'] },
   { lens: 'Experience', items: ['Status inquiries', 'Complaints', 'Stage-appropriate updates delivered'] },
 ];
@@ -269,11 +271,11 @@ const systemAudit = [
 // The decisions that shaped the new look. Each one traces back to the
 // original research or to the accessibility work with a screen reader user.
 const redesignDecisions = [
-  { icon: 'ph:cursor-click', title: 'Navy means you can click it', body: 'Navy is only for actions, links, and the current nav item, at 11:1 contrast. Orange is never button text again.' },
+  { icon: 'ph:cursor-click', title: 'Navy means you can click it', body: 'Navy is only for actions, links, and the current nav item, at 11:1 contrast. Orange no longer appears as button text.' },
   { icon: 'ph:hash', title: 'Numbers line up', body: 'Readouts use Geist Mono with tabular figures, so temperatures, times, and prices compare at a glance.' },
   { icon: 'ph:shapes', title: 'Every status has a shape', body: 'Each status chip has a glyph as well as a color. Pending moved from red to amber.' },
   { icon: 'ph:signpost', title: 'One primary action per page', body: 'One navy button per page. Breadcrumbs on 27 nested pages replaced scattered “Back” buttons.' },
-  { icon: 'ph:calendar-dots', title: 'A plan is never shown as a fact', body: 'The custody timeline labels planned times “Scheduled” or “Requested”, never as actual times.' },
+  { icon: 'ph:calendar-dots', title: 'Planned times are labeled', body: 'The custody timeline labels planned times “Scheduled” or “Requested” so they aren’t read as actual times.' },
   { icon: 'ph:thermometer-hot', title: 'Keep the warmest reading', body: 'The temperature chart keeps the warmest reading in each interval, so a short spike can’t be averaged away.' },
 ];
 
@@ -284,7 +286,7 @@ const heuristics = [
   { n: 1, name: 'Visibility of system status', before: 4, after: 9, fix: 'Overdue pickups are flagged, and labels and quotes show working, done, or failed.' },
   { n: 2, name: 'Match with the real world', before: 5, after: 9, fix: 'One set of stage names everywhere, replacing raw values like “Pending” and “Delete”.' },
   { n: 3, name: 'User control and freedom', before: 3, after: 9, fix: 'Archived contacts can be restored, unsaved edits are guarded, and filters clear in one click.' },
-  { n: 4, name: 'Consistency and standards', before: 4, after: 9, fix: 'Filters are a real form, so Enter works. One confirm dialog and one flash message.' },
+  { n: 4, name: 'Consistency and standards', before: 4, after: 9, fix: 'Filters are a real form, so Enter works. Every page uses the same confirm dialog and flash message.' },
   { n: 5, name: 'Error prevention', before: 2, after: 9, fix: '“Delete” needs confirmation, package types in use can’t be deleted, and forms block double-submits.' },
   { n: 6, name: 'Recognition over recall', before: 6, after: 8, fix: 'Hidden filters show a count. Contacts added in a dialog can be picked right away.' },
   { n: 7, name: 'Flexibility and efficiency', before: 4, after: 8, fix: 'Press / to search any list. The in-transit list makes one query instead of one per row.' },
@@ -344,7 +346,7 @@ const phones = [
 
   <Tldr problem={tldr.problem} decision={tldr.decision} evidence={tldr.evidence} />
 
-  <CaseSection id="context" title="Who it’s for">
+  <CaseSection id="context" title="Shipment parties">
     <CaseProse>
       <p>
         IVFCRYO ships frozen embryos between clinics, and a missed temperature drop can cost someone their only remaining embryo. As Don, the
@@ -361,7 +363,7 @@ const phones = [
       <Container width="wide" class="mt-16">
         <Plate
           title="Shipment detail"
-          caption="Who has the shipment comes first, then key facts, the temperature trace, and the map."
+          caption="Custody status comes first, followed by key facts, the temperature trace, and the map."
           src={shot('app-detail')}
           alt="The shipment detail page: the title Hudson Valley Reproductive to IVFCRYO Lab, a four-step custody timeline with In transit current, a key-facts strip for pickup, delivery, service, and quoted price, then sensor data with a large −192.9 °C probe readout, a temperature chart below a dashed set-point line marked “All 12 below set-point”, ambient readings, and a live map. A side panel lists shipment details and staff comments."
         />
@@ -371,7 +373,7 @@ const phones = [
 
   <CaseSection id="research" title="Research">
     <CaseProse>
-      <h3 class="mono-label">How requirements were gathered</h3>
+      <Heading level={3} visual="h2">Requirements gathering</Heading>
       <p>
         IVFCRYO’s requirements reached me as photographs: printed Word pages listing everything
         they had to collect for a single shipment, and sample labels from their two couriers.
@@ -389,14 +391,14 @@ const phones = [
         “One of the worst operational patterns is scheduling first and hoping the remaining
         requirements are completed before pickup.”
       </blockquote>
-      <figcaption class="mono-label mt-3">Daryl, COO, on what goes wrong today</figcaption>
+      <figcaption class="mono-label mt-3">Daryl, COO, on scheduling</figcaption>
     </figure>
 
     <CaseProse>
       <p>
         From there I moved from notebook sketches to Figma designs and reviewed them with
-        customers. Once we agreed on how it should work, we built high-clarity mocks in code
-        instead of a design program. Tasks lived in GitHub Projects, where IVFCRYO could check
+        customers. Once we agreed on how it should work, we built high-clarity mocks in code.
+        Tasks lived in GitHub Projects, where IVFCRYO could check
         status between our scheduled touchpoints.
       </p>
     </CaseProse>
@@ -408,20 +410,7 @@ const phones = [
       </p>
     </CaseProse>
 
-    <div class="mt-12">
-      <p class="mono-label mb-6">What the audit found</p>
-      <dl class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
-        {systemAudit.map((a) => (
-          <div class="border-t border-line pt-4">
-            <dt class="flex items-baseline gap-3">
-              <span class="font-display text-3xl tracking-tight text-ink">{a.value}</span>
-              <span class="font-medium text-ink">{a.label}</span>
-            </dt>
-            <dd class="mt-2 text-sm text-ink-muted leading-relaxed">{a.note}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
+    <CaseFindings title="Audit findings" items={systemAudit} />
 
     <CaseProse class="mt-12">
       <p>
@@ -432,8 +421,8 @@ const phones = [
     </CaseProse>
 
     <div class="mt-16">
-          <h3 class="mono-label mb-6">Heuristic audit</h3>
-          <div class="measure space-y-5 leading-relaxed text-ink-muted text-lg">
+          <Heading level={3} visual="h2" class="mb-6">Heuristic audit</Heading>
+          <div class="case-prose measure space-y-5">
             <p>
               I scored every flow 0–10 against Nielsen’s ten usability heuristics, citing a file and
               line for each finding. The bar was <strong class="text-ink font-semibold">8 or above
@@ -446,10 +435,10 @@ const phones = [
             <Metric value="2 → 9" label="lowest error-recovery score" caption="the weakest heuristic on three flows" />
           </div>
 
-          <HeuristicScores items={heuristics} caption="Lowest score on any flow, before → after, and the change that moved it most." />
+          <HeuristicScores level={4} items={heuristics} caption="Lowest score on any flow, before → after, and the change that moved it most." />
 
           <div class="mt-12">
-            <p class="mono-label mb-6">By flow · average of ten</p>
+            <Heading level={4} visual="h3" class="mb-6">Average score by flow</Heading>
             <ul class="space-y-3">
               {flowScores.map((f) => (
                 <li class="flex flex-col gap-y-1.5 sm:flex-row sm:items-center sm:gap-x-4">
@@ -471,8 +460,8 @@ const phones = [
 
     <CaseProse class="mt-12">
       <p>
-        The pattern behind the interviews was the same: <strong class="text-ink font-semibold">the
-        hard part is getting everyone ready, not tracking the truck</strong>.
+        Every interview identified the same main problem: <strong class="text-ink font-semibold">getting
+        all five parties ready before pickup</strong>.
       </p>
     </CaseProse>
 
@@ -491,7 +480,7 @@ const phones = [
     <CaseFor project="ivfcryo" personas={["tessa","lauren"]} stage="readiness" />
     <CaseProse>
       <p>
-        To stop scheduling first and hoping, I made readiness
+        I made readiness
         <strong class="text-ink font-semibold">a status the system checks</strong>, with
         requested, provisional, and confirmed kept as separate states. Each responsible party
         clears a checkpoint before a courier can be scheduled.
@@ -499,7 +488,7 @@ const phones = [
     </CaseProse>
 
     <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-      <p class="mono-label mb-6">Readiness checks before scheduling</p>
+      <Heading level={3} visual="h3" class="mb-6">Readiness checks before scheduling</Heading>
       <ul>
         {readinessGate.map((row) => (
           <li class="grid grid-cols-[18px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-b border-line py-3.5 last:border-b-0 sm:grid-cols-[18px_9rem_minmax(0,1fr)]">
@@ -511,8 +500,8 @@ const phones = [
       </ul>
       <p class="mt-5 text-sm text-ink-muted leading-relaxed">
         A shipment moves from <span class="font-mono text-xs text-ink">awaiting_readiness</span>
-        to <span class="font-mono text-xs text-ink">ready</span>, and can be scheduled, only
-        after every check is confirmed.
+        to <span class="font-mono text-xs text-ink">ready</span> only after every check is
+        confirmed. Only a ready shipment can be scheduled.
       </p>
     </div>
   </CaseSection>
@@ -521,14 +510,14 @@ const phones = [
     <CaseFor project="ivfcryo" personas={["priya","tessa"]} stage="pickup" />
     <CaseProse>
       <p>
-        Customers need a short path from request to tracking, and staff need every shipment at
-        once. Two apps would have kept two records that could disagree, so both read one shipment
-        record, and customers get a readiness view too.
+        Customers need a short path from request to tracking. Staff need to see every shipment at
+        once. Two apps would have kept two records that could disagree, so customers and staff
+        read the same shipment record. Customers also get a readiness view.
       </p>
     </CaseProse>
 
     <div class="mt-12">
-      <p class="mono-label mb-6">Customer and staff screens</p>
+      <Heading level={3} visual="h2" class="mb-6">Customer and staff screens</Heading>
       <div class="grid gap-x-10 gap-y-10 md:grid-cols-2">
         <div>
           <div class="mb-5 flex items-center gap-3 pb-3">
@@ -588,8 +577,8 @@ const phones = [
         <p>
           Recipients never sign in. They get a link by email or text and only need to know the
           shipment is on its way. The public tracking page had been showing names, addresses, and
-          shipping labels to anyone with the link, so with the owner’s approval it now shows no
-          personal details, and the temperature chart opens with a plain verdict such as “All 12
+          shipping labels to anyone with the link. With the owner’s approval, it now shows no
+          personal details. The temperature chart opens with a plain summary such as “All 12
           below set-point”.
         </p>
       </CaseProse>
@@ -597,7 +586,7 @@ const phones = [
       <Container width="wide" class="mt-16">
         <Plate
           title="Public tracking"
-          caption="No account and no personal details: status, latest readings, and a staffed phone number."
+          caption="Shows status, latest readings, and a staffed phone number. It requires no account and shows no personal details."
           src={shot('app-public-tracking')}
           alt="The public tracking page: Hudson Valley Reproductive to IVFCRYO Lab with an In transit chip, a four-step custody timeline, From and To cities with the requested delivery time, latest sensor readings for probe and ambient temperature, humidity, and pressure, a probe temperature chart marked “All 12 below set-point”, and a line with the support email and phone number."
         />
@@ -606,7 +595,7 @@ const phones = [
       <Container width="wide" class="mt-16">
         <Plate
           title="A tracking link that doesn’t work"
-          caption="Bad links used to crash. Now the page explains and gives an email and phone number."
+          caption="Bad links used to crash the page. It now explains the problem and gives an email address and phone number."
           src={shot('app-public-tracking-missing')}
           alt="The public tracking page for an unknown shipment: “We couldn’t find this shipment. The link may be old or mistyped. Check the link in your email or text, or contact IVFCRYO and we’ll look it up for you,” with Email IVFCRYO and Call 800.430.9830 buttons."
         />
@@ -614,29 +603,29 @@ const phones = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="decision-shipment-choices" title="A few choices per shipment instead of one-click setup">
+  <CaseSection id="decision-shipment-choices" title="A few choices on each shipment">
     <CaseFor project="ivfcryo" personas={["lauren"]} stage="request" />
     <CaseProse>
       <p>
         There was a strong push for one-click shipping. Customers would set defaults for
         container size, departure and receiving facilities, and courier instructions, and
-        each shipment after that would take one click. That asked for a lot of foresight and
-        time customers didn’t have, and a default that didn’t fit would have to be undone.
+        each shipment after that would take one click. That required foresight and setup time
+        customers didn’t have. A default that didn’t fit would also have to be undone.
       </p>
       <p>
-        I prototyped the workflow with several customers and timed it. Their first reaction
-        to the idea was highly supportive, but once they tried it, one-click shipping turned
-        out to be more of a hassle.
+        I prototyped the workflow with several customers and timed it. Customers supported the
+        idea at first. When they used the prototype, one-click shipping took more effort than
+        it saved.
       </p>
     </CaseProse>
 
     <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-      <p class="mono-label mb-6">Prototype timings</p>
+      <Heading level={3} visual="h3" class="mb-6">Prototype timings</Heading>
       <ul>
         {oneClickTimings.map((row) => (
           <li class="flex items-baseline justify-between gap-6 border-b border-line py-3.5 last:border-b-0">
-            <span class="text-ink-muted leading-snug">{row.task}</span>
-            <span class="shrink-0 font-medium text-ink">{row.time}</span>
+            <span class="text-sm text-ink-muted leading-snug">{row.task}</span>
+            <span class="shrink-0 text-sm font-medium text-ink">{row.time}</span>
           </li>
         ))}
       </ul>
@@ -644,23 +633,23 @@ const phones = [
 
     <CaseProse class="mt-10">
       <p>
-        A matching shipment saved about 20 seconds, so customers needed
-        <strong class="text-ink font-semibold">about 30 matching shipments to earn back the
-        setup time</strong>, and most didn’t come close to that in a year. Every changed
-        default pushed that point further out.
+        A matching shipment saved about 20 seconds. Customers needed
+        <strong class="text-ink font-semibold">about 30 matching shipments to recover the
+        setup time</strong>, and most shipped far fewer in a year. Each changed default
+        added more time.
       </p>
       <p>
-        It took a lot of persuading, but stakeholders agreed to drop the upfront defaults.
+        After a lot of persuading, stakeholders agreed to drop the upfront defaults.
         Customers chose the departure and receiving facilities, container type, and personnel
-        for each shipment, and reused instructions saved for each facility. That took four or
-        five clicks, and because each shipment still had the customer’s attention, it was
+        for each shipment, and reused instructions saved for each facility. Each shipment took
+        four or five clicks. Because customers made each choice themselves, shipments were
         less prone to error.
       </p>
       <p>
         After launch, we reviewed the workflow in Hotjar every week and talked through any
-        sticking points. There was a push to get every shipment done in 30 seconds, but people
-        start a shipment, get pulled away, and come back to it later, so we decided that
-        optimizing beyond that point would be overkill.
+        sticking points. There was a push to get every shipment done in 30 seconds. People often
+        start a shipment, get pulled away, and finish it later, so we decided further speed
+        work wasn’t worth the cost.
       </p>
     </CaseProse>
   </CaseSection>
@@ -670,7 +659,7 @@ const phones = [
     <CaseProse>
       <p>
         Every form lets people fix mistakes without calling support. Addresses are checked
-        against map data, and specimen details are structured fields, not free text.
+        against map data, and specimen details use structured fields.
       </p>
       <p>
         CRYO Shield, IVFCRYO’s shipping guarantee, pays only on fully documented claims, so
@@ -678,7 +667,8 @@ const phones = [
       </p>
       <p>
         A legally blind customer, the basis for Martin’s persona, had trouble with the older
-        shipping form on IVFCRYO’s website and tested with a screen reader before and after launch. Those sessions turned up
+        shipping form on IVFCRYO’s website. They tested the new forms with a screen reader
+        before and after launch. Those sessions turned up
         form errors that weren’t tied to their fields, keyboard problems, and missed
         <span class="font-mono text-sm text-ink">aria-live</span> announcements, as well as the
         labeling issue in <a href="#edges" class="hero-link">Limitations</a>.
@@ -686,10 +676,10 @@ const phones = [
     </CaseProse>
 
     <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-      <p class="mono-label mb-5">Built into every form</p>
+      <Heading level={3} visual="h3" class="mb-5">Built into every form</Heading>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {recovery.map((item) => (
-          <li class="flex items-center gap-3 text-ink">
+          <li class="flex items-center gap-3 text-sm text-ink">
             <Icon name={item.icon} size={20} class="shrink-0 text-ink-muted" />
             {item.label}
           </li>
@@ -727,17 +717,18 @@ const phones = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="decision-interface" title="An interface that reads like a lab instrument">
+  <CaseSection id="decision-interface" title="Shared components for 226 views">
     <CaseFor project="ivfcryo" personas={["priya","tessa"]} stage="transit" />
     <CaseProse>
       <p>
-        To give 226 views one set of rules, I fixed the source first: tokens, then shared Rails components for buttons, fields,
+        I started with design tokens, then built shared Rails components for buttons, fields,
         cards, headers, badges, alerts, tables, and empty states. Most views improved before I
-        touched them, and then I rebuilt screens in order of importance, without a rewrite.
+        edited them directly. I then rebuilt screens in order of importance without rewriting
+        the app.
       </p>
       <p>
-        The visual direction, <strong class="text-ink font-semibold">clinical
-        instrument</strong>, sets data like readouts on a lab device.
+        The visual direction, called <strong class="text-ink font-semibold">clinical
+        instrument</strong>, displays data in the style of lab-device readouts.
       </p>
     </CaseProse>
 
@@ -750,14 +741,14 @@ const phones = [
           alt="The app’s development-only style guide: color tokens with their roles, the type scale, a page header with breadcrumbs, buttons in four variants and four sizes, form fields including an inline error, status badges, alerts for info, success, warning, and error, an empty state, and a data table."
           label="/styleguide"
           kind="Style guide"
-          caption="Every shared component in every state. When a token changes, this page shows everything it touched."
+          caption="Shows every shared component in every state. When a token changes, this page shows every component it affects."
         />
       </Container>
 
       <Container width="wide" class="mt-16">
         <Plate
           title="Shipments, in transit"
-          caption="Stage tiles double as navigation, and each row reads like a route: clinics, probe temperature, and time since pickup."
+          caption="The stage tiles also work as navigation. Each row shows both clinics, the probe temperature, and the time since pickup."
           src={shot('app-list-active')}
           alt="The shipments list, signed in as staff: a sidebar, four stage tiles (Awaiting pickup 6, In transit 4 selected, Delivered 8, All shipments 18), a filter row, and shipments grouped under Today and Yesterday. Each row shows pickup time and zone, a route such as NY to CA with both clinic names, a probe readout of −192.9 °C with a sparkline, hours since pickup, and the quoted price."
         />
@@ -765,8 +756,8 @@ const phones = [
 
       <CaseProse continued>
         <p>
-          As someone books, the sidebar builds a live summary of the route, package, service, and
-          quote, with one sentence saying what’s still missing.
+          As someone books a shipment, the sidebar shows a live summary of the route, package,
+          service, and quote. One sentence says what’s still missing.
         </p>
       </CaseProse>
 
@@ -788,19 +779,19 @@ const phones = [
       <Container width="wide" class="mt-16">
         <Plate
           title="Delivered and locked"
-          caption="A completed shipment explains why it can’t change: it is the record of custody."
+          caption="A completed shipment can’t be edited because it is the record of custody. The page says so."
           src={shot('app-edit-complete')}
           alt="The edit page for a completed shipment, titled Shipment complete: a lock panel reading “Delivered and locked. This shipment is complete and can no longer be edited. Its details stay exactly as they were at delivery, as the record of custody,” with the delivery time, door-to-door duration, a View shipment button, and the full custody timeline below."
         />
       </Container>
 
       <Container width="content" class="mt-16">
-        <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
-          <h3 class="mono-label">Mobile</h3>
+        <div class="case-layout-cont case-prose measure space-y-5">
+          <Heading level={3} visual="h2">Mobile</Heading>
           <p>
             Patients, embryologists, and couriers check shipments away from a desk, so every main
-            screen was checked at 390 pixels wide with no sideways scrolling. Layouts change shape
-            instead of shrinking.
+            screen was checked at 390 pixels wide with no sideways scrolling. Grids reflow into
+            fewer columns on narrow screens.
           </p>
         </div>
       </Container>
@@ -816,16 +807,16 @@ const phones = [
       </Container>
 
       <Container width="content" class="mt-16">
-        <div class="case-layout-cont measure space-y-5 leading-relaxed text-ink-muted text-lg">
-          <h3 class="mono-label">Public site</h3>
+        <div class="case-layout-cont case-prose measure space-y-5">
+          <Heading level={3} visual="h2">Public site</Heading>
           <p>
             The public site now shares the app’s domain, and its product previews are the app’s
-            own components rendering a labeled sample shipment. When the app changes, the site
-            changes with it.
+            own components rendering a labeled sample shipment. Changes to the app appear on the
+            site automatically.
           </p>
           <p>
-            Nothing on it is made up: press links to sources, reviews are ones IVFCRYO already
-            published, and the legal pages moved over word for word.
+            Press mentions link to their sources. Reviews are ones IVFCRYO had already published,
+            and the legal pages moved over word for word.
           </p>
         </div>
       </Container>
@@ -851,11 +842,11 @@ const phones = [
     />
 
     <div class="mt-12">
-      <p class="mono-label mb-6">How success is measured</p>
+      <Heading level={3} visual="h2" class="mb-6">Success measures</Heading>
       <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
         {metricLenses.map((m) => (
           <div class="pt-4">
-            <p class="mono-label mb-3">{m.lens}</p>
+            <Heading level={4} visual="h4" class="mb-3">{m.lens}</Heading>
             <ul class="space-y-1.5">
               {m.items.map((item) => (
                 <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">
@@ -871,24 +862,24 @@ const phones = [
   </CaseSection>
 
   <CaseQuote
-    label="What Don said"
+    label="Testimonial"
     name="Don Fish"
     role="Owner · IVFCRYO"
     photo="/images/testimonials/don-fish.png"
     quote="Josh didn't just design screens. He sat with me, our COO, and our office manager, and came back with the insight the whole rebuild turned on — the hard part is getting everyone ready, not tracking the truck. He designed the product and owned the front end, and worked shoulder-to-shoulder with our engineers on the data model and the integrations underneath. Our team runs on it, and our patients feel the difference: they finally know someone has the whole case."
   />
 
-  <CaseSection id="process" title="How it was built">
+  <CaseSection id="process" title="Build and integrations">
     <CaseProse>
       <p>
         I turned the interview findings into the shipment stages and readiness check the
         backend enforces, mapped where each outside service plugs in, and set the alert
-        requirements. Engineering built the backend; I built the front end and the spec it met.
+        requirements. Engineering built the backend to that spec, and I built the front end.
       </p>
     </CaseProse>
 
     <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
-      <p class="mono-label mb-6">Integrations</p>
+      <Heading level={3} visual="h3" class="mb-6">Integrations</Heading>
       <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
         {integrations.map((svc) => (
           <li class="flex gap-3.5">
@@ -903,7 +894,7 @@ const phones = [
     </div>
 
     <div class="mt-10">
-      <p class="mono-label mb-6">Alert levels</p>
+      <Heading level={3} visual="h2" class="mb-6">Alert levels</Heading>
       <ul class="space-y-3">
         {alertTiers.map((t) => (
           <li class={`flex items-start gap-4 rounded-md border border-line py-4 pl-5 pr-5 border-l-2 ${t.tone === 'crit' ? 'border-l-[#C13A22]' : t.tone === 'warn' ? 'border-l-[#C7811E]' : 'border-l-[#3C7A4E]'}`}>

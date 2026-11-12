@@ -4,7 +4,7 @@ import { cx } from '~/lib/cx';
 interface Props {
   /** Must match the parent <Field name>. */
   name: string;
-  /** Override; defaults to `field-{name}` to match Field's auto id. */
+  /** Override. Defaults to `field-{name}` to match Field's auto id. */
   id?: string;
   type?: 'text' | 'email' | 'tel' | 'url' | 'number' | 'password' | 'search';
   placeholder?: string;

@@ -15,6 +15,7 @@ import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
 import CaseCards from '~/components/patterns/case/CaseCards.astro';
+import CaseFindings from '~/components/patterns/case/CaseFindings.astro';
 import CaseResults from '~/components/patterns/case/CaseResults.astro';
 import CaseQuote from '~/components/patterns/case/CaseQuote.astro';
 import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
@@ -34,34 +35,34 @@ const description =
 
 const jumpLinks = [
   { href: '#tldr', label: 'Summary' },
-  { href: '#context', label: 'Who it’s for' },
+  { href: '#context', label: 'Audience' },
   { href: '#research', label: 'Research' },
   { href: '#decisions', label: 'Design decisions' },
   { href: '#outcomes', label: 'Results' },
-  { href: '#process', label: 'How it was built' },
+  { href: '#process', label: 'Build process' },
   { href: '#edges', label: 'Limitations' },
 ];
 
 // Three separate regulatory regimes, all of which are visible in the data model.
 const regimes = [
   { icon: 'ph:fork-knife', title: 'CACFP', body: 'Reimburses a meal only if it met the age group’s food requirements, with proof.' },
-  { icon: 'ph:certificate', title: 'State licensing', body: 'Signed attendance, fire drill and shelter-in-place logs, allergy and medication rosters.' },
+  { icon: 'ph:certificate', title: 'State licensing', body: 'Signed attendance, fire drill and shelter-in-place logs, and allergy and medication rosters.' },
   { icon: 'ph:calculator', title: 'Tax', body: 'The IRS time-space percentage, which needs business hours and square footage.' },
 ];
 
 // Why 8pm-from-memory is a product problem and not a habit problem.
 const problems = [
   { icon: 'ph:brain', title: 'Memory isn’t reliable', body: 'A nap logged at 8pm is a guess, and those are the records that matter most legally.' },
-  { icon: 'ph:door-open', title: 'It wears providers down', body: 'Many providers leave the work because of the paperwork.' },
-  { icon: 'ph:clock-countdown', title: 'Problems surface too late', body: 'A lunch missing a vegetable is found at month end, when it can’t be fixed.' },
+  { icon: 'ph:door-open', title: 'Providers leave the work', body: 'Many providers leave the work because of the paperwork.' },
+  { icon: 'ph:clock-countdown', title: 'Errors are found too late', body: 'A lunch missing a vegetable is found at month end, when it can’t be fixed.' },
 ];
 
 // The two findings from the provider/CACFP/influencer video calls that changed
 // what shipped. Not every idea from these calls made it in this early; some
 // were logged and picked up once the more urgent fix was live.
 const research = [
-  { icon: 'ph:waveform', title: 'Accents were getting misheard', body: 'Transcription mangled names before the app could parse them, so each child now has a list of likely mishearings.' },
-  { icon: 'ph:receipt', title: 'Providers needed better proof for claims', body: 'Reimbursement processors found gaps in the claim evidence, which reshaped the reports.' },
+  { icon: 'ph:waveform', title: 'Accents were getting misheard', body: 'Transcription got names wrong before the app could parse them. Each child now has a list of likely mishearings.' },
+  { icon: 'ph:receipt', title: 'Providers needed better proof for claims', body: 'Reimbursement processors found gaps in the claim evidence. The reports were reworked to close them.' },
 ];
 
 // The design decisions that only hold because they were built once, in the system.
@@ -96,7 +97,7 @@ const quotes = [
 
 // The edges, stated plainly. A case study that only lists wins is a brochure.
 const edges = [
-  { icon: 'ph:users-three', title: 'We assumed everyone spoke English', body: 'We knew some providers were bilingual, but we had no idea that some homes didn’t speak English at all. We missed Marisol in our initial research and persona development, because conversations with agencies like CACFP focused on what providers had to do and not enough on the people doing it. I’d focus more on the users themselves and start with internationalization, which is significantly easier than adding it later.' },
+  { icon: 'ph:users-three', title: 'We assumed everyone spoke English', body: 'We knew some providers were bilingual, but we had no idea that some homes didn’t speak English at all. We missed Marisol in our initial research and persona development. Conversations with agencies like CACFP focused on what providers had to do and too little on the people doing it. I’d focus more on the users themselves and start with internationalization, which is significantly easier than adding it later.' },
   { icon: 'ph:list-magnifying-glass', title: 'Screen-reader support on the busiest screen', body: 'The Voiceboard’s expand and collapse controls don’t announce their state. It’s the first thing I’d fix.' },
   { icon: 'ph:device-tablet', title: 'No tablet layout', body: 'The layout has one breakpoint, so tablets, including the kiosk, get a poor fit.' },
   { icon: 'ph:cloud-slash', title: 'No offline mode', body: 'The pieces exist but were never finished. For homes with unreliable WiFi, it’s the most valuable missing feature.' },
@@ -135,7 +136,7 @@ const flows = [
   {
     slug: '14-flow-parent-access',
     title: 'Parent access',
-    note: 'Email-link sign-in, and a daily summary that brings parents back.',
+    note: 'Email-link sign-in and a daily summary email that brings parents back.',
     alt: 'Flow diagram of parent access: a passwordless magic-link request that returns an identical screen for known and unknown addresses, a fifteen-minute single-use token, role resolution at the shared sign-in, and the automatic end-of-day summary email that drives the daily loop.',
   },
   {
@@ -175,9 +176,9 @@ const rd = (slug: string) => redesignShots[`../../assets/projects/logatot/redesi
 // Source: log_a_tot tasks/heuristics-audit.md.
 const systemAudit = [
   { value: '0', label: 'forms guarded against double submits', note: 'Out of about fifty.' },
+  { value: '0', label: 'confirm prompts that worked', note: '“Cancel my account” deleted the account on the first click.' },
   { value: '4', label: 'different ways to delete', note: 'htmx, Rails buttons, Alpine fetch calls, and inline handlers.' },
-  { value: '14', label: 'index pages with hand-built headers', note: 'So titles, actions, and spacing drifted.' },
-  { value: 'None', label: 'of the confirm prompts worked', note: '“Cancel my account” deleted the account on the first click.' },
+  { value: '14', label: 'index pages with hand-built headers', note: 'Titles, actions, and spacing differed from page to page.' },
 ];
 
 // The decisions that shaped the new look. Each is a rule the whole app follows,
@@ -187,7 +188,7 @@ const redesignDecisions = [
   { icon: 'ph:cursor-click', title: 'Buttons, tabs, and filters look different', body: 'Actions are filled pills, navigation is a segmented control, and filters are checkbox chips.' },
   { icon: 'ph:stack', title: 'One raised surface per page', body: 'The page’s main content sits on a white card. Everything else sits in recessed panels.' },
   { icon: 'ph:shapes', title: 'Never color alone', body: 'Every color-coded category also has an icon or a label.' },
-  { icon: 'ph:cube', title: 'The logo’s blocks do real work', body: 'The toy blocks stack while loading, lose the top block when empty, and teeter on error pages.' },
+  { icon: 'ph:cube', title: 'Logo blocks show loading, empty, and error states', body: 'The toy blocks stack while loading, lose the top block when empty, and teeter on error pages.' },
   { icon: 'ph:rows', title: 'A Voiceboard that fits on one screen', body: 'A compact view took a full day from 3,849 to 1,318 pixels tall.' },
 ];
 
@@ -231,11 +232,11 @@ const phones = [
 // What the redesign left open. Each was seen in the captures for this page
 // or is recorded in the project's task notes.
 const redesignEdges = [
-  { icon: 'ph:globe-hemisphere-west', title: 'Recurring time zone bugs', body: 'Most recent updates were time zone fixes. The problem is contained, not solved.' },
-  { icon: 'ph:house-line', title: 'The family channel is behind', body: 'It still uses the old layout, and its welcome note is nearly unreadable in dark mode. It’s next.' },
+  { icon: 'ph:globe-hemisphere-west', title: 'Recurring time zone bugs', body: 'Most recent updates were time zone fixes, and the underlying cause remains.' },
+  { icon: 'ph:house-line', title: 'The family channel is behind', body: 'It still uses the old layout, and its welcome note is nearly unreadable in dark mode. It’s the next screen to rebuild.' },
   { icon: 'ph:arrows-clockwise', title: 'Family menu links loop back', body: 'My children, Chat, and Reports are staff-only, so each redirects a parent to the family channel.' },
   { icon: 'ph:translate', title: 'Spanish isn’t complete', body: 'Spanish is missing 67 of 2,313 entries, and the home page demo cards stay in English.' },
-  { icon: 'ph:chart-line-up', title: 'No re-score yet', body: 'Every heuristic has fixes, but until I re-score, 4.9 is the only number I can claim.' },
+  { icon: 'ph:chart-line-up', title: 'No re-score yet', body: 'Every heuristic has fixes, but I haven’t re-scored the app. The 4.9 average from before the fixes is the only measured score.' },
 ];
 
 // What changed, built only from claims already made elsewhere on this page
@@ -275,7 +276,7 @@ const results = [
 
   <Tldr problem={tldr.problem} decision={tldr.decision} evidence={tldr.evidence} />
 
-  <CaseSection id="context" title="Who it’s for">
+  <CaseSection id="context" title="Audience">
     <CaseProse>
       <p>
         A home daycare provider is caregiver, cook, and record-keeper through a
@@ -291,20 +292,20 @@ const results = [
 
   <CaseSection id="research" title="Research">
     <CaseProse>
-      <h3 class="mono-label">How requirements were gathered</h3>
+      <Heading level={3} visual="h2">Requirements gathering</Heading>
       <p>
         I was hired to bring UX design and research to what was still a prototype. Its design
-        decisions had come from hunches, or had simply followed the database, so screens were
-        laid out the way the data was stored.
+        decisions had come from hunches or followed the database, so screens were laid out the
+        way the data was stored.
       </p>
       <p>
-        The team knew the market was there, but its picture of these providers didn’t go much
-        further than what an accounting ledger could show, plus the one thing everyone agreed
-        on: they were exhausted and overworked. My job was to take some of that weight off them.
+        The team knew the market existed. Its picture of these providers didn’t go much further
+        than what an accounting ledger could show. Everyone agreed that providers were exhausted
+        and overworked. My job was to reduce their workload.
       </p>
       <p>
-        To replace the guesses with evidence, I interviewed three providers separately, along
-        with food-program administrators and child care influencers.
+        To replace the guesses with evidence, I interviewed three providers separately. I also
+        spoke with food-program administrators and child care influencers.
       </p>
     </CaseProse>
 
@@ -322,7 +323,7 @@ const results = [
     </figure>
 
     <CaseProse>
-      <p class="text-base">
+      <p class="text-sm">
         Interviews:
         <a href="/projects/interview-notes/logatot/angie/" class="hero-link">Angie</a>,
         <a href="/projects/interview-notes/logatot/deborah/" class="hero-link">Deborah</a>,
@@ -332,24 +333,22 @@ const results = [
     </CaseProse>
 
     <CaseProse class="mt-12">
-      <h3 class="mono-label">Watching customers use voice logging</h3>
+      <Heading level={3} visual="h2">Watching customers use voice logging</Heading>
       <p>
-        Some customers complained that voice logging didn’t work, even though it worked very
-        well for many others. I replied to them by email and watched Hotjar sessions, and we
+        Some customers complained that voice logging didn’t work, though it worked well for
+        many others. I replied to them by email and watched Hotjar sessions, and we
         worked through the usual troubleshooting: browser, browser version, operating system,
         and device.
       </p>
       <p>
-        We only found the cause when we sat down and watched them use it. It was
-        <strong class="text-ink font-semibold">a language barrier</strong>: many of the people
-        having trouble were Spanish speakers who spoke very little English, the group Marisol
-        represents, and the system
-        couldn’t understand their accents. Yari’s interview, quoted above, came after we
-        found this.
+        We found the cause by sitting down and watching them use it. Many of the people having
+        trouble were <strong class="text-ink font-semibold">Spanish speakers who spoke very little
+        English</strong>, the group Marisol represents. The system couldn’t understand their
+        accents. Yari’s interview, quoted above, came after we found this.
       </p>
       <p>
-        Questionnaires and conversations don’t always match what people actually do, so
-        sitting down with them is a much better way to see where they run into trouble.
+        What people say in questionnaires and conversations doesn’t always match what they do.
+        Watching them work showed where they ran into trouble.
       </p>
     </CaseProse>
 
@@ -361,20 +360,7 @@ const results = [
       </p>
     </CaseProse>
 
-    <div class="mt-12">
-      <p class="mono-label mb-6">What the audit found</p>
-      <dl class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
-        {systemAudit.map((a) => (
-          <div class="border-t border-line pt-4">
-            <dt class="flex items-baseline gap-3">
-              <span class="font-display text-3xl tracking-tight text-ink">{a.value}</span>
-              <span class="font-medium text-ink">{a.label}</span>
-            </dt>
-            <dd class="mt-2 text-sm text-ink-muted leading-relaxed">{a.note}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
+    <CaseFindings title="Front-end audit findings" items={systemAudit} />
 
     <CaseProse class="mt-12">
       <p>
@@ -384,11 +370,11 @@ const results = [
     </CaseProse>
 
       <CaseProse class="mt-12">
-        <h3 class="mono-label">Heuristic audit</h3>
+        <Heading level={3} visual="h2">Heuristic audit</Heading>
         <p>
           I scored all 119 pages against Nielsen’s ten heuristics, tying every finding
-          to a file and line. The lowest scores had one cause: the app loads htmx, not
-          Turbo, so every Rails confirm prompt and double-submit guard did nothing.
+          to a file and line. The lowest scores had one cause. Rails confirm prompts and
+          double-submit guards need Turbo, and the app loads htmx, so none of them worked.
           One shared fix covered every page.
         </p>
       </CaseProse>
@@ -398,12 +384,12 @@ const results = [
             <Metric value="3" label="lowest scores" caption="error prevention and recovering from errors" />
           </div>
 
-          <HeuristicScores items={heuristics} caption="Score before, and the fix." />
+          <HeuristicScores level={4} items={heuristics} caption="Each heuristic’s score before the fixes and the change made." />
 
     <CaseProse class="mt-12">
       <p>
-        Across the interviews, all three providers asked for the same fix: <strong class="text-ink font-semibold">capture
-        by voice in the moment, review later</strong>.
+        All three providers asked for the same fix: <strong class="text-ink font-semibold">capture
+        entries by voice in the moment and review them later</strong>.
       </p>
     </CaseProse>
 
@@ -422,13 +408,13 @@ const results = [
     <CaseFor project="logatot" personas={["renee"]} stage="day" />
     <CaseProse>
       <p>
-        The question a provider asks the Voiceboard most often is short: where is everyone, and
-        has each child had the basics today? So each child gets <strong class="text-ink font-semibold">one
-        compact tile</strong>, with a status and one icon chip for each kind of moment logged today.
+        Providers check the Voiceboard most often to see where every child is and whether each
+        has had the basics today. Each child gets <strong class="text-ink font-semibold">one
+        compact tile</strong> with a status and an icon chip for each kind of moment logged today.
       </p>
       <p>
-        A missing chip is the signal: a child with no nap chip in the afternoon stands out.
-        Compact is the default, and Detailed is one tap away for writing up the end-of-day report.
+        A missing chip stands out. A child with no nap chip in the afternoon is easy to spot.
+        Compact is the default. Detailed is one tap away and is used to write the end-of-day report.
       </p>
     </CaseProse>
 
@@ -458,15 +444,15 @@ const results = [
     <CaseProse>
       <p>
         Providers asked to capture by voice in the moment and review later. When the
-        app can’t match an entry, it goes to review instead of guessing.
+        app can’t match an entry to a child or an event, it sends the entry to review.
       </p>
       <p>
-        A failed entry is saved with its words, translation, and recording, and
-        whatever the app partly understood. Tapping the word that was the child’s
-        name teaches the app that mishearing for good.
+        A failed entry is saved with its words, translation, recording, and whatever
+        the app partly understood. Tapping the word that was the child’s name adds
+        that mishearing to the child’s name variants.
       </p>
       <p>
-        Out loud, the app just says <em>&ldquo;processing unknown event for
+        Out loud, the app says <em>&ldquo;processing unknown event for
         unrecognized child&rdquo;</em> instead of announcing a failure to a room of
         children.
       </p>
@@ -492,30 +478,29 @@ const results = [
       </Container>
 
       <CaseProse continued>
-        <h3 class="mono-label">Spanish</h3>
+        <Heading level={3} visual="h2">Spanish</Heading>
         <p>
-          Yari put it plainly: <em>&ldquo;A translated button is not enough. We
+          Yari said: <em>&ldquo;A translated button is not enough. We
           need the instructions, warnings, support, and official documents to be
-          clear too.&rdquo;</em> So all of it ships in English and Spanish.
+          clear too.&rdquo;</em> All of it ships in English and Spanish.
         </p>
         <p>
           After researching best practices and prototyping Spanish support, I convinced the
           team that internationalization was worth the work. Speech turned out to be simpler
-          than we feared: changing
+          than we expected: changing
           <span class="font-mono text-sm text-ink">lang="en"</span> to
           <span class="font-mono text-sm text-ink">lang="es-us"</span> told the browser how to
           interpret what the customer said.
         </p>
         <p>
           The wording took more care. Google Translate was an acceptable starting point, but
-          its translations weren’t culturally or contextually accurate, so we hired a
-          contractor to make sure the language made sense to Spanish-speaking providers. The
-          work also set us up for Russian and Ukrainian, which smaller groups of customers
-          speak.
+          its translations weren’t culturally or contextually accurate. We hired a contractor
+          to make sure the language made sense to Spanish-speaking providers. The work also
+          prepared the app for Russian and Ukrainian, which smaller groups of customers speak.
         </p>
         <p>
-          Every new label, hint, and error was written in English and Spanish together,
-          and layouts were checked in Spanish at phone width.
+          Every new label, hint, and error was written in English and Spanish together.
+          Layouts were checked in Spanish at phone width.
         </p>
       </CaseProse>
 
@@ -531,7 +516,7 @@ const results = [
       <Container width="wide" class="mt-16">
         <Plate
           title="Registro de actividades"
-          caption="Labels translated; the quote stays as heard."
+          caption="Labels are translated. The quote stays as heard."
           src={rd('es-provider-repair')}
           alt="The Needs review screen in Spanish: tabs Por revisar 2, Registrados 819, Procesando, and Eliminados recientemente, entries tagged No se escuchó el nombre and Evento no reconocido, the hint “Toque la palabra que era el nombre del niño,” Niño and Tipo de evento selects, and Eliminar and Guardar evento buttons."
         />
@@ -554,7 +539,7 @@ const results = [
           <Plate
             size="half"
             title="Kiosk: enter a PIN"
-            caption="Nothing to tap but the PIN field."
+            caption="The PIN field is the only control."
             src={rd('kiosk-pin')}
             alt="The check-in kiosk on a tablet: a single white card with the Logatot logo, the heading Check In/Out, “Enter your PIN for Little Acorns Home Daycare,” and a large PIN field."
           />
@@ -571,8 +556,8 @@ const results = [
       <CaseProse continued>
         <p>
           Families use the app about a dozen times a year, so they sign in with an email link
-          instead of a password. They see the same events for one child, with nothing to manage,
-          so the family channel adds nothing to the provider’s day.
+          instead of a password. They see the provider’s events for their own child and have
+          nothing to manage. The family channel adds no work to the provider’s day.
         </p>
       </CaseProse>
 
@@ -594,7 +579,7 @@ const results = [
           <Plate
             size="half"
             title="Family: the same child"
-            caption="No tools, just Liam’s day and details."
+            caption="Liam’s day and details, with no editing tools."
             src={rd('parent-dashboard')}
             alt="The family channel signed in as Megan Carter: a top bar with the daycare name and her name, a Family channel heading, a panel greeting her with a choice of child, the provider’s thank-you note, then October 30th activities for Liam Carter as a table of times and activities from Lunch to Check-out, and a Child details panel with tuition, allergies, medications, and Authorized pickups listing Tyler Carter."
           />
@@ -602,10 +587,10 @@ const results = [
       </Container>
 
       <CaseProse continued>
-        <h3 class="mono-label">Who sees what</h3>
+        <Heading level={3} visual="h2">Roles and access</Heading>
         <p>
-          Four kinds of people use Logatot, each signing in differently and seeing a
-          different app built from the same parts.
+          Four kinds of people use Logatot. Each signs in differently and sees a
+          different set of screens built from the same components.
         </p>
       </CaseProse>
 
@@ -662,8 +647,9 @@ const results = [
     <CaseFor project="logatot" personas={["renee","tanya","marisol"]} stage="audit" />
     <CaseProse>
       <p>
-        To stop the screens drifting apart, I fixed the source first: one 154-icon set, a contrast-checked pastel palette,
-        and shared helpers for buttons, forms, surfaces, tables, and filters. Then I
+        To keep the screens consistent, I started with the shared pieces: one 154-icon set, a
+        contrast-checked pastel palette, and shared helpers for buttons, forms, surfaces, tables,
+        and filters. Then I
         rebuilt screens, most-used first.
       </p>
     </CaseProse>
@@ -671,7 +657,7 @@ const results = [
     <CaseCards label="Design decisions" items={redesignDecisions} />
 
     <CaseProse class="mt-12">
-      <h3 class="mono-label">Accessibility</h3>
+      <Heading level={3} visual="h2">Accessibility</Heading>
       <p>
         Everything you can say can also be entered by hand. Focus outlines are visible, status
         changes are announced to screen readers, and reports print in black on white.
@@ -700,11 +686,11 @@ const results = [
       </Container>
 
       <CaseProse continued>
-        <h3 class="mono-label">Dark mode</h3>
+        <Heading level={3} visual="h2">Dark mode</Heading>
         <p>
           Providers log naps in darkened rooms. Dark mode follows the device until
           someone flips the sidebar switch, and every token is contrast-checked in
-          both themes. Recessed panels go darker, not lighter, so they stay distinct
+          both themes. Recessed panels get darker in dark mode, so they stay distinct
           from raised cards.
         </p>
       </CaseProse>
@@ -719,10 +705,10 @@ const results = [
       </Container>
 
       <CaseProse continued>
-        <h3 class="mono-label">Mobile</h3>
+        <Heading level={3} visual="h2">Mobile</Heading>
         <p>
           Every rebuilt screen was checked at 390 pixels wide, in both themes and in
-          Spanish. Layouts change shape instead of shrinking: calendars become lists,
+          Spanish. Layouts are rearranged for small screens. Calendars become lists,
           tables become cards, and the sidebar becomes a drawer.
         </p>
       </CaseProse>
@@ -738,7 +724,7 @@ const results = [
       </Container>
 
       <CaseProse continued>
-        <h3 class="mono-label">The public site</h3>
+        <Heading level={3} visual="h2">Public site</Heading>
         <p>
           The homepage previews are the app’s own components with demo data, so the
           site can’t fall out of date. The hero plays a voice demo that respects
@@ -751,7 +737,7 @@ const results = [
           src="/images/projects/logatot/public-home.webp"
           alt="The full Logatot homepage: a header with an EN/ES switch, the hero “Child Care’s Only Voice-Controlled Assistant” beside a live listening panel and Ava Johnson’s card of the day’s moments, Try it phrase chips, a Why Logatot section with four benefits, a Speak, record, comply section with live Voiceboard tiles, a Ready for anything section with Olivia Bennett’s profile, guardians, and pickups, a Simplified, effective management section with report cards, Pricing at $30 a month or $300 a year, testimonials, and a footer with a contact form."
           label="Logatot homepage"
-          caption="Every preview is a live component, not an image."
+          caption="Every preview is a live app component with demo data."
         />
       </Container>
     </Fragment>
@@ -760,14 +746,14 @@ const results = [
   <CaseSection id="outcomes" title="Results">
     <CaseResults
       metrics={[
-        { value: '2+ hrs', label: 'saved on daily data entry', caption: 'Reported by numerous providers' },
+        { value: '2+ hrs', label: 'saved on daily data entry', caption: 'Reported by providers' },
       ]}
       groups={results}
     />
 
     <div class="mt-12">
       <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Post-launch feedback</Heading>
-      <Text tone="muted" class="measure mb-4">
+      <Text size="sm" tone="muted" class="measure mb-4">
         A questionnaire led to a readable menu calendar, clearer pages, and a compact Voiceboard.
       </Text>
       <a href="/projects/logatot/feedback/" class="editorial-link">
@@ -781,20 +767,20 @@ const results = [
     <CaseQuote quote={q.body} name={q.name} role={q.role} label={i === 0 ? 'Testimonials' : ''} />
   ))}
 
-  <CaseSection id="process" title="How it was built">
+  <CaseSection id="process" title="Build process">
     <CaseProse>
       <p>
-        The wake word is detected on the device, so no audio leaves it just to hear
-        “Logatot.” Providers asked about that first.
+        The wake word is detected on the device, so no audio leaves the device to
+        listen for “Logatot.” Providers asked about this first.
       </p>
       <p>
-        Speech is matched against known phrases and the class roster, with no AI in
-        the loop. A live model would be slower and could log a nap that never
-        happened; the rules either match or send the entry to review.
+        Speech is matched against known phrases and the class roster without AI. A
+        live model would be slower and could log a nap that never happened. The
+        rules either match an entry or send it to review.
       </p>
       <p>
-        AI runs earlier: when a child is added, it lists likely mishearings of the
-        name, and review-queue corrections extend that list. Spanish is translated
+        AI runs only when a child is added. It lists likely mishearings of the name,
+        and corrections in the review queue add to that list. Spanish is translated
         before matching, so one phrase set covers both languages.
       </p>
     </CaseProse>
@@ -803,17 +789,16 @@ const results = [
 
     <CaseProse class="mt-12">
       <p>
-        Attendance isn’t stored as a flag. It’s calculated from check-in history, so
-        it can’t drift from what happened, because a wrong headcount is a licensing
-        problem.
+        Attendance is calculated from check-in history, so it always matches what
+        happened. A wrong headcount is a licensing problem.
       </p>
     </CaseProse>
 
     <div class="mt-12">
-      <p class="mono-label mb-6">System-level decisions</p>
+      <Heading level={3} visual="h2" class="mb-6">System-level decisions</Heading>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {structural.map((item) => (
-          <li class="flex items-center gap-3 text-ink">
+          <li class="flex items-center gap-3 text-sm text-ink">
             <Icon name={item.icon} size={20} class="shrink-0 text-ink-muted" />
             {item.label}
           </li>

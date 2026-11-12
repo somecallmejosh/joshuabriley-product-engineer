@@ -1,0 +1,29 @@
+---
+import Heading from '~/components/primitives/Heading.astro';
+import Metric from '~/components/patterns/Metric.astro';
+
+/**
+ * Counted audit findings, set as Metrics so the figures match every other
+ * number on a case-study page (projects.css styles .metric__* there).
+ * Figures should be numerals: write "0 confirm prompts worked", not "None".
+ */
+interface Item {
+  value: string;
+  label: string;
+  note?: string;
+}
+interface Props {
+  items: Item[];
+  title: string;
+  class?: string;
+}
+const { items, title, class: className } = Astro.props;
+---
+<div class:list={['mt-12', className]}>
+  <Heading level={3} visual="h2" class="mb-8">{title}</Heading>
+  <div class="grid grid-cols-2 gap-x-8 gap-y-12">
+    {items.map((a) => (
+      <Metric value={a.value} label={a.label} caption={a.note} />
+    ))}
+  </div>
+</div>

@@ -1,5 +1,6 @@
 ---
 import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import Heading from '~/components/primitives/Heading.astro';
 import ProjectHero from '~/components/patterns/ProjectHero.astro';
 import ProjectNext from '~/components/patterns/ProjectNext.astro';
 import GalleryLink from '~/components/patterns/GalleryLink.astro';
@@ -28,7 +29,7 @@ import type { ImageMetadata } from 'astro';
 
 const title = 'VMSpark | Joshua Briley';
 const description =
-  'Case study: rebuilding the VMSpark admin app on a from-scratch design system, so staffing operators can fix feeds faster and the business can show, maintain, and trust it.';
+  'Case study: rebuilding the VMSpark admin app on a from-scratch design system, so staffing operators can find and fix feed errors and the business can demo, maintain, and trust it.';
 
 // Sources: tasks/heuristics-audit.md, tasks/redesign-plan.md and
 // tasks/ui-components.md in the vm_admin repo, plus notes/vm-spark.md.
@@ -42,11 +43,11 @@ const shot = (slug: string) => appShots[`../../assets/projects/vmspark/app/${slu
 
 const jumpLinks = [
   { href: '#tldr', label: 'Summary' },
-  { href: '#context', label: 'Who it’s for' },
+  { href: '#context', label: 'Audience' },
   { href: '#research', label: 'Research' },
   { href: '#decisions', label: 'Design decisions' },
   { href: '#outcomes', label: 'Results' },
-  { href: '#process', label: 'How it was built' },
+  { href: '#process', label: 'Build process' },
   { href: '#edges', label: 'Limitations' },
 ];
 
@@ -56,13 +57,13 @@ const audiences = [
   {
     icon: 'ph:users-three',
     title: 'Operators at staffing agencies',
-    body: 'They live in the app all day. Their job is to make sure every hospital job from every feed maps correctly and reaches their applicant tracking system, so recruiters can fill it.',
-    needs: ['Know what needs fixing without hunting', 'See why a job failed, in words', 'Undo-proof actions that touch thousands of jobs', 'A screen they can read for eight hours'],
+    body: 'They use the app all day. Their job is to make sure every hospital job from every feed maps correctly and reaches their applicant tracking system, so recruiters can fill it.',
+    needs: ['Know what needs fixing without hunting', 'See why a job failed, in words', 'Safeguards on actions that touch thousands of jobs', 'A screen they can read for eight hours'],
   },
   {
     icon: 'ph:buildings',
     title: 'VMSpark, the business',
-    body: 'The pipeline is the product. The interface decides whether customers trust it, whether support hears about it, and whether investors see a finished company.',
+    body: 'VMSpark sells the pipeline, and the admin app is where people judge it. Customers decide whether to trust it there. Their questions go to support from there. Investors see it in demos.',
     needs: ['Fewer “why didn’t this job sync?” tickets', 'No accidental reprocessing across a whole account', 'A demo that matches the marketing site', 'An interface the team can change without breaking'],
   },
 ];
@@ -84,12 +85,12 @@ const heuristics = [
 
 // Foundations: each one is a decision about the operator, not a style choice.
 const foundations = [
-  { icon: 'ph:text-aa', title: 'Type made for legibility', body: 'Atkinson Hyperlegible, designed with the Braille Institute, at a 16px base. A matching mono face sets IDs, dates, and rates so they line up.' },
-  { icon: 'ph:cursor-click', title: 'Color has a job', body: 'Navy is structure, brand blue is anything you can click, Spark orange is only the brand. Red, amber, and green appear only for state.' },
-  { icon: 'ph:shapes', title: 'State is a word and an icon', body: '“Processed”, “Failed”, “Skipped”: every status pairs a glyph with a word, so color is never the only signal.' },
-  { icon: 'ph:hand-pointing', title: 'Nothing important on hover', body: 'No tooltips for information. If an operator needs it, it is on the page, in a note, or in the details drawer.' },
+  { icon: 'ph:text-aa', title: 'Legible type', body: 'The body face is Atkinson Hyperlegible, designed with the Braille Institute, at a 16px base. A matching mono face sets IDs, dates, and rates so they line up.' },
+  { icon: 'ph:cursor-click', title: 'Color by role', body: 'Navy marks structure. Brand blue marks anything you can click. Spark orange appears only in the brand. Red, amber, and green appear only for state.' },
+  { icon: 'ph:shapes', title: 'Status labels with icons', body: 'Every status, such as Processed, Failed, or Skipped, pairs an icon with a word. Color is never the only signal.' },
+  { icon: 'ph:hand-pointing', title: 'No information in tooltips', body: 'Anything an operator needs is on the page, in a note, or in the details drawer.' },
   { icon: 'ph:moon', title: 'Light and dark from one set of tokens', body: 'The theme follows the system setting and can be changed per person. Both themes pass the same contrast checks.' },
-  { icon: 'ph:signpost', title: 'One job per page, said first', body: 'Every page header has a title, one sentence of purpose, and at most one primary action. When there is work, a next-step line says what to do.' },
+  { icon: 'ph:signpost', title: 'Page headers', body: 'Every page header has a title, one sentence of purpose, and at most one primary action. When there is work, a next-step line says what to do.' },
 ];
 
 // The three token tiers. The structure is what lets a brand change land
@@ -97,7 +98,7 @@ const foundations = [
 const tiers = [
   { icon: 'ph:circle', title: 'Primitive', body: 'Raw values with no meaning, such as <code>--blue-510</code>. Read only by the semantic tier.' },
   { icon: 'ph:target', title: 'Semantic', body: 'What a value is for, such as <code>--color-accent</code>. Light, dark, and the navy chrome map it differently.' },
-  { icon: 'ph:puzzle-piece', title: 'Component', body: 'One component’s palette, such as <code>--button-bg</code>. Variants change tokens, never CSS.' },
+  { icon: 'ph:puzzle-piece', title: 'Component', body: 'One component’s palette, such as <code>--button-bg</code>. A variant only reassigns these tokens.' },
 ];
 
 // Screens used in more than one place.
@@ -105,19 +106,19 @@ const pairs = [
   {
     slug: 'desktop-needs-mapping',
     title: 'Needs mapping',
-    note: 'A new page: one inbox for every unmapped value, sorted by how much work it holds.',
+    note: 'A new page that collects every unmapped value in one inbox, sorted by how much work each list holds.',
     alt: 'The Needs mapping page: a header that reads “Values from your VMS feeds that aren’t mapped to your ATS yet. Job listings that use them can’t be fully processed until they’re mapped.”, the count 2,614 unmapped values across 8 lists, the next step “Start with facilities: 2,495 values need a value in your ATS.”, then a plain list of facilities, professions, specialties, shift details, departments, shift types, VMS sources, job types, and job statuses, each with its unmapped count and an arrow.',
   },
   {
     slug: 'desktop-job-listings',
     title: 'Job listings',
-    note: 'The busiest screen. One sentence of purpose, the last import time, and the table operators already knew.',
+    note: 'Operators use this screen most. The header states its purpose and the last import time above the table operators already knew.',
     alt: 'The Job listings page: a header saying every job from the VMS feeds and manual jobs appears here after mapping and rules run, 1,976 listings and the last import time, Email CSV export and Reprocess all buttons, All, Processed, and Skipped tabs, and a table with view, reprocess, and open actions, notes, job status, start date, facility name, city, and state.',
   },
   {
     slug: 'desktop-inspector',
     title: 'Job details drawer',
-    note: 'Opens over the filtered list. The facts first, then every field, then the raw feed.',
+    note: 'The drawer opens over the filtered list. It shows the key facts, then every field, then the raw feed.',
     alt: 'The job details drawer open over the job listings table: a Processed status, the title CNA Certified Nursing Assistant, facility, schedule, hours, bill rate of $37.60 an hour, dates and job ID, then Overview, All fields, and Raw data tabs above the job description, with Close and Reprocess buttons at the bottom.',
   },
 ];
@@ -126,14 +127,14 @@ const pairs = [
 const phones = [
   { slug: 'phone-nav-dark', title: 'Navigation', note: 'The same labeled sidebar, as a drawer.', alt: 'The navigation drawer on a phone in dark mode: Jobs, Candidates, and Mapping groups, with Needs mapping selected and unmapped counts beside Facilities, Professions, Specialties, and the other lists.' },
   { slug: 'phone-needs-mapping-light', title: 'Needs mapping', note: 'Counts stay on the same line as each list.', alt: 'The Needs mapping page on a phone in light mode: the purpose sentence, 2,614 unmapped values across 8 lists, the next step to start with facilities, and the list of mapping areas with their unmapped counts.' },
-  { slug: 'phone-job-listings-light', title: 'Job listings', note: 'The table scrolls inside its frame. The page never does.', alt: 'The Job listings page on a phone in light mode: the purpose sentence, listing count and last import, Email CSV export and Reprocess all buttons, tabs, and the start of the table with its action buttons.' },
-  { slug: 'phone-custom-rules-dark', title: 'Custom rules', note: 'Arrow buttons work where dragging doesn’t.', alt: 'The Custom rules page on a phone in dark mode: a New custom rule button, filter fields for name, status, and changed field, the drag-or-arrows note, and the first two rules with up and down buttons and Active switches.' },
+  { slug: 'phone-job-listings-light', title: 'Job listings', note: 'Only the table scrolls sideways.', alt: 'The Job listings page on a phone in light mode: the purpose sentence, listing count and last import, Email CSV export and Reprocess all buttons, tabs, and the start of the table with its action buttons.' },
+  { slug: 'phone-custom-rules-dark', title: 'Custom rules', note: 'Up and down buttons reorder rules without dragging.', alt: 'The Custom rules page on a phone in dark mode: a New custom rule button, filter fields for name, status, and changed field, the drag-or-arrows note, and the first two rules with up and down buttons and Active switches.' },
 ];
 
 // Mistakes that cost both sides. Each one protects an operator and the business at once.
 const safety = [
-  { icon: 'ph:warning-circle', title: 'Confirmations that say what happens', body: 'Turbo and rails-ujs were off, so every confirm in the codebase silently did nothing. One shared dialog now handles them. Each message asks a specific question, which becomes the dialog’s title, then says what happens next. The written rules ban “Are you sure?”.' },
-  { icon: 'ph:arrows-clockwise', title: 'Reprocess all states its reach', body: 'One click re-runs mapping, rules, and the ATS sync for every open job in the account. The confirm now says so, including that it runs in the background and takes minutes, and the button disables while it posts. That protects the queue as much as the operator.' },
+  { icon: 'ph:warning-circle', title: 'Confirmations that say what happens', body: 'Turbo and rails-ujs were off, so every confirm in the codebase silently did nothing. One shared dialog now handles them. Each message asks a specific question, which becomes the dialog’s title. The body says what happens next. The written rules ban “Are you sure?”' },
+  { icon: 'ph:arrows-clockwise', title: 'Reprocess all states its reach', body: 'One click re-runs mapping, rules, and the ATS sync for every open job in the account. The confirm now says so and says that it runs in the background and takes minutes. The button disables while the request posts.' },
   { icon: 'ph:download-simple', title: 'Buttons say which way data moves', body: '“Sync with ATS” actually imported values from the ATS. Renaming it “Import from Bullhorn” removed a question operators had been sending to support.' },
 ];
 
@@ -159,8 +160,8 @@ const edges = [
   },
   {
     icon: 'ph:wifi-slash',
-    title: 'Failures that still go quiet',
-    body: 'When a save fails on the server, most inline actions show nothing. One shared listener that says “Couldn’t save. Try again.” would lift visibility and error recovery together.',
+    title: 'Silent save failures',
+    body: 'When a save fails on the server, most inline actions show nothing. One shared listener that says “Couldn’t save. Try again.” would raise the scores for visibility and error recovery.',
   },
   {
     icon: 'ph:arrow-counter-clockwise',
@@ -183,23 +184,23 @@ const edges = [
 
   <Tldr problem={tldr.problem} decision={tldr.decision} evidence={tldr.evidence} />
 
-  <CaseSection id="context" title="Who it’s for">
+  <CaseSection id="context" title="Audience">
     <CaseProse>
       <p>
         VMSpark takes job feeds from the vendor management systems hospitals use, maps each
         listing to a staffing agency’s own vocabulary, runs the agency’s rules, and sends it to
-        their applicant tracking system. When a value doesn’t map, the job stalls, and a nurse
-        doesn’t hear about a shift.
+        their applicant tracking system. When a value doesn’t map, the job stops before it
+        reaches the agency, and nurses don’t see the shift.
       </p>
       <p>
-        The people fixing those values and the company selling the pipeline want the same
-        thing from the interface. I held every decision to <strong class="text-ink font-semibold">both
-        columns below</strong>: if it helped one side and cost the other, it wasn’t done.
+        Operators fix those values, and VMSpark sells the pipeline. I checked each decision
+        against the needs of <strong class="text-ink font-semibold">both groups below</strong>.
+        A change that helped one group at the other’s expense wasn’t finished.
       </p>
       <p>
         The main audience for this work was venture capitalists and angel investors like
-        <a href="#persona-graham" class="hero-link">Graham</a>, because the goal was to make the
-        case for the business.
+        <a href="#persona-graham" class="hero-link">Graham</a>. The goal was to make the case
+        for the business.
       </p>
     </CaseProse>
 
@@ -214,12 +215,12 @@ const edges = [
 
   <CaseSection id="research" title="Research">
     <CaseProse>
-      <h3 class="mono-label">How requirements were gathered</h3>
+      <Heading level={3} visual="h2">Requirements gathering</Heading>
       <p>
         The admin app looked unfinished just as VMSpark began showing it to investors. It had
-        started as a Bootstrap project and lost its way, and the team knew it. They paid for a
-        design and usability audit first, agreed with what it found, and hired me to do the work,
-        which we ran from Monday.com at their request.
+        started as a Bootstrap project and collected mixed styles over time. The team knew it.
+        They paid for a design and usability audit first, agreed with its findings, and hired me
+        to do the work. At their request, we managed the project in Monday.com.
       </p>
       <p>
         We had no opportunity to research VMSpark’s customers, so the evidence had to come from
@@ -227,9 +228,9 @@ const edges = [
         the whole app against Nielsen’s ten heuristics, with a file and line for every finding.
       </p>
       <p>
-        After the redesign the app was re-scored with the same rubric, from the code, by a
-        reviewer that hadn’t seen my notes: an AI agent given only the original audit and the
-        repo. It had to verify every fix in the code rather than take the plan’s word for it.
+        After the redesign, an AI agent that hadn’t seen my notes re-scored the app from the
+        code with the same rubric. It had only the original audit and the repo, and it had to
+        verify each fix in the code.
       </p>
     </CaseProse>
 
@@ -246,9 +247,9 @@ const edges = [
         unescaped in popovers and emails. Both were fixed before any styling work.
       </p>
       <p>
-        The pattern behind most of the low scores was the same: <strong class="text-ink font-semibold">the
-        information an operator needed existed, but only on hover</strong>. The app’s own old style
-        guide said “don’t hide required information behind a tooltip”. The app did it about a
+        Most of the low scores had one cause. <strong class="text-ink font-semibold">The
+        information an operator needed was available only on hover.</strong> The app’s old style
+        guide said not to hide required information behind a tooltip. The app did so about a
         hundred times.
       </p>
     </CaseProse>
@@ -259,7 +260,7 @@ const edges = [
       </Container>
 
       <Container width="wide" class="mt-16">
-        <CaseJourney title="Journey map: an investor’s demo" stages={vmsparkJourney} />
+        <CaseJourney title="Investor demo journey map" stages={vmsparkJourney} />
       </Container>
     </Fragment>
   </CaseSection>
@@ -269,25 +270,25 @@ const edges = [
       <CaseProse>
         <p>
           Re-theming Bootstrap would have kept five ways to render a form. I replaced it with a
-          small library in plain CSS: one partial or helper per component, one CSS block, and one
-          live entry in the style guide. If it isn’t in the library, a page can’t use it.
+          small library in plain CSS. Each component has one partial or helper, one CSS block, and
+          one live entry in the style guide. Pages can use only what the library contains.
         </p>
       </CaseProse>
 
       <CaseCards label="Foundations" items={foundations} />
 
-      <CaseCards label="Three tiers of tokens" items={tiers} />
+      <CaseCards label="Token tiers" items={tiers} />
 
       <CaseProse class="mt-12">
         <p>
-          Dark mode is a second mapping of the semantic tier, not a second stylesheet. Matching the
-          marketing site meant changing a handful of semantic tokens, and every screen followed.
+          Dark mode is a second mapping of the semantic tier. Matching the marketing site took
+          changes to a few semantic tokens, which updated every screen.
         </p>
         <p>
           I didn’t design or work on the marketing site. It already existed, and I borrowed its style.
           Investors like Graham see the marketing site first and the app second, so they should feel like one
-          company. The app borrows its navy, its blue, the Spark bolt, and its two-tone line drawings,
-          and uses them only in those places. The personality comes from consistency, not decoration.
+          company. The app borrows the site’s navy, its blue, the Spark bolt, and its two-tone line
+          drawings.
         </p>
       </CaseProse>
 
@@ -298,7 +299,7 @@ const edges = [
             alt="The style guide’s Foundations section: the three token tiers explained with an example of each, then the full primitive palette of slate, navy, blue, orange, green, amber, and red swatches, each labeled with its token name and hex value."
             label="/admin/ui_playground"
             kind="Style guide"
-            caption="Every primitive, named by lightness, so a darker step is always a higher number."
+            caption="Each primitive is named by lightness. A darker step always has a higher number."
           />
         </Container>
         <Container width="wide" class="mt-16">
@@ -307,7 +308,7 @@ const edges = [
             alt="The existing VMSpark marketing site, which I didn’t design or build. It’s the source of the app’s navy, brand blue, and Spark orange."
             href="https://vmspark.com/"
             label="vmspark.com"
-            kind="Existing site, not my work"
+            kind="Existing site by others"
             index="01"
           />
         </Container>
@@ -331,8 +332,8 @@ const edges = [
         mapping</strong>, one inbox sorted by how much is waiting, with a next step at the top.
       </p>
       <p>
-        For the business this is the same list as “jobs that can’t reach a customer’s ATS”, so
-        clearing it is the most valuable thing an operator can do.
+        Each unmapped value blocks jobs from reaching a customer’s ATS. Clearing this list is
+        the most valuable work an operator does for the business.
       </p>
     </CaseProse>
 
@@ -340,7 +341,7 @@ const edges = [
       <Container width="wide" class="mt-16">
         <Plate
           title="Needs mapping"
-          caption="One sentence of purpose, the total, and where to start. Lists with nothing to do are dimmed, not hidden."
+          caption="The header states the page’s purpose, the total, and where to start. Lists with nothing to map stay visible and dimmed."
           src={shot('desktop-needs-mapping-light')}
           alt={pairs[0].alt}
         />
@@ -348,16 +349,16 @@ const edges = [
 
       <CaseProse continued>
         <p>
-          Each mapping page works like a ledger: what came in from the feed on the left, the value in
-          the ATS on the right, and a Save on every row. “Ignore” sits beside it with a hint that says
-          exactly what ignoring does.
+          Each mapping page uses the same mapping ledger. The value from the feed sits on the left,
+          the ATS value on the right, and every row has its own Save button. An Ignore switch sits
+          beside it, and a hint says what ignoring does.
         </p>
       </CaseProse>
 
       <Container width="wide" class="mt-16">
         <Plate
           title="Professions"
-          caption="What came in, what it should be, and what Ignore does, on every row."
+          caption="Each row pairs a feed value with its ATS value. A hint above the rows explains Ignore."
           src={shot('desktop-professions-light')}
           alt="The Professions mapping page: “47 professions need a value in your ATS. Pick one and save each row.”, Unmapped 47 and Mapped tabs, a search field with a Search button, a hint explaining what Ignore and new values do, then rows pairing a profession title from the VMS feeds with a profession picker, an optional new ATS value, an Ignore switch, a Save button, and a delete button."
         />
@@ -385,10 +386,9 @@ const edges = [
     <CaseFor project="vmspark" personas={["nadia","graham"]} stage="risk" />
     <CaseProse>
       <p>
-        In this app a misclick doesn’t just annoy someone. Deleting a mapping can unmap
-        thousands of listings, and reprocessing an account queues work for every open job in it.
-        The operator loses their afternoon, and the business pays for the compute and the
-        support call.
+        Deleting a mapping can unmap thousands of listings. Reprocessing an account queues work
+        for every open job in it. A misclick costs the operator time to repair and costs the
+        business compute and support time.
       </p>
     </CaseProse>
 
@@ -408,14 +408,14 @@ const edges = [
           <Plate
             size="half"
             title="Reprocess all, light"
-            caption="The question is the title, the consequence is the body, and the button repeats the verb."
+            caption="The title asks the question. The body states the consequence, and the button repeats the verb."
             src={shot('desktop-confirm-reprocess-light')}
             alt="The confirm dialog over the job listings page, titled “Reprocess every open job listing in this account?”, with the body “Mapping and rules run again on each one and changes sync to your ATS. This runs in the background and can take several minutes.” and Cancel and Reprocess buttons."
           />
           <Plate
             size="half"
             title="Reprocess all, dark"
-            caption="One dialog for every confirmation in the app, so they all read the same way."
+            caption="Every confirmation in the app uses this dialog."
             src={shot('desktop-confirm-reprocess-dark')}
             alt="The same Reprocess all confirm dialog in dark mode."
           />
@@ -433,8 +433,8 @@ const edges = [
         menu. A small script applies the choice before first paint, so pages never flash.
       </p>
       <p>
-        Dark mode isn’t an inverted light mode. Each semantic token gets its own dark value, and
-        brand blue steps up in lightness so links and buttons stay readable on navy. A script checks
+        Each semantic token has its own dark value. Brand blue is lighter in dark mode so links
+        and buttons stay readable on navy. A script checks
         all <strong class="text-ink font-semibold">178 text and control pairings</strong> in both
         themes against WCAG AA.
       </p>
@@ -455,7 +455,7 @@ const edges = [
           Most mapping happens at a desk, but failed-listing alerts arrive by email, and an
           operator should be able to check one from a phone. The main screens were checked at 390
           pixels wide with no sideways page scroll. Layouts collapse to one column below 640
-          pixels, and every target is at least 24 pixels, 40 for primary actions.
+          pixels. Every target is at least 24 pixels, and primary actions are at least 40.
         </p>
         <p>
           Drag-to-reorder doesn’t work well with a thumb or a keyboard, so rules and rate plans
@@ -486,23 +486,23 @@ const edges = [
   </CaseSection>
 
   <CaseQuote
-    label="What Jon said"
+    label="Testimonial"
     name="Jon Sturm"
     role="Director of Product & Customer Success · VMSpark"
     photo="/images/testimonials/jon-sturm.jpeg"
     quote="Josh inventoried 350 ERB templates before writing a line of new CSS, then turned that audit into a phased rollout we could ship behind no flags. The shell finally reads like the enterprise product the pipeline always was, and operators didn't lose a single piece of muscle memory in the move."
   />
 
-  <CaseSection id="process" title="How it was built">
+  <CaseSection id="process" title="Build process">
     <CaseProse>
       <p>
-        Routes, params, form field names, and HTMX targets stayed exactly the same, so the
-        pipeline and every integration were untouched.
+        Routes, params, form field names, and HTMX targets stayed the same, so the pipeline and
+        every integration were untouched.
       </p>
       <p>
-        Interfaces drift when nothing stops them, so the style guide lives in
-        the app, renders every component live with the code to copy, and states its own rules:
-        where the system lives, how it changes, and what checks it has to pass.
+        The style guide lives in the app. It renders every component live with the code to copy.
+        It also states the system’s rules, including where the system lives, how it changes, and
+        which checks it has to pass.
       </p>
       <p>
         It also has a section for AI coding agents. The team builds with them, so the same rules
@@ -511,7 +511,7 @@ const edges = [
       </p>
     </CaseProse>
 
-    <CaseCards label="Checks that fail on drift" items={checks} />
+    <CaseCards label="Drift checks" items={checks} />
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
@@ -522,7 +522,7 @@ const edges = [
             label="About"
             kind="Style guide"
             index="01"
-            caption="Purpose, principles, governance, and instructions for AI agents, before a single component."
+            caption="The About section covers purpose, principles, governance, and instructions for AI agents ahead of the components."
           />
           <ScrollShot
             src="/images/projects/vmspark/styleguide-components-dark.webp"
@@ -530,7 +530,7 @@ const edges = [
             label="Components"
             kind="Style guide"
             index="02"
-            caption="Shown in dark mode: the style guide follows the same theme setting as the app."
+            caption="The style guide follows the app’s theme setting. This capture is in dark mode."
           />
           <ScrollShot
             src="/images/projects/vmspark/styleguide-patterns-light.webp"
@@ -538,7 +538,7 @@ const edges = [
             label="Patterns"
             kind="Style guide"
             index="03"
-            caption="Whole page recipes, using real words from the app."
+            caption="Full-page patterns that use real copy from the app."
           />
         </div>
       </Container>

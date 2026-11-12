@@ -1,8 +1,15 @@
 ---
+import Heading from '~/components/primitives/Heading.astro';
+import Icon from '~/components/primitives/Icon.astro';
+
 /**
  * Nielsen's ten heuristics, scored 0–10, with the change that moved each one.
  * `after` is optional: leave it out until a re-score has actually been done.
  * `left` is what still keeps a heuristic from a 10.
+ *
+ * Each heuristic gets a 0–10 score bar: the starting score in a light tint of
+ * the accent, the gain in the accent. Bars fill on scroll-in; without the
+ * reveal script (reduced motion, no JS) they're simply drawn.
  */
 interface Row {
   n: number;
@@ -15,33 +22,143 @@ interface Row {
 interface Props {
   items: Row[];
   caption: string;
+  /** Heading level for the section title; each heuristic is one level below. */
+  level?: 3 | 4;
 }
-const { items, caption } = Astro.props;
+const { items, caption, level = 3 } = Astro.props;
+const itemLevel = (level + 1) as 4 | 5;
+const rescored = items.some((h) => h.after !== undefined);
 ---
-<div class="mt-12">
-  <p class="mono-label mb-2">By heuristic</p>
-  <p class="mb-6 text-sm text-ink-muted">{caption}</p>
-  <ol class="border-t border-line">
-    {items.map((h) => (
-      <li class="flex items-baseline gap-x-4 border-b border-line py-4">
-        <span class="w-8 shrink-0 font-mono text-xs text-ink-muted">H{h.n}</span>
-        <div class="min-w-0 flex-1">
-          <div class="flex items-baseline justify-between gap-x-4">
-            <span class="font-medium text-ink">{h.name}</span>
+<div class="mt-16">
+  <Heading level={level} visual="h2">Score by heuristic</Heading>
+  <p class="mt-2 text-sm text-ink-muted">{caption}</p>
+
+  {rescored && (
+    <p class="heur-legend mt-6" aria-hidden="true">
+      <span class="heur-legend-item"><span class="heur-swatch heur-swatch--before"></span>Before</span>
+      <span class="heur-legend-item"><span class="heur-swatch heur-swatch--gain"></span>Gained</span>
+    </p>
+  )}
+
+  <ol class="heur-list mt-10" data-reveal>
+    {items.map((h, i) => {
+      const end = h.after ?? h.before;
+      return (
+        <li style={`--b: ${h.before}; --a: ${end}; --i: ${i}`}>
+          <div class="flex items-end justify-between gap-x-6">
+            <Heading level={itemLevel} visual="h4">{h.name}</Heading>
             {h.after !== undefined ? (
-              <span class="font-mono text-sm text-ink whitespace-nowrap" aria-label={`from ${h.before} to ${h.after}`}>
-                <span class="text-ink-muted">{h.before}</span> → <strong class="font-semibold">{h.after}</strong>
-              </span>
+              <p class="flex shrink-0 items-baseline gap-2" aria-label={`from ${h.before} to ${h.after} out of 10`}>
+                <span class="font-display text-lg text-ink-muted line-through decoration-accent/50">{h.before}</span>
+                <Icon name="ph:arrow-right" size={14} class="self-center text-ink-muted" />
+                <span class="font-display text-2xl font-semibold leading-none tracking-tight text-ink">{h.after}</span>
+                <span class="font-mono text-xs text-ink-muted">/10</span>
+              </p>
             ) : (
-              <span class="font-mono text-sm text-ink whitespace-nowrap" aria-label={`scored ${h.before} out of 10 before`}>
-                {h.before}<span class="text-ink-muted">/10</span>
-              </span>
+              <p class="flex shrink-0 items-baseline gap-1" aria-label={`scored ${h.before} out of 10`}>
+                <span class="font-display text-2xl font-semibold leading-none tracking-tight text-ink">{h.before}</span>
+                <span class="font-mono text-xs text-ink-muted">/10</span>
+              </p>
             )}
           </div>
-          <span class="mt-1 block text-sm text-ink-muted leading-relaxed">{h.fix}</span>
-          {h.left && <span class="mt-1 block text-sm text-ink-muted leading-relaxed"><span class="text-ink">Still open:</span> {h.left}</span>}
-        </div>
-      </li>
-    ))}
+
+          <div class="heur-bar" aria-hidden="true">
+            <span class:list={['heur-before', h.after === undefined && 'heur-before--only']}></span>
+            {h.after !== undefined && <span class="heur-gain"></span>}
+          </div>
+
+          <p class="measure text-sm leading-relaxed text-ink-muted">{h.fix}</p>
+          {h.left && (
+            <p class="measure mt-2 text-sm leading-relaxed text-ink-muted">
+              <span class="font-medium text-ink">Still open:</span> {h.left}
+            </p>
+          )}
+        </li>
+      );
+    })}
   </ol>
 </div>
+
+<style>
+  .heur-legend {
+    display: flex;
+    gap: 1.5rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+  }
+  .heur-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .heur-swatch {
+    width: 1.25rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+  }
+
+  /* Open space, not rules, separates the heuristics: much more room between
+     them than inside one. */
+  .heur-list {
+    display: grid;
+    row-gap: 3.5rem;
+  }
+
+  /* A 0–10 score bar, the same as the flow-score bars: the starting score in
+     grey, the gain in the accent. */
+  .heur-bar {
+    position: relative;
+    height: 0.5rem;
+    margin-block: 0.75rem 1rem;
+    border-radius: 9999px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .heur-before,
+  .heur-gain {
+    position: absolute;
+    inset-block: 0;
+  }
+  .heur-before,
+  .heur-swatch--before {
+    background: rgb(var(--accent-rgb) / 0.3);
+  }
+  .heur-before {
+    left: 0;
+    width: calc(var(--b) * 10%);
+  }
+  .heur-before--only {
+    background: var(--accent);
+    border-radius: 9999px;
+  }
+  .heur-gain,
+  .heur-swatch--gain {
+    background: var(--accent);
+  }
+  .heur-gain {
+    left: calc(var(--b) * 10%);
+    width: calc((var(--a) - var(--b)) * 10%);
+    border-radius: 0 9999px 9999px 0;
+    transform-origin: left;
+  }
+
+  /* The bars fill from the left as the list scrolls in, row by row. */
+  @media (prefers-reduced-motion: no-preference) {
+    .heur-before,
+    .heur-gain {
+      transform-origin: left;
+      transition: transform 0.6s var(--ease-out);
+    }
+    .heur-before {
+      transition-delay: calc(var(--i) * 70ms + 150ms);
+    }
+    .heur-gain {
+      transition-delay: calc(var(--i) * 70ms + 550ms);
+    }
+    .heur-list.scroll-reveal:not(.is-visible) .heur-before,
+    .heur-list.scroll-reveal:not(.is-visible) .heur-gain {
+      transform: scaleX(0);
+    }
+  }
+</style>

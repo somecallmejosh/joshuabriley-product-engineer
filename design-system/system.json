@@ -43,7 +43,7 @@
       "raised": {
         "$type": "color",
         "$value": "#FFFFFF",
-        "$description": "Raised surfaces that lift off paper. Use sparingly: white cards on paper are the main sign that a page was generated rather than designed (see rules.json guidelines).",
+        "$description": "Raised surfaces that lift off paper. Use sparingly. Too many white cards on paper make a page look generated (see rules.json guidelines).",
         "$extensions": {
           "site": {
             "cssVar": "--raised",
@@ -56,7 +56,7 @@
       "surface-warm": {
         "$type": "color",
         "$value": "#F7F5F0",
-        "$description": "Warm tint for small inline callouts only (e.g. the blog author card). Never a full-width section wash.",
+        "$description": "Warm tint for small inline callouts only, such as the blog author card. Do not use it as a full-width section background.",
         "$extensions": {
           "site": {
             "cssVar": "--surface-warm",
@@ -94,7 +94,7 @@
       "ink-muted": {
         "$type": "color",
         "$value": "#565760",
-        "$description": "Secondary text. About 6:1 on paper, so it passes AA.",
+        "$description": "Secondary text. It is 6.9:1 on paper, so it passes AA.",
         "$extensions": {
           "site": {
             "cssVar": "--ink-muted",
@@ -107,7 +107,7 @@
       "ink-faint": {
         "$type": "color",
         "$value": "#9A9AA1",
-        "$description": "Decoration only: separator dots, arrow glyphs, empty-state rings. At 2.8:1 it can't carry readable text at any size; use ink-muted for anything a reader has to read.",
+        "$description": "Decoration only, such as separator dots, arrow glyphs, and empty-state rings. At 2.7:1 it can't carry readable text at any size. Use ink-muted for anything a reader has to read.",
         "$extensions": {
           "site": {
             "cssVar": "--ink-faint",
@@ -133,7 +133,7 @@
       "line-strong": {
         "$type": "color",
         "$value": "#D4D7DD",
-        "$description": "Emphasised rules and input borders.",
+        "$description": "Emphasized rules and input borders.",
         "$extensions": {
           "site": {
             "cssVar": "--line-strong",
@@ -159,12 +159,12 @@
       "accent-on-ink": {
         "$type": "color",
         "$value": "#6BA6D8",
-        "$description": "Accent value on dark ink surfaces (6.6:1). Applied automatically by the surface rules in site.css; you never select it directly."
+        "$description": "Accent value on dark ink surfaces (6.6:1). The surface rules in site.css apply it automatically. Do not select it directly."
       },
       "accent-pressed": {
         "$type": "color",
         "$value": "#234A70",
-        "$description": "Pressed / darker accent on light surfaces.",
+        "$description": "Pressed and darker accent on light surfaces.",
         "$extensions": {
           "site": {
             "tailwind": [
@@ -318,7 +318,7 @@
           "system-ui",
           "sans-serif"
         ],
-        "$description": "Does almost all the work: body, UI, headings.",
+        "$description": "Body text, UI, and headings.",
         "$extensions": {
           "site": {
             "cssVar": "--font-hanken",
@@ -339,7 +339,7 @@
           "Times New Roman",
           "serif"
         ],
-        "$description": "Display serif for character: headlines, oversized numerals, the editorial italic. Never small functional text. The CSS var keeps its historic name.",
+        "$description": "Display serif for headlines, oversized numerals, and the editorial italic. Do not use it for small functional text. The CSS var keeps its historic name.",
         "$extensions": {
           "site": {
             "cssVar": "--font-fraunces",
@@ -356,7 +356,7 @@
           "ui-monospace",
           "monospace"
         ],
-        "$description": "Technical and metadata moments: eyebrows, labels, code, indices.",
+        "$description": "Technical text and metadata, such as labels, code, and indices.",
         "$extensions": {
           "site": {
             "cssVar": "--font-geist-mono",
@@ -373,7 +373,7 @@
           "Snell Roundhand",
           "cursive"
         ],
-        "$description": "Signature wordmark only. One weight, no tabular figures, unreadable below about 20px.",
+        "$description": "Signature wordmark only. It has one weight and no tabular figures. It is unreadable below about 20px.",
         "$extensions": {
           "site": {
             "cssVar": "--font-script",
@@ -749,7 +749,7 @@
           "type": "string",
           "required": false,
           "default": "`field-${name}`",
-          "description": "Stable id; auto-generated if omitted."
+          "description": "Stable id. Generated from name if omitted."
         },
         {
           "name": "required",
@@ -798,7 +798,7 @@
           "type": "boolean",
           "required": false,
           "default": "true",
-          "description": "Hidden by default; flip to false to render initially shown."
+          "description": "Hidden by default. Set to false to show it on first render."
         },
         {
           "name": "id",
@@ -829,7 +829,7 @@
           "name": "id",
           "type": "string",
           "required": false,
-          "description": "Override; defaults to `field-{name}` to match Field's auto id."
+          "description": "Override. Defaults to `field-{name}` to match Field's auto id."
         },
         {
           "name": "type",
@@ -1146,7 +1146,7 @@
       "name": "SnapGridGame",
       "path": "src/components/islands/SnapGridGame.astro",
       "group": "islands",
-      "note": "Nudge pieces onto an 8px grid with buttons, arrow keys or dragging.",
+      "note": "Nudge pieces onto an 8px grid with buttons, arrow keys, or dragging.",
       "href": "/play/snap-to-grid/",
       "props": []
     },
@@ -1301,7 +1301,7 @@
           "type": "string",
           "required": false,
           "default": "'Jump to the details'",
-          "description": "Visible lead-in before the links; hidden on phones."
+          "description": "Visible lead-in before the links. Hidden on phones."
         }
       ]
     },
@@ -1325,6 +1325,30 @@
       ]
     },
     {
+      "name": "CaseFindings",
+      "path": "src/components/patterns/case/CaseFindings.astro",
+      "group": "patterns",
+      "note": "Counted audit findings: a large figure, what it counts, and one line of detail.",
+      "href": "/projects/logatot/#research",
+      "props": [
+        {
+          "name": "items",
+          "type": "{ value: string; label: string; note?: string; }[]",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
       "name": "CaseProse",
       "path": "src/components/patterns/case/CaseProse.astro",
       "group": "patterns",
@@ -1333,6 +1357,12 @@
       "props": [
         {
           "name": "continued",
+          "type": "boolean",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "lede",
           "type": "boolean",
           "required": false,
           "default": "false"
@@ -1360,7 +1390,7 @@
           "name": "label",
           "type": "string",
           "required": false,
-          "description": "Small label above the grid, e.g. \"Foundations\". Omit when the section heading is enough."
+          "description": "Heading above the grid, e.g. \"Foundations\". Omit when the section heading is enough."
         },
         {
           "name": "class",
@@ -1385,6 +1415,13 @@
           "name": "caption",
           "type": "string",
           "required": true
+        },
+        {
+          "name": "level",
+          "type": "3 | 4",
+          "required": false,
+          "default": "3",
+          "description": "Heading level for the section title; each heuristic is one level below."
         }
       ]
     },
@@ -1406,7 +1443,7 @@
       "name": "CaseJourney",
       "path": "src/components/patterns/case/CaseJourney.astro",
       "group": "patterns",
-      "note": "A journey map as live text: stages side by side on large screens, stacked on small ones.",
+      "note": "A journey map as live text on a route of stage icons that draws in on scroll: stages side by side on large screens, a vertical timeline on small ones, with design responses in one accent-tinted band.",
       "href": "/projects/vmspark/#research",
       "props": [
         {
@@ -1763,7 +1800,7 @@
           "type": "'band' | 'half'",
           "required": false,
           "default": "'band'",
-          "description": "`band` fills a wide container; `half` fills a two-up grid cell."
+          "description": "`band` fills a wide container. `half` fills a two-up grid cell."
         },
         {
           "name": "zoom",
@@ -1796,6 +1833,33 @@
           "name": "class",
           "type": "string",
           "required": false
+        }
+      ]
+    },
+    {
+      "name": "Breadcrumbs",
+      "path": "src/components/patterns/Breadcrumbs.astro",
+      "group": "patterns",
+      "note": "The trail at the top of every page below a section index.",
+      "href": "/projects/logatot/gallery/",
+      "props": [
+        {
+          "name": "items",
+          "type": "{ href: string; label: string; }[]",
+          "required": true,
+          "description": "Parent pages, outermost first. Each is linked."
+        },
+        {
+          "name": "current",
+          "type": "string",
+          "required": true,
+          "description": "This page's short name. Shown last, not linked."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false,
+          "description": "Extra classes, such as the hero-in entrance step."
         }
       ]
     },
@@ -1845,7 +1909,7 @@
       "name": "Recommendation",
       "path": "src/components/patterns/Recommendation.astro",
       "group": "patterns",
-      "note": "A quotation attributed to a named colleague; regular and featured layouts.",
+      "note": "A quotation attributed to a named colleague, in regular and featured layouts.",
       "href": "/testimonials/",
       "props": [
         {
@@ -2206,7 +2270,7 @@
       "name": "Icon",
       "path": "src/components/primitives/Icon.astro",
       "group": "primitives",
-      "note": "Iconify icons with decorative or explicitly labelled semantics.",
+      "note": "Iconify icons with decorative or explicitly labeled semantics.",
       "href": "/contact/",
       "props": [
         {
@@ -2399,7 +2463,7 @@
       "name": "ArticleTable",
       "path": "src/components/writing/ArticleTable.astro",
       "group": "writing",
-      "note": "A labelled, keyboard-scrollable table region that preserves column headings. Renders any Markdown table in a post; no current post has one.",
+      "note": "A labeled, keyboard-scrollable table region that preserves column headings. Renders any Markdown table in a post. No current post has one.",
       "props": []
     }
   ]

@@ -27,7 +27,6 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 <div class="bench" data-bench data-reveal-stagger data-weeks={WEEKS_PER_YEAR} data-rate={DEFAULTS.rate}>
   <article class="tile tile--scorecard surface-denim">
     <div class="tile-copy">
-      <p class="tile-question">Not sure where to start?</p>
       <h2>Design system <em>scorecard.</em></h2>
       <p class="tile-note">Try three of the {TOTAL_ITEMS} prompts here. The full assessment takes about ten minutes and suggests priorities for your team.</p>
       <a class="action-link" href="/tools/scorecard/">{action('scorecard')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
@@ -52,11 +51,10 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 
   <article class="tile tile--token">
     <div class="tile-copy">
-      <p class="tile-question">Explaining how tokens work?</p>
       <h2>Design token <em>playground.</em></h2>
     </div>
     <div class="tile-live" data-bench-live>
-      <p class="tile-note">Every tile on this page shares these two values, so moving one changes them all.</p>
+      <p class="tile-note">Every tile on this page uses these two values. Changing one updates all four tiles.</p>
       <div class="sample" aria-hidden="true">
         <span class="sample-button">Save</span>
         <span class="sample-tab">Overview</span>
@@ -81,7 +79,6 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 
   <article class="tile tile--calculator">
     <div class="tile-copy">
-      <p class="tile-question">Making the case for shared UI?</p>
       <h2>Inconsistency cost <em>calculator.</em></h2>
     </div>
     <div class="tile-live" data-bench-live>
@@ -93,7 +90,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
         <input id="bench-team" type="range" min="1" max="40" step="1" value={DEFAULTS.team} data-team />
       </div>
       <div class="slider">
-        <label for="bench-rework">Rework hours per person, per week</label>
+        <label for="bench-rework">Rework hours per person per week</label>
         <output for="bench-rework" aria-live="off" data-rework-out>{DEFAULTS.reworkHours}</output>
         <input id="bench-rework" type="range" min="0" max="20" step="1" value={DEFAULTS.reworkHours} data-rework />
       </div>
@@ -105,7 +102,6 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 
   <article class="tile tile--audit" data-audit>
     <div class="tile-copy">
-      <p class="tile-question">Deciding what to fix first?</p>
       <h2>Sample audit <em>findings.</em></h2>
     </div>
     <div class="tile-live" data-bench-live>
@@ -121,7 +117,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
           <button type="button" class="bench-text-button" aria-pressed="false" data-show-issues>Show the issues</button>
         </div>
         <div class="audit-swap">
-          <p class="tile-note audit-prompt">This sample interface has drifted from its system in two places. See if you can spot them.</p>
+          <p class="tile-note audit-prompt">This sample interface departs from its design system in two places.</p>
           <ul class="findings" role="list">
             <li><span>Low priority</span><strong>Mismatched radius</strong> Card 3 uses 4px. The others use 16px.</li>
             <li><span>Low priority</span><strong>Off-grid spacing</strong> The last row uses an 18px margin. The system uses an 8px grid.</li>
@@ -147,12 +143,11 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
   .tile--calculator, .tile--audit { background: var(--portfolio-tint); border-color: transparent; }
   .tile--scorecard { border-color: transparent; }
 
-  .tile-question { margin-bottom: .75rem; font-size: .86rem; color: var(--ink-muted); }
   .tile h2 { font-size: clamp(2rem, 3.2vw, 3.1rem); font-weight: 800; line-height: 1.08; letter-spacing: -.05em; }
   .tile h2 em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; letter-spacing: -.045em; color: var(--portfolio-blue); }
   .tile--scorecard h2 em, .readout-area em { color: color-mix(in srgb, var(--paper) 80%, var(--portfolio-blue)); }
   .tile-note { max-width: 46ch; font-size: 1rem; line-height: 1.6; color: var(--ink-muted); }
-  .tile--scorecard :is(.tile-question, .tile-note) { color: color-mix(in srgb, var(--paper) 82%, transparent); }
+  .tile--scorecard .tile-note { color: color-mix(in srgb, var(--paper) 82%, transparent); }
   .tile-copy .tile-note { margin-top: 1.25rem; }
   .tile-live { display: flex; flex-direction: column; gap: calc(1.25rem * var(--bench-space)); min-width: 0; flex: 1; }
   .tile-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
@@ -254,7 +249,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       const answers = prompts.map((p) => ({ area: p.dataset.area!, value: Number(p.querySelector<HTMLInputElement>('input:checked')!.value) }));
       score.textContent = String(answers.reduce((sum, a) => sum + a.value, 0));
       const lowest = answers.reduce((low, a) => (a.value < low.value ? a : low));
-      if (lowest.value === 2) area.textContent = 'No gaps in these three.';
+      if (lowest.value === 2) area.textContent = 'These three show no gaps.';
       else area.innerHTML = `Start with <em>${lowest.area}.</em>`;
     };
     prompts.forEach((p) => p.addEventListener('change', renderScore));

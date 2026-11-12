@@ -108,14 +108,11 @@ if (form) {
     const v = control.validity;
     if (v.valid && (!control.required || control.value.trim())) return '';
     switch (control.name) {
-      case 'first-name': return 'I’ll need a first name. “Valued Customer” is taken.';
-      case 'last-name': {
-        const first = getValue('first-name');
-        return first ? `Add your last name, in case I know two people named ${first}.` : 'Add your last name, too.';
-      }
+      case 'first-name': return 'Enter your first name.';
+      case 'last-name': return 'Enter your last name.';
       case 'email':
-        return control.value.trim() ? 'That email looks unfinished. Try something like you@example.com.' : 'I’ll need an email address to write back. Carrier pigeon support is still in beta.';
-      case 'message': return 'Add a few words. Even “hi” counts.';
+        return control.value.trim() ? 'Enter a complete email address, such as you@example.com.' : 'Enter your email address so I can reply.';
+      case 'message': return 'Enter a message.';
       default: return 'Check this field.';
     }
   };

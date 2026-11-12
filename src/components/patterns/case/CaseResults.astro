@@ -1,4 +1,5 @@
 ---
+import Heading from '~/components/primitives/Heading.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
 
@@ -16,7 +17,7 @@ interface Props {
 const { metrics = [], groups, note } = Astro.props;
 const cols = groups.length >= 3 ? 'sm:grid-cols-3' : groups.length === 2 ? 'sm:grid-cols-2' : '';
 ---
-{note && <p class="mt-8 measure text-lg leading-relaxed text-ink-muted">{note}</p>}
+{note && <p class="case-lede mt-8 measure">{note}</p>}
 
 {metrics.length > 0 && (
   <div class="mt-8 grid grid-cols-2 gap-8 py-8">
@@ -27,7 +28,7 @@ const cols = groups.length >= 3 ? 'sm:grid-cols-3' : groups.length === 2 ? 'sm:g
 <div class:list={['mt-12 grid grid-cols-1 gap-x-8 gap-y-10', cols]}>
   {groups.map((group) => (
     <div class="pt-4">
-      <p class="mono-label mb-3">{group.label}</p>
+      <Heading level={3} visual="h3" class="mb-3">{group.label}</Heading>
       <ul class="space-y-2">
         {group.items.map((item) => (
           <li class="flex items-start gap-2 text-sm text-ink-muted leading-relaxed">

@@ -61,7 +61,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
                 <figure class="nav-quote" data-nav-quote hidden={id !== defaultTestimonial.id}>
                   <blockquote><p>“{testimonial.quote}”</p></blockquote>
                   <figcaption>
-                    {testimonial.image ? <img src={testimonial.image} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="nav-quote-initials" aria-hidden="true">{testimonial.initials}</span>}
+                    <span class="offset-frame nav-quote-avatar">{testimonial.image ? <img src={testimonial.image} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="nav-quote-initials" aria-hidden="true">{testimonial.initials}</span>}</span>
                     <span class="nav-case-text">
                       <span class="nav-quote-name">{testimonial.name}</span>
                       <span class="nav-link-description">{testimonial.role}, {testimonial.company}</span>
@@ -163,7 +163,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
   .nav-quote { margin: 1rem 0 0; }
   .nav-quote blockquote p { font-size: 1.0625rem; font-weight: 600; line-height: 1.45; letter-spacing: -.015em; color: var(--ink); text-wrap: pretty; }
   .nav-quote figcaption { display: flex; align-items: center; gap: .75rem; margin-top: 1.25rem; }
-  .nav-quote img, .nav-quote-initials { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .nav-quote-avatar { --frame-size: 40px; --frame-offset: 4px; }
   .nav-quote-initials { display: grid; place-items: center; background: rgb(var(--accent-rgb) / .08); color: var(--accent); font-size: .8rem; font-weight: 600; }
   .nav-quote-name { font-size: .9375rem; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
 

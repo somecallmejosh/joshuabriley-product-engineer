@@ -23,14 +23,14 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Product Design Engineer', headline: 'Where product, design, and engineering meet', wink: 'engineering meet', art: 'portrait' },
-  { slug: 'about', path: '/about/', eyebrow: 'About · Product Design Engineer', headline: 'I design and build products with the teams that ship them', wink: 'with the teams that ship them', art: 'portrait' },
-  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Drop me a line', wink: 'a line', art: 'portrait' },
-  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé · Product Design Engineer', headline: "I find what's worth building, design it, and ship it", wink: 'ship it', art: 'portrait' },
-  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Work I’ve designed and built', wink: 'and built', art: 'work' },
-  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Personal Projects', headline: 'Things I make for the fun of it', wink: 'for the fun of it', art: 'work' },
-  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'What teams say after we ship', wink: 'ship', art: 'portrait' },
-  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Interface lessons, played for laughs', wink: 'played for laughs', art: 'blog' },
+  { slug: 'home', path: '/', eyebrow: 'Joshua Briley', headline: 'Product design engineer', wink: 'engineer', art: 'portrait' },
+  { slug: 'about', path: '/about/', eyebrow: 'Product Design Engineer', headline: 'About Joshua Briley', wink: 'Joshua Briley', art: 'portrait' },
+  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Contact Joshua Briley', wink: 'Joshua Briley', art: 'portrait' },
+  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé', headline: 'Joshua Briley, Product Design Engineer', wink: 'Product Design Engineer', art: 'portrait' },
+  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Client case studies', wink: 'case studies', art: 'work' },
+  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Made for fun', headline: 'Personal projects', wink: 'projects', art: 'work' },
+  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'Client and colleague recommendations', wink: 'recommendations', art: 'portrait' },
+  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Writing about interfaces', wink: 'interfaces', art: 'blog' },
   { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system', wink: null },
   { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy', wink: null },
   { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use', wink: null },

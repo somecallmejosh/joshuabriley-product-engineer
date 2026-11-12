@@ -11,7 +11,7 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  "Product design engineer with 20+ years helping teams take products from an unclear problem to a shipped, accessible product. Most of my titles say engineer because that's the seat teams hired me into. In most of those roles the job also meant learning what users actually need and deciding how the product should behave, alongside product, design, and engineering. On a design system team, I use the same skills to support designers, so the components they design reach roughly 3,500 engineers and designers as intended."
+  "Product design engineer with 20+ years of helping teams take products from an unclear problem to a shipped, accessible product. Most of my job titles say engineer. In most of those roles I also researched what users need and decided how the product should behave, working with product, design, and engineering. On a design system team I use the same skills to support designers. The components they design reach roughly 3,500 engineers and designers as intended."
 
 /**
  * The résumé's through-line. Each EXPERIENCE entry tags the threads it proves
@@ -21,18 +21,18 @@ export const SUMMARY =
 export const STRENGTHS = [
   {
     key: 'frame',
-    title: 'Research the problem',
-    body: "Use interviews, audits, analytics, and experiments to decide what's worth building, then cut scope to the useful path.",
+    title: 'Problem research',
+    body: 'Use interviews, audits, analytics, and experiments to decide what to build. Then cut scope to what users need.',
   },
   {
     key: 'build',
-    title: 'Design it with the team',
-    body: "Prototype and validate with product, design, and engineering in the team's codebase, so decisions get tested in working software.",
+    title: 'Team prototyping',
+    body: "Prototype and validate with product, design, and engineering in the team's codebase. Decisions get tested in working software.",
   },
   {
     key: 'everyone',
-    title: 'Make it work for everyone',
-    body: 'Accessibility, performance, translated content, and errors people can recover from, treated as part of the product rather than a final pass.',
+    title: 'Accessibility and performance',
+    body: 'Build accessibility, performance, translated content, and recoverable errors into the product from the first release.',
   },
 ]
 
@@ -55,9 +55,9 @@ export const EXPERIENCE = [
     role: 'Freelance UI Designer/Developer',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
-      "Rebuilt VMSpark's admin app on a design system made for its operators after a heuristic audit scored it 3.5 out of 10; a re-score with the same rubric reached 7.5, and every delete now asks for confirmation.",
+      "Rebuilt VMSpark's admin app on a design system made for its operators after a heuristic audit scored it 3.5 out of 10. A re-score with the same rubric reached 7.5, and every delete now asks for confirmation.",
       "Gave five parties one shipment record at IVFCRYO after interviews showed the hard part was getting everyone ready before a shipment could start, cutting support calls 75% and shipping errors 55%.",
-      'Deliver full-stack prototypes and production applications for clients when building is faster than specifying.',
+      'Deliver full-stack prototypes and production applications for clients.',
     ],
   },
   {
@@ -66,8 +66,8 @@ export const EXPERIENCE = [
     role: 'Senior UX/UI Developer',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
-      'Moved documentation from evening paperwork to hands-free voice capture after interviews showed providers were filling in records from memory at night; numerous providers reported saving more than two hours daily.',
-      "Matched speech against a known list, using AI only to predict likely mishearings when a child is added, because a compliance record can't afford a confident guess.",
+      'Moved documentation from evening paperwork to hands-free voice capture after interviews showed providers were filling in records from memory at night. Providers reported saving more than two hours a day.',
+      "Matched speech against a known list and used AI only to predict likely mishearings when a child is added. Compliance records cannot contain guessed entries.",
       'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events providers log during the day.',
       'Shipped to market as a paid product in English and Spanish, sold direct and through child care associations.',
     ],

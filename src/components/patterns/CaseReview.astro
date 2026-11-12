@@ -5,7 +5,7 @@ interface Props {
   links: { href: string; label: string }[];
   /** Accessible name for the navigation landmark. */
   label?: string;
-  /** Visible lead-in before the links; hidden on phones. */
+  /** Visible lead-in before the links. Hidden on phones. */
   intro?: string;
 }
 const { links, label = 'Review this project', intro = 'Jump to the details' } = Astro.props;

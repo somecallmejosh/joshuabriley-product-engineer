@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import '~/styles/tools.css';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Section from '~/components/layout/Section.astro';
@@ -35,7 +36,7 @@ const description =
 
   <section class="page-opener">
     <Container width="wide">
-      <p class="role-line"><a href="/tools/">Tools</a><span aria-hidden="true">/</span>Self-assessment results</p>
+      <Breadcrumbs items={[{ href: '/tools/', label: 'Tools' }, { href: '/tools/scorecard/', label: 'Design system scorecard' }]} current="Results" />
 
       <h1 class="page-type">Your scorecard <em>results.</em></h1>
       <p class="page-lede">Review your scores across five subjects and suggested priorities based on your answers. Use this snapshot to guide a closer look at your system.</p>
