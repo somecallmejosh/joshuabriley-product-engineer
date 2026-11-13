@@ -21,7 +21,7 @@ const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
       <ToolBench tools={tools} />
       <div class="tools-notes">
         <p>The tools need no signup or installation. Your inputs stay in your browser. A shared scorecard or calculator link stores its results or settings in the URL.</p>
-        <p><a class="editorial-link" href="/play/">Play the accessibility games <span aria-hidden="true" data-link-arrow="right">→</span></a></p>
+        <p><a class="editorial-link" href="/play/">Play the accessibility games</a></p>
       </div>
     </Container>
   </section>
@@ -34,9 +34,9 @@ const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
           <p class="section-intro">These tools are based on my approach to design system work. The links below show that approach in a reference project, a client case study, and my résumé.</p>
         </div>
         <div class="resource-list">
-          <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system</strong><span>Rudiment UI is a personal reference project with tokens, component APIs, and live Storybook examples.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/projects/ivfcryo/"><span><strong>Follow an interface decision</strong><span>The IVFCRYO case study covers design alternatives, form behavior, and recovery paths in a product workflow.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          <a href="/resume/#experience"><span><strong>Review my systems experience</strong><span>My résumé lists enterprise design system roles and more than twenty years of production UI work.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/personal-projects/rudiment-ui/"><span><strong>Explore a component system<span class="link-dot" aria-hidden="true"></span></strong><span>Rudiment UI is a personal reference project with tokens, component APIs, and live Storybook examples.</span></span></a>
+          <a href="/projects/ivfcryo/"><span><strong>Follow an interface decision<span class="link-dot" aria-hidden="true"></span></strong><span>The IVFCRYO case study covers design alternatives, form behavior, and recovery paths in a product workflow.</span></span></a>
+          <a href="/resume/#experience"><span><strong>Review my systems experience<span class="link-dot" aria-hidden="true"></span></strong><span>My résumé lists enterprise design system roles and more than twenty years of production UI work.</span></span></a>
         </div>
       </div>
     </Container>

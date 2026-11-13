@@ -83,22 +83,22 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <div class="hero-in hero-in-4 lg:col-span-4 lg:flex lg:flex-col lg:items-end" data-print-screen>
           <div class="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-end">
             <a class="action-link" href="/resume.pdf" target="_blank" rel="noopener">
-              Download PDF <span aria-hidden="true" data-link-arrow="down">↓</span>
+              Download PDF
             </a>
             <a class="editorial-link" href="/contact/">
-              Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span>
+              Get in touch
             </a>
           </div>
           <p class="mt-4 text-sm text-ink-muted">Updated {updated}</p>
         </div>
       </div>
       <nav class="evidence-nav" aria-label="Résumé sections and work samples">
-        <a href="#approach">Approach <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-        <a href="#experience">Experience <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-        <a href="#skills">Skills <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-        <a href="#education">Education <span aria-hidden="true" data-link-arrow="down">↓</span></a>
-        <a href="/personal-projects/rudiment-ui/">Public component work <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-        <a href="/projects/">Product case studies <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a href="#approach">Approach<span class="link-dot" aria-hidden="true"></span></a>
+        <a href="#experience">Experience<span class="link-dot" aria-hidden="true"></span></a>
+        <a href="#skills">Skills<span class="link-dot" aria-hidden="true"></span></a>
+        <a href="#education">Education<span class="link-dot" aria-hidden="true"></span></a>
+        <a href="/personal-projects/rudiment-ui/">Public component work<span class="link-dot" aria-hidden="true"></span></a>
+        <a href="/projects/">Product case studies<span class="link-dot" aria-hidden="true"></span></a>
       </nav>
     </Container>
   </Section>
@@ -146,7 +146,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
               {workLinks[job.company] && (
                 <div class="experience-links">
                   {workLinks[job.company].map((link) => (
-                    <a class="editorial-link" href={link.href}>{link.label} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+                    <a class="editorial-link" href={link.href}>{link.label}</a>
                   ))}
                 </div>
               )}
@@ -169,7 +169,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
             <div class="skill-context">
               <h3 id={`skill-${skill.title.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{skill.title}</h3>
               <p>{skill.description}</p>
-              {skill.href && <a class="editorial-link" href={skill.href}>{skill.link} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}
+              {skill.href && <a class="editorial-link" href={skill.href}>{skill.link}</a>}
             </div>
             <ul class="skill-tools" role="list" aria-label={`${skill.title} toolkit`}>
               {skill.items.map((item) => <li>{item}</li>)}
@@ -203,7 +203,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
               <li>
                 <h4>{course.title}</h4>
                 {course.note && <p class="education-course-note">{course.note}</p>}
-                <p class="education-course-link"><a class="editorial-link editorial-link--light" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
+                <p class="education-course-link"><a class="editorial-link editorial-link--light" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span class="sr-only"> (opens in a new tab)</span></a></p>
               </li>
             ))}
           </ul>

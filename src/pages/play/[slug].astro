@@ -47,10 +47,10 @@ const next = GAMES[(GAMES.indexOf(game) + 1) % GAMES.length];
             <h2 id="game-next-title" class="aside-label">Up next</h2>
             <a class="next-tile" href={`/play/${next.slug}/`}>
               {hasGameIllustration(next.slug) && <span class="next-art" aria-hidden="true"><GameIllustration game={next.slug} /></span>}
-              <span class="next-title"><span>{next.title}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></span>
+              <span class="next-title"><span>{next.title}</span><span class="link-dot" aria-hidden="true"></span></span>
               <span class="next-summary">{next.summary}</span>
             </a>
-            <a class="editorial-link" href="/play/">All {GAMES.length} games <span aria-hidden="true" data-link-arrow="right">→</span></a>
+            <a class="editorial-link" href="/play/">All {GAMES.length} games</a>
           </section>
         </aside>
       </div>

@@ -929,8 +929,7 @@
         {
           "name": "iconRight",
           "type": "string",
-          "required": false,
-          "default": "'ph:arrow-up-right'"
+          "required": false
         },
         {
           "name": "size",
@@ -2382,7 +2381,7 @@
           "name": "iconRight",
           "type": "string",
           "required": false,
-          "description": "Icon shown after the label (default for `arrow` is ph:arrow-right)."
+          "description": "Icon shown after the label. The `arrow` variant ends in the accent dot instead."
         },
         {
           "name": "class",

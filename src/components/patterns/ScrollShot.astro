@@ -86,7 +86,7 @@ const uid = `shot-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
           rel="noopener noreferrer"
           class="scroll-shot-url scroll-shot-url--link"
           aria-label={`Open ${label} in a new tab`}
-        >{label} <Icon name="ph:arrow-up-right" size={12} /></a>
+        >{label}<span class="link-dot" aria-hidden="true"></span></a>
       ) : (
         <span class="scroll-shot-url">{label}</span>
       )}

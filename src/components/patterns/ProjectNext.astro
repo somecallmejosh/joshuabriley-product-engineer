@@ -8,7 +8,7 @@ const back = { href: '/projects/', label: 'All work' };
 <section class="project-next">
   <Container width="wide">
     <p class="project-next-label">Next project</p>
-    <a class="project-next-link" href={next.href}><span><h2><span class="title-text">{next.name}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></h2><p>{next.description}</p></span></a>
-    <nav aria-label="Continue exploring" class="project-next-nav"><a href={back.href}>{back.label} <span aria-hidden="true" data-link-arrow="up-left">↖</span></a><a href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></nav>
+    <a class="project-next-link" href={next.href}><span><h2><span class="title-text">{next.name}</span><span class="link-dot" aria-hidden="true"></span></h2><p>{next.description}</p></span></a>
+    <nav aria-label="Continue exploring" class="project-next-nav"><a href={back.href}>{back.label}<span class="link-dot" aria-hidden="true"></span></a><a href="/contact/">Get in touch<span class="link-dot" aria-hidden="true"></span></a><a href="/resume/">View résumé<span class="link-dot" aria-hidden="true"></span></a></nav>
   </Container>
 </section>

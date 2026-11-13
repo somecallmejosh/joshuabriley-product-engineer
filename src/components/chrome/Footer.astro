@@ -32,7 +32,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
               </li>
             ))}
           </ul>
-          {menu.overview && <a class="footer-all" href={menu.overview.href} aria-current={current(menu.overview.href)}>{menu.overview.label} <span aria-hidden="true" data-link-arrow="right">→</span></a>}
+          {menu.overview && <a class="footer-all" href={menu.overview.href} aria-current={current(menu.overview.href)}>{menu.overview.label}<span class="link-dot" aria-hidden="true"></span></a>}
         </nav>
       ))}
     </div>
@@ -42,10 +42,10 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
         <Logo href="/" size="lg" tone="inverse" />
         <p>Based in Connecticut</p>
         <nav class="footer-reach" aria-label="Footer: Get in touch">
-          <a class="footer-contact" href="/contact/" aria-current={current('/contact/')}>Contact me <svg class="hover-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path class="hover-arrow-stem" d="M0 5h7" /><path class="hover-arrow-head" d="M1 1l4 4-4 4" /></svg></a>
+          <a class="footer-contact" href="/contact/" aria-current={current('/contact/')}>Contact me<span class="link-dot" aria-hidden="true"></span></a>
           <a href="mailto:josh@thebrileys.com">josh@thebrileys.com</a>
-          <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
-          <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+          <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="link-dot" aria-hidden="true"></span><span class="sr-only"> (opens in a new tab)</span></a>
+          <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub<span class="link-dot" aria-hidden="true"></span><span class="sr-only"> (opens in a new tab)</span></a>
         </nav>
       </div>
       <div class="footer-colophon">
@@ -53,7 +53,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
           <a href="/style-guide/" aria-current={current('/style-guide/')}>How this site is designed</a>
           <a href="/privacy/" aria-current={current('/privacy/')}>Privacy</a>
           <a href="/terms/" aria-current={current('/terms/')}>Terms</a>
-          <a class="footer-top" href="#main">Back to top <span aria-hidden="true" data-link-arrow="up">↑</span></a>
+          <a class="footer-top" href="#main">Back to top<span class="link-dot" aria-hidden="true"></span></a>
         </nav>
         <p>© {year} Joshua Briley</p>
       </div>
@@ -74,7 +74,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
   .site-footer :global(.brand-dot) { color: var(--footer-accent); }
 
   .footer-reach { display: flex; flex-wrap: wrap; gap: 0 2rem; margin-top: 1.25rem; }
-  .footer-reach a { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; font-size: .95rem; color: var(--footer-muted); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
+  .footer-reach a { display: inline-flex; align-items: center; gap: 0; min-height: 44px; font-size: .95rem; color: var(--footer-muted); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
   .footer-reach a > span[aria-hidden] { color: var(--footer-accent); }
   .footer-reach .footer-contact { font-weight: 600; color: var(--paper); text-decoration-color: var(--footer-line); }
   .footer-reach a:is(:hover, :focus-visible, [aria-current='page']) { color: var(--footer-accent); text-decoration-color: currentColor; }
@@ -96,7 +96,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
   .footer-signature p { margin-top: .75rem; font-size: .85rem; color: var(--footer-muted); }
   .footer-colophon { display: grid; gap: .5rem; font-size: .85rem; color: var(--footer-muted); }
   .footer-colophon nav { display: flex; flex-wrap: wrap; gap: 0 2rem; }
-  .footer-colophon a { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
+  .footer-colophon a { display: inline-flex; align-items: center; gap: 0; min-height: 44px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: color .2s, text-decoration-color .2s; }
   .footer-colophon a:is(:hover, [aria-current='page']) { color: var(--footer-accent); text-decoration-color: currentColor; }
   .footer-colophon .footer-top { color: var(--paper); font-weight: 600; }
 

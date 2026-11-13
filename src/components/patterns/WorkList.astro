@@ -19,10 +19,9 @@ const shotSizes = (i: number) => feature && i === 0 ? '(min-width: 64em) 100vw, 
         {projectTeasers[work.href]
           ? <ProjectScreenshot {...projectTeasers[work.href]} caption={work.caption} sizes={shotSizes(i)} />
           : <ProjectIllustration project={work.illustration} />}
-        <span class="work-image-arrow" aria-hidden="true"><span data-link-arrow="up-right">↗</span></span>
       </a>
       <div class="work-copy">
-        <h3><a href={work.href}><span class="title-text">{work.name}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></a></h3>
+        <h3><a href={work.href}><span class="title-text">{work.name}</span><span class="link-dot" aria-hidden="true"></span></a></h3>
         <p class="work-kind">{work.kind}</p>
         <p class="work-title">{work.title}</p>
         {/* Compact lists show the headline and result only; the image and name already link through. */}
@@ -34,7 +33,7 @@ const shotSizes = (i: number) => feature && i === 0 ? '(min-width: 64em) 100vw, 
           </dl>
         )}
         <p class="work-result"><strong>{work.result}</strong><span>{work.resultNote}</span></p>
-        {!compact && <a class="editorial-link" href={work.href}>{work.action} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}
+        {!compact && <a class="editorial-link" href={work.href}>{work.action}</a>}
       </div>
     </article>
   ))}

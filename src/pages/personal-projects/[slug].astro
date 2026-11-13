@@ -32,7 +32,7 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
           <p class="scrap-intro hero-in hero-in-3">{project.intro}</p>
           {project.actions.length > 0 && (
             <div class="scrap-actions hero-in hero-in-3">
-              {project.actions.map((action) => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}
+              {project.actions.map((action) => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label}</a>)}
             </div>
           )}
         </div>
@@ -92,14 +92,14 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
       <Container width="wide">
         <h2 id="more-screens" class="scrap-heading">More screens</h2>
         <p class="scrap-intro">{gallery.intro}</p>
-        <a href={galleryHref(gallery)} class="editorial-link mt-6">See all {galleryCount(gallery)} in the gallery <span aria-hidden="true" data-link-arrow="right">→</span></a>
+        <a href={galleryHref(gallery)} class="editorial-link mt-6">See all {galleryCount(gallery)} in the gallery</a>
       </Container>
     </section>
   )}
 
   <section class="scrap-next" aria-label="Next project">
     <Container width="wide">
-      <a class="scrap-next-link" href={next.href}><span>Next on the wall</span><strong><span class="title-text">{next.name}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></strong></a>
+      <a class="scrap-next-link" href={next.href}><span>Next on the wall</span><strong><span class="title-text">{next.name}</span><span class="link-dot" aria-hidden="true"></span></strong></a>
     </Container>
   </section>
 </BaseLayout>

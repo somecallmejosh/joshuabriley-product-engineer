@@ -15,7 +15,7 @@ const data: ProjectPage = projectPages[Astro.props.project];
         <h1 class="project-title hero-in hero-in-2">{data.headline} <em>{data.emphasis}</em></h1>
         <div class="project-introduction hero-in hero-in-3">
           <p>{data.intro}</p>
-          {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>)}</div>}
+          {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label}</a>)}</div>}
         </div>
       </div>
       <div class="project-hero-illustration hero-split-media hero-in hero-in-3"><ProjectIllustration project={data.illustration} /></div>

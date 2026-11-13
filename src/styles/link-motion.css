@@ -1,35 +1,37 @@
-/* One motion treatment for arrow links, card links, and matching button actions. */
-:is(a, button) [data-link-arrow] {
-  --link-arrow-x: 3px;
-  --link-arrow-y: -3px;
+/* Links end in a full stop instead of an arrow: an accent dot on the baseline,
+   the same mark as the period after the wordmark and the secondary action.
+   Sized in em so it scales with the text it closes (nav label or card title),
+   clamped so it never turns into a blob on display type. Hover and focus on
+   the link swell it slightly. */
+.link-dot {
   display: inline-block;
   flex-shrink: 0;
-  transform: translate(0, 0);
+  width: clamp(4px, 0.3em, 9px);
+  height: clamp(4px, 0.3em, 9px);
+  margin-left: 0.16em;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: baseline;
+  transform-origin: center bottom;
   transition: transform 200ms var(--ease-out);
 }
-
-:is(a, button) [data-link-arrow='down-right'] { --link-arrow-y: 3px; }
-:is(a, button) [data-link-arrow='up-left'] { --link-arrow-x: -3px; }
-:is(a, button) [data-link-arrow='right'] { --link-arrow-y: 0px; }
-:is(a, button) [data-link-arrow='up'] { --link-arrow-x: 0px; }
-:is(a, button) [data-link-arrow='down'] { --link-arrow-x: 0px; --link-arrow-y: 3px; }
-:is(a, button) [data-link-arrow='left'] { --link-arrow-x: -3px; --link-arrow-y: 0px; }
-
-:is(a, button):is(:hover, :focus-visible):not(:disabled):not([aria-busy='true']) [data-link-arrow] {
-  transform: translate(var(--link-arrow-x), var(--link-arrow-y));
+/* In flex links the dot is its own flex item: drop the link's column gap so the
+   dot hugs the last word, and nudge it from the line's centre down to where a
+   period sits. Inline links need neither. */
+:is(.project-next-nav a, .nav-panel-all, .footer-all, .footer-reach a, .footer-top, .mobile-all, .evidence-nav a, .site-header .header-contact, .case-review a):has(> .link-dot) {
+  column-gap: 0;
+}
+:is(.project-next-nav a, .nav-panel-all, .footer-all, .footer-reach a, .footer-top, .mobile-all, .evidence-nav a, .site-header .header-contact, .case-review a) > .link-dot {
+  align-self: center;
+  position: relative;
+  top: 0.26em;
+}
+:is(a, button):is(:hover, :focus-visible) .link-dot {
+  transform: scale(1.4);
 }
 
-/* The arrow after a card or project title: accent ↗, lighter and smaller than
-   the title it follows. One treatment site-wide (home work list is the model). */
-.title-arrow {
-  font-weight: 400;
-  font-size: 0.6em;
-  vertical-align: 0.15em;
-  color: var(--accent);
-}
-
-/* The title text beside a .title-arrow: underlined in the accent on hover and
-   focus. Wrapping only the words keeps the underline off the space and arrow. */
+/* A card or project title: underlined in the accent on hover and focus.
+   Wrapping only the words keeps the underline off the closing dot. */
 .title-text {
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -71,7 +73,7 @@ a.article-preview-link:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .article-preview-link h3 { transition: none; }
-  :is(a, button) [data-link-arrow] {
+  .link-dot {
     transition: none !important;
     transform: none !important;
   }

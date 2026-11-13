@@ -25,8 +25,8 @@ const description = `Recommendations from ${sorted.length} clients and colleague
       <h1 class="page-type hero-in hero-in-2">Client and colleague <em>recommendations</em></h1>
       <p class="page-lede hero-in hero-in-3">These {sorted.length} recommendations cover design quality, reliable delivery, and work across teams.</p>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse recommendations">
-        {groups.map(group => <a href={`#${group.id}`}>{group.title} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
-        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        {groups.map(group => <a href={`#${group.id}`}>{group.title}<span class="link-dot" aria-hidden="true"></span></a>)}
+        <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn profile<span class="link-dot" aria-hidden="true"></span></a>
       </nav>
     </Container>
   </section>

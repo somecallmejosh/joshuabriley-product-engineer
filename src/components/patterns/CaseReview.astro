@@ -15,7 +15,7 @@ const { links, label = 'Review this project', intro = 'Jump to the details' } = 
     <div class="scroll-fade" data-scroll-fade>
       <div class="case-review-links">
         <p>{intro}</p>
-        {links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true" data-link-arrow="down">↓</span></a>)}
+        {links.map((link) => <a href={link.href}>{link.label}<span class="link-dot" aria-hidden="true"></span></a>)}
       </div>
     </div>
   </Container>

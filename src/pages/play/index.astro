@@ -37,7 +37,7 @@ const [featured, ...rest] = GAMES;
               <div><dt>Lesson</dt><dd>{featured.teaches}</dd></div>
               <div><dt>Length</dt><dd>10 rounds in a minute or two</dd></div>
             </dl>
-            <a class="action-link" href={`/play/${featured.slug}/`}>Play all 10 rounds<span class="sr-only"> of {featured.title}</span> <span aria-hidden="true" data-link-arrow="right">→</span></a>
+            <a class="action-link action-link--inverse" href={`/play/${featured.slug}/`}>Play all 10 rounds<span class="sr-only"> of {featured.title}</span></a>
           </div>
           <div class="round" data-round>
             {hasGameIllustration(featured.slug) && <span class="featured-art" aria-hidden="true"><GameIllustration game={featured.slug} /></span>}
@@ -59,7 +59,7 @@ const [featured, ...rest] = GAMES;
             <a class="tile-link" href={`/play/${game.slug}/`} aria-labelledby={`game-${game.slug}`} aria-describedby={`game-${game.slug}-summary`}>
               {hasGameIllustration(game.slug) && <span class="tile-art" aria-hidden="true"><GameIllustration game={game.slug} /></span>}
               <span class="tile-topic">{game.topic}</span>
-              <h3 class="tile-title"><span id={`game-${game.slug}`}>{game.title}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></h3>
+              <h3 class="tile-title"><span id={`game-${game.slug}`}>{game.title}</span><span class="link-dot" aria-hidden="true"></span></h3>
               <span class="tile-summary" id={`game-${game.slug}-summary`}>{game.summary}</span>
             </a>
           </li>
@@ -74,7 +74,7 @@ const [featured, ...rest] = GAMES;
         <div><h2 id="play-bigger-title" class="section-type">Token Adventure</h2></div>
         <div class="prose-lede">
           <p>Token Adventure was my first attempt at a larger learning game. You write design tokens in a code editor across 20 levels. The game checks your code against the W3C Design Tokens spec.</p>
-          <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure <span aria-hidden="true" data-link-arrow="right">→</span></a>
+          <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure</a>
         </div>
       </div>
     </Container>
@@ -115,8 +115,7 @@ const [featured, ...rest] = GAMES;
   .featured-facts dd { margin: .3rem 0 0; max-width: 40ch; font-size: 1rem; line-height: 1.55; color: var(--paper); }
   .featured-art { display: block; width: 100%; margin-bottom: 1rem; }
   .featured-art :global(.illustration) { --mat: 0rem; background: none; }
-  .tile--featured .action-link { margin-top: 1.75rem; background: var(--paper); color: var(--portfolio-blue); }
-  .tile--featured .action-link:hover { background: var(--portfolio-tint); }
+  .tile--featured .action-link { margin-top: 1.75rem; }
 
   .round { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
   /* A picture of text to judge, so its low contrast is the point. */

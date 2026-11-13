@@ -13,7 +13,9 @@ const { quote, name, role, company, image, initials } = testimonial.data;
 </figure>
 <style>
   .recommendation { margin: 0; padding-top: 1.5rem; }
-  blockquote p { font-size: clamp(1.2rem, 1.65vw, 1.55rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.4; text-wrap: pretty; }
+  /* Grid quotes read as prose: regular weight, just above body size, so a
+     page of them stays light. The featured pull quote carries the emphasis. */
+  blockquote p { font-size: clamp(1.05rem, 1.15vw, 1.15rem); font-weight: 400; letter-spacing: -.005em; line-height: 1.6; text-wrap: pretty; }
   figcaption { display: flex; align-items: start; gap: 1rem; margin-top: 1.6rem; }
   .recommendation-avatar { --frame-size: 48px; --frame-offset: 5px; }
   .recommendation-initials { display: grid; place-items: center; background: var(--portfolio-tint); color: var(--portfolio-blue); font-size: .9rem; font-weight: 600; }

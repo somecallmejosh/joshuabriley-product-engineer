@@ -9,8 +9,6 @@ main.tool-page .tool-control-button {
 main.tool-page .tool-control-button:hover { background: white; border-color: var(--portfolio-blue); }
 main.tool-page .tool-control-button--light { color: white; border-color: #9bb4c9; }
 main.tool-page .tool-control-button--light:hover { background: #183a59; border-color: white; }
-main.tool-page .action-link--inverse { background: white; color: var(--portfolio-blue); }
-main.tool-page .action-link--inverse:hover { background: #e0e8ef; }
 main.tool-page .tool-stage :is(.rc-root, .tp-root, .dx) { border: 0; border-radius: 0; padding: 0; background: transparent; }
 main.tool-page .tool-stage :is(.rc-controls, .tp-controls) { min-width: 0; }
 main.tool-page .tool-stage :is(.rc-controls, .tp-controls) > div:first-child { margin-bottom: 2rem; }

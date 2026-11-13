@@ -21,7 +21,7 @@ const projects: PersonalProject[] = personalProjectOrder.map((key) => personalPr
           <li class="scrap-piece">
             <a class="scrap-link" href={href}>
               <ScrapMosaic tiles={wall} eager={i < 2} />
-              <h2 class="scrap-name"><span>{name}</span> <span aria-hidden="true" class="title-arrow" data-link-arrow="up-right">↗</span></h2>
+              <h2 class="scrap-name"><span>{name}</span><span class="link-dot" aria-hidden="true"></span></h2>
               <p class="scrap-summary">{note}</p>
             </a>
           </li>

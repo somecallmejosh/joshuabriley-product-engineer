@@ -50,34 +50,6 @@ body {
     color 0.2s,
     text-decoration-color 0.2s;
 }
-/* The arrow starts as a chevron; on hover its stem draws in and the head moves to meet it. */
-.hover-arrow {
-  flex-shrink: 0;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.hover-arrow-stem {
-  opacity: 0;
-  transition: opacity 0.2s var(--ease-out);
-}
-.hover-arrow-head {
-  transition: transform 0.2s var(--ease-out);
-}
-:is(a, button):is(:hover, :focus-visible) .hover-arrow-stem {
-  opacity: 1;
-}
-:is(a, button):is(:hover, :focus-visible) .hover-arrow-head {
-  transform: translateX(3px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .hover-arrow-stem,
-  .hover-arrow-head {
-    transition: none;
-  }
-}
 .site-header .header-contact:hover,
 .site-header .header-contact[aria-current='page'] {
   color: var(--accent);
@@ -135,27 +107,100 @@ body {
   align-items: center;
   margin-top: 3rem;
 }
+/* The primary action wears the hero portrait's signature: an offset hairline
+   frame with the accent dot on its top-right corner, the same dot as the period
+   after the wordmark. The fill sits on ::before and the frame on ::after so both
+   paint behind the label on any surface. Hover draws the frame in, a press
+   seats the block in it, and a busy form pulses the dot. Surfaces retint it
+   through the --action-* properties, never by overriding background. */
 .action-link {
+  --action-fill: var(--portfolio-blue);
+  --action-fill-hover: #183a59;
+  --action-frame: rgb(var(--accent-rgb) / 0.45);
+  --action-dot: var(--accent);
+  --action-offset: 5px;
+  --action-dot-r: 3.5px;
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 0.75rem;
   min-height: 52px;
-  background: var(--portfolio-blue);
   color: white;
-  padding: 0.85rem 1.25rem;
+  padding: 0.85rem 1.6rem;
   font-size: 0.95rem;
   font-weight: 600;
-  transition: background 0.2s;
 }
-.action-link:hover {
-  background: #183a59;
+.action-link::before,
+.action-link::after {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
 }
+.action-link::before {
+  z-index: -1;
+  inset: 0;
+  background: var(--action-fill);
+  transition: background-color 0.2s;
+}
+/* The frame box is grown by the dot's radius on every side, and the frame line
+   is an inset shadow on its padding edge, so the dot can sit centred on the
+   frame's corner without a third element. */
+.action-link::after {
+  z-index: -2;
+  inset: calc(var(--action-dot-r) * -1);
+  border: var(--action-dot-r) solid transparent;
+  box-shadow: inset 0 0 0 1px var(--action-frame);
+  background: radial-gradient(
+      circle at calc(100% - var(--action-dot-r)) var(--action-dot-r),
+      var(--action-dot) calc(var(--action-dot-r) - 0.5px),
+      transparent var(--action-dot-r)
+    )
+    border-box;
+  transform: translate(var(--action-offset), calc(var(--action-offset) * -1));
+  transition: transform 0.2s var(--ease-out);
+}
+/* On denim, the block turns paper and the frame and dot go paper with it. */
+.action-link--inverse {
+  --action-fill: var(--paper);
+  --action-fill-hover: var(--portfolio-tint);
+  --action-frame: color-mix(in srgb, var(--paper) 55%, transparent);
+  --action-dot: var(--paper);
+  color: var(--portfolio-blue);
+}
+.action-link:hover::before,
+.action-link:focus-visible::before {
+  background: var(--action-fill-hover);
+}
+.action-link:is(:hover, :focus-visible)::after {
+  transform: translate(calc(var(--action-offset) * 0.4), calc(var(--action-offset) * -0.4));
+}
+.action-link:active::after {
+  transform: none;
+}
+.action-link:is(:disabled, [aria-busy='true'])::after {
+  transform: translate(var(--action-offset), calc(var(--action-offset) * -1));
+}
+.action-link[aria-busy='true']::after {
+  animation: brand-dot-breathe 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .action-link::after {
+    transition: none;
+  }
+  .action-link[aria-busy='true']::after {
+    animation: none;
+  }
+}
+/* The supporting link ends in a full stop: an accent dot on the baseline, like
+   the period after the wordmark. Inline-block keeps the dot on the last line's
+   baseline when the label wraps, and an empty inline-block never picks up the
+   underline. */
 .editorial-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 1.1rem;
-  min-height: 44px;
+  display: inline-block;
+  padding-block: max(0px, calc((44px - 1lh) / 2));
   font-size: 0.93rem;
   font-weight: 600;
   color: var(--ink);
@@ -167,13 +212,33 @@ body {
     color 0.2s,
     text-decoration-color 0.2s;
 }
+.editorial-link::after {
+  content: '';
+  display: inline-block;
+  width: 0.34em;
+  height: 0.34em;
+  margin-left: 0.18em;
+  border-radius: 50%;
+  background: var(--accent);
+  transform-origin: center bottom;
+  transition: transform 0.2s var(--ease-out);
+}
 .editorial-link > span {
   display: inline-block;
   text-decoration: none;
 }
-.editorial-link:hover {
+.editorial-link:hover,
+.editorial-link:focus-visible {
   color: var(--accent);
   text-decoration-color: currentColor;
+}
+.editorial-link:is(:hover, :focus-visible)::after {
+  transform: scale(1.45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial-link::after {
+    transition: none;
+  }
 }
 .hero-portrait {
   position: relative;
@@ -200,32 +265,24 @@ body {
   padding-top: 0.8rem;
   color: var(--ink-muted);
 }
-.hero-portrait::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: 1rem;
-  top: -1rem;
-  width: 100%;
-  height: calc(100% - 1.7rem);
-  border: 1px solid #aebfce;
-}
-/* A dot on the outline's top-right corner, like the period after the logo and
-   the dots on the résumé and home routes. */
+/* No outline: an offset hairline frame is the primary action's signature, so on
+   a photo it read as clickable. The photo keeps only the frame's corner dot,
+   set just off its top-right corner like the period after the logo. */
 .hero-portrait::after {
   content: '';
   position: absolute;
   z-index: -1;
-  right: -1rem;
-  top: -1rem;
+  right: -0.6rem;
+  top: -0.6rem;
   width: 7px;
   height: 7px;
   margin: -3.5px -3.5px 0 0;
   border-radius: 50%;
   background: var(--accent);
 }
-/* Square headshot with the hero portrait's offset outline, scaled to the avatar.
-   Set --frame-size and --frame-offset per use. */
+/* Square headshot with the hero portrait's corner dot, scaled to the avatar.
+   No outline, so it never borrows the primary action's frame. Set
+   --frame-size and --frame-offset per use. */
 .offset-frame {
   position: relative;
   isolation: isolate;
@@ -234,16 +291,7 @@ body {
   width: var(--frame-size, 48px);
   height: var(--frame-size, 48px);
 }
-.offset-frame::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  transform: translate(var(--frame-offset, 5px), calc(var(--frame-offset, 5px) * -1));
-  /* A shade fainter than the hero portrait's outline; follows the surface accent. */
-  border: 1px solid rgb(var(--accent-rgb) / 0.28);
-}
-/* The outline's top-right corner carries a dot, sized to the avatar. */
+/* The dot sits just off the top-right corner, sized to the avatar. */
 .offset-frame::after {
   --dot: clamp(4px, calc(var(--frame-size, 48px) * 0.08), 7px);
   content: '';
@@ -343,19 +391,6 @@ body {
 .work-image {
   display: block;
   position: relative;
-}
-.work-image-arrow {
-  position: absolute;
-  z-index: 1;
-  bottom: 1rem;
-  right: 1rem;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  font-size: 1.4rem;
-  background: var(--paper);
-  color: var(--ink);
 }
 .work-kind {
   margin-top: 0.5rem;
@@ -493,7 +528,11 @@ body {
   color: var(--ink-muted);
   max-width: 54ch;
 }
+/* Light links only sit on ink or denim, so they take the dark-surface accent:
+   the navy dot would vanish into a denim band. */
 .editorial-link--light {
+  --accent-rgb: 107 166 216;
+  --accent: rgb(var(--accent-rgb));
   color: var(--paper);
   text-decoration-color: #787f88;
 }
@@ -882,7 +921,6 @@ body {
     aspect-ratio: 1.5;
     object-position: center 38%;
   }
-  .hero-portrait::before,
   .hero-portrait::after {
     display: none;
   }

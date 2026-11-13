@@ -23,7 +23,7 @@ const gallery = galleryFor(Astro.props.project);
       <Heading level={2} visual="h2" tone="ink" class="mb-3">More screens</Heading>
       <Text size="lg" tone="muted" class="measure mb-6">{gallery.intro}</Text>
       <a href={galleryHref(gallery)} class="editorial-link">
-        See all {galleryCount(gallery)} in the gallery <span aria-hidden="true" data-link-arrow="right">→</span>
+        See all {galleryCount(gallery)} in the gallery
       </a>
     </Container>
   </Section>

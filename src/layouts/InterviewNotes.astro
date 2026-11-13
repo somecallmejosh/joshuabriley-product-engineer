@@ -30,7 +30,7 @@ const { title, description, project, projectHref } = Astro.props.frontmatter;
       <article class="prose-whimsy article-prose interview-notes measure">
         <slot />
       </article>
-      <a href={projectHref} class="editorial-link mt-20 inline-flex">Back to the {project} case study</a>
+      <a href={projectHref} class="editorial-link mt-20">Back to the {project} case study</a>
     </Container>
   </section>
 </ProjectLayout>

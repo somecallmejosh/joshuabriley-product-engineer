@@ -4,7 +4,8 @@ import { cx } from '~/lib/cx';
 
 /**
  * Uses the shared primary action style. The submission handler controls
- * disabled and aria-busy; the visible label and icons follow the busy state.
+ * disabled and aria-busy; the visible label and icons follow the busy state,
+ * and while busy the action's corner dot pulses in place of a spinner.
  */
 
 interface Props {
@@ -27,7 +28,7 @@ const {
   busy = false,
   loadingLabel = 'Sending…',
   iconLeft,
-  iconRight = 'ph:arrow-up-right',
+  iconRight,
   size = 'lg',
   class: className,
   id,
@@ -45,7 +46,7 @@ const {
   data-submit
   data-size={size}
   class={cx(
-    'action-link submit-button group self-start disabled:opacity-50 disabled:cursor-not-allowed aria-busy:cursor-wait',
+    'action-link submit-button group self-start disabled:cursor-not-allowed aria-busy:cursor-wait',
     className,
   )}
 >
@@ -55,9 +56,6 @@ const {
     </span>
   )}
   <span data-submit-label class="group-aria-busy:hidden">{label}</span>
-  <span data-submit-spinner aria-hidden="true" class="hidden group-aria-busy:inline-flex">
-    <Icon name="ph:circle-notch" size={20} class="animate-spin" />
-  </span>
   <span data-submit-loading-label class="hidden group-aria-busy:inline">{loadingLabel}</span>
   {iconRight && !iconLeft && (
     <span data-submit-icon aria-hidden="true" class="group-aria-busy:hidden">
@@ -68,5 +66,7 @@ const {
 
 <style>
   .submit-button[data-size='md'] { min-height: 44px; padding: .5rem 1rem; font-size: .9rem; gap: 1rem; }
-  .submit-button:disabled { background: var(--portfolio-blue); }
+  .submit-button:disabled { --action-fill-hover: var(--action-fill); }
+  /* Busy keeps full strength so the pulsing dot reads; only a true disabled state dims. */
+  .submit-button:disabled:not([aria-busy='true']) { opacity: .5; }
 </style>

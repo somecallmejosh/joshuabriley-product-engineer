@@ -45,7 +45,7 @@ const { src, alt, href, label, index, kind = 'Live site', class: className } = A
     <span class="site-shot-stage">
       <img src={src} alt={alt} width="1600" height="1005" loading="lazy" decoding="async" />
       <span class="site-shot-visit" aria-hidden="true">
-        Visit site <Icon name="ph:arrow-up-right" size={14} />
+        Visit site<span class="link-dot" aria-hidden="true"></span>
       </span>
     </span>
   </a>
@@ -53,7 +53,7 @@ const { src, alt, href, label, index, kind = 'Live site', class: className } = A
   <figcaption class="site-shot-cap">
     <span class="site-shot-kind">{kind}</span>
     <span class="site-shot-url">
-      {label} <Icon name="ph:arrow-up-right" size={12} />
+      {label}<span class="link-dot" aria-hidden="true"></span>
     </span>
   </figcaption>
 </figure>

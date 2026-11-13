@@ -29,7 +29,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
     <div class="tile-copy">
       <h2>Design system scorecard</h2>
       <p class="tile-note">Try three of the {TOTAL_ITEMS} prompts here. The full assessment takes about ten minutes and suggests priorities for your team.</p>
-      <a class="action-link" href="/tools/scorecard/">{action('scorecard')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link action-link--inverse" href="/tools/scorecard/">{action('scorecard')}</a>
     </div>
     <div class="tile-live" data-bench-live>
       {prompts.map((prompt) => (
@@ -72,7 +72,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       </div>
     </div>
     <div class="tile-actions">
-      <a class="action-link" href="/tools/token-playground/">{action('token-playground')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link" href="/tools/token-playground/">{action('token-playground')}</a>
       <button type="button" class="bench-text-button" data-reset hidden>Reset values</button>
     </div>
   </article>
@@ -96,7 +96,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       </div>
     </div>
     <div class="tile-actions">
-      <a class="action-link" href="/tools/roi-calculator/">{action('roi-calculator')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link" href="/tools/roi-calculator/">{action('roi-calculator')}</a>
     </div>
   </article>
 
@@ -126,7 +126,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       </div>
     </div>
     <div class="tile-actions">
-      <a class="action-link" href="/tools/audit-findings/">{action('audit-findings')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link" href="/tools/audit-findings/">{action('audit-findings')}</a>
     </div>
   </article>
 </div>
@@ -154,8 +154,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
   .tile-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
   /* Every tile ends on the same button, and it follows the token tile's radius. */
   .tile .action-link { border-radius: var(--bench-radius); }
-  .tile--scorecard .action-link { margin-top: 1.75rem; background: var(--paper); color: var(--portfolio-blue); }
-  .tile--scorecard .action-link:hover { background: var(--portfolio-tint); }
+  .tile--scorecard .action-link { margin-top: 1.75rem; }
 
   .prompt { min-width: 0; margin: 0; padding: 0; border: 0; }
   .prompt legend { padding: 0; font-size: .95rem; line-height: 1.45; color: var(--paper); }

@@ -43,7 +43,7 @@ const lineup = topics
             <p class="latest-context">Latest {writing[lead.id]?.format?.toLowerCase() ?? 'article'}</p>
             <h2 id="latest-title"><a href={`/blog/${lead.id}/`}>{lead.data.title}</a></h2>
             <p class="latest-description">{lead.data.description}</p>
-            <a class="action-link latest-action" href={`/blog/${lead.id}/`}>Read the article <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+            <a class="action-link action-link--inverse latest-action" href={`/blog/${lead.id}/`}>Read the article</a>
           </div>
           {hasIllustration(lead.id) && (
             <div class="latest-illustration"><ArticleIllustration post={lead.id} /></div>
@@ -60,9 +60,9 @@ const lineup = topics
         {lineup.map((series) => (
           <li>
             <a href={`#${series.id}`}>
-              <span class="series-name">{series.category}</span>
+              <span class="series-name">{series.category}<span class="link-dot" aria-hidden="true"></span></span>
               <span class="series-description">{series.description}</span>
-              <span class="series-count">{series.posts.length} {series.unit} <span aria-hidden="true" data-link-arrow="down">↓</span></span>
+              <span class="series-count">{series.posts.length} {series.unit}</span>
             </a>
           </li>
         ))}
@@ -127,8 +127,7 @@ const lineup = topics
   .latest-copy h2 { max-width: 17ch; font-size: clamp(2.65rem, 5.3vw, 4.8rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.03; }
   .latest-copy h2 a:hover, .latest-copy h2 a:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
   .latest-description { margin-top: 1.6rem; max-width: 49ch; font-size: 1.1rem; line-height: 1.65; color: #e0e8ef; }
-  .latest-action { background: white; color: var(--portfolio-blue); margin-top: 1.7rem; }
-  .latest-action:hover { background: #e0e8ef; }
+  .latest-action { margin-top: 1.7rem; }
   .writing-group { display: grid; gap: 2.5rem; }
   .writing-topic { display: grid; gap: 1.25rem; }
   .writing-topic .section-type { font-size: clamp(2.6rem, 4.3vw, 4rem); }

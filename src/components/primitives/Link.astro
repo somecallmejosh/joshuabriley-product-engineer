@@ -15,7 +15,7 @@ interface Props {
   variant?: Variant;
   /** Override active matching for the `nav` variant. */
   current?: boolean;
-  /** Icon shown after the label (default for `arrow` is ph:arrow-right). */
+  /** Icon shown after the label. The `arrow` variant ends in the accent dot instead. */
   iconRight?: string;
   class?: string;
   rel?: string;
@@ -44,7 +44,7 @@ const isActive =
       (linkPath !== '/' && pathname.startsWith(linkPath + '/'))));
 
 // Inline links read as ink with an accent underline. The arrow variant stays
-// quiet — ink label, accent on hover, arrow motion comes from the shared link-motion styles.
+// quiet: ink label, accent on hover, and it ends in the shared accent dot (link-motion.css).
 const variants: Record<Variant, string> = {
   inline:
     'text-ink underline decoration-line-strong decoration-1 underline-offset-4 transition-colors hover:decoration-accent hover:text-accent',
@@ -60,7 +60,7 @@ const externalAttrs = isExternal
   ? { rel: rel ?? 'noopener noreferrer', target: target ?? '_blank' }
   : { rel, target };
 
-const finalIconRight = variant === 'arrow' ? (iconRight ?? 'ph:arrow-right') : iconRight;
+const finalIconRight = iconRight;
 ---
 
 <a
@@ -70,6 +70,7 @@ const finalIconRight = variant === 'arrow' ? (iconRight ?? 'ph:arrow-right') : i
   {...externalAttrs}
 >
   <slot />
+  {variant === 'arrow' && !finalIconRight && <span class="link-dot" aria-hidden="true" />}
   {finalIconRight && (
     <Icon
       name={finalIconRight}

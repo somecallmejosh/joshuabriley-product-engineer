@@ -23,7 +23,7 @@ const { class: className } = Astro.props;
 
     <div class="hidden md:flex items-center gap-8 shrink-0">
       <DesktopNav />
-      <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me <svg class="hover-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path class="hover-arrow-stem" d="M0 5h7" /><path class="hover-arrow-head" d="M1 1l4 4-4 4" /></svg></a>
+      <a href="/contact/" class="header-contact" aria-current={Astro.url.pathname.startsWith('/contact') ? 'page' : undefined}>Contact me<span class="link-dot" aria-hidden="true"></span></a>
     </div>
 
     <MobileNav />

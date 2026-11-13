@@ -84,12 +84,12 @@
     #inspector-toast, #vs-chip, astro-dev-toolbar, dialog, iframe, .sr-only,
     [data-print-screen],
     .hero-actions, .evidence-nav, .case-review, .breadcrumbs, .project-actions, .article-rail, .article-share, .article-pager, .tool-share,
-    .related-tools, .project-next, .work-more, .work-image-arrow,
+    .related-tools, .project-next, .work-more,
     .live-embed-cta, .live-embed-tag, .live-embed-corner, .scroll-shot-fade,
     .sg-markup, .sg-motion-sample, .sg-filter, .sg-token-copy, [data-guide-replay], [role='tablist'],
     .dx-controls, .tp-preview-live, .tool-hero-illustration, .article-hero-illustration, .project-hero-illustration,
     button:not(.tp-btn, .dx-price-cta, .dx-hero-cta), input[type='range'],
-    input[type='hidden'], [data-link-arrow], .status-mark, .recommendation-quote-mark) {
+    input[type='hidden'], [data-link-arrow], .link-dot, .status-mark, .recommendation-quote-mark) {
     display: none !important;
   }
   body[data-print-layout='site'] .print-only { display: block !important; }
@@ -171,13 +171,13 @@
   body[data-print-layout='site'] #main :is(.experience-company, .experience-lead, .experience-details) { max-width: none !important; }
   body[data-print-layout='site'] #main .experience-entry::before,
   body[data-print-layout='site'] #main .experience-entry::after,
-  body[data-print-layout='site'] #main .hero-portrait::before,
   body[data-print-layout='site'] #main .hero-portrait::after { display: none !important; }
   body[data-print-layout='site'] #main .experience-list { padding-left: 0 !important; border: 0 !important; }
   body[data-print-layout='site'] #main .experience-entry { padding: 4mm 0 !important; margin: 5mm 0 !important; }
   body[data-print-layout='site'] #main :is(.experience-details, .experience-links, .skill-tools) { margin-top: 3mm !important; gap: 3mm !important; }
   body[data-print-layout='site'] #main a { text-decoration: underline !important; text-decoration-color: var(--line-strong) !important; text-underline-offset: 2pt !important; min-height: 0 !important; overflow-wrap: anywhere; }
   body[data-print-layout='site'] #main :is(.editorial-link, .action-link) { padding: 0 !important; gap: 1mm !important; font-size: 10pt !important; }
+  body[data-print-layout='site'] #main :is(.editorial-link, .action-link)::after { display: none !important; }
   body[data-print-layout='site'] #main img { max-width: 100% !important; height: auto !important; object-fit: contain !important; }
   body[data-print-layout='site'] #main svg { max-width: 100% !important; max-height: 65mm !important; }
   body[data-print-layout='site'] #main figure { break-inside: avoid; margin-block: 7mm !important; }

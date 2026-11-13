@@ -51,7 +51,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
                   </li>
                 ))}
               </ul>
-              <a class="nav-panel-all" href="/projects/" aria-current={pathname === '/projects' ? 'page' : undefined}>All projects <span aria-hidden="true" data-link-arrow="right">→</span></a>
+              <a class="nav-panel-all" href="/projects/" aria-current={pathname === '/projects' ? 'page' : undefined}>All projects<span class="link-dot" aria-hidden="true"></span></a>
             </div>
           )}
           {menu.feature === 'testimonial' && testimonials.length > 0 && (
@@ -80,7 +80,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
                 <span class="nav-link-name nav-article-title">{latest.data.title}</span>
                 <span class="nav-link-description">{latest.data.description}</span>
               </a>
-              <a class="nav-panel-all" href="/blog/" aria-current={pathname === '/blog' ? 'page' : undefined}>All writing <span aria-hidden="true" data-link-arrow="right">→</span></a>
+              <a class="nav-panel-all" href="/blog/" aria-current={pathname === '/blog' ? 'page' : undefined}>All writing<span class="link-dot" aria-hidden="true"></span></a>
             </div>
           )}
           <div class="nav-panel-links">

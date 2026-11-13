@@ -97,8 +97,8 @@ const groups = [
 ];
 
 const markup = {
-  action: `<a class="action-link" href="/projects/">\n  Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span>\n</a>`,
-  editorial: `<a class="editorial-link" href="/resume/">\n  View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span>\n</a>\n\n<!-- On ink or denim -->\n<a class="editorial-link editorial-link--light" href="/contact/">…</a>`,
+  action: `<a class="action-link" href="/projects/">\n  Explore my work\n</a>`,
+  editorial: `<a class="editorial-link" href="/resume/">\n  View résumé\n</a>\n\n<!-- On ink or denim -->\n<a class="editorial-link editorial-link--light" href="/contact/">…</a>`,
   heading: `<Heading level={2} visual="h2">Subsection heading</Heading>\n<Text size="lg" tone="muted">Explain the situation and the reason.</Text>`,
   field: `<Field label="Email" name="email" required hint="Only used to reply.">\n  <Input name="email" type="email" required\n    describedBy="field-email-hint" />\n</Field>\n<SubmitButton label="Send message" loadingLabel="Sending…" />`,
   breadcrumbs: `<Breadcrumbs
@@ -106,7 +106,7 @@ const markup = {
   current="Gallery"
 />`,
   caseReview: `<CaseReview\n  label="Style guide sections"\n  intro="Jump to a section"\n  links={[{ href: '#color', label: 'Color' }]}\n/>`,
-  pager: `<nav class="article-pager" aria-label="More articles">\n  <a class="article-pager-link" href="/blog/older/">\n    <span class="article-pager-label"><span aria-hidden="true" data-link-arrow="left">←</span> Older article</span>\n    <span class="article-pager-title">Older title</span>\n  </a>\n  <a class="article-pager-link article-pager-link--newer" href="/blog/newer/">…</a>\n</nav>`,
+  pager: `<nav class="article-pager" aria-label="More articles">\n  <a class="article-pager-link" href="/blog/older/">\n    <span class="article-pager-label">Older article</span>\n    <span class="article-pager-title">Older title</span>\n  </a>\n  <a class="article-pager-link article-pager-link--newer" href="/blog/newer/">…</a>\n</nav>`,
   agent: `# In the repo (regenerated on commit)\ncat design-system/system.json\nnpm run design:context\n\n# From anywhere\ncurl https://joshuabriley.com/style-guide/system.json\n\n# Before calling UI work done\nnpm run audit:design\nnpm run audit:components\nnpm run audit:contrast`,
 };
 ---
@@ -118,7 +118,7 @@ const markup = {
     <Container width="wide">
       <h1 class="page-type hero-in hero-in-2">Style <em>guide</em></h1>
       <p class="page-lede hero-in hero-in-3">The tokens, components, and patterns behind this site, with live examples, props, and usage rules.</p>
-      <p class="sg-opener-agents hero-in hero-in-4">A JSON version of this guide is available for coding agents. <a class="editorial-link" href="/style-guide/system.json">Open system.json <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></p>
+      <p class="sg-opener-agents hero-in hero-in-4">A JSON version of this guide is available for coding agents. <a class="editorial-link" href="/style-guide/system.json">Open system.json</a></p>
     </Container>
   </header>
 
@@ -147,9 +147,9 @@ const markup = {
       <ul class="sg-tokens sg-tokens--compact">{pageFamily.map((item) => <li><div class="sg-swatch" style={`background: var(${item.cssVar})`} aria-hidden="true"></div><h3><code>{item.cssVar}</code></h3><p class="sg-token-value">{item.hex}</p><p>{item.note}</p></li>)}</ul>
       <h3 class="sg-subhead">Surfaces</h3>
       <div class="sg-surface-grid">
-        <div class="sg-surface bg-paper"><h4>Paper & ink</h4><p>Primary text stays dark. Descriptions use muted ink. Readable text never uses faint ink.</p><a class="editorial-link" href="/blog/">Browse writing <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        <div class="sg-surface sg-surface--denim"><h4>Denim & paper</h4><p>Feature bands use white text and lighter blue supporting text. Keep links underlined.</p><a class="editorial-link editorial-link--light" href="/testimonials/">Read recommendations <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
-        <div class="sg-surface bg-ink"><h4>Ink & paper</h4><p>The footer, project navigation, and code use light text on ink. The accent brightens automatically on this surface.</p><a class="editorial-link editorial-link--light" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+        <div class="sg-surface bg-paper"><h4>Paper & ink</h4><p>Primary text stays dark. Descriptions use muted ink. Readable text never uses faint ink.</p><a class="editorial-link" href="/blog/">Browse writing</a></div>
+        <div class="sg-surface sg-surface--denim"><h4>Denim & paper</h4><p>Feature bands use white text and lighter blue supporting text. Keep links underlined.</p><a class="editorial-link editorial-link--light" href="/testimonials/">Read recommendations</a></div>
+        <div class="sg-surface bg-ink"><h4>Ink & paper</h4><p>The footer, project navigation, and code use light text on ink. The accent brightens automatically on this surface.</p><a class="editorial-link editorial-link--light" href="/contact/">Get in touch</a></div>
       </div>
     </Container>
   </section>
@@ -216,7 +216,7 @@ const markup = {
       <h3 class="sg-subhead">Durations</h3>
       <ul class="sg-durations">{durations.map(([time, note]) => <li><code>{time}</code><p>{note}</p></li>)}</ul>
       <div class="sg-motion-demo">
-        <button type="button" class="editorial-link" data-guide-replay>Replay entry motion <span aria-hidden="true" data-link-arrow="up-right">↗</span></button>
+        <button type="button" class="editorial-link" data-guide-replay>Replay entry motion</button>
         <div class="sg-motion-sample" data-guide-motion><strong>Sample heading</strong><span>Supporting line that enters after the heading.</span></div>
         <p role="status" class="sg-motion-status" data-guide-motion-status></p>
       </div>
@@ -228,24 +228,24 @@ const markup = {
     <Container width="wide">
       <div class="section-heading"><h2 class="section-type" id="actions-title">Actions and links</h2><p>A filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
       <ComponentDoc id="action-link" name=".action-link" purpose="The primary action. Use one per view, for the most important step." href="/" code={markup.action} filename="Primary action"
-        classes={[{ name: 'action-link', description: 'Filled denim action with an arrow that points where the link goes.' }]}
+        classes={[{ name: 'action-link', description: 'Filled denim block in an offset hairline frame, with the accent dot on the frame\'s corner. Hover draws the frame in; a press seats the block.' }]}
         dos={['Name the destination in the visible words.']}
         donts={['Use two primary actions side by side. Make the second an editorial link.']}
         a11y={['It is at least 52px tall.', 'Arrow glyphs are aria-hidden. The link text names the destination.']}>
-        <a class="action-link" href="/projects/">Explore my work <span aria-hidden="true" data-link-arrow="down-right">↘</span></a>
+        <a class="action-link" href="/projects/">Explore my work</a>
       </ComponentDoc>
-      <ComponentDoc id="editorial-link" name=".editorial-link" purpose="The supporting link. It is underlined at rest and turns accent on hover." href="/resume/" code={markup.editorial} filename="Editorial link"
+      <ComponentDoc id="editorial-link" name=".editorial-link" purpose="The supporting link. It is underlined at rest and ends in an accent dot, like the period after the logo. Hover turns it accent and swells the dot." href="/resume/" code={markup.editorial} filename="Editorial link"
         classes={[{ name: 'editorial-link', description: 'Default, for paper surfaces.' }, { name: 'editorial-link--light', description: 'For ink and denim surfaces.' }]}
         dos={['Keep the underline visible before hover.']}
         donts={['Add a one-off border or box to make a link stand out. Change its placement or wording instead.']}
         a11y={['Provides a 44px minimum target.', 'Keyboard focus adds a visible outline.']}>
-        <div class="sg-actions"><a class="editorial-link" href="/resume/">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
+        <div class="sg-actions"><a class="editorial-link" href="/resume/">View résumé</a></div>
       </ComponentDoc>
       <ComponentDoc id="editorial-link-dark" name=".editorial-link--light" purpose="The same link on ink. The underline stays visible before hover." href="/contact/" dark>
-        <a class="editorial-link editorial-link--light" href="/contact/">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+        <a class="editorial-link editorial-link--light" href="/contact/">Get in touch</a>
       </ComponentDoc>
       <ComponentDoc id="link" name="<Link>" path="src/components/primitives/Link.astro" purpose="Navigation, inline, and arrow links for the site chrome and legal pages. The nav variant marks the current page with aria-current.">
-        <div class="sg-actions"><Link href="/privacy/" variant="inline">Privacy policy</Link><Link href="/projects/" variant="arrow" iconRight="ph:arrow-right">View projects</Link></div>
+        <div class="sg-actions"><Link href="/privacy/" variant="inline">Privacy policy</Link><Link href="/projects/" variant="arrow">View projects</Link></div>
       </ComponentDoc>
       <ComponentDoc id="icon" name="<Icon>" path="src/components/primitives/Icon.astro" purpose="Phosphor icons through Iconify, decorative unless given a label."
         a11y={['Without a label, the icon is hidden from assistive technology.', 'A standalone icon control needs a label.']}>
@@ -314,8 +314,8 @@ const markup = {
         classes={[{ name: 'article-pager', description: 'The nav wrapper. Give it an aria-label.' }, { name: 'article-pager-link', description: 'One direction. Add article-pager-link--newer for the right-hand link.' }, { name: 'article-pager-label / article-pager-title', description: 'Small direction label, then the title, which turns accent on hover.' }]}
         dos={['Point arrows the way the reader travels: left for older, right for newer.']}>
         <nav class="article-pager" aria-label="Article pager example">
-          <a class="article-pager-link" href="/blog/the-people-v-the-carousel/"><span class="article-pager-label"><span aria-hidden="true" data-link-arrow="left">←</span> Older article</span><span class="article-pager-title">The People v. the Carousel</span></a>
-          <a class="article-pager-link article-pager-link--newer" href="/blog/the-people-v-the-clickable-div/"><span class="article-pager-label">Newer article <span aria-hidden="true" data-link-arrow="right">→</span></span><span class="article-pager-title">The People v. the Clickable Div</span></a>
+          <a class="article-pager-link" href="/blog/the-people-v-the-carousel/"><span class="article-pager-label">Older article</span><span class="article-pager-title">The People v. the Carousel</span></a>
+          <a class="article-pager-link article-pager-link--newer" href="/blog/the-people-v-the-clickable-div/"><span class="article-pager-label">Newer article</span><span class="article-pager-title">The People v. the Clickable Div</span></a>
         </nav>
       </ComponentDoc>
       <ComponentDoc id="code-block" name="<CodeBlock>" path="src/components/patterns/CodeBlock.astro" purpose="Highlighted code with line numbers and a copy action. Renders fenced code in posts and tool essays."
@@ -353,7 +353,7 @@ const markup = {
   <section id="tools" class="editorial-section" aria-labelledby="tools-title">
     <Container width="wide">
       <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive tools</h2><p>Each tool has an illustration and a working interface built from the same type, surfaces, and actions as the rest of the site.</p></div>
-      <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action} <span data-link-arrow="up-right">↗</span></span></a></li>)}</ul>
+      <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action}<span class="link-dot" aria-hidden="true"></span></span></a></li>)}</ul>
       <p class="sg-note">The calculator and token playground use labeled sliders and number inputs. The Scorecard uses grouped choices with a visible selected state and keeps progress in the browser. The audit tool shows sample findings only.</p>
     </Container>
   </section>
@@ -367,7 +367,7 @@ const markup = {
         <input id="sg-filter-input" type="search" autocomplete="off" placeholder="Name, path, or purpose" aria-describedby="sg-filter-count" data-catalogue-filter />
         <p id="sg-filter-count" class="sg-filter-count" role="status" data-catalogue-count>{componentCatalogue.length} components</p>
       </div>
-      <div class="sg-catalogue">{groups.map((group) => <details class="sg-catalogue-group" data-catalogue-group><summary>{group.label}<span><span data-catalogue-group-count>{componentCatalogue.filter((component) => component.group === group.id).length}</span> <span aria-hidden="true">+</span></span></summary><ul>{componentCatalogue.filter((component) => component.group === group.id).map((component) => <li data-catalogue-item={`${component.name} ${component.path} ${component.note}`.toLowerCase()}><div><h3>{component.name}</h3><p>{component.note}</p><code>{component.path}</code></div>{'href' in component && <a class="editorial-link" href={component.href} aria-label={`See ${component.name} in use`}>See in use <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>}</li>)}</ul></details>)}</div>
+      <div class="sg-catalogue">{groups.map((group) => <details class="sg-catalogue-group" data-catalogue-group><summary>{group.label}<span><span data-catalogue-group-count>{componentCatalogue.filter((component) => component.group === group.id).length}</span> <span aria-hidden="true">+</span></span></summary><ul>{componentCatalogue.filter((component) => component.group === group.id).map((component) => <li data-catalogue-item={`${component.name} ${component.path} ${component.note}`.toLowerCase()}><div><h3>{component.name}</h3><p>{component.note}</p><code>{component.path}</code></div>{'href' in component && <a class="editorial-link" href={component.href} aria-label={`See ${component.name} in use`}>See in use</a>}</li>)}</ul></details>)}</div>
       <p class="sg-empty" data-catalogue-empty hidden>No components match. Try a shorter word or a folder name such as <code>form</code> or <code>patterns</code>.</p>
     </Container>
   </section>
@@ -390,7 +390,7 @@ const markup = {
             <li>When <code>audit:design</code> fails, fix the code. Adding tokens, exceptions, or baseline entries is a design-system decision that needs approval.</li>
             <li>Use <code>accent</code>, never a hard-coded accent hex, so it follows the surface.</li>
           </ul>
-          <a class="editorial-link" href="/style-guide/system.json">Open system.json <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a class="editorial-link" href="/style-guide/system.json">Open system.json</a>
         </div>
         <div class="project-page"><CodeBlock code={markup.agent} filename="Terminal" lang="bash" /></div>
       </div>
