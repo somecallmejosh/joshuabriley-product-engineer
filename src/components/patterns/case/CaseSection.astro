@@ -15,19 +15,33 @@ import Heading from '~/components/primitives/Heading.astro';
 interface Props {
   id?: string;
   title: string;
+  /** `ink` stages the section on the dark surface. Results use it as the page's high point. */
+  tone?: 'paper' | 'ink';
+  /** Full width: the heading sits on top and the body spans the page. Results use it. */
+  wide?: boolean;
 }
-const { id, title } = Astro.props;
+const { id, title, tone = 'paper', wide = false } = Astro.props;
+const headingTone = tone === 'ink' ? 'paper' : 'ink';
 ---
-<Section tone="paper" padding="default" id={id} class={id ? 'scroll-mt-24' : undefined}>
-  <Container width="content">
-    <div class="case-layout">
-      <div class="case-layout__head">
-        <Heading level={2} visual="display-md" tone="ink">{title}</Heading>
+<Section tone={tone} padding="default" id={id} class={[id && 'scroll-mt-24', tone === 'ink' && 'case-stage'].filter(Boolean).join(' ') || undefined}>
+  {wide ? (
+    <Container width="wide">
+      <div class="case-wide">
+        <Heading level={2} visual="display-md" tone={headingTone}>{title}</Heading>
+        <div class="case-wide__body"><slot /></div>
       </div>
-      <div class="case-layout__body">
-        <slot />
+    </Container>
+  ) : (
+    <Container width="content">
+      <div class="case-layout">
+        <div class="case-layout__head">
+          <Heading level={2} visual="display-md" tone={headingTone}>{title}</Heading>
+        </div>
+        <div class="case-layout__body">
+          <slot />
+        </div>
       </div>
-    </div>
-  </Container>
+    </Container>
+  )}
   <slot name="media" />
 </Section>

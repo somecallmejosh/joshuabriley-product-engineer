@@ -9,8 +9,11 @@ import Metric from '~/components/patterns/Metric.astro';
  * `note` says how the results were measured, and is required when they come
  * from my own review rather than users or the client.
  */
+interface Bar { label: string; /** 0 to 1, the bar's share of the full track. */ value: number; }
 interface Props {
-  metrics?: { value: string; label: string; caption?: string }[];
+  /** `compare` draws a before and after bar under the figure. Use it only when
+      both values come from the same measure the figure states. */
+  metrics?: { value: string; label: string; caption?: string; compare?: { before: Bar; after: Bar } }[];
   groups: { label: string; items: string[] }[];
   note?: string;
 }
@@ -20,12 +23,26 @@ const cols = groups.length >= 3 ? 'sm:grid-cols-3' : groups.length === 2 ? 'sm:g
 {note && <p class="case-lede mt-8 measure">{note}</p>}
 
 {metrics.length > 0 && (
-  <div class="mt-8 grid grid-cols-2 gap-8 py-8">
-    {metrics.map((m) => <Metric value={m.value} label={m.label} caption={m.caption} />)}
+  <div class:list={['results-figures', { 'results-figures--single': metrics.length === 1 }]}>
+    {metrics.map((m) => (
+      <div class="results-figure">
+        <Metric value={m.value} label={m.label} caption={m.caption} />
+        {m.compare && (
+          <div class="results-compare" role="img" aria-label={`${m.compare.before.label}. ${m.compare.after.label}.`}>
+            {[['before', m.compare.before], ['after', m.compare.after]].map(([key, bar]) => (
+              <div class:list={['results-bar', `results-bar--${key}`]} aria-hidden="true">
+                <span class="results-bar__label">{(bar as Bar).label}</span>
+                <span class="results-bar__track"><span class="results-bar__fill" style={`--fill: ${(bar as Bar).value}`}></span></span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
   </div>
 )}
 
-<div class:list={['mt-12 grid grid-cols-1 gap-x-8 gap-y-10', cols]}>
+<div class:list={['results-groups mt-12 grid grid-cols-1 gap-x-8 gap-y-10', cols]}>
   {groups.map((group) => (
     <div class="pt-4">
       <Heading level={3} visual="h3" class="mb-3">{group.label}</Heading>

@@ -71,9 +71,9 @@ const labels = [
         <div class="q-list">
           {section.items.map((item, i) => (
             <div class="q-row">
+              <span class="q-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               <p class="q-text" id={`question-${item.id}`}>
-                <span class="q-num">{String(i + 1).padStart(2, '0')}.</span>
-                {item.label}
+                <span class="sr-only">{i + 1}. </span>{item.label}
               </p>
               <div class="choice-group" role="radiogroup" aria-labelledby={`question-${item.id}`}>
                 {labels.map(({ v, label }) => (
@@ -84,7 +84,8 @@ const labels = [
                       value={v}
                       data-subject={section.id}
                     />
-                    {label}
+                    <span class="choice-bar" aria-hidden="true"></span>
+                    <span class="choice-label">{label}</span>
                   </label>
                 ))}
               </div>
@@ -450,74 +451,108 @@ const labels = [
     100% { transform: translateY(0) scale(1); }
   }
 
+  /* Each question is a row: a large number in the margin column, the question,
+     and a rising scale of answers. Bars up to the chosen answer fill in, so the
+     row shows its score. The number turns accent with the site's corner dot
+     once the question is answered. */
   .q-row {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 4.5rem minmax(0, 1fr) auto;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem 0;
+    column-gap: 1.5rem;
+    padding: 1.75rem 0;
     border-top: 1px solid var(--line);
   }
   .q-row:first-of-type { border-top: none; }
-  .q-text {
+  .q-num {
+    position: relative;
+    justify-self: start;
     font-family: var(--font-hanken), system-ui, sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-muted);
+    transition: color 0.3s var(--ease-out);
+  }
+  .q-num::after {
+    content: '';
+    position: absolute;
+    top: 0.1em;
+    right: -0.45rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .q-row:has(input:checked) .q-num { color: var(--accent); }
+  .q-row:has(input:checked) .q-num::after { transform: scale(1); }
+  .q-text {
+    max-width: 62ch;
+    font-family: var(--font-hanken), system-ui, sans-serif;
+    font-size: 1.0625rem;
     color: var(--ink);
     line-height: 1.55;
   }
-  .q-num {
-    display: inline-block;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    color: var(--accent);
-    font-weight: 600;
-    margin-right: 0.4rem;
-  }
+
   .choice-group {
-    display: inline-flex;
-    gap: 2px;
-    background: var(--paper);
-    border-radius: 7px;
-    padding: 3px;
-    border: 1px solid var(--line);
+    display: flex;
+    align-items: flex-end;
+    gap: 0.375rem;
   }
   .choice {
     position: relative;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    width: 4.75rem;
+    min-height: 44px;
+    padding: 0.25rem 0;
     font-family: var(--font-hanken), system-ui, sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 600;
+    text-align: center;
     color: var(--ink-muted);
     cursor: pointer;
     user-select: none;
-    transition: all 0.2s var(--ease-out);
-    border: 1.5px solid transparent;
-  }
-  .choice:hover {
-    color: var(--ink);
-    background: rgba(0, 0, 0, 0.03);
+    transition: color 0.2s var(--ease-out);
   }
   .choice input {
     position: absolute;
     opacity: 0;
     pointer-events: none;
   }
-  .choice.is-on {
-    color: var(--paper);
-    transform: translateY(-1px);
+  .choice-bar {
+    display: block;
+    height: 0.5rem;
+    background: color-mix(in srgb, var(--line-strong) 55%, transparent);
+    transform-origin: bottom;
+    transition: background-color 0.25s var(--ease-out), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .choice[data-v='0'].is-on,
-  .choice[data-v='1'].is-on,
-  .choice[data-v='2'].is-on { background: var(--ink); color: var(--paper); }
-  .choice:focus-within {
+  .choice[data-v='1'] .choice-bar { height: 1.125rem; }
+  .choice[data-v='2'] .choice-bar { height: 1.75rem; }
+  .choice:hover { color: var(--ink); }
+  .choice:hover .choice-bar { background: color-mix(in srgb, var(--accent) 35%, transparent); }
+  .choice-group:has(input[value='0']:checked) .choice[data-v='0'] .choice-bar,
+  .choice-group:has(input[value='1']:checked) .choice:is([data-v='0'], [data-v='1']) .choice-bar,
+  .choice-group:has(input[value='2']:checked) .choice-bar { background: var(--accent); }
+  .choice.is-on { color: var(--accent); }
+  .choice.is-on .choice-label { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .choice:has(input:focus-visible) {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
   /* Springy settle when an answer is chosen. Lands on the is-on resting transform. */
-  .choice.choice-pop { animation: sc-choice-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .choice.choice-pop .choice-bar { animation: sc-choice-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1); }
   @keyframes sc-choice-pop {
-    0% { transform: translateY(-1px) scale(0.9); }
-    55% { transform: translateY(-1px) scale(1.09); }
-    100% { transform: translateY(-1px) scale(1); }
+    0% { transform: scaleY(0.6); }
+    60% { transform: scaleY(1.12); }
+    100% { transform: scaleY(1); }
   }
 
   /* Quick brightness lift on the progress meter each time it advances. */
@@ -572,8 +607,11 @@ const labels = [
 
   @media (prefers-reduced-motion: reduce) {
     .choice,
+    .choice-bar,
+    .q-num,
+    .q-num::after,
     .subject-card { transition: none; }
-    .choice.choice-pop,
+    .choice.choice-pop .choice-bar,
     [data-meter].meter-bump,
     .subject-card.subject-complete,
     .reveal-card.just-unlocked::after,
@@ -582,16 +620,9 @@ const labels = [
   }
 
   @media (max-width: 640px) {
-    .q-row { grid-template-columns: 1fr; }
-    .choice-group {
-      display: flex;
-      width: 100%;
-    }
-    .choice {
-      flex: 1;
-      text-align: center;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
+    .q-row { grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: 1rem; row-gap: 1rem; align-items: start; }
+    .q-num { font-size: 1.6rem; }
+    .choice-group { grid-column: 2; }
+    .choice { flex: 1; width: auto; }
   }
 </style>

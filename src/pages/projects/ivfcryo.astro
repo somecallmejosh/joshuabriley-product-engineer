@@ -371,7 +371,7 @@ const phones = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="research" title="Research">
+  <CaseSection id="research" title="Research" tone="ink" wide>
     <CaseProse>
       <Heading level={3} visual="h2">Requirements gathering</Heading>
       <p>
@@ -401,9 +401,6 @@ const phones = [
         Tasks lived in GitHub Projects, where IVFCRYO could check
         status between our scheduled touchpoints.
       </p>
-    </CaseProse>
-
-    <CaseProse class="mt-12">
       <p>
         The app had grown to 226 views with no shared rules for buttons, inputs, or status, so I
         ran a front-end audit. I kept the brand, every route, and every form field name.
@@ -420,17 +417,18 @@ const phones = [
       </p>
     </CaseProse>
 
-    <div class="mt-16">
-          <Heading level={3} visual="h2" class="mb-6">Heuristic audit</Heading>
-          <div class="case-prose measure space-y-5">
-            <p>
-              I scored every flow 0–10 against Nielsen’s ten usability heuristics, citing a file and
-              line for each finding. The bar was <strong class="text-ink font-semibold">8 or above
-              everywhere</strong>, and fixes went into shared components first.
-            </p>
-          </div>
+    <CaseProse class="mt-12">
+      <Heading level={3} visual="h2">Heuristic audit</Heading>
+      <p>
+        I scored every flow 0–10 against Nielsen’s ten usability heuristics, citing a file and
+        line for each finding. The bar was <strong class="text-ink font-semibold">8 or above
+        everywhere</strong>, and fixes went into shared components first.
+      </p>
+    </CaseProse>
 
-          <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+    <div>
+
+          <div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 py-8 md:gap-x-24">
             <Metric value="8.8" label="average score after" caption="up from 5.3 across 8 flows and 10 heuristics" />
             <Metric value="2 → 9" label="lowest error-recovery score" caption="the weakest heuristic on three flows" />
           </div>
@@ -444,9 +442,10 @@ const phones = [
                 <li class="flex flex-col gap-y-1.5 sm:flex-row sm:items-center sm:gap-x-4">
                   <span class="text-sm text-ink sm:w-56 sm:shrink-0">{f.flow}</span>
                   <span class="flex min-w-0 flex-1 items-center gap-3">
-                    <span class="relative h-2 flex-1 rounded-full bg-line" aria-hidden="true">
-                      <span class="absolute inset-y-0 left-0 rounded-full bg-ink-muted/40" style={`width:${f.before * 10}%`}></span>
-                      <span class="absolute inset-y-0 left-0 rounded-full bg-accent mix-blend-multiply" style={`width:${f.after * 10}%; opacity:.85`}></span>
+                    {/* Same square bar as Score by heuristic: the starting score, then the gain. */}
+                    <span class="flow-bar" style={`--b: ${f.before}; --a: ${f.after}`} aria-hidden="true">
+                      <span class="flow-bar__before"></span>
+                      <span class="flow-bar__gain"></span>
                     </span>
                     <span class="w-24 shrink-0 text-right font-mono text-xs text-ink-muted">
                       {f.before.toFixed(1)} → <span class="text-ink">{f.after.toFixed(1)}</span>
@@ -487,14 +486,14 @@ const phones = [
       </p>
     </CaseProse>
 
-    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+    <div class="mt-10">
       <Heading level={3} visual="h3" class="mb-6">Readiness checks before scheduling</Heading>
       <ul>
         {readinessGate.map((row) => (
-          <li class="grid grid-cols-[18px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-b border-line py-3.5 last:border-b-0 sm:grid-cols-[18px_9rem_minmax(0,1fr)]">
+          <li class="grid grid-cols-[18px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-b border-line py-3.5 last:border-b-0">
             <Icon name="ph:seal-check" size={18} class="shrink-0 text-accent" />
             <span class="font-medium text-ink">{row.party}</span>
-            <span class="col-start-2 text-sm text-ink-muted leading-snug sm:col-start-3">{row.check}</span>
+            <span class="col-start-2 text-sm text-ink-muted leading-snug">{row.check}</span>
           </li>
         ))}
       </ul>
@@ -619,7 +618,7 @@ const phones = [
       </p>
     </CaseProse>
 
-    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+    <div class="mt-10">
       <Heading level={3} visual="h3" class="mb-6">Prototype timings</Heading>
       <ul>
         {oneClickTimings.map((row) => (
@@ -675,7 +674,7 @@ const phones = [
       </p>
     </CaseProse>
 
-    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+    <div class="mt-10">
       <Heading level={3} visual="h3" class="mb-5">Built into every form</Heading>
       <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
         {recovery.map((item) => (
@@ -797,7 +796,7 @@ const phones = [
       </Container>
 
       <Container width="wide" class="mt-16">
-        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid grid grid-cols-2 gap-y-10 md:grid-cols-4">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />
@@ -832,11 +831,11 @@ const phones = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="outcomes" title="Results">
+  <CaseSection id="outcomes" title="Results" tone="ink" wide>
     <CaseResults
       metrics={[
-        { value: '75%', label: 'fewer support calls', caption: 'Client data, 90 days after launch' },
-        { value: '55%', label: 'fewer shipping errors', caption: 'Client data, 90 days after launch' },
+        { value: '75%', label: 'fewer support calls', caption: 'Client data, 90 days after launch', compare: { before: { label: 'Support calls before launch', value: 1 }, after: { label: 'Support calls in the 90 days after', value: 0.25 } } },
+        { value: '55%', label: 'fewer shipping errors', caption: 'Client data, 90 days after launch', compare: { before: { label: 'Shipping errors before launch', value: 1 }, after: { label: 'Shipping errors in the 90 days after', value: 0.45 } } },
       ]}
       groups={results}
     />
@@ -878,7 +877,7 @@ const phones = [
       </p>
     </CaseProse>
 
-    <div class="mt-10 rounded-lg border border-line p-6 md:p-8">
+    <div class="mt-10">
       <Heading level={3} visual="h3" class="mb-6">Integrations</Heading>
       <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
         {integrations.map((svc) => (
@@ -895,11 +894,11 @@ const phones = [
 
     <div class="mt-10">
       <Heading level={3} visual="h2" class="mb-6">Alert levels</Heading>
-      <ul class="space-y-3">
+      <ul class="space-y-6">
         {alertTiers.map((t) => (
-          <li class={`flex items-start gap-4 rounded-md border border-line py-4 pl-5 pr-5 border-l-2 ${t.tone === 'crit' ? 'border-l-[#C13A22]' : t.tone === 'warn' ? 'border-l-[#C7811E]' : 'border-l-[#3C7A4E]'}`}>
-            <span class="w-32 shrink-0 font-display font-semibold text-ink">{t.level}</span>
-            <span class="text-sm text-ink-muted leading-relaxed">{t.body}</span>
+          <li class={`border-l-2 py-1 pl-5 ${t.tone === 'crit' ? 'border-l-[#C13A22]' : t.tone === 'warn' ? 'border-l-[#C7811E]' : 'border-l-[#3C7A4E]'}`}>
+            <p class="font-display font-semibold text-ink">{t.level}</p>
+            <p class="mt-1 measure text-sm text-ink-muted leading-relaxed">{t.body}</p>
           </li>
         ))}
       </ul>

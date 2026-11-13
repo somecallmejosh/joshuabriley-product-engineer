@@ -95,14 +95,13 @@ const rescored = items.some((h) => h.after !== undefined);
   .heur-swatch {
     width: 1.25rem;
     height: 0.5rem;
-    border-radius: 9999px;
   }
 
   /* Open space, not rules, separates the heuristics: much more room between
      them than inside one. */
   .heur-list {
     display: grid;
-    row-gap: 3.5rem;
+    row-gap: 4rem;
   }
 
   /* A 0–10 score bar, the same as the flow-score bars: the starting score in
@@ -111,7 +110,6 @@ const rescored = items.some((h) => h.after !== undefined);
     position: relative;
     height: 0.5rem;
     margin-block: 0.75rem 1rem;
-    border-radius: 9999px;
     background: var(--line);
     overflow: hidden;
   }
@@ -130,7 +128,6 @@ const rescored = items.some((h) => h.after !== undefined);
   }
   .heur-before--only {
     background: var(--accent);
-    border-radius: 9999px;
   }
   .heur-gain,
   .heur-swatch--gain {
@@ -139,7 +136,6 @@ const rescored = items.some((h) => h.after !== undefined);
   .heur-gain {
     left: calc(var(--b) * 10%);
     width: calc((var(--a) - var(--b)) * 10%);
-    border-radius: 0 9999px 9999px 0;
     transform-origin: left;
   }
 

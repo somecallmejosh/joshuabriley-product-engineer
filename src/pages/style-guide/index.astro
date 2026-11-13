@@ -127,7 +127,7 @@ const markup = {
   <!-- ─────────────── Foundations ─────────────── -->
   <section id="color" class="editorial-section" aria-labelledby="color-title">
     <Container width="wide">
-      <div class="section-heading"><h2 id="color-title" class="section-type">Color <em>tokens</em></h2><p>The palette has cool paper, charcoal ink, and one denim accent. Values and descriptions are read from <code>design-system/tokens.json</code> at build time.</p></div>
+      <div class="section-heading"><h2 id="color-title" class="section-type">Color tokens</h2><p>The palette has cool paper, charcoal ink, and one denim accent. Values and descriptions are read from <code>design-system/tokens.json</code> at build time.</p></div>
       <ul class="sg-tokens">{colorTokens.map((token) => (
         <li>
           <div class="sg-swatch" style={`background: ${token.hex}`} aria-hidden="true"></div>
@@ -156,7 +156,7 @@ const markup = {
 
   <section id="typography" class="editorial-section" aria-labelledby="typography-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="typography-title">Type <em>and hierarchy</em></h2><p>The site uses four font families, each for one role. Headings are bold sans. The serif italic marks one phrase in a heading.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="typography-title">Type and hierarchy</h2><p>The site uses four font families, each for one role. Headings are bold sans. The serif italic marks one phrase in a page title. Section headings stay plain.</p></div>
       <ul class="sg-fonts">{fonts.map((font) => (
         <li>
           {font.key === 'sans' && <p class="sg-font-sample sg-hanken">Body, interface, and headings.</p>}
@@ -178,7 +178,7 @@ const markup = {
         <li><code>{'<Text size="sm" tone="muted">'}</code><Text size="sm" tone="muted">Captions describe what the reader is seeing.</Text></li>
       </ol>
       <ComponentDoc id="heading" name="<Heading>" path="src/components/primitives/Heading.astro" purpose="Renders every heading. level sets the tag and visual sets the size. The visual size never changes the document outline." code={markup.heading}
-        dos={['Pick level from the outline and visual from the design.', 'Use the serif italic (<em>) for one phrase at most.']}
+        dos={['Pick level from the outline and visual from the design.', 'Use the serif italic (<em>) for one phrase in the page title only.']}
         donts={['Skip heading levels to get a smaller size.', 'Use tone="faint" or deprecated tones such as navy and coral.']} />
       <ComponentDoc id="text" name="<Text>" path="src/components/primitives/Text.astro" purpose="Body copy on the type scale for case studies and supporting pages."
         dos={['Use tone="muted" for descriptions and captions.']}
@@ -189,7 +189,7 @@ const markup = {
 
   <section id="layout" class="editorial-section" aria-labelledby="layout-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="layout-title">Layout <em>and spacing</em></h2><p>Pages use four content widths and three spacing steps.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="layout-title">Layout and spacing</h2><p>Pages use four content widths and three spacing steps.</p></div>
       <h3 class="sg-subhead">Container widths</h3>
       <ul class="sg-widths">{widths.map(([name, rem, note]) => <li><div class="sg-width-bar" style={`width: ${(rem / 80) * 100}%`} aria-hidden="true"></div><p><code>width="{name}"</code> <span>{rem}rem</span></p><p>{note}</p></li>)}</ul>
       <h3 class="sg-subhead">Spacing</h3>
@@ -226,7 +226,7 @@ const markup = {
   <!-- ─────────────── Components ─────────────── -->
   <section id="actions" class="editorial-section" aria-labelledby="actions-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="actions-title">Actions <em>and links</em></h2><p>A filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="actions-title">Actions and links</h2><p>A filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
       <ComponentDoc id="action-link" name=".action-link" purpose="The primary action. Use one per view, for the most important step." href="/" code={markup.action} filename="Primary action"
         classes={[{ name: 'action-link', description: 'Filled denim action with an arrow that points where the link goes.' }]}
         dos={['Name the destination in the visible words.']}
@@ -256,7 +256,7 @@ const markup = {
 
   <section id="forms" class="editorial-section" aria-labelledby="forms-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="forms-title">Forms <em>and feedback</em></h2><p>Forms use visible labels, useful hints, specific errors, and a sending state. The contact page uses the same components.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="forms-title">Forms and feedback</h2><p>Forms use visible labels, useful hints, specific errors, and a sending state. The contact page uses the same components.</p></div>
       <ComponentDoc id="field" name="<Field>" path="src/components/form/Field.astro" purpose="Wraps a control with its label, hint, required marker, and error, and wires the ids between them." code={markup.field} filename="Contact field pattern"
         dos={['Put the label above the control. The error appears as a speech bubble right under it, above the hint.', 'Write errors that say how to fix the value without blaming the reader.']}
         donts={['Use a placeholder as the label.']}
@@ -288,7 +288,7 @@ const markup = {
 
   <section id="content" class="editorial-section" aria-labelledby="content-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="content-title">Content <em>patterns</em></h2><p>These patterns appear in case studies, articles, and recommendations.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="content-title">Content patterns</h2><p>These patterns appear in case studies, articles, and recommendations.</p></div>
       <ComponentDoc id="metric" name="<Metric>" path="src/components/patterns/Metric.astro" purpose="A measured result with a label and supporting context."
         dos={['Keep the source, scope, and explanation close to the number.']}
         donts={['Show a figure that the project owner hasn’t confirmed.']}>
@@ -327,7 +327,7 @@ const markup = {
 
   <section id="navigation" class="editorial-section" aria-labelledby="navigation-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="navigation-title">Navigation <em>and behavior</em></h2><p>This section covers navigation components and the behaviors every page shares.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="navigation-title">Navigation and behavior</h2><p>This section covers navigation components and the behaviors every page shares.</p></div>
       <ComponentDoc id="breadcrumbs" name="<Breadcrumbs>" path="src/components/patterns/Breadcrumbs.astro" purpose="The trail at the top of every page below a section index: case studies, galleries, posts, tools, games, and personal projects." href="/projects/logatot/gallery/" code={markup.breadcrumbs} filename="Breadcrumbs"
         dos={['Use it on every page below a section index, as the first line of the opener.', 'Name parents with the header menu labels: Projects, Personal projects, Tools, Play, Writing.']}
         donts={['Add a separate “Back to” or “All work” link at the top of the page.']}
@@ -352,7 +352,7 @@ const markup = {
 
   <section id="tools" class="editorial-section" aria-labelledby="tools-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive <em>tools</em></h2><p>Each tool has an illustration and a working interface built from the same type, surfaces, and actions as the rest of the site.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive tools</h2><p>Each tool has an illustration and a working interface built from the same type, surfaces, and actions as the rest of the site.</p></div>
       <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action} <span data-link-arrow="up-right">↗</span></span></a></li>)}</ul>
       <p class="sg-note">The calculator and token playground use labeled sliders and number inputs. The Scorecard uses grouped choices with a visible selected state and keeps progress in the browser. The audit tool shows sample findings only.</p>
     </Container>
@@ -361,7 +361,7 @@ const markup = {
   <!-- ─────────────── Reference ─────────────── -->
   <section id="index" class="editorial-section" aria-labelledby="index-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="index-title">Component <em>index</em></h2><p>The site’s pages use {componentCatalogue.length} components. Each one links to a page that shows it in use. <code>npm run audit:components</code> checks this list against the pages.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="index-title">Component index</h2><p>The site’s pages use {componentCatalogue.length} components. Each one links to a page that shows it in use. <code>npm run audit:components</code> checks this list against the pages.</p></div>
       <div class="sg-filter">
         <label for="sg-filter-input">Filter components</label>
         <input id="sg-filter-input" type="search" autocomplete="off" placeholder="Name, path, or purpose" aria-describedby="sg-filter-count" data-catalogue-filter />
@@ -374,7 +374,7 @@ const markup = {
 
   <section id="agents" class="editorial-section" aria-labelledby="agents-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="agents-title">For coding <em>agents</em></h2><p>The same sources build one JSON file with everything on this page. In the repository it lives at <code>design-system/system.json</code>.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="agents-title">For coding agents</h2><p>The same sources build one JSON file with everything on this page. In the repository it lives at <code>design-system/system.json</code>.</p></div>
       <div class="sg-agents">
         <div>
           <h3>Contents of <code>system.json</code></h3>

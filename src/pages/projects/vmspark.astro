@@ -213,7 +213,7 @@ const edges = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="research" title="Research">
+  <CaseSection id="research" title="Research" tone="ink" wide>
     <CaseProse>
       <Heading level={3} visual="h2">Requirements gathering</Heading>
       <p>
@@ -234,7 +234,7 @@ const edges = [
       </p>
     </CaseProse>
 
-    <div class="mt-12 grid grid-cols-2 gap-8 py-8">
+    <div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 py-8 md:gap-x-24">
       <Metric value="3.5 → 7.5" label="average score out of 10" caption="before and after, same rubric, scored from the code" />
       <Metric value="2 → 8" label="error prevention" caption="the lowest score before the redesign" />
     </div>
@@ -404,7 +404,7 @@ const edges = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
           <Plate
             size="half"
             title="Reprocess all, light"
@@ -464,7 +464,7 @@ const edges = [
       </CaseProse>
 
       <Container width="wide" class="mt-16">
-        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid grid grid-cols-2 gap-y-10 md:grid-cols-4">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />
@@ -475,11 +475,11 @@ const edges = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="outcomes" title="Results">
+  <CaseSection id="outcomes" title="Results" tone="ink" wide>
     <CaseResults
       metrics={[
-        { value: '7.5', label: 'heuristic average after', caption: 'up from 3.5 across ten heuristics' },
-        { value: '28 of 28', label: 'deletes confirm first', caption: 'up from 10 of 43' },
+        { value: '7.5', label: 'heuristic average after', caption: 'up from 3.5 across ten heuristics', compare: { before: { label: 'Before: 3.5 of 10', value: 0.35 }, after: { label: 'After: 7.5 of 10', value: 0.75 } } },
+        { value: '28 of 28', label: 'deletes confirm first', caption: 'up from 10 of 43', compare: { before: { label: 'Before: 10 of 43', value: 10 / 43 }, after: { label: 'After: 28 of 28', value: 1 } } },
       ]}
       groups={results}
     />

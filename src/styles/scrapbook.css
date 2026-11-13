@@ -191,12 +191,6 @@
   line-height: 1.05;
 }
 
-.scrap-heading em {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 400;
-  color: var(--accent);
-}
-
 .scrap-play {
   display: grid;
   gap: 1.5rem;
@@ -263,7 +257,8 @@
 @media (min-width: 768px) {
   .scrap-mosaic { aspect-ratio: 6 / 5; }
 
-  .scrap-hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  /* Title and note on the left, the intro and links beside them. */
+  .scrap-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; }
 
   .scrap-play,
   .scrap-learned { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -293,4 +288,27 @@
   .scrap-tile img,
   .scrap-name > span:first-child { transition: none; }
   .scrap-link:is(:hover, :focus-visible) .scrap-tile img { transform: none; }
+}
+
+/* Project page hero: the list page's mosaic grown into a full-width wall,
+   wider than tall so the cut-outs read at a large size. */
+.scrap-hero-wall { margin-top: var(--space-block); }
+.scrap-mosaic--wall { gap: 0.75rem; }
+@media (min-width: 768px) {
+  .scrap-mosaic--wall { aspect-ratio: 2 / 1; }
+}
+
+/* The wall assembles: as a mosaic scrolls into view, each cut-out starts a
+   little outside its cell, toward the edge it sits on, and slides into place.
+   Movement only, never rotation, so the finished wall is square and tidy.
+   Static with reduced motion or without scroll timelines. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scrap-mosaic { view-timeline-name: --mosaic; }
+    .scrap-tile { animation: scrap-assemble linear both; animation-timeline: --mosaic; animation-range: entry 0% cover 40%; }
+  }
+}
+@keyframes scrap-assemble {
+  from { opacity: 0; translate: calc(var(--cx) * 1.5rem) calc(var(--cy) * 1.5rem); scale: .94; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
 }

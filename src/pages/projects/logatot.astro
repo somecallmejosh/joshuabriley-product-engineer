@@ -290,7 +290,7 @@ const results = [
     <CaseCards label="Problems with logging from memory" items={problems} />
   </CaseSection>
 
-  <CaseSection id="research" title="Research">
+  <CaseSection id="research" title="Research" tone="ink" wide>
     <CaseProse>
       <Heading level={3} visual="h2">Requirements gathering</Heading>
       <p>
@@ -379,7 +379,7 @@ const results = [
         </p>
       </CaseProse>
 
-          <div class="mt-8 grid grid-cols-2 gap-8 py-8">
+          <div class="mt-8 grid grid-cols-2 gap-x-8 gap-y-8 py-8 md:gap-x-24">
             <Metric value="4.9" label="average score before" caption="across ten heuristics and 119 page captures" />
             <Metric value="3" label="lowest scores" caption="error prevention and recovering from errors" />
           </div>
@@ -535,7 +535,7 @@ const results = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
           <Plate
             size="half"
             title="Kiosk: enter a PIN"
@@ -568,7 +568,7 @@ const results = [
       </Container>
 
       <Container width="wide" class="mt-16">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
           <Plate
             size="half"
             title="Provider: a child’s profile"
@@ -667,7 +667,7 @@ const results = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-14 lg:grid-cols-2">
+        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
           <Plate
             size="half"
             title="Children"
@@ -714,7 +714,7 @@ const results = [
       </CaseProse>
 
       <Container width="wide" class="mt-16">
-        <ul class="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid grid grid-cols-2 gap-y-10 md:grid-cols-4">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={rd(p.slug)} alt={p.alt} />
@@ -743,7 +743,7 @@ const results = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="outcomes" title="Results">
+  <CaseSection id="outcomes" title="Results" tone="ink" wide>
     <CaseResults
       metrics={[
         { value: '2+ hrs', label: 'saved on daily data entry', caption: 'Reported by providers' },

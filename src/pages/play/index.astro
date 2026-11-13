@@ -71,7 +71,7 @@ const [featured, ...rest] = GAMES;
   <section class="editorial-section play-bigger" aria-labelledby="play-bigger-title">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 id="play-bigger-title" class="section-type">Token <em>Adventure</em></h2></div>
+        <div><h2 id="play-bigger-title" class="section-type">Token Adventure</h2></div>
         <div class="prose-lede">
           <p>Token Adventure was my first attempt at a larger learning game. You write design tokens in a code editor across 20 levels. The game checks your code against the W3C Design Tokens spec.</p>
           <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure <span aria-hidden="true" data-link-arrow="right">→</span></a>
@@ -85,9 +85,11 @@ const [featured, ...rest] = GAMES;
   .play-list-section { padding-bottom: var(--space-section); }
   .play-bigger { background: var(--portfolio-tint); }
   .play-bigger .prose-lede .editorial-link { margin-top: 1.25rem; }
-  .arcade { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+  /* The tiles' padding hangs outside the content column, so the text inside lines
+     up with the heading above. */
+  .arcade { --tile-pad: 1.25rem; display: grid; gap: 1rem; margin: 0 calc(-1 * var(--tile-pad)); padding: 0; list-style: none; }
   .tile { min-width: 0; background: var(--portfolio-tint); }
-  .tile-link { height: 100%; padding: 1.25rem; color: var(--ink); }
+  .tile-link { height: 100%; padding: var(--tile-pad); color: var(--ink); }
   /* Phones: a small drawing beside the title, so eleven games stay a short list. */
   .tile-link { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); column-gap: 1.25rem; align-content: start; }
   .tile-link > :not(.tile-art) { grid-column: 2; }
@@ -104,7 +106,7 @@ const [featured, ...rest] = GAMES;
   .tile-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
 
-  .tile--featured { display: grid; gap: 2rem; padding: 2rem 1.5rem; background: var(--portfolio-blue); }
+  .tile--featured { display: grid; gap: 2rem; padding: 2rem var(--tile-pad); background: var(--portfolio-blue); }
   .tile--featured .tile-topic, .tile--featured .tile-summary { color: color-mix(in srgb, var(--paper) 82%, transparent); }
   .featured-title { margin-top: .4rem; font-size: clamp(2.4rem, 4vw, 3.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; }
   .featured-title em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; color: color-mix(in srgb, var(--paper) 80%, var(--portfolio-blue)); }
@@ -136,6 +138,9 @@ const [featured, ...rest] = GAMES;
     .tile-art { margin-bottom: 1.5rem; }
     .arcade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .tile--featured { grid-column: 1 / -1; }
+  }
+  @media (min-width: 768px) {
+    .arcade { --tile-pad: 2rem; }
     .tile-link, .tile--featured { padding: 2rem; }
   }
   @media (min-width: 1024px) {

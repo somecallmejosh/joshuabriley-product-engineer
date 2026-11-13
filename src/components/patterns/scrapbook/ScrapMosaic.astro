@@ -7,16 +7,26 @@ import type { WallTile } from '~/lib/personal-projects';
  * grid of hairline panels. Always inside a link that names the project, so
  * the images are decorative.
  */
-interface Props { tiles: WallTile[]; eager?: boolean; }
-const { tiles, eager = false } = Astro.props;
+interface Props {
+  tiles: WallTile[];
+  eager?: boolean;
+  /** The project page's hero: full width and wider than tall. */
+  wall?: boolean;
+}
+const { tiles, eager = false, wall = false } = Astro.props;
 const loading = eager ? 'eager' : 'lazy';
+const sizes = wall ? '(min-width: 768px) 50vw, 60vw' : '(min-width: 768px) 25vw, 60vw';
+/* Each tile's distance from the grid's center, in cells. The assembly
+   animation starts a tile that far out, so the pieces close in on the middle. */
+const offset = (column: number, columnSpan: number, row: number, rowSpan: number) =>
+  `--cx: ${column + (columnSpan - 1) / 2 - 3.5}; --cy: ${row + (rowSpan - 1) / 2 - 2.5}`;
 ---
-<div class="scrap-mosaic">
+<div class:list={['scrap-mosaic', { 'scrap-mosaic--wall': wall }]}>
   {tiles.map(({ src, area: [column, columnSpan, row, rowSpan], flat, ink, fill }) => (
-    <span class:list={['scrap-tile', { 'scrap-tile--flat': flat, 'scrap-tile--ink': ink, 'scrap-tile--fill': fill }]} style={`grid-area: ${row} / ${column} / span ${rowSpan} / span ${columnSpan}`}>
+    <span class:list={['scrap-tile', { 'scrap-tile--flat': flat, 'scrap-tile--ink': ink, 'scrap-tile--fill': fill }]} style={`grid-area: ${row} / ${column} / span ${rowSpan} / span ${columnSpan}; ${offset(column, columnSpan, row, rowSpan)}`}>
       {typeof src === 'string'
         ? <img src={src} alt="" loading={loading} decoding="async" width="1024" height="1536" />
-        : <Image src={src} alt="" widths={[320, 640, 960]} sizes="(min-width: 768px) 25vw, 60vw" loading={loading} />}
+        : <Image src={src} alt="" widths={[320, 640, 960, 1280]} sizes={sizes} loading={loading} />}
     </span>
   ))}
 </div>

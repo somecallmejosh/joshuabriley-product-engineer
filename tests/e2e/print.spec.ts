@@ -127,7 +127,7 @@ test('print keeps the current assessment answers and fits article tables to pape
 test('headings print as plain text and the dedicated resume renderer stays independent', async ({ page }) => {
   await page.goto('/');
   await page.emulateMedia({ media: 'print' });
-  await expect(page.locator('#main h1')).toHaveText('Where product, design, and engineering meet.');
+  await expect(page.locator('#main h1')).toHaveText('Product design engineer');
   await page.goto('/resume-print/');
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('body')).toHaveAttribute('data-print-layout', 'document');

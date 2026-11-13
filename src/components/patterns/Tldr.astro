@@ -12,7 +12,7 @@ const { situation, problem, decision, evidence, class: className } = Astro.props
 <section id="tldr" class:list={['project-summary', className]} aria-labelledby="project-summary-title">
   <Container width="wide">
     <div class="project-summary-grid">
-      <h2 id="project-summary-title">Project <em>summary.</em></h2>
+      <h2 id="project-summary-title">Project summary</h2>
       <div class="project-summary-main">
         {situation && <p class="summary-situation" set:html={situation} />}
         <p class="summary-problem" set:html={problem} />

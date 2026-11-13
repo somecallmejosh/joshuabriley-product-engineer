@@ -157,6 +157,8 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
   }
 
   .plate__name {
+    min-width: 0;
+    overflow-wrap: anywhere;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
     font-size: 0.7rem;
     text-transform: uppercase;

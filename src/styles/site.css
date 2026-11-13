@@ -142,6 +142,9 @@ html {
 .ix-toast,
 [data-surface='dark'] {
   --accent-rgb: 107 166 216; /* #6BA6D8 — AA on ink (6.6:1) */
+  /* Re-derive here: a custom property computed on :root inherits as a value, so
+     --accent would otherwise keep the root's navy on every surface. */
+  --accent: rgb(var(--accent-rgb));
   /* On dark surfaces the subtle navy tint goes muddy and the ink text vanishes
      into the background. Use a solid sky-denim highlight with ink text:
      #1a1b1e on #6BA6D8 is 6.6:1 → clears WCAG AA for body text. */
@@ -153,6 +156,7 @@ html {
 .bg-white,
 [data-surface='light'] {
   --accent-rgb: 46 92 138; /* #2E5C8A — deep denim navy for light paper */
+  --accent: rgb(var(--accent-rgb));
   --selection-bg: rgba(46, 92, 138, 0.16);
   --selection-fg: var(--ink);
 }

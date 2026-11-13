@@ -42,7 +42,11 @@ main.tool-page .tool-stage .tp-preview-rule { font-family: var(--font-hanken), s
 main.tool-page .tool-stage .tp-stat-num { font-family: var(--font-hanken), sans-serif; font-weight: 800; letter-spacing: -.05em; }
 main.tool-page .tool-stage .tp-foot-note { text-align: left; font-size: .9rem; }
 /* The assessment is a sequence of subjects, rather than a stack of cards. */
-main.tool-page [data-scorecard-totals] { padding: 2rem; border: 0; border-radius: 0; background: var(--portfolio-blue); color: white; }
+/* Blue score cards hang their side padding outside the column, so their text
+   lines up with the questions and headings around them. */
+main.tool-page :is([data-scorecard-totals], .tool-stage .reveal-card, #recommendationContainer .reveal-card) { --card-pad: 1.25rem; margin-inline: calc(-1 * var(--card-pad)); }
+@media (min-width: 768px) { main.tool-page :is([data-scorecard-totals], .tool-stage .reveal-card, #recommendationContainer .reveal-card) { --card-pad: 2rem; } }
+main.tool-page [data-scorecard-totals] { padding: 2rem var(--card-pad); border: 0; border-radius: 0; background: var(--portfolio-blue); color: white; }
 main.tool-page [data-scorecard-totals] :is(p, .mono-label, .text-ink, .text-ink-muted) { color: white; }
 main.tool-page [data-scorecard-totals] .mono-label { font-family: var(--font-hanken), sans-serif; font-size: .88rem; text-transform: none; letter-spacing: 0; font-weight: 500; }
 main.tool-page [data-scorecard-totals] .font-serif { font-family: var(--font-hanken), sans-serif; font-size: clamp(3rem, 5vw, 4rem); font-weight: 800; letter-spacing: -.05em; line-height: 1; }
@@ -56,12 +60,7 @@ main.tool-page .tool-stage .subject-card header .mono-label { font-family: var(-
 main.tool-page .tool-stage .subject-card h3 { font: 750 clamp(2rem, 3.8vw, 3.5rem)/1.08 var(--font-hanken), sans-serif; letter-spacing: -.045em; margin-bottom: .9rem; }
 main.tool-page .tool-stage .subject-card header .text-sm { font-size: 1rem; line-height: 1.6; }
 main.tool-page .tool-stage .grade-stamp { font-family: var(--font-hanken), sans-serif; font-size: 2.5rem; font-weight: 800; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--portfolio-blue); transform: none; }
-main.tool-page .tool-stage .q-row { padding: 1.5rem 0; gap: 2rem; }
-main.tool-page .tool-stage .q-text { font-size: 1.02rem; }
-main.tool-page .tool-stage .choice-group { border-radius: 0; background: transparent; border-color: #a8b9c7; padding: 3px; }
-main.tool-page .tool-stage .choice { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 0; font-size: .88rem; transform: none; }
-main.tool-page .tool-stage .choice.is-on { background: var(--portfolio-blue); color: white; }
-main.tool-page .tool-stage .reveal-card { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem); overflow: hidden; }
+main.tool-page .tool-stage .reveal-card { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem) var(--card-pad); overflow: hidden; }
 main.tool-page .tool-stage .reveal-card::before { content: none; }
 main.tool-page .tool-stage .reveal-card h3 { font: 750 clamp(2rem, 3.6vw, 3.4rem)/1.08 var(--font-hanken), sans-serif; letter-spacing: -.04em; }
 main.tool-page .tool-stage .reveal-card .font-serif { font-family: var(--font-hanken), sans-serif; font-weight: 800; letter-spacing: -.045em; line-height: 1; }
@@ -89,8 +88,7 @@ main.tool-page .tool-stage .dx-foot-note { text-align: left; padding-top: 1.5rem
   main.tool-page .tool-stage .rc-grid, main.tool-page .tool-stage .tp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 4rem; }
 }
 @media (max-width: 639px) {
-  main.tool-page [data-scorecard-totals] { padding: 1.5rem; }
-  main.tool-page .tool-stage .q-row { gap: 1rem; }
+  main.tool-page [data-scorecard-totals] { padding-block: 1.5rem; }
   main.tool-page .tool-stage .subject-card header { gap: .8rem; }
   main.tool-page .tool-stage .rc-result-rule { align-items: start; gap: .75rem; }
   main.tool-page .tool-stage .tp-preview-frame { padding: .75rem; }
@@ -113,7 +111,7 @@ main.tool-report .bd-title { font-size: 1.35rem; line-height: 1.2; letter-spacin
 main.tool-report .mini-bar-track, main.tool-report .mini-bar-fill { border-radius: 0; }
 main.tool-report .mini-bar-fill { background: var(--portfolio-blue); }
 main.tool-report .report-priorities-title { margin-bottom: 2.5rem; }
-main.tool-report #recommendationContainer .reveal-card { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem); }
+main.tool-report #recommendationContainer .reveal-card { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem) var(--card-pad); }
 main.tool-report #recommendationContainer h3 { font-family: var(--font-hanken), sans-serif; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.08; }
 main.tool-report .focus-heading { font-family: var(--font-hanken), sans-serif; font-size: 1.1rem; letter-spacing: 0; text-transform: none; }
 main.tool-report .focus-item-head { font-size: 1.2rem; flex-wrap: wrap; }
@@ -128,5 +126,4 @@ main.tool-page .tool-stage .dx-issues li.dx-issue-hot { background: #dce6ef; box
 main.tool-page .tool-stage .tp-btn:disabled { cursor: default; }
 main.tool-page .tool-stage .rc-result-frame :is([data-rc-hours], [data-rc-pct]) { color: white; }
 main.tool-page .tool-stage .reveal-card .mono-label { color: #dbe7f0; font-family: var(--font-hanken), sans-serif; font-size: .86rem; text-transform: none; letter-spacing: 0; }
-main.tool-page .tool-stage .q-text { max-width: 74ch; }
 main.tool-report .verdict-grid .mono-label, main.tool-report .focus-item-score, main.tool-report .focus-priority { color: #dbe7f0; }

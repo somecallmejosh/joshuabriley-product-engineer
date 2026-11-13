@@ -24,35 +24,35 @@ const cols = items.length === 3 ? 'lg:grid-cols-3' : '';
 const hasQuotes = items.some((p) => p.quote);
 ---
 <Heading level={3} visual="h2" class="mb-10">Personas</Heading>
-<ul style={`--rows: ${hasQuotes ? 6 : 5}`} class:list={['personas grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2', cols]} data-reveal-stagger>
+<ul style={`--rows: ${hasQuotes ? 6 : 5}`} class:list={['personas grid grid-cols-1 gap-y-24 md:grid-cols-2 md:gap-x-20 lg:gap-x-32', cols]} data-reveal-stagger>
   {items.map((p) => (
     <li id={`persona-${p.id}`} class="persona scroll-mt-32">
-      <div class="flex items-end gap-5">
+      <div class="flex items-end gap-6">
         <span class="offset-frame persona-avatar">
           <img src={`/images/personas/${p.id}.jpg`} alt="" width="128" height="128" loading="lazy" decoding="async" />
         </span>
         <div class="pb-1">
           <Heading level={4} visual="h3" tone="ink">{p.name}</Heading>
-          <p class="mt-1 text-sm font-medium text-accent">{p.role}</p>
+          <p class="mt-1.5 text-sm font-medium text-accent">{p.role}</p>
         </div>
       </div>
 
       {p.quote ? (
         <figure>
-          <Icon name="ph:quotes-fill" size={28} class="mb-3 text-accent opacity-30" />
+          <Icon name="ph:quotes-fill" size={28} class="mb-4 text-accent opacity-30" />
           <blockquote class="font-display text-xl leading-snug tracking-tight text-ink md:text-2xl">“{p.quote}”</blockquote>
           {p.quoteBy && <figcaption class="mt-3 text-xs text-ink-muted">{p.quoteBy}</figcaption>}
         </figure>
       ) : hasQuotes && <div aria-hidden="true"></div>}
 
-      <p class="text-sm leading-relaxed text-ink-muted">{p.context}</p>
+      <p class="max-w-prose text-base leading-relaxed text-ink-muted">{p.context}</p>
 
       <div class="persona-needs">
-        <Heading level={5} visual="h4" class="mb-3">Needs</Heading>
-        <ul class="space-y-2">
+        <Heading level={5} visual="h4" class="mb-4">Needs</Heading>
+        <ul class="space-y-3">
           {p.needs.map((n) => (
-            <li class="flex items-start gap-2 text-sm leading-relaxed text-ink">
-              <Icon name="ph:check-bold" size={14} class="mt-1 shrink-0 text-accent" />
+            <li class="flex items-start gap-3 text-base leading-relaxed text-ink">
+              <Icon name="ph:check-bold" size={14} class="mt-1.5 shrink-0 text-accent" />
               <span>{n}</span>
             </li>
           ))}
@@ -60,18 +60,18 @@ const hasQuotes = items.some((p) => p.quote);
       </div>
 
       <div>
-        <Heading level={5} visual="h4" class="mb-3">Frustrations</Heading>
-        <ul class="space-y-2">
+        <Heading level={5} visual="h4" class="mb-4">Frustrations</Heading>
+        <ul class="space-y-3">
           {p.frustrations.map((f) => (
-            <li class="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
-              <Icon name="ph:x" size={14} class="mt-1 shrink-0 text-ink-muted" />
+            <li class="flex items-start gap-3 text-base leading-relaxed text-ink-muted">
+              <Icon name="ph:x" size={14} class="mt-1.5 shrink-0 text-ink-muted" />
               <span>{f}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <p class="border-t border-line pt-4 text-xs leading-relaxed text-ink-muted">{p.basis}</p>
+      <p class="border-t border-line pt-5 text-xs leading-relaxed text-ink-muted">{p.basis}</p>
     </li>
   ))}
 </ul>
@@ -81,7 +81,7 @@ const hasQuotes = items.some((p) => p.quote);
   .persona {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    row-gap: 1.75rem;
+    row-gap: 3rem;
     align-content: start;
   }
   .persona-avatar {
@@ -89,8 +89,11 @@ const hasQuotes = items.some((p) => p.quote);
     --frame-offset: 10px;
     margin-top: var(--frame-offset);
   }
+  /* The needs band hangs its padding outside the column, so its text lines up
+     with the quote and context above it. */
   .persona-needs {
-    padding: 1rem 1.125rem 1.125rem;
+    margin-inline: -1.5rem;
+    padding: 1.5rem;
     background: rgb(var(--accent-rgb) / 0.06);
     box-shadow: inset 2px 0 0 var(--accent);
   }

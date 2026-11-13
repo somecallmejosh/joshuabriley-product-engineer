@@ -5,9 +5,9 @@ import { caseResearch, type CaseProject } from '~/lib/case-research';
  * Ties a design decision back to the personas and journey stage it serves,
  * with links to both. Ids that don't exist fail the build.
  *
- * It borrows the Personas block's look (the persona portraits and the tinted
- * band with an accent edge that holds their needs), so a reader can tell at a
- * glance that it points back to the research rather than being body copy.
+ * It stays light: overlapping persona portraits and two short lines, with the
+ * journey map's route node in front of the stage name, so a reader can tell at
+ * a glance that it points back to the research rather than being body copy.
  */
 interface Props {
   project: CaseProject;
@@ -23,7 +23,7 @@ const people = ids.map((id) => {
 });
 const stage = journey.find((s) => s.id === stageId);
 if (!stage) throw new Error(`CaseFor: no journey stage "${stageId}" in ${project}`);
-const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.length - 2 ? ' and ' : ', ');
+const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.length - 2 ? (people.length > 2 ? ', and ' : ' and ') : ', ');
 ---
 <aside class="case-for" aria-label="Personas this decision serves">
   <span class="case-for__faces" aria-hidden="true">
@@ -31,12 +31,12 @@ const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.lengt
       <img src={`/images/personas/${p.id}.jpg`} alt="" width="40" height="40" loading="lazy" decoding="async" />
     ))}
   </span>
-  <p class="text-sm leading-relaxed">
-    <span class="block font-semibold text-ink">
+  <p class="case-for__text">
+    <span class="block font-medium text-ink">
       Designed for {people.map((p, i) => (<Fragment><a href={`#persona-${p.id}`} class="hero-link">{p.name.split(' ')[0]}</a>{joiner(i)}</Fragment>))}
     </span>
-    <span class="block text-ink-muted">
-      Journey stage: <a href={`#journey-${stage.id}`} class="hero-link">{stage.stage}</a>
+    <span class="case-for__stage text-ink-muted">
+      <span class="case-for__route" aria-hidden="true"></span>Journey stage: <a href={`#journey-${stage.id}`} class="hero-link">{stage.stage}</a>
     </span>
   </p>
 </aside>
@@ -46,19 +46,46 @@ const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.lengt
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 0.875rem 1.125rem;
-    background: rgb(var(--accent-rgb) / 0.06);
-    box-shadow: inset 2px 0 0 var(--accent);
+    margin-bottom: 2.5rem;
   }
   .case-for__faces {
     display: flex;
     flex-shrink: 0;
-    gap: 0.25rem;
   }
+  /* Portraits overlap like a small group, each cut out by a paper ring. */
   .case-for__faces img {
     width: 2.5rem;
     height: 2.5rem;
     object-fit: cover;
+    box-shadow: 0 0 0 3px var(--paper);
+  }
+  .case-for__faces img + img {
+    margin-left: -0.625rem;
+    transition: margin-left 0.35s var(--ease-out);
+  }
+  /* Hovering the group spreads the portraits apart so each face shows whole. */
+  .case-for__faces:hover img + img { margin-left: 0.375rem; }
+  @media (prefers-reduced-motion: reduce) {
+    .case-for__faces img + img { transition: none; }
+  }
+  .case-for__text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .case-for__stage {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  /* The journey map's route: a line out of the portraits that ends in a node at
+     the stage name. */
+  .case-for__route {
+    width: 2.25rem;
+    height: 7px;
+    margin-left: -1rem;
+    margin-right: 0.375rem;
+    background:
+      radial-gradient(circle at calc(100% - 3.5px) 50%, var(--accent) 3px, transparent 3.5px),
+      linear-gradient(rgb(var(--accent-rgb) / 0.5), rgb(var(--accent-rgb) / 0.5)) left center / calc(100% - 7px) 1px no-repeat;
   }
 </style>

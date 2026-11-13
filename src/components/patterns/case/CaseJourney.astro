@@ -5,10 +5,11 @@ import type { JourneyStage } from '~/lib/case-research';
 
 /**
  * A journey map as live text, so it stays readable at any width. A route of
- * stage markers runs across the top on large screens (down the left edge on
- * small ones), and the line between markers draws in when the map scrolls
- * into view. Rows align by subgrid so the design responses read as one band.
- * Each stage repeats its row labels so it can be read alone.
+ * stage markers runs down the left edge, and the line between markers draws in
+ * when the map scrolls into view. On large screens each stage is a band with
+ * Activity, Problem, and Design response side by side. The design response
+ * links to the decision it led to. Each stage repeats its row labels so it can
+ * be read alone.
  */
 interface Props {
   title: string;
@@ -16,8 +17,8 @@ interface Props {
 }
 const { title, stages } = Astro.props;
 ---
-<Heading level={3} visual="h2" class="mb-8">{title}</Heading>
-<ol class="journey" style={`--stages: ${stages.length}`} data-reveal>
+<Heading level={3} visual="h2" class="mb-12">{title}</Heading>
+<ol class="journey" data-reveal>
   {stages.map((s, i) => (
     <li id={`journey-${s.id}`} class="journey-stage scroll-mt-32" style={`--i: ${i}`}>
       <span class="journey-node" aria-hidden="true">
@@ -26,16 +27,16 @@ const { title, stages } = Astro.props;
       <Heading level={4} visual="h3" tone="ink">{s.stage}</Heading>
       <div>
         <Heading level={5} visual="h4" class="mb-2">Activity</Heading>
-        <p class="text-sm leading-relaxed text-ink-muted">{s.doing}</p>
+        <p class="journey-text text-ink-muted">{s.doing}</p>
       </div>
       <div>
         <Heading level={5} visual="h4" class="mb-2">Problem</Heading>
-        <p class="text-sm leading-relaxed text-ink-muted">{s.problem}</p>
+        <p class="journey-text text-ink-muted">{s.problem}</p>
       </div>
-      <div class="journey-response">
+      <a class="journey-response" href={s.href}>
         <Heading level={5} visual="h4" class="mb-2">Design response</Heading>
-        <p class="text-sm leading-relaxed text-ink"><a href={s.href} class="hero-link">{s.design}</a></p>
-      </div>
+        <span class="journey-text journey-response-text text-ink">{s.design} <span aria-hidden="true" class="journey-arrow" data-link-arrow="down">↓</span></span>
+      </a>
     </li>
   ))}
 </ol>
@@ -43,18 +44,20 @@ const { title, stages } = Astro.props;
 <style>
   .journey {
     --node: 2.75rem;
+    --stage-gap: 3.5rem;
+    --pad: 1rem;
     --route: rgb(var(--accent-rgb) / 0.5);
     display: grid;
-    row-gap: 2.5rem;
+    row-gap: var(--stage-gap);
   }
 
-  /* Small screens: the route runs down the left edge. */
+  /* Each stage is a band beside the route, which runs down the left edge. */
   .journey-stage {
     position: relative;
     display: grid;
     grid-template-columns: var(--node) minmax(0, 1fr);
-    column-gap: 1.25rem;
-    row-gap: 1.25rem;
+    column-gap: 1.5rem;
+    row-gap: 1.75rem;
     align-content: start;
   }
   .journey-stage > :not(.journey-node) {
@@ -79,7 +82,7 @@ const { title, stages } = Astro.props;
     position: absolute;
     left: calc(var(--node) / 2);
     top: var(--node);
-    bottom: -2.5rem;
+    bottom: calc(-1 * var(--stage-gap));
     width: 1px;
     background: var(--route);
     transform-origin: top;
@@ -90,50 +93,47 @@ const { title, stages } = Astro.props;
     display: flex;
     align-items: center;
   }
-
-  .journey-response {
-    padding: 1rem 1.125rem 1.125rem;
-    background: rgb(var(--accent-rgb) / 0.06);
-    box-shadow: inset 2px 0 0 var(--accent);
+  .journey-text {
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    max-width: 44ch;
   }
 
-  /* Large screens: stages side by side, route across the top. */
+  /* The design response is a link to the decision it led to. Its padding hangs
+     outside the column, so its text lines up with Activity and Problem. */
+  .journey-response {
+    display: block;
+    margin: calc(-1 * var(--pad));
+    margin-bottom: 0;
+    padding: var(--pad);
+    background: rgb(var(--accent-rgb) / 0.08);
+    box-shadow: inset 0 2px 0 var(--accent);
+    transition: background-color 0.2s;
+  }
+  .journey-arrow { margin-left: 0.15em; color: var(--accent); }
+  .journey-response:is(:hover, :focus-visible) { background: rgb(var(--accent-rgb) / 0.16); }
+  .journey-response:is(:hover, :focus-visible) .journey-response-text {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 4px;
+  }
+  .journey-response:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  /* Large screens: the stage title runs across the band and the three rows sit
+     side by side under it. */
   @media (min-width: 1024px) {
-    .journey {
-      grid-template-columns: repeat(var(--stages), minmax(0, 1fr));
-      grid-template-rows: repeat(5, auto);
-      column-gap: 2rem;
-      row-gap: 0;
-    }
+    .journey { --stage-gap: 4.5rem; --pad: 1.25rem; }
     .journey-stage {
-      grid-row: span 5;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: subgrid;
-      column-gap: 0;
+      grid-template-columns: var(--node) repeat(3, minmax(0, 1fr));
+      column-gap: 3.5rem;
+      row-gap: 1.25rem;
     }
-    .journey-stage > :not(.journey-node) {
-      grid-column: 1;
-    }
-    .journey-node {
-      grid-row: 1;
-      margin-bottom: 0.25rem;
-    }
-    .journey-stage > :global(h4) {
-      align-self: start;
-      min-height: 0;
-    }
-    .journey-response {
-      padding-inline: 0.875rem;
-      box-shadow: inset 0 2px 0 var(--accent);
-    }
-    .journey-stage:not(:last-child)::before {
-      left: var(--node);
-      top: calc(var(--node) / 2);
-      bottom: auto;
-      width: calc(100% - var(--node) + 2rem);
-      height: 1px;
-      transform-origin: left;
-    }
+    .journey-stage > :global(h4) { grid-column: 2 / -1; }
+    .journey-stage > div:nth-of-type(1) { grid-column: 2; grid-row: 2; }
+    .journey-stage > div:nth-of-type(2) { grid-column: 3; grid-row: 2; }
+    .journey-stage > .journey-response { grid-column: 4; grid-row: 2; align-self: start; }
+    .journey-node { grid-row: 1 / span 2; }
   }
 
   /* The route draws stage by stage as the map scrolls in. Without the reveal
@@ -155,11 +155,6 @@ const { title, stages } = Astro.props;
     }
     .journey.scroll-reveal:not(.is-visible) .journey-stage::before {
       transform: scaleY(0);
-    }
-    @media (min-width: 1024px) {
-      .journey.scroll-reveal:not(.is-visible) .journey-stage::before {
-        transform: scaleX(0);
-      }
     }
   }
 </style>

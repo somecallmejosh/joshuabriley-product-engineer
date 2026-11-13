@@ -4,13 +4,14 @@ import Container from '~/components/layout/Container.astro';
 import Portrait from '~/components/patterns/Portrait.astro';
 import WorkList from '~/components/patterns/WorkList.astro';
 import Recommendation from '~/components/patterns/Recommendation.astro';
+import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
 import { getNavFeatures } from '~/lib/nav-features';
 
 const { testimonials, defaultTestimonial } = await getNavFeatures();
 const needs = [
-  { title: 'Workflow research and measured outcomes', body: 'I map the workflow before designing screens. After launch I measure the result. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO case study' },
-  { title: 'Complete interface states', body: 'I build the interfaces I design. That includes the loading, error, and recovery states that mockups often omit. When Logatot can’t understand what a provider said, it asks the provider to correct it before saving.', href: '/projects/logatot/', link: 'See the voice repair flow' },
-  { title: 'Design system automation', body: 'In my current role I automate Storybook and Figma setup so teams can spend their time on features. That work isn’t public. Rudiment UI, my personal component library, uses the same approach. It has accessible components, tokens, and documented APIs.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library' },
+  { title: 'Workflow research and measured outcomes', body: 'I map the workflow before designing screens. After launch I measure the result. At IVFCRYO, a shared readiness check cut support calls by 75%. The case study shows the alternatives I weighed and why I chose one.', href: '/projects/ivfcryo/', link: 'Read the IVFCRYO case study', illustration: 'ivfcryo' as const },
+  { title: 'Complete interface states', body: 'I build the interfaces I design. That includes the loading, error, and recovery states that mockups often omit. When Logatot can’t understand what a provider said, it asks the provider to correct it before saving.', href: '/projects/logatot/', link: 'See the voice repair flow', illustration: 'logatot-review' as const },
+  { title: 'Design system automation', body: 'In my current role I automate Storybook and Figma setup so teams can spend their time on features. That work isn’t public. Rudiment UI, my personal component library, uses the same approach. It has accessible components, tokens, and documented APIs.', href: '/personal-projects/rudiment-ui/', link: 'Inspect the component library', illustration: 'rudiment-ui' as const },
 ];
 ---
 <BaseLayout title="Joshua Briley | Product Design Engineer" description="Product design engineer with 20+ years of experience. I work with product teams to decide what to build, design the workflow, and ship accessible interfaces. Each case study states what I owned.">
@@ -32,31 +33,33 @@ const needs = [
       </div>
     </Container>
   </section>
-  <section id="selected-work" class="editorial-section work-section">
+  <section id="selected-work" class="editorial-section work-section work-section--stage bg-ink" data-surface="dark">
     <Container width="wide">
       <div class="section-heading">
-        <h2 class="section-type">Selected <em>work</em></h2>
+        <h2 class="section-type">Selected work</h2>
         <p>These case studies cover healthcare staffing, fertility logistics, and home child care. Each one states what I owned and the measured result.</p>
       </div>
-      <WorkList compact />
-      <a href="/projects/" class="editorial-link work-more">View all case studies <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <WorkList compact feature />
+      <a href="/projects/" class="editorial-link editorial-link--light work-more">View all case studies <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </Container>
   </section>
   <section class="editorial-section approach-section">
     <Container width="wide">
-      <div class="approach-layout">
-        <div>
-          <h2 class="section-type">Areas of <em>work</em></h2>
-        </div>
-        <div class="approach-list" data-reveal-stagger>
-          {needs.map((need) => (
-            <article>
+      <h2 class="section-type">Areas of work</h2>
+      {/* One drawing per area, in the same style as the Play and Writing cards. */}
+      <div class="approach-list areas-list pin-list" style="--pin-count: 3" data-reveal-stagger>
+        {needs.map((need) => (
+          <article class="pin-item">
+            <a href={need.href} class="pin-media" tabindex="-1" aria-hidden="true">
+              <ProjectIllustration project={need.illustration} />
+            </a>
+            <div class="pin-copy">
               <h3>{need.title}</h3>
               <p>{need.body}</p>
               <a href={need.href} class="editorial-link">{need.link} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
     </Container>
   </section>
@@ -84,9 +87,12 @@ const needs = [
 </script>
 
 <style>
+  .areas-list { margin-top: var(--space-block); }
   .home-testimonial-more { margin-top: 2.5rem; }
-  /* Lines up under the quote, on the featured recommendation's column grid. */
-  @media (min-width: 1024px) {
-    .home-testimonial-more { margin-left: calc((100% - 5rem) * .325 + 5rem); }
+  @supports (animation-timeline: view()) {
+    @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+      .areas-list h3 { font-size: clamp(1.75rem, 2.6vw, 2.5rem); line-height: 1.15; }
+      .areas-list p { font-size: 1.125rem; max-width: 46ch; }
+    }
   }
 </style>

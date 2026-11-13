@@ -85,7 +85,8 @@ const next = GAMES[(GAMES.indexOf(game) + 1) % GAMES.length];
     .game-layout {
       grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
       align-items: start;
-      gap: 5rem;
+      /* Both cards hang their padding into this gap, so it leaves about 5rem clear. */
+      gap: 9rem;
     }
   }
   /* The aside follows the game down the page, like the site's section headings. */
@@ -95,12 +96,15 @@ const next = GAMES[(GAMES.indexOf(game) + 1) % GAMES.length];
   }
   .aside-label { font-size: .86rem; font-weight: 500; color: var(--ink-muted); }
 
-  .learn { padding: 2rem; background: var(--portfolio-blue); }
+  /* Both cards hang their padding outside the column, so their text lines up
+     with the Up next label and the All games link. */
+  .learn { --card-pad: 1.25rem; margin-inline: calc(-1 * var(--card-pad)); padding: 2rem var(--card-pad); background: var(--portfolio-blue); }
   .learn .aside-label { color: color-mix(in srgb, var(--paper) 82%, transparent); }
   .learn-text { margin-top: .75rem; font-size: clamp(1.2rem, 1.05rem + .5vw, 1.45rem); font-weight: 600; line-height: 1.4; letter-spacing: -.02em; color: var(--paper); text-wrap: pretty; }
 
   .up-next { display: grid; justify-items: start; gap: .75rem; padding-top: 1rem; }
-  .next-tile { display: block; width: 100%; padding: 1.5rem; background: var(--portfolio-tint); color: var(--ink); }
+  .next-tile { --card-pad: 1.25rem; display: block; justify-self: stretch; margin-inline: calc(-1 * var(--card-pad)); padding: 1.5rem var(--card-pad); background: var(--portfolio-tint); color: var(--ink); }
+  @media (min-width: 768px) { .learn { --card-pad: 2rem; } .next-tile { --card-pad: 1.5rem; } }
   .next-art { display: block; margin-bottom: 1.25rem; }
   .next-art :global(.illustration) { --mat: 0rem; background: none; }
   .next-title { display: block; font-size: 1.4rem; font-weight: 800; line-height: 1.2; letter-spacing: -.04em; }

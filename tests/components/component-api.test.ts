@@ -29,7 +29,7 @@ const { label, size = 'sm', class: className } = Astro.props;
 describe('componentApi', () => {
   it('reads real components', () => {
     const field = componentApi('src/components/form/Field.astro');
-    expect(field.find((p) => p.name === 'id')).toMatchObject({ required: false, default: '`field-${name}`', description: 'Stable id; auto-generated if omitted.' });
+    expect(field.find((p) => p.name === 'id')).toMatchObject({ required: false, default: '`field-${name}`', description: 'Stable id. Generated from name if omitted.' });
     expect(field.find((p) => p.name === 'label')).toMatchObject({ required: true, type: 'string' });
 
     const submit = componentApi('src/components/form/SubmitButton.astro');

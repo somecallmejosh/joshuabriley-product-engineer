@@ -76,7 +76,11 @@ const ROUNDS = 10;
 
 <style>
   .cg {
-    padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    /* Padding hangs outside the column (minus the border) so the text lines up
+       with the page around the game. */
+    --game-pad: clamp(1.25rem, .75rem + 2vw, 2.25rem);
+    margin-inline: calc(-1 * var(--game-pad));
+    padding: var(--game-pad) calc(var(--game-pad) - 1px);
     border: 1px solid var(--line);
     background: var(--raised);
   }

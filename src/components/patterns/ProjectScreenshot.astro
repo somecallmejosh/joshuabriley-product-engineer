@@ -10,9 +10,11 @@ interface Props {
   /** Rendered width times the 1.55 zoom in illustration.css, so browsers fetch a
       file sharp enough for the close-up. Defaults to a half-page column. */
   sizes?: string;
+  /** A short annotation set in the drawings' italic serif, over the bottom of the frame. */
+  caption?: string;
   class?: string;
 }
-const { src, alt, sizes = '(min-width: 64em) 90vw, 175vw', class: className } = Astro.props;
+const { src, alt, sizes = '(min-width: 64em) 90vw, 175vw', caption, class: className } = Astro.props;
 ---
 
 {/* A close-up of one real app detail on a tilted plane, in the same mat and
@@ -22,5 +24,6 @@ const { src, alt, sizes = '(min-width: 64em) 90vw, 175vw', class: className } = 
 <span class={cx('illustration illustration--shot', className)} data-surface="light">
   <span class="illustration-frame illustration-frame--shot">
     <Image src={src} alt={alt} widths={[640, 1024, 1600, src.width]} sizes={sizes} class="illustration-shot" />
+    {caption && <span class="illustration-caption">{caption}</span>}
   </span>
 </span>

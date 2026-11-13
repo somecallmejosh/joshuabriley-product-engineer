@@ -115,8 +115,7 @@ body {
   font-size: clamp(3.6rem, 6.4vw, 6rem);
 }
 .hero-type em,
-.page-type em,
-.section-type em {
+.page-type em {
   font-family: var(--font-fraunces), Georgia, serif;
   font-weight: 400;
   letter-spacing: -0.055em;
@@ -211,6 +210,20 @@ body {
   height: calc(100% - 1.7rem);
   border: 1px solid #aebfce;
 }
+/* A dot on the outline's top-right corner, like the period after the logo and
+   the dots on the résumé and home routes. */
+.hero-portrait::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -1rem;
+  top: -1rem;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px -3.5px 0 0;
+  border-radius: 50%;
+  background: var(--accent);
+}
 /* Square headshot with the hero portrait's offset outline, scaled to the avatar.
    Set --frame-size and --frame-offset per use. */
 .offset-frame {
@@ -229,6 +242,19 @@ body {
   transform: translate(var(--frame-offset, 5px), calc(var(--frame-offset, 5px) * -1));
   /* A shade fainter than the hero portrait's outline; follows the surface accent. */
   border: 1px solid rgb(var(--accent-rgb) / 0.28);
+}
+/* The outline's top-right corner carries a dot, sized to the avatar. */
+.offset-frame::after {
+  --dot: clamp(4px, calc(var(--frame-size, 48px) * 0.08), 7px);
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--frame-offset, 5px) * -1 - var(--dot) / 2);
+  right: calc(var(--frame-offset, 5px) * -1 - var(--dot) / 2);
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--accent);
 }
 .offset-frame > * {
   display: block;
@@ -397,6 +423,41 @@ body {
 }
 .work-more {
   margin-top: var(--space-block);
+}
+/* Home: the work sits on an ink stage between two paper bands, so the page
+   goes light, dark, light, navy. The accent follows data-surface="dark". */
+/* Wide screens only: the route needs the staggered layout. */
+.work-route { display: none; }
+.work-section--stage {
+  position: relative;
+  background: var(--ink);
+  color: var(--paper);
+  overflow-x: clip;
+}
+.work-section--stage .section-heading > p,
+.work-section--stage .work-kind,
+.work-section--stage .work-result > span {
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+.work-section--stage .work-copy h3 a,
+.work-section--stage .work-title {
+  color: var(--paper);
+}
+.work-section--stage .work-result strong {
+  color: var(--accent);
+}
+.work-section--stage .editorial-link--light:hover {
+  color: var(--paper);
+  text-decoration-color: currentColor;
+}
+.work-section--stage :focus-visible {
+  outline-color: var(--paper);
+}
+/* On the stage, the mat is a narrow band a shade lighter than the ink: the
+   dark-surface version of the tinted mat around screen grabs elsewhere. */
+.work-section--stage .illustration {
+  --mat: clamp(0.625rem, 1.2vw, 1rem);
+  background: color-mix(in srgb, var(--paper) 8%, var(--ink));
 }
 .approach-layout {
   display: grid;
@@ -670,6 +731,56 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
+  /* The portrait hangs out of the hero and into the dark work band. */
+  .home-hero {
+    position: relative;
+    z-index: 1;
+  }
+  .home-hero .home-hero-grid {
+    padding-bottom: 0;
+  }
+  .home-hero .hero-portrait {
+    translate: 0 7rem;
+  }
+  .home-hero .hero-portrait figcaption {
+    color: color-mix(in srgb, var(--paper) 72%, transparent);
+  }
+  /* One lead project, bleeding off the right edge, then two smaller ones on a
+     stagger. The 12-column grid sets the uneven sizes. */
+  .work-list--feature {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0 3rem;
+  }
+  .work-list--feature .work-entry:first-child {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 4rem;
+    align-items: end;
+    margin-right: calc((100% - 100vw) / 2);
+    margin-bottom: var(--space-block);
+  }
+  .work-list--feature .work-entry:first-child .work-image {
+    order: 2;
+  }
+  .work-list--feature .work-entry:first-child .work-copy {
+    margin: 0 0 2rem;
+  }
+  .work-list--feature .work-entry:first-child h3 {
+    font-size: clamp(3rem, 5vw, 4.5rem);
+  }
+  .work-list--feature .work-entry:nth-child(2) {
+    grid-column: 1 / span 6;
+  }
+  .work-list--feature .work-entry:nth-child(3) {
+    grid-column: 8 / span 5;
+    margin-top: 10rem;
+  }
+  /* The route between the projects, matching the résumé's Approach line. */
+  .work-list--feature { position: relative; }
+  .work-route { display: block; position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .work-route-line { fill: none; stroke: color-mix(in srgb, var(--accent) 70%, transparent); stroke-width: 1; }
+  .work-route-dot { fill: var(--accent); }
   .approach-layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
     gap: 8rem;
@@ -750,7 +861,8 @@ body {
     aspect-ratio: 1.5;
     object-position: center 38%;
   }
-  .hero-portrait::before {
+  .hero-portrait::before,
+  .hero-portrait::after {
     display: none;
   }
   .page-type {
@@ -775,4 +887,79 @@ body {
 
 .brand-dot {
   animation: brand-dot-draw 0.6s var(--ease-out) both;
+}
+
+/* Pinned list (home Areas of work, about Roles in the title): each item is a
+   drawing and its copy. Below lg, or without scroll timelines, or with reduced
+   motion, items are rows (drawing beside copy from md up). At lg with scroll
+   timelines, the drawings share one sticky cell on the left while the copy
+   scrolls past on the right. Each copy block is a view timeline inset to a
+   band at the middle of the viewport; its drawing fades in as the copy reaches
+   that band and out as it leaves, so drawings crossfade at the boundary
+   between two items. Items become display: contents so the drawings share a
+   grid area while the DOM order stays drawing, copy, drawing, copy. Set
+   --pin-count on the list; up to five items are wired. The drawing links
+   duplicate the text links, so pages mark them tabindex="-1" aria-hidden. */
+.pin-item { display: grid; gap: 1.5rem; }
+.pin-item + .pin-item { margin-top: var(--space-item); }
+.pin-media { display: block; max-width: 30rem; }
+@media (min-width: 768px) {
+  .pin-item { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: 5rem; align-items: center; }
+  .pin-media { max-width: none; }
+}
+@supports (animation-timeline: view()) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .pin-list {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: 6rem;
+      timeline-scope: --pin-1, --pin-2, --pin-3, --pin-4, --pin-5;
+    }
+    .pin-item { display: contents; }
+    .pin-media {
+      grid-column: 1;
+      grid-row: 1 / span var(--pin-count, 3);
+      position: sticky;
+      top: 17.5vh;
+      height: 65vh;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      animation: pin-swap linear both;
+    }
+    .pin-media > * { flex: 1; pointer-events: auto; }
+    .pin-copy {
+      grid-column: 2;
+      min-height: 65vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      view-timeline-inset: 45%;
+    }
+    .pin-item:nth-child(1) .pin-copy { grid-row: 1; view-timeline-name: --pin-1; }
+    .pin-item:nth-child(2) .pin-copy { grid-row: 2; view-timeline-name: --pin-2; }
+    .pin-item:nth-child(3) .pin-copy { grid-row: 3; view-timeline-name: --pin-3; }
+    .pin-item:nth-child(4) .pin-copy { grid-row: 4; view-timeline-name: --pin-4; }
+    .pin-item:nth-child(5) .pin-copy { grid-row: 5; view-timeline-name: --pin-5; }
+    .pin-item:nth-child(1) .pin-media { animation-timeline: --pin-1; }
+    .pin-item:nth-child(2) .pin-media { animation-timeline: --pin-2; }
+    .pin-item:nth-child(3) .pin-media { animation-timeline: --pin-3; }
+    .pin-item:nth-child(4) .pin-media { animation-timeline: --pin-4; }
+    .pin-item:nth-child(5) .pin-media { animation-timeline: --pin-5; }
+    .pin-item:first-child .pin-media { animation-name: pin-out; }
+    .pin-item:last-child .pin-media { animation-name: pin-in; }
+  }
+}
+@keyframes pin-swap {
+  0% { opacity: 0; visibility: hidden; translate: 0 2rem; rotate: 2deg; }
+  18%, 82% { opacity: 1; visibility: visible; translate: 0 0; rotate: 0deg; }
+  100% { opacity: 0; visibility: hidden; translate: 0 -2rem; rotate: -2deg; }
+}
+@keyframes pin-out {
+  0%, 82% { opacity: 1; visibility: visible; translate: 0 0; rotate: 0deg; }
+  100% { opacity: 0; visibility: hidden; translate: 0 -2rem; rotate: -2deg; }
+}
+@keyframes pin-in {
+  0% { opacity: 0; visibility: hidden; translate: 0 2rem; rotate: 2deg; }
+  18%, 100% { opacity: 1; visibility: visible; translate: 0 0; rotate: 0deg; }
 }

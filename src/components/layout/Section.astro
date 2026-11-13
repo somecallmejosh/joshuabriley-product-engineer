@@ -35,6 +35,7 @@ const paddings: Record<NonNullable<Props['padding']>, string> = {
 
 <section
   id={id}
+  data-surface={tone === "ink" ? "dark" : undefined}
   data-source={`Section · tone=${tone} · padding=${padding}${decorated ? ' · decorated' : ''}`}
   class={cx(
     tones[tone],

@@ -3,7 +3,10 @@
    square, the drawing tilts inside it and straightens when a parent link is
    hovered. Everything is scoped under .illustration because several of these
    names (.rule, .label) are global classes elsewhere in site.css. */
-.illustration { --mat: 2rem; --tilt: -4deg; display: block; padding: var(--mat); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
+/* The mat hangs outside the content column: negative inline margins pull it
+   out by its own width, so the paper frame inside lines up with the text above
+   and below. */
+.illustration { --mat: 2rem; --tilt: -4deg; display: block; margin-inline: calc(-1 * var(--mat)); padding: var(--mat); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
 .illustration-frame { display: block; overflow: hidden; background: var(--paper); box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--ink) 45%, transparent); }
 .illustration-drawing { display: block; width: 100%; height: auto; font-family: var(--font-hanken), sans-serif; transform: rotate(var(--tilt)); transition: transform .7s var(--ease-out); }
 a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) scale(1.03); }
@@ -65,12 +68,44 @@ a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) sca
    scale() is large enough that, after the tilt, the capture's own edges stay
    outside it. Tilt-shift blur softens the top and bottom; it eases toward flat
    on hover, like the drawings straighten. */
-.illustration-frame--shot { position: relative; aspect-ratio: 4 / 3; perspective: 1400px; }
+.illustration-frame--shot { position: relative; aspect-ratio: 4 / 3; perspective: 1400px; container-type: inline-size; }
 .illustration-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: rotateX(24deg) rotateZ(-10deg) scale(1.55); filter: saturate(.8); transition: transform .9s var(--ease-out), filter .9s var(--ease-out); }
 a:is(:hover, :focus-visible) .illustration-shot { transform: rotateX(14deg) rotateZ(-6deg) scale(1.45); filter: saturate(1); }
 /* Depth of field: blur whatever sits behind the edges of a diagonal band. */
 .illustration-frame--shot::after { content: ''; position: absolute; inset: 0; pointer-events: none; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); -webkit-mask-image: linear-gradient(168deg, var(--ink) 4%, transparent 36%, transparent 64%, var(--ink) 96%); mask-image: linear-gradient(168deg, var(--ink) 4%, transparent 36%, transparent 64%, var(--ink) 96%); }
+/* The drawings' handwritten-style note (.result--sm), set on a paper fade over
+   the bottom of a close-up. Sizes are in container units so it scales with the
+   frame the way the SVG text does: 26px and a 40px inset on a 480px drawing. */
+.illustration-caption { position: absolute; inset-inline: 0; bottom: 0; z-index: 1; padding: 16cqi 12cqi 6cqi 8.33cqi; background: linear-gradient(to bottom, transparent, var(--paper) 58%); color: var(--ink); font-family: var(--font-fraunces), serif; font-style: italic; font-size: min(5.4cqi, 1.75rem); line-height: 1.15; letter-spacing: -.015em; }
 @media (prefers-reduced-motion: reduce) {
   .illustration-shot { transition: none; }
   a:is(:hover, :focus-visible) .illustration-shot { transform: rotateX(24deg) rotateZ(-10deg) scale(1.55); }
+}
+
+/* Work close-ups come into focus as they scroll in: the frame starts blurred
+   and faint, the shot tilted further back, and both settle at the resting tilt.
+   Individual rotate/scale properties compose with the hover transform, so hover
+   still works after the animation ends. Browsers without scroll timelines and
+   visitors with reduced motion see the resting state. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .work-image .illustration-frame--shot {
+      animation: shot-focus-frame linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+    .work-image .illustration-shot {
+      animation: shot-focus-plane linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes shot-focus-frame {
+  from { filter: blur(10px); opacity: .35; }
+  to { filter: none; opacity: 1; }
+}
+@keyframes shot-focus-plane {
+  from { rotate: x 26deg; scale: 1.2; }
+  to { rotate: x 0deg; scale: 1; }
 }

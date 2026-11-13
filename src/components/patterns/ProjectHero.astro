@@ -20,11 +20,12 @@ const data: ProjectPage = projectPages[Astro.props.project];
       </div>
       <div class="project-hero-illustration hero-split-media hero-in hero-in-3"><ProjectIllustration project={data.illustration} /></div>
     </div>
-    <dl class="project-facts hero-in hero-in-4">{data.facts.map(fact => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
   </Container>
 </section>
-<section class="project-showcase" aria-label={`${data.name} outcomes`}>
+{/* The figures and facts sit on an ink band; on wide screens the hero drawing hangs into it. */}
+<section class="project-showcase bg-ink" data-surface="dark" aria-label={`${data.name} outcomes`}>
   <Container width="wide">
     {data.figures.length > 0 && <dl class="project-figures">{data.figures.map(figure => <div><dt>{figure.value}</dt><dd>{figure.label}{figure.note && <span>{figure.note}</span>}</dd></div>)}</dl>}
+    <dl class="project-facts">{data.facts.map(fact => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
   </Container>
 </section>

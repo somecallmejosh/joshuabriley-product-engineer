@@ -645,6 +645,13 @@
           "type": "boolean",
           "required": false,
           "default": "false"
+        },
+        {
+          "name": "wall",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "The project page's hero: full width and wider than tall."
         }
       ]
     },
@@ -1321,6 +1328,20 @@
           "name": "title",
           "type": "string",
           "required": true
+        },
+        {
+          "name": "tone",
+          "type": "'paper' | 'ink'",
+          "required": false,
+          "default": "'paper'",
+          "description": "`ink` stages the section on the dark surface. Results use it as the page's high point."
+        },
+        {
+          "name": "wide",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Full width: the heading sits on top and the body spans the page. Results use it."
         }
       ]
     },
@@ -1491,9 +1512,10 @@
       "props": [
         {
           "name": "metrics",
-          "type": "{ value: string; label: string; caption?: string }[]",
+          "type": "{ value: string; label: string; caption?: string; compare?: { before: Bar; after: Bar } }[]",
           "required": false,
-          "default": "[]"
+          "default": "[]",
+          "description": "`compare` draws a before and after bar under the figure. Use it only when both values come from the same measure the figure states."
         },
         {
           "name": "groups",
@@ -2110,6 +2132,25 @@
       ]
     },
     {
+      "name": "RoleIllustration",
+      "path": "src/components/patterns/RoleIllustration.astro",
+      "group": "patterns",
+      "note": "A decorative SVG for each job title in the about page's roles section.",
+      "href": "/about/",
+      "props": [
+        {
+          "name": "role",
+          "type": "IllustratedRole",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
       "name": "ProjectIllustration",
       "path": "src/components/patterns/ProjectIllustration.astro",
       "group": "patterns",
@@ -2153,6 +2194,12 @@
           "description": "Rendered width times the 1.55 zoom in illustration.css, so browsers fetch a file sharp enough for the close-up. Defaults to a half-page column."
         },
         {
+          "name": "caption",
+          "type": "string",
+          "required": false,
+          "description": "A short annotation set in the drawings' italic serif, over the bottom of the frame."
+        },
+        {
           "name": "class",
           "type": "string",
           "required": false
@@ -2190,6 +2237,13 @@
           "type": "boolean",
           "required": false,
           "default": "false"
+        },
+        {
+          "name": "feature",
+          "type": "boolean",
+          "required": false,
+          "default": "false",
+          "description": "Home page staging: the first project leads at full size, the rest follow smaller."
         },
         {
           "name": "items",

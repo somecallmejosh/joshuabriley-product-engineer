@@ -65,7 +65,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 
 <BaseLayout title="Resume | Joshua Briley | Product Design Engineer" description={description} mainClass="resume-page">
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 lg:pt-20">
+  <Section tone="paper" padding="default" class="pt-12 md:pt-16 lg:pt-20 lg:pb-14">
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-16 lg:items-end">
         <div class="lg:col-span-8">
@@ -103,7 +103,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     </Container>
   </Section>
 
-  <section id="approach" class="editorial-section resume-approach" aria-labelledby="approach-title">
+  <section id="approach" class="editorial-section resume-approach bg-ink" data-surface="dark" aria-labelledby="approach-title">
     <Container width="wide">
       <div class="section-heading">
         <h2 id="approach-title" class="section-type">Approach</h2>
@@ -180,7 +180,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
     </Container>
   </section>
 
-  <section id="education" class="editorial-section resume-education" aria-labelledby="education-title">
+  <section id="education" class="editorial-section resume-education surface-denim" data-surface="dark" aria-labelledby="education-title">
     <Container width="wide">
       <div class="section-heading">
         <h2 id="education-title" class="section-type">Education</h2>
@@ -203,7 +203,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
               <li>
                 <h4>{course.title}</h4>
                 {course.note && <p class="education-course-note">{course.note}</p>}
-                <p class="education-course-link"><a class="editorial-link" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
+                <p class="education-course-link"><a class="editorial-link editorial-link--light" href={course.href} target="_blank" rel="noopener noreferrer">{course.org}<span aria-hidden="true" data-link-arrow="up-right">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
               </li>
             ))}
           </ul>
@@ -227,10 +227,24 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .experience-entry:first-child::after { background: var(--portfolio-blue); }
   .experience-entry:last-child::before { bottom: auto; height: 2.85rem; }
   .experience-context, .experience-contribution { min-width: 0; }
+  /* The current role leads at a larger size. */
+  .experience-entry:first-child .experience-company { font-size: clamp(2.8rem, 5.6vw, 5rem); }
+  .experience-entry:first-child .experience-lead { font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1.3; }
+  /* The rail draws down through each role as it scrolls into view. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .experience-entry { view-timeline-name: --role; }
+      .experience-entry::before { transform-origin: top; animation: rail-draw linear both; animation-timeline: --role; animation-range: entry 20% cover 55%; }
+    }
+  }
+  @keyframes rail-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  /* The period reads as a date stamp in the display serif. */
   .experience-period {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: .75rem;
-    line-height: 1.5;
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    letter-spacing: -.01em;
     color: var(--accent);
   }
   .experience-company {
@@ -286,7 +300,16 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .approach-index { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; color: var(--accent); }
   .approach-entry h3 { margin-top: .75rem; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; }
   .approach-entry p:last-child { margin-top: .85rem; max-width: 38ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
-  .resume-approach, .resume-skills { background: var(--portfolio-tint); }
+  .resume-skills { background: var(--portfolio-tint); }
+  /* Approach on ink: the three practices set large, the middle and last stepped down. */
+  .resume-approach { background: var(--ink); color: var(--paper); }
+  .resume-approach .section-heading > p, .resume-approach .approach-entry p:last-child { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+  .resume-approach .approach-entry h3 { font-size: clamp(2rem, 3.4vw, 3rem); color: var(--paper); }
+  .resume-approach :focus-visible, .resume-education :focus-visible { outline-color: var(--paper); }
+  /* Education closes the page on denim. */
+  .resume-education h3, .resume-education h4 { color: var(--paper); }
+  .resume-education .education-institution { color: var(--paper); }
+  .resume-education .education-note, .resume-education .education-courses .education-course-note { color: color-mix(in srgb, var(--paper) 82%, transparent); }
   .skill-list { }
   .skill-entry { display: grid; gap: 1.75rem; padding: 2.5rem 0; }
   .skill-entry > *, .education-layout > * { min-width: 0; }
@@ -308,7 +331,15 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   #approach, #skills, #education { scroll-margin-top: 6rem; }
   @media (min-width: 1024px) {
     .approach-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; }
-    .approach-entry { }
+    .approach-entry:nth-child(2) { margin-top: 4rem; }
+    .approach-entry:nth-child(3) { margin-top: 8rem; }
+    /* A stepped line ties the three practices together: it runs along the top of
+       each one and drops to the start of the next. The dot at each start matches
+       the experience timeline. Decorative, so pseudo-elements only. */
+    .resume-approach .approach-entry { position: relative; }
+    .resume-approach .approach-entry::before { content: ''; position: absolute; top: -3px; left: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+    .resume-approach .approach-entry::after { content: ''; position: absolute; top: 0; left: 0; width: calc(100% + 3rem); height: 4rem; border-top: 1px solid color-mix(in srgb, var(--accent) 70%, transparent); border-right: 1px solid color-mix(in srgb, var(--accent) 70%, transparent); pointer-events: none; }
+    .resume-approach .approach-entry:last-child::after { width: 100%; height: 0; border-right: 0; }
   }
   @media (min-width: 640px) { .skill-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (min-width: 1024px) {

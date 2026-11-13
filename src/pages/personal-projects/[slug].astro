@@ -2,10 +2,11 @@
 import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
-import GalleryLink from '~/components/patterns/GalleryLink.astro';
 import LiveEmbed from '~/components/patterns/LiveEmbed.astro';
 import ScrapPiece from '~/components/patterns/scrapbook/ScrapPiece.astro';
+import ScrapMosaic from '~/components/patterns/scrapbook/ScrapMosaic.astro';
 import { personalProjects, personalProjectOrder, type PersonalProject, type PersonalProjectKey } from '~/lib/personal-projects';
+import { galleryFor, galleryHref, galleryCount } from '~/lib/project-galleries';
 import '~/styles/scrapbook.css';
 
 export function getStaticPaths() {
@@ -15,6 +16,7 @@ export function getStaticPaths() {
 interface Props { projectKey: PersonalProjectKey; }
 const { projectKey } = Astro.props;
 const project: PersonalProject = personalProjects[projectKey];
+const gallery = galleryFor(projectKey);
 const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf(projectKey) + 1) % personalProjectOrder.length]];
 ---
 <BaseLayout title={`${project.name} | Joshua Briley`} description={project.note} mainClass="scrap-page">
@@ -25,6 +27,8 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
         <div>
           <h1 class="page-type hero-in hero-in-1">{project.name}</h1>
           <p class="scrap-note hero-in hero-in-2">{project.note}</p>
+        </div>
+        <div>
           <p class="scrap-intro hero-in hero-in-3">{project.intro}</p>
           {project.actions.length > 0 && (
             <div class="scrap-actions hero-in hero-in-3">
@@ -32,21 +36,22 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
             </div>
           )}
         </div>
-        <div class="hero-in hero-in-3"><ScrapPiece art={project.cover} eager /></div>
       </div>
+      {/* The project's mosaic from the list page, grown into a full-width wall. */}
+      <div class="scrap-hero-wall hero-in hero-in-3" aria-hidden="true"><ScrapMosaic tiles={project.wall} eager wall /></div>
     </Container>
   </section>
 
   <section class="scrap-section" aria-labelledby="played-with">
     <Container width="wide">
-      <h2 id="played-with" class="scrap-heading">What I got <em>to play with</em></h2>
+      <h2 id="played-with" class="scrap-heading">What I got to play with</h2>
       <ul class="scrap-play">{project.playedWith.map((item) => <li>{item}</li>)}</ul>
     </Container>
   </section>
 
   <section class="scrap-section" aria-labelledby="good-bits">
     <Container width="wide">
-      <h2 id="good-bits" class="scrap-heading mb-14">The <em>good bits</em></h2>
+      <h2 id="good-bits" class="scrap-heading mb-14">The good bits</h2>
       <div class:list={['scrap-screens', { 'scrap-screens--3': project.columns === 3 }]}>
         {project.goodBits.map((bit) => (
           <figure data-reveal>
@@ -61,7 +66,7 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
   {project.live && (
     <section class="scrap-section" aria-labelledby="poke-at-it">
       <Container width="wide">
-        <h2 id="poke-at-it" class="scrap-heading">Go ahead, <em>poke at it</em></h2>
+        <h2 id="poke-at-it" class="scrap-heading">Go ahead, poke at it</h2>
         <p class="scrap-intro mb-10">{project.live.blurb}</p>
         <LiveEmbed
           posterSrc={project.live.poster}
@@ -76,12 +81,21 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
 
   <section class="scrap-section" aria-labelledby="learned">
     <Container width="wide">
-      <h2 id="learned" class="scrap-heading">What I <em>learned</em></h2>
+      <h2 id="learned" class="scrap-heading">What I learned</h2>
       <div class="scrap-learned">{project.learned.map((item) => <p>{item}</p>)}</div>
     </Container>
   </section>
 
-  <GalleryLink project={projectKey} />
+  {/* The gallery pointer, in this page's own section pattern. */}
+  {gallery && (
+    <section class="scrap-section" aria-labelledby="more-screens">
+      <Container width="wide">
+        <h2 id="more-screens" class="scrap-heading">More screens</h2>
+        <p class="scrap-intro">{gallery.intro}</p>
+        <a href={galleryHref(gallery)} class="editorial-link mt-6">See all {galleryCount(gallery)} in the gallery <span aria-hidden="true" data-link-arrow="right">→</span></a>
+      </Container>
+    </section>
+  )}
 
   <section class="scrap-next" aria-label="Next project">
     <Container width="wide">

@@ -3,7 +3,7 @@
 .project-page .max-w-5xl { max-width: 80rem; }
 .project-page section[id] { scroll-margin-top: 4.5rem; }
 /* Same top padding as .page-opener, so the breadcrumb sits at one height site-wide. */
-.project-opening { padding: clamp(2.5rem, 1.6rem + 3.5vw, 5rem) 0 0; }
+.project-opening { position: relative; z-index: 1; padding: clamp(2.5rem, 1.6rem + 3.5vw, 5rem) 0 var(--space-block); }
 .project-identity { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 2rem; margin-top: 2rem; }
 .project-identity p { font-size: 1.2rem; font-weight: 650; letter-spacing: -.025em; }
 .project-identity > span { font-size: .8rem; color: var(--ink-muted); }
@@ -16,21 +16,26 @@
 .project-hero-copy, .project-hero-illustration { min-width: 0; }
 .project-hero-illustration { max-width: 40rem; }
 @media (min-width: 1024px) {
-  .project-hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; }
+  .project-hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; align-items: end; }
   .project-hero .project-title { font-size: clamp(3rem, 5.2vw, 5.2rem); }
+  /* The drawing hangs out of the opening into the ink band; the figures stack
+     in the left column so they clear it. */
+  .project-hero-illustration { translate: 0 calc(var(--space-block) + 6rem); }
+  .project-showcase .project-figures { flex-direction: column; align-items: flex-start; max-width: 50%; gap: 2.5rem; }
 }
-.project-facts { display: grid; gap: 1.75rem; margin-top: var(--space-item); padding: 1.5rem 0 var(--space-block); }
-.project-facts dt { color: var(--ink-muted); font-size: .78rem; margin-bottom: .4rem; }
+/* Figures and facts share the ink band under the opening. */
+.project-showcase { padding: var(--space-block) 0; background: var(--ink); color: var(--paper); }
+.project-facts { display: grid; gap: 1.75rem; margin-top: var(--space-block); padding-top: 2rem; border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent); }
+.project-facts dt { color: color-mix(in srgb, var(--paper) 72%, transparent); font-size: .78rem; margin-bottom: .4rem; }
 .project-facts dd { font-size: 1rem; font-weight: 600; line-height: 1.4; }
-.project-showcase { padding: var(--space-block) 0; background: #f0f3f6; }
 .project-figures { display: flex; flex-wrap: wrap; gap: 2rem 5rem; }
 .project-figures > div { display: flex; align-items: center; gap: 1.25rem; }
-.project-figures dt { color: var(--portfolio-blue); font-size: clamp(2.8rem, 5.2vw, 4.8rem); font-weight: 800; line-height: 1; letter-spacing: -.055em; white-space: nowrap; }
+.project-figures dt { color: var(--accent); font-size: clamp(2.8rem, 5.2vw, 4.8rem); font-weight: 800; line-height: 1; letter-spacing: -.055em; white-space: nowrap; }
 .project-figures dd { max-width: 23ch; font-size: .98rem; line-height: 1.4; font-weight: 600; }
-.project-figures dd > span { display: block; margin-top: .35rem; font-size: .76rem; font-weight: 400; color: var(--ink-muted); }
+.project-figures dd > span { display: block; margin-top: .35rem; font-size: .76rem; font-weight: 400; color: color-mix(in srgb, var(--paper) 72%, transparent); }
 .project-page > section:not(.project-opening, .project-showcase, .project-summary, .project-next) { padding-block: var(--space-section); }
 .project-page .case-layout { gap: 2.5rem; }
-.project-page .case-layout__head h2 { font-size: clamp(2rem, 3.7vw, 3.45rem); font-weight: 800; letter-spacing: -.05em; line-height: 1.06; max-width: 18ch; }
+.project-page :is(.case-layout__head, .case-wide) > h2, .project-page .case-layout__head h2 { font-size: clamp(2rem, 3.7vw, 3.45rem); font-weight: 800; letter-spacing: -.05em; line-height: 1.06; max-width: 18ch; }
 .project-page .case-layout__body { color: var(--ink-muted); }
 .project-page .case-layout__body > :first-child { margin-top: 0; }
 .project-page .case-layout__body .measure { max-width: 58ch; }
@@ -64,8 +69,17 @@
 .project-page .project-scope dt { font-family: var(--font-hanken), system-ui, sans-serif; font-size: 1.05rem; font-weight: 650; text-transform: none; letter-spacing: -.02em; color: var(--ink); }
 .project-page .project-scope li { font-size: .9rem; line-height: 1.6; }
 .project-page .project-scope li iconify-icon { display: none; }
+/* Screen grabs sit on a tinted mat that hangs outside the content column, like
+   the drawings: negative inline margins pull the mat out by its own width, so
+   the capture lines up with its caption and the text around it. */
+/* Two-up and four-up plates and the fidelity band use a narrower mat, and
+   their grids leave 2rem of clear space between neighboring mats. */
+.project-page { --stage-mat: clamp(.7rem, 2vw, 1.75rem); --stage-mat-sm: clamp(.5rem, 1.2vw, 1rem); }
+.project-page figure.plate[data-size='half'],
+.project-page figure.fband { --stage-mat: var(--stage-mat-sm); }
+.project-page :is(.stage-grid, .fband .fband__grid) { column-gap: calc(2 * var(--stage-mat-sm) + 2rem); }
 .project-page figure.plate .plate__frame,
-.project-page figure.fband .fband__frame { background: var(--project-stage); border: 0; border-radius: 0; padding: clamp(.7rem, 2vw, 1.75rem); }
+.project-page figure.fband .fband__frame { background: var(--project-stage); border: 0; border-radius: 0; padding: var(--stage-mat); margin-inline: calc(-1 * var(--stage-mat)); }
 .project-page figure.plate .plate__frame img,
 .project-page figure.fband .fband__frame img { box-shadow: 0 4px 16px rgb(26 47 67 / .08); }
 .project-page figure.plate .plate__name,
@@ -76,7 +90,7 @@
 .project-page figure.plate[data-plate][data-size='half'] .plate__note { font-size: .875rem; line-height: 1.6; max-width: 80ch; }
 .project-page figure.plate .plate__zoom,
 .project-page figure.fband .fband__zoom { min-height: 40px; font-family: var(--font-hanken), system-ui, sans-serif; font-size: .78rem; letter-spacing: 0; text-transform: none; border-radius: 0; padding: .4rem .65rem; }
-.project-page figure.site-shot .site-shot-mount { border: 0; border-radius: 0; box-shadow: none; background: var(--project-stage); padding: clamp(.7rem, 2vw, 1.75rem); }
+.project-page figure.site-shot .site-shot-mount { border: 0; border-radius: 0; box-shadow: none; background: var(--project-stage); padding: var(--stage-mat); margin-inline: calc(-1 * var(--stage-mat)); }
 .project-page figure.site-shot .site-shot-stage { border-radius: 0; }
 .project-page figure.site-shot .site-shot-index { display: none; }
 .project-page figure.site-shot .site-shot-mount:hover { transform: none; }
@@ -87,7 +101,6 @@
 .project-summary { padding: var(--space-section) 0; background: var(--paper); }
 .project-summary-grid { display: grid; gap: 2.5rem; }
 .project-summary h2 { font-size: clamp(2.7rem, 4.6vw, 4.4rem); font-weight: 800; line-height: 1.02; letter-spacing: -.06em; }
-.project-summary h2 em { font-family: var(--font-fraunces), Georgia, serif; color: var(--portfolio-blue); font-weight: 400; }
 .summary-problem, .summary-situation { max-width: 57ch; font-size: 1.125rem; line-height: 1.7; color: var(--ink-muted); }
 .summary-situation { margin-bottom: 1rem; }
 .summary-decisions { margin-top: 2rem; }
@@ -148,10 +161,106 @@
 .project-page div.live-embed .live-embed-views,
 .project-page div.live-embed .live-embed-view { border-radius: 0; }
 .project-page div.live-embed .live-embed-view { min-height: 40px; }
-.project-page figure.scroll-shot .scroll-shot-mount { border-radius: 0; background: var(--project-stage); box-shadow: none; border: 0; padding: 1rem; }
+.project-page figure.scroll-shot .scroll-shot-mount { border-radius: 0; background: var(--project-stage); box-shadow: none; border: 0; padding: var(--stage-mat); margin-inline: calc(-1 * var(--stage-mat)); }
+.project-page figure.scroll-shot .scroll-shot-fade { inset-inline: var(--stage-mat); bottom: var(--stage-mat); border-radius: 0; }
 .project-page figure.scroll-shot .scroll-shot-stage { border-radius: 0; }
 .project-page figure.scroll-shot .scroll-shot-index { display: none; }
 @media (max-width: 479px) {
   .project-page div.live-embed .live-embed-controls { flex-wrap: wrap; gap: .6rem; }
   .project-page div.live-embed .live-embed-rail { gap: .75rem; }
 }
+
+/* Results: the high point of each case study, staged on ink with larger figures. */
+.project-page .case-stage .case-layout__body,
+.project-page .case-stage .text-ink-muted,
+.project-page .case-stage .metric__caption { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.project-page .case-stage .text-ink,
+.project-page .case-stage .metric__label,
+.project-page .case-stage h3,
+.project-page .case-stage .editorial-link { color: var(--paper); }
+.project-page .case-stage .metric__value { color: var(--accent); font-size: clamp(3rem, 5vw, 4.5rem); white-space: nowrap; }
+.project-page .case-stage .case-layout__body .metric__value { font-size: clamp(3rem, 5vw, 4.5rem); }
+
+/* Full-width Results: heading on top, the wins set as large as the page allows,
+   with before and after bars where the figure has both values. */
+.case-wide__body { margin-top: var(--space-block); }
+.results-figures { display: grid; gap: var(--space-block) 5rem; }
+.project-page .case-stage .results-figure .metric__value { font-size: clamp(3.75rem, 8vw, 7.5rem); line-height: .9; }
+.project-page .case-stage .results-figures--single .metric__value { font-size: clamp(4.5rem, 12vw, 11rem); }
+.project-page .case-stage .results-figure .metric__label { margin-top: 1.25rem; font-size: 1.3rem; font-weight: 600; letter-spacing: -.02em; }
+.project-page .case-stage .results-figure .metric__caption { font-size: .85rem; }
+.results-compare { display: grid; gap: 1rem; max-width: 34rem; margin-top: 2.25rem; view-timeline-name: --compare; }
+.results-bar { display: grid; gap: .45rem; }
+.results-bar__label { font-size: .82rem; color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.results-bar__track { display: block; height: .7rem; background: color-mix(in srgb, var(--paper) 12%, transparent); }
+.results-bar__fill { display: block; height: 100%; width: calc(var(--fill) * 100%); transform-origin: left; background: color-mix(in srgb, var(--paper) 45%, transparent); }
+.results-bar--after .results-bar__fill { background: var(--accent); }
+.project-page .case-stage .results-groups { margin-top: var(--space-block); padding-top: 2.5rem; border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent); }
+@media (min-width: 1024px) {
+  .results-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .results-figures--single { grid-template-columns: 1fr; }
+}
+/* The bars grow in as the comparison scrolls into view, before first, then after. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .results-bar__fill { animation: bar-grow linear both; animation-timeline: --compare; }
+    .results-bar--before .results-bar__fill { animation-range: entry 40% cover 40%; }
+    .results-bar--after .results-bar__fill { animation-range: cover 30% cover 55%; }
+  }
+}
+@keyframes bar-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.project-page .case-stage :focus-visible { outline-color: var(--paper); }
+
+/* Screens come into focus as they scroll in. Static with reduced motion or
+   without scroll timelines. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .project-page figure.plate .plate__frame { animation: plate-focus linear both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+  }
+}
+@keyframes plate-focus {
+  from { opacity: .35; filter: blur(8px); scale: .97; }
+  to { opacity: 1; filter: none; scale: 1; }
+}
+
+/* Research shares the ink stage with Results: the two dark chapters bookend the
+   design decisions, before and after. Components built for paper get their
+   lines, tracks, and links remapped to the dark surface here. */
+.project-page .case-stage .border-line { border-color: color-mix(in srgb, var(--paper) 18%, transparent); }
+.project-page .case-stage .heur-bar { background: color-mix(in srgb, var(--paper) 14%, transparent); }
+.project-page .case-stage .hero-link { color: var(--paper); }
+.project-page .case-stage .journey-node { background: var(--ink); }
+.project-page .case-stage .case-prose strong { color: var(--paper); }
+@media (min-width: 1024px) {
+  .project-page .case-wide .heur-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 6rem; row-gap: 5rem; }
+}
+.project-page .case-stage .case-prose { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.project-page .case-stage .case-prose--lede > p:first-of-type { color: var(--paper); }
+.project-page .case-stage :is(.mono-label, .heur-legend) { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+/* Full-width sections: prose reads in one column on the right half, lined up
+   with the second column of the figure and card grids (2rem gutter). A
+   subheading sits beside its paragraphs in the left half, so the space under
+   it reads as a heading column. Figures, findings, and quotes keep the full
+   width. */
+@media (min-width: 1024px) {
+  .project-page .case-wide .case-prose { max-width: none; margin-left: calc(50% + 1rem); }
+  .project-page .case-wide .case-prose:has(> :is(h2, h3, h4)) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; margin-left: 0; }
+  .project-page .case-wide .case-prose > :is(h2, h3, h4) { grid-column: 1; grid-row: 1 / span 12; align-self: start; max-width: 16ch; position: sticky; top: 11rem; }
+  .project-page .case-wide .case-prose:has(> :is(h2, h3, h4)) > :not(h2, h3, h4) { grid-column: 2; }
+  .project-page .case-wide .case-prose:has(> :is(h2, h3, h4)) > p:nth-child(2) { margin-top: 0; }
+}
+/* Subsections inside a full-width section get block spacing, so each one reads
+   as its own part. */
+.project-page .case-stage [data-visual='h2']:not(:first-child),
+.project-page .case-stage :is(div, ol, ul):has(> [data-visual='h2']:first-child) { margin-top: var(--space-block); }
+.project-page .case-wide__body > :first-child { margin-top: 0; }
+
+
+/* Score bars outside HeuristicScores (IVFCRYO's average score by flow) use the
+   same square bar: a track, the starting score in a light accent, the gain in
+   the accent. */
+.flow-bar { position: relative; flex: 1; height: .5rem; background: var(--line); }
+.flow-bar__before, .flow-bar__gain { position: absolute; inset-block: 0; }
+.flow-bar__before { left: 0; width: calc(var(--b) * 10%); background: rgb(var(--accent-rgb) / .3); }
+.flow-bar__gain { left: calc(var(--b) * 10%); width: calc((var(--a) - var(--b)) * 10%); background: var(--accent); }
+.project-page .case-stage .flow-bar { background: color-mix(in srgb, var(--paper) 14%, transparent); }

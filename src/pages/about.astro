@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
+import RoleIllustration from '~/components/patterns/RoleIllustration.astro';
 const principles = [
   { title: 'Treat internal tools as products', body: 'I give component APIs, defaults, documentation, and automation the same care as type and spacing. I judge them by whether teams choose them over building their own version.' },
   { title: 'Start with accessibility', body: 'Keyboard order, labels, contrast, and recoverable errors shape the design from the first sketch. When that behavior lives in shared components, every team that uses them gets it by default. I test that behavior and say where it still falls short, including in the Limitations section of each case study.' },
@@ -9,11 +10,11 @@ const principles = [
 ];
 // Each role says where I've done that work; facts come from the résumé and case studies.
 const roles = [
-  { title: 'Front-end developer', body: 'A front-end developer builds what runs in the browser. That includes the markup, the styles, and the scripts that make an interface respond. That’s been part of every job I’ve had.' },
-  { title: 'UI engineer', body: 'A UI engineer turns visual design into the components and code of an interface, often as part of a design system. That’s my current job, on a system roughly 3,500 engineers and designers use.' },
-  { title: 'UX engineer', body: 'A UX engineer turns interaction design into working prototypes and front-end code. At Logatot that was voice input and the flows for fixing what the app misheard.' },
-  { title: 'UI designer', body: 'A UI designer decides an interface’s layout, type, color, and the components it is built from. For VMSpark’s admin app that meant a design system built from scratch.' },
-  { title: 'UX designer', body: 'A UX designer studies how people use a product and shapes its flows, structure, and behavior around their needs. At IVFCRYO interviews with the team led to one shared record for everyone involved in a shipment.' },
+  { title: 'Front-end developer', illustration: 'front-end-developer' as const, body: 'A front-end developer builds what runs in the browser. That includes the markup, the styles, and the scripts that make an interface respond. That’s been part of every job I’ve had.' },
+  { title: 'UI engineer', illustration: 'ui-engineer' as const, body: 'A UI engineer turns visual design into the components and code of an interface, often as part of a design system. That’s my current job, on a system roughly 3,500 engineers and designers use.' },
+  { title: 'UX engineer', illustration: 'ux-engineer' as const, body: 'A UX engineer turns interaction design into working prototypes and front-end code. At Logatot that was voice input and the flows for fixing what the app misheard.' },
+  { title: 'UI designer', illustration: 'ui-designer' as const, body: 'A UI designer decides an interface’s layout, type, color, and the components it is built from. For VMSpark’s admin app that meant a design system built from scratch.' },
+  { title: 'UX designer', illustration: 'ux-designer' as const, body: 'A UX designer studies how people use a product and shapes its flows, structure, and behavior around their needs. At IVFCRYO interviews with the team led to one shared record for everyone involved in a shipment.' },
 ];
 const personal = [
   { title: 'Louisiana roots', body: "I grew up on Cajun food and music. My grandmother’s chicken and sausage gumbo remains the standard." },
@@ -31,57 +32,74 @@ const personal = [
       <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a><a href="/contact/" class="editorial-link">Get in touch <span aria-hidden="true" data-link-arrow="up-right">↗</span></a></div>
     </Container>
   </section>
-  <section class="editorial-section">
+  {/* The page's shape: paper opener, an ink statement, two paper sections,
+      then a denim close. */}
+  <section class="editorial-section about-statement bg-ink" data-surface="dark">
     <Container width="wide">
-      <div class="approach-layout">
-        <div><h2 class="section-type">Design <em>and engineering</em></h2></div>
-        <div class="prose-lede">
-          <p>My most useful work has combined design and engineering. I work out what a workflow needs. Then I test that answer in working software.</p>
-          <p>I’ve done that work on insurance portals, recipe sites, and child care software, and most recently on an enterprise design system used by roughly 3,500 engineers and designers.</p>
+      <h2 class="section-type">Design and engineering</h2>
+      <p class="about-statement-lede">My most useful work has combined design and engineering. I work out what a workflow needs. Then I test that answer in working software.</p>
+      <div class="about-statement-more">
+        <p>I’ve done that work on insurance portals, recipe sites, and child care software, and most recently on an enterprise design system used by roughly 3,500 engineers and designers.</p>
+        <div>
           <p>In each job I turned designs into something engineers could build from. I gave them reusable components. I stayed on the work when real data didn’t fit the design.</p>
-          <a href="/resume/" class="editorial-link">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+          <a href="/resume/" class="editorial-link editorial-link--light">Read the full résumé <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
         </div>
       </div>
     </Container>
   </section>
   <section class="editorial-section">
     <Container width="wide">
-      <div class="approach-layout">
-        <div><h2 class="section-type">Roles in <em>the title</em></h2><p class="section-intro">A product design engineer does a little of every role listed here.</p></div>
-        <div class="approach-list" data-reveal-stagger>{roles.map((role) => <article><h3>{role.title}</h3><p>{role.body}</p></article>)}</div>
+      <h2 class="section-type">Roles in the title</h2>
+      <p class="section-intro">A product design engineer does a little of every role listed here.</p>
+      <div class="about-roles pin-list" style={`--pin-count: ${roles.length}`} data-reveal-stagger>
+        {roles.map((role) => (
+          <article class="pin-item">
+            <div class="pin-media"><RoleIllustration role={role.illustration} /></div>
+            <div class="pin-copy"><h3>{role.title}</h3><p>{role.body}</p></div>
+          </article>
+        ))}
       </div>
     </Container>
   </section>
   <section class="editorial-section">
     <Container width="wide">
       <div class="approach-layout">
-        <div><h2 class="section-type">Working <em>principles</em></h2></div>
+        <div><h2 class="section-type">Working principles</h2></div>
         <div class="approach-list" data-reveal-stagger>{principles.map((principle) => <article><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
       </div>
     </Container>
   </section>
-  <section class="editorial-section work-section">
+  <section class="editorial-section surface-denim about-outside" data-surface="dark">
     <Container width="wide">
-      <div class="approach-layout">
-        <div><h2 class="section-type">Case <em>studies</em></h2><p class="section-intro">If you lead engineering, start with VMSpark and Rudiment UI. If you lead design, start with IVFCRYO and Logatot.</p></div>
-        <div>
-          <div class="resource-list">
-            <a href="/projects/vmspark/"><span><strong>Design system rollout</strong><span>VMSpark: a 350-template audit and a design system that took the app’s heuristic score from 3.5 to 7.5.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/projects/ivfcryo/"><span><strong>Design judgment and collaboration</strong><span>IVFCRYO: research, interaction decisions, front-end ownership, and a backend engineering partnership.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/projects/logatot/"><span><strong>Application behavior</strong><span>Logatot: voice input, flows for fixing misheard entries, reusable UI, and the parts I would improve.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-            <a href="/personal-projects/rudiment-ui/"><span><strong>Components and architecture</strong><span>Rudiment UI: a personal React reference library with tokens, accessibility behavior, and documented decisions.</span></span><span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
-          </div>
-          <p class="experience-note"><strong>Frameworks.</strong> My current design system work is in Stencil Web Components. The teams using it work in several frameworks. Web components let all of them use the same accessible components. Rudiment UI shows my React component work.</p>
-        </div>
-      </div>
-    </Container>
-  </section>
-  <section class="editorial-section">
-    <Container width="wide">
-      <div class="approach-layout">
-        <div><h2 class="section-type">Outside <em>work</em></h2></div>
-        <div class="approach-list" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
-      </div>
+      <h2 class="section-type">Outside work</h2>
+      <div class="about-outside-grid" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
     </Container>
   </section>
 </BaseLayout>
+
+<style>
+  /* Ink statement: the first paragraph set large in the display serif. */
+  .about-statement { color: var(--paper); }
+  .about-statement-lede { margin-top: var(--space-item); max-width: 24ch; font-family: var(--font-fraunces), Georgia, serif; font-size: clamp(2rem, 4.4vw, 4rem); line-height: 1.1; letter-spacing: -.025em; text-wrap: balance; }
+  .about-statement-more { display: grid; gap: 1.5rem; margin-top: var(--space-item); }
+  .about-statement-more p { max-width: 46ch; font-size: 1.06rem; line-height: 1.65; color: color-mix(in srgb, var(--paper) 72%, transparent); }
+  .about-statement-more a { margin-top: 1.25rem; }
+  .about-statement :focus-visible { outline-color: var(--paper); }
+
+  /* Roles: large names in two columns, the right column set lower. */
+  .about-roles { margin-top: var(--space-block); }
+  .about-roles h3 { font-size: clamp(1.9rem, 3.2vw, 2.9rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.05; }
+  .about-roles p { margin-top: 1rem; max-width: 46ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
+
+  /* Denim close. */
+  .about-outside-grid { display: grid; gap: var(--space-item) 5rem; margin-top: var(--space-block); }
+  .about-outside h3 { font-size: 1.4rem; font-weight: 650; letter-spacing: -.025em; line-height: 1.3; color: var(--paper); }
+  .about-outside p { margin-top: 1rem; max-width: 46ch; font-size: 1rem; line-height: 1.65; }
+
+  @media (min-width: 768px) {
+    .about-outside-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1024px) {
+    .about-statement-more { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5rem; margin-left: calc(100% / 3); }
+  }
+</style>
