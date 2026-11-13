@@ -6,24 +6,24 @@ main.tool-page .tool-control-button {
   background: transparent; color: var(--ink); font: 600 .9rem/1.4 var(--font-hanken), sans-serif;
   transition: background .2s, border-color .2s;
 }
-main.tool-page .tool-control-button:hover { background: white; border-color: var(--portfolio-blue); }
+main.tool-page .tool-control-button:hover { background: var(--raised); border-color: var(--denim); }
 main.tool-page .tool-control-button--light { color: white; border-color: #9bb4c9; }
 main.tool-page .tool-control-button--light:hover { background: #183a59; border-color: white; }
 main.tool-page .tool-stage :is(.rc-root, .tp-root, .dx) { border: 0; border-radius: 0; padding: 0; background: transparent; }
 main.tool-page .tool-stage :is(.rc-controls, .tp-controls) { min-width: 0; }
 main.tool-page .tool-stage :is(.rc-controls, .tp-controls) > div:first-child { margin-bottom: 2rem; }
 main.tool-page .tool-stage :is(#rc-title, #tp-title) { font: 750 clamp(1.9rem, 3vw, 2.8rem)/1.08 var(--font-hanken), sans-serif; letter-spacing: -.045em; margin: 0 0 1rem; }
-main.tool-page .tool-stage :is(.rc-label, .tp-label) { font-family: var(--font-hanken), sans-serif; font-size: .95rem; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ink); }
+main.tool-page .tool-stage :is(.rc-label, .tp-label) { font-family: var(--font-hanken), sans-serif; font-size: var(--type-small); font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ink); }
 main.tool-page .tool-stage :is(.rc-field, .tp-field) { margin-bottom: 1.8rem; }
-main.tool-page .tool-stage :is(.rc-output, .tp-output) { font-family: var(--font-hanken), sans-serif; font-size: 1.12rem; font-weight: 700; border-radius: 0; background: white; padding: .2rem .55rem; color: var(--portfolio-blue); }
-main.tool-page .tool-stage .rc-hint { font-size: .84rem; line-height: 1.5; margin-top: .6rem; }
-main.tool-page .tool-stage :is(.rc-chip, .tp-chip) { border-radius: 0; min-height: 44px; font-size: .86rem; padding: .65rem .8rem; }
-main.tool-page .tool-stage :is(.rc-chip.is-on, .tp-chip.is-on) { background: var(--portfolio-blue); border-color: var(--portfolio-blue); color: white; }
+main.tool-page .tool-stage :is(.rc-output, .tp-output) { font-family: var(--font-hanken), sans-serif; font-size: 1.12rem; font-weight: 700; border-radius: 0; background: var(--raised); padding: .2rem .55rem; color: var(--portfolio-blue); }
+main.tool-page .tool-stage .rc-hint { font-size: var(--type-caption); line-height: 1.5; margin-top: .6rem; }
+main.tool-page .tool-stage :is(.rc-chip, .tp-chip) { border-radius: 0; min-height: 44px; font-size: var(--type-caption); padding: .65rem .8rem; }
+main.tool-page .tool-stage :is(.rc-chip.is-on, .tp-chip.is-on) { background: var(--denim); border-color: var(--denim); color: white; }
 main.tool-page .tool-stage .rc-grid, main.tool-page .tool-stage .tp-grid { gap: 3rem; }
-main.tool-page .tool-stage .rc-result-frame { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.4rem, 3vw, 2.8rem); color: white; }
-main.tool-page .tool-stage .rc-result-rule { color: #c6d8e8; border-color: #6c89a3; font-family: var(--font-hanken), sans-serif; text-transform: none; letter-spacing: 0; font-size: .86rem; }
+main.tool-page .tool-stage .rc-result-frame { background: var(--denim); border: 0; border-radius: 0; padding: clamp(1.4rem, 3vw, 2.8rem); color: white; }
+main.tool-page .tool-stage .rc-result-rule { color: #c6d8e8; border-color: #6c89a3; font-family: var(--font-hanken), sans-serif; text-transform: none; letter-spacing: 0; font-size: var(--type-caption); }
 main.tool-page .tool-stage .rc-result-live i { background: #c6d8e8; }
-main.tool-page .tool-stage .rc-headline-label { color: #dbe7f0; font-family: var(--font-hanken), sans-serif; font-size: .95rem; text-transform: none; letter-spacing: 0; }
+main.tool-page .tool-stage .rc-headline-label { color: #dbe7f0; font-family: var(--font-hanken), sans-serif; font-size: var(--type-small); text-transform: none; letter-spacing: 0; }
 main.tool-page .tool-stage .rc-headline { color: white; font-family: var(--font-hanken), sans-serif; font-size: clamp(2.5rem, 5vw, 4.6rem); font-weight: 800; letter-spacing: -.06em; line-height: 1; overflow-wrap: anywhere; }
 main.tool-page .tool-stage .rc-headline-sub, main.tool-page .tool-stage .rc-bar-label { color: #dbe7f0; }
 main.tool-page .tool-stage .rc-bar-val { color: white; }
@@ -31,22 +31,22 @@ main.tool-page .tool-stage .rc-track { background: #547795; border-radius: 0; }
 main.tool-page .tool-stage .rc-track-fill { border-radius: 0; }
 main.tool-page .tool-stage .rc-track-fill--today { background: #c6d8e8; }
 main.tool-page .tool-stage .rc-track-fill--system { background: white; }
-main.tool-page .tool-stage .rc-reclaim { border-radius: 0; background: transparent; border: 0; padding: 1rem 0 0; color: #dbe7f0; font-size: .9rem; }
+main.tool-page .tool-stage .rc-reclaim { border-radius: 0; background: transparent; border: 0; padding: 1rem 0 0; color: #dbe7f0; font-size: var(--type-small); }
 main.tool-page .tool-stage .rc-reclaim strong { color: white; }
-main.tool-page .tool-stage .rc-foot-note { text-align: left; font-size: .86rem; margin-top: 1rem; }
+main.tool-page .tool-stage .rc-foot-note { text-align: left; font-size: var(--type-caption); margin-top: 1rem; }
 main.tool-page .tool-stage .rc-assumptions { margin-top: 3rem; }
-main.tool-page .tool-stage .tp-preview-frame { border-radius: 0; background: #dce6ef; border-color: #afc2d1; padding: clamp(1rem, 2.5vw, 2rem); }
-main.tool-page .tool-stage .tp-preview-rule { font-family: var(--font-hanken), sans-serif; text-transform: none; letter-spacing: 0; font-size: .9rem; }
+main.tool-page .tool-stage .tp-preview-frame { border-radius: 0; background: color-mix(in srgb, var(--accent) 14%, var(--paper)); border-color: var(--line-strong); padding: clamp(1rem, 2.5vw, 2rem); }
+main.tool-page .tool-stage .tp-preview-rule { font-family: var(--font-hanken), sans-serif; text-transform: none; letter-spacing: 0; font-size: var(--type-caption); }
 main.tool-page .tool-stage .tp-stat-num { font-family: var(--font-hanken), sans-serif; font-weight: 800; letter-spacing: -.05em; }
-main.tool-page .tool-stage .tp-foot-note { text-align: left; font-size: .9rem; }
+main.tool-page .tool-stage .tp-foot-note { text-align: left; font-size: var(--type-small); }
 /* The assessment is a sequence of subjects, rather than a stack of cards. */
 /* Blue score cards hang their side padding outside the column, so their text
    lines up with the questions and headings around them. */
 main.tool-page :is([data-scorecard-totals], .tool-stage .reveal-card, #recommendationContainer .reveal-card) { --card-pad: 1.25rem; margin-inline: calc(-1 * var(--card-pad)); }
 @media (min-width: 768px) { main.tool-page :is([data-scorecard-totals], .tool-stage .reveal-card, #recommendationContainer .reveal-card) { --card-pad: 2rem; } }
-main.tool-page [data-scorecard-totals] { padding: 2rem var(--card-pad); border: 0; border-radius: 0; background: var(--portfolio-blue); color: white; }
+main.tool-page [data-scorecard-totals] { padding: 2rem var(--card-pad); border: 0; border-radius: 0; background: var(--denim); color: white; }
 main.tool-page [data-scorecard-totals] :is(p, .mono-label, .text-ink, .text-ink-muted) { color: white; }
-main.tool-page [data-scorecard-totals] .mono-label { font-family: var(--font-hanken), sans-serif; font-size: .88rem; text-transform: none; letter-spacing: 0; font-weight: 500; }
+main.tool-page [data-scorecard-totals] .mono-label { font-family: var(--font-hanken), sans-serif; font-size: var(--type-caption); text-transform: none; letter-spacing: 0; font-weight: 500; }
 main.tool-page [data-scorecard-totals] .font-serif { font-family: var(--font-hanken), sans-serif; font-size: clamp(3rem, 5vw, 4rem); font-weight: 800; letter-spacing: -.05em; line-height: 1; }
 main.tool-page [data-scorecard-totals] .meter-track { background: #547795; border-radius: 0; }
 main.tool-page [data-scorecard-totals] .meter-fill { background: white; border-radius: 0; }
@@ -54,11 +54,11 @@ main.tool-page .tool-stage .subject-card { border: 0; border-radius: 0; backgrou
 main.tool-page .tool-stage .subject-card > div { padding: 2.5rem 0 0; background: transparent; }
 main.tool-page .tool-stage .subject-card header { margin-bottom: 1.5rem; }
 main.tool-page .tool-stage .subject-card header > div:first-child { max-width: 42rem; }
-main.tool-page .tool-stage .subject-card header .mono-label { font-family: var(--font-hanken), sans-serif; font-size: .85rem; text-transform: none; letter-spacing: 0; }
+main.tool-page .tool-stage .subject-card header .mono-label { font-family: var(--font-hanken), sans-serif; font-size: var(--type-caption); text-transform: none; letter-spacing: 0; }
 main.tool-page .tool-stage .subject-card h3 { font: 750 clamp(2rem, 3.8vw, 3.5rem)/1.08 var(--font-hanken), sans-serif; letter-spacing: -.045em; margin-bottom: .9rem; }
-main.tool-page .tool-stage .subject-card header .text-sm { font-size: 1rem; line-height: 1.6; }
+main.tool-page .tool-stage .subject-card header .text-sm { font-size: var(--type-small); line-height: 1.6; }
 main.tool-page .tool-stage .grade-stamp { font-family: var(--font-hanken), sans-serif; font-size: 2.5rem; font-weight: 800; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--portfolio-blue); transform: none; }
-main.tool-page .tool-stage .reveal-card { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem) var(--card-pad); overflow: hidden; }
+main.tool-page .tool-stage .reveal-card { background: var(--denim); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem) var(--card-pad); overflow: hidden; }
 main.tool-page .tool-stage .reveal-card::before { content: none; }
 main.tool-page .tool-stage .reveal-card h3 { font: 750 clamp(2rem, 3.6vw, 3.4rem)/1.08 var(--font-hanken), sans-serif; letter-spacing: -.04em; }
 main.tool-page .tool-stage .reveal-card .font-serif { font-family: var(--font-hanken), sans-serif; font-weight: 800; letter-spacing: -.045em; line-height: 1; }
@@ -66,21 +66,21 @@ main.tool-page .tool-stage .reveal-card .font-serif { font-family: var(--font-ha
 main.tool-page .tool-stage .dx-head { margin-bottom: 0; }
 main.tool-page .tool-stage .dx-controls { margin-bottom: 2rem; gap: 1.5rem; }
 main.tool-page .tool-stage .dx-tabs { border-radius: 0; background: transparent; border-color: #a8b9c7; padding: 3px; }
-main.tool-page .tool-stage .dx-tab { border-radius: 0; min-height: 44px; font-size: .9rem; }
-main.tool-page .tool-stage .dx-tab[aria-selected='true'] { background: var(--portfolio-blue); }
-main.tool-page .tool-stage .dx-toggle { font-size: .92rem; }
+main.tool-page .tool-stage .dx-tab { border-radius: 0; min-height: 44px; font-size: var(--type-caption); }
+main.tool-page .tool-stage .dx-tab[aria-selected='true'] { background: var(--denim); }
+main.tool-page .tool-stage .dx-toggle { font-size: var(--type-caption); }
 main.tool-page .tool-stage .dx-stage { gap: 2rem; align-items: start; }
 main.tool-page .tool-stage .dx-frame { border-radius: 0; }
 main.tool-page .tool-stage .dx-issues { border: 0; border-radius: 0; background: transparent; padding: 0; }
 main.tool-page .tool-stage .dx-issues-count { font-size: 1.8rem; letter-spacing: -.035em; color: var(--ink); margin-bottom: 1rem; }
-main.tool-page .tool-stage .dx-issues-count span { border-radius: 0; font-family: var(--font-hanken), sans-serif; background: var(--portfolio-blue); padding: .35rem .65rem; font-size: 1rem; }
+main.tool-page .tool-stage .dx-issues-count span { border-radius: 0; font-family: var(--font-hanken), sans-serif; background: var(--denim); padding: .35rem .65rem; font-size: var(--type-small); }
 main.tool-page .tool-stage .dx-issues ol { gap: 0; }
 main.tool-page .tool-stage .dx-issues li { padding: 1.3rem 0; border: 0; border-radius: 0; background: transparent; }
 main.tool-page .tool-stage .dx-issues-title { font-size: 1.08rem; line-height: 1.3; margin-bottom: .5rem; }
-main.tool-page .tool-stage .dx-issues-body { font-size: .9rem; line-height: 1.6; }
-main.tool-page .tool-stage .dx-issues-num { border-radius: 0; background: var(--portfolio-blue); width: 28px; height: 28px; font-size: .8rem; }
-main.tool-page .tool-stage .dx-issues .dx-fix { margin-top: .65rem; font-size: .9rem; line-height: 1.6; color: var(--ink); }
-main.tool-page .tool-stage .dx-severity { margin-bottom: .4rem; color: var(--portfolio-blue); font-size: .78rem; font-weight: 600; }
+main.tool-page .tool-stage .dx-issues-body { font-size: var(--type-small); line-height: 1.6; }
+main.tool-page .tool-stage .dx-issues-num { border-radius: 0; background: var(--denim); width: 28px; height: 28px; font-size: var(--type-caption); }
+main.tool-page .tool-stage .dx-issues .dx-fix { margin-top: .65rem; font-size: var(--type-small); line-height: 1.6; color: var(--ink); }
+main.tool-page .tool-stage .dx-severity { margin-bottom: .4rem; color: var(--portfolio-blue); font-size: var(--type-caption); font-weight: 600; }
 main.tool-page .tool-stage .dx-foot-note { text-align: left; padding-top: 1.5rem; margin-top: 2rem; }
 @media (min-width: 1024px) {
   main.tool-page .tool-stage .rc-grid, main.tool-page .tool-stage .tp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 4rem; }
@@ -95,33 +95,33 @@ main.tool-page .tool-stage .dx-foot-note { text-align: left; padding-top: 1.5rem
   main.tool-page .tool-control-button { transition: none; }
 }
 /* The detailed report uses the same visual hierarchy as the working tools. */
-main.tool-report .verdict-section { background: var(--portfolio-blue); }
+main.tool-report .verdict-section { background: var(--denim); }
 main.tool-report .verdict-grade { font-family: var(--font-hanken), sans-serif; font-weight: 800; letter-spacing: -.07em; line-height: .9; }
 main.tool-report .verdict-grade[data-status] { color: white; }
 main.tool-report .verdict-score { font-family: var(--font-hanken), sans-serif; font-weight: 800; font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: -.05em; }
 main.tool-report .verdict-details .text-accent, main.tool-report .verdict-details .status-pill.critical { color: #c6d8e8; }
 main.tool-report .verdict-details .status-pill.critical::before { background: #c6d8e8; }
 main.tool-report .report-paper { border: 0; border-radius: 0; background: var(--portfolio-tint); box-shadow: none; padding: clamp(1rem, 3vw, 2.5rem); }
-main.tool-report .status-pill { font-family: var(--font-hanken), sans-serif; font-size: .8rem; letter-spacing: 0; text-transform: none; }
+main.tool-report .status-pill { font-family: var(--font-hanken), sans-serif; font-size: var(--type-caption); letter-spacing: 0; text-transform: none; }
 main.tool-report .bd-row { padding-top: 1.3rem; }
 main.tool-report .bd-head { gap: .75rem; flex-wrap: wrap; align-items: start; }
 main.tool-report .bd-title { font-size: 1.35rem; line-height: 1.2; letter-spacing: -.025em; }
 main.tool-report .mini-bar-track, main.tool-report .mini-bar-fill { border-radius: 0; }
-main.tool-report .mini-bar-fill { background: var(--portfolio-blue); }
+main.tool-report .mini-bar-fill { background: var(--denim); }
 main.tool-report .report-priorities-title { margin-bottom: 2.5rem; }
-main.tool-report #recommendationContainer .reveal-card { background: var(--portfolio-blue); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem) var(--card-pad); }
+main.tool-report #recommendationContainer .reveal-card { background: var(--denim); border: 0; border-radius: 0; padding: clamp(1.5rem, 4vw, 3.5rem) var(--card-pad); }
 main.tool-report #recommendationContainer h3 { font-family: var(--font-hanken), sans-serif; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.08; }
 main.tool-report .focus-heading { font-family: var(--font-hanken), sans-serif; font-size: 1.1rem; letter-spacing: 0; text-transform: none; }
 main.tool-report .focus-item-head { font-size: 1.2rem; flex-wrap: wrap; }
-main.tool-report .focus-item-benefit { font-size: 1rem; }
+main.tool-report .focus-item-benefit { font-size: var(--type-small); }
 main.tool-report .secondary-rec { border-radius: 0; }
-main.tool-report .report-action { min-height: 52px; font-size: .95rem; }
+main.tool-report .report-action { min-height: 52px; font-size: var(--type-small); }
 @media (prefers-reduced-motion: reduce) {
   main.tool-report .verdict-grade .g { transition: none; }
 }
 main.tool-page .tool-stage .subject-card.subject-complete { animation: none; }
-main.tool-page .tool-stage .dx-issues li.dx-issue-hot { background: #dce6ef; box-shadow: none; outline: 1px solid var(--portfolio-blue); transform: none; }
+main.tool-page .tool-stage .dx-issues li.dx-issue-hot { background: color-mix(in srgb, var(--accent) 14%, var(--paper)); box-shadow: none; outline: 1px solid var(--portfolio-blue); transform: none; }
 main.tool-page .tool-stage .tp-btn:disabled { cursor: default; }
 main.tool-page .tool-stage .rc-result-frame :is([data-rc-hours], [data-rc-pct]) { color: white; }
-main.tool-page .tool-stage .reveal-card .mono-label { color: #dbe7f0; font-family: var(--font-hanken), sans-serif; font-size: .86rem; text-transform: none; letter-spacing: 0; }
+main.tool-page .tool-stage .reveal-card .mono-label { color: #dbe7f0; font-family: var(--font-hanken), sans-serif; font-size: var(--type-caption); text-transform: none; letter-spacing: 0; }
 main.tool-report .verdict-grid .mono-label, main.tool-report .focus-item-score, main.tool-report .focus-priority { color: #dbe7f0; }

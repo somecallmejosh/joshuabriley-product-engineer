@@ -13,11 +13,11 @@ const starters = [
 ];
 ---
 <BaseLayout title="Contact | Joshua Briley" description="Write to Joshua Briley to appeal a UI Court verdict, suggest the next Fictional UX Engineer, or compare notes on design systems.">
-  <section class="page-opener contact-opener">
+  <section class="page-opener page-opener--document contact-opener">
     <Container width="wide">
       <div class="contact-layout">
         <div class="contact-invite">
-          <h1 class="page-type hero-in hero-in-2">Contact <em>Joshua Briley</em></h1>
+          <h1 class="page-type hero-in hero-in-2">Contact Joshua Briley</h1>
           <p class="page-lede hero-in hero-in-3">Choose a topic to start your message, or write your own.</p>
           <ul class="contact-reasons hero-in hero-in-3">
             {starters.map((starter) => (
@@ -107,13 +107,12 @@ const starters = [
   .contact-card :global(.contact-avatar) { overflow: hidden; background: var(--portfolio-tint); }
   .contact-card :global(.contact-avatar img) { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
   .contact-name { font-weight: 650; letter-spacing: -0.015em; }
-  .contact-place { margin-top: 0.15rem; font-size: 0.9rem; color: var(--ink-muted); }
+  .contact-place { margin-top: 0.15rem; font-size: var(--type-small); color: var(--ink-muted); }
   .contact-direct { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1rem; }
   .contact-stage { padding: clamp(1.5rem, 1rem + 2.5vw, 3rem); background: var(--portfolio-tint); }
   .contact-stage-title { margin-bottom: 2rem; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.025em; }
   @media (min-width: 1024px) {
     .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 6rem; }
-    .contact-invite .page-type { font-size: clamp(3.5rem, 5.6vw, 5.5rem); }
-    .contact-stage { margin-top: 3.25rem; }
+    .contact-stage { margin-top: 0.75rem; }
   }
 </style>

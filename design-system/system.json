@@ -308,6 +308,59 @@
             }
           }
         }
+      },
+      "dark": {
+        "$description": "Dark theme values. site.css applies them on screen under :root[data-theme='dark'] by reassigning the light custom properties (--paper, --ink, ...), so components keep using the same tokens. Inside ink and denim bands --ink and --paper swap, so bands take the page colour and hairlines mark their edges instead of a fill. Print always uses the light values.",
+        "paper": {
+          "$type": "color",
+          "$value": "#0F1012",
+          "$description": "Dark page background (--paper, --dark-bg). Ink bands blend into it."
+        },
+        "raised": {
+          "$type": "color",
+          "$value": "#17181B",
+          "$description": "Dark raised surface (--raised)."
+        },
+        "surface-warm": {
+          "$type": "color",
+          "$value": "#1C1B18",
+          "$description": "Dark warm callout tint (--surface-warm). Callouts only, as in light."
+        },
+        "ink": {
+          "$type": "color",
+          "$value": "#ECEEF1",
+          "$description": "Dark-theme text (--ink, --dark-fg)."
+        },
+        "ink-muted": {
+          "$type": "color",
+          "$value": "#A0A3AB",
+          "$description": "Dark-theme secondary text (--ink-muted). AA on dark paper and raised."
+        },
+        "ink-faint": {
+          "$type": "color",
+          "$value": "#5C5F66",
+          "$description": "Dark-theme decoration only (--ink-faint). Never text."
+        },
+        "line": {
+          "$type": "color",
+          "$value": "#26282C",
+          "$description": "Dark-theme hairline (--line). Also marks where a band starts and ends."
+        },
+        "line-strong": {
+          "$type": "color",
+          "$value": "#34373C",
+          "$description": "Dark-theme emphasized hairline (--line-strong)."
+        },
+        "action": {
+          "$type": "color",
+          "$value": "#386C9F",
+          "$description": "Primary action fill in dark (--action-dark). White text 5.5:1; 3.4:1 against dark paper so the block reads as a control."
+        },
+        "action-hover": {
+          "$type": "color",
+          "$value": "#2E5C8A",
+          "$description": "Primary action hover in dark (--action-dark-hover): deepens on hover, as in light."
+        }
       }
     },
     "font": {
@@ -467,11 +520,11 @@
     "guidelines": [
       {
         "id": "og-cards",
-        "rule": "Social share (OG) cards are rendered only by src/pages/og-render/[slug].astro, never hand-made. Layout: copy column on the left (accent mono eyebrow with a short rule, Hanken 800 headline with the serif-italic wink and the accent period, then the header's script <Logo> plus the joshuabriley.com URL), and a full-height accent-tinted mat on the right holding real art from the site, tilted, large, and shadowed. The art is the page's own: a post's ArticleIllustration, a project's ProjectScreenshot teaser (with the tilt-shift blur off so it stays sharp), Josh's cut-out portrait (src/assets/og/portrait-cutout.png) for personal pages, or a fan of three for listings. Never the old 'JB' tile, and never a text-only card for a page that has art; text-only is for pages with nothing to show (legal, style guide). A new post or project gets its art automatically; for a new page, set `art` in src/lib/og-pages.mjs. Check the rendered PNG: drawing text must not be cut off by the card edge."
+        "rule": "Social share (OG) cards are rendered only by src/pages/og-render/[slug].astro, never hand-made. Layout: copy column on the left (accent mono eyebrow with a short rule, Hanken 800 headline in one run, no serif-italic phrase and no colored end mark, like the page titles, then the header's script <Logo> plus the joshuabriley.com URL), and a full-height accent-tinted mat on the right holding real art from the site, tilted, large, and shadowed. The art is the page's own: a post's ArticleIllustration, a project's ProjectScreenshot teaser (with the tilt-shift blur off so it stays sharp), Josh's cut-out portrait (src/assets/og/portrait-cutout.png) for personal pages, or a fan of three for listings. Never the old 'JB' tile, and never a text-only card for a page that has art; text-only is for pages with nothing to show (legal, style guide). A new post or project gets its art automatically; for a new page, set `art` in src/lib/og-pages.mjs. Check the rendered PNG: drawing text must not be cut off by the card edge."
       },
       {
         "id": "one-accent",
-        "rule": "There is exactly one accent hue. Don't add a second highlight color, gradient, or 'candy' palette for variety; hierarchy comes from type weight, size and the serif italic."
+        "rule": "There is exactly one accent hue. Don't add a second highlight color, gradient, or 'candy' palette for variety; hierarchy comes from type weight and size. Page titles are one typeface with no colored end mark (the site's round dots are the accent cue; a heavy period reads as a square and competes with them); the serif italic is reserved for quotes and asides, never a phrase inside a heading."
       },
       {
         "id": "no-default-cards",
@@ -704,6 +757,20 @@
       "path": "src/components/chrome/MobileNav.astro",
       "group": "chrome",
       "note": "The mobile navigation modal with outside-click and Escape dismissal, focus containment, and scroll locking.",
+      "href": "/",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ThemeToggle",
+      "path": "src/components/chrome/ThemeToggle.astro",
+      "group": "chrome",
+      "note": "Light/dark switch (aria-pressed). Follows the OS until the visitor picks a theme, then remembers it.",
       "href": "/",
       "props": [
         {
@@ -1053,6 +1120,12 @@
           "type": "string",
           "required": false,
           "description": "Visible label. Defaults to the text itself when not provided."
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name. Defaults to \"Copy <label>\"."
         },
         {
           "name": "tone",

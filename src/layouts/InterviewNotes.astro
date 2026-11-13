@@ -26,7 +26,7 @@ const { title, description, project, projectHref } = Astro.props.frontmatter;
   <section class="project-opening pb-24">
     <Container width="wide">
       <Breadcrumbs items={[{ href: '/projects/', label: 'Projects' }, { href: projectHref, label: project }]} current={title} />
-      <Heading level={1} visual="display-md" tone="ink" class="mt-8 mb-12 measure">{title}</Heading>
+      <Heading level={1} visual="display-md" tone="ink" class="mt-8 mb-12 measure">{title.replace(/\.$/, '')}</Heading>
       <article class="prose-whimsy article-prose interview-notes measure">
         <slot />
       </article>
@@ -39,14 +39,14 @@ const { title, description, project, projectHref } = Astro.props.frontmatter;
   /* The theme table in the analysis is four short columns. Prose tables stack
      into rows on phones and hide the header, which would drop the Angie /
      Deborah / Yari labels, so this one stays a real table at every width. */
-  .interview-notes :global(table) { display: table; width: 100%; font-size: .94rem; line-height: 1.5; }
+  .interview-notes :global(table) { display: table; width: 100%; font-size: var(--type-small); line-height: 1.5; }
   .interview-notes :global(thead) { display: table-header-group; }
   .interview-notes :global(tbody) { display: table-row-group; }
   .interview-notes :global(tr) { display: table-row; margin: 0; padding: 0; }
   .interview-notes :global(:is(td, th)) { display: table-cell; width: auto; padding: .65rem .75rem .65rem 0 !important; border-bottom: 1px solid var(--line) !important; text-align: left; vertical-align: top; }
   .interview-notes :global(th) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: inherit; font-weight: 700; text-transform: none; letter-spacing: 0; border-bottom-color: var(--line-strong) !important; }
   @media (max-width: 640px) {
-    .interview-notes :global(table) { font-size: .82rem; }
+    .interview-notes :global(table) { font-size: var(--type-small); }
     .interview-notes :global(td) { overflow-wrap: anywhere; }
     .interview-notes :global(:is(td, th)) { padding: .5rem .5rem .5rem 0 !important; }
   }

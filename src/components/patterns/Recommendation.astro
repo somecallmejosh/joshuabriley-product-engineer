@@ -15,13 +15,13 @@ const { quote, name, role, company, image, initials } = testimonial.data;
   .recommendation { margin: 0; padding-top: 1.5rem; }
   /* Grid quotes read as prose: regular weight, just above body size, so a
      page of them stays light. The featured pull quote carries the emphasis. */
-  blockquote p { font-size: clamp(1.05rem, 1.15vw, 1.15rem); font-weight: 400; letter-spacing: -.005em; line-height: 1.6; text-wrap: pretty; }
+  blockquote p { font-size: var(--type-body); font-weight: 400; letter-spacing: -.005em; line-height: 1.6; text-wrap: pretty; }
   figcaption { display: flex; align-items: start; gap: 1rem; margin-top: 1.6rem; }
   .recommendation-avatar { --frame-size: 48px; --frame-offset: 5px; }
-  .recommendation-initials { display: grid; place-items: center; background: var(--portfolio-tint); color: var(--portfolio-blue); font-size: .9rem; font-weight: 600; }
+  .recommendation-initials { display: grid; place-items: center; background: var(--portfolio-tint); color: var(--portfolio-blue); font-size: var(--type-caption); font-weight: 600; }
   .recommendation-person { min-width: 0; }
   .recommendation-name { font-size: 1rem; line-height: 1.35; font-weight: 650; letter-spacing: -.015em; }
-  .recommendation-role, .recommendation-company { font-size: .83rem; line-height: 1.5; color: var(--ink-muted); }
+  .recommendation-role, .recommendation-company { font-size: var(--type-caption); line-height: 1.5; color: var(--ink-muted); }
   .recommendation-role { margin-top: .35rem; }
   /* Featured: the quote is set in the display serif, one column, with the
      person underneath, so it reads as a pull quote. */
@@ -31,8 +31,8 @@ const { quote, name, role, company, image, initials } = testimonial.data;
   .recommendation--featured blockquote p { font-family: var(--font-fraunces), Georgia, serif; font-size: clamp(2rem, 4.2vw, 3.75rem); font-weight: 400; line-height: 1.12; letter-spacing: -.025em; color: var(--paper); max-width: 28ch; text-wrap: balance; }
   .recommendation--featured figcaption { margin-top: 0; align-items: center; }
   .recommendation--featured .recommendation-avatar { --frame-size: 64px; --frame-offset: 6px; }
-  .recommendation--featured .recommendation-name { color: var(--paper); font-size: 1.15rem; }
-  .recommendation--featured .recommendation-role, .recommendation--featured .recommendation-company { color: #d0dce7; font-size: .9rem; }
+  .recommendation--featured .recommendation-name { color: var(--paper); font-size: 1.25rem; }
+  .recommendation--featured .recommendation-role, .recommendation--featured .recommendation-company { color: #d0dce7; font-size: var(--type-caption); }
   /* Wide screens hang the opening mark in the margin so the text edge stays straight. */
   @media (min-width: 1024px) {
     .recommendation-quote-mark { position: absolute; left: -.5em; top: .05em; margin: 0; font-size: clamp(3.5rem, 7vw, 6rem); height: auto; line-height: 1; }

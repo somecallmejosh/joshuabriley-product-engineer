@@ -57,6 +57,13 @@ export const componentCatalogue = [
     "href": "/"
   },
   {
+    "name": "ThemeToggle",
+    "path": "src/components/chrome/ThemeToggle.astro",
+    "group": "chrome",
+    "note": "Light/dark switch (aria-pressed). Follows the OS until the visitor picks a theme, then remembers it.",
+    "href": "/"
+  },
+  {
     "name": "SkipLink",
     "path": "src/components/chrome/SkipLink.astro",
     "group": "chrome",

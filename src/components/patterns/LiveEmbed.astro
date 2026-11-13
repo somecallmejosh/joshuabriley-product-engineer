@@ -150,7 +150,7 @@ const {
     background: var(--ink);
     color: var(--paper);
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.6rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
   }
@@ -172,11 +172,9 @@ const {
   .live-embed-stage {
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 4px;
     background: var(--raised);
-    box-shadow:
-      0 1px 2px rgba(27, 26, 23, 0.04),
-      0 18px 50px -28px rgba(27, 26, 23, 0.3);
+    border: 1px solid var(--line);
     aspect-ratio: var(--ratio, 1600 / 1039);
   }
 
@@ -228,17 +226,16 @@ const {
     background: var(--ink);
     color: var(--paper);
     font-family: var(--font-hanken), system-ui, sans-serif;
-    font-size: 0.95rem;
+    font-size: var(--type-small);
     font-weight: 600;
     line-height: 1;
-    box-shadow: 0 10px 30px -12px rgba(27, 26, 23, 0.5);
     transition: transform 0.35s var(--ease-out);
   }
   .live-embed-cta:hover .live-embed-cta-pill { transform: translateY(-2px) scale(1.02); }
   .live-embed-cta:active .live-embed-cta-pill { transform: scale(0.97); }
   .live-embed-cta-note {
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.62rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--ink-muted);
@@ -279,7 +276,7 @@ const {
   }
   .live-embed-title {
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.7rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--ink-muted);
@@ -291,7 +288,7 @@ const {
     align-items: center;
     gap: 0.25rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.62rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--ink-muted);

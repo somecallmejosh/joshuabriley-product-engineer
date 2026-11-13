@@ -24,7 +24,7 @@ const startArea = prompts.reduce((low, p) => (p.start < low.start ? p : low)).ar
 const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 ---
 
-<div class="bench" data-bench data-reveal-stagger data-weeks={WEEKS_PER_YEAR} data-rate={DEFAULTS.rate}>
+<div class="bench" data-bench data-weeks={WEEKS_PER_YEAR} data-rate={DEFAULTS.rate}>
   <article class="tile tile--scorecard surface-denim">
     <div class="tile-copy">
       <h2>Design system scorecard</h2>
@@ -187,12 +187,12 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
 
   .result { font-size: clamp(3.4rem, 7vw, 5.75rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
   .result em { margin-left: .1em; font-family: var(--font-fraunces), Georgia, serif; font-size: .5em; font-weight: 400; letter-spacing: -.03em; color: var(--portfolio-blue); }
-  .result-cost { margin-top: -.5rem; font-size: .95rem; color: var(--ink-muted); }
+  .result-cost { margin-top: -.5rem; font-size: var(--type-small); color: var(--ink-muted); }
 
   .audit { display: grid; gap: 1.5rem; }
   /* The specimen is deliberately off-system, so it ignores the bench's values. */
   .specimen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; align-content: start; }
-  .specimen-card { display: grid; gap: 1.25rem; padding: 1rem; border-radius: 16px; background: var(--raised); transition: outline-color .25s; outline: 2px dashed transparent; outline-offset: 2px; }
+  .specimen-card { display: grid; gap: 1.25rem; padding: 1rem; border-radius: 4px; background: var(--raised); transition: outline-color .25s; outline: 2px dashed transparent; outline-offset: 2px; }
   .specimen-card b { font-size: .85rem; }
   .specimen-card i { height: .4rem; border-radius: 2px; background: var(--line-strong); }
   .specimen-card--radius { border-radius: 4px; }

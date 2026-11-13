@@ -25,7 +25,7 @@ const labels = [
 ---
 
 <div
-  class="rounded-lg border border-line p-6 md:p-7 mb-12 bg-white"
+  class="rounded border border-line p-6 md:p-7 mb-12 bg-raised"
   data-scorecard-totals
 >
   <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -55,7 +55,7 @@ const labels = [
       data-total={section.max}
       data-count={section.items.length}
     >
-      <div class="p-6 md:p-8 bg-white">
+      <div class="p-6 md:p-8 bg-raised">
         <header class="mb-7 flex items-start justify-between gap-5">
           <div class="max-w-md">
             <p class="mono-label mb-2">Subject {String(idx + 1).padStart(2, '0')}</p>
@@ -390,10 +390,10 @@ const labels = [
       undoSnapshot = null;
       resetNotice.hidden = true;
     }
-    function clearAnswers() {
+    const clearAnswers = () => {
       form.reset();
       form.querySelectorAll('.choice.is-on').forEach((el) => el.classList.remove('is-on'));
-    }
+    };
 
     document.getElementById('resetBtn')?.addEventListener('click', () => {
       const snapshot = encodeDraft();
@@ -435,7 +435,7 @@ const labels = [
   .subject-card {
     position: relative;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid var(--line);
     transition: border-color 0.35s var(--ease-out);
   }

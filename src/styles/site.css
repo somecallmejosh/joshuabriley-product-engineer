@@ -161,10 +161,89 @@ html {
   --selection-fg: var(--ink);
 }
 
+/* ── Dark theme ──────────────────────────────────────────────────────────────
+   Screen only, so printing always uses the light palette. <html data-theme> is
+   set before first paint by the inline script in BaseLayout (stored choice,
+   else the OS setting). Values are mirrored in design-system/tokens.json under
+   $extensions.site.dark.
+
+   The ink bands (Selected work, footer, résumé Approach, the denim sections)
+   don't become light slabs. They blend into the page: inside a dark surface
+   --ink and --paper swap, so `background: var(--ink)` is the page colour and
+   `color: var(--paper)` is light text, and hairlines mark where a band starts
+   and ends. Light surfaces nested in a band swap back. */
+@media screen {
+  :root[data-theme='dark'] {
+    --dark-bg: #0f1012;
+    --dark-fg: #eceef1;
+    --paper: var(--dark-bg);
+    --raised: #17181b;
+    --surface-warm: #1c1b18;
+    --ink: var(--dark-fg);
+    --ink-muted: #a0a3ab;
+    --ink-faint: #5c5f66;
+    --line: #26282c;
+    --line-strong: #34373c;
+    --accent-rgb: 107 166 216;
+    --accent: rgb(var(--accent-rgb));
+    --selection-bg: rgb(107 166 216 / 0.32);
+    --selection-fg: var(--ink);
+    --action-dark: #386c9f;
+    --action-dark-hover: #2e5c8a;
+    --portfolio-blue: rgb(107 166 216);
+    --denim: color-mix(in srgb, var(--action-dark-hover) 85%, var(--dark-bg));
+    --portfolio-tint: rgb(107 166 216 / 0.1);
+    color-scheme: dark;
+  }
+  :root[data-theme='dark'] :is(.bg-ink, .reveal-card, .ix-toast, [data-surface='dark']) {
+    --ink: var(--dark-bg);
+    --paper: var(--dark-fg);
+    --selection-fg: var(--dark-fg);
+  }
+  /* Denim fills that aren't marked as a dark surface still carry light text. */
+  :root[data-theme='dark'] :is(.surface-denim, .tile--featured, .learn, .rc-result-frame, [data-scorecard-totals], .sg-surface--denim, .dx-tab[aria-selected='true'], .dx-issues-num, .dx-issues-count span, .rc-chip.is-on, .tp-chip.is-on) {
+    --ink: var(--dark-bg);
+    --paper: var(--dark-fg);
+    /* Paper chips on denim (checked answers, pressed toggles) keep denim text. */
+    --portfolio-blue: var(--action-dark-hover);
+  }
+  /* Light stages: content that depicts a light interface (screen captures, the
+     token playground's sample UI) keeps the full light palette in dark mode. */
+  :root[data-theme='dark'] :is(.light-stage, .illustration-frame--shot, .tp-preview-frame) {
+    --paper: #fafbfc;
+    --raised: #ffffff;
+    --ink: #1a1b1e;
+    --ink-muted: #565760;
+    --ink-faint: #9a9aa1;
+    --line: #e5e7eb;
+    --line-strong: #d4d7dd;
+    --accent-rgb: 46 92 138;
+    --accent: rgb(var(--accent-rgb));
+    --portfolio-blue: #2e5c8a;
+    --portfolio-tint: rgb(46 92 138 / 0.08);
+    color: var(--ink);
+    background-color: var(--paper);
+  }
+  :root[data-theme='dark'] :is(.bg-paper, .bg-raised, [data-surface='light']) {
+    --ink: var(--dark-fg);
+    --paper: var(--dark-bg);
+    --accent-rgb: 107 166 216;
+    --accent: rgb(var(--accent-rgb));
+    --selection-bg: rgb(107 166 216 / 0.32);
+    --selection-fg: var(--dark-fg);
+  }
+  :root[data-theme='dark'] :is(section.bg-ink, section.surface-denim, section[data-surface='dark'], .site-footer) {
+    border-block: 1px solid var(--line);
+  }
+  :root[data-theme='dark'] :is(section.bg-ink, section.surface-denim, section[data-surface='dark']) + :is(section.bg-ink, section.surface-denim, section[data-surface='dark'], .site-footer) {
+    border-top: 0;
+  }
+}
+
 /* Monospace metadata label — eyebrows, indices, spec rails, kbd. */
 .mono-label {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
+  font-size: var(--type-label);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-muted);
@@ -198,15 +277,15 @@ html {
 .report-paper {
   position: relative;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 1.75rem 1.75rem 2rem;
   border: 1px solid var(--line);
 }
-/* The one dark anchor surface in the tool — kept ink, radius pulled to the
-   site's 8px panel scale (no more 12px). */
+/* The one dark anchor surface in the tool — kept ink, on the site's 4px
+   radius scale. */
 .reveal-card {
   position: relative;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 2.5rem 2rem;
   background: var(--ink);
   color: var(--paper);
@@ -242,12 +321,12 @@ html {
   color: var(--ink-faint);
   border: 1px solid var(--line);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.85rem;
+  font-size: var(--type-caption);
   font-weight: 500;
 }
 .grade-stamp[data-state='progress'] {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   font-weight: 500;
   letter-spacing: 0.02em;
   background: transparent;
@@ -271,19 +350,6 @@ html {
 }
 
 /* ─── Reduced motion ─────────────────────────────────────────────────────── */
-
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.scroll-reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -310,7 +376,7 @@ html {
 .prose-whimsy {
   color: var(--ink);
   font-family: var(--font-hanken), system-ui, sans-serif;
-  font-size: 1.0625rem;
+  font-size: var(--type-body);
   line-height: 1.75;
   letter-spacing: -0.003em;
 }
@@ -372,7 +438,7 @@ html {
 
 /* Opening lede */
 .prose-whimsy .lede {
-  font-size: 1.3rem;
+  font-size: var(--type-lede);
   line-height: 1.5;
   letter-spacing: -0.014em;
   color: var(--ink);
@@ -464,7 +530,7 @@ html {
   margin: 2em 0;
   padding: 0.1em 0 0.1em 1.25em;
   border-left: 2px solid var(--accent);
-  font-size: 1.18rem;
+  font-size: var(--type-body);
   line-height: 1.5;
   color: var(--ink-muted);
   font-style: italic;
@@ -504,12 +570,12 @@ html {
 .prose-whimsy :where(pre):not(:where(.not-prose, .not-prose *)) {
   margin: 1.7em 0;
   padding: 1.1rem 1.25rem;
-  border-radius: 10px;
+  border-radius: 4px;
   background: var(--ink);
   color: var(--paper);
   overflow-x: auto;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.85rem;
+  font-size: var(--type-caption);
   line-height: 1.65;
 }
 .prose-whimsy :where(pre code):not(:where(.not-prose, .not-prose *)) {
@@ -527,7 +593,7 @@ html {
   background: var(--line);
 }
 .prose-whimsy :where(img):not(:where(.not-prose, .not-prose *)) {
-  border-radius: 10px;
+  border-radius: 4px;
   border: 1px solid var(--line);
   margin: 1.6em 0;
 }
@@ -537,7 +603,7 @@ html {
   width: 100%;
   border-collapse: collapse;
   margin: 2.5rem 0;
-  font-size: 0.95rem;
+  font-size: var(--type-small);
   line-height: 1.6;
   color: var(--ink);
 }
@@ -568,7 +634,7 @@ html {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink-muted);
-  font-size: 0.72rem;
+  font-size: var(--type-label);
   padding: 0.85rem 1.25rem;
   border-bottom: 1px solid rgba(45, 43, 85, 0.12);
 }
@@ -609,7 +675,7 @@ html {
     border: 0 !important;
   }
   .prose-whimsy table td:first-child {
-    font-size: 1.02rem;
+    font-size: var(--type-small);
     padding-top: 0.5rem !important;
   }
 }
@@ -623,13 +689,13 @@ html {
 .prose-whimsy :where(.footnotes) {
   margin-top: 3.5rem;
   padding-top: 1.75rem;
-  font-size: 0.86rem;
+  font-size: var(--type-caption);
   line-height: 1.6;
   color: var(--ink-muted);
 }
 .prose-whimsy :where(.footnotes h2) {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
+  font-size: var(--type-label);
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;

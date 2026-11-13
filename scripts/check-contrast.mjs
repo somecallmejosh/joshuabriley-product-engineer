@@ -74,6 +74,15 @@ const contrast = (a, b) => {
 
 const T = TOKENS;
 
+/* Dark theme values (tokens.json color.dark). denim = action-hover (#2E5C8A) mixed 85% over paper,
+   the fill site.css uses for denim surfaces in dark. */
+const DARK = {
+  paper: '#0f1012', raised: '#17181b', ink: '#eceef1', 'ink-muted': '#a0a3ab', 'ink-faint': '#5c5f66',
+  line: '#26282c', 'line-strong': '#34373c', action: '#386c9f', denimBase: '#2e5c8a',
+};
+DARK.denim = compositeOver(DARK.denimBase, 0.85, DARK.paper);
+const D = DARK;
+
 const cases = [
   // ── Text on light surfaces (paper / raised white cards) ──
   { context: 'body / heading (ink) on paper',            fg: T.ink,           bg: T.paper },
@@ -113,6 +122,21 @@ const cases = [
   // ── Decorative hairlines (dividers; controls carry text + focus affordance) ──
   { context: 'hairline divider (line) on paper',         fg: T.line,          bg: T.paper,   role: 'decorative' },
   { context: 'emphasis hairline (line-strong) on raised', fg: T['line-strong'], bg: T.raised, role: 'decorative' },
+  // ── Dark theme (site.css :root[data-theme='dark'], tokens.json color.dark) ──
+  { context: 'dark: body (ink) on paper',                fg: D.ink,           bg: D.paper },
+  { context: 'dark: body (ink) on raised',               fg: D.ink,           bg: D.raised },
+  { context: 'dark: muted text on paper',                fg: D['ink-muted'],  bg: D.paper },
+  { context: 'dark: muted text on raised',               fg: D['ink-muted'],  bg: D.raised },
+  { context: 'dark: accent link on paper',               fg: T['accent-dark'], bg: D.paper },
+  { context: 'dark: accent link on raised',              fg: T['accent-dark'], bg: D.raised },
+  { context: 'dark: band text (ink at 72%) on paper',    fg: D.ink, alpha: 0.72, bg: D.paper },
+  { context: 'dark: white on primary action',            fg: '#ffffff',       bg: D.action },
+  { context: 'dark: white on denim fill',                fg: '#ffffff',       bg: D.denim },
+  { context: 'dark: ink at 75% on denim fill',           fg: D.ink, alpha: 0.75, bg: D.denim },
+  { context: 'dark: focus ring (accent) on paper',       fg: T['accent-dark'], bg: D.paper, role: 'nonText' },
+  { context: 'dark: primary action vs paper',            fg: D.action,        bg: D.paper,   role: 'nonText' },
+  { context: 'dark: ink-faint decoration on paper',      fg: D['ink-faint'],  bg: D.paper,   role: 'decorative' },
+  { context: 'dark: hairline (line) on paper',           fg: D.line,          bg: D.paper,   role: 'decorative' },
 ];
 
 /* ─── thresholds & evaluation ─── */

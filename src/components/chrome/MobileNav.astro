@@ -150,7 +150,7 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
     box-shadow: 0 24px 64px rgb(var(--accent-rgb) / .18);
     overflow: hidden;
   }
-  .mobile-menu::backdrop { background: rgb(26 27 30 / .42); backdrop-filter: blur(4px); }
+  .mobile-menu::backdrop { background: rgb(26 27 30 / .42); }
   .mobile-menu-panel { display: flex; flex-direction: column; max-height: calc(100dvh - 1rem - 2px); }
   .mobile-menu-heading { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; gap: 1rem; padding: .75rem 1.25rem .25rem; }
   .mobile-menu-heading h2 { font-size: .8rem; font-weight: 500; color: var(--ink-muted); }

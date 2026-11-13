@@ -19,7 +19,7 @@ const needs = [
     <Container width="wide">
       <div class="home-hero-grid hero-split">
         <div class="home-hero-copy hero-split-copy">
-          <h1 class="hero-type hero-in hero-in-2">Product design <em>engineer</em></h1>
+          <h1 class="hero-type hero-in hero-in-2">Product design engineer</h1>
           <p class="hero-lede hero-in hero-in-3">I work with product managers, designers, and engineers. I design the workflow, build the interface in code, and test it for accessibility before release.</p>
           <div class="hero-actions hero-in hero-in-4">
             <a href="#selected-work" class="action-link">Explore my work</a>
@@ -47,7 +47,7 @@ const needs = [
     <Container width="wide">
       <h2 class="section-type">Areas of work</h2>
       {/* One drawing per area, in the same style as the Play and Writing cards. */}
-      <div class="approach-list areas-list pin-list" style="--pin-count: 3" data-reveal-stagger>
+      <div class="approach-list areas-list pin-list" style="--pin-count: 3">
         {needs.map((need) => (
           <article class="pin-item">
             <a href={need.href} class="pin-media" tabindex="-1" aria-hidden="true">
@@ -92,7 +92,7 @@ const needs = [
   @supports (animation-timeline: view()) {
     @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
       .areas-list h3 { font-size: clamp(1.75rem, 2.6vw, 2.5rem); line-height: 1.15; }
-      .areas-list p { font-size: 1.125rem; max-width: 46ch; }
+      .areas-list p { font-size: var(--type-body); max-width: 46ch; }
     }
   }
 </style>

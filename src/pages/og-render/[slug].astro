@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { eyebrow, headline, wink } = entry;
+const { eyebrow, headline } = entry;
 
 // One drawing per series for the blog fan, and three client/personal close-ups
 // for each work listing (client or personal). Back to front.
@@ -47,22 +47,9 @@ const WORK_FAN = entry.path.startsWith('/personal-projects/')
 const postId = entry.slug.startsWith('blog-') ? entry.slug.slice('blog-'.length) : '';
 const drawing = hasIllustration(postId) ? postId : null;
 const shot = projectTeasers[entry.path] ?? null;
-const pageArt: string | null = 'art' in entry && entry.art ? entry.art : null;
+const pageArt: string | null = 'art' in entry && typeof entry.art === 'string' ? entry.art : null;
 const art: string | null = drawing ? 'drawing' : shot ? 'shot' : pageArt;
 
-// Split the headline around the wink word (last, case-insensitive occurrence),
-// so the card sets just that word in navy italic without markup in the data.
-let pre = headline;
-let winkText = '';
-let post = '';
-if (wink) {
-  const idx = headline.toLowerCase().lastIndexOf(wink.toLowerCase());
-  if (idx !== -1) {
-    pre = headline.slice(0, idx);
-    winkText = headline.slice(idx, idx + wink.length);
-    post = headline.slice(idx + wink.length);
-  }
-}
 
 // Font scale planned around length and the column it has: half the card with
 // art, most of it without.
@@ -78,7 +65,7 @@ const size = art
     <div class="og-copy">
       <p class="og-eyebrow">{eyebrow}</p>
       <h1 class="og-headline">
-        {pre}{winkText && <em>{winkText}</em>}{post}<span class="og-dot">.</span>
+        {headline.replace(/\.$/, '')}
       </h1>
       <footer class="og-sign">
         <span class="og-logo"><Logo size="lg" /></span>
@@ -156,15 +143,6 @@ const size = art
       color: var(--og-ink);
       text-wrap: balance;
     }
-    .og-headline em {
-      font-family: var(--font-fraunces), Georgia, serif;
-      font-style: italic;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      color: var(--og-accent);
-      padding-right: 0.04em;
-    }
-    .og-dot { color: var(--og-accent); }
 
     /* The header wordmark, set larger for a 1200px card. */
     .og-sign {

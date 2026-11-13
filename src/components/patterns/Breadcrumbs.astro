@@ -28,7 +28,7 @@ const { items, current, class: className } = Astro.props;
   /* Inline items, so a long current title wraps like a sentence instead of
      dropping to its own line with an orphaned separator. */
   .breadcrumbs ol {
-    font-size: 0.83rem;
+    font-size: var(--type-caption);
     font-weight: 500;
     line-height: 1.6;
     color: var(--ink-muted);
@@ -56,7 +56,7 @@ const { items, current, class: className } = Astro.props;
     color: var(--ink);
   }
   @media (max-width: 640px) {
-    .breadcrumbs ol { font-size: 0.76rem; }
+    .breadcrumbs ol { font-size: var(--type-caption); }
   }
   @media (prefers-reduced-motion: reduce) {
     .breadcrumbs a { transition: none; }

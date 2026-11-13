@@ -40,7 +40,7 @@ const rescored = items.some((h) => h.after !== undefined);
     </p>
   )}
 
-  <ol class="heur-list mt-10" data-reveal>
+  <ol class="heur-list mt-10">
     {items.map((h, i) => {
       const end = h.after ?? h.before;
       return (
@@ -84,7 +84,7 @@ const rescored = items.some((h) => h.after !== undefined);
     display: flex;
     gap: 1.5rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.75rem;
+    font-size: var(--type-caption);
     color: var(--ink-muted);
   }
   .heur-legend-item {
@@ -139,22 +139,4 @@ const rescored = items.some((h) => h.after !== undefined);
     transform-origin: left;
   }
 
-  /* The bars fill from the left as the list scrolls in, row by row. */
-  @media (prefers-reduced-motion: no-preference) {
-    .heur-before,
-    .heur-gain {
-      transform-origin: left;
-      transition: transform 0.6s var(--ease-out);
-    }
-    .heur-before {
-      transition-delay: calc(var(--i) * 70ms + 150ms);
-    }
-    .heur-gain {
-      transition-delay: calc(var(--i) * 70ms + 550ms);
-    }
-    .heur-list.scroll-reveal:not(.is-visible) .heur-before,
-    .heur-list.scroll-reveal:not(.is-visible) .heur-gain {
-      transform: scaleX(0);
-    }
-  }
 </style>

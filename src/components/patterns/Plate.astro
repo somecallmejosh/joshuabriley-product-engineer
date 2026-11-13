@@ -128,7 +128,7 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
      chrome. */
   .plate__frame {
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 4px;
     border: 1px solid var(--line);
     /* Fixed light stage: the artwork is dark-on-white and does not invert, so
        the frame stays a lightbox in either theme rather than fighting the
@@ -160,7 +160,7 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
     min-width: 0;
     overflow-wrap: anywhere;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.7rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--ink);
@@ -178,7 +178,7 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
     background: none;
     border: 1px solid var(--line);
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.58rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     white-space: nowrap;
@@ -200,15 +200,15 @@ const zoomImg = zoom ? await getImage({ src, width: 2000, format: 'webp' }) : nu
   .plate__note {
     margin: 0.75rem 0 0;
     max-width: 68ch;
-    font-size: 0.875rem;
+    font-size: var(--type-caption);
     line-height: 1.6;
     color: var(--ink-muted);
   }
 
   /* Half plates sit two-up and carry less weight in the page, so their caption
      rail steps down with them. */
-  .plate[data-size='half'] .plate__name { font-size: 0.66rem; }
-  .plate[data-size='half'] .plate__note { margin-top: 0.6rem; font-size: 0.83rem; }
+  .plate[data-size='half'] .plate__name { font-size: var(--type-caption); }
+  .plate[data-size='half'] .plate__note { margin-top: 0.6rem; font-size: var(--type-caption); }
   /* Sheets in a two-up row are rarely the same height. Dropping the caption to
      the foot of the cell lines both hairlines up per row instead of leaving
      them at whatever height each sheet happens to end at. */

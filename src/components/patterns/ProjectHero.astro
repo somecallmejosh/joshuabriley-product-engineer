@@ -12,7 +12,7 @@ const data: ProjectPage = projectPages[Astro.props.project];
     <div class="project-hero hero-split">
       <div class="project-hero-copy hero-split-copy">
         <div class="project-identity hero-in hero-in-1"><p>{data.name}</p><span>{data.kind}</span></div>
-        <h1 class="project-title hero-in hero-in-2">{data.headline} <em>{data.emphasis}</em></h1>
+        <h1 class="project-title hero-in hero-in-2">{data.headline} {data.emphasis.replace(/\.$/, '')}</h1>
         <div class="project-introduction hero-in hero-in-3">
           <p>{data.intro}</p>
           {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label}</a>)}</div>}

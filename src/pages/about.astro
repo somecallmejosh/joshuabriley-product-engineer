@@ -26,7 +26,7 @@ const personal = [
 <BaseLayout title="About | Joshua Briley | Product Design Engineer" description="Joshua Briley is a product design engineer with 20+ years of designing and building accessible products, from insurance platforms to consumer apps.">
   <section class="page-opener">
     <Container width="wide">
-      <h1 class="page-type hero-in hero-in-2">About <em>Joshua Briley</em></h1>
+      <h1 class="page-type hero-in hero-in-2">About Joshua Briley</h1>
       <p class="page-lede hero-in hero-in-3">I’ve spent more than twenty years designing and building interfaces with product teams, from insurance platforms to consumer products. I design the interface and build it in front-end code.</p>
       <p class="quiet-aside hero-in hero-in-3">I live in Connecticut. My roots are in Louisiana.</p>
       <div class="hero-actions hero-in hero-in-4"><a href="/resume/" class="action-link">View résumé</a><a href="/contact/" class="editorial-link">Get in touch</a></div>
@@ -51,7 +51,7 @@ const personal = [
     <Container width="wide">
       <h2 class="section-type">Roles in the title</h2>
       <p class="section-intro">A product design engineer does a little of every role listed here.</p>
-      <div class="about-roles pin-list" style={`--pin-count: ${roles.length}`} data-reveal-stagger>
+      <div class="about-roles pin-list" style={`--pin-count: ${roles.length}`}>
         {roles.map((role) => (
           <article class="pin-item">
             <div class="pin-media"><RoleIllustration role={role.illustration} /></div>
@@ -65,14 +65,14 @@ const personal = [
     <Container width="wide">
       <div class="approach-layout">
         <div><h2 class="section-type">Working principles</h2></div>
-        <div class="approach-list" data-reveal-stagger>{principles.map((principle) => <article><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
+        <div class="approach-list">{principles.map((principle) => <article><h3>{principle.title}</h3><p>{principle.body}</p></article>)}</div>
       </div>
     </Container>
   </section>
   <section class="editorial-section surface-denim about-outside" data-surface="dark">
     <Container width="wide">
       <h2 class="section-type">Outside work</h2>
-      <div class="about-outside-grid" data-reveal-stagger>{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+      <div class="about-outside-grid">{personal.map((item) => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
     </Container>
   </section>
 </BaseLayout>
@@ -82,19 +82,19 @@ const personal = [
   .about-statement { color: var(--paper); }
   .about-statement-lede { margin-top: var(--space-item); max-width: 24ch; font-family: var(--font-fraunces), Georgia, serif; font-size: clamp(2rem, 4.4vw, 4rem); line-height: 1.1; letter-spacing: -.025em; text-wrap: balance; }
   .about-statement-more { display: grid; gap: 1.5rem; margin-top: var(--space-item); }
-  .about-statement-more p { max-width: 46ch; font-size: 1.06rem; line-height: 1.65; color: color-mix(in srgb, var(--paper) 72%, transparent); }
+  .about-statement-more p { max-width: 46ch; font-size: var(--type-body); line-height: 1.65; color: color-mix(in srgb, var(--paper) 72%, transparent); }
   .about-statement-more a { margin-top: 1.25rem; }
   .about-statement :focus-visible { outline-color: var(--paper); }
 
   /* Roles: large names in two columns, the right column set lower. */
   .about-roles { margin-top: var(--space-block); }
   .about-roles h3 { font-size: clamp(1.9rem, 3.2vw, 2.9rem); font-weight: 750; letter-spacing: -.045em; line-height: 1.05; }
-  .about-roles p { margin-top: 1rem; max-width: 46ch; font-size: 1rem; line-height: 1.65; color: var(--ink-muted); }
+  .about-roles p { margin-top: 1rem; max-width: 46ch; font-size: var(--type-small); line-height: 1.65; color: var(--ink-muted); }
 
   /* Denim close. */
   .about-outside-grid { display: grid; gap: var(--space-item) 5rem; margin-top: var(--space-block); }
   .about-outside h3 { font-size: 1.4rem; font-weight: 650; letter-spacing: -.025em; line-height: 1.3; color: var(--paper); }
-  .about-outside p { margin-top: 1rem; max-width: 46ch; font-size: 1rem; line-height: 1.65; }
+  .about-outside p { margin-top: 1rem; max-width: 46ch; font-size: var(--type-small); line-height: 1.65; }
 
   @media (min-width: 768px) {
     .about-outside-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

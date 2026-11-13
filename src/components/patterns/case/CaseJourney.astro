@@ -18,7 +18,7 @@ interface Props {
 const { title, stages } = Astro.props;
 ---
 <Heading level={3} visual="h2" class="mb-12">{title}</Heading>
-<ol class="journey" data-reveal>
+<ol class="journey">
   {stages.map((s, i) => (
     <li id={`journey-${s.id}`} class="journey-stage scroll-mt-32" style={`--i: ${i}`}>
       <span class="journey-node" aria-hidden="true">
@@ -95,7 +95,7 @@ const { title, stages } = Astro.props;
   }
   .journey-text {
     display: block;
-    font-size: 0.95rem;
+    font-size: var(--type-small);
     line-height: 1.65;
     max-width: 44ch;
   }
@@ -136,25 +136,4 @@ const { title, stages } = Astro.props;
     .journey-node { grid-row: 1 / span 2; }
   }
 
-  /* The route draws stage by stage as the map scrolls in. Without the reveal
-     script (reduced motion, no JS) everything is simply drawn. */
-  @media (prefers-reduced-motion: no-preference) {
-    .journey-node {
-      transition:
-        transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1),
-        opacity 0.4s ease-out;
-      transition-delay: calc(var(--i) * 220ms + 150ms);
-    }
-    .journey-stage::before {
-      transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
-      transition-delay: calc(var(--i) * 220ms + 300ms);
-    }
-    .journey.scroll-reveal:not(.is-visible) .journey-node {
-      transform: scale(0.6);
-      opacity: 0;
-    }
-    .journey.scroll-reveal:not(.is-visible) .journey-stage::before {
-      transform: scaleY(0);
-    }
-  }
 </style>

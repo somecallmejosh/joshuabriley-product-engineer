@@ -10,13 +10,13 @@ const projects: PersonalProject[] = personalProjectOrder.map((key) => personalPr
 <BaseLayout title="Personal projects | Joshua Briley" description="Joshua Briley’s personal projects: a thought journal, a household budget, a React component library, and an arcade game about design tokens." mainClass="scrap-page">
   <section class="page-opener">
     <Container width="wide">
-      <h1 class="page-type hero-in hero-in-2">Personal <em>projects</em></h1>
+      <h1 class="page-type hero-in hero-in-2">Personal projects</h1>
       <p class="page-lede hero-in hero-in-3">I make these for my own enjoyment and to keep current with work a typical job doesn’t cover. There are {projects.length} so far.</p>
     </Container>
   </section>
   <section aria-label="Personal projects" class="scrap-wall-section">
     <Container width="wide">
-      <ul class="scrap-wall" role="list" data-reveal-stagger>
+      <ul class="scrap-wall" role="list">
         {projects.map(({ wall, name, note, href }, i) => (
           <li class="scrap-piece">
             <a class="scrap-link" href={href}>

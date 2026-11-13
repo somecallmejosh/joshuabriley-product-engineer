@@ -13,7 +13,7 @@ interface GameBase {
   slug: string;
   /** Plain title, used in lists and the browser tab. */
   title: string;
-  /** Page heading; the part in `emphasis` renders in the display italic. */
+  /** Page heading, rendered as one run; its end punctuation is set in the accent. */
   heading: { lead: string; emphasis: string };
   topic: 'Accessibility' | 'Front end' | 'Design systems';
   /** One sentence: what you do. */

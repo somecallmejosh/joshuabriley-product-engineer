@@ -65,7 +65,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
 
 <BaseLayout title="Resume | Joshua Briley | Product Design Engineer" description={description} mainClass="resume-page">
 
-  <Section tone="paper" padding="default" class="pt-12 md:pt-16 lg:pt-20 lg:pb-14">
+  <section class="page-opener page-opener--document">
     <Container width="wide">
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-16 lg:items-end">
         <div class="lg:col-span-8">
@@ -74,8 +74,8 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
             <p><strong>{CONTACT.title}</strong></p>
             <p>{CONTACT.location} · <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> · {CONTACT.phone}</p>
           </div>
-          <h1 class="page-type hero-in hero-in-2" data-print-screen>Joshua Briley, <em>Product Design Engineer</em></h1>
-          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-7 max-w-2xl">
+          <h1 class="page-type hero-in hero-in-2" data-print-screen>Joshua Briley, Product Design Engineer</h1>
+          <Text size="lg" tone="muted" class="hero-in hero-in-3 mt-4 max-w-2xl">
             {summary}
           </Text>
         </div>
@@ -101,7 +101,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <a href="/projects/">Product case studies<span class="link-dot" aria-hidden="true"></span></a>
       </nav>
     </Container>
-  </Section>
+  </section>
 
   <section id="approach" class="editorial-section resume-approach bg-ink" data-surface="dark" aria-labelledby="approach-title">
     <Container width="wide">
@@ -109,7 +109,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <h2 id="approach-title" class="section-type">Approach</h2>
         <p>Each role below applies some or all of these three practices.</p>
       </div>
-      <ol class="approach-list" role="list" data-reveal-stagger>
+      <ol class="approach-list" role="list">
         {threads.map((thread, i) => (
           <li class="approach-entry">
             <h3>{thread.title}</h3>
@@ -127,7 +127,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <p>Roles are listed from most recent to oldest.</p>
       </div>
 
-      <ul class="experience-list" role="list" data-reveal-stagger>
+      <ul class="experience-list" role="list">
         {experience.map((job) => (
           <li class="experience-entry">
             <div class="experience-context">
@@ -163,7 +163,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <h2 id="skills-title" class="section-type">Skills</h2>
         <p>The tools and disciplines behind shared components, accessible interfaces, and product workflows.</p>
       </div>
-      <div class="skill-list" data-reveal-stagger>
+      <div class="skill-list">
         {skillGroups.map((skill) => (
           <section class="skill-entry" aria-labelledby={`skill-${skill.title.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
             <div class="skill-context">
@@ -186,7 +186,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
         <h2 id="education-title" class="section-type">Education</h2>
         <p>A biology degree and continuing coursework in product design and accessibility.</p>
       </div>
-      <div class="education-layout" data-reveal>
+      <div class="education-layout">
         {education.map((degree) => (
           <article class="education-degree">
             <h3>{degree.title}</h3>
@@ -224,7 +224,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .experience-entry::after { content: ''; position: absolute; top: 2.85rem; left: 0; width: 7px; height: 7px; border: 1px solid var(--portfolio-blue); background: var(--paper); border-radius: 50%; }
   .experience-entry:first-child { padding-top: 0; }
   .experience-entry:first-child::before, .experience-entry:first-child::after { top: .35rem; }
-  .experience-entry:first-child::after { background: var(--portfolio-blue); }
+  .experience-entry:first-child::after { background: var(--denim); }
   .experience-entry:last-child::before { bottom: auto; height: 2.85rem; }
   .experience-context, .experience-contribution { min-width: 0; }
   /* The current role leads at a larger size. */
@@ -257,7 +257,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   }
   .experience-role {
     margin-top: 1rem;
-    font-size: 1.1rem;
+    font-size: var(--type-body);
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: -.015em;
@@ -279,7 +279,7 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .experience-details li {
     position: relative;
     padding-left: 1rem;
-    font-size: 1rem;
+    font-size: var(--type-small);
     line-height: 1.65;
     color: var(--ink-muted);
   }
@@ -294,12 +294,12 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   }
   .experience-links { display: flex; flex-wrap: wrap; gap: .25rem 2rem; margin-top: 1.5rem; }
   .experience-threads { display: grid; gap: .3rem; margin-top: 1rem; list-style: none; padding: 0; }
-  .experience-threads li { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; line-height: 1.5; color: var(--accent); }
+  .experience-threads li { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: var(--type-caption); line-height: 1.5; color: var(--accent); }
   .approach-list { display: grid; gap: 0; list-style: none; padding: 0; margin: 0; }
   .approach-entry { padding: 2rem 0; min-width: 0; }
-  .approach-index { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .75rem; color: var(--accent); }
+  .approach-index { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: var(--type-caption); color: var(--accent); }
   .approach-entry h3 { margin-top: .75rem; font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.04em; }
-  .approach-entry p:last-child { margin-top: .85rem; max-width: 38ch; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
+  .approach-entry p:last-child { margin-top: .85rem; max-width: 38ch; color: var(--ink-muted); font-size: var(--type-small); line-height: 1.65; }
   .resume-skills { background: var(--portfolio-tint); }
   /* Approach on ink: the three practices set large, the middle and last stepped down. */
   .resume-approach { background: var(--ink); color: var(--paper); }
@@ -314,25 +314,29 @@ const skillGroups = Object.entries(skillContext).map(([group, context]) => ({
   .skill-entry { display: grid; gap: 1.75rem; padding: 2.5rem 0; }
   .skill-entry > *, .education-layout > * { min-width: 0; }
   .skill-context h3 { max-width: 19ch; font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; }
-  .skill-context p { max-width: 45ch; margin-top: 1rem; color: var(--ink-muted); font-size: 1rem; line-height: 1.65; }
+  .skill-context p { max-width: 45ch; margin-top: 1rem; color: var(--ink-muted); font-size: var(--type-small); line-height: 1.65; }
   .skill-context a { margin-top: 1rem; }
   .skill-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: .7rem 1.5rem; list-style: none; padding: 0; margin: 0; }
-  .skill-tools li { font-size: .98rem; line-height: 1.5; color: var(--ink); }
+  .skill-tools li { font-size: var(--type-small); line-height: 1.5; color: var(--ink); }
   .education-layout { display: grid; gap: 4.5rem; }
   .education-degree h3, .education-learning > h3 { font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; }
   .education-degree-details { margin-top: 1rem; }
-  .education-institution { font-size: 1.2rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
-  .education-note { max-width: 52ch; margin-top: .75rem; color: var(--ink-muted); font-size: 1.05rem; line-height: 1.7; }
+  .education-institution { font-size: 1.25rem; font-weight: 600; color: var(--portfolio-blue); letter-spacing: -.02em; }
+  .education-note { max-width: 52ch; margin-top: .75rem; color: var(--ink-muted); font-size: var(--type-small); line-height: 1.7; }
   .education-courses { display: grid; gap: 3rem; list-style: none; padding: 0; margin: 2rem 0 0; }
   .education-courses li { display: flex; flex-direction: column; }
   .education-courses h4 { max-width: 32ch; font-size: 1.2rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; }
-  .education-courses .education-course-note { max-width: 44ch; margin-top: .85rem; font-size: .98rem; line-height: 1.65; color: var(--ink-muted); }
-  .education-courses .education-course-link { margin-top: auto; padding-top: 1.25rem; font-size: .95rem; }
+  .education-courses .education-course-note { max-width: 44ch; margin-top: .85rem; font-size: var(--type-small); line-height: 1.65; color: var(--ink-muted); }
+  .education-courses .education-course-link { margin-top: auto; padding-top: 1.25rem; font-size: var(--type-small); }
   #approach, #skills, #education { scroll-margin-top: 6rem; }
   @media (min-width: 1024px) {
     .approach-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; }
     .approach-entry:nth-child(2) { margin-top: 4rem; }
     .approach-entry:nth-child(3) { margin-top: 8rem; }
+  }
+  /* Screen only: print.css flattens #main to static positioning, which can't reach
+     pseudo-elements, so the line would escape to the page edge. */
+  @media screen and (min-width: 1024px) {
     /* A stepped line ties the three practices together: it runs along the top of
        each one and drops to the start of the next. The dot at each start matches
        the experience timeline. Decorative, so pseudo-elements only. */

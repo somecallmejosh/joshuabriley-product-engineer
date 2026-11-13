@@ -101,7 +101,7 @@ const uid = `shot-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   .scroll-shot-index {
     margin: 0 0 0.75rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.68rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--ink-muted);
@@ -112,19 +112,16 @@ const uid = `shot-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   .scroll-shot-mount {
     position: relative;
     padding: 8px;
-    border-radius: 16px;
+    border-radius: 4px;
     background: var(--raised);
     border: 1px solid var(--line);
-    box-shadow:
-      0 1px 2px rgba(27, 26, 23, 0.04),
-      0 18px 50px -28px rgba(27, 26, 23, 0.3);
   }
 
   /* Clipped, never scrolled. The wheel belongs to the page. */
   .scroll-shot-stage {
     overflow: hidden;
     max-height: var(--shot-max, 70vh);
-    border-radius: 9px;
+    border-radius: 2px;
     border: 1px solid var(--line);
     background: var(--raised);
   }
@@ -172,7 +169,7 @@ const uid = `shot-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     background: var(--paper);
     border: 1px solid var(--line-strong);
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.58rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     white-space: nowrap;
@@ -209,7 +206,7 @@ const uid = `shot-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     gap: 1rem;
     padding-top: 0.7rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.7rem;
+    font-size: var(--type-caption);
     letter-spacing: 0.06em;
   }
   .scroll-shot-kind {
@@ -233,7 +230,7 @@ const uid = `shot-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   .scroll-shot-note {
     margin: 0.85rem 0 0;
-    font-size: 0.875rem;
+    font-size: var(--type-caption);
     line-height: 1.6;
     color: var(--ink-muted);
   }

@@ -43,6 +43,16 @@ npm run audit:design -- --update-baseline
 
 Some fixes change pixels: `#244c71` (the old `--portfolio-blue`) vs the accent `#2E5C8A`, and the warm near-black `rgb(27,26,23)` vs ink `#1A1B1E`. Check those visually rather than swapping them blind.
 
+## Dark theme
+
+`tokens.json` → `color.dark` holds the dark values. `site.css` applies them on screen under `:root[data-theme='dark']` by reassigning the light custom properties, so components keep writing `var(--paper)`, `text-ink`, `border-line` and follow the theme for free. Tailwind's core neutrals resolve through those properties (`color-mix(… var(--ink) …)`), which keeps opacity modifiers like `text-paper/80` working.
+
+- `<html data-theme>` is set before first paint by the inline script in `BaseLayout` (stored choice, else the OS). `ThemeToggle` flips and stores it. Bare pages (OG cards, the résumé PDF source) and print always use light.
+- Ink and denim bands blend into the page: inside `.bg-ink` / `[data-surface='dark']` the `--ink` and `--paper` values swap, and hairlines mark the band's edges.
+- `--portfolio-blue` is a text colour (sky in dark). Fill denim with `var(--denim)`, never `var(--portfolio-blue)`.
+- Content that depicts a light interface (screen captures, the token playground preview) sits on a light stage: add it to the `.light-stage` rule in `site.css`, or give it the `light-stage` class.
+- Never hardcode `white` or a light hex for a surface; it won't follow the theme. `npm run audit:contrast` covers the dark pairs and `tests/e2e/theme.spec.ts` runs axe contrast in dark.
+
 ## Scope
 
 The audit scans `src/` (`.astro`, `.css`, `.ts`, `.mjs`, `.js`) except `src/content/`, where the MDX articles quote code that shows off-system values on purpose. Block and HTML comments are skipped. Tests for the rule engine are in `tests/components/design-rules.test.ts`.

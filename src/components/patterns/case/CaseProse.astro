@@ -19,12 +19,12 @@ const { continued = false, lede = false, class: className } = Astro.props;
 ---
 {continued ? (
   <Container width="content" class="mt-16">
-    <div class:list={['case-layout-cont case-prose measure space-y-5', lede && 'case-prose--lede']}>
+    <div class:list={['case-layout-cont case-prose measure space-y-7', lede && 'case-prose--lede']}>
       <slot />
     </div>
   </Container>
 ) : (
-  <div class:list={['case-prose mt-8 measure space-y-5', lede && 'case-prose--lede', className]}>
+  <div class:list={['case-prose mt-8 measure space-y-7', lede && 'case-prose--lede', className]}>
     <slot />
   </div>
 )}

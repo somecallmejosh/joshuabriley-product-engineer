@@ -11,7 +11,7 @@ const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
 <BaseLayout title="Free design system tools | Joshua Briley" description="Assess your design system, estimate UI rework costs, explore design tokens, and inspect sample audit findings. All four tools are free and run in your browser without signup.">
   <section class="page-opener tools-opener">
     <Container width="wide">
-      <h1 class="page-type hero-in hero-in-2">Tools for planning <em>design system work.</em></h1>
+      <h1 class="page-type hero-in hero-in-2">Tools for planning design system work</h1>
       <p class="page-lede hero-in hero-in-3">These tools assess a design system, estimate the cost of UI rework, demonstrate design tokens, and show sample audit findings. All four are free. Each one has a working sample on this page.</p>
     </Container>
   </section>
@@ -47,7 +47,7 @@ const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
   .tools-opener .page-type { max-width: 19ch; }
   .tools-opener .page-lede { max-width: 53ch; }
   .tools-bench { padding-bottom: var(--space-section); }
-  .tools-notes { display: grid; gap: 1rem; margin-top: 2rem; font-size: .85rem; line-height: 1.65; color: var(--ink-muted); }
+  .tools-notes { display: grid; gap: 1rem; margin-top: 2rem; font-size: var(--type-caption); line-height: 1.65; color: var(--ink-muted); }
   .tools-notes p { max-width: 58ch; }
   .tools-evidence { background: var(--portfolio-tint); }
   @media (min-width: 1024px) {

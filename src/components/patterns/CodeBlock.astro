@@ -41,7 +41,7 @@ const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
 ---
 
 <figure class={cx('code-artifact not-prose', className)}>
-  <div class="overflow-hidden rounded-2xl border border-ink/10 border-l-2 border-l-accent bg-ink shadow-[0_18px_40px_-22px_rgba(45,43,85,0.6)]">
+  <div class="overflow-hidden rounded border border-ink/10 border-l-2 border-l-accent bg-ink">
     <div class="flex items-center gap-2.5 border-b border-white/10 px-4 py-2.5">
       <Icon name="ph:code" size={14} class="shrink-0 text-accent" />
       <span class="truncate font-mono text-xs text-white/85">{headerLabel}</span>
@@ -71,14 +71,14 @@ const headerLabel = filename ?? (lang ? `${lang} snippet` : 'Code');
 </figure>
 
 <style>
-  .code-artifact :global(.project-code) { margin: 0; padding: 1rem 0; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: .8rem; line-height: 1.7; }
+  .code-artifact :global(.project-code) { margin: 0; padding: 1rem 0; font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: var(--type-caption); line-height: 1.7; }
   .code-artifact :global(.project-code code) { display: block; white-space: normal; }
   .code-artifact :global(.project-code .line) { display: flex; }
   .code-artifact :global(.code-line-number) { width: 2.5rem; flex-shrink: 0; user-select: none; border-right: 1px solid rgb(255 255 255 / .1); padding-right: .75rem; color: #a3b2bf; text-align: right; }
   .code-artifact :global(.code-line-content) { min-width: 0; flex: 1; padding-inline: 1rem; white-space: pre-wrap; overflow-wrap: anywhere; }
   .code-artifact :global(.project-code:focus-visible) { outline: 3px solid #a3c1dd; outline-offset: -3px; }
   @media (min-width: 768px) {
-    .code-artifact :global(.project-code) { padding-block: 1.25rem; font-size: .875rem; }
+    .code-artifact :global(.project-code) { padding-block: 1.25rem; font-size: var(--type-caption); }
     .code-artifact :global(.code-line-number) { width: 3rem; }
     .code-artifact :global(.code-line-content) { padding-right: 1.25rem; }
   }

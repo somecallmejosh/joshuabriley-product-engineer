@@ -28,7 +28,7 @@ const groups = [{ label: undefined as string | undefined, items }, ...(later ? [
     {groups.map((group, i) => (
       <>
         {group.label && <Heading level={3} visual="h2" tone="ink" class={i > 0 ? 'mb-6 mt-16' : 'mb-6'}>{group.label}</Heading>}
-        <ul class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2">
+        <ul class="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2">
           {group.items.map((e) => (
             <li class="pt-5">
               <Icon name={e.icon} size={24} class="mb-3 text-ink-muted" />

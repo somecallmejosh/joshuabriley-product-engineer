@@ -22,19 +22,22 @@ export default {
         mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
       },
       colors: {
+        // Core neutrals resolve through site.css custom properties so they follow
+        // the theme (dark values live under :root[data-theme='dark']).
+        // color-mix keeps opacity modifiers (text-paper/80) working.
         // ── New "Editorial Technical" system ──────────────────────────────
-        paper: '#FAFBFC', // page background — near-white, faint cool cast (terracotta + slate)
-        raised: '#FFFFFF', // cards / raised surfaces (pure white, lifts off paper)
+        paper: 'color-mix(in srgb, var(--paper) calc(<alpha-value> * 100%), transparent)', // page background — near-white, faint cool cast (terracotta + slate)
+        raised: 'color-mix(in srgb, var(--raised) calc(<alpha-value> * 100%), transparent)', // cards / raised surfaces (pure white, lifts off paper)
         'surface-warm': 'var(--surface-warm)', // warm tint for small inline callouts only (e.g. blog author card), not section washes
         ink: {
-          DEFAULT: '#1A1B1E', // primary text + dark surfaces (cool near-black)
+          DEFAULT: 'color-mix(in srgb, var(--ink) calc(<alpha-value> * 100%), transparent)', // primary text + dark surfaces (cool near-black)
           soft: '#292A2E',
-          muted: '#565760', // secondary text (~6:1 on paper — AA with margin)
-          faint: '#9A9AA1', // metadata / disabled
+          muted: 'color-mix(in srgb, var(--ink-muted) calc(<alpha-value> * 100%), transparent)', // secondary text (~6:1 on paper — AA with margin)
+          faint: 'color-mix(in srgb, var(--ink-faint) calc(<alpha-value> * 100%), transparent)', // metadata / disabled
         },
         line: {
-          DEFAULT: '#E5E7EB', // hairline rules / borders
-          strong: '#D4D7DD',
+          DEFAULT: 'color-mix(in srgb, var(--line) calc(<alpha-value> * 100%), transparent)', // hairline rules / borders
+          strong: 'color-mix(in srgb, var(--line-strong) calc(<alpha-value> * 100%), transparent)',
         },
         accent: {
           // Channel-based so the accent can FOLLOW the surface: deep denim navy

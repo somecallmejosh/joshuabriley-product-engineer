@@ -38,7 +38,7 @@ const description =
     <Container width="wide">
       <Breadcrumbs items={[{ href: '/tools/', label: 'Tools' }, { href: '/tools/scorecard/', label: 'Design system scorecard' }]} current="Results" />
 
-      <h1 class="page-type">Your scorecard <em>results.</em></h1>
+      <h1 class="page-type">Your scorecard results</h1>
       <p class="page-lede">Review your scores across five subjects and suggested priorities based on your answers. Use this snapshot to guide a closer look at your system.</p>
       <p class="mt-5 text-sm text-ink-muted max-w-xl">Your answers are included in this page’s URL. Anyone with the link can read the results. Save it to revisit this snapshot or compare it with a later assessment.</p>
     </Container>
@@ -192,7 +192,7 @@ const description =
     align-items: center;
     gap: 0.4rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.62rem;
+    font-size: var(--type-label);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-weight: 500;
@@ -230,7 +230,7 @@ const description =
     align-items: center;
     gap: 0.6rem;
     font-family: var(--font-hanken), system-ui, sans-serif;
-    font-size: 0.9rem;
+    font-size: var(--type-small);
   }
 
   /* ── "What to review" heading inside the ink card ── */
@@ -259,7 +259,7 @@ const description =
   }
   .focus-priority {
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.72rem;
+    font-size: var(--type-caption);
     font-weight: 500;
     color: rgba(246, 247, 249, 0.6);
     letter-spacing: 0.04em;
@@ -277,7 +277,7 @@ const description =
   .focus-item-score {
     margin-left: auto;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.72rem;
+    font-size: var(--type-caption);
     font-weight: 500;
     color: rgba(246, 247, 249, 0.55);
     white-space: nowrap;
@@ -290,7 +290,7 @@ const description =
     margin-top: 0.65rem;
     padding-left: 1.65rem;
     font-family: var(--font-hanken), system-ui, sans-serif;
-    font-size: 0.9rem;
+    font-size: var(--type-small);
     line-height: 1.6;
     color: rgba(246, 247, 249, 0.75);
   }
@@ -302,13 +302,13 @@ const description =
     border-radius: 0 6px 6px 0;
     background: rgb(var(--accent-rgb) / 0.12);
     font-family: var(--font-hanken), system-ui, sans-serif;
-    font-size: 0.88rem;
+    font-size: var(--type-caption);
     line-height: 1.55;
     color: rgba(246, 247, 249, 0.82);
   }
   .focus-item-consequence-label {
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.62rem;
+    font-size: var(--type-label);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-weight: 500;
@@ -330,7 +330,7 @@ const description =
   .secondary-rec {
     margin-top: 1.5rem;
     padding: 1.25rem;
-    border-radius: 8px;
+    border-radius: 4px;
     background: rgba(246, 247, 249, 0.06);
     border: 1px solid rgba(246, 247, 249, 0.15);
   }
@@ -495,7 +495,7 @@ const description =
     const BTN_LG = 'px-6 py-3 text-[0.95rem]';
     // Light surfaces (score panel):
     // Ink surfaces (recommendation reveal-card):
-    const BTN_NAVY = 'bg-paper text-ink hover:bg-white';
+    const BTN_NAVY = 'bg-paper text-ink hover:bg-raised';
     const BTN_SECONDARY = 'bg-transparent text-paper border border-paper/25 hover:bg-paper/10';
 
     // ─── Radar chart ─────────────────────────────────────────────────────────

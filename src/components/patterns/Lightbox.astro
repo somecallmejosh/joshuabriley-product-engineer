@@ -63,7 +63,6 @@ import Icon from '~/components/primitives/Icon.astro';
     position: absolute;
     inset: 0;
     background: rgba(18, 17, 15, 0.82);
-    backdrop-filter: blur(3px);
     opacity: 0;
     transition: opacity 0.22s var(--ease-out);
   }
@@ -99,7 +98,7 @@ import Icon from '~/components/primitives/Icon.astro';
   .lb__label {
     margin: 0;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.7rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: rgba(255, 255, 255, 0.72);
@@ -122,7 +121,7 @@ import Icon from '~/components/primitives/Icon.astro';
     border: 1px solid rgba(255, 255, 255, 0.22);
     background: rgba(255, 255, 255, 0.08);
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.62rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: rgba(255, 255, 255, 0.88);
@@ -143,7 +142,7 @@ import Icon from '~/components/primitives/Icon.astro';
 
   .lb__stage-fade {
     --scroll-fade-color: var(--raised);
-    --scroll-fade-radius: 12px;
+    --scroll-fade-radius: 4px;
     /* Like the scroll container it wraps, contribute no intrinsic size, or a
        zoomed image would widen the whole viewer. */
     contain: size;
@@ -156,10 +155,9 @@ import Icon from '~/components/primitives/Icon.astro';
     flex: 1;
     min-height: 0;
     overflow: auto;
-    border-radius: 12px;
+    border-radius: 4px;
     background: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 24px 70px -30px rgba(0, 0, 0, 0.6);
     /* Fit mode: image is centred and letter-boxed inside the stage. */
     display: grid;
     place-items: center;
@@ -199,7 +197,7 @@ import Icon from '~/components/primitives/Icon.astro';
     margin: 0.6rem 0 0;
     text-align: center;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.6rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: rgba(255, 255, 255, 0.55);

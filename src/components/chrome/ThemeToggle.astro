@@ -1,0 +1,61 @@
+---
+import { cx } from '~/lib/cx';
+
+/**
+ * Light/dark switch. A two-state toggle button (aria-pressed = dark theme on).
+ * The theme itself is applied before first paint by the inline script in
+ * BaseLayout; this only flips it, stores the choice, and follows the OS setting
+ * until the visitor picks one. Every instance (header, mobile menu) stays in
+ * sync.
+ */
+interface Props { class?: string; }
+const { class: className } = Astro.props;
+---
+
+<button type="button" class={cx('theme-toggle', className)} data-theme-toggle aria-pressed="false">
+  <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false">
+    <circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.5" />
+    <path d="M10 2.75a7.25 7.25 0 0 1 0 14.5Z" fill="currentColor" />
+  </svg>
+  <span class="sr-only">Dark theme</span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: var(--ink-muted);
+    transition: color 120ms var(--ease-out);
+  }
+  .theme-toggle svg { transition: transform 120ms var(--ease-out); }
+  .theme-toggle:hover { color: var(--ink); }
+  .theme-toggle[aria-pressed='true'] svg { transform: rotate(180deg); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .theme-toggle svg { transition: none; } }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const system = window.matchMedia('(prefers-color-scheme: dark)');
+  const stored = () => { try { return localStorage.getItem('theme'); } catch { return null; } };
+
+  const apply = (theme: 'light' | 'dark') => {
+    root.dataset.theme = theme;
+    document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(theme === 'dark'));
+    });
+  };
+  apply(root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  const toggle = () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('theme', next); } catch { /* private mode: applies to this page only */ }
+    apply(next);
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((button) => button.addEventListener('click', toggle));
+  // Follow the OS until the visitor makes a choice.
+  system.addEventListener('change', (event) => { if (!stored()) apply(event.matches ? 'dark' : 'light'); });
+</script>

@@ -7,7 +7,7 @@
    out by its own width, so the paper frame inside lines up with the text above
    and below. */
 .illustration { --mat: 2rem; --tilt: -4deg; display: block; margin-inline: calc(-1 * var(--mat)); padding: var(--mat); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
-.illustration-frame { display: block; overflow: hidden; background: var(--paper); box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--ink) 45%, transparent); }
+.illustration-frame { display: block; overflow: hidden; background: var(--paper); border: 1px solid var(--line); }
 .illustration-drawing { display: block; width: 100%; height: auto; font-family: var(--font-hanken), sans-serif; transform: rotate(var(--tilt)); transition: transform .7s var(--ease-out); }
 a:is(:hover, :focus-visible) .illustration-drawing { transform: rotate(0deg) scale(1.03); }
 .illustration .frame { fill: var(--raised); stroke: var(--line-strong); }
@@ -108,4 +108,14 @@ a:is(:hover, :focus-visible) .illustration-shot { transform: rotateX(14deg) rota
 @keyframes shot-focus-plane {
   from { rotate: x 26deg; scale: 1.2; }
   to { rotate: x 0deg; scale: 1; }
+}
+
+/* Dark theme. The mat takes the accent tint over the dark page (it carries
+   data-surface="light", so --paper/--ink would swap back to light). Screen
+   captures stay a light stage: they're light rasters, so their frame and the
+   caption fade keep the light paper and ink (the light-stage rule in site.css).
+   Drawn illustrations use the theme. */
+@media screen {
+  :root[data-theme='dark'] .illustration { background: color-mix(in srgb, var(--accent) 14%, var(--dark-bg)); }
+  :root[data-theme='dark'] .work-section--stage .illustration { background: color-mix(in srgb, var(--dark-fg) 7%, var(--dark-bg)); }
 }

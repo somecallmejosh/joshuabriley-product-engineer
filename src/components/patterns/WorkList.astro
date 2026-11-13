@@ -14,7 +14,7 @@ const shotSizes = (i: number) => feature && i === 0 ? '(min-width: 64em) 100vw, 
 ---
 <div class:list={['work-list', { 'work-list--compact': compact, 'work-list--feature': feature }]}>
   {items.map((work, i) => (
-    <article class="work-entry" data-reveal>
+    <article class="work-entry">
       <a href={work.href} class="work-image" aria-label={`View ${work.name}`}>
         {projectTeasers[work.href]
           ? <ProjectScreenshot {...projectTeasers[work.href]} caption={work.caption} sizes={shotSizes(i)} />

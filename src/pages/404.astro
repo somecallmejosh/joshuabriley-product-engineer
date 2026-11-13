@@ -26,7 +26,7 @@ const detours = [
             <figcaption>This 404 fails contrast on purpose.</figcaption>
           </figure>
 
-          <h1 class="hero-type notfound-title">This page took an <em>unplanned detour.</em></h1>
+          <h1 class="hero-type notfound-title">This page took an unplanned detour</h1>
 
           <p class="hero-lede">
             Maybe it was renamed, maybe it's a typo, or maybe it drifted out of the system and nobody
@@ -86,7 +86,7 @@ const detours = [
   }
   .notfound-mark figcaption {
     margin-top: 0.6rem;
-    font-size: 0.83rem;
+    font-size: var(--type-caption);
     font-weight: 500;
     color: var(--ink-muted);
   }
@@ -104,12 +104,12 @@ const detours = [
     margin-top: 2.5rem;
   }
   .notfound-links .editorial-link {
-    font-size: 1.15rem;
+    font-size: var(--type-body);
   }
 
   .notfound-report {
     margin-top: 2.5rem;
-    font-size: 0.93rem;
+    font-size: var(--type-small);
     color: var(--ink-muted);
   }
 </style>

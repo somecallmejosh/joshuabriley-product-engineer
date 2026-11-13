@@ -12,12 +12,14 @@ interface Props {
   text: string;
   /** Visible label. Defaults to the text itself when not provided. */
   label?: string;
+  /** Accessible name. Defaults to "Copy <label>". */
+  ariaLabel?: string;
   /** Surface the button sits on. `onDark` for navy/code windows. */
   tone?: 'light' | 'onDark';
   class?: string;
 }
 
-const { text, label, tone = 'light', class: className } = Astro.props;
+const { text, label, ariaLabel, tone = 'light', class: className } = Astro.props;
 const visibleLabel = label ?? text;
 
 const toneClass =
@@ -31,11 +33,11 @@ const toneClass =
   data-copy-button
   data-copy-text={text}
   class={cx(
-    'inline-flex items-center gap-1.5 px-2 py-1 rounded-md font-mono text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+    'inline-flex items-center gap-1.5 px-2 py-1 rounded font-mono text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
     toneClass,
     className,
   )}
-  aria-label={`Copy ${visibleLabel}`}
+  aria-label={ariaLabel ?? `Copy ${visibleLabel}`}
 >
   <Icon name="ph:copy" size={14} />
   <span data-copy-label>{visibleLabel}</span>

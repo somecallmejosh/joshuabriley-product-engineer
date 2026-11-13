@@ -16,7 +16,7 @@ const [featured, ...rest] = GAMES;
 >
   <section class="page-opener">
     <Container width="wide">
-      <h1 class="page-type hero-in hero-in-2">Games about <em>accessible interfaces</em></h1>
+      <h1 class="page-type hero-in hero-in-2">Games about accessible interfaces</h1>
       <p class="page-lede hero-in hero-in-3">
         There are {GAMES.length} games. Each takes a minute or two and teaches one thing about accessibility,
         front-end code, or design systems. The games run in your browser and send nothing to a server.
@@ -27,11 +27,11 @@ const [featured, ...rest] = GAMES;
   <section class="play-list-section" aria-labelledby="play-list-title">
     <Container width="wide">
       <h2 id="play-list-title" class="sr-only">Games</h2>
-      <ul class="arcade" role="list" data-reveal-stagger>
+      <ul class="arcade" role="list">
         <li class="tile tile--featured surface-denim">
           <div class="tile-copy">
             <p class="tile-topic">{featured.topic}</p>
-            <h3 class="featured-title">Pass or <em>fail?</em></h3>
+            <h3 class="featured-title">Pass or fail?</h3>
             <p class="tile-summary">{featured.summary}</p>
             <dl class="featured-facts">
               <div><dt>Lesson</dt><dd>{featured.teaches}</dd></div>
@@ -96,23 +96,22 @@ const [featured, ...rest] = GAMES;
   .tile-art { grid-column: 1; grid-row: 1 / span 3; display: block; }
   /* The tile is the mat, so the drawing's own mat is dropped. */
   .tile-art :global(.illustration) { --mat: 0rem; background: none; }
-  .tile-topic { font-size: .86rem; color: var(--ink-muted); }
+  .tile-topic { font-size: var(--type-caption); color: var(--ink-muted); }
   .tile-title { margin-top: .4rem; font-size: clamp(1.4rem, 1.2rem + .6vw, 1.75rem); font-weight: 800; line-height: 1.15; letter-spacing: -.04em; }
   .tile-title > span:first-child { text-decoration: underline; text-decoration-color: var(--line-strong); text-decoration-thickness: 1px; text-underline-offset: 5px; transition: color .2s, text-decoration-color .2s; }
-  .tile-summary { display: block; margin-top: .6rem; max-width: 44ch; font-size: .98rem; line-height: 1.55; color: var(--ink-muted); }
+  .tile-summary { display: block; margin-top: .6rem; max-width: 44ch; font-size: var(--type-small); line-height: 1.55; color: var(--ink-muted); }
   /* Color and transform only, so nothing moves around the tile. */
   .tile-link:is(:hover, :focus-visible) .tile-title > span:first-child { color: var(--accent); text-decoration-color: currentColor; }
   .tile-link:is(:hover, :focus-visible) :global(.illustration-drawing) { transform: rotate(0deg) scale(1.03); }
   .tile-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
 
-  .tile--featured { display: grid; gap: 2rem; padding: 2rem var(--tile-pad); background: var(--portfolio-blue); }
+  .tile--featured { display: grid; gap: 2rem; padding: 2rem var(--tile-pad); background: var(--denim); }
   .tile--featured .tile-topic, .tile--featured .tile-summary { color: color-mix(in srgb, var(--paper) 82%, transparent); }
   .featured-title { margin-top: .4rem; font-size: clamp(2.4rem, 4vw, 3.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; }
-  .featured-title em { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; color: color-mix(in srgb, var(--paper) 80%, var(--portfolio-blue)); }
   .featured-facts { display: grid; gap: 1.25rem; margin: 2rem 0 0; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
-  .featured-facts dt { font-size: .86rem; color: color-mix(in srgb, var(--paper) 82%, transparent); }
-  .featured-facts dd { margin: .3rem 0 0; max-width: 40ch; font-size: 1rem; line-height: 1.55; color: var(--paper); }
+  .featured-facts dt { font-size: var(--type-caption); color: color-mix(in srgb, var(--paper) 82%, transparent); }
+  .featured-facts dd { margin: .3rem 0 0; max-width: 40ch; font-size: var(--type-small); line-height: 1.55; color: var(--paper); }
   .featured-art { display: block; width: 100%; margin-bottom: 1rem; }
   .featured-art :global(.illustration) { --mat: 0rem; background: none; }
   .tile--featured .action-link { margin-top: 1.75rem; }
@@ -123,12 +122,12 @@ const [featured, ...rest] = GAMES;
   .round-sample svg { display: block; width: 100%; height: auto; }
   .round-sample text { font-family: var(--font-hanken), sans-serif; font-size: 40px; font-weight: 600; letter-spacing: -1px; }
   .round-choices { display: flex; flex-wrap: wrap; gap: .5rem; }
-  .round-button, .round-next { min-height: 2.75rem; padding: 0 1.25rem; border: 1px solid color-mix(in srgb, var(--paper) 45%, transparent); font-size: .92rem; font-weight: 600; color: var(--paper); }
+  .round-button, .round-next { min-height: 2.75rem; padding: 0 1.25rem; border: 1px solid color-mix(in srgb, var(--paper) 45%, transparent); font-size: var(--type-caption); font-weight: 600; color: var(--paper); }
   .round-button:hover, .round-next:hover { border-color: var(--paper); }
   .round-button[aria-pressed='true'] { background: var(--paper); color: var(--portfolio-blue); }
   .round-button:disabled { cursor: default; }
   .round-next { margin-left: auto; border-color: transparent; text-decoration: underline; text-underline-offset: 5px; }
-  .round-result { min-height: 3em; margin: 0; font-size: 1rem; line-height: 1.5; }
+  .round-result { min-height: 3em; margin: 0; font-size: var(--type-small); line-height: 1.5; }
   .round-result strong { font-weight: 650; }
   :is(.round-button, .round-next):focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
 

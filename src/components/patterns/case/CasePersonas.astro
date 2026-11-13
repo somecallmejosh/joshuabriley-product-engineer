@@ -24,7 +24,7 @@ const cols = items.length === 3 ? 'lg:grid-cols-3' : '';
 const hasQuotes = items.some((p) => p.quote);
 ---
 <Heading level={3} visual="h2" class="mb-10">Personas</Heading>
-<ul style={`--rows: ${hasQuotes ? 6 : 5}`} class:list={['personas grid grid-cols-1 gap-y-24 md:grid-cols-2 md:gap-x-20 lg:gap-x-32', cols]} data-reveal-stagger>
+<ul style={`--rows: ${hasQuotes ? 6 : 5}`} class:list={['personas grid grid-cols-1 gap-y-24 md:grid-cols-2 md:gap-x-20 lg:gap-x-32', cols]}>
   {items.map((p) => (
     <li id={`persona-${p.id}`} class="persona scroll-mt-32">
       <div class="flex items-end gap-6">

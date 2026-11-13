@@ -8,9 +8,8 @@
  *   slug     - output file name → public/images/og/<slug>.png
  *   path     - the route this card belongs to (with trailing slash)
  *   eyebrow  - Geist Mono label above the headline
- *   headline - Newsreader display line (a navy period is appended by the card)
- *   wink     - optional word inside `headline` set in navy italic (the site's
- *              ink-wink). Case-insensitive match on the last occurrence.
+ *   headline - Hanken display line in one run (the card sets its end punctuation,
+ *              or an appended period, in the accent)
  *   art      - optional visual for the right half of the card:
  *              'portrait' (Josh), 'blog' (a fan of post drawings) or 'work'
  *              (a fan of project close-ups). Project pages pick up their
@@ -23,42 +22,35 @@
  */
 export const OG_PAGES = [
   // Marketing / core
-  { slug: 'home', path: '/', eyebrow: 'Joshua Briley', headline: 'Product design engineer', wink: 'engineer', art: 'portrait' },
-  { slug: 'about', path: '/about/', eyebrow: 'Product Design Engineer', headline: 'About Joshua Briley', wink: 'Joshua Briley', art: 'portrait' },
-  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Contact Joshua Briley', wink: 'Joshua Briley', art: 'portrait' },
-  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé', headline: 'Joshua Briley, Product Design Engineer', wink: 'Product Design Engineer', art: 'portrait' },
-  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Client case studies', wink: 'case studies', art: 'work' },
-  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Made for fun', headline: 'Personal projects', wink: 'projects', art: 'work' },
-  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'Client and colleague recommendations', wink: 'recommendations', art: 'portrait' },
-  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Writing about interfaces', wink: 'interfaces', art: 'blog' },
-  { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system', wink: null },
-  { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy', wink: null },
-  { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use', wink: null },
+  { slug: 'home', path: '/', eyebrow: 'Joshua Briley', headline: 'Product design engineer', art: 'portrait' },
+  { slug: 'about', path: '/about/', eyebrow: 'Product Design Engineer', headline: 'About Joshua Briley', art: 'portrait' },
+  { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Contact Joshua Briley', art: 'portrait' },
+  { slug: 'resume', path: '/resume/', eyebrow: 'Résumé', headline: 'Joshua Briley, Product Design Engineer', art: 'portrait' },
+  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Client case studies', art: 'work' },
+  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Made for fun', headline: 'Personal projects', art: 'work' },
+  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'Client and colleague recommendations', art: 'portrait' },
+  { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Writing about interfaces', art: 'blog' },
+  { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system' },
+  { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy' },
+  { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use' },
 
   // Case studies (client work)
-  { slug: 'project-ivfcryo', path: '/projects/ivfcryo/', eyebrow: 'Case Study · Design & Front-End', headline: 'IVFCRYO', wink: null },
-  { slug: 'project-logatot', path: '/projects/logatot/', eyebrow: 'Case Study · Design & Front-End', headline: 'Logatot', wink: null },
-  { slug: 'project-vmspark', path: '/projects/vmspark/', eyebrow: 'Case Study · Design & Front-End', headline: 'VMSpark', wink: null },
+  { slug: 'project-ivfcryo', path: '/projects/ivfcryo/', eyebrow: 'Case Study · Design & Front-End', headline: 'IVFCRYO' },
+  { slug: 'project-logatot', path: '/projects/logatot/', eyebrow: 'Case Study · Design & Front-End', headline: 'Logatot' },
+  { slug: 'project-vmspark', path: '/projects/vmspark/', eyebrow: 'Case Study · Design & Front-End', headline: 'VMSpark' },
 
   // Personal projects
   // Moved back from the client case studies; the eyebrow (baked into the PNG)
   // had to change with it, so this card is regenerated under its old slug.
-  { slug: 'pp-beckit', path: '/personal-projects/beckit/', eyebrow: 'Made for fun', headline: 'beckit', wink: null },
-  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Made for fun', headline: 'Clempo', wink: null },
-  { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Made for fun', headline: 'Rudiment UI', wink: null },
-  { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Made for fun', headline: 'Token Adventure', wink: null },
+  { slug: 'pp-beckit', path: '/personal-projects/beckit/', eyebrow: 'Made for fun', headline: 'beckit' },
+  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Made for fun', headline: 'Clempo' },
+  { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Made for fun', headline: 'Rudiment UI' },
+  { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Made for fun', headline: 'Token Adventure' },
 
   // Blog posts are NOT listed here. They are derived from the posts collection
   // via postToOgEntry() below, so a new post gets a card automatically (just
   // re-run `npm run og:generate`). The blog INDEX (/blog/) is a manifest entry.
 ];
-
-/** Last word of a string with any trailing punctuation stripped (for winks). */
-function lastWord(str) {
-  const words = String(str).trim().split(/\s+/);
-  const last = words[words.length - 1] ?? '';
-  return last.replace(/[.,;:!?"')\]]+$/, '');
-}
 
 /**
  * Derive an OG entry from a blog post's frontmatter. Shared by the render route
@@ -72,7 +64,6 @@ export function postToOgEntry(post) {
     path: `/blog/${post.id}/`,
     eyebrow: post.category ?? 'Writing',
     headline: post.title,
-    wink: lastWord(post.title),
   };
 }
 

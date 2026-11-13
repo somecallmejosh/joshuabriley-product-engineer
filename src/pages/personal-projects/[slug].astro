@@ -54,7 +54,7 @@ const next = personalProjects[personalProjectOrder[(personalProjectOrder.indexOf
       <h2 id="good-bits" class="scrap-heading mb-14">The good bits</h2>
       <div class:list={['scrap-screens', { 'scrap-screens--3': project.columns === 3 }]}>
         {project.goodBits.map((bit) => (
-          <figure data-reveal>
+          <figure>
             <ScrapPiece art={bit.art} tall={project.columns === 3} />
             <figcaption class="scrap-caption">{bit.note}</figcaption>
           </figure>

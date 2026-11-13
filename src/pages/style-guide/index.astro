@@ -72,6 +72,12 @@ const pageFamily = [
 ].map((item) => ({ ...item, hex: cssValue(item.cssVar).toUpperCase() }));
 const spacing = ['--space-section', '--space-block', '--space-item'].map((name) => ({ name, value: cssValue(name) }));
 
+/* Dark theme values: tokens.json color.dark, applied by site.css under :root[data-theme='dark']. */
+const darkGroup = tokens.color.dark as unknown as Record<string, { $value: string; $description: string }> & { $description: string };
+const darkTokens = Object.entries(darkGroup)
+  .filter(([name]) => !name.startsWith('$'))
+  .map(([name, token]) => ({ name, hex: (token as { $value: string }).$value, description: (token as { $description: string }).$description }));
+
 /* ── Type and motion, also from tokens.json ── */
 const fonts = Object.entries(tokens.font).map(([key, token]) => ({ key, family: token.$value[0], stack: token.$value.join(', '), description: token.$description, cssVar: token.$extensions.site.cssVar }));
 const easings = Object.entries(tokens.motion).map(([key, token]) => {
@@ -116,7 +122,7 @@ const markup = {
 
   <header class="page-opener sg-opener">
     <Container width="wide">
-      <h1 class="page-type hero-in hero-in-2">Style <em>guide</em></h1>
+      <h1 class="page-type hero-in hero-in-2">Style guide</h1>
       <p class="page-lede hero-in hero-in-3">The tokens, components, and patterns behind this site, with live examples, props, and usage rules.</p>
       <p class="sg-opener-agents hero-in hero-in-4">A JSON version of this guide is available for coding agents. <a class="editorial-link" href="/style-guide/system.json">Open system.json</a></p>
     </Container>
@@ -142,6 +148,9 @@ const markup = {
           {token.cssVar && <CopyButton text={`var(${token.cssVar})`} label="Copy variable" class="sg-token-copy" />}
         </li>
       ))}</ul>
+      <h3 class="sg-subhead">Dark theme</h3>
+      <p class="sg-note">{darkGroup.$description} Use the theme switch in the header to see this page in dark.</p>
+      <ul class="sg-tokens sg-tokens--compact">{darkTokens.map((token) => <li><div class="sg-swatch" style={`background: ${token.hex}`} aria-hidden="true"></div><h3><code>dark.{token.name}</code></h3><p class="sg-token-value">{token.hex}</p><p>{token.description}</p></li>)}</ul>
       <h3 class="sg-subhead">Page-family values</h3>
       <p class="sg-note">Defined in <code>redesign.css</code> for the portfolio pages. These values are not in <code>tokens.json</code>. Use the tokens above in new work.</p>
       <ul class="sg-tokens sg-tokens--compact">{pageFamily.map((item) => <li><div class="sg-swatch" style={`background: var(${item.cssVar})`} aria-hidden="true"></div><h3><code>{item.cssVar}</code></h3><p class="sg-token-value">{item.hex}</p><p>{item.note}</p></li>)}</ul>
@@ -170,15 +179,16 @@ const markup = {
       ))}</ul>
       <h3 class="sg-subhead">Type scale</h3>
       <ol class="sg-ladder">
-        <li><code>.page-type</code><p class="page-type sg-ladder-page">Page <em>title</em></p></li>
-        <li><code>.section-type</code><p class="section-type sg-ladder-section">Section <em>heading</em></p></li>
+        <li><code>.page-type</code><p class="page-type sg-ladder-page">Page title</p></li>
+        <li><code>.section-type</code><p class="section-type sg-ladder-section">Section heading</p></li>
         <li><code>{'<Heading visual="h2">'}</code><Heading level={4} visual="h2">Subsection heading</Heading></li>
         <li><code>.page-lede</code><p class="page-lede sg-ladder-lede">A one- or two-sentence introduction to the page.</p></li>
         <li><code>{'<Text size="lg" tone="muted">'}</code><Text size="lg" tone="muted">Explain the situation, the alternatives, and the reason for a decision.</Text></li>
         <li><code>{'<Text size="sm" tone="muted">'}</code><Text size="sm" tone="muted">Captions describe what the reader is seeing.</Text></li>
       </ol>
+      <p class="sg-note">Pages open two ways. <code>.page-opener</code> sets the big title for pages that introduce something: home, listings, case studies, articles. <code>.page-opener--document</code> sets a plain title for the résumé, contact, and legal pages.</p>
       <ComponentDoc id="heading" name="<Heading>" path="src/components/primitives/Heading.astro" purpose="Renders every heading. level sets the tag and visual sets the size. The visual size never changes the document outline." code={markup.heading}
-        dos={['Pick level from the outline and visual from the design.', 'Use the serif italic (<em>) for one phrase in the page title only.']}
+        dos={['Pick level from the outline and visual from the design.', 'Set page titles in one typeface, with no serif-italic phrase and no colored end mark.']}
         donts={['Skip heading levels to get a smaller size.', 'Use tone="faint" or deprecated tones such as navy and coral.']} />
       <ComponentDoc id="text" name="<Text>" path="src/components/primitives/Text.astro" purpose="Body copy on the type scale for case studies and supporting pages."
         dos={['Use tone="muted" for descriptions and captions.']}

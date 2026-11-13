@@ -79,7 +79,7 @@
   }
   body[data-print-layout='site'] #main hr { display: none !important; }
 
-  body[data-print-layout='site'] :is(.scroll-reveal, .hero-in, [data-reveal], [data-reveal-stagger] > *) { opacity: 1 !important; }
+  body[data-print-layout='site'] .hero-in { opacity: 1 !important; }
   body[data-print-layout='site'] :is(.site-header, .site-footer, .reading-progress, .skip-link,
     #inspector-toast, #vs-chip, astro-dev-toolbar, dialog, iframe, .sr-only,
     [data-print-screen],

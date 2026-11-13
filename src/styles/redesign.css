@@ -1,14 +1,30 @@
 /* Shared portfolio language: bold grotesk, editorial italic, denim and paper. */
 :root {
   --portfolio-blue: #244c71;
+  /* Denim as a fill (bands, result cards, selected chips). --portfolio-blue is
+     the text colour; they split in dark mode, where text goes sky and fills
+     stay deep denim under white text. */
+  --denim: var(--portfolio-blue);
   --portfolio-tint: #edf1f4;
 }
 /* Vertical rhythm, three tiers, fluid from phone to desktop. Each tier is clearly
-   larger than the one below so items group into blocks and blocks into sections. */
+   larger than the one below so items group into blocks and blocks into sections.
+   Generous on purpose: the site should feel airy, almost to a fault. */
 :root {
-  --space-section: clamp(5rem, 3.5rem + 6.1vw, 9rem);
-  --space-block: clamp(3rem, 2.1rem + 3.8vw, 5.5rem);
-  --space-item: clamp(2.5rem, 1.95rem + 2.3vw, 4rem);
+  --space-section: clamp(6rem, 4rem + 7.5vw, 11rem);
+  --space-block: clamp(3.5rem, 2.4rem + 4.5vw, 6.5rem);
+  --space-item: clamp(2.75rem, 2rem + 2.8vw, 4.5rem);
+}
+/* Running-text roles. Every non-heading text picks one; don't add sizes.
+   label: mono uppercase eyebrows and tags · caption: sources, meta, captions,
+   links in chrome · small: card, list and table text · body: running prose ·
+   lede: page intros and at most one opening paragraph per section. */
+:root {
+  --type-label: 0.75rem;
+  --type-caption: 0.875rem;
+  --type-small: 1rem;
+  --type-body: 1.125rem;
+  --type-lede: 1.375rem;
 }
 html {
   scroll-padding-top: 6rem;
@@ -20,8 +36,7 @@ body {
   min-width: 0;
 }
 .site-header {
-  background: rgb(250 251 252 / 0.96);
-  backdrop-filter: blur(12px);
+  background: var(--paper);
 }
 .site-header {
   border-bottom-color: transparent;
@@ -38,7 +53,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   min-height: 44px;
-  font-size: 0.9rem;
+  font-size: var(--type-caption);
   font-weight: 600;
   color: var(--ink);
   white-space: nowrap;
@@ -59,7 +74,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem 1rem;
-  font-size: 0.83rem;
+  font-size: var(--type-caption);
   font-weight: 500;
   color: var(--ink-muted);
 }
@@ -86,17 +101,10 @@ body {
 .hero-type {
   font-size: clamp(3.6rem, 6.4vw, 6rem);
 }
-.hero-type em,
-.page-type em {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.055em;
-  color: var(--portfolio-blue);
-}
 .hero-lede {
   margin-top: 2.5rem;
   max-width: 39ch;
-  font-size: clamp(1.12rem, 1.5vw, 1.35rem);
+  font-size: var(--type-lede);
   line-height: 1.55;
   color: var(--ink-muted);
 }
@@ -114,7 +122,7 @@ body {
    seats the block in it, and a busy form pulses the dot. Surfaces retint it
    through the --action-* properties, never by overriding background. */
 .action-link {
-  --action-fill: var(--portfolio-blue);
+  --action-fill: var(--denim);
   --action-fill-hover: #183a59;
   --action-frame: rgb(var(--accent-rgb) / 0.45);
   --action-dot: var(--accent);
@@ -129,7 +137,7 @@ body {
   min-height: 52px;
   color: white;
   padding: 0.85rem 1.6rem;
-  font-size: 0.95rem;
+  font-size: var(--type-small);
   font-weight: 600;
 }
 .action-link::before,
@@ -201,7 +209,7 @@ body {
 .editorial-link {
   display: inline-block;
   padding-block: max(0px, calc((44px - 1lh) / 2));
-  font-size: 0.93rem;
+  font-size: var(--type-caption);
   font-weight: 600;
   color: var(--ink);
   text-decoration: underline;
@@ -260,7 +268,7 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem;
-  font-size: 0.73rem;
+  font-size: var(--type-caption);
   line-height: 1.5;
   padding-top: 0.8rem;
   color: var(--ink-muted);
@@ -317,7 +325,7 @@ body {
   padding: 0 0 var(--space-block);
 }
 .current-work-label {
-  font-size: 0.83rem;
+  font-size: var(--type-caption);
   font-weight: 500;
   color: var(--ink-muted);
 }
@@ -356,7 +364,7 @@ body {
 }
 .current-work-figures dt {
   max-width: 22ch;
-  font-size: 0.9rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
   color: var(--ink-muted);
 }
@@ -372,7 +380,7 @@ body {
 }
 .section-heading > p {
   margin-top: 1.25rem;
-  font-size: 1.06rem;
+  font-size: var(--type-body);
   line-height: 1.6;
   max-width: 52ch;
   color: var(--ink-muted);
@@ -395,7 +403,7 @@ body {
 .work-kind {
   margin-top: 0.5rem;
   color: var(--ink-muted);
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   line-height: 1.6;
 }
 .work-copy h3 {
@@ -415,7 +423,7 @@ body {
 .work-summary {
   margin-top: 1rem;
   max-width: 49ch;
-  font-size: 1rem;
+  font-size: var(--type-small);
   line-height: 1.65;
   color: var(--ink-muted);
 }
@@ -423,7 +431,7 @@ body {
   display: grid;
   gap: 0.7rem;
   margin-top: 1.5rem;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   line-height: 1.5;
 }
 .work-facts > div {
@@ -452,7 +460,7 @@ body {
 }
 .work-result > span {
   max-width: 25ch;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   line-height: 1.4;
   color: var(--ink-muted);
 }
@@ -502,14 +510,14 @@ body {
   margin-top: 2rem;
   max-width: 33ch;
   color: var(--ink-muted);
-  font-size: 1.1rem;
+  font-size: var(--type-body);
   line-height: 1.65;
 }
 .quiet-aside {
   margin-top: 2.5rem;
   font-family: var(--font-fraunces), Georgia, serif;
   font-style: italic;
-  font-size: 1.4rem;
+  font-size: var(--type-lede);
   color: var(--portfolio-blue);
 }
 .approach-list article + article {
@@ -523,7 +531,7 @@ body {
 }
 .approach-list p {
   margin: 1rem 0 1.25rem;
-  font-size: 1rem;
+  font-size: var(--type-small);
   line-height: 1.65;
   color: var(--ink-muted);
   max-width: 54ch;
@@ -541,7 +549,7 @@ body {
    underlined; hover and focus switch to paper so they don't vanish into the
    accent, which is the same blue family as the band. */
 .surface-denim {
-  background: var(--portfolio-blue);
+  background: var(--denim);
   color: var(--paper);
 }
 .surface-denim p {
@@ -567,7 +575,7 @@ body {
 }
 .page-lede {
   margin-top: 2.5rem;
-  font-size: 1.2rem;
+  font-size: var(--type-lede);
   line-height: 1.6;
   max-width: 55ch;
   color: var(--ink-muted);
@@ -579,12 +587,36 @@ body {
   margin-top: 3rem;
   padding-top: 1.4rem;
 }
+/* Pages open two ways, by what they're for. The big opener above is for pages
+   that introduce something (home, listings, case studies, articles). Documents
+   (résumé, contact, legal) use --document: a plain title, then the document. */
+.page-opener--document {
+  padding: 2.5rem 0 3rem;
+}
+.page-opener--document .page-type {
+  margin-top: 0.75rem;
+  font-size: clamp(2.25rem, 3.4vw, 3.1rem);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+.page-opener--document .page-lede {
+  margin-top: 1rem;
+  font-size: var(--type-body);
+  max-width: 60ch;
+}
+.page-opener--document .evidence-nav {
+  margin-top: 1.25rem;
+}
+/* Legal pages are one document: opener spacing on top, a full section below. */
+.page-opener--document.legal-page {
+  padding-bottom: var(--space-section);
+}
 .evidence-nav a {
   display: inline-flex;
   gap: 1.3rem;
   align-items: center;
   min-height: 44px;
-  font-size: 0.9rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 .evidence-nav a:hover {
@@ -619,7 +651,7 @@ body {
 .resource-list span > span {
   display: block;
   margin-top: 0.55rem;
-  font-size: 0.95rem;
+  font-size: var(--type-small);
   line-height: 1.6;
   color: var(--ink-muted);
 }
@@ -632,7 +664,7 @@ body {
 }
 .prose-lede {
   max-width: 58ch;
-  font-size: 1.14rem;
+  font-size: var(--type-lede);
   line-height: 1.7;
   color: var(--ink-muted);
 }
@@ -642,7 +674,7 @@ body {
 .experience-note {
   padding: 1.5rem 0;
   margin-top: var(--space-item);
-  font-size: 0.96rem;
+  font-size: var(--type-small);
   line-height: 1.7;
   color: var(--ink-muted);
   max-width: 65ch;
@@ -658,9 +690,8 @@ body {
   top: 76px;
   z-index: 30;
   padding: 0.5rem 0;
-  background: color-mix(in srgb, var(--paper) 97%, transparent);
+  background: var(--paper);
   border-block: 1px solid var(--line);
-  backdrop-filter: blur(10px);
 }
 .case-review-links {
   display: flex;
@@ -675,7 +706,7 @@ body {
   flex-shrink: 0;
 }
 .case-review p {
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   color: var(--ink-muted);
   margin-right: auto;
 }
@@ -684,7 +715,7 @@ body {
   min-height: 44px;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.83rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 .case-review a:hover {
@@ -710,7 +741,7 @@ body {
   left: 0;
   width: 100%;
   height: 3px;
-  background: var(--portfolio-blue);
+  background: var(--denim);
   /* Slides in rather than scales, so the dot at its head keeps its shape. */
   transform: translateX(-100%);
   pointer-events: none;
@@ -876,7 +907,7 @@ body {
     font-size: clamp(3.2rem, 7.4vw, 5.5rem);
   }
   .hero-lede {
-    font-size: 1.04rem;
+    font-size: var(--type-body);
   }
 }
 @media (max-width: 639px) {
@@ -928,10 +959,10 @@ body {
     font-size: clamp(2.6rem, 11vw, 4rem);
   }
   .page-lede {
-    font-size: 1.1rem;
+    font-size: var(--type-lede);
   }
   .role-line {
-    font-size: 0.76rem;
+    font-size: var(--type-caption);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1021,4 +1052,26 @@ body {
 @keyframes pin-in {
   0% { opacity: 0; visibility: hidden; translate: 0 2rem; rotate: 2deg; }
   18%, 100% { opacity: 1; visibility: visible; translate: 0 0; rotate: 0deg; }
+}
+
+/* Dark theme: denim fills that would sit on the dark page. The primary action
+   keeps the deep denim block (white text 6.7:1, and it still reads against the
+   page); the inverse variant only exists for denim bands, which blend into the
+   page in dark mode, so it becomes the normal action. Denim bands take the page
+   colour (--ink is the page inside a dark surface). */
+@media screen {
+  :root[data-theme='dark'] :is(.action-link, .action-link--inverse) {
+    --action-fill: var(--action-dark);
+    --action-fill-hover: var(--action-dark-hover);
+    --action-frame: rgb(var(--accent-rgb) / 0.45);
+    --action-dot: var(--accent);
+    color: white;
+  }
+  /* Full-width denim bands blend into the page like the ink bands; denim tiles
+     and cards keep the deep denim fill (var(--denim)). */
+  :root[data-theme='dark'] :is(section.surface-denim, .latest-writing, .testimonials-feature, .article-overview, .verdict-section) {
+    background: var(--dark-bg);
+    border-block: 1px solid var(--line);
+  }
+  :root[data-theme='dark'] .work-section { background: var(--dark-bg); }
 }

@@ -22,7 +22,7 @@ const description = `Recommendations from ${sorted.length} clients and colleague
 <BaseLayout title="Testimonials | Joshua Briley" description={description}>
   <section class="page-opener">
     <Container width="wide">
-      <h1 class="page-type hero-in hero-in-2">Client and colleague <em>recommendations</em></h1>
+      <h1 class="page-type hero-in hero-in-2">Client and colleague recommendations</h1>
       <p class="page-lede hero-in hero-in-3">These {sorted.length} recommendations cover design quality, reliable delivery, and work across teams.</p>
       <nav class="evidence-nav hero-in hero-in-4" aria-label="Browse recommendations">
         {groups.map(group => <a href={`#${group.id}`}>{group.title}<span class="link-dot" aria-hidden="true"></span></a>)}
@@ -39,7 +39,7 @@ const description = `Recommendations from ${sorted.length} clients and colleague
     <Container width="wide">
       <div class="testimonial-theme">
         <h2 id={`${group.id}-title`}>{group.title}</h2>
-        <div class="testimonial-collection" data-reveal-stagger>
+        <div class="testimonial-collection">
           {group.entries.map(entry => <Recommendation testimonial={entry} />)}
         </div>
       </div>
@@ -47,7 +47,7 @@ const description = `Recommendations from ${sorted.length} clients and colleague
   </section>)}
 </BaseLayout>
 <style>
-  .testimonials-feature { background: var(--portfolio-blue); padding: 5rem 0; }
+  .testimonials-feature { background: var(--denim); padding: 5rem 0; }
   .testimonial-section { padding: 5rem 0; scroll-margin-top: 1.5rem; }
   .testimonial-theme { display: grid; gap: 2rem; }
   .testimonial-theme > h2 { font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -.05em; max-width: 15ch; }

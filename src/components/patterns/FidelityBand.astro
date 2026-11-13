@@ -137,7 +137,7 @@ const zoomLabel = `${title} · annotated`;
 
   .fband__frame {
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 4px;
     border: 1px solid var(--line);
     /* Same fixed light stage as Plate — the artwork does not invert. */
     background: #ffffff;
@@ -161,7 +161,7 @@ const zoomLabel = `${title} · annotated`;
        other two, which is the exact raggedness this band is trying to fix. */
     min-height: 2.15rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.66rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--ink);
@@ -169,7 +169,7 @@ const zoomLabel = `${title} · annotated`;
 
   .fband__gloss {
     margin: 0.4rem 0 0;
-    font-size: 0.83rem;
+    font-size: var(--type-caption);
     line-height: 1.55;
     color: var(--ink-muted);
   }
@@ -194,7 +194,7 @@ const zoomLabel = `${title} · annotated`;
     background: none;
     border: 1px solid var(--line);
     font-family: inherit;
-    font-size: 0.56rem;
+    font-size: var(--type-label);
     text-transform: uppercase;
     letter-spacing: 0.14em;
     white-space: nowrap;
@@ -210,7 +210,7 @@ const zoomLabel = `${title} · annotated`;
   .fband__cap {
     margin: 1.5rem 0 0;
     max-width: 68ch;
-    font-size: 0.9375rem;
+    font-size: var(--type-small);
     line-height: 1.65;
     color: var(--ink-muted);
   }
