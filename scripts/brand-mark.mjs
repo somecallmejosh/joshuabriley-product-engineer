@@ -19,7 +19,17 @@ export const MARK_BOX = 64;
  *  loses the thick/thin contrast that makes it read as a script. */
 export const MARK_STROKE = 0.9;
 
+/**
+ * The wordmark's period, set after the J on its baseline (the J's bowl
+ * bottoms out at y 57). The J shifts left by MARK_SHIFT so "J." stays
+ * optically centred. r 4 still lands a whole pixel at 16px.
+ */
+export const DOT = { cx: 46, cy: 53, r: 4 };
+export const MARK_SHIFT = -3;
+
 export const INK = '#1A1B1E';
+/** The on-ink accent from site.css, since the badge is ink. */
+export const ACCENT_ON_INK = '#6BA6D8';
 export const PAPER = '#FAFBFC';
 
 /**

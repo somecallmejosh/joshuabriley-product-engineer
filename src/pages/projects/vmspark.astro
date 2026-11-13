@@ -234,7 +234,7 @@ const edges = [
       </p>
     </CaseProse>
 
-    <div class="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 py-8 md:gap-x-24">
+    <div class="mt-12 grid gap-x-8 gap-y-8 py-8 sm:grid-cols-2 md:gap-x-24">
       <Metric value="3.5 → 7.5" label="average score out of 10" caption="before and after, same rubric, scored from the code" />
       <Metric value="2 → 8" label="error prevention" caption="the lowest score before the redesign" />
     </div>
@@ -464,7 +464,7 @@ const edges = [
       </CaseProse>
 
       <Container width="wide" class="mt-16">
-        <ul class="stage-grid grid grid-cols-2 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid stage-grid--phones grid grid-cols-2 gap-y-10 md:grid-cols-4">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />

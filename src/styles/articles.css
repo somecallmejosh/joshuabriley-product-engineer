@@ -25,9 +25,13 @@
 .article-desktop-toc, .article-back-top { display: none; }
 .article-rail ol { list-style: none; padding: 0; margin: 1rem 0 0; }
 .article-rail li { margin: 0; }
-.article-rail nav a { display: block; color: var(--ink-muted); font-size: .9rem; line-height: 1.45; padding: .6rem .8rem; border-left: 2px solid var(--line); }
-.article-rail nav a:hover { color: var(--portfolio-blue); background: var(--portfolio-tint); text-decoration: underline; text-underline-offset: 4px; }
-.article-rail nav a[aria-current] { color: var(--portfolio-blue); font-weight: 700; border-color: var(--portfolio-blue); background: var(--portfolio-tint); }
+.article-rail nav a { position: relative; display: block; color: var(--ink-muted); font-size: .9rem; line-height: 1.45; padding: .6rem .8rem; border-left: 2px solid var(--line); }
+.article-rail nav a:hover { color: var(--portfolio-blue); text-decoration: underline; text-underline-offset: 4px; }
+.article-rail nav a[aria-current] { color: var(--portfolio-blue); }
+/* The current section is marked by the accent dot sitting on the rail line,
+   centered on the label's first line, as the route dots sit on their lines. */
+.article-rail nav a::before { content: ''; position: absolute; left: -4.5px; top: calc(.6rem + .725em - 3.5px); width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: 0; transform: scale(0); transition: opacity .2s var(--ease-out), transform .25s var(--ease-out); }
+.article-rail nav a[aria-current]::before { opacity: 1; transform: scale(1); }
 .article-mobile-toc { border-block: 1px solid var(--line-strong); padding-block: .25rem; }
 .article-mobile-toc summary { display: flex; justify-content: space-between; align-items: center; min-height: 52px; cursor: pointer; font-weight: 650; list-style: none; }
 .article-mobile-toc summary::-webkit-details-marker { display: none; }
@@ -36,6 +40,9 @@
 .article-mobile-toc nav { padding-bottom: 1rem; }
 .article-prose { font-size: 1.12rem; line-height: 1.8; }
 .article-prose :is(h2, h3, h4)[id] { scroll-margin-top: 7rem; }
+/* End mark: the story's last sentence closes on the wordmark's accent dot, set
+   just before the closing series note. */
+.article-prose > p:has(+ p:last-child > a[href^='/blog/#'])::after { content: ''; display: inline-block; width: 7px; height: 7px; margin-left: .45em; border-radius: 50%; background: var(--accent); }
 .article-prose :where(h2):not(:where(.not-prose, .not-prose *)) { font-family: var(--font-hanken), system-ui, sans-serif; font-size: clamp(2rem, 3.3vw, 2.85rem); font-weight: 800; line-height: 1.1; letter-spacing: -.045em; margin-top: 3.5rem; padding-top: 2rem; margin-bottom: 1.1rem; }
 .article-prose :where(h3):not(:where(.not-prose, .not-prose *)) { font-size: 1.55rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.2; margin-top: 2.4rem; }
 .article-prose :where(h4):not(:where(.not-prose, .not-prose *)) { font-size: 1.2rem; }

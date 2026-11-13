@@ -1,6 +1,6 @@
 /**
- * Regenerates every icon in public/ from the outlined J in
- * scripts/brand-mark.mjs.
+ * Regenerates every icon in public/ from the outlined J and its accent
+ * period in scripts/brand-mark.mjs.
  *
  *   npm run icons
  *
@@ -13,7 +13,7 @@ import { writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import sharp from 'sharp';
-import { MARK_PATH, MARK_STROKE, badgeViewBox, INK, PAPER } from './brand-mark.mjs';
+import { MARK_PATH, MARK_STROKE, DOT, MARK_SHIFT, badgeViewBox, INK, PAPER, ACCENT_ON_INK } from './brand-mark.mjs';
 
 const PUBLIC = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
 
@@ -37,7 +37,10 @@ const svg = ({ fill = 1, radius = 0, a11y = false, px }) => {
 ${a11y ? '  <title>Joshua Briley</title>\n' : ''}  <rect x="${x}" y="${y}" width="${side}" height="${side}"${
     radius ? ` rx="${(side * radius).toFixed(2)}"` : ''
   } fill="${INK}"/>
-  <path d="${MARK_PATH}" fill="${PAPER}" stroke="${PAPER}" stroke-width="${MARK_STROKE}" stroke-linejoin="round"/>
+  <g transform="translate(${MARK_SHIFT} 0)">
+    <path d="${MARK_PATH}" fill="${PAPER}" stroke="${PAPER}" stroke-width="${MARK_STROKE}" stroke-linejoin="round"/>
+    <circle cx="${DOT.cx}" cy="${DOT.cy}" r="${DOT.r}" fill="${ACCENT_ON_INK}"/>
+  </g>
 </svg>
 `;
 };

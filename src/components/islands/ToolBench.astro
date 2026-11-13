@@ -72,7 +72,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       </div>
     </div>
     <div class="tile-actions">
-      <a class="editorial-link" href="/tools/token-playground/">{action('token-playground')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link" href="/tools/token-playground/">{action('token-playground')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
       <button type="button" class="bench-text-button" data-reset hidden>Reset values</button>
     </div>
   </article>
@@ -96,7 +96,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       </div>
     </div>
     <div class="tile-actions">
-      <a class="editorial-link" href="/tools/roi-calculator/">{action('roi-calculator')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link" href="/tools/roi-calculator/">{action('roi-calculator')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </div>
   </article>
 
@@ -126,7 +126,7 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
       </div>
     </div>
     <div class="tile-actions">
-      <a class="editorial-link" href="/tools/audit-findings/">{action('audit-findings')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
+      <a class="action-link" href="/tools/audit-findings/">{action('audit-findings')} <span aria-hidden="true" data-link-arrow="up-right">↗</span></a>
     </div>
   </article>
 </div>
@@ -152,7 +152,9 @@ const hours = DEFAULTS.team * DEFAULTS.reworkHours * WEEKS_PER_YEAR;
   .tile-copy .tile-note { margin-top: 1.25rem; }
   .tile-live { display: flex; flex-direction: column; gap: calc(1.25rem * var(--bench-space)); min-width: 0; flex: 1; }
   .tile-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
-  .tile--scorecard .action-link { margin-top: 1.75rem; background: var(--paper); color: var(--portfolio-blue); border-radius: var(--bench-radius); }
+  /* Every tile ends on the same button, and it follows the token tile's radius. */
+  .tile .action-link { border-radius: var(--bench-radius); }
+  .tile--scorecard .action-link { margin-top: 1.75rem; background: var(--paper); color: var(--portfolio-blue); }
   .tile--scorecard .action-link:hover { background: var(--portfolio-tint); }
 
   .prompt { min-width: 0; margin: 0; padding: 0; border: 0; }

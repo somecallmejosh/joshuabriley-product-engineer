@@ -36,7 +36,7 @@ const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.lengt
       Designed for {people.map((p, i) => (<Fragment><a href={`#persona-${p.id}`} class="hero-link">{p.name.split(' ')[0]}</a>{joiner(i)}</Fragment>))}
     </span>
     <span class="case-for__stage text-ink-muted">
-      <span class="case-for__route" aria-hidden="true"></span>Journey stage: <a href={`#journey-${stage.id}`} class="hero-link">{stage.stage}</a>
+      <span class="case-for__route" aria-hidden="true"></span><span>Journey stage: <a href={`#journey-${stage.id}`} class="hero-link">{stage.stage}</a></span>
     </span>
   </p>
 </aside>
@@ -72,16 +72,20 @@ const joiner = (i: number) => (i === people.length - 1 ? '' : i === people.lengt
     font-size: 0.875rem;
     line-height: 1.6;
   }
+  /* Label and link wrap together as one sentence; the route stays on the
+     first line. */
   .case-for__stage {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.25rem;
   }
   /* The journey map's route: a line out of the portraits that ends in a node at
      the stage name. */
   .case-for__route {
     width: 2.25rem;
+    flex-shrink: 0;
     height: 7px;
+    margin-top: calc(0.8em - 3.5px);
     margin-left: -1rem;
     margin-right: 0.375rem;
     background:

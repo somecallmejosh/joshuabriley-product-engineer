@@ -90,6 +90,16 @@
 .project-page figure.plate[data-plate][data-size='half'] .plate__note { font-size: .875rem; line-height: 1.6; max-width: 80ch; }
 .project-page figure.plate .plate__zoom,
 .project-page figure.fband .fband__zoom { min-height: 40px; font-family: var(--font-hanken), system-ui, sans-serif; font-size: .78rem; letter-spacing: 0; text-transform: none; border-radius: 0; padding: .4rem .65rem; }
+/* Phone screenshots share one height, so each caption follows its screen
+   directly and titles line up across a row (rather than sinking to the foot of
+   the cell, which staggers them by note length). In a narrow column the
+   Full size button keeps only its icon; the label stays for screen readers. */
+.project-page .stage-grid--phones > li { container-type: inline-size; }
+.project-page .stage-grid--phones figure.plate[data-plate][data-size='half'] .plate__cap { margin-top: .85rem; }
+@container (max-width: 15rem) {
+  .project-page .stage-grid--phones .plate__zoom { padding-inline: .6rem; }
+  .project-page .stage-grid--phones .plate__zoom-label { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 .project-page figure.site-shot .site-shot-mount { border: 0; border-radius: 0; box-shadow: none; background: var(--project-stage); padding: var(--stage-mat); margin-inline: calc(-1 * var(--stage-mat)); }
 .project-page figure.site-shot .site-shot-stage { border-radius: 0; }
 .project-page figure.site-shot .site-shot-index { display: none; }

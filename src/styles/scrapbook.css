@@ -268,16 +268,27 @@
   .scrap-screens--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* Wide and narrow tiles alternate by row. Each mosaic's shape follows its tile
-   so the two mosaics in a row come out about the same height. */
+/* Wide and narrow tiles alternate by row. Both mosaics in a row take the same
+   height (3:2 on the wide tile's inner width, worked out from the wall's width),
+   so their titles and notes line up across the row.
+   The tinted tiles hang outside the page column by their padding, so the
+   mosaics and notes inside them (not the tint) line up with the page heading. */
 @media (min-width: 1024px) {
-  .scrap-wall { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .scrap-wall {
+    margin-inline: -2rem;
+    container-type: inline-size;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
   .scrap-piece:nth-child(4n + 1),
   .scrap-piece:nth-child(4n + 4) { grid-column: span 7; }
   .scrap-piece:nth-child(4n + 2),
   .scrap-piece:nth-child(4n + 3) { grid-column: span 5; }
-  .scrap-piece:is(:nth-child(4n + 1), :nth-child(4n + 4)) .scrap-mosaic { aspect-ratio: 3 / 2; }
-  .scrap-piece:is(:nth-child(4n + 2), :nth-child(4n + 3)) .scrap-mosaic { aspect-ratio: 1 / 1; }
+  .scrap-wall .scrap-mosaic {
+    /* One wall column, then the wide tile (7 columns, 6 gaps) less its padding. */
+    --scrap-col: calc((100cqw - 11rem) / 12);
+    aspect-ratio: auto;
+    height: calc((7 * var(--scrap-col) + 6rem - 4rem) * 2 / 3);
+  }
 }
 
 @media (min-width: 1100px) {

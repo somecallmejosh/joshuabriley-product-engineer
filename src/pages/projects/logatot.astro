@@ -379,7 +379,7 @@ const results = [
         </p>
       </CaseProse>
 
-          <div class="mt-8 grid grid-cols-2 gap-x-8 gap-y-8 py-8 md:gap-x-24">
+          <div class="mt-8 grid gap-x-8 gap-y-8 py-8 sm:grid-cols-2 md:gap-x-24">
             <Metric value="4.9" label="average score before" caption="across ten heuristics and 119 page captures" />
             <Metric value="3" label="lowest scores" caption="error prevention and recovering from errors" />
           </div>
@@ -714,7 +714,7 @@ const results = [
       </CaseProse>
 
       <Container width="wide" class="mt-16">
-        <ul class="stage-grid grid grid-cols-2 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid stage-grid--phones grid grid-cols-2 gap-y-10 md:grid-cols-4">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={rd(p.slug)} alt={p.alt} />
