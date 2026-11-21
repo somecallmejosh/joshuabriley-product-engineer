@@ -30,29 +30,33 @@ const workLinks: Record<string, { href: string; label: string }[]> = {
 };
 
 const skillContext: Record<string, { title: string; description: string; href?: string; link?: string }> = {
-  'Design & craft': {
-    title: 'Product design & accessibility',
-    description: 'Workflow framing, interaction states, prototypes, and accessibility behavior, worked out with product, design, and engineering.',
-    href: '/projects/ivfcryo/',
-    link: 'IVFCRYO case study',
-  },
-  'Data & experimentation': {
-    title: 'Data & experimentation',
-    description: 'Analytics, experimentation, and performance checks to identify friction and evaluate changes to an interface.',
-  },
   'Front end': {
     title: 'Front-end engineering',
-    description: 'My deepest current systems work is in Stencil Web Components and Storybook. My broader toolkit spans markup, styling, and product UI frameworks.',
+    description: 'Markup, styling, and component frameworks. My current daily work is Stencil Web Components and Storybook; before that, Vue and Nuxt at Berxi and React at America’s Test Kitchen.',
   },
-  'Systems & testing': {
-    title: 'Design systems & testing',
-    description: 'Shared components, tokens, documentation, and the tests and tooling that support their use across product teams.',
+  'Design systems & accessibility': {
+    title: 'Design systems & accessibility',
+    description: 'Shared components with documented APIs, design tokens, and the keyboard, focus, and screen reader behavior each component needs.',
     href: '/personal-projects/rudiment-ui/',
     link: 'Rudiment UI component library',
   },
-  'Back end & hosting': {
-    title: 'Application delivery',
-    description: 'Backend and deployment tools used to support product interfaces and working prototypes.',
+  'Product design': {
+    title: 'Product design',
+    description: 'Research, workflow framing, interaction states, and prototypes, worked out with product, design, and engineering.',
+    href: '/projects/ivfcryo/',
+    link: 'IVFCRYO case study',
+  },
+  'Testing & quality': {
+    title: 'Testing & quality',
+    description: 'Component, end-to-end, accessibility, and performance tests that catch problems before release.',
+  },
+  'Application development': {
+    title: 'Application development',
+    description: 'Rails views, ViewComponents, and deploys that support the interfaces I build and the prototypes I test.',
+  },
+  'Analytics & experimentation': {
+    title: 'Analytics & experimentation',
+    description: 'Analytics and A/B tests to find friction and check whether a change to an interface helped.',
   },
 };
 const threadTitle = Object.fromEntries(threads.map((t) => [t.key, t.title]));

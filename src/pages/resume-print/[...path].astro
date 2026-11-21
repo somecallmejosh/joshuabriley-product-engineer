@@ -20,7 +20,6 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import {
   CONTACT,
   SUMMARY,
-  STRENGTHS,
   EXPERIENCE,
   SKILLS,
   EDUCATION,
@@ -57,16 +56,6 @@ const contactLines = [
     </header>
 
     <p class="summary">{SUMMARY}</p>
-
-    <h2 class="section-label">How I work</h2>
-    <div class="strengths">
-      {STRENGTHS.map((s) => (
-        <div class="strength">
-          <p class="strength__title">{s.title}</p>
-          <p class="strength__body">{s.body}</p>
-        </div>
-      ))}
-    </div>
 
     <h2 class="section-label">Experience</h2>
     {EXPERIENCE.map((job) => (
@@ -214,25 +203,6 @@ const contactLines = [
     /* A heading stranded at the foot of a sheet is the classic print bug. */
     break-after: avoid;
     page-break-after: avoid;
-  }
-
-  /* ── How I work ───────────────────────────────────────────────────── */
-  .strengths {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.1in 0.36in;
-  }
-  .strength { break-inside: avoid; page-break-inside: avoid; }
-  .strength__title {
-    font-size: 8.7pt;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .strength__body {
-    margin-top: 0.015in !important;
-    font-size: 8.3pt;
-    line-height: 1.4;
-    color: var(--ink-muted);
   }
 
   /* ── Experience ───────────────────────────────────────────────────────── */

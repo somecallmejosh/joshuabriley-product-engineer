@@ -11,7 +11,7 @@ export const CONTACT = {
 
 /** Kept deliberately short. The bullets carry the proof; this just places me. */
 export const SUMMARY =
-  "Product design engineer with 20+ years of helping teams take products from an unclear problem to a shipped, accessible product. Most of my job titles say engineer. In most of those roles I also researched what users need and decided how the product should behave, working with product, design, and engineering. On a design system team I use the same skills to support designers. The components they design reach roughly 3,500 engineers and designers as intended."
+  'Product design engineer with 20+ years of designing and building accessible production interfaces with product, design, and engineering teams. Works across design systems, reusable components, Web Components, and interaction design, in Vue, Stencil, React, Ruby on Rails, TypeScript, HTML, and CSS. Currently builds and maintains Stencil components for a design system used by about 3,500 designers and engineers.'
 
 /**
  * The résumé's through-line. Each EXPERIENCE entry tags the threads it proves
@@ -43,10 +43,10 @@ export const EXPERIENCE = [
     role: 'Software Engineer II, Design System',
     threads: ['build', 'everyone'],
     bullets: [
-      'Support the design team by automating Figma Code Connect mapping, so designers and engineers no longer translate the same components by hand.',
-      'Gave roughly 3,500 engineers and designers across the organization one accessible component set to build against, cutting duplicate UI work.',
+      'Build and maintain accessible Stencil Web Components for a design system used by about 3,500 designers and engineers, so teams on different frameworks share one component set instead of rebuilding it.',
+      'Document component APIs, accessibility expectations, and cross-framework usage, so consuming teams ship correct patterns without asking.',
       'Cut more than 10 hours of setup per component story by automating Storybook story generation, returning that time to feature work.',
-      'Raised adoption by documenting accessibility expectations, implementation guidance, and cross-framework usage, so consuming teams ship correct patterns without asking.',
+      'Automate Figma Code Connect mapping, so designers and engineers no longer translate the same components by hand.',
     ],
   },
   {
@@ -55,9 +55,9 @@ export const EXPERIENCE = [
     role: 'Freelance UI Designer/Developer',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
-      "Rebuilt VMSpark's admin app on a design system made for its operators after a heuristic audit scored it 3.5 out of 10. A re-score with the same rubric reached 7.5, and every delete now asks for confirmation.",
+      "Rebuilt the front end of VMSpark's Rails admin app on a design system made for its operators after a heuristic audit scored it 3.5 out of 10. The production release re-scored 7.5 on the same rubric, and every delete now asks for confirmation.",
       "Gave five parties one shipment record at IVFCRYO after interviews showed the hard part was getting everyone ready before a shipment could start, cutting support calls 75% and shipping errors 55%.",
-      'Deliver full-stack prototypes and production applications for clients.',
+      "Built IVFCRYO's interface in Rails with ViewComponent, HTML, Tailwind CSS, and JavaScript, working with the back-end team that owned the shipment-tracking integration.",
     ],
   },
   {
@@ -66,8 +66,9 @@ export const EXPERIENCE = [
     role: 'Senior UX/UI Developer',
     threads: ['frame', 'build', 'everyone'],
     bullets: [
+      'Built the provider and family interfaces in Ruby on Rails with ViewComponent, htmx, and Alpine.js, working with the back-end developers.',
       'Moved documentation from evening paperwork to hands-free voice capture after interviews showed providers were filling in records from memory at night. Providers reported saving more than two hours a day.',
-      "Matched speech against a known list and used AI only to predict likely mishearings when a child is added. Compliance records cannot contain guessed entries.",
+      'Designed and built a review step for uncertain voice entries: speech is matched against a known list of children, and anything that does not match waits for the provider to correct it, so compliance records never contain guesses.',
       'Turned compliance into a by-product of daily work: attendance records, signed releases, CACFP claims, and drill logs all generate from events providers log during the day.',
       'Shipped to market as a paid product in English and Spanish, sold direct and through child care associations.',
     ],
@@ -91,7 +92,8 @@ export const EXPERIENCE = [
     role: 'Principal Design Engineer',
     threads: ['frame', 'build'],
     bullets: [
-      "Gave Berxi, the company's direct-to-consumer insurance platform, a design system with two-tier tokens, so marketing could launch campaigns and landing pages without waiting on engineering for visual changes, and brand updates reached every component automatically.",
+      "Led the move of Berxi, the company's direct-to-consumer insurance platform, off the Mendix no-code platform onto Vue, Nuxt, and TypeScript across four lines of business, owning the front-end architecture, user flows, and design system.",
+      'Gave Berxi a design system with two-tier tokens, so marketing could launch campaigns and landing pages without waiting on engineering, and brand updates reached every component automatically.',
       'Focused the roadmap on the screens underwriters and agents used most, based on Segment and Heap data from the portals.',
       'Made underwriting, administration, customer service, and agent workflows usable at scale through data-heavy tables, filters, forms, and dashboards.',
       'Standardized front-end work across internal, agent, and customer portals with one shared UI library, so teams stopped rebuilding the same patterns.',
@@ -112,74 +114,64 @@ export const EXPERIENCE = [
 
 export const SKILLS = [
   {
-    group: 'Design & craft',
-    items: [
-      'Accessible UI',
-      'Adobe CS',
-      'Design-to-code',
-      'Figma',
-      'Heuristic evaluation',
-      'Journey mapping',
-      'Prototyping',
-      'Responsive design',
-      'User interviews',
-      'WCAG 2.1 / 2.2',
-      'Workflow design',
-    ],
-  },
-  {
-    group: 'Data & experimentation',
-    items: [
-      'Core Web Vitals',
-      'Google Analytics',
-      'Heap',
-      'Hotjar',
-      'HubSpot',
-      'Optimizely',
-      'Segment',
-    ],
-  },
-  {
     group: 'Front end',
     items: [
-      'Alpine.js',
-      'Astro',
-      'CSS',
-      'Gatsby',
       'HTML',
-      'HTMX',
-      'Hotwire',
+      'CSS',
       'JavaScript',
-      'React',
-      'Sass',
-      'Stencil Web Components',
-      'Stimulus',
-      'Storybook',
-      'Tailwind',
       'TypeScript',
       'Vue',
+      'Nuxt',
+      'Stencil Web Components',
+      'React',
+      'Next.js',
+      'Storybook',
+      'Sass',
+      'Tailwind',
+      'htmx',
+      'Alpine.js',
+      'Hotwire',
+      'Stimulus',
+      'Astro',
     ],
   },
   {
-    group: 'Systems & testing',
+    group: 'Design systems & accessibility',
     items: [
-      'CI workflows',
       'Component libraries',
-      'Cypress',
-      'Design systems',
+      'Component APIs',
       'Design tokens',
       'Figma Code Connect',
-      'Git',
-      'Jest',
-      'Lighthouse',
-      'Node scripts',
-      'Playwright',
-      'Vitest',
+      'WCAG 2.1 / 2.2',
+      'Semantic HTML',
+      'ARIA',
+      'Keyboard and focus management',
     ],
   },
   {
-    group: 'Back end & hosting',
-    items: ['Heroku', 'Netlify', 'Next', 'Nuxt', 'Ruby on Rails'],
+    group: 'Product design',
+    items: [
+      'User interviews',
+      'Workflow design',
+      'Interaction design',
+      'Prototyping',
+      'Heuristic evaluation',
+      'Journey mapping',
+      'Responsive design',
+      'Figma',
+    ],
+  },
+  {
+    group: 'Testing & quality',
+    items: ['Playwright', 'Jest', 'Vitest', 'Cypress', 'RSpec', 'Lighthouse', 'Core Web Vitals', 'Git', 'CI workflows'],
+  },
+  {
+    group: 'Application development',
+    items: ['Ruby on Rails', 'ViewComponent', 'Node scripts', 'Heroku', 'Netlify'],
+  },
+  {
+    group: 'Analytics & experimentation',
+    items: ['Optimizely', 'Segment', 'Heap', 'Google Analytics', 'Hotjar'],
   },
 ]
 
