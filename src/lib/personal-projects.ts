@@ -138,7 +138,7 @@ export const personalProjects = {
       'A service worker that deliberately caches almost nothing',
     ],
     goodBits: [
-      { art: [clempoLogger], note: 'Category, amount, Save. Three taps.' },
+      { art: [clempoLogger], note: 'Logging a purchase takes three taps: category, amount, Save.' },
       { art: [{ src: shot('clempo', 'meal-plan'), alt: 'A week’s meal plan on a phone: each day’s dinner with its estimated cost, the lunch made from leftovers, and prep notes such as “Start slow cooker by 9am”.' }], note: 'Dinners planned by AI, with leftovers as the next day’s lunch.' },
       { art: [{ src: shot('clempo', 'lunch'), alt: 'The Lunch screen on a phone: money saved by packing lunch this month and a weekday calendar with packed days marked.' }], note: 'Tap each workday you brought lunch from home.' },
     ],
@@ -217,7 +217,7 @@ export const personalProjects = {
     ],
     goodBits: [
       { art: [{ src: shot('token-galaga', 'home'), alt: 'The Token Adventure home screen: a pixel-art ship in a pilot dossier, the game title, and a Press Start button.' }], note: 'The start screen, styled like an arcade cabinet.' },
-      { art: [{ src: shot('token-galaga', 'color-the-2025-way'), alt: 'A tokens.json editor holding a color token written as an object with colorSpace, components and hex, next to a passing check list.' }], note: 'Color as an object, checked field by field. More fun than it sounds.' },
+      { art: [{ src: shot('token-galaga', 'color-the-2025-way'), alt: 'A tokens.json editor holding a color token written as an object with colorSpace, components and hex, next to a passing check list.' }], note: 'Color as an object, checked field by field.' },
       { art: [{ src: shot('token-galaga', 'spellbook'), alt: 'The Pilot Log: a pixel-art ship in a pilot dossier showing rank Ace and 20 of 20 intel, beside text explaining that every wave you clear hands you a new piece of intel.' }], note: 'The Pilot Log, where every cleared wave hands you a new piece of intel.' },
       { art: [{ src: shot('token-galaga', 'sketch-sector'), alt: 'A sketch of a sector page: a story panel with a character’s portrait, a code console beside the live viewport, and a diagnostics panel.' }], note: 'A sector, redrawn as a sketch from the shipped game.' },
     ],

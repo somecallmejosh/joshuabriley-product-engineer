@@ -1658,7 +1658,7 @@
           "name": "later",
           "type": "{ label: string; items: Item[] }",
           "required": false,
-          "description": "A second group, e.g. what a later redesign left open."
+          "description": "A second group, e.g. what is still open."
         }
       ]
     },

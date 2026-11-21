@@ -255,7 +255,7 @@ const rounds = driftRounds;
       const n = result.found.length;
       const verdict =
         n === perRound && result.wrong.length === 0
-          ? 'All three. Sharp eyes.'
+          ? 'You found all three.'
           : `You found ${n} of ${perRound}${result.wrong.length ? `, plus ${result.wrong.length} that didn't drift` : ''}. Each option is marked.`;
       round.querySelector('[data-dg-verdict]')!.textContent = verdict;
       round.querySelector<HTMLButtonElement>('[data-dg-check]')!.hidden = true;

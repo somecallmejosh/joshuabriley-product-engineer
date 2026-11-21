@@ -15,7 +15,7 @@ interface Props {
   items: Item[];
   /** One sentence tying the items together, when they share a cause. */
   lead?: string;
-  /** A second group, e.g. what a later redesign left open. */
+  /** A second group, e.g. what is still open. */
   later?: { label: string; items: Item[] };
 }
 const { items, lead, later } = Astro.props;

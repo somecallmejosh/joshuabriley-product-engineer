@@ -296,7 +296,7 @@ const heuristics = [
 ];
 
 // Average across the ten heuristics, per flow. Shipments list "before" is from
-// the first, single-screen audit; every "after" is from the final re-score.
+// the single-screen audit; every "after" is from the re-score.
 const flowScores = [
   { flow: 'Auth, shell, error pages', before: 5.4, after: 8.8 },
   { flow: 'Home, detail, public pages', before: 4.8, after: 8.9 },
@@ -602,7 +602,7 @@ const phones = [
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="decision-shipment-choices" title="A few choices on each shipment">
+  <CaseSection id="decision-shipment-choices" title="Choices on each shipment instead of one-click defaults">
     <CaseFor project="ivfcryo" personas={["lauren"]} stage="request" />
     <CaseProse>
       <p>

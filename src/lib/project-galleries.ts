@@ -119,14 +119,14 @@ export const projectGalleries: ProjectGallery[] = [
             title: 'About page',
             size: 'band',
             caption: 'The About hero is one sentence with the facts set inside it, next to a milestones timeline.',
-            alt: 'The IVFCRYO About page: the headline “The standard the industry was missing, built since 2018 by Don and Ed Fish in Fishers, Indiana,” a short introduction, a quote from Don Fish, and a timeline from 2018 to 2025.',
+            alt: 'The IVFCRYO About page: the headline “The standard the industry was missing, built by Don and Ed Fish in Fishers, Indiana,” a short introduction, a quote from Don Fish, and a milestones timeline.',
           },
         ],
       },
       {
         heading: "More screens",
         items: [
-          { src: ivfcryoSheet('06-public-tracking'), title: "Public tracking wireframe", size: 'band', caption: "The view recipients get by email or text. No account, no raw telemetry.", alt: "Annotated wireframe of the public tracking page: a plain-language status line, a four-step progress track, a live position map, and a staffed phone number in the footer, with callouts explaining why there is no login and why raw telemetry is withheld." },
+          { src: ivfcryoSheet('06-public-tracking'), title: "Public tracking wireframe", size: 'band', caption: "The view recipients get by email or text, with no account and no raw telemetry.", alt: "Annotated wireframe of the public tracking page: a plain-language status line, a four-step progress track, a live position map, and a staffed phone number in the footer, with callouts explaining why there is no login and why raw telemetry is withheld." },
           { src: ivfcryoApp('app-package-types'), title: "Package types", size: 'half', caption: "Every shipper drawn to one shared scale, so sizes compare honestly.", alt: "The Package types page: three shipper cards, CryoPort Standard, CryoPort Plus, and Vapor Shipper Mini, each with a to-scale line drawing, size, weight, max containers, declared value, and number of active shipments, labeled “Drawn to the same scale.”" },
           { src: ivfcryoApp('app-settings'), title: "Settings", size: 'half', caption: "Notifications laid out as the five shipment stages, with email and text options.", alt: "The Settings page: Shipment notifications shown as five numbered stages (Created, Pickup reminder, Picked up, Delivered, Review request), with Email and Text checks, then Temperature alert readouts for set-point, check interval, and grace period, and a Pickup and delivery contacts email preview." },
           { src: ivfcryoApp('app-list-empty-filtered'), title: "A search with no results", size: 'half', caption: "It now says what was searched and offers to clear filters or search every stage.", alt: "The shipments list after searching for “zzzz” in Awaiting pickup: an empty state reading “No shipments match these filters. Searched Awaiting pickup only. Clear the filters, or search every stage,” with Clear filters and Search every stage buttons." },
@@ -147,7 +147,7 @@ export const projectGalleries: ProjectGallery[] = [
     project: 'logatot',
     section: 'projects',
     slug: 'logatot',
-    intro: 'Annotated wireframes and flows, more screens from the shipped app, and more before-and-after pairs from the feedback round.',
+    intro: 'Annotated wireframes and flows, more screens from the shipped app, and more before-and-after pairs.',
     groups: [
       {
         heading: 'Annotated wireframes',
@@ -183,7 +183,7 @@ export const projectGalleries: ProjectGallery[] = [
             title: 'Calendar',
             size: 'half',
             caption: 'Today’s schedule, the events coming up this week, such as a fire drill, and a month view.',
-            alt: 'The Calendar page in Logatot: a white Today card reading “Nothing scheduled,” a tinted Events This Week panel with a Tuesday fire drill and a Thursday picture day, and a tinted November 2026 month picker.',
+            alt: 'The Calendar page in Logatot: a white Today card reading “Nothing scheduled,” a tinted Events This Week panel with a Tuesday fire drill and a Thursday picture day, and a tinted month picker.',
           },
           {
             src: logatotApp('app-dashboard'),
@@ -195,8 +195,8 @@ export const projectGalleries: ProjectGallery[] = [
         ],
       },
       {
-        heading: 'Before and after the feedback round',
-        intro: 'More pages from the follow-up round, where each page got one white surface for its main content and recessed panels for everything else.',
+        heading: 'Before and after pairs',
+        intro: 'More pages where each page got one white surface for its main content and recessed panels for everything else.',
         items: [
           {
             src: logatotFeedback('children-before'),
@@ -217,7 +217,7 @@ export const projectGalleries: ProjectGallery[] = [
             title: 'Calendar, before',
             size: 'half',
             caption: 'Today, each day of “Events this week”, and the month picker are all white cards.',
-            alt: 'The old Calendar page: a white Today card, separate white Tuesday and Thursday event cards under Events This Week, and a white November 2026 month picker.',
+            alt: 'The old Calendar page: a white Today card, separate white Tuesday and Thursday event cards under Events This Week, and a white month picker.',
           },
           {
             src: logatotFeedback('calendar-after'),
@@ -258,7 +258,7 @@ export const projectGalleries: ProjectGallery[] = [
           { src: logatotRedesign('provider-reports'), title: "Reports", size: 'half', caption: "Grouped by who they’re about.", alt: "The Reports page: Child reports for Allergies, Attendance, Daily activity, and Medications, then Provider and facility reports for Fire drills, Provider time, Timeclock, and Shelter in place, each a card with a tinted icon tile, a title, and a short description." },
           { src: logatotRedesign('provider-account'), title: "Account", size: 'half', caption: "Daycare details raised, everything else recessed.", alt: "The Account page for Little Acorns Home Daycare: address, time zone, phone, and billing email on a raised card with an Edit button, then recessed panels for Employees listing Heidi Parker and Marcus Reed, Alerts and notifications for diaper changes every 2 hours and health checks, Billing details marked Active with a Manage billing button, and a Share panel with a referral link and Copy button." },
           { src: logatotRedesign('public-sign-in'), title: "Provider login", size: 'half', caption: "Password for staff, email link for families.", alt: "The Logatot login page: the toy-block mark, Provider login above a Login heading, email and password fields, Remember me, a Login button, Register and Forgot your password links, and a “Family member? Family login” button." },
-          { src: logatotRedesign('es-parent-dashboard'), title: "El canal familiar", size: 'half', caption: "The family channel in Spanish.", alt: "The family channel in Spanish: El canal familiar, an Ocultar filtros control, the provider’s note beginning “Hola! Gracias por depositar tu confianza en mí,” activities dated 30 de octubre de 2026 with types such as Salida, Actividad, Merienda, Se despertó, and Se durmió, and a Detalles del niño panel with Recogidas autorizadas." },
+          { src: logatotRedesign('es-parent-dashboard'), title: "El canal familiar", size: 'half', caption: "The family channel in Spanish.", alt: "The family channel in Spanish: El canal familiar, an Ocultar filtros control, the provider’s note beginning “Hola! Gracias por depositar tu confianza en mí,” activities dated 30 de octubre with types such as Salida, Actividad, Merienda, Se despertó, and Se durmió, and a Detalles del niño panel with Recogidas autorizadas." },
           { src: logatotRedesign('public-home-es'), title: "Página de inicio", size: 'half', caption: "The Spanish home page.", alt: "The Logatot home page in Spanish: navigation reading Inicio, Sobre nosotros, Calendario, Aprender, Blog, and FAQs, the headline “El único asistente de cuidado infantil controlado por voz,” Regístrate and Solicita una demostración buttons, and the live listening panel reading Lista para escuchar." },
           { src: logatotRedesign('provider-child-dark'), title: "Child profile, dark", size: 'half', caption: "Raised and recessed surfaces stay distinct.", alt: "Liam Carter’s profile in dark mode: a dark raised header card with his photo, name, Active badge, and Archive child and Edit buttons, health tiles, and darker recessed panels for Legal guardians, Attendance with checked weekdays, and Billing." },
           { src: logatotRedesign('provider-menu-calendar-dark'), title: "Menu calendar, dark", size: 'half', caption: "Warnings still read at a glance.", alt: "The menu calendar in dark mode: a dark month grid with meal rows such as Toast and Bananas and Apples and Cheese, meal icons, ×2 counts, warning triangles on breakfasts, and the legend above." },

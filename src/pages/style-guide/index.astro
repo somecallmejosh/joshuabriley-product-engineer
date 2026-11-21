@@ -165,7 +165,7 @@ const markup = {
 
   <section id="typography" class="editorial-section" aria-labelledby="typography-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="typography-title">Type and hierarchy</h2><p>The site uses four font families, each for one role. Headings are bold sans. The serif italic marks one phrase in a page title. Section headings stay plain.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="typography-title">Type and hierarchy</h2><p>The site uses four font families, each for one role. Headings, including page titles, are bold sans. The serif is kept for large numerals and editorial italics.</p></div>
       <ul class="sg-fonts">{fonts.map((font) => (
         <li>
           {font.key === 'sans' && <p class="sg-font-sample sg-hanken">Body, interface, and headings.</p>}
@@ -236,7 +236,7 @@ const markup = {
   <!-- ─────────────── Components ─────────────── -->
   <section id="actions" class="editorial-section" aria-labelledby="actions-title">
     <Container width="wide">
-      <div class="section-heading"><h2 class="section-type" id="actions-title">Actions and links</h2><p>A filled denim action for the next important step, and an underlined editorial link for the supporting route.</p></div>
+      <div class="section-heading"><h2 class="section-type" id="actions-title">Actions and links</h2><p>Use a filled denim action for the next important step and an underlined editorial link for a supporting route.</p></div>
       <ComponentDoc id="action-link" name=".action-link" purpose="The primary action. Use one per view, for the most important step." href="/" code={markup.action} filename="Primary action"
         classes={[{ name: 'action-link', description: 'Filled denim block in an offset hairline frame, with the accent dot on the frame\'s corner. Hover draws the frame in; a press seats the block.' }]}
         dos={['Name the destination in the visible words.']}

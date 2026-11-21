@@ -59,8 +59,8 @@ const problems = [
 ];
 
 // The two findings from the provider/CACFP/influencer video calls that changed
-// what shipped. Not every idea from these calls made it in this early; some
-// were logged and picked up once the more urgent fix was live.
+// what shipped. Not every idea from these calls shipped; some were logged
+// for later.
 const research = [
   { icon: 'ph:waveform', title: 'Accents were getting misheard', body: 'Transcription got names wrong before the app could parse them. Each child now has a list of likely mishearings.' },
   { icon: 'ph:receipt', title: 'Providers needed better proof for claims', body: 'Reimbursement processors found gaps in the claim evidence. The reports were reworked to close them.' },
@@ -149,7 +149,7 @@ const flows = [
 ];
 
 // Screenshots of the shipped app, captured from the seeded demo account at
-// 1440×900 @2x in light mode, recaptured after the feedback round.
+// 1440×900 @2x in light mode.
 // Captions say only what is on screen.
 const appShots = import.meta.glob<{ default: ImageMetadata }>(
   '../../assets/projects/logatot/app/app-*.png',
@@ -738,7 +738,7 @@ const results = [
           title="Menu calendar"
           caption="Meals missing a required component get a warning."
           src={rd('provider-menu-calendar')}
-          alt="The menu calendar for November 2026 in month view: My meals, Menu calendar, and Shopping list tabs, Today and month controls, a legend for Breakfast, Snack, Lunch, Dinner, and Missing a required food component, and a calendar grid where each day lists meals such as Toast and Bananas, Apples and Cheese ×2, and Pasta and Meatballs, with warning triangles on some breakfasts and today’s date highlighted."
+          alt="The menu calendar in month view: My meals, Menu calendar, and Shopping list tabs, Today and month controls, a legend for Breakfast, Snack, Lunch, Dinner, and Missing a required food component, and a calendar grid where each day lists meals such as Toast and Bananas, Apples and Cheese ×2, and Pasta and Meatballs, with warning triangles on some breakfasts and today’s date highlighted."
         />
       </Container>
     </Fragment>
