@@ -12,6 +12,7 @@ import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import Plate from '~/components/patterns/Plate.astro';
 import ScrollShot from '~/components/patterns/ScrollShot.astro';
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
 import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
 import CaseCards from '~/components/patterns/case/CaseCards.astro';
@@ -180,6 +181,36 @@ const systemAudit = [
   { value: '4', label: 'different ways to delete', note: 'htmx, Rails buttons, Alpine fetch calls, and inline handlers.' },
   { value: '14', label: 'index pages with hand-built headers', note: 'Titles, actions, and spacing differed from page to page.' },
 ];
+
+// The shared confirm dialog and submit guard (app/javascript/ux/confirm.js and
+// busy.js in the app). Behavior below was checked in the running app with the
+// keyboard: focus starts on Cancel, Escape closes, focus returns to the trigger.
+const confirmApi = [
+  { icon: 'ph:code', title: 'hx-confirm', body: 'Any htmx request that asks a question gets the dialog, so all 24 htmx deletes switched over at once.' },
+  { icon: 'ph:code', title: 'data-confirm', body: 'Plain forms, links, and buttons, including Rails <code>button_to</code>, use the same dialog.' },
+  { icon: 'ph:text-aa', title: 'data-confirm-button', body: 'Names the action on the button, such as “Delete expense,” instead of a generic OK.' },
+  { icon: 'ph:brackets-curly', title: 'appConfirm(message, options)', body: 'Scripts call it directly and get a promise that resolves to yes or no.' },
+];
+const confirmBehavior = [
+  { icon: 'ph:warning', title: 'Deletes are marked as dangerous', body: 'The dialog reads the request method and button text, then shows a warning icon and a red action button.' },
+  { icon: 'ph:keyboard', title: 'Focus starts on Cancel', body: 'For a delete, the safe choice is the default. Escape or a click outside cancels, and Tab stays inside the dialog.' },
+  { icon: 'ph:arrow-u-up-left', title: 'Focus goes back where it was', body: 'Closing the dialog returns focus to the button that opened it.' },
+  { icon: 'ph:speaker-high', title: 'Screen readers hear the question', body: 'It’s an <code>alertdialog</code> labeled by its title and described by the message, with every string from the app’s English and Spanish translations.' },
+];
+
+const confirmBefore = `<%= button_to "Cancel my account",
+      registration_path(resource_name),
+      data: { confirm: "Are you sure?",
+              turbo_confirm: "Are you sure?" },
+      method: :delete %>`;
+const confirmAfter = `<%= button_to "Cancel my account",
+      registration_path(resource_name),
+      method: :delete,
+      form: { data: {
+        confirm: t('ux_system.account.cancel_confirm'),
+        confirm_button: "Delete my account"
+      } },
+      class: button_danger_small %>`;
 
 // The decisions that shaped the new look. Each is a rule the whole app follows,
 // written down in the project's lessons file so later screens keep to it.
@@ -520,6 +551,76 @@ const results = [
           src={rd('es-provider-repair')}
           alt="The Needs review screen in Spanish: tabs Por revisar 2, Registrados 819, Procesando, and Eliminados recientemente, entries tagged No se escuchó el nombre and Evento no reconocido, the hint “Toque la palabra que era el nombre del niño,” Niño and Tipo de evento selects, and Eliminar and Guardar evento buttons."
         />
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-confirm" title="Deletes that ask first and forms that submit once">
+    <CaseFor project="logatot" personas={["renee","tanya","marisol"]} stage="evening" />
+    <CaseProse>
+      <p>
+        The front-end audit traced the lowest heuristic scores to one cause. The app loads
+        htmx instead of Turbo or rails-ujs, so every Rails confirm prompt and submit guard in
+        the views did nothing. “Cancel my account” deleted the account on the first click,
+        the htmx deletes fell back to the browser’s “Are you sure?” box, and none of about
+        fifty forms blocked a second submit.
+      </p>
+      <p>
+        Instead of patching each page, I wrote one shared script that handles the attributes
+        the views already used. Existing markup started working, and new pages get the same
+        behavior by default. I then rewrote the messages to name what gets deleted.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="How a view asks for confirmation" items={confirmApi} />
+    <CaseCards label="Keyboard and screen reader behavior" items={confirmBehavior} />
+
+    <CaseProse class="mt-12">
+      <Heading level={3} visual="h2">Double-submit guard</Heading>
+      <p>
+        The same script marks a form busy as soon as it submits. It disables only the submit
+        buttons, never the inputs, so filters that update on change keep working. The pressed
+        button shows a loading mark with “Saving” for screen readers, and focus returns to it when
+        the request finishes. If a download never navigates away, the button unlocks itself
+        after 15 seconds.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <div class="stage-grid grid grid-cols-1 gap-y-10 lg:grid-cols-2 lg:gap-x-12">
+          <CodeBlock
+            filename="registrations/edit.html.erb (before)"
+            lang="erb"
+            code={confirmBefore}
+            caption="Neither attribute did anything: Turbo was commented out and rails-ujs was never loaded."
+          />
+          <CodeBlock
+            filename="registrations/edit.html.erb (after)"
+            lang="erb"
+            code={confirmAfter}
+            caption="The shared dialog reads data-confirm, with a translated question and a named action."
+          />
+        </div>
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
+          <Plate
+            size="half"
+            title="Cancel my account"
+            caption="Opened from the keyboard, focus lands on Cancel."
+            src={rd('confirm-cancel-account')}
+            alt="The Edit User page dimmed behind a dialog titled Please confirm, with a red warning icon and the message “Delete your Logatot login and all of its settings? This can't be undone.” The Cancel button has a visible focus ring, next to a red Delete my account button."
+          />
+          <Plate
+            size="half"
+            title="Delete an expense"
+            caption="The message names the expense, and the button names the action."
+            src={rd('confirm-delete-expense')}
+            alt="The Expenses page dimmed behind a dialog titled Please confirm, with a red warning icon and the message “Delete the Costco expense from Nov 1? This can't be undone.” and Cancel and red Delete expense buttons. Behind it, the expense table lists Costco on Sun, Nov 1 for $142.37."
+          />
+        </div>
       </Container>
     </Fragment>
   </CaseSection>
