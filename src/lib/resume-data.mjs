@@ -57,7 +57,7 @@ export const EXPERIENCE = [
     bullets: [
       "Rebuilt the front end of VMSpark's Rails admin app on a design system made for its operators after a heuristic audit scored it 3.5 out of 10. The production release re-scored 7.5 on the same rubric, and every delete now asks for confirmation.",
       "Gave five parties one shipment record at IVFCRYO after interviews showed the hard part was getting everyone ready before a shipment could start, cutting support calls 75% and shipping errors 55%.",
-      "Built IVFCRYO's interface in Rails with ViewComponent, HTML, Tailwind CSS, and JavaScript, working with the back-end team that owned the shipment-tracking integration.",
+      "Built IVFCRYO's interface in Rails with HTML, Tailwind CSS, JavaScript, and shared view partials and helpers tested in RSpec, working with the back-end team that owned the shipment-tracking integration.",
     ],
   },
   {

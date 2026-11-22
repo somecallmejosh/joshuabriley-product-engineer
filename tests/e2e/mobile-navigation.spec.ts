@@ -33,7 +33,7 @@ test('mobile navigation is a named modal with usable destinations and contained 
   await work.click();
   await expect(work).toHaveAttribute('aria-expanded', 'true');
   await expect(about).toHaveAttribute('aria-expanded', 'false');
-  for (const name of [/^Personal projects/, /^Tools/, /^IVFCRYO/]) await expect(dialog.getByRole('link', { name })).toBeVisible();
+  for (const name of [/^Tools/, /^IVFCRYO/]) await expect(dialog.getByRole('link', { name })).toBeVisible();
   await expect(dialog.getByRole('link', { name: /^Biography/ })).toBeHidden();
   await expect(dialog.getByRole('link', { name: 'Contact me', exact: true })).toBeVisible();
   await expect(page.locator('html')).toHaveClass(/nav-open/);

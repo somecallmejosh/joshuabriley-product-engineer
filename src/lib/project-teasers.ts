@@ -3,9 +3,6 @@ import ivfcryo from '~/assets/projects/ivfcryo/teaser.png';
 import logatot from '~/assets/projects/logatot/teaser.png';
 import vmspark from '~/assets/projects/vmspark/teaser.png';
 import rudiment from '~/assets/projects/rudiment-ui/teaser.png';
-import tokenGalaga from '~/assets/projects/token-galaga/teaser.png';
-import beckit from '~/assets/projects/beckit/teaser.png';
-import clempo from '~/assets/projects/clempo/teaser.png';
 
 /**
  * Close-up teaser images for project lists, keyed by project URL. Each is one
@@ -26,20 +23,8 @@ export const projectTeasers: Record<string, { src: ImageMetadata; alt: string }>
     src: vmspark,
     alt: 'VMSpark custom rules: a table of numbered rules with drag handles, up and down buttons, Active switches, and conditions such as “Job: Profession contains RN” and “Job: Status is Open.”',
   },
-  '/personal-projects/rudiment-ui/': {
+  '/projects/rudiment-ui/': {
     src: rudiment,
-    alt: 'Rudiment UI components side by side: buttons, a success alert, status tags, an email input, a checkbox group, switches, circular progress rings, a revenue stat card, a progress bar, and a donut chart.',
-  },
-  '/personal-projects/beckit/': {
-    src: beckit,
-    alt: 'beckit Insights: a heatmap of when journal entries happen by day and time of day, in shades of teal, busiest on Friday afternoons.',
-  },
-  '/personal-projects/clempo/': {
-    src: clempo,
-    alt: 'The Clempo Budget card: $571.50 left to spend, a green ring at 63 percent, and $978.50 spent of a $1,550.00 budget.',
-  },
-  '/personal-projects/token-galaga/': {
-    src: tokenGalaga,
-    alt: 'The Token Adventure Game Clear screen: a neon pink card over a sunburst, reading “Game Clear, the Token Belt, Ace Pilot,” with 20 sectors cleared and +3520 total XP.',
+    alt: 'A Rudiment UI bar chart in the Vitrea demo: shipments this month by service, with Premium Air highest at 6 and Economy Air at 5, then Premium Ground, Will Call, Economy International, and Premium International.',
   },
 };

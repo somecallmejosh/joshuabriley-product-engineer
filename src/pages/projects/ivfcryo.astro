@@ -10,10 +10,11 @@ import Container from '~/components/layout/Container.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import Plate from '~/components/patterns/Plate.astro';
-import FidelityBand from '~/components/patterns/FidelityBand.astro';
 import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import { custody as custodyCode, menu as menuCode, summary as summaryCode, type Snippet } from '~/lib/ivfcryo-code';
 import CaseCards from '~/components/patterns/case/CaseCards.astro';
 import CaseFindings from '~/components/patterns/case/CaseFindings.astro';
 import CaseResults from '~/components/patterns/case/CaseResults.astro';
@@ -38,8 +39,8 @@ const jumpLinks = [
   { href: '#context', label: 'Shipment parties' },
   { href: '#research', label: 'Research' },
   { href: '#decisions', label: 'Design decisions' },
+  { href: '#process', label: 'Engineering and integrations' },
   { href: '#outcomes', label: 'Results' },
-  { href: '#process', label: 'Build and integrations' },
   { href: '#edges', label: 'Limitations' },
 ];
 
@@ -190,67 +191,6 @@ const edges = [
   },
 ];
 
-// The annotated wireframes render live in src/ so Astro can process them
-// (anything under public/ is copied verbatim, never optimized). Source files are
-// 3200px PNGs; `<Image>` emits sized WebP from these at build time.
-const annotatedShots = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/projects/ivfcryo/wires-and-flows/*.png',
-  { eager: true },
-);
-const annotated = (slug: string) =>
-  annotatedShots[`../../assets/projects/ivfcryo/wires-and-flows/${slug}.png`].default;
-
-// The bare sketch + wireframe SVGs stay in public/: Astro passes SVGs through
-// untransformed either way, so moving them would buy nothing.
-const art = (slug: string) => `/images/projects/ivfcryo/wires-and-flows/${slug}`;
-
-// Four screens carry the argument, so they get full plates. The `note` is the
-// subtitle written on the artwork itself, not a fresh gloss on it.
-const plates = [
-  {
-    slug: '03-shipments-index',
-    index: '03',
-    title: 'Shipments index',
-    note: 'Staff’s main workspace, filtered by status.',
-    alt: 'Annotated wireframe of the shipments index: a filter bar, status tabs, and a list of shipment cards, with six numbered callouts explaining why status lives in the URL and why cards replaced table rows.',
-  },
-  {
-    slug: '04-new-shipment',
-    index: '04',
-    title: 'New shipment',
-    note: 'About forty fields in numbered sections, with a live price and a way forward from every error.',
-    alt: 'Annotated wireframe of the new-shipment form, broken into seven numbered sections from service selection to insurance, with a live price quote pinned beside it and six callouts covering quote recalculation, contact reuse, and notification defaults.',
-  },
-  {
-    slug: '05-shipment-detail',
-    index: '05',
-    title: 'Shipment detail',
-    note: 'Shows where the shipment is and whether it is still at the right temperature.',
-    alt: 'Annotated wireframe of the shipment detail page: a live position map above sensor readings for temperature, humidity, and battery, then two parallel tracking timelines, with callouts explaining why telemetry outranks logistics and why the two legs stay unmerged.',
-  },
-];
-
-
-const flows = [
-  {
-    slug: '11-flow-authentication',
-    title: 'Authentication and account recovery',
-    note: 'Every failed step offers a way to recover without calling support.',
-    alt: 'Flow diagram of authentication and account recovery. A visitor branches on whether they have an account, through sign-in, admin activation, a user-chosen email or SMS verification channel, and six-digit code entry. A failed code offers resend, backup code, or password reset, and a final admin check routes to either the admin or client view. Five numbered design notes sit alongside, and password recovery runs as a separate track underneath.',
-  },
-  {
-    slug: '12-flow-create-shipment',
-    title: 'Creating a shipment',
-    note: 'The highest-risk path: one submit, with validation that blocks bookings that can’t be fulfilled.',
-    alt: 'Flow diagram of the shipment creation path. Service selection resolves a live price quote or a contact-for-quote branch, then runs through date, package, pickup and delivery contacts, notification preferences, insurance, and agreement. Failed validation returns to the offending field with form state preserved, and a successful submit forks into a confirmation email and the admin fulfillment queue. Six numbered design notes sit alongside.',
-  },
-];
-
-// Plates and flows are placed beside the argument they support rather than
-// collected into one gallery, so these look them up by slug at the point of use.
-const plate = (slug: string) => plates.find((p) => p.slug === slug)!;
-const flow = (slug: string) => flows.find((f) => f.slug === slug)!;
-
 // Screenshots of the app, captured from the seeded demo accounts
 // (admin and clinic). Desktop at 1440×900 @2x, phone at 390×844
 // @2x. Long pages are cropped from the top; captions say only what is on screen.
@@ -332,8 +272,6 @@ const redesignEdges = [
 const phones = [
   { slug: 'phone-public-tracking', title: 'Public tracking', note: 'A vertical timeline, then the two clinics.', alt: 'The public tracking page on a phone: shipment title, an In transit chip and reference number, then a vertical custody timeline from Created to Delivered, followed by From and To clinic names and cities.' },
   { slug: 'phone-list-active', title: 'Shipments', note: 'Stage tiles two by two, filters full width.', alt: 'The shipments list on a phone: Export and New Shipment buttons, four stage tiles in a two-by-two grid with In transit selected, and stacked search and company filters.' },
-  { slug: 'phone-detail', title: 'Shipment detail', note: 'Vertical timeline, then key facts in pairs.', alt: 'Shipment detail on a phone: breadcrumb, title, invoice and Edit buttons, a vertical custody timeline, then pickup, delivery, service, and quoted price in a two-column grid.' },
-  { slug: 'phone-clinic-list', title: 'Clinic view', note: 'A clinic sees only its own shipments.', alt: 'The My shipments page for a clinic user on a phone: stage tiles with the clinic’s own counts and the same search and filter controls as staff.' },
 ];
 
 ---
@@ -465,9 +403,11 @@ const phones = [
     </CaseProse>
 
     <Fragment slot="media">
-      <Container width="wide" class="mt-16">
-        <CasePersonas items={ivfcryoPersonas} />
-      </Container>
+      <div class="case-band mt-16">
+        <Container width="wide">
+          <CasePersonas items={ivfcryoPersonas} />
+        </Container>
+      </div>
 
       <Container width="wide" class="mt-16">
         <CaseJourney title="Journey map: one shipment" stages={ivfcryoJourney} />
@@ -551,27 +491,6 @@ const phones = [
     </div>
 
     <Fragment slot="media">
-      <Container width="wide" class="mt-16">
-        <FidelityBand
-          title={plate('05-shipment-detail').title}
-          sketch={art('05-shipment-detail-sketch.svg')}
-          wire={art('05-shipment-detail.svg')}
-          annotated={annotated('05-shipment-detail')}
-          annotatedAlt={plate('05-shipment-detail').alt}
-          caption="Sketch, wireframe, and annotated sheet for the shipment page."
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title={plate('03-shipments-index').title}
-          caption={plate('03-shipments-index').note}
-          src={annotated('03-shipments-index')}
-          alt={plate('03-shipments-index').alt}
-        />
-      </Container>
-
-
       <CaseProse continued>
         <p>
           Recipients never sign in. They get a link by email or text and only need to know the
@@ -588,15 +507,6 @@ const phones = [
           caption="Shows status, latest readings, and a staffed phone number. It requires no account and shows no personal details."
           src={shot('app-public-tracking')}
           alt="The public tracking page: Hudson Valley Reproductive to IVFCRYO Lab with an In transit chip, a four-step custody timeline, From and To cities with the requested delivery time, latest sensor readings for probe and ambient temperature, humidity, and pressure, a probe temperature chart marked “All 12 below set-point”, and a line with the support email and phone number."
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="A tracking link that doesn’t work"
-          caption="Bad links used to crash the page. It now explains the problem and gives an email address and phone number."
-          src={shot('app-public-tracking-missing')}
-          alt="The public tracking page for an unknown shipment: “We couldn’t find this shipment. The link may be old or mistyped. Check the link in your email or text, or contact IVFCRYO and we’ll look it up for you,” with Email IVFCRYO and Call 800.430.9830 buttons."
         />
       </Container>
     </Fragment>
@@ -686,34 +596,6 @@ const phones = [
       </ul>
     </div>
 
-    <Fragment slot="media">
-      <Container width="wide" class="mt-16">
-        <Plate
-          title={plate('04-new-shipment').title}
-          caption={plate('04-new-shipment').note}
-          src={annotated('04-new-shipment')}
-          alt={plate('04-new-shipment').alt}
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title={flow('12-flow-create-shipment').title}
-          caption={flow('12-flow-create-shipment').note}
-          src={annotated('12-flow-create-shipment')}
-          alt={flow('12-flow-create-shipment').alt}
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title={flow('11-flow-authentication').title}
-          caption={flow('11-flow-authentication').note}
-          src={annotated('11-flow-authentication')}
-          alt={flow('11-flow-authentication').alt}
-        />
-      </Container>
-    </Fragment>
   </CaseSection>
 
   <CaseSection id="decision-interface" title="Shared components for 226 views">
@@ -744,15 +626,6 @@ const phones = [
         />
       </Container>
 
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Shipments, in transit"
-          caption="The stage tiles also work as navigation. Each row shows both clinics, the probe temperature, and the time since pickup."
-          src={shot('app-list-active')}
-          alt="The shipments list, signed in as staff: a sidebar, four stage tiles (Awaiting pickup 6, In transit 4 selected, Delivered 8, All shipments 18), a filter row, and shipments grouped under Today and Yesterday. Each row shows pickup time and zone, a route such as NY to CA with both clinic names, a probe readout of −192.9 °C with a sparkline, hours since pickup, and the quoted price."
-        />
-      </Container>
-
       <CaseProse continued>
         <p>
           As someone books a shipment, the sidebar shows a live summary of the route, package,
@@ -775,15 +648,6 @@ const phones = [
         </p>
       </CaseProse>
 
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Delivered and locked"
-          caption="A completed shipment can’t be edited because it is the record of custody. The page says so."
-          src={shot('app-edit-complete')}
-          alt="The edit page for a completed shipment, titled Shipment complete: a lock panel reading “Delivered and locked. This shipment is complete and can no longer be edited. Its details stay exactly as they were at delivery, as the record of custody,” with the delivery time, door-to-door duration, a View shipment button, and the full custody timeline below."
-        />
-      </Container>
-
       <Container width="content" class="mt-16">
         <div class="case-layout-cont case-prose measure space-y-5">
           <Heading level={3} visual="h2">Mobile</Heading>
@@ -796,7 +660,7 @@ const phones = [
       </Container>
 
       <Container width="wide" class="mt-16">
-        <ul class="stage-grid stage-grid--phones grid grid-cols-2 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid stage-grid--phones grid grid-cols-2 gap-y-10">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={shot(p.slug)} alt={p.alt} />
@@ -819,14 +683,145 @@ const phones = [
           </p>
         </div>
       </Container>
+    </Fragment>
+  </CaseSection>
 
-      <Container width="wide" class="mt-16">
-        <ScrollShot
-          src="/images/projects/ivfcryo/public-home.webp"
-          alt="The full IVFCRYO home page: a 24/7 desk phone bar, the hero sentence “Your embryos are holding at −192.9 °C, 3h 05m into a trip we watch every minute” beside a US map with the sample route, key figures, press and partner logos, sections for patients and for clinics, a live tracking card from the app, a five-step booking-to-delivery timeline, coverage and support cards, a founder quote from Don Fish, customer reviews, a services list, and a closing call to action."
-          label="ivfcryo.com"
-          caption="The tracking card, temperature trace, and timeline are live app components."
-        />
+  <CaseSection id="process" title="Engineering and integrations">
+    <CaseProse>
+      <p>
+        I turned the interview findings into the shipment stages and readiness check the
+        backend enforces, mapped where each outside service plugs in, and set the alert
+        requirements. Engineering built the backend to that spec, and I built the front end.
+      </p>
+    </CaseProse>
+
+    <div class="mt-10">
+      <Heading level={3} visual="h3" class="mb-6">Integrations</Heading>
+      <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+        {integrations.map((svc) => (
+          <li class="flex gap-3.5">
+            <Icon name={svc.icon} size={22} class="mt-0.5 shrink-0 text-ink-muted" />
+            <div>
+              <p class="font-medium text-ink leading-snug">{svc.name}</p>
+              <p class="mt-0.5 text-sm text-ink-muted leading-snug">{svc.role}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="mt-10">
+      <Heading level={3} visual="h2" class="mb-6">Alert levels</Heading>
+      <ul class="space-y-6">
+        {alertTiers.map((t) => (
+          <li class={`border-l-2 py-1 pl-5 ${t.tone === 'crit' ? 'border-l-[#C13A22]' : t.tone === 'warn' ? 'border-l-[#C7811E]' : 'border-l-[#3C7A4E]'}`}>
+            <p class="font-display font-semibold text-ink">{t.level}</p>
+            <p class="mt-1 measure text-sm text-ink-muted leading-relaxed">{t.body}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-5 measure text-sm text-ink-muted leading-relaxed">
+        Daryl warned that staff stop trusting a device that sends “false or unhelpful
+        notifications,” so each level has an assigned responder.
+      </p>
+    </div>
+
+    <Fragment slot="media">
+      <CaseProse continued>
+        <Heading level={3} visual="h2" id="process-front-end" class="scroll-mt-32">How the front end is built</Heading>
+        <p>
+          Pages are rendered by Rails and styled with Tailwind. Alpine adds the interactive parts
+          inside the markup that renders them, and Turbolinks keeps page changes quick. The app’s
+          own JavaScript is 9 files and about 1,400 lines, and most of it is the booking form.
+        </p>
+        <p>
+          I chose Alpine so the front end would stay in the files the whole team already
+          edits. Four other developers worked on the app, mostly on the data model and the
+          integrations. An Alpine widget is a few attributes in the ERB view that draws it, so
+          they could read and change one without learning a separate JavaScript layer. It
+          loads from one script tag with no build step, and it kept working through the
+          upgrade to Rails 7.2.
+        </p>
+        <p>
+          Shared pieces are ERB partials and helpers: 10 partials used across 65 views, and
+          helpers such as <code>status_badge</code>, <code>ui_button</code>, and
+          <code>custody_stages</code>. In each pair below, the left side is the shipped code. The
+          right side is illustrative: IVFCRYO never used Stimulus, so I wrote it to show what the
+          same widget would take.
+        </p>
+      </CaseProse>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">Rules that live in one tested helper</Heading>
+        <p>
+          The chain-of-custody timeline appears on seven pages. One helper decides which stage is
+          done, current, or upcoming, and the timeline partial only draws what it returns. The
+          rule that a planned time is never shown as an actual one is a line of that helper and
+          an assertion in its spec.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why a helper.</strong> Seven pages can’t disagree
+          about where a shipment is, and the rule that matters most is checked on every test run.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {custodyCode.map((s, i) => (
+            <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === custodyCode.length - 1 ? 'The pages pass the shipment in and render what comes back.' : undefined} />
+          ))}
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">The account menu</Heading>
+        <p>
+          The menu opens and closes, closes on Escape or a click outside, keeps
+          <code>aria-expanded</code> in step, and returns focus to its button.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why Alpine.</strong> All of that is one line of
+          attributes on the element it belongs to, so anyone editing the menu sees how it
+          behaves. In Stimulus, the same behavior is a controller file, and the markup has to
+          name its targets and actions to match it.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">Alpine, as shipped</p>
+            {menuCode.real.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">Stimulus, illustrative</p>
+            {menuCode.stimulus.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">A booking summary that follows the form</Heading>
+        <p>
+          Beside the booking form, six summary rows fill in as the customer chooses, and a line
+          says what’s still missing before the booking can be submitted.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why Alpine.</strong> The rows describe what they
+          show, and Alpine keeps them current when the form changes. In Stimulus, the controller
+          has to find each row and set its classes and text by hand, so the markup and the script
+          describe the same rows twice and can drift apart.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">Alpine, as shipped</p>
+            {summaryCode.real.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">Stimulus, illustrative</p>
+            {summaryCode.stimulus.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+        </div>
       </Container>
     </Fragment>
   </CaseSection>
@@ -867,48 +862,6 @@ const phones = [
     photo="/images/testimonials/don-fish.png"
     quote="Josh didn't just design screens. He sat with me, our COO, and our office manager, and came back with the insight the whole rebuild turned on — the hard part is getting everyone ready, not tracking the truck. He designed the product and owned the front end, and worked shoulder-to-shoulder with our engineers on the data model and the integrations underneath. Our team runs on it, and our patients feel the difference: they finally know someone has the whole case."
   />
-
-  <CaseSection id="process" title="Build and integrations">
-    <CaseProse>
-      <p>
-        I turned the interview findings into the shipment stages and readiness check the
-        backend enforces, mapped where each outside service plugs in, and set the alert
-        requirements. Engineering built the backend to that spec, and I built the front end.
-      </p>
-    </CaseProse>
-
-    <div class="mt-10">
-      <Heading level={3} visual="h3" class="mb-6">Integrations</Heading>
-      <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-        {integrations.map((svc) => (
-          <li class="flex gap-3.5">
-            <Icon name={svc.icon} size={22} class="mt-0.5 shrink-0 text-ink-muted" />
-            <div>
-              <p class="font-medium text-ink leading-snug">{svc.name}</p>
-              <p class="mt-0.5 text-sm text-ink-muted leading-snug">{svc.role}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div class="mt-10">
-      <Heading level={3} visual="h2" class="mb-6">Alert levels</Heading>
-      <ul class="space-y-6">
-        {alertTiers.map((t) => (
-          <li class={`border-l-2 py-1 pl-5 ${t.tone === 'crit' ? 'border-l-[#C13A22]' : t.tone === 'warn' ? 'border-l-[#C7811E]' : 'border-l-[#3C7A4E]'}`}>
-            <p class="font-display font-semibold text-ink">{t.level}</p>
-            <p class="mt-1 measure text-sm text-ink-muted leading-relaxed">{t.body}</p>
-          </li>
-        ))}
-      </ul>
-      <p class="mt-5 measure text-sm text-ink-muted leading-relaxed">
-        Daryl warned that staff stop trusting a device that sends “false or unhelpful
-        notifications,” so each level has an assigned responder.
-      </p>
-    </div>
-
-  </CaseSection>
 
   <CaseLimitations
     items={edges}

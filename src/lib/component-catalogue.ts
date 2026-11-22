@@ -1,27 +1,6 @@
 /** Components reached by public pages, excluding style-guide-only examples. */
 export const componentCatalogue = [
   {
-    "name": "LiveEmbed",
-    "path": "src/components/patterns/LiveEmbed.astro",
-    "group": "patterns",
-    "note": "An optional, explicitly loaded live website preview.",
-    "href": "/personal-projects/rudiment-ui/"
-  },
-  {
-    "name": "ScrapPiece",
-    "path": "src/components/patterns/scrapbook/ScrapPiece.astro",
-    "group": "patterns",
-    "note": "One or more screenshots in a hairline panel on personal project pages.",
-    "href": "/personal-projects/beckit/"
-  },
-  {
-    "name": "ScrapMosaic",
-    "path": "src/components/patterns/scrapbook/ScrapMosaic.astro",
-    "group": "patterns",
-    "note": "A tidy grid of details cut from a personal project's real screens.",
-    "href": "/personal-projects/"
-  },
-  {
     "name": "Analytics",
     "path": "src/components/chrome/Analytics.astro",
     "group": "chrome",
@@ -424,7 +403,7 @@ export const componentCatalogue = [
     "path": "src/components/patterns/SiteShot.astro",
     "group": "patterns",
     "note": "A website screenshot with a caption and optional image viewer.",
-    "href": "/personal-projects/rudiment-ui/"
+    "href": "/projects/vmspark/"
   },
   {
     "name": "Tldr",

@@ -60,7 +60,7 @@ const lineup = topics
         {lineup.map((series) => (
           <li>
             <a href={`#${series.id}`}>
-              <span class="series-name">{series.category}<span class="link-dot" aria-hidden="true"></span></span>
+              <span class="series-name">{series.category}</span>
               <span class="series-description">{series.description}</span>
               <span class="series-count">{series.posts.length} {series.unit}</span>
             </a>

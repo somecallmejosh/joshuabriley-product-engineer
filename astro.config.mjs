@@ -23,10 +23,16 @@ export default defineConfig({
     '/blog/what-inconsistency-costs': '/tools/roi-calculator',
     '/scorecard': '/tools/scorecard',
     '/scorecard/results': '/tools/scorecard/results',
-    // Rudiment UI moved back: it has no client and no user research to
-    // report, so it doesn't fit the case-study bar the other /projects/
-    // pages are held to.
-    '/projects/rudiment-ui': '/personal-projects/rudiment-ui',
+    // Rudiment UI was promoted from a personal project to a case study.
+    '/personal-projects/rudiment-ui': '/projects/rudiment-ui',
+    // Personal projects were taken off the site on 2026-11-22 (archived in notes/personal-projects/).
+    '/personal-projects': '/projects',
+    '/personal-projects/beckit': '/projects',
+    '/personal-projects/clempo': '/projects',
+    '/personal-projects/clempo/gallery': '/projects',
+    '/personal-projects/beckit/gallery': '/projects',
+    '/personal-projects/token-galaga': '/play',
+    '/personal-projects/token-galaga/gallery': '/play',
     // Retired 2026-10-28 when the writing moved from guides to opinion pieces.
     '/blog/staff-level-ui-engineering-for-dummies': '/blog',
     '/blog/native-lit-or-stencil': '/blog',

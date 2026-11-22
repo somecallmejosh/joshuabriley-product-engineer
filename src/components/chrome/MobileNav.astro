@@ -120,8 +120,8 @@ const menuIsCurrent = (menu: (typeof HEADER_MENUS)[number]) => menu.match.some(i
                             ))}
                           </div>
                         )}
-                        {menu.feature === 'work' && <a class="mobile-all" style="--j: 2" href="/projects/" aria-current={pathname === '/projects' ? 'page' : undefined}>All projects<span class="link-dot" aria-hidden="true"></span></a>}
-                        {menu.feature === 'writing' && <a class="mobile-all" style="--j: 2" href="/blog/" aria-current={pathname === '/blog' ? 'page' : undefined}>All writing<span class="link-dot" aria-hidden="true"></span></a>}
+                        {menu.feature === 'work' && <a class="mobile-all" style="--j: 2" href="/projects/" aria-current={pathname === '/projects' ? 'page' : undefined}>{menu.overview?.label}</a>}
+                        {menu.feature === 'writing' && <a class="mobile-all" style="--j: 2" href="/blog/" aria-current={pathname === '/blog' ? 'page' : undefined}>All writing</a>}
                       </div>
                     </div>
                   </div>

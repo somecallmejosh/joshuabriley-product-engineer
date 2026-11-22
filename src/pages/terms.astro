@@ -2,7 +2,6 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
 import Link from '~/components/primitives/Link.astro';
 
 const updated = 'June 2026';
@@ -12,15 +11,15 @@ const updated = 'June 2026';
   title="Terms of use | Joshua Briley"
   description="The ground rules for using this site, its content, and the tools on it."
 >
-  <section class="page-opener page-opener--document legal-page">
+  <section class="page-opener legal-page">
     <Container width="narrow">
       <p class="mono-label">Legal · Last updated {updated}</p>
 
       <h1 class="page-type">Terms of use</h1>
-      <Text size="lg" tone="muted" class="mt-6 max-w-2xl">
+      <p class="page-lede">
         This is a personal site for sharing my work and a few free tools. Using it means you're okay
         with the short list below.
-      </Text>
+      </p>
 
       <div class="legal mt-12 space-y-12">
         <section>

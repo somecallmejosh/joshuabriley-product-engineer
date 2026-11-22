@@ -21,7 +21,7 @@ const shotSizes = (i: number) => feature && i === 0 ? '(min-width: 64em) 100vw, 
           : <ProjectIllustration project={work.illustration} />}
       </a>
       <div class="work-copy">
-        <h3><a href={work.href}><span class="title-text">{work.name}</span><span class="link-dot" aria-hidden="true"></span></a></h3>
+        <h3><a href={work.href}><span class="title-text">{work.name}</span></a></h3>
         <p class="work-kind">{work.kind}</p>
         <p class="work-title">{work.title}</p>
         {/* Compact lists show the headline and result only; the image and name already link through. */}
@@ -37,7 +37,7 @@ const shotSizes = (i: number) => feature && i === 0 ? '(min-width: 64em) 100vw, 
       </div>
     </article>
   ))}
-  {feature && (
+  {feature && items.length >= 3 && (
     /* The route that ties the projects together, the same line and dots as the
        résumé's Approach. Drawn by the script below from the measured layout,
        since the entries' heights vary. Decorative. */

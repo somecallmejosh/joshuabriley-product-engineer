@@ -24,7 +24,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
         <nav class="footer-group" aria-label={`Footer: ${menu.label}`}>
           <h2>{menu.label}</h2>
           <ul role="list">
-            {menu.links.filter((link) => linkExists(link.href)).map((link) => (
+            {[...(menu.overview?.description ? [menu.overview as { href: string; label: string; description: string }] : []), ...menu.links].filter((link) => linkExists(link.href)).map((link) => (
               <li>
                 <a class="footer-link" href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
                   <span class="footer-link-name">{link.label}</span>
@@ -33,7 +33,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
               </li>
             ))}
           </ul>
-          {menu.overview && <a class="footer-all" href={menu.overview.href} aria-current={current(menu.overview.href)}>{menu.overview.label}<span class="link-dot" aria-hidden="true"></span></a>}
+          {menu.overview && !menu.overview.description && <a class="footer-all" href={menu.overview.href} aria-current={current(menu.overview.href)}>{menu.overview.label}</a>}
         </nav>
       ))}
     </div>
@@ -43,10 +43,10 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
         <Logo href="/" size="lg" tone="inverse" />
         <p>Based in Connecticut</p>
         <nav class="footer-reach" aria-label="Footer: Get in touch">
-          <a class="footer-contact" href="/contact/" aria-current={current('/contact/')}>Contact me<span class="link-dot" aria-hidden="true"></span></a>
+          <a class="footer-contact" href="/contact/" aria-current={current('/contact/')}>Contact me</a>
           <span class="footer-email"><a href="mailto:josh@thebrileys.com">josh@thebrileys.com</a><CopyButton text="josh@thebrileys.com" label="Copy" ariaLabel="Copy email address" tone="onDark" /></span>
-          <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="link-dot" aria-hidden="true"></span><span class="sr-only"> (opens in a new tab)</span></a>
-          <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub<span class="link-dot" aria-hidden="true"></span><span class="sr-only"> (opens in a new tab)</span></a>
+          <a href="https://www.linkedin.com/in/joshuabriley/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+          <a href="https://github.com/somecallmejosh" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
         </nav>
       </div>
       <div class="footer-colophon">
@@ -54,7 +54,7 @@ const current = (href: string) => (pathname === (href.replace(/\/$/, '') || '/')
           <a href="/style-guide/" aria-current={current('/style-guide/')}>How this site is designed</a>
           <a href="/privacy/" aria-current={current('/privacy/')}>Privacy</a>
           <a href="/terms/" aria-current={current('/terms/')}>Terms</a>
-          <a class="footer-top" href="#main">Back to top<span class="link-dot" aria-hidden="true"></span></a>
+          <a class="footer-top" href="#main">Back to top</a>
         </nav>
         <p>© {year} Joshua Briley</p>
       </div>

@@ -5,12 +5,14 @@ import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
 import Text from '~/components/primitives/Text.astro';
 import Plate from '~/components/patterns/Plate.astro';
+import FidelityBand from '~/components/patterns/FidelityBand.astro';
+import ScrollShot from '~/components/patterns/ScrollShot.astro';
+import SiteShot from '~/components/patterns/SiteShot.astro';
 import { projectGalleries, type ProjectGallery } from '~/lib/project-galleries';
 import { projectPages } from '~/lib/project-pages';
-import { personalProjects } from '~/lib/personal-projects';
 
-// One route serves every gallery: /projects/<slug>/gallery/ and
-// /personal-projects/<slug>/gallery/. Data lives in src/lib/project-galleries.ts.
+// One route serves every gallery: /projects/<slug>/gallery/.
+// Data lives in src/lib/project-galleries.ts.
 export function getStaticPaths() {
   return projectGalleries.map((gallery) => ({
     params: { section: gallery.section, slug: gallery.slug },
@@ -20,11 +22,9 @@ export function getStaticPaths() {
 
 interface Props { gallery: ProjectGallery; }
 const { gallery } = Astro.props;
-const name = { ...projectPages, ...personalProjects }[gallery.project].name;
+const name = projectPages[gallery.project].name;
 const caseStudy = `/${gallery.section}/${gallery.slug}/`;
-const sectionCrumb = gallery.section === 'personal-projects'
-  ? { href: '/personal-projects/', label: 'Personal projects' }
-  : { href: '/projects/', label: 'Projects' };
+const sectionCrumb = { href: '/projects/', label: 'Projects' };
 ---
 
 <ProjectLayout title={`${name} gallery | Joshua Briley`} description={`${name}: ${gallery.intro}`}>
@@ -38,10 +38,17 @@ const sectionCrumb = gallery.section === 'personal-projects'
         <div class="mt-20">
           <Heading level={2} visual="h2" tone="ink" class="mb-3">{group.heading}</Heading>
           {group.intro && <Text tone="muted" class="measure mb-10">{group.intro}</Text>}
+          {group.fidelity && <FidelityBand class={group.intro ? 'mb-14' : 'mt-10 mb-14'} {...group.fidelity} />}
           <ul class:list={['grid gap-x-8 gap-y-14', group.intro ? '' : 'mt-10', group.items.every((i) => i.size === 'half') && 'md:grid-cols-2']}>
             {group.items.map((item) => (
               <li>
-                <Plate size={item.size} index={item.index} title={item.title} caption={item.caption} src={item.src} alt={item.alt} />
+                {item.type === 'scroll' ? (
+                  <ScrollShot src={item.src} alt={item.alt} label={item.label} kind={item.kind} caption={item.caption} href={item.href} index={item.index} />
+                ) : item.type === 'site' ? (
+                  <SiteShot src={item.src} alt={item.alt} href={item.href} label={item.label} kind={item.kind} index={item.index} />
+                ) : (
+                  <Plate size={item.size} index={item.index} title={item.title} caption={item.caption} src={item.src} alt={item.alt} />
+                )}
               </li>
             ))}
           </ul>

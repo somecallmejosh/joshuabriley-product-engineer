@@ -83,7 +83,7 @@ test('printing a case study loads lazy images and restores the screen state', as
 });
 
 test('printed external links retain unique numbered destinations without duplicating on repeated events', async ({ page }) => {
-  await page.goto('/personal-projects/rudiment-ui/');
+  await page.goto('/projects/vmspark/');
   const firstResource = await page.evaluate(() => [...document.querySelectorAll<HTMLAnchorElement>('#main a[href^="http"]')]
     .find(link => new URL(link.href).origin !== location.origin && !link.closest('nav') && link.getClientRects().length)?.href);
   await page.emulateMedia({ media: 'print' });

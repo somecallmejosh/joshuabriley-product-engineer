@@ -26,26 +26,18 @@ export const OG_PAGES = [
   { slug: 'about', path: '/about/', eyebrow: 'Product Design Engineer', headline: 'About Joshua Briley', art: 'portrait' },
   { slug: 'contact', path: '/contact/', eyebrow: 'Contact', headline: 'Contact Joshua Briley', art: 'portrait' },
   { slug: 'resume', path: '/resume/', eyebrow: 'Résumé', headline: 'Joshua Briley, Product Design Engineer', art: 'portrait' },
-  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Client case studies', art: 'work' },
-  { slug: 'personal-projects', path: '/personal-projects/', eyebrow: 'Made for fun', headline: 'Personal projects', art: 'work' },
-  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'Client and colleague recommendations', art: 'portrait' },
+  { slug: 'projects', path: '/projects/', eyebrow: 'Selected Work', headline: 'Case studies', art: 'work' },
+  { slug: 'testimonials', path: '/testimonials/', eyebrow: 'Testimonials', headline: 'Client & colleague recommendations', art: 'portrait' },
   { slug: 'blog', path: '/blog/', eyebrow: 'Writing', headline: 'Writing about interfaces', art: 'blog' },
   { slug: 'style-guide', path: '/style-guide/', eyebrow: 'Design System · Reference', headline: 'The Editorial-Technical system' },
   { slug: 'privacy', path: '/privacy/', eyebrow: 'Legal', headline: 'Privacy policy' },
   { slug: 'terms', path: '/terms/', eyebrow: 'Legal', headline: 'Terms of use' },
 
-  // Case studies (client work)
+  // Case studies
   { slug: 'project-ivfcryo', path: '/projects/ivfcryo/', eyebrow: 'Case Study · Design & Front-End', headline: 'IVFCRYO' },
   { slug: 'project-logatot', path: '/projects/logatot/', eyebrow: 'Case Study · Design & Front-End', headline: 'Logatot' },
   { slug: 'project-vmspark', path: '/projects/vmspark/', eyebrow: 'Case Study · Design & Front-End', headline: 'VMSpark' },
-
-  // Personal projects
-  // Moved back from the client case studies; the eyebrow (baked into the PNG)
-  // had to change with it, so this card is regenerated under its old slug.
-  { slug: 'pp-beckit', path: '/personal-projects/beckit/', eyebrow: 'Made for fun', headline: 'beckit' },
-  { slug: 'pp-clempo', path: '/personal-projects/clempo/', eyebrow: 'Made for fun', headline: 'Clempo' },
-  { slug: 'pp-rudiment-ui', path: '/personal-projects/rudiment-ui/', eyebrow: 'Made for fun', headline: 'Rudiment UI' },
-  { slug: 'pp-token-galaga', path: '/personal-projects/token-galaga/', eyebrow: 'Made for fun', headline: 'Token Adventure' },
+  { slug: 'project-rudiment-ui', path: '/projects/rudiment-ui/', eyebrow: 'Case Study · Design Systems', headline: 'Rudiment UI' },
 
   // Blog posts are NOT listed here. They are derived from the posts collection
   // via postToOgEntry() below, so a new post gets a card automatically (just

@@ -116,18 +116,15 @@ body {
   margin-top: 3rem;
 }
 /* The primary action wears the hero portrait's signature: an offset hairline
-   frame with the accent dot on its top-right corner, the same dot as the period
-   after the wordmark. The fill sits on ::before and the frame on ::after so both
-   paint behind the label on any surface. Hover draws the frame in, a press
-   seats the block in it, and a busy form pulses the dot. Surfaces retint it
-   through the --action-* properties, never by overriding background. */
+   frame. The fill sits on ::before and the frame on ::after so both paint
+   behind the label on any surface. Hover draws the frame in, a press seats the
+   block in it, and a busy form pulses the frame. Surfaces retint it through the
+   --action-* properties, never by overriding background. */
 .action-link {
   --action-fill: var(--denim);
   --action-fill-hover: #183a59;
   --action-frame: rgb(var(--accent-rgb) / 0.45);
-  --action-dot: var(--accent);
   --action-offset: 5px;
-  --action-dot-r: 3.5px;
   position: relative;
   isolation: isolate;
   display: inline-flex;
@@ -153,29 +150,18 @@ body {
   background: var(--action-fill);
   transition: background-color 0.2s;
 }
-/* The frame box is grown by the dot's radius on every side, and the frame line
-   is an inset shadow on its padding edge, so the dot can sit centred on the
-   frame's corner without a third element. */
 .action-link::after {
   z-index: -2;
-  inset: calc(var(--action-dot-r) * -1);
-  border: var(--action-dot-r) solid transparent;
-  box-shadow: inset 0 0 0 1px var(--action-frame);
-  background: radial-gradient(
-      circle at calc(100% - var(--action-dot-r)) var(--action-dot-r),
-      var(--action-dot) calc(var(--action-dot-r) - 0.5px),
-      transparent var(--action-dot-r)
-    )
-    border-box;
+  inset: 0;
+  border: 1px solid var(--action-frame);
   transform: translate(var(--action-offset), calc(var(--action-offset) * -1));
   transition: transform 0.2s var(--ease-out);
 }
-/* On denim, the block turns paper and the frame and dot go paper with it. */
+/* On denim, the block turns paper and the frame goes paper with it. */
 .action-link--inverse {
   --action-fill: var(--paper);
   --action-fill-hover: var(--portfolio-tint);
   --action-frame: color-mix(in srgb, var(--paper) 55%, transparent);
-  --action-dot: var(--paper);
   color: var(--portfolio-blue);
 }
 .action-link:hover::before,
@@ -202,10 +188,7 @@ body {
     animation: none;
   }
 }
-/* The supporting link ends in a full stop: an accent dot on the baseline, like
-   the period after the wordmark. Inline-block keeps the dot on the last line's
-   baseline when the label wraps, and an empty inline-block never picks up the
-   underline. */
+/* The supporting link: an underlined text link, padded to a 44px target. */
 .editorial-link {
   display: inline-block;
   padding-block: max(0px, calc((44px - 1lh) / 2));
@@ -220,17 +203,6 @@ body {
     color 0.2s,
     text-decoration-color 0.2s;
 }
-.editorial-link::after {
-  content: '';
-  display: inline-block;
-  width: 0.34em;
-  height: 0.34em;
-  margin-left: 0.18em;
-  border-radius: 50%;
-  background: var(--accent);
-  transform-origin: center bottom;
-  transition: transform 0.2s var(--ease-out);
-}
 .editorial-link > span {
   display: inline-block;
   text-decoration: none;
@@ -239,14 +211,6 @@ body {
 .editorial-link:focus-visible {
   color: var(--accent);
   text-decoration-color: currentColor;
-}
-.editorial-link:is(:hover, :focus-visible)::after {
-  transform: scale(1.45);
-}
-@media (prefers-reduced-motion: reduce) {
-  .editorial-link::after {
-    transition: none;
-  }
 }
 .hero-portrait {
   position: relative;
@@ -273,24 +237,32 @@ body {
   padding-top: 0.8rem;
   color: var(--ink-muted);
 }
-/* No outline: an offset hairline frame is the primary action's signature, so on
-   a photo it read as clickable. The photo keeps only the frame's corner dot,
-   set just off its top-right corner like the period after the logo. */
+/* An offset hairline outline behind the photo, with a dot on its top-right
+   corner like the period after the logo. */
+.hero-portrait::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 1rem;
+  top: -1rem;
+  width: 100%;
+  height: calc(100% - 1.7rem);
+  border: 1px solid rgb(var(--accent-rgb) / 0.38);
+}
 .hero-portrait::after {
   content: '';
   position: absolute;
   z-index: -1;
-  right: -0.6rem;
-  top: -0.6rem;
+  right: -1rem;
+  top: -1rem;
   width: 7px;
   height: 7px;
   margin: -3.5px -3.5px 0 0;
   border-radius: 50%;
   background: var(--accent);
 }
-/* Square headshot with the hero portrait's corner dot, scaled to the avatar.
-   No outline, so it never borrows the primary action's frame. Set
-   --frame-size and --frame-offset per use. */
+/* Square headshot with the hero portrait's offset outline and corner dot,
+   scaled to the avatar. Set --frame-size and --frame-offset per use. */
 .offset-frame {
   position: relative;
   isolation: isolate;
@@ -299,7 +271,16 @@ body {
   width: var(--frame-size, 48px);
   height: var(--frame-size, 48px);
 }
-/* The dot sits just off the top-right corner, sized to the avatar. */
+.offset-frame::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  transform: translate(var(--frame-offset, 5px), calc(var(--frame-offset, 5px) * -1));
+  /* A shade fainter than the hero portrait's outline; follows the surface accent. */
+  border: 1px solid rgb(var(--accent-rgb) / 0.28);
+}
+/* The outline's top-right corner carries a dot, sized to the avatar. */
 .offset-frame::after {
   --dot: clamp(4px, calc(var(--frame-size, 48px) * 0.08), 7px);
   content: '';
@@ -479,6 +460,8 @@ body {
 }
 .work-section--stage .section-heading > p,
 .work-section--stage .work-kind,
+.work-section--stage .work-summary,
+.work-section--stage .work-facts dt,
 .work-section--stage .work-result > span {
   color: color-mix(in srgb, var(--paper) 72%, transparent);
 }
@@ -489,7 +472,8 @@ body {
 .work-section--stage .work-result strong {
   color: var(--accent);
 }
-.work-section--stage .editorial-link--light:hover {
+.work-section--stage .editorial-link--light:hover,
+.work-section--stage .work-copy .editorial-link:hover {
   color: var(--paper);
   text-decoration-color: currentColor;
 }
@@ -537,8 +521,10 @@ body {
   max-width: 54ch;
 }
 /* Light links only sit on ink or denim, so they take the dark-surface accent:
-   the navy dot would vanish into a denim band. */
-.editorial-link--light {
+   the navy dot would vanish into a denim band. A work entry's own link on the
+   home stage is one of them. */
+.editorial-link--light,
+.work-section--stage .work-copy .editorial-link {
   --accent-rgb: 107 166 216;
   --accent: rgb(var(--accent-rgb));
   color: var(--paper);
@@ -587,28 +573,8 @@ body {
   margin-top: 3rem;
   padding-top: 1.4rem;
 }
-/* Pages open two ways, by what they're for. The big opener above is for pages
-   that introduce something (home, listings, case studies, articles). Documents
-   (résumé, contact, legal) use --document: a plain title, then the document. */
-.page-opener--document {
-  padding: 2.5rem 0 3rem;
-}
-.page-opener--document .page-type {
-  margin-top: 0.75rem;
-  font-size: clamp(2.25rem, 3.4vw, 3.1rem);
-  letter-spacing: -0.045em;
-  line-height: 1.05;
-}
-.page-opener--document .page-lede {
-  margin-top: 1rem;
-  font-size: var(--type-body);
-  max-width: 60ch;
-}
-.page-opener--document .evidence-nav {
-  margin-top: 1.25rem;
-}
 /* Legal pages are one document: opener spacing on top, a full section below. */
-.page-opener--document.legal-page {
+.page-opener.legal-page {
   padding-bottom: var(--space-section);
 }
 .evidence-nav a {
@@ -718,7 +684,8 @@ body {
   font-size: var(--type-caption);
   font-weight: 600;
 }
-.case-review a:hover {
+.case-review a:hover,
+.case-review a[aria-current] {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 5px;
@@ -952,6 +919,7 @@ body {
     aspect-ratio: 1.5;
     object-position: center 38%;
   }
+  .hero-portrait::before,
   .hero-portrait::after {
     display: none;
   }
@@ -1064,7 +1032,6 @@ body {
     --action-fill: var(--action-dark);
     --action-fill-hover: var(--action-dark-hover);
     --action-frame: rgb(var(--accent-rgb) / 0.45);
-    --action-dot: var(--accent);
     color: white;
   }
   /* Full-width denim bands blend into the page like the ink bands; denim tiles

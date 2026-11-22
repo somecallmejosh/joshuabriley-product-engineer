@@ -1,7 +1,7 @@
 /**
  * Personas and journey maps for the client case studies. Sources: the interview
- * notes in notes/interview-notes/, notes/ivfcryo/portfolio.md, notes/vm-spark.md
- * and Josh's own accounts. A quote with `quoteBy` is word for word from the
+ * notes in notes/interview-notes/, notes/ivfcryo/portfolio.md, notes/vm-spark.md,
+ * the rudiment-ui and Vitrea repos' gap logs, and Josh's own accounts. A quote with `quoteBy` is word for word from the
  * transcripts and names its speaker. A quote without `quoteBy` is illustrative,
  * written in the persona's voice. Persona names are fictional, so needs are never attributed to a real participant; `basis`
  * names the real source. Don't reuse a participant's name for a persona.
@@ -280,10 +280,92 @@ export const vmsparkJourney: JourneyStage[] = [
   },
 ];
 
+export const rudimentPersonas: Persona[] = [
+  {
+    id: 'kenji',
+    name: 'Kenji Mori',
+    role: 'The product engineer',
+    context: 'Builds screens on a small product team with no design-system group, often with a coding agent writing the first draft.',
+    quote: 'If I have to remove the margin from every heading in every card, the library isn’t saving me time.',
+    needs: ['Build a whole screen, tables and forms included, from library parts', 'Keyboard and screen reader behavior without wiring it up', 'An API reference a coding agent can read instead of guessing props'],
+    frustrations: ['Libraries that look finished in Storybook and break on a real page', 'Inline styles and third-party imports to make a component work', 'A package whose CSS restyles the rest of the app'],
+    basis: 'A working persona based on the gaps logged while building the demo pages and Vitrea. No outside engineers were interviewed.',
+  },
+  {
+    id: 'sofia',
+    name: 'Sofia Lindqvist',
+    role: 'The brand designer',
+    context: 'Owns how a product looks and needs a shared library to carry her brand in light and dark.',
+    quote: 'I want to change the brand in one place, not file a ticket against every component.',
+    needs: ['Rebrand by changing tokens, not component code', 'Light and dark themes that both pass contrast', 'Controls that line up and match in every theme'],
+    frustrations: ['Themes that depend on overrides inside component stylesheets', 'Field borders too faint to see', 'Two border colors and two heights in one row of controls'],
+    basis: 'A working persona based on rebranding Vitrea through tokens alone. No outside designers were interviewed.',
+  },
+  {
+    id: 'ruth',
+    name: 'Ruth Adeyemi',
+    role: 'The person using the finished app',
+    context: 'Coordinates shipments at a clinic lab. She works mostly from the keyboard and uses a screen reader for long tables.',
+    quote: 'When I move a card, I need to hear where it went, once.',
+    needs: ['Every control reachable and usable by keyboard', 'Errors announced and tied to their fields', 'Screens that still work in a narrow window'],
+    frustrations: ['Text fields in a table that lose their arrow keys', 'Each move announced twice, by an internal id', 'A form that takes focus away while she types'],
+    basis: 'A working persona based on the accessibility bugs Vitrea found. No screen reader users were interviewed or tested with.',
+  },
+];
+
+export const rudimentJourney: JourneyStage[] = [
+  {
+    id: 'evaluate',
+    stage: 'Reads the docs',
+    icon: 'ph:book-open-text',
+    href: '#decision-brand',
+    doing: 'A team decides whether the library is worth adopting.',
+    problem: 'Component stories show each part working alone, not a whole product.',
+    design: 'Storybook opens with what the library is for, and links to a working app to try.',
+  },
+  {
+    id: 'install',
+    stage: 'Installs the package',
+    icon: 'ph:package',
+    href: '#process',
+    doing: 'An engineer adds the package to an existing app.',
+    problem: 'A library’s CSS can reset or restyle the rest of the app.',
+    design: 'No reset and no bare element selectors, with React Aria kept out of the bundle so the app’s one copy is used.',
+  },
+  {
+    id: 'theme',
+    stage: 'Applies the brand',
+    icon: 'ph:palette',
+    href: '#decisions',
+    doing: 'A designer makes the components look like their product.',
+    problem: 'Earlier brand themes needed overrides inside component stylesheets.',
+    design: 'Every theme is a set of token values, and Vitrea’s whole brand is one stylesheet.',
+  },
+  {
+    id: 'build',
+    stage: 'Builds real screens',
+    icon: 'ph:code',
+    href: '#decision-agents',
+    doing: 'Engineers, often with a coding agent, build tables, forms, and dashboards.',
+    problem: 'An agent that can’t look up the API guesses at props or falls back to raw markup.',
+    design: 'The package ships its full API in files and a server that coding agents can read.',
+  },
+  {
+    id: 'use',
+    stage: 'People use the app',
+    icon: 'ph:keyboard',
+    href: '#decision-real-app',
+    doing: 'Staff use the finished screens all day, by mouse, keyboard, and screen reader.',
+    problem: 'Bugs in typing, focus, and narrow layouts passed every unit, axe, and story test.',
+    design: 'A working app built only from library parts, with each bug fixed in the library.',
+  },
+];
+
 export const caseResearch = {
   logatot: { personas: logatotPersonas, journey: logatotJourney },
   ivfcryo: { personas: ivfcryoPersonas, journey: ivfcryoJourney },
   vmspark: { personas: vmsparkPersonas, journey: vmsparkJourney },
+  'rudiment-ui': { personas: rudimentPersonas, journey: rudimentJourney },
 };
 
 export type CaseProject = keyof typeof caseResearch;

@@ -150,21 +150,21 @@ const { project, class: className } = Astro.props;
 
   {project === 'rudiment-ui' && (
     <g>
-      <text x="40" y="56" class="label">TOKENS · THREE TIERS</text>
-      <path class="connector" d="M46 120V250" />
-      <circle cx="46" cy="114" r="5" class="accent" />
-      <text x="64" y="100" class="label">GLOBAL</text>
-      <text x="64" y="124" class="code">color.blue.500</text>
-      <circle cx="46" cy="180" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
-      <text x="64" y="166" class="label">SEMANTIC</text>
-      <text x="64" y="190" class="code">color.brand.primary</text>
-      <circle cx="46" cy="246" r="4.5" class="accent-stroke" stroke-width="1.5" fill="var(--paper)" />
-      <text x="64" y="232" class="label">COMPONENT</text>
-      <text x="64" y="256" class="code">button.background</text>
-      <path class="connector" d="M248 250H386V158" />
-      <rect x="332" y="112" width="108" height="44" rx="4" class="accent" />
-      <text x="386" y="140" text-anchor="middle" class="button">Save</text>
-      <text x="40" y="320" class="result">Documented in Storybook</text>
+      <text x="40" y="56" class="label">GAP LOG · VITREA DEMO</text>
+      <rect x="40.5" y="78.5" width="399" height="96" class="frame" />
+      <text x="60" y="116" class="code code--sm muted-text">&lt;RudiHeading … style={"{{"} margin: 0 {"}}"}&gt;</text>
+      <path class="accent-stroke" stroke-width="2" d="M58 111H372" />
+      <text x="60" y="152" class="code code--sm">&lt;RudiHeading level={"{"}3{"}"} size={"{"}5{"}"}&gt;</text>
+      <rect x="40" y="200" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 211 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="218" class="body">Data table</text>
+      <text x="440" y="218" text-anchor="end" class="small">Added</text>
+      <path class="rule" d="M40 238H440M40 282H440" />
+      <rect x="40" y="250" width="22" height="22" rx="3" class="accent" />
+      <path d="m45.5 261 4 4 7.5-9" class="check" stroke-width="2" />
+      <text x="80" y="268" class="body">Field borders at 1.3:1</text>
+      <text x="440" y="268" text-anchor="end" class="small">Fixed</text>
+      <text x="40" y="328" class="result result--sm">Fixed in the library, not the app</text>
     </g>
   )}
 

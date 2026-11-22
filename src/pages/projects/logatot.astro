@@ -11,8 +11,8 @@ import Text from '~/components/primitives/Text.astro';
 import Icon from '~/components/primitives/Icon.astro';
 import Metric from '~/components/patterns/Metric.astro';
 import Plate from '~/components/patterns/Plate.astro';
-import ScrollShot from '~/components/patterns/ScrollShot.astro';
 import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import { panel, modal, filters, bulk, pills, type Snippet } from '~/lib/logatot-code';
 import CaseSection from '~/components/patterns/case/CaseSection.astro';
 import CaseProse from '~/components/patterns/case/CaseProse.astro';
 import CaseCards from '~/components/patterns/case/CaseCards.astro';
@@ -39,8 +39,8 @@ const jumpLinks = [
   { href: '#context', label: 'Audience' },
   { href: '#research', label: 'Research' },
   { href: '#decisions', label: 'Design decisions' },
+  { href: '#process', label: 'Engineering' },
   { href: '#outcomes', label: 'Results' },
-  { href: '#process', label: 'Build process' },
   { href: '#edges', label: 'Limitations' },
 ];
 
@@ -103,64 +103,6 @@ const edges = [
   { icon: 'ph:device-tablet', title: 'No tablet layout', body: 'The layout has one breakpoint, so tablets, including the kiosk, get a poor fit.' },
   { icon: 'ph:cloud-slash', title: 'No offline mode', body: 'The pieces exist but were never finished. For homes with unreliable WiFi, it’s the most valuable missing feature.' },
 ];
-
-// The sheets render from src/ so Astro can actually process them (anything under
-// public/ is copied verbatim, never optimized). Sources are 2x headless-Chrome
-// PNGs; `<Image>` emits sized WebP from these at build time.
-const sheets = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/projects/logatot/wires-and-flows/*.png',
-  { eager: true },
-);
-const sheet = (slug: string) =>
-  sheets[`../../assets/projects/logatot/wires-and-flows/${slug}.png`].default;
-
-// The review screen carries the argument, so it gets a full mount. The note is the
-// claim the sheet is making, not a fresh gloss on the picture.
-const keyScreens = [
-  {
-    slug: '04-logged-events',
-    index: '04',
-    title: 'Logged events: review and repair',
-    note: 'Tapping the right word adds it to that child’s name variants.',
-    alt: 'Annotated wireframe of the logged-events review screen: a queue of failed voice captures, each showing the raw utterance as selectable word chips, the partially understood fields, and the retained audio, with callouts explaining the two diagnostic flags and how a correction improves recognition permanently.',
-  },
-];
-
-
-const flows = [
-  {
-    slug: '11-flow-voice-logging',
-    title: 'Voice event logging',
-    note: 'From speech to a saved event, with the failure path drawn in full.',
-    alt: 'Flow diagram of voice event logging. An on-device wake word opens transcription, which runs through a ladder of phrase matchers and roster name matching, forking into a single-child inline write, a multi-child background job, or a failed parse that lands in the repair queue with its audio attached.',
-  },
-  {
-    slug: '14-flow-parent-access',
-    title: 'Parent access',
-    note: 'Email-link sign-in and a daily summary email that brings parents back.',
-    alt: 'Flow diagram of parent access: a passwordless magic-link request that returns an identical screen for known and unknown addresses, a fifteen-minute single-use token, role resolution at the shared sign-in, and the automatic end-of-day summary email that drives the daily loop.',
-  },
-  {
-    slug: '15-flow-food-program',
-    title: 'Food program',
-    note: 'Plan, serve, and claim, with menus checked against the rules while they’re planned.',
-    alt: 'Flow diagram of the CACFP food program: building a menu validated per meal against the age-group component matrix, duplicating a week, generating a shopping list, serving meals through the shared event pipeline, and reconciling the month-end claim from records that already exist.',
-  },
-];
-
-// Screenshots of the shipped app, captured from the seeded demo account at
-// 1440×900 @2x in light mode.
-// Captions say only what is on screen.
-const appShots = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/projects/logatot/app/app-*.png',
-  { eager: true },
-);
-const app = (slug: string) => appShots[`../../assets/projects/logatot/app/app-${slug}.png`].default;
-
-// Screens and flows are placed beside the argument they support rather than
-// collected into one gallery, so these look them up by slug at the point of use.
-const screen = (slug: string) => keyScreens.find((s) => s.slug === slug)!;
-const flowSet = (...slugs: string[]) => slugs.map((s) => flows.find((f) => f.slug === s)!);
 
 // Captured from the seeded demo account with headless Chrome:
 // desktop 1440×900 @2x, phone 390×844 @2x, kiosk 1180×820 @2x. Provider =
@@ -250,14 +192,8 @@ const heuristics = [
 
 // The phone set. Captions describe what is on screen.
 const phones = [
-  { slug: 'phone-provider-voiceboard', title: 'Voiceboard', note: 'Date, counts, and children stack in one column.', alt: 'The Voiceboard on a phone: the Ready to listen panel with the example “Logatot, Ava woke up,” a date control for Friday, October 30 with a Today button, count pills for 0 here, 12 expected, 11 picked up, and 1 absent, then the Children heading with the Compact and Detailed switch, an Add event button, and Ava Johnson’s tile.' },
   { slug: 'phone-provider-nav', title: 'Provider menu', note: 'Twelve destinations in three groups.', alt: 'The provider’s navigation drawer on a phone: Voiceboard highlighted, Children, Activity log, Meals, a Modules group with Calendar, Chat, Documents, and Expenses, and a Resources group with Photo gallery, Reports, Video learning library, and Help.' },
-  { slug: 'phone-parent-nav', title: 'Family menu', note: 'A parent sees three links and the dark mode switch.', alt: 'A parent’s navigation drawer on a phone: Little Acorns Home Daycare, then only My children, Chat, Reports, and a Dark mode switch.' },
-  { slug: 'phone-provider-child', title: 'Child profile', note: 'Health details become full-width tiles.', alt: 'Liam Carter’s profile on a phone: a large photo, his name, pronoun, birth date and age, an Active badge, Archive child and Edit buttons, then Health tiles for allergies, medications, and diapers.' },
-  { slug: 'phone-provider-repair', title: 'Needs review', note: 'The misheard sentence first, then the fields to fix it.', alt: 'A failed voice entry on a phone: Name not heard and Event not recognized tags, the time, the quote “Log a diaper change for, um, the little one in the blue shirt,” a hint to tap the word that was the child’s name, and Child and What happened selects.' },
   { slug: 'phone-provider-menu-calendar', title: 'Menu calendar', note: 'The month grid becomes a list by day and meal.', alt: 'The menu calendar on a phone: Month and Week controls, a legend item for a missing required food component, then Sunday the 1st and Monday the 2nd as lists of breakfast, morning snack, lunch, and dinner, with a warning icon on two breakfasts.' },
-  { slug: 'phone-parent-dashboard', title: 'Family channel', note: 'The provider’s welcome note, then the child’s day.', alt: 'The family channel on a phone: a Show filters button, the provider’s thank-you note, and October 30th activities for Liam Carter with a date filter and a timeline starting with Check-out and Activity.' },
-  { slug: 'phone-public-sign-in', title: 'Provider login', note: 'Families get their own link at the bottom.', alt: 'The provider login on a phone: email and password fields, Remember me, a Login button, Register and Forgot your password links, and a “Family member? Family login” button.' },
 ];
 
 // What the redesign left open. Each was seen in the captures for this page
@@ -425,9 +361,11 @@ const results = [
     </CaseProse>
 
     <Fragment slot="media">
-      <Container width="wide" class="mt-16">
-        <CasePersonas items={logatotPersonas} />
-      </Container>
+      <div class="case-band mt-16">
+        <Container width="wide">
+          <CasePersonas items={logatotPersonas} />
+        </Container>
+      </div>
 
       <Container width="wide" class="mt-16">
         <CaseJourney title="Journey map: a provider’s day" stages={logatotJourney} />
@@ -458,15 +396,6 @@ const results = [
           alt="The Voiceboard for Friday, October 30, signed in as the provider: a sidebar with Voiceboard, Children, Activity log, and Meals, then Modules and Resources groups and a Dark mode switch. The main area has a Ready to listen panel with a microphone and the example “Logatot, Ava woke up,” count pills for 0 here, 12 expected, 11 picked up, and 1 absent, a date control, and a Children heading with a Compact and Detailed switch above a three-column grid of child tiles, each with a photo, the pickup time, and colored moment chips."
         />
       </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
-          title="Voiceboard, Detailed"
-          caption="Each child’s day so far, grouped by event type, for writing up the end-of-day report."
-          src={app('voiceboard-children')}
-          alt="Child cards on the Logatot Voiceboard. Each card shows a photo, the child’s name, their check-in time, and a list of the day’s events with times, such as a 7:08 am health check, a 12:29 pm wet diaper change, a 12:37 pm nap, lunch at 11:45 am, and outdoor play."
-        />
-      </Container>
     </Fragment>
   </CaseSection>
 
@@ -490,15 +419,6 @@ const results = [
     </CaseProse>
 
     <Fragment slot="media">
-      <Container width="wide" class="mt-16">
-        <Plate
-          title={screen('04-logged-events').title}
-          caption={screen('04-logged-events').note}
-          src={sheet('04-logged-events')}
-          alt={screen('04-logged-events').alt}
-        />
-      </Container>
-
       <Container width="wide" class="mt-16">
         <Plate
           title="Activity log: needs review"
@@ -537,15 +457,6 @@ const results = [
 
       <Container width="wide" class="mt-16">
         <Plate
-          title="Tablero de voz"
-          caption="The Voiceboard with the provider’s language set to Spanish."
-          src={rd('es-provider-voiceboard')}
-          alt="The Voiceboard in Spanish: a sidebar with Tablero de voz, Niños, Registro de actividades, and Comidas, the panel Lista para escuchar with “Di ‘Logatot’ para registrar un momento” and the example “Logatot, Ava se despertó,” counts reading 0 presentes, 12 esperados, 11 recogidos, and 1 ausentes, the date Viernes, Octubre 30, and the Niños heading with Compacto and Detallado above child tiles reading “Recogido a las 4:55 pm.”"
-        />
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <Plate
           title="Registro de actividades"
           caption="Labels are translated. The quote stays as heard."
           src={rd('es-provider-repair')}
@@ -572,7 +483,6 @@ const results = [
       </p>
     </CaseProse>
 
-    <CaseCards label="How a view asks for confirmation" items={confirmApi} />
     <CaseCards label="Keyboard and screen reader behavior" items={confirmBehavior} />
 
     <CaseProse class="mt-12">
@@ -588,39 +498,12 @@ const results = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        <div class="stage-grid grid grid-cols-1 gap-y-10 lg:grid-cols-2 lg:gap-x-12">
-          <CodeBlock
-            filename="registrations/edit.html.erb (before)"
-            lang="erb"
-            code={confirmBefore}
-            caption="Neither attribute did anything: Turbo was commented out and rails-ujs was never loaded."
-          />
-          <CodeBlock
-            filename="registrations/edit.html.erb (after)"
-            lang="erb"
-            code={confirmAfter}
-            caption="The shared dialog reads data-confirm, with a translated question and a named action."
-          />
-        </div>
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
-          <Plate
-            size="half"
-            title="Cancel my account"
-            caption="Opened from the keyboard, focus lands on Cancel."
-            src={rd('confirm-cancel-account')}
-            alt="The Edit User page dimmed behind a dialog titled Please confirm, with a red warning icon and the message “Delete your Logatot login and all of its settings? This can't be undone.” The Cancel button has a visible focus ring, next to a red Delete my account button."
-          />
-          <Plate
-            size="half"
-            title="Delete an expense"
-            caption="The message names the expense, and the button names the action."
-            src={rd('confirm-delete-expense')}
-            alt="The Expenses page dimmed behind a dialog titled Please confirm, with a red warning icon and the message “Delete the Costco expense from Nov 1? This can't be undone.” and Cancel and red Delete expense buttons. Behind it, the expense table lists Costco on Sun, Nov 1 for $142.37."
-          />
-        </div>
+        <Plate
+          title="Cancel my account"
+          caption="Opened from the keyboard, focus lands on Cancel."
+          src={rd('confirm-cancel-account')}
+          alt="The Edit User page dimmed behind a dialog titled Please confirm, with a red warning icon and the message “Delete your Logatot login and all of its settings? This can't be undone.” The Cancel button has a visible focus ring, next to a red Delete my account button."
+        />
       </Container>
     </Fragment>
   </CaseSection>
@@ -661,31 +544,6 @@ const results = [
           nothing to manage. The family channel adds no work to the provider’s day.
         </p>
       </CaseProse>
-
-      <Container width="wide" class="mt-16">
-        {flowSet('14-flow-parent-access').map((flow) => (
-          <Plate title={flow.title} caption={flow.note} src={sheet(flow.slug)} alt={flow.alt} />
-        ))}
-      </Container>
-
-      <Container width="wide" class="mt-16">
-        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
-          <Plate
-            size="half"
-            title="Provider: a child’s profile"
-            caption="The whole record, editable."
-            src={rd('provider-child')}
-            alt="Liam Carter’s profile signed in as the provider: the full sidebar, a raised header card with his photo, name, pronoun, birth date, age, an Active badge, Archive child and Edit buttons, and Health tiles for allergies, medications, diapers, and diet restrictions. Below, recessed panels list Legal guardians Megan and Ryan Carter with an Add legal guardian button, a Monday-to-Friday attendance strip, and Billing of $275.00 every two weeks."
-          />
-          <Plate
-            size="half"
-            title="Family: the same child"
-            caption="Liam’s day and details, with no editing tools."
-            src={rd('parent-dashboard')}
-            alt="The family channel signed in as Megan Carter: a top bar with the daycare name and her name, a Family channel heading, a panel greeting her with a choice of child, the provider’s thank-you note, then October 30th activities for Liam Carter as a table of times and activities from Lunch to Check-out, and a Child details panel with tuition, allergies, medications, and Authorized pickups listing Tyler Carter."
-          />
-        </div>
-      </Container>
 
       <CaseProse continued>
         <Heading level={3} visual="h2">Roles and access</Heading>
@@ -728,12 +586,6 @@ const results = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        {flowSet('15-flow-food-program').map((flow) => (
-          <Plate title={flow.title} caption={flow.note} src={sheet(flow.slug)} alt={flow.alt} />
-        ))}
-      </Container>
-
-      <Container width="wide" class="mt-16">
         <Plate
           title="Menu calendar"
           caption="Meals missing a required component get a warning."
@@ -768,22 +620,12 @@ const results = [
 
     <Fragment slot="media">
       <Container width="wide" class="mt-16">
-        <div class="stage-grid grid grid-cols-1 gap-y-14 lg:grid-cols-2">
-          <Plate
-            size="half"
-            title="Children"
-            caption="The roster raised, quick add recessed beside it."
-            src={rd('provider-children')}
-            alt="The Children page: Active, Inactive, All, and Archived segments, a search field, and a two-column grid of child cards with photos, Active status, and labeled chips such as Diapers, Meds, and Diet. On the right, a recessed Add a child panel with first name, last name, and date of birth fields, an Add child button, and a Use the full form link."
-          />
-          <Plate
-            size="half"
-            title="Expenses"
-            caption="Totals and filters recessed, the table raised."
-            src={rd('provider-expenses')}
-            alt="The Expenses page: All expenses, Expense locations, and Expense categories segments, a recessed strip with This month $142.37, This year $600.40, and Receipts 8, a Find expenses panel with a search field and date chips, then a table of expenses with checkboxes, dates, places such as Costco and Target, category badges, amounts, mileage, and edit and delete buttons."
-          />
-        </div>
+        <Plate
+          title="Children"
+          caption="The roster raised, quick add recessed beside it."
+          src={rd('provider-children')}
+          alt="The Children page: Active, Inactive, All, and Archived segments, a search field, and a two-column grid of child cards with photos, Active status, and labeled chips such as Diapers, Meds, and Diet. On the right, a recessed Add a child panel with first name, last name, and date of birth fields, an Add child button, and a Use the full form link."
+        />
       </Container>
 
       <CaseProse continued>
@@ -815,7 +657,7 @@ const results = [
       </CaseProse>
 
       <Container width="wide" class="mt-16">
-        <ul class="stage-grid stage-grid--phones grid grid-cols-2 gap-y-10 md:grid-cols-4">
+        <ul class="stage-grid stage-grid--phones grid grid-cols-2 gap-y-10">
           {phones.map((p) => (
             <li>
               <Plate size="half" title={p.title} caption={p.note} src={rd(p.slug)} alt={p.alt} />
@@ -832,43 +674,10 @@ const results = [
           reduced motion and is announced to screen readers.
         </p>
       </CaseProse>
-
-      <Container width="wide" class="mt-16">
-        <ScrollShot
-          src="/images/projects/logatot/public-home.webp"
-          alt="The full Logatot homepage: a header with an EN/ES switch, the hero “Child Care’s Only Voice-Controlled Assistant” beside a live listening panel and Ava Johnson’s card of the day’s moments, Try it phrase chips, a Why Logatot section with four benefits, a Speak, record, comply section with live Voiceboard tiles, a Ready for anything section with Olivia Bennett’s profile, guardians, and pickups, a Simplified, effective management section with report cards, Pricing at $30 a month or $300 a year, testimonials, and a footer with a contact form."
-          label="Logatot homepage"
-          caption="Every preview is a live app component with demo data."
-        />
-      </Container>
     </Fragment>
   </CaseSection>
 
-  <CaseSection id="outcomes" title="Results" tone="ink" wide>
-    <CaseResults
-      metrics={[
-        { value: '2+ hrs', label: 'saved on daily data entry', caption: 'Reported by providers' },
-      ]}
-      groups={results}
-    />
-
-    <div class="mt-12">
-      <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Post-launch feedback</Heading>
-      <Text size="sm" tone="muted" class="measure mb-4">
-        A questionnaire led to a readable menu calendar, clearer pages, and a compact Voiceboard.
-      </Text>
-      <a href="/projects/logatot/feedback/" class="editorial-link">
-        Read the follow-up case study
-      </a>
-    </div>
-
-  </CaseSection>
-
-  {quotes.map((q, i) => (
-    <CaseQuote quote={q.body} name={q.name} role={q.role} label={i === 0 ? 'Testimonials' : ''} />
-  ))}
-
-  <CaseSection id="process" title="Build process">
+  <CaseSection id="process" title="Engineering">
     <CaseProse>
       <p>
         The wake word is detected on the device, so no audio leaves the device to
@@ -908,13 +717,221 @@ const results = [
     </div>
 
     <Fragment slot="media">
+      <CaseProse continued>
+        <Heading level={3} visual="h2" id="process-htmx" class="scroll-mt-32">htmx and Alpine instead of Hotwire</Heading>
+        <p>
+          Rails 7 comes with Hotwire: Turbo for updating pages and Stimulus for JavaScript. I
+          chose htmx and Alpine instead. Turbo and Stimulus were switched off two days into the
+          front-end work, and nothing in the app uses them.
+        </p>
+        <p>
+          With htmx, a piece of markup asks the server for HTML and says where to put it. The
+          server answers from an ordinary controller action with an ordinary partial, and one
+          helper, <code>htmx_request?</code>, tells the action which to send. That made it easy
+          to load parts of a page from the server and refresh them when something changed.
+        </p>
+        <p>
+          Alpine keeps a widget’s state in the markup that renders it. The back-end developer
+          found that easier than Stimulus, where the behavior lives in a separate controller
+          file connected by data attributes.
+        </p>
+        <p>
+          Two things made them the better fit. With htmx, the server stays the only thing that
+          renders HTML, and a response can name what happened instead of knowing every part of the
+          page it changes. With Alpine, a widget’s state and behavior sit in the markup that draws
+          it, so a Rails developer reads and changes one file.
+        </p>
+        <p>
+          77 views use htmx attributes and about 75 hold an Alpine component. The app’s own
+          JavaScript is 16 files and about 1,350 lines. In each pair below, the left side is the
+          shipped code. The right side is illustrative: Logatot never had a Hotwire version, so I
+          wrote it to show what the same feature would take.
+        </p>
+      </CaseProse>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">A panel that refreshes itself</Heading>
+        <p>
+          The Voiceboard’s shift panel loads when the page opens. When another device logs a
+          shift, Pusher fires an event and the panel asks for itself again. The controller action
+          is a plain query and a partial.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why htmx.</strong> The panel decides when it
+          reloads, so nothing else in the app has to know it exists.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {panel.map((s, i) => (
+            <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === panel.length - 1 ? 'Three pieces: the markup names its URL and its triggers, the action returns a partial, and a Pusher message fires the event.' : undefined} />
+          ))}
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">Saving a form in a modal</Heading>
+        <p>
+          Saving a shift closes the modal, shows a snackbar, and refreshes the shift panel. With
+          htmx, the save answers with the names of those events, and the panel above reloads
+          itself. With Turbo Streams, the save has to load the panel’s data and render it, so
+          every form that changes the panel has to know about it.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why htmx.</strong> The save doesn’t need to know
+          what’s on the Voiceboard. A new panel can listen for the same event without anyone
+          changing a form.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">htmx, as shipped</p>
+            {modal.real.map((s: Snippet, i: number) => (
+              <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === modal.real.length - 1 ? 'One response header closes the modal, shows the snackbar, and reloads the panel. Existing listeners do the rest.' : undefined} />
+            ))}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">Hotwire, illustrative</p>
+            {modal.hotwire.map((s: Snippet, i: number) => (
+              <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === modal.hotwire.length - 1 ? 'The save loads and renders the panel itself. Closing the dialog would also need a small Stimulus controller, and the Turbo version the app shipped with (7.3) had no whole-page refresh to fall back on.' : undefined} />
+            ))}
+          </div>
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">Filters that update as you type</Heading>
+        <p>
+          Expense filters update the list as you type, and the address keeps the filters, so a
+          filtered list can be shared. The form is a real GET form, so it still works without
+          JavaScript.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why htmx.</strong> Everything the filter does is
+          in one form tag a Rails developer can read. With Turbo, the typing behavior lives in a
+          JavaScript file that has to be found and kept in step with the form.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">htmx, as shipped</p>
+            {filters.real.map((s: Snippet, i: number) => (
+              <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === filters.real.length - 1 ? 'The wait between keystrokes, the target, and the address all live in the form tag. The action sends just the results when htmx asks.' : undefined} />
+            ))}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">Hotwire, illustrative</p>
+            {filters.hotwire.map((s: Snippet, i: number) => (
+              <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === filters.hotwire.length - 1 ? 'Turbo can render the full page and keep only the frame, so the action wouldn’t change. It has no wait between keystrokes, though, so typing needs a Stimulus controller.' : undefined} />
+            ))}
+          </div>
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">Selecting rows to delete</Heading>
+        <p>
+          Rows can be selected and deleted together, and the confirm counts the selection.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why Alpine.</strong> The back-end developer edits
+          one partial and sees the whole widget. In Stimulus, the same change spans the partial, a
+          controller file, and target and action names that have to match between them.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">Alpine, as shipped</p>
+            {bulk.real.map((s: Snippet, i: number) => (
+              <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === bulk.real.length - 1 ? 'State, the select-all rule, and the confirm text sit in the partial. The delete itself is htmx.' : undefined} />
+            ))}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">Stimulus, illustrative</p>
+            {bulk.hotwire.map((s: Snippet, i: number) => (
+              <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === bulk.hotwire.length - 1 ? 'The same logic moves to a controller file, and the markup gains a target and an action for every piece.' : undefined} />
+            ))}
+          </div>
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">Alpine and htmx together</Heading>
+        <p>
+          On the Voiceboard, Alpine tracks which attendance pill is open, and htmx loads that
+          pill’s list of children when it opens. The list action answers only htmx requests and
+          sends a direct visit back to the Voiceboard.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why both.</strong> Alpine handles what only the
+          browser knows, which pill is open. htmx handles what only the server knows, which
+          children are absent.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {pills.map((s, i) => (
+            <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === pills.length - 1 ? 'Alpine decides what is open; htmx fetches what goes in it.' : undefined} />
+          ))}
+        </div>
+      </Container>
+
+
+      <CaseProse continued>
+        <Heading level={3} visual="h2">The shared confirm script</Heading>
+        <p>
+          The confirm dialog and the double-submit guard are one script. It reads the
+          attributes the views already used, so existing markup started working without
+          edits.
+        </p>
+        <CaseCards label="How a view asks for confirmation" items={confirmApi} />
+      </CaseProse>
+
       <Container width="wide" class="mt-16">
-        {flowSet('11-flow-voice-logging').map((flow) => (
-          <Plate title={flow.title} caption={flow.note} src={sheet(flow.slug)} alt={flow.alt} />
-        ))}
+        <div class="code-grid">
+          <CodeBlock
+            filename="registrations/edit.html.erb (before)"
+            lang="erb"
+            code={confirmBefore}
+            caption="Neither attribute did anything: Turbo was commented out and rails-ujs was never loaded."
+          />
+          <CodeBlock
+            filename="registrations/edit.html.erb (after)"
+            lang="erb"
+            code={confirmAfter}
+            caption="The shared dialog reads data-confirm, with a translated question and a named action."
+          />
+        </div>
       </Container>
     </Fragment>
   </CaseSection>
+
+  <CaseSection id="outcomes" title="Results" tone="ink" wide>
+    <CaseResults
+      metrics={[
+        { value: '2+ hrs', label: 'saved on daily data entry', caption: 'Reported by providers' },
+      ]}
+      groups={results}
+    />
+
+    <div class="mt-12">
+      <Heading level={3} visual="h3" tone="ink" class="mb-1.5">Post-launch feedback</Heading>
+      <Text size="sm" tone="muted" class="measure mb-4">
+        A questionnaire led to a readable menu calendar, clearer pages, and a compact Voiceboard.
+      </Text>
+      <a href="/projects/logatot/feedback/" class="editorial-link">
+        Read the follow-up case study
+      </a>
+    </div>
+
+  </CaseSection>
+
+  {quotes.map((q, i) => (
+    <CaseQuote quote={q.body} name={q.name} role={q.role} label={i === 0 ? 'Testimonials' : ''} />
+  ))}
 
   <CaseLimitations items={edges} later={{ label: 'Still open', items: redesignEdges }} />
 

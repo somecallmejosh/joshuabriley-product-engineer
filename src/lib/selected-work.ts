@@ -1,4 +1,4 @@
-/** Client case studies. This order is deliberate and used everywhere: VMSpark, IVFCRYO, Logatot. Personal projects belong on /personal-projects/. */
+/** Case studies. This order is deliberate and used everywhere: VMSpark, IVFCRYO, Logatot, Rudiment UI. */
 export const selectedWork = [
   {
     name: 'VMSpark', href: '/projects/vmspark/', kind: 'Client project · Healthcare staffing operations',
@@ -20,5 +20,12 @@ export const selectedWork = [
     summary: 'A voice-controlled platform for recording meals, naps, and attendance during the day. I led front-end work on a three-developer team. My work ran from interaction design to reusable components.',
     ownership: 'Lead front end and interaction design', evidence: 'Voice repair flows, shared components, live state',
     illustration: 'logatot' as const, caption: 'Logged by voice, hands free', result: '2+ hours', resultNote: 'a day that providers reported saving', action: 'Read the case study',
+  },
+  {
+    name: 'Rudiment UI', href: '/projects/rudiment-ui/', kind: 'Open-source project · Design systems',
+    title: 'An accessible component library that any team can brand.',
+    summary: 'An accessible React component library built on React Aria and design tokens, with themes that change only token values. A demo app built entirely from its components found the bugs the tests had missed, and each was fixed in the library.',
+    ownership: 'Design and front-end engineering', evidence: 'Component APIs, design tokens, theming, brand, accessibility',
+    illustration: 'rudiment-ui' as const, caption: 'A bar chart in the Vitrea demo', result: '476 → 0', resultNote: 'inline styles needed to build a screen', action: 'Read the case study',
   },
 ];

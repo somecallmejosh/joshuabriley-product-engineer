@@ -22,6 +22,10 @@ interface Props {
 }
 const { id, title, tone = 'paper', wide = false } = Astro.props;
 const headingTone = tone === 'ink' ? 'paper' : 'ink';
+// `CaseProse continued` repeats the title beside text that resumes after a
+// plate. CSS reads it from this property, so the repeat can't drift from the
+// real heading. JSON string syntax is valid CSS string syntax.
+const titleVar = `--case-title: ${JSON.stringify(title)}`;
 ---
 <Section tone={tone} padding="default" id={id} class={[id && 'scroll-mt-24', tone === 'ink' && 'case-stage'].filter(Boolean).join(' ') || undefined}>
   {wide ? (
@@ -43,5 +47,7 @@ const headingTone = tone === 'ink' ? 'paper' : 'ink';
       </div>
     </Container>
   )}
-  <slot name="media" />
+  <div class="contents" style={titleVar}>
+    <slot name="media" />
+  </div>
 </Section>

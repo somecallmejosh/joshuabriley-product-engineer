@@ -1,0 +1,549 @@
+---
+import ProjectLayout from '~/layouts/ProjectLayout.astro';
+import Heading from '~/components/primitives/Heading.astro';
+import ProjectHero from '~/components/patterns/ProjectHero.astro';
+import ProjectNext from '~/components/patterns/ProjectNext.astro';
+import GalleryLink from '~/components/patterns/GalleryLink.astro';
+import CaseReview from '~/components/patterns/CaseReview.astro';
+import Tldr from '~/components/patterns/Tldr.astro';
+import Container from '~/components/layout/Container.astro';
+import Metric from '~/components/patterns/Metric.astro';
+import Plate from '~/components/patterns/Plate.astro';
+import CodeBlock from '~/components/patterns/CodeBlock.astro';
+import { themes as themeCode, controlHeight, behavior, packaging, agentDocs, menu as menuCode, tableCell, type Snippet } from '~/lib/rudiment-code';
+import CaseSection from '~/components/patterns/case/CaseSection.astro';
+import CaseProse from '~/components/patterns/case/CaseProse.astro';
+import CaseCards from '~/components/patterns/case/CaseCards.astro';
+import CaseResults from '~/components/patterns/case/CaseResults.astro';
+import CaseLimitations from '~/components/patterns/case/CaseLimitations.astro';
+import CasePersonas from '~/components/patterns/case/CasePersonas.astro';
+import CaseFor from '~/components/patterns/case/CaseFor.astro';
+import CaseJourney from '~/components/patterns/case/CaseJourney.astro';
+import { rudimentPersonas, rudimentJourney } from '~/lib/case-research';
+import { rudimentSummary as tldr } from '~/lib/project-summaries';
+import type { ImageMetadata } from 'astro';
+import exampleSource from '~/assets/projects/rudiment-ui/example-source.png';
+
+// Section order and ids follow .claude/skills/portfolio/SKILL.md.
+
+const title = 'Rudiment UI | Joshua Briley';
+const description =
+  'Case study: an accessible React component library on React Aria and design tokens, with themes that change only tokens, tested on a demo app built from its components.';
+
+// Sources: DEPARTURES.md, CHANGELOG.md, .storybook/brand/BRAND.md,
+// src/docs/Vitrea.mdx and mcp/README.md in the rudiment-ui repo; CLAUDE.md and
+// tasks/todo.md in the Vitrea repo; notes/rudiment-ui.md.
+
+// Vitrea screens: the public demo (vitrea-rudiment.netlify.app), signed in as a
+// seeded demo account, desktop 1440×900 @2x, with each theme set through the
+// app's own theme setting. All clinics, people and shipments are made up.
+// example-source is one of the old demo pages, which were removed
+// when Vitrea replaced them.
+const appShots = import.meta.glob<{ default: ImageMetadata }>('../../assets/projects/rudiment-ui/app/*.png', { eager: true });
+const shot = (slug: string) => appShots[`../../assets/projects/rudiment-ui/app/${slug}.png`].default;
+
+const jumpLinks = [
+  { href: '#tldr', label: 'Summary' },
+  { href: '#context', label: 'Audience' },
+  { href: '#research', label: 'Research' },
+  { href: '#decisions', label: 'Design decisions' },
+  { href: '#process', label: 'Engineering' },
+  { href: '#outcomes', label: 'Results' },
+  { href: '#edges', label: 'Limitations' },
+];
+
+// A library has two audiences: the team that builds with it, and the people
+// who use what that team builds.
+const audiences = [
+  {
+    icon: 'ph:users-three',
+    title: 'Product teams',
+    body: 'Engineers and designers who need accessible, on-brand screens without staffing a design-system team of their own. More and more of them write the first draft with a coding agent.',
+    needs: ['Build a whole screen from library parts', 'Apply their own brand without forking', 'Keep the rest of their app’s CSS intact', 'An API an agent can look up'],
+  },
+  {
+    icon: 'ph:user',
+    title: 'The people using those apps',
+    body: 'Staff who spend the day in an internal tool, by mouse, keyboard, or screen reader, in a wide window or a narrow one. They never see the library, only whether the screen works.',
+    needs: ['Every control usable by keyboard', 'Errors announced where they happen', 'Fields and borders they can see', 'Screens that hold up in a narrow window'],
+  },
+];
+
+// What Vitrea added to the library. Source: src/docs/Vitrea.mdx and DEPARTURES.md Part 6.
+const added = [
+  { icon: 'ph:table', title: 'A data table', body: '<code>RudiTable</code> with sorting, linked rows, and an empty state drawn inside the table, so the column headers stay in place.' },
+  { icon: 'ph:textbox', title: 'Forms', body: '<code>RudiForm</code> with an error summary, plus a combo box, date pickers, a number field, and radio buttons.' },
+  { icon: 'ph:layout', title: 'App chrome', body: 'App shell, top bar, page header, and section header, exported once a real app needed them.' },
+  { icon: 'ph:chart-line', title: 'Status and detail', body: 'Toasts, an action slot on alerts, a sparkline for the probe temperature, and a description list for shipment details.' },
+];
+
+// Bugs that passed every unit, axe and story test. Source: DEPARTURES.md Part 6.
+const fixed = [
+  { icon: 'ph:keyboard', title: 'Keyboard', body: 'Text fields inside table cells keep their arrow keys, and the form no longer takes focus away while someone types.' },
+  { icon: 'ph:circle-half', title: 'Contrast', body: 'Form-control borders went from 1.3:1 to about 4.7:1, and chart legends no longer set their text in the series colors.' },
+  { icon: 'ph:speaker-high', title: 'Screen readers', body: 'Group errors are tied to their groups, and a kanban move is announced once, by the card’s label instead of its id.' },
+  { icon: 'ph:device-mobile', title: 'Narrow screens', body: 'Tab lists, hidden labels, and kanban columns no longer push the page wider than a 375px screen.' },
+];
+
+// The three token tiers.
+const tiers = [
+  { icon: 'ph:circle', title: 'Primitive', body: 'Raw values with no meaning, such as <code>color.neutral.900</code>. The semantic tier gives them a job.' },
+  { icon: 'ph:target', title: 'Semantic', body: 'What a value is for, such as <code>color.brand.primary</code>. Most themes and rebrands change only this tier.' },
+  { icon: 'ph:puzzle-piece', title: 'Component', body: 'One component’s values, such as <code>component.button.primary-bg</code>, so one component can change without touching the rest.' },
+];
+
+const themes = [
+  { slug: 'vitrea-detail-light', title: 'Light', note: 'Vitrea’s own light theme: spruce green, pill buttons, and a display face for titles.', alt: 'The Vitrea shipment page in the Light theme: white cards with soft borders on a pale canvas, a spruce-green chain-of-custody stepper, and a red temperature alert.' },
+  { slug: 'vitrea-detail-compact', title: 'Compact', note: 'Compact changes only spacing and radius, so more of the shipment fits on screen.', alt: 'The same shipment page in the Compact theme: tight spacing, square corners, and the stops and full details list visible without scrolling.' },
+];
+
+// The MCP server's tools. Source: mcp/README.md and CHANGELOG 0.6.0.
+const agentFiles = [
+  { icon: 'ph:file-text', title: 'llms.txt and llms-full.txt', body: 'The library’s conventions, an index, and the full prop reference, generated from the TypeScript source on every build.' },
+  { icon: 'ph:brackets-curly', title: 'components.json', body: 'Every component, compound part, prop, default, and inherited React Aria prop, as data.' },
+  { icon: 'ph:plugs-connected', title: 'An MCP server', body: '<code>get_conventions</code>, <code>list_components</code>, <code>get_component</code>, and <code>search</code>, answered from the version installed in the project.' },
+  { icon: 'ph:seal-check', title: 'Documented by test', body: 'JSDoc on every export. A unit test fails on an undocumented export or a <code>@default</code> that doesn’t match the code.' },
+];
+
+// The library's definition of done, from the Vitrea repo's tasks/todo.md.
+const done = [
+  { icon: 'ph:folder', title: 'One folder per component', body: 'The component, its BEM stylesheet on component tokens, its stories, and a test file with render, keyboard, state, and axe checks.' },
+  { icon: 'ph:palette', title: 'Tokens with dark values', body: 'New component tokens in the token file, with dark-theme values wherever color is involved, built and committed.' },
+  { icon: 'ph:book-open', title: 'Docs and changelog', body: 'The component guidelines updated, a changelog entry, and the gap log row marked done.' },
+  { icon: 'ph:check-circle', title: 'Green checks', body: 'Type checks and the unit suite pass before a change ships to npm.' },
+];
+
+const results = [
+  { label: 'For engineers like Kenji', items: ['A data table, forms, date pickers, toasts, and app chrome', 'No third-party imports or internal class names to make a component work', 'The full API in files and a server coding agents can read'] },
+  { label: 'For people like Ruth using the apps', items: ['Text fields in tables keep their keys', 'Kanban moves announced once', 'Field borders that meet WCAG 3:1', 'Screens that hold at 375px'] },
+  { label: 'For designers like Sofia', items: ['A whole brand in one stylesheet of token overrides', 'Eight themes with no theme code in any component', 'One control height across every field and button'] },
+];
+
+const edges = [
+  {
+    icon: 'ph:users-three',
+    title: 'No outside team yet',
+    body: 'I wrote the library and Vitrea, so the gaps found are the ones I ran into. The README still calls it beta. The next test is a team other than me building a real screen with it.',
+  },
+  {
+    icon: 'ph:stack',
+    title: 'Section themes stop at overlays',
+    body: 'A theme set on one section doesn’t reach dialogs and menus drawn at the page root, so Vitrea sets its theme on the whole page. Brand overrides also have to be repeated for each theme.',
+  },
+  {
+    icon: 'ph:ear',
+    title: 'Checked by tools, not by screen reader users',
+    body: 'Axe runs in the library’s tests, and Vitrea passed axe on 13 pages in light and dark. No one who relies on a screen reader has used it, and Vitrea’s own tests don’t run axe yet.',
+  },
+  {
+    icon: 'ph:package',
+    title: 'One large bundle',
+    body: 'Vitrea’s build was a single 1.16 MB chunk, 336 KB gzipped. Per-component entry points would let an app load only the parts it uses.',
+  },
+];
+
+// From src/docs/Vitrea.mdx in the rudiment-ui repo, lightly trimmed from Vitrea's source.
+const probeCard = `<RudiStatCard
+  label="Probe temperature"
+  value={formatTemperature(summary.latest)}
+  delta={\`\${summary.excursions} readings above \${formatTemperature(setPoint)}\`}
+  trend={summary.excursions ? 'down' : 'up'}
+>
+  <RudiSparkline
+    label={\`Probe temperature trace, alert threshold \${formatTemperature(setPoint)}\`}
+    data={trace}
+    threshold={setPoint}
+    tone={summary.excursions ? 'error' : 'brand'}
+    showEndpoint
+  />
+</RudiStatCard>`;
+
+const mcpSetup = `npm install rudiment-ui
+claude mcp add rudiment-ui -- npx --no rudiment-ui-mcp`;
+---
+
+<ProjectLayout title={title} description={description}>
+
+  <ProjectHero project="rudiment-ui" />
+
+  <CaseReview links={jumpLinks} />
+
+  <Tldr problem={tldr.problem} decision={tldr.decision} evidence={tldr.evidence} />
+
+  <CaseSection id="context" title="Audience">
+    <CaseProse>
+      <p>
+        Rudiment UI is an accessible React component library. React Aria handles keyboard,
+        focus, and screen reader behavior. Design tokens handle every color, size, and font, so
+        a team can bring its own brand. It ships as an npm package with Storybook docs.
+      </p>
+      <p>
+        A library is judged twice: by the team building with it, and by the people using what
+        that team builds. I checked each decision against <strong class="text-ink font-semibold">both
+        groups below</strong>.
+      </p>
+    </CaseProse>
+
+    <CaseCards items={audiences} />
+  </CaseSection>
+
+  <CaseSection id="research" title="Research" tone="ink" wide>
+    <CaseProse>
+      <Heading level={3} visual="h2">Requirements gathering</Heading>
+      <p>
+        Rudiment UI has no client, so I wrote the brief myself: make it simple for developers to
+        build a wide variety of production-grade front ends. I tracked the work in the repo, in a
+        gap log, a changelog, and a task list. With no one to sign off, every change had to meet
+        a written definition of done before it shipped.
+      </p>
+      <p>
+        I found the gaps by building with the library and logging every place the code had to
+        leave it. The first round was 26 demo pages across four made-up products: a biotech
+        marketing site, a CRM, a storefront, and a project tracker. I audited each page for raw
+        HTML where a component should exist, inline styles, class overrides, hardcoded colors,
+        local helper components, and imports from the libraries Rudiment wraps.
+      </p>
+    </CaseProse>
+
+    <div class="mt-12 grid gap-x-8 gap-y-8 py-8 sm:grid-cols-2 md:gap-x-24">
+      <Metric value="476" label="inline styles across 26 demo pages" caption="and 0 class overrides, so the components needed more props" />
+      <Metric value="4 of 4" label="demo products rebuilt their own app shell" caption="header, sidebar, and page header, each written by hand" />
+    </div>
+
+    <CaseProse class="mt-12">
+      <p>
+        The typography components caused the most workarounds: every product added an inline
+        margin reset to almost every heading. Filling a select
+        meant importing from React Stately, and menus exposed internal class names. None of the
+        four had a data table, so each built its own.
+      </p>
+      <p>
+        Fixing those removed the workarounds, but demo pages still only showed how components
+        look. So the second round was a working app, Vitrea, and it turned up a different kind of bug:
+        a checkbox group that never passed its value down, text fields in tables that lost their
+        arrow keys, field borders at 1.3:1 contrast, and a kanban board that announced every move
+        twice by an internal id.
+      </p>
+      <figure class="my-12 border-l-2 border-accent pl-6">
+        <blockquote class="font-display tracking-tight text-ink leading-snug">
+        “Every one of the bugs above passed the existing unit, axe and story tests.”
+        </blockquote>
+        <figcaption class="mono-label mt-3">The gap log, after the list of bugs Vitrea found</figcaption>
+      </figure>
+    </CaseProse>
+
+
+    <CaseProse class="mt-12">
+      <p>
+        The pattern behind both rounds: <strong class="text-ink font-semibold">a component can
+        pass every test on its own and still fail on a real screen.</strong> Demo pages test how
+        a component looks. Only a working app tests how it behaves when someone types, scrolls,
+        narrows the window, or listens with a screen reader.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      <div class="case-band mt-16">
+        <Container width="wide">
+          <CasePersonas items={rudimentPersonas} />
+        </Container>
+      </div>
+
+      <Container width="wide" class="mt-16">
+        <CaseJourney title="Adoption journey map" stages={rudimentJourney} />
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decisions" title="Themes that change only tokens">
+    <CaseFor project="rudiment-ui" personas={["sofia"]} stage="theme" />
+    <CaseProse>
+      <p>
+        Earlier versions shipped two brand themes that depended on overrides written into the
+        component stylesheets, so a new brand meant editing components. I removed them and
+        deleted every theme override from eleven stylesheets. A theme is now nothing but a
+        different set of token values.
+      </p>
+      <p>
+        Every visual value is a <code>--rudi-</code> custom property in one of three tiers.
+        A theme overrides token values in any tier, and the components follow. The library ships eight themes,
+        including dark, Roomy, Soft, and Compressed, and a theme can be set on any element.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="Token tiers" items={tiers} />
+
+    <CaseProse class="mt-12">
+      <p>
+        Vitrea was the test of that claim. It doesn’t change any library source. Its whole brand
+        is <strong class="text-ink font-semibold">one stylesheet of token overrides</strong>: a
+        green-gray neutral ramp, a spruce brand color, Instrument Sans, and shadows tinted with
+        the brand ink. Where tokens couldn’t reach, the library gained one, such as a display
+        font token and a shared control height, so every field and medium button lines up at
+        38px in every theme.
+      </p>
+    </CaseProse>
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <ul class="stage-grid grid gap-y-10 md:grid-cols-2">
+          {themes.map((t) => (
+            <li>
+              <Plate size="half" title={t.title} caption={t.note} src={shot(t.slug)} alt={t.alt} />
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="decision-agents" title="An API reference that coding agents can read">
+    <CaseFor project="rudiment-ui" personas={["kenji"]} stage="build" />
+    <CaseProse>
+      <p>
+        Teams increasingly ask a coding agent for the first draft of a screen. An agent that
+        can’t look up a library’s API guesses at props, or falls back to raw markup and inline
+        styles, which brings back the exact workarounds the gap log was removing.
+      </p>
+      <p>
+        I chose to <strong class="text-ink font-semibold">generate the reference from the
+        source</strong> over writing separate docs for agents, which would drift. Every build
+        writes the full API to files in the package, and a small MCP server ships with it. It
+        answers from the version installed in the project, with no network access and no
+        account.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="What ships in the package" items={agentFiles} />
+
+  </CaseSection>
+
+  <CaseSection id="decision-brand" title="A brand built from three primitives">
+    <CaseFor project="rudiment-ui" personas={["sofia","kenji"]} stage="evaluate" />
+    <CaseProse>
+      <p>
+        Storybook was the first thing a team would see, and it looked like every other
+        Storybook. A rudiment is a first principle, and in drumming it’s a basic pattern that
+        bigger pieces are built from. The mark makes that literal: a lowercase r built from a
+        bar, an arc, and a point on a 32-unit grid. With the point, it reads as “r.”, which
+        echoes the headline “Build from the rudiments.”
+      </p>
+      <p>
+        Persimmon is the only accent, used once in each view. It fails text contrast, so it’s
+        used only as a fill, and a deeper persimmon at 5.7:1 carries selected states and link
+        underlines. Geist sets the headings and Geist Mono the labels.
+      </p>
+      <p>
+        The brand dresses only the docs. <strong class="text-ink font-semibold">Components never
+        read it</strong>, so a team’s own brand never has to fight mine. It’s in the repo but
+        not yet on the public Storybook.
+      </p>
+    </CaseProse>
+  </CaseSection>
+
+  <CaseSection id="decision-real-app" title="A library tested on a working app">
+    <CaseFor project="rudiment-ui" personas={["ruth","kenji"]} stage="use" />
+    <CaseProse>
+      <p>
+        More demo pages would have shown more components looking right. I built Vitrea instead: a
+        demo shipping app for fertility clinics, where clinics book frozen-specimen transport and
+        follow each shipment’s temperature from pickup to delivery. It has 14 screens, including
+        shipments, booking, a shipment page with a live temperature trace, an address book, a
+        dashboard, an ops board, and admin screens. The data lives in the browser, and a Demo
+        controls dialog moves a simulated clock so readings and alerts play out.
+      </p>
+      <p>
+        The rule is that <strong class="text-ink font-semibold">every element is a library
+        component</strong>. When the library can’t do something, the fix goes into the library,
+        not into a stand-in in the app, because a stand-in hides the gap. Vitrea installs the
+        published npm package, so every fix had to ship in a release before the app could use it.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="What Vitrea added to the library" items={added} />
+
+    <CaseCards label="Bugs it found that the tests had missed" items={fixed} />
+
+
+    <Fragment slot="media">
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="A demo page and its source"
+          caption="Before Vitrea: an old CRM demo page above its source, wrapped in a CrmShell and PageHeader written by hand for this one product."
+          src={exampleSource}
+          alt="A Storybook docs page for the old CRM demo: a Top customers card listing five accounts with revenue and Healthy or At risk tags, above its source code, which wraps the page in a local CrmShell and PageHeader around RudiStack, RudiButton, and RudiGrid."
+        />
+      </Container>
+
+      <Container width="wide" class="mt-16">
+        <Plate
+          title="Shipment page"
+          caption="The alert, sparkline, custody stepper, and details list are all library parts that Vitrea asked for."
+          src={shot('vitrea-detail-soft')}
+          alt="A Vitrea shipment page in the Soft theme: a breadcrumb, the reference REF-24109 with Active, Premium Ground, and package badges; a red alert saying the shipment is reading too warm with a See the temperature log button; From and To cards; a probe temperature card with a sparkline crossing a dashed threshold; tabs; a four-step chain-of-custody stepper; and a details list."
+        />
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="process" title="Engineering">
+    <CaseProse>
+      <p>
+        React Aria provides the behavior and Rudiment provides the look and the API. The
+        sections below show the code behind each design decision, with the reason it was made.
+      </p>
+    </CaseProse>
+
+    <CaseCards label="Definition of done" items={done} />
+
+    <Fragment slot="media">
+      <CaseProse continued>
+        <Heading level={3} visual="h2" id="process-tokens" class="scroll-mt-32">Themes are token values</Heading>
+        <p>
+          A checkbox’s border starts as a primitive gray, <code>neutral.500</code>. The semantic tier names it the control border, and the component tier hands it to the checkbox. The stylesheet reads only the component token.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why tokens only.</strong> The themes this replaced kept their focus rings inside the component stylesheets, under a selector for each theme, so every new brand meant editing components. Eleven stylesheets carried those overrides. Now a brand is a file of values, and the components don’t change.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">Before: in 11 stylesheets</p>
+            {themeCode.before.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">After: one value through the tiers</p>
+            {themeCode.after.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">One height for every control</Heading>
+        <p>
+          Fields were 35px tall while a medium button was 39px, so no theme lined them up, and a field in a grid row grew taller when a neighbor had help text.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why a token.</strong> Fields and medium buttons read one value, so a form row lines up in every theme, and a theme changes it in one place: 44px in Roomy, 32px in Compressed.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {controlHeight.map((s: Snippet, i: number) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={3} visual="h2">Behavior from React Aria, API from Rudiment</Heading>
+        <p>
+          Each component wraps React Aria’s hooks for keyboard, focus, and screen reader behavior, and exposes props of its own.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why this API.</strong> React Aria’s press events cover mouse, touch, and keyboard, so buttons take <code>onPress</code> instead of <code>onClick</code>. <code>onChange</code> hands back the value, such as a string or a boolean, so a form stores it without unpacking an event. Behavior tests find elements by role and name, the way a screen reader user would.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {behavior.map((s: Snippet, i: number) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} caption={i === behavior.length - 1 ? 'The test came with the fix for a group that never passed its value to its checkboxes, a bug the earlier tests missed.' : undefined} />)}
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={3} visual="h2">A package that stays out of the app’s way</Heading>
+        <p>
+          <strong class="text-ink font-semibold">Why.</strong> React Aria’s context breaks when an app ends up with two copies, so the build leaves every dependency for the app to resolve once. One <code>'use client'</code> line at the top marks every export for the Next.js App Router. And the stylesheet skips Tailwind, whose reset would restyle the host app.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {packaging.map((s: Snippet, i: number) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={3} visual="h2" id="process-agents" class="scroll-mt-32">An API reference generated from the source</Heading>
+        <p>
+          Every build turns the JSDoc on each component and prop into three files in the package, and the MCP server answers from them.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why generated.</strong> Docs written separately for agents would drift. Generated from the source, the reference always matches the installed version, and a unit test fails when an export or prop is undocumented.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {agentDocs.map((s: Snippet, i: number) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+        </div>
+      </Container>
+
+      <Container width="wide" class="mt-6">
+        <CodeBlock code={mcpSetup} filename="Terminal" lang="bash" caption="Setup for Claude Code. The README covers Cursor, VS Code, Codex, and Claude Desktop." />
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={3} visual="h2">Internal parts out of the public API</Heading>
+        <p>
+          To style a menu item, the demo pages imported parts from React Aria and passed the menu’s internal class names.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why.</strong> Once app code depends on an internal class name, that name can’t change without breaking apps. A menu item now takes an icon and a label, and the separator is a component of its own.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-grid">
+          <div class="code-stack">
+            <p class="mono-label">Before</p>
+            {menuCode.before.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+          <div class="code-stack">
+            <p class="mono-label">After</p>
+            {menuCode.after.map((s: Snippet) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+          </div>
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={3} visual="h2">A bug only a real screen found</Heading>
+        <p>
+          In a table, a text field lost its arrow keys: the grid took them to move between cells. Now the grid hands the keys to a focused text field, and Tab still leaves.
+        </p>
+        <p>
+          <strong class="text-ink font-semibold">Why it mattered.</strong> The bug passed every unit, axe, and story test. Only typing into a form inside a table showed it, which is why the library was tested by building an app with it.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <div class="code-stack">
+          {tableCell.map((s: Snippet, i: number) => <CodeBlock filename={s.file} lang={s.lang} code={s.code} />)}
+        </div>
+      </Container>
+
+      <CaseProse continued>
+        <Heading level={4} visual="h3">A screen built from library components</Heading>
+        <p>
+          This card from the demo app is two library components, with no app styles.
+        </p>
+      </CaseProse>
+      <Container width="wide" class="mt-8">
+        <CodeBlock code={probeCard} filename="Shipment summary card" lang="tsx" caption="The probe temperature card is two library components. The threshold draws the dashed alert line, and the tone turns to error once readings cross it." />
+      </Container>
+    </Fragment>
+  </CaseSection>
+
+  <CaseSection id="outcomes" title="Results" tone="ink" wide>
+    <CaseResults
+      metrics={[
+        { value: '476 → 0', label: 'inline styles needed to build a screen', caption: '26 demo pages before, Vitrea’s 14 screens after', compare: { before: { label: 'Demo pages: 476', value: 1 }, after: { label: 'Vitrea: 0', value: 0 } } },
+        { value: '905', label: 'library components in Vitrea’s screens', caption: 'of 72 kinds; the only raw markup is the logo' },
+      ]}
+      groups={results}
+      note="Measured against my own builds and review, not outside teams."
+    />
+  </CaseSection>
+
+  <CaseLimitations items={edges} />
+
+  <GalleryLink project="rudiment-ui" />
+
+  <ProjectNext project="rudiment-ui" />
+
+</ProjectLayout>

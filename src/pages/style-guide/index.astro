@@ -186,7 +186,7 @@ const markup = {
         <li><code>{'<Text size="lg" tone="muted">'}</code><Text size="lg" tone="muted">Explain the situation, the alternatives, and the reason for a decision.</Text></li>
         <li><code>{'<Text size="sm" tone="muted">'}</code><Text size="sm" tone="muted">Captions describe what the reader is seeing.</Text></li>
       </ol>
-      <p class="sg-note">Pages open two ways. <code>.page-opener</code> sets the big title for pages that introduce something: home, listings, case studies, articles. <code>.page-opener--document</code> sets a plain title for the résumé, contact, and legal pages.</p>
+      <p class="sg-note">Every page opens with <code>.page-opener</code>: the big title, then the intro.</p>
       <ComponentDoc id="heading" name="<Heading>" path="src/components/primitives/Heading.astro" purpose="Renders every heading. level sets the tag and visual sets the size. The visual size never changes the document outline." code={markup.heading}
         dos={['Pick level from the outline and visual from the design.', 'Set page titles in one typeface, with no serif-italic phrase and no colored end mark.']}
         donts={['Skip heading levels to get a smaller size.', 'Use tone="faint" or deprecated tones such as navy and coral.']} />
@@ -339,7 +339,7 @@ const markup = {
     <Container width="wide">
       <div class="section-heading"><h2 class="section-type" id="navigation-title">Navigation and behavior</h2><p>This section covers navigation components and the behaviors every page shares.</p></div>
       <ComponentDoc id="breadcrumbs" name="<Breadcrumbs>" path="src/components/patterns/Breadcrumbs.astro" purpose="The trail at the top of every page below a section index: case studies, galleries, posts, tools, games, and personal projects." href="/projects/logatot/gallery/" code={markup.breadcrumbs} filename="Breadcrumbs"
-        dos={['Use it on every page below a section index, as the first line of the opener.', 'Name parents with the header menu labels: Projects, Personal projects, Tools, Play, Writing.']}
+        dos={['Use it on every page below a section index, as the first line of the opener.', 'Name parents with the header menu labels: Projects, Tools, Play, Writing.']}
         donts={['Add a separate “Back to” or “All work” link at the top of the page.']}
         a11y={['A nav landmark labeled “Breadcrumb” holds an ordered list. The current page is marked with aria-current and is not a link.', 'Separators are drawn in CSS with empty alt text, so screen readers skip them.']}>
         <Breadcrumbs items={[{ href: '/projects/', label: 'Projects' }, { href: '/projects/logatot/', label: 'Logatot' }]} current="Gallery" />
@@ -363,7 +363,7 @@ const markup = {
   <section id="tools" class="editorial-section" aria-labelledby="tools-title">
     <Container width="wide">
       <div class="section-heading"><h2 class="section-type" id="tools-title">Interactive tools</h2><p>Each tool has an illustration and a working interface built from the same type, surfaces, and actions as the rest of the site.</p></div>
-      <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action}<span class="link-dot" aria-hidden="true"></span></span></a></li>)}</ul>
+      <ul class="sg-tools">{tools.map((tool) => <li><a class="sg-tool-link" href={`/tools/${tool.id}/`} aria-labelledby={`sg-tool-${tool.id}`}><ToolIllustration tool={tool.data.tool} /><h3 id={`sg-tool-${tool.id}`}>{tool.data.title}</h3><p>{tool.data.takeaway}</p><span class="sg-tool-action" aria-hidden="true">{tool.data.action}</span></a></li>)}</ul>
       <p class="sg-note">The calculator and token playground use labeled sliders and number inputs. The Scorecard uses grouped choices with a visible selected state and keeps progress in the browser. The audit tool shows sample findings only.</p>
     </Container>
   </section>

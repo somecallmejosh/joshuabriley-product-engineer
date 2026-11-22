@@ -768,6 +768,11 @@ html {
 .case-layout__body {
   min-width: 0;
 }
+/* The repeated title only appears beside the body column; stacked, the real
+   heading is close enough above. */
+.case-cont__head {
+  display: none;
+}
 @media (min-width: 1024px) {
   .case-layout {
     grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
@@ -787,10 +792,34 @@ html {
     position: sticky;
     top: 6rem;
   }
-  /* Prose that resumes after a full-width plate, aligned to the body column so
-     the step still reads as one continuous right-hand track. */
-  .case-layout-cont {
-    margin-left: 21.5rem;
+  /* Prose that resumes after a full-width plate keeps the section's two
+     columns: the body column carries the text, and the left column repeats the
+     section title (aria-hidden) so the text isn't stranded on the right. */
+  .case-cont {
+    display: grid;
+    grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
+    column-gap: 4rem;
+    align-items: start;
+  }
+  .case-cont > * {
+    min-width: 0;
+  }
+  .case-cont__head {
+    display: block;
+    position: sticky;
+    top: 6rem;
+  }
+  .case-cont__label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: inherit;
+  }
+  .case-cont__title::before {
+    content: var(--case-title, "");
+  }
+  /* Only after a plate: back-to-back text blocks already sit under a repeat. */
+  .case-cont-wrap + .case-cont-wrap .case-cont__head {
+    visibility: hidden;
   }
   /* Top-align the body with the heading (drop the single-column top gap). */
   .case-layout__body > :first-child {

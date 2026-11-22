@@ -1,3 +1,4 @@
+import type { ImageMetadata } from 'astro';
 import type { IllustratedProject } from '~/lib/project-illustrations';
 
 export interface ProjectPage {
@@ -5,6 +6,8 @@ export interface ProjectPage {
   kind: string;
   /** ProjectIllustration drawing shown in the page hero and the work lists. */
   illustration: IllustratedProject;
+  /** A real image to show in the hero instead of the drawing. */
+  heroImage?: { src: ImageMetadata; alt: string };
   headline: string;
   emphasis: string;
   intro: string;
@@ -32,7 +35,7 @@ export const projectPages = {
     ],
     next: { name: 'Logatot', href: '/projects/logatot/', description: 'Voice input, repair flows, and reusable UI for home child care.' },
   },
-  logatot: { // Next links follow the portfolio order and loop: VMSpark, IVFCRYO, Logatot. Client work never leads into personal projects.
+  logatot: { // Next links follow the portfolio order and loop: VMSpark, IVFCRYO, Logatot, Rudiment UI.
     illustration: 'logatot',
     name: 'Logatot', kind: 'Product work · Home child care',
     headline: 'Helping child care providers', emphasis: 'log their day by voice.',
@@ -47,7 +50,7 @@ export const projectPages = {
       { value: '2+ hrs', label: 'saved on daily data entry', note: 'Reported by providers' },
       { value: '21', label: 'reusable ViewComponents', note: 'Across nine namespaces' },
     ],
-    next: { name: 'VMSpark', href: '/projects/vmspark/', description: 'A new interface for a reliable data pipeline.' },
+    next: { name: 'Rudiment UI', href: '/projects/rudiment-ui/', description: 'A React component library, tested by building a working app with it.' },
   },
   vmspark: {
     illustration: 'vmspark',
@@ -64,6 +67,28 @@ export const projectPages = {
       { value: '178', label: 'color pairings passing WCAG AA, light and dark' },
     ],
     next: { name: 'IVFCRYO', href: '/projects/ivfcryo/', description: 'A shared workflow for patients and staff shipping fertility specimens between clinics.' },
+  },
+  'rudiment-ui': {
+    illustration: 'rudiment-ui',
+    name: 'Rudiment UI', kind: 'Open-source project · Design systems',
+    headline: 'An accessible component library', emphasis: 'that any team can brand.',
+    intro: 'Rudiment UI is an accessible React component library built on React Aria and design tokens. I designed its components, tokens, and brand, and wrote its docs and tests. To check it on a real screen, I built a demo app from library components only, and each place the app had to work around the library became a fix in the library.',
+    facts: [
+      { label: 'My role', value: 'Design and front-end engineering' },
+      { label: 'Owned', value: 'Component APIs, tokens and themes, brand, docs, tests, the Vitrea demo' },
+      { label: 'Team', value: 'Solo project' },
+      { label: 'Built with', value: 'React 19, TypeScript, React Aria, Style Dictionary, Storybook, Vitest' },
+    ],
+    figures: [
+      { value: '476 → 0', label: 'inline styles needed to build a screen', note: 'Demo pages before, Vitrea after' },
+      { value: '741', label: 'unit tests, including axe accessibility checks', note: 'Across 63 test files' },
+    ],
+    actions: [
+      { href: 'https://rudiment-ui.netlify.app/', label: 'Explore Storybook' },
+      { href: 'https://github.com/Rudiment-UI/rudiment-ui', label: 'View on GitHub' },
+      { href: 'https://vitrea-rudiment.netlify.app/', label: 'Try the Vitrea demo' },
+    ],
+    next: { name: 'VMSpark', href: '/projects/vmspark/', description: 'A new interface for a reliable data pipeline.' },
   },
 } satisfies Record<string, ProjectPage>;
 export type ProjectKey = keyof typeof projectPages;

@@ -65,6 +65,29 @@
 .project-page .case-layout__body .font-body.text-lg { line-height: 1.75; }
 .project-page .case-layout__body blockquote { font-size: clamp(1.4rem, 2.25vw, 2rem); line-height: 1.35; font-weight: 600; letter-spacing: -.025em; }
 .project-page .case-layout-cont { max-width: 58ch; }
+/* The repeated section title beside text that resumes after a plate: the h2's
+   face, a step smaller and muted, so it reads as a reminder, not a new section. */
+.project-page .case-cont__head { max-width: 18ch; font-size: clamp(1.375rem, 2vw, 1.75rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.1; color: var(--ink-muted); }
+.project-page .case-stage .case-cont__head { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+/* A band inside a section, one step off its surface and full bleed, so a part
+   (the personas in Research) stands apart while still reading as the same
+   section. Mixed from the surface's own --ink and --paper, so it follows ink
+   sections and the dark theme without a literal colour. */
+.project-page .case-band { padding-block: var(--space-block); background: color-mix(in srgb, var(--ink) 4%, var(--paper)); }
+.project-page .case-stage .case-band { background: color-mix(in srgb, var(--paper) 6%, var(--ink)); }
+/* Code samples share one gap on both axes: between the two columns of an A/B
+   pair, between stacked blocks, and before a follow-on block. Code blocks have no
+   mat, so they don't use the plate grid's wider stage-grid column gap. A column's
+   mono label sits close to the block it names. */
+.project-page { --code-gap: 2rem; }
+.project-page .code-grid { display: grid; gap: var(--code-gap); align-items: start; }
+.project-page .code-stack { display: grid; gap: var(--code-gap); align-content: start; }
+.project-page .code-stack > .mono-label { margin-bottom: calc(0.75rem - var(--code-gap)); }
+/* Grid items default to min-width: auto, so a long code line would widen its column past
+   the gap (and the page, on phones). Let columns shrink; the code block scrolls instead. */
+.project-page :is(.code-grid, .code-stack) > * { min-width: 0; }
+.project-page .code-follow { margin-top: var(--code-gap); }
+@media (min-width: 1024px) { .project-page .code-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* Scope belongs to the summary above it: block spacing, not a full section gap. */
 .project-page .project-scope { padding-block: 0 !important; }
 .project-page .project-summary:has(+ .project-scope) { padding-bottom: var(--space-block); }
@@ -136,7 +159,8 @@
 @media (min-width: 1024px) {
   .project-page .case-layout, .project-summary-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 7rem; }
   .project-page .case-layout__head { top: 11rem; }
-  .project-page .case-layout-cont { margin-left: calc((100% - 7rem) / 2.3 + 7rem); }
+  .project-page .case-cont { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 7rem; }
+  .project-page .case-cont__head { top: 11rem; }
   .project-summary h2 { position: sticky; top: 11rem; align-self: start; }
 }
 @media (max-width: 767px) {
@@ -268,6 +292,9 @@
 .project-page .case-stage [data-visual='h2']:not(:first-child),
 .project-page .case-stage :is(div, ol, ul):has(> [data-visual='h2']:first-child) { margin-top: var(--space-block); }
 .project-page .case-wide__body > :first-child { margin-top: 0; }
+/* A band's padding already sets it apart; don't add the subsection gap inside it. */
+.project-page .case-stage .case-band > div:first-child,
+.project-page .case-band > div:first-child { margin-top: 0; }
 
 
 /* Score bars outside HeuristicScores (IVFCRYO's average score by flow) use the

@@ -59,7 +59,7 @@ const [featured, ...rest] = GAMES;
             <a class="tile-link" href={`/play/${game.slug}/`} aria-labelledby={`game-${game.slug}`} aria-describedby={`game-${game.slug}-summary`}>
               {hasGameIllustration(game.slug) && <span class="tile-art" aria-hidden="true"><GameIllustration game={game.slug} /></span>}
               <span class="tile-topic">{game.topic}</span>
-              <h3 class="tile-title"><span id={`game-${game.slug}`}>{game.title}</span><span class="link-dot" aria-hidden="true"></span></h3>
+              <h3 class="tile-title"><span id={`game-${game.slug}`}>{game.title}</span></h3>
               <span class="tile-summary" id={`game-${game.slug}-summary`}>{game.summary}</span>
             </a>
           </li>
@@ -74,7 +74,7 @@ const [featured, ...rest] = GAMES;
         <div><h2 id="play-bigger-title" class="section-type">Token Adventure</h2></div>
         <div class="prose-lede">
           <p>Token Adventure was my first attempt at a larger learning game. You write design tokens in a code editor across 20 levels. The game checks your code against the W3C Design Tokens spec.</p>
-          <a class="editorial-link" href="/personal-projects/token-galaga/">Read about Token Adventure</a>
+          <a class="editorial-link" href="https://token-galaga.netlify.app/">Play Token Adventure</a>
         </div>
       </div>
     </Container>

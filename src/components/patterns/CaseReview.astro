@@ -10,13 +10,97 @@ interface Props {
 }
 const { links, label = 'Review this project', intro = 'Jump to the details' } = Astro.props;
 ---
-<nav class="case-review" aria-label={label}>
+<nav class="case-review" aria-label={label} data-case-review>
   <Container width="wide">
     <div class="scroll-fade" data-scroll-fade>
       <div class="case-review-links">
         <p>{intro}</p>
-        {links.map((link) => <a href={link.href}>{link.label}<span class="link-dot" aria-hidden="true"></span></a>)}
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
       </div>
     </div>
   </Container>
 </nav>
+
+<script>
+  // Section jump strip: lands each section's heading just under the strip (the
+  // sections' own top padding made a plain anchor jump stop far short), and marks
+  // the section being read with aria-current.
+  const GAP = 32; // px between the strip and the heading it lands on
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function init(nav: HTMLElement) {
+    const row = nav.querySelector<HTMLElement>('.case-review-links');
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
+      .map((a) => ({ a, section: document.getElementById(a.hash.slice(1)) }))
+      .filter((l): l is { a: HTMLAnchorElement; section: HTMLElement } => !!l.section);
+    if (!links.length) return;
+
+    const anchorOf = (section: HTMLElement) =>
+      section.querySelector<HTMLElement>('h2') ?? section;
+    // Where the section's content starts (its heading). Measured from the section box,
+    // not the heading itself, because case-study headings are sticky and report their
+    // pinned position once the reader is inside the section.
+    const contentTop = (section: HTMLElement) =>
+      section.getBoundingClientRect().top + parseFloat(getComputedStyle(section).paddingTop);
+    // Where the strip's bottom edge sits once it's stuck under the site header, which
+    // is where it will be after the jump even if the page starts above it.
+    const stripBottom = () =>
+      Math.min(nav.getBoundingClientRect().bottom, parseFloat(getComputedStyle(nav).top) + nav.offsetHeight);
+
+    function jump(section: HTMLElement, smooth: boolean) {
+      const top = contentTop(section) + window.scrollY - stripBottom() - GAP;
+      window.scrollTo({ top: Math.max(0, top), behavior: smooth && !reduce.matches ? 'smooth' : 'auto' });
+    }
+
+    for (const { a, section } of links) {
+      a.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        history.pushState(null, '', a.hash);
+        jump(section, true);
+        // Move focus for keyboard and screen reader users without a second scroll.
+        const heading = anchorOf(section);
+        if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      });
+    }
+
+    let current: HTMLAnchorElement | null = null;
+    function mark() {
+      const line = stripBottom() + GAP + 1;
+      let active: HTMLAnchorElement | null = null;
+      for (const { a, section } of links) {
+        if (contentTop(section) <= line) active = a;
+      }
+      // At the very bottom, the last section is the one being read.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        active = links[links.length - 1].a;
+      }
+      if (active === current) return;
+      current?.removeAttribute('aria-current');
+      active?.setAttribute('aria-current', 'location');
+      current = active;
+      // Keep the active link visible when the strip scrolls sideways.
+      if (active && row && row.scrollWidth > row.clientWidth) {
+        const left = active.offsetLeft - (row.clientWidth - active.offsetWidth) / 2;
+        row.scrollTo({ left, behavior: reduce.matches ? 'auto' : 'smooth' });
+      }
+    }
+
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; mark(); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    mark();
+
+    // A page opened at #section lands on the heading too.
+    const initial = links.find((l) => l.a.hash === location.hash);
+    if (initial) requestAnimationFrame(() => jump(initial.section, false));
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-case-review]').forEach(init);
+</script>

@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from '~/components/patterns/Breadcrumbs.astro';
 import Container from '~/components/layout/Container.astro';
+import { Image } from 'astro:assets';
 import ProjectIllustration from '~/components/patterns/ProjectIllustration.astro';
 import { projectPages, type ProjectKey, type ProjectPage } from '~/lib/project-pages';
 interface Props { project: ProjectKey; }
@@ -18,7 +19,11 @@ const data: ProjectPage = projectPages[Astro.props.project];
           {data.actions && <div class="project-actions">{data.actions.map(action => <a href={action.href} target="_blank" rel="noopener noreferrer" class="editorial-link">{action.label}</a>)}</div>}
         </div>
       </div>
-      <div class="project-hero-illustration hero-split-media hero-in hero-in-3"><ProjectIllustration project={data.illustration} /></div>
+      <div class="project-hero-illustration hero-split-media hero-in hero-in-3">
+        {data.heroImage
+          ? <span class="illustration" data-surface="light"><span class="illustration-frame"><Image src={data.heroImage.src} alt={data.heroImage.alt} widths={[416, 640, 832]} sizes="(min-width: 64em) 40rem, 100vw" loading="eager" class="block w-full h-auto" /></span></span>
+          : <ProjectIllustration project={data.illustration} />}
+      </div>
     </div>
   </Container>
 </section>

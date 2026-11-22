@@ -2,7 +2,6 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Container from '~/components/layout/Container.astro';
 import Heading from '~/components/primitives/Heading.astro';
-import Text from '~/components/primitives/Text.astro';
 import Link from '~/components/primitives/Link.astro';
 
 const updated = 'October 2026';
@@ -12,15 +11,15 @@ const updated = 'October 2026';
   title="Privacy policy | Joshua Briley"
   description="What I collect when you contact me, how it's used, and how to ask for it to be removed."
 >
-  <section class="page-opener page-opener--document legal-page">
+  <section class="page-opener legal-page">
     <Container width="narrow">
       <p class="mono-label">Legal · Last updated {updated}</p>
 
       <h1 class="page-type">Privacy policy</h1>
-      <Text size="lg" tone="muted" class="mt-6 max-w-2xl">
+      <p class="page-lede">
         Plain version: I only collect what you send me, I use it to reply, and I don't sell it. The
         detail is below.
-      </Text>
+      </p>
 
       <div class="legal mt-12 space-y-12">
         <section>

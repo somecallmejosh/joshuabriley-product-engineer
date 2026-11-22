@@ -15,12 +15,7 @@ const PAGES = [
   '/projects/vmspark/',
   '/projects/logatot/gallery/',
   '/projects/logatot/feedback/',
-  '/personal-projects/beckit/',
-  '/personal-projects/clempo/',
-  '/personal-projects/clempo/gallery/',
-  '/personal-projects/rudiment-ui/',
-  '/personal-projects/token-galaga/',
-  '/personal-projects/',
+  '/projects/rudiment-ui/',
   '/blog/',
   // One post per writing series (UI Court, Wild Interfaces, Fictional UX Engineers).
   '/blog/the-people-v-orange-and-yellow/',

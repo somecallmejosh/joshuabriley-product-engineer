@@ -22,7 +22,8 @@ export interface NavMenu {
   linksLabel?: string
   links: NavMenuLink[]
   /** The section's index page, linked after the menu's links in the footer. */
-  overview?: NavLink
+  /** With a description, the footer lists it like the menu's other links. */
+  overview?: NavLink & { description?: string }
 }
 
 /** Desktop header menus, followed by the contact link. */
@@ -30,15 +31,14 @@ export const HEADER_MENUS: NavMenu[] = [
   {
     id: 'work',
     label: 'Work',
-    match: ['/projects/', '/personal-projects/', '/tools/', '/play/'],
+    match: ['/projects/', '/tools/', '/play/'],
     feature: 'work',
     linksLabel: 'More',
     links: [
-      { href: '/personal-projects/', label: 'Personal projects', description: 'Things I make for the fun of it.' },
       { href: '/tools/', label: 'Tools', description: 'Free design system tools, no signup.' },
       { href: '/play/', label: 'Play', description: 'Short games about accessible interfaces.' },
     ],
-    overview: { href: '/projects/', label: 'All projects' },
+    overview: { href: '/projects/', label: 'All case studies', description: 'Client work and the Rudiment UI component library.' },
   },
   {
     id: 'about',

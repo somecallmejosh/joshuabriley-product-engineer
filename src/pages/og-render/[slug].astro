@@ -37,12 +37,10 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { eyebrow, headline } = entry;
 
-// One drawing per series for the blog fan, and three client/personal close-ups
-// for each work listing (client or personal). Back to front.
+// One drawing per series for the blog fan, and three client close-ups for the
+// work listing. Back to front.
 const BLOG_FAN: IllustratedPost[] = ['the-modal-in-its-natural-habitat', 'ted-lasso-ux-engineer', 'the-people-v-the-carousel'];
-const WORK_FAN = entry.path.startsWith('/personal-projects/')
-  ? ['/personal-projects/beckit/', '/personal-projects/token-galaga/', '/personal-projects/clempo/']
-  : ['/projects/logatot/', '/projects/vmspark/', '/projects/ivfcryo/'];
+const WORK_FAN = ['/projects/logatot/', '/projects/vmspark/', '/projects/ivfcryo/'];
 
 const postId = entry.slug.startsWith('blog-') ? entry.slug.slice('blog-'.length) : '';
 const drawing = hasIllustration(postId) ? postId : null;

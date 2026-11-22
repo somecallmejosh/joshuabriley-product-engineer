@@ -598,117 +598,6 @@
   },
   "components": [
     {
-      "name": "LiveEmbed",
-      "path": "src/components/patterns/LiveEmbed.astro",
-      "group": "patterns",
-      "note": "An optional, explicitly loaded live website preview.",
-      "href": "/personal-projects/rudiment-ui/",
-      "props": [
-        {
-          "name": "posterSrc",
-          "type": "string",
-          "required": true,
-          "description": "Poster screenshot, root-relative."
-        },
-        {
-          "name": "posterAlt",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "embedSrc",
-          "type": "string",
-          "required": true,
-          "description": "The iframe URL — loaded only on activation."
-        },
-        {
-          "name": "href",
-          "type": "string",
-          "required": true,
-          "description": "Full URL for the \"open\" affordance (opens in a new tab)."
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "required": true,
-          "description": "Short title shown in the spec rail + used for the iframe a11y title."
-        },
-        {
-          "name": "ratio",
-          "type": "string",
-          "required": false,
-          "default": "'1600 / 1039'",
-          "description": "CSS aspect-ratio for the stage, matching the poster."
-        },
-        {
-          "name": "ctaNote",
-          "type": "string",
-          "required": false,
-          "default": "'the real Storybook story'",
-          "description": "Small caps note under the load pill, e.g. \"the real Storybook story\"."
-        },
-        {
-          "name": "class",
-          "type": "string",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "ScrapPiece",
-      "path": "src/components/patterns/scrapbook/ScrapPiece.astro",
-      "group": "patterns",
-      "note": "One or more screenshots in a hairline panel on personal project pages.",
-      "href": "/personal-projects/beckit/",
-      "props": [
-        {
-          "name": "art",
-          "type": "ScrapArt[]",
-          "required": true
-        },
-        {
-          "name": "tall",
-          "type": "boolean",
-          "required": false,
-          "default": "false",
-          "description": "Portrait panel, for phone screens."
-        },
-        {
-          "name": "eager",
-          "type": "boolean",
-          "required": false,
-          "default": "false"
-        }
-      ]
-    },
-    {
-      "name": "ScrapMosaic",
-      "path": "src/components/patterns/scrapbook/ScrapMosaic.astro",
-      "group": "patterns",
-      "note": "A tidy grid of details cut from a personal project's real screens.",
-      "href": "/personal-projects/",
-      "props": [
-        {
-          "name": "tiles",
-          "type": "WallTile[]",
-          "required": true
-        },
-        {
-          "name": "eager",
-          "type": "boolean",
-          "required": false,
-          "default": "false"
-        },
-        {
-          "name": "wall",
-          "type": "boolean",
-          "required": false,
-          "default": "false",
-          "description": "The project page's hero: full width and wider than tall."
-        }
-      ]
-    },
-    {
       "name": "Analytics",
       "path": "src/components/chrome/Analytics.astro",
       "group": "chrome",
@@ -1980,7 +1869,7 @@
       "props": [
         {
           "name": "project",
-          "type": "ProjectKey | PersonalProjectKey",
+          "type": "ProjectKey",
           "required": true
         }
       ]
@@ -2086,7 +1975,7 @@
       "path": "src/components/patterns/SiteShot.astro",
       "group": "patterns",
       "note": "A website screenshot with a caption and optional image viewer.",
-      "href": "/personal-projects/rudiment-ui/",
+      "href": "/projects/vmspark/",
       "props": [
         {
           "name": "src",
@@ -2454,7 +2343,7 @@
           "name": "iconRight",
           "type": "string",
           "required": false,
-          "description": "Icon shown after the label. The `arrow` variant ends in the accent dot instead."
+          "description": "Icon shown after the label."
         },
         {
           "name": "class",
